@@ -45,7 +45,7 @@ return [
             'rules' => [],
         ],
         'authManager' => [
-            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
         ],
     ],
     'modules' => [
