@@ -8,6 +8,8 @@
 
 namespace backend\models;
 
+use Yii;
+
 class Image extends \common\models\Image
 {
 

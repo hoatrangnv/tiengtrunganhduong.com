@@ -54,6 +54,11 @@ class Image extends \common\models\MyActiveRecord
         ];
     }
 
+    public function getSource()
+    {
+        return Yii::getAlias("@imagesUrl/$this->path$this->file_name");
+    }
+
     /**
      * @inheritdoc
      */

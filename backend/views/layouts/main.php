@@ -57,6 +57,9 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
                 ]],
+                ['label' => 'Upload', 'items' => [
+                    ['label' => 'Images', 'url' => ['/upload/images']],
+                ]],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
 

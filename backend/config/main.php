@@ -16,7 +16,6 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-//            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
             'identityClass' => 'mdm\admin\models\User',
@@ -76,7 +75,7 @@ return [
             'site/index',
             'admin/user/request-password-reset',
             'admin/user/reset-password',
-//            'admin/user/signup',
+//            'admin/user/signup', // If you want to initialize first user, uncomment this line
         ]
     ],
     // follow config when redirect user to login form if not logged in
