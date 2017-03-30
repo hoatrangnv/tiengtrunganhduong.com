@@ -45,7 +45,18 @@ AppAsset::register($this);
         $menuItems = array_merge(
             $menuItems,
             Helper::filter([
-                ['label' => 'User', 'url' => ['/user/index']],
+                ['label' => 'Article', 'items' => [
+                    ['label' => 'Index', 'url' => ['/article/index']],
+                    ['label' => 'Create', 'url' => ['/article/create']],
+                    ['label' => 'Update', 'url' => ['/article/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/article/view'], 'visible' => false],
+                ]],
+                ['label' => 'Image', 'items' => [
+                    ['label' => 'Index', 'url' => ['/image/index']],
+                    ['label' => 'Create', 'url' => ['/image/create']],
+                    ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
+                ]],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
 
@@ -79,6 +90,7 @@ AppAsset::register($this);
                     ['label' => 'Menu', 'url' => ['/admin/menu/create'], 'visible' => false],
                     ['label' => 'Menu', 'url' => ['/admin/menu/update'], 'visible' => false],
                 ]],
+                ['label' => 'User', 'url' => ['/user/index']],
             ]),
             [
                 ['label' => \Yii::$app->user->identity->username, 'items' => [
