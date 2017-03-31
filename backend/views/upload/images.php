@@ -12,7 +12,7 @@ use backend\models\Image;
     'style' => 'height:' . (18 * count(Image::getSizes())) . 'px;max-height:600px'
 ]) ?>
 <?= $form->field($model, 'image_crop')->checkbox() ?>
-<?= $form->field($model, 'image_quantity')->textInput() ?>
+<?= $form->field($model, 'image_quality')->textInput() ?>
 <?= $form->field($model, 'image_name')->textInput() ?>
 <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
 <?= $form->field($model, 'image_file_basename')->textInput() ?>

@@ -37,6 +37,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Image extends \common\models\MyActiveRecord
 {
+    const SIZE_S0 = 's0';
     const SIZE_S1 = 's1';
     const SIZE_S2 = 's2';
     const SIZE_S3 = 's3';
@@ -66,7 +67,7 @@ class Image extends \common\models\MyActiveRecord
             self::SIZE_S8 => '400x400',
             self::SIZE_S9 => '450x450',
             self::SIZE_S10 => '500x500',
-            self::SIZE_S11 => '600x600',
+            self::SIZE_S11 => '200x600',
             self::SIZE_S12 => '800x800',
             self::SIZE_S13 => '1000x1000',
             self::SIZE_S14 => '1200x1200',
@@ -117,11 +118,11 @@ class Image extends \common\models\MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order', 'views', 'likes', 'comments', 'shares', /*'create_time', 'update_time'*/], 'integer'],
-            [['name', 'path', 'file_name'], 'required'],
-            [['name', 'path', 'file_name', 'file_basename'], 'string', 'max' => 128],
-            [['file_extension', 'mime_type'], 'string', 'max' => 32],
+            [['name', /*'path',*/ 'file_name'], 'required'],
+            [['name', /*'path',*/ 'file_name', 'file_basename'], 'string', 'max' => 128],
+            [['file_extension', /*'mime_type'*/], 'string', 'max' => 32],
             [['resize_labels', 'string_data'], 'string', 'max' => 2048],
-            [['file_name'], 'unique'],
+            [['file_name', 'file_basename'], 'unique'],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];

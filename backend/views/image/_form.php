@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Image */
@@ -14,33 +15,29 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'path')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'file_name')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'file_basename')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'file_extension')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'resize_labels')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'string_data')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'mime_type')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'active')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'image_resize_labels')->widget(Select2::classname(), [
+        'data' => \backend\models\Image::getSizes(),
+        'options' => [
+            'multiple' => true,
+            'placeholder' => 'Select...'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
 
     <?= $form->field($model, 'sort_order')->textInput() ?>
 
-    <?= $form->field($model, 'views')->textInput() ?>
+    <?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'likes')->textInput() ?>
-
-    <?= $form->field($model, 'comments')->textInput() ?>
-
-    <?= $form->field($model, 'shares')->textInput() ?>
+    <?= $form->field($model, 'image_crop')->checkbox() ?>
+    <?= $form->field($model, 'image_quality')->textInput() ?>
+    <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

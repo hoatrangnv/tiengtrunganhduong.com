@@ -24,7 +24,7 @@ class UploadForm extends Model
      */
     public $image_files;
     public $image_resize_labels;
-    public $image_quantity;
+    public $image_quality;
     public $image_crop;
     public $image_name;
     public $image_file_basename;
@@ -50,10 +50,10 @@ class UploadForm extends Model
                 'maxFiles' => 20,
                 'maxSize' => 20 * 1024 * 1024,
             ],
-            [['image_quantity'], 'integer', 'min' => 10, 'max' => 100],
+            [['image_quality'], 'integer', 'min' => 10, 'max' => 100],
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
-            [['image_quantity'], 'default', 'value' => 90],
+            [['image_quality'], 'default', 'value' => 50],
             [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
             ['image_name', 'string', 'max' => 128],
             ['image_file_basename', 'string', 'max' => 128],
@@ -106,8 +106,15 @@ class UploadForm extends Model
                 $image->file_name = "$image->file_basename.$image->file_extension";
                 $image->active = 1;
 
-                $destination = Yii::getAlias("@images/$image->path$image->file_name");
-                if ($image->validate() && $file->saveAs($destination)) {
+                // @TODO: Save origin image
+                $origin_destination = Yii::getAlias("@images/$image->path{$image->file_basename}-origin.$image->file_extension");
+                $file->saveAs($origin_destination);
+
+                // @TODO: Save cropped and compressed images
+                $destination = Yii::getAlias("@images/$image->path{$image->file_name}");
+                $thumb0 = ImagineImage::getImagine()->open($origin_destination);
+
+                if ($image->validate() && $thumb0->save($destination, ['quality' => $this->image_quality])) {
                     $images['saved'][] = $image;
 
                     $resize_labels = [];
@@ -124,16 +131,16 @@ class UploadForm extends Model
                             $size = $image_sizes[$size_label];
                             $dimension = explode('x', $size);
                             if ($this->image_crop) {
-                                $thumb = ImagineImage::getImagine()->open($destination)
+                                $thumb = ImagineImage::getImagine()->open($origin_destination)
                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
                                 ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
                             } else {
-                                $thumb = ImagineImage::getImagine()->open($destination)
+                                $thumb = ImagineImage::getImagine()->open($origin_destination)
                                     ->thumbnail(new Box($dimension[0], $dimension[1]));
                             }
                             $suffix = '-' . $thumb->getSize()->getWidth() . 'x' . $thumb->getSize()->getHeight();
                             if ($thumb->save(Yii::getAlias("@images/{$image->path}$image->file_basename{$suffix}.$image->file_extension")
-                                    , ['quality' => $this->image_quantity])) {
+                                    , ['quality' => $this->image_quality])) {
                                 $resize_labels[$size_label] = $suffix;
                             }
                         }
