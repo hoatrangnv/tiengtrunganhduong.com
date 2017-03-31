@@ -20,7 +20,7 @@ class UploadController extends Controller
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            $model->image_files = UploadedFile::getInstances($model, 'image_files');
             if ($images = $model->uploadImages()) {
                 // file is uploaded successfully
 

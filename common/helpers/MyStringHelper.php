@@ -13,7 +13,7 @@ use yii\helpers\StringHelper;
 
 class MyStringHelper extends StringHelper
 {
-    public static function vietnameseFilter ($str) {
+    public static function stripUnicode ($str) {
         $unicode = array(
             'a'=>'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ',
             'd'=>'đ',

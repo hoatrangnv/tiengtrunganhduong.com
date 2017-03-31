@@ -20,7 +20,7 @@ class MySluggableBehavior extends \yii\behaviors\SluggableBehavior
                 $slugParts = [];
                 foreach ((array) $this->attribute as $attribute) {
                     // Tieng Viet co dau --> khong dau
-                    $slugParts[] = MyStringHelper::vietnameseFilter(ArrayHelper::getValue($this->owner, $attribute));
+                    $slugParts[] = MyStringHelper::stripUnicode(ArrayHelper::getValue($this->owner, $attribute));
                 }
                 $slug = $this->generateSlug($slugParts);
             } else {

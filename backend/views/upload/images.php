@@ -6,26 +6,17 @@ use backend\models\Image;
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-<?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => $model->getValidImageMimeTypes()]) ?>
-<?= $form->field($model, 'quantity')->textInput() ?>
-<?= $form->field($model, 'crop')->checkbox() ?>
-<?php /*echo $form->field($model, 'resizeLabels')->widget(Select2::classname(), [
-    'data' => \backend\models\Image::getSizes(),
-    'options' => [
-        'multiple' => true
-    ],
-    'pluginOptions' => [
-        'allowClear' => true
-    ],
-]);*/ ?>
-<?= $form->field($model, 'resizeLabels')->dropDownList(Image::getSizes(), [
+<?= $form->field($model, 'image_files[]')->fileInput(['multiple' => true, 'accept' => $model->getValidImageMimeTypes()]) ?>
+<?= $form->field($model, 'image_resize_labels')->dropDownList(Image::getSizes(), [
     'multiple' => 'multiple',
-    'style' => 'min-height:' . (18 * count(Image::getSizes())) . 'px'
+    'style' => 'height:' . (18 * count(Image::getSizes())) . 'px;max-height:600px'
 ]) ?>
-<?= $form->field($model, 'images_name')->textInput() ?>
-<?= $form->field($model, 'images_name_to_basename')->checkbox() ?>
-<?= $form->field($model, 'images_file_basename')->textInput() ?>
-<?= $form->field($model, 'images_file_extension')->textInput() ?>
-<button>Submit</button>
+<?= $form->field($model, 'image_crop')->checkbox() ?>
+<?= $form->field($model, 'image_quantity')->textInput() ?>
+<?= $form->field($model, 'image_name')->textInput() ?>
+<?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
+<?= $form->field($model, 'image_file_basename')->textInput() ?>
+<?= $form->field($model, 'image_file_extension')->textInput() ?>
+<button type="submit" class="btn btn-primary">Submit</button>
 
 <?php ActiveForm::end() ?>

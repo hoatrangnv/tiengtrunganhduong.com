@@ -19,14 +19,14 @@ class UploadForm extends Model
     /**
      * @var UploadedFile[]
      */
-    public $imageFiles;
-    public $resizeLabels;
-    public $quantity;
-    public $crop;
-    public $images_name;
-    public $images_file_basename;
-    public $images_file_extension;
-    public $images_name_to_basename;
+    public $image_files;
+    public $image_resize_labels;
+    public $image_quantity;
+    public $image_crop;
+    public $image_name;
+    public $image_file_basename;
+    public $image_file_extension;
+    public $image_name_to_basename;
 
     public function getValidImageExtensions()
     {
@@ -41,21 +41,21 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['imageFiles'], 'file', 'skipOnEmpty' => false,
+            [['image_files'], 'file', 'skipOnEmpty' => false,
                 'mimeTypes' => $this->getValidImageMimeTypes(),
                 'extensions' => $this->getValidImageExtensions(),
                 'maxFiles' => 20,
                 'maxSize' => 20 * 1024 * 1024,
             ],
-            [['quantity'], 'integer', 'min' => 10, 'max' => 100],
-            [['crop', 'images_name_to_basename'], 'boolean'],
-            [['crop', 'images_name_to_basename'], 'default', 'value' => false],
-            [['quantity'], 'default', 'value' => 90],
-            [['resizeLabels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
-            ['images_name', 'string', 'max' => 128],
-            ['images_file_basename', 'string', 'max' => 128],
-            ['images_file_extension', 'string', 'max' => 32],
-            ['images_file_extension', 'in', 'range' => $this->getValidImageExtensions()],
+            [['image_quantity'], 'integer', 'min' => 10, 'max' => 100],
+            [['image_crop', 'image_name_to_basename'], 'boolean'],
+            [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
+            [['image_quantity'], 'default', 'value' => 90],
+            [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
+            ['image_name', 'string', 'max' => 128],
+            ['image_file_basename', 'string', 'max' => 128],
+            ['image_file_extension', 'string', 'max' => 32],
+            ['image_file_extension', 'in', 'range' => $this->getValidImageExtensions()],
         ];
     }
 
@@ -67,35 +67,35 @@ class UploadForm extends Model
                 'unsaved' => [],
             ];
             $i = 0;
-            foreach ($this->imageFiles as $file) {
+            foreach ($this->image_files as $file) {
                 $i++;
                 $image = new Image();
                 $image->path = $this->getImagesPath();
                 $image->mime_type = $file->type;
 
-                $image_name = $this->images_name ? $this->images_name : $file->baseName;
+                $image_name = $this->image_name ? $this->image_name : $file->baseName;
                 if ($i == 1) {
                     $image->name = $image_name;
                 } else {
                     $image->name = "$image_name $i";
                 }
 
-                if ($this->images_name_to_basename) {
-                    $this->images_file_basename = Inflector::slug(MyStringHelper::vietnameseFilter($image_name));
+                if ($this->image_name_to_basename) {
+                    $this->image_file_basename = Inflector::slug(MyStringHelper::stripUnicode($image_name));
                 }
 
-                if ($this->images_file_basename) {
+                if ($this->image_file_basename) {
                     if ($i == 1) {
-                        $image->file_basename = $this->images_file_basename;
+                        $image->file_basename = $this->image_file_basename;
                     } else {
-                        $image->file_basename = "$this->images_file_basename-$i";
+                        $image->file_basename = "$this->image_file_basename-$i";
                     }
                 } else {
                     $image->file_basename = $file->baseName;
                 }
 
-                if ($this->images_file_extension) {
-                    $image->file_extension = $this->images_file_extension;
+                if ($this->image_file_extension) {
+                    $image->file_extension = $this->image_file_extension;
                 } else {
                     $image->file_extension = $file->extension;
                 }
@@ -109,21 +109,21 @@ class UploadForm extends Model
 
                     $resize_labels = [];
                     $image_sizes = Image::getSizes();
-                    if (!is_array($this->resizeLabels)) {
-                        if ($this->resizeLabels && is_string($this->resizeLabels)) {
-                            $this->resizeLabels = implode(',', $this->resizeLabels);
+                    if (!is_array($this->image_resize_labels)) {
+                        if ($this->image_resize_labels && is_string($this->image_resize_labels)) {
+                            $this->image_resize_labels = implode(',', $this->image_resize_labels);
                         } else {
-                            $this->resizeLabels = [];
+                            $this->image_resize_labels = [];
                         }
                     }
-                    foreach ($this->resizeLabels as $size_label) {
+                    foreach ($this->image_resize_labels as $size_label) {
                         if (isset($image_sizes[$size_label])) {
                             $size = $image_sizes[$size_label];
                             $dimension = explode('x', $size);
                             ImagineImage::getImagine()->open($destination)
                                 ->thumbnail(new Box($dimension[0], $dimension[1]))
                                 ->save(Yii::getAlias("@images/{$image->path}$image->file_basename{$size_label}.$image->file_extension")
-                                    , ['quality' => $this->quantity]);
+                                    , ['quality' => $this->image_quantity]);
 
                             $resize_labels[] = $size_label;
                         }
