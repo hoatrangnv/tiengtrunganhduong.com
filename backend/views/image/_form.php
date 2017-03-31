@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
+use backend\models\Image;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Image */
@@ -11,7 +12,9 @@ use kartik\select2\Select2;
 
 <div class="image-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+    <?= $form->field($model, 'image_file')->fileInput(['accept' => Image::getValidExtensions()]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

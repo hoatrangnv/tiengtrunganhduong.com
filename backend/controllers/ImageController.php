@@ -78,13 +78,75 @@ class ImageController extends Controller
     {
         $model = new Image();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $resize_labels = [];
+            $image_sizes = Image::getSizes();
+            $model->castValueToArray('image_resize_labels');
+
+            if ($file = UploadedFile::getInstance($model, 'image_file')) {
+                $model->path = Image::getImagesPath();
+                $model->mime_type = $file->type;
+                $model->name = $model->name ? $model->name : $file->baseName;
+
+                if ($model->image_name_to_basename) {
+                    $model->image_file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
+                } else if (!$model->file_basename) {
+                    $model->file_basename = $file->baseName;
+                }
+                if (!$model->file_extension) {
+                    $model->file_extension = $file->extension;
+                }
+
+                $model->file_name = "$model->file_basename.$model->file_extension";
+
+                // @TODO: Save origin image
+                $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
+                if ($file->saveAs($origin_destination)) {
+                    // @TODO: Save cropped and compressed images
+                    $destination = $model->getLocation();
+                    $thumb0 = ImagineImage::getImagine()->open($origin_destination);
+
+                    if ($model->validate() && $thumb0->save($destination, ['quality' => $model->image_quality])) {
+                        foreach ($model->image_resize_labels as $size_label) {
+                            if (isset($image_sizes[$size_label])) {
+                                $size = $image_sizes[$size_label];
+                                $dimension = explode('x', $size);
+                                if ($model->image_crop) {
+                                    $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                        ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                        ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                } else {
+                                    $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                        ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                }
+                                $suffix = preg_replace(
+                                    ['/{w}/', '/{h}/'],
+                                    [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()],
+                                    Image::LABEL_SIZE
+                                );
+                                if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                    $resize_labels[$size_label] = $suffix;
+                                }
+                            }
+                        }
+                        $model->resize_labels = json_encode($resize_labels);
+                    }
+                }
+
+            }
+
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->errors));
+            }
+
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -103,19 +165,28 @@ class ImageController extends Controller
                 $resize_labels = [];
                 $image_sizes = Image::getSizes();
 
-                if (!is_array($model->image_resize_labels)) {
-                    if ($model->image_resize_labels && is_string($model->image_resize_labels)) {
-                        $model->image_resize_labels = implode(',', $model->image_resize_labels);
-                    } else {
-                        $model->image_resize_labels = [];
-                    }
-                }
+                $model->castValueToArray('image_resize_labels');
 
                 if ($model->image_name_to_basename) {
                     $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
                 }
 
+                $file = UploadedFile::getInstance($model, 'image_file');
+
+                if ($file) {
+                    if ($model->file_basename == $model->getOldAttribute('file_basename')) {
+                        $model->file_basename = $file->baseName;
+                    }
+                    if ($model->file_extension == $model->getOldAttribute('file_extension')) {
+                        $model->file_extension = $file->extension;
+                    }
+                }
+
                 $model->file_name = "$model->file_basename.$model->file_extension";
+
+                if ($file) {
+                    $file->saveAs($model->getLocation(Image::LABEL_ORIGIN));
+                }
 
                 if (is_file($alias = $model->getOldLocation())) {
                     unlink($alias);
@@ -167,6 +238,8 @@ class ImageController extends Controller
 
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->errors));
                 }
             }
         }

@@ -31,22 +31,12 @@ class UploadForm extends Model
     public $image_file_extension;
     public $image_name_to_basename;
 
-    public function getValidImageExtensions()
-    {
-        return ['png', 'jpg', 'jpeg', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
-    }
-    
-    public function getValidImageMimeTypes()
-    {
-        return ['image/png', 'image/jpeg', 'image/gif'];
-    }
-
     public function rules()
     {
         return [
             [['image_files'], 'file', 'skipOnEmpty' => false,
-                'mimeTypes' => $this->getValidImageMimeTypes(),
-                'extensions' => $this->getValidImageExtensions(),
+                'mimeTypes' => Image::getValidMimeTypes(),
+                'extensions' => Image::getValidExtensions(),
                 'maxFiles' => 20,
                 'maxSize' => 20 * 1024 * 1024,
             ],
@@ -58,7 +48,7 @@ class UploadForm extends Model
             ['image_name', 'string', 'max' => 128],
             ['image_file_basename', 'string', 'max' => 128],
             ['image_file_extension', 'string', 'max' => 32],
-            ['image_file_extension', 'in', 'range' => $this->getValidImageExtensions()],
+            ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
         ];
     }
 
@@ -73,7 +63,7 @@ class UploadForm extends Model
             foreach ($this->image_files as $file) {
                 $i++;
                 $model = new Image();
-                $model->path = $this->getImagesPath();
+                $model->path = Image::getImagesPath();
                 $model->mime_type = $file->type;
 
                 $image_name = $this->image_name ? $this->image_name : $file->baseName;
@@ -119,13 +109,7 @@ class UploadForm extends Model
 
                     $resize_labels = [];
                     $image_sizes = Image::getSizes();
-                    if (!is_array($this->image_resize_labels)) {
-                        if ($this->image_resize_labels && is_string($this->image_resize_labels)) {
-                            $this->image_resize_labels = implode(',', $this->image_resize_labels);
-                        } else {
-                            $this->image_resize_labels = [];
-                        }
-                    }
+                    $this->image_resize_labels = Image::castToArray($this->image_resize_labels);
                     foreach ($this->image_resize_labels as $size_label) {
                         if (isset($image_sizes[$size_label])) {
                             $size = $image_sizes[$size_label];
@@ -161,13 +145,4 @@ class UploadForm extends Model
         }
     }
 
-    public function getImagesPath()
-    {
-        $path = date('Ym/');
-        $full_path = Yii::getAlias("@images/$path");
-        if (!file_exists($full_path)) {
-            mkdir($full_path);
-        }
-        return $path;
-    }
 }

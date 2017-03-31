@@ -6,7 +6,7 @@ use backend\models\Image;
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-<?= $form->field($model, 'image_files[]')->fileInput(['multiple' => true, 'accept' => $model->getValidImageMimeTypes()]) ?>
+<?= $form->field($model, 'image_files[]')->fileInput(['multiple' => true, 'accept' => Image::getValidExtensions()]) ?>
 <?= $form->field($model, 'image_resize_labels')->dropDownList(Image::getSizes(), [
     'multiple' => 'multiple',
     'style' => 'height:' . (18 * count(Image::getSizes())) . 'px;max-height:600px'

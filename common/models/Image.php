@@ -77,6 +77,26 @@ class Image extends \common\models\MyActiveRecord
         ];
     }
 
+    public static function getValidExtensions()
+    {
+        return ['png', 'jpg', 'jpeg', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
+    }
+
+    public static function getValidMimeTypes()
+    {
+        return ['image/png', 'image/jpeg', 'image/gif'];
+    }
+
+    public static function getImagesPath()
+    {
+        $path = date('Ym/');
+        $full_path = Yii::getAlias("@images/$path");
+        if (!file_exists($full_path)) {
+            mkdir($full_path);
+        }
+        return $path;
+    }
+
     public function getSource($size_label = null)
     {
         if ($size_label == null) {
