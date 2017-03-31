@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'file_extension') ?>
 
-    <?php // echo $form->field($model, 'resize_list') ?>
+    <?php // echo $form->field($model, 'resize_labels') ?>
 
     <?php // echo $form->field($model, 'string_data') ?>
 

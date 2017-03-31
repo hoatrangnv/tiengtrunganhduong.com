@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'file_name',
             // 'file_basename',
             // 'file_extension',
-            // 'resize_list',
+            // 'resize_labels',
             // 'string_data',
             // 'mime_type',
             // 'active',

@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'file_extension')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'resize_list')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'resize_labels')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'string_data')->textInput(['maxlength' => true]) ?>
 

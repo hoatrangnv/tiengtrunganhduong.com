@@ -18,7 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $file_name
  * @property string $file_basename
  * @property string $file_extension
- * @property string $resize_list
+ * @property string $resize_labels
  * @property string $string_data
  * @property string $mime_type
  * @property integer $active
@@ -37,6 +37,51 @@ use yii\behaviors\TimestampBehavior;
  */
 class Image extends \common\models\MyActiveRecord
 {
+    const SIZE_S1 = '--s1';
+    const SIZE_S2 = '--s2';
+    const SIZE_S3 = '--s3';
+    const SIZE_S4 = '--s4';
+    const SIZE_S5 = '--s5';
+    const SIZE_S6 = '--s6';
+    const SIZE_S7 = '--s7';
+    const SIZE_S8 = '--s8';
+    const SIZE_S9 = '--s9';
+    const SIZE_S10 = '--s10';
+    const SIZE_S11 = '--s11';
+    const SIZE_S12 = '--s12';
+    const SIZE_S13 = '--s13';
+    const SIZE_S14 = '--s14';
+    const SIZE_S15 = '--s15';
+
+    public static function getSizes()
+    {
+        return [
+            self::SIZE_S1 => '50x50',
+            self::SIZE_S2 => '100x100',
+            self::SIZE_S3 => '150x150',
+            self::SIZE_S4 => '200x200',
+            self::SIZE_S5 => '250x250',
+            self::SIZE_S6 => '300x300',
+            self::SIZE_S7 => '350x350',
+            self::SIZE_S8 => '400x400',
+            self::SIZE_S9 => '450x450',
+            self::SIZE_S10 => '500x500',
+            self::SIZE_S11 => '600x600',
+            self::SIZE_S12 => '800x800',
+            self::SIZE_S13 => '1000x1000',
+            self::SIZE_S14 => '1200x1200',
+            self::SIZE_S15 => '1400x1400',
+        ];
+    }
+
+    public function getSource($size_label = null)
+    {
+        if ($size_label == null) {
+            return Yii::getAlias("@imagesUrl/{$this->path}$this->file_name");
+        }
+        return Yii::getAlias("@imagesUrl/{$this->path}$this->file_basename{$size_label}.$this->file_extension");
+    }
+
     /**
      * @inheritdoc
      */
@@ -57,11 +102,6 @@ class Image extends \common\models\MyActiveRecord
         ];
     }
 
-    public function getSource()
-    {
-        return Yii::getAlias("@imagesUrl/$this->path$this->file_name");
-    }
-
     /**
      * @inheritdoc
      */
@@ -80,7 +120,7 @@ class Image extends \common\models\MyActiveRecord
             [['name', 'path', 'file_name'], 'required'],
             [['name', 'path', 'file_name', 'file_basename'], 'string', 'max' => 128],
             [['file_extension', 'mime_type'], 'string', 'max' => 32],
-            [['resize_list', 'string_data'], 'string', 'max' => 2048],
+            [['resize_labels', 'string_data'], 'string', 'max' => 2048],
             [['file_name'], 'unique'],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
@@ -101,7 +141,7 @@ class Image extends \common\models\MyActiveRecord
             'file_name' => 'File Name',
             'file_basename' => 'File Basename',
             'file_extension' => 'File Extension',
-            'resize_list' => 'Resize List',
+            'resize_labels' => 'Resize Labels',
             'string_data' => 'String Data',
             'mime_type' => 'Mime Type',
             'active' => 'Active',

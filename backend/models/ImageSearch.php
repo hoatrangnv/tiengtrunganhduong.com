@@ -19,7 +19,7 @@ class ImageSearch extends Image
     {
         return [
             [['id', 'creator_id', 'updater_id', 'active', 'status', 'sort_order', 'views', 'likes', 'comments', 'shares', 'create_time', 'update_time'], 'integer'],
-            [['name', 'path', 'file_name', 'file_basename', 'file_extension', 'resize_list', 'string_data', 'mime_type'], 'safe'],
+            [['name', 'path', 'file_name', 'file_basename', 'file_extension', 'resize_labels', 'string_data', 'mime_type'], 'safe'],
         ];
     }
 
@@ -78,7 +78,7 @@ class ImageSearch extends Image
             ->andFilterWhere(['like', 'file_name', $this->file_name])
             ->andFilterWhere(['like', 'file_basename', $this->file_basename])
             ->andFilterWhere(['like', 'file_extension', $this->file_extension])
-            ->andFilterWhere(['like', 'resize_list', $this->resize_list])
+            ->andFilterWhere(['like', 'resize_labels', $this->resize_labels])
             ->andFilterWhere(['like', 'string_data', $this->string_data])
             ->andFilterWhere(['like', 'mime_type', $this->mime_type]);
 

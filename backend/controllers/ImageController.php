@@ -101,7 +101,13 @@ class ImageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        if ($model->delete()) {
+            unlink(Yii::getAlias("@images/$model->path{$model->file_name}"));
+            foreach (json_decode($model->resize_labels) as $resize_label) {
+                unlink(Yii::getAlias("@images/$model->path{$model->file_basename}$resize_label.$model->file_extension"));
+            }
+        }
 
         return $this->redirect(['index']);
     }
