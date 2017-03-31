@@ -1,6 +1,7 @@
 <?php
 namespace backend\models;
 
+use backend\models\Image;
 use common\models\MyActiveRecord;
 use common\helpers\MyStringHelper;
 use Imagine\Image\ManipulatorInterface;
@@ -12,7 +13,6 @@ use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 use yii\imagine\Image as ImagineImage;
-use backend\models\Image;
 use Imagine\Gd;
 use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
@@ -72,15 +72,15 @@ class UploadForm extends Model
             $i = 0;
             foreach ($this->image_files as $file) {
                 $i++;
-                $image = new Image();
-                $image->path = $this->getImagesPath();
-                $image->mime_type = $file->type;
+                $model = new Image();
+                $model->path = $this->getImagesPath();
+                $model->mime_type = $file->type;
 
                 $image_name = $this->image_name ? $this->image_name : $file->baseName;
                 if ($i == 1) {
-                    $image->name = $image_name;
+                    $model->name = $image_name;
                 } else {
-                    $image->name = "$image_name $i";
+                    $model->name = "$image_name $i";
                 }
 
                 if ($this->image_name_to_basename) {
@@ -89,33 +89,33 @@ class UploadForm extends Model
 
                 if ($this->image_file_basename) {
                     if ($i == 1) {
-                        $image->file_basename = $this->image_file_basename;
+                        $model->file_basename = $this->image_file_basename;
                     } else {
-                        $image->file_basename = "$this->image_file_basename-$i";
+                        $model->file_basename = "$this->image_file_basename-$i";
                     }
                 } else {
-                    $image->file_basename = $file->baseName;
+                    $model->file_basename = $file->baseName;
                 }
 
                 if ($this->image_file_extension) {
-                    $image->file_extension = $this->image_file_extension;
+                    $model->file_extension = $this->image_file_extension;
                 } else {
-                    $image->file_extension = $file->extension;
+                    $model->file_extension = $file->extension;
                 }
 
-                $image->file_name = "$image->file_basename.$image->file_extension";
-                $image->active = 1;
+                $model->file_name = "$model->file_basename.$model->file_extension";
+                $model->active = 1;
 
                 // @TODO: Save origin image
-                $origin_destination = Yii::getAlias("@images/$image->path{$image->file_basename}-origin.$image->file_extension");
+                $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
                 $file->saveAs($origin_destination);
 
                 // @TODO: Save cropped and compressed images
-                $destination = Yii::getAlias("@images/$image->path{$image->file_name}");
+                $destination = $model->getLocation();
                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
-                if ($image->validate() && $thumb0->save($destination, ['quality' => $this->image_quality])) {
-                    $images['saved'][] = $image;
+                if ($model->validate() && $thumb0->save($destination, ['quality' => $this->image_quality])) {
+                    $images['saved'][] = $model;
 
                     $resize_labels = [];
                     $image_sizes = Image::getSizes();
@@ -138,18 +138,21 @@ class UploadForm extends Model
                                 $thumb = ImagineImage::getImagine()->open($origin_destination)
                                     ->thumbnail(new Box($dimension[0], $dimension[1]));
                             }
-                            $suffix = '-' . $thumb->getSize()->getWidth() . 'x' . $thumb->getSize()->getHeight();
-                            if ($thumb->save(Yii::getAlias("@images/{$image->path}$image->file_basename{$suffix}.$image->file_extension")
-                                    , ['quality' => $this->image_quality])) {
+                            $suffix = preg_replace(
+                                ['/{w}/', '/{h}/'],
+                                [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()],
+                                Image::LABEL_SIZE
+                            );
+                            if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
                                 $resize_labels[$size_label] = $suffix;
                             }
                         }
                     }
 
-                    $image->resize_labels = json_encode($resize_labels);
-                    $image->save();
+                    $model->resize_labels = json_encode($resize_labels);
+                    $model->save();
                 } else {
-                    $images['unsaved'][] = $image;
+                    $images['unsaved'][] = $model;
                 }
             }
             return $images;

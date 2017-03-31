@@ -37,7 +37,9 @@ use yii\behaviors\TimestampBehavior;
  */
 class Image extends \common\models\MyActiveRecord
 {
-    const SIZE_S0 = 's0';
+    const LABEL_ORIGIN = '-origin';
+    const LABEL_SIZE = '-{w}x{h}';
+
     const SIZE_S1 = 's1';
     const SIZE_S2 = 's2';
     const SIZE_S3 = 's3';
@@ -82,6 +84,44 @@ class Image extends \common\models\MyActiveRecord
         }
         return Yii::getAlias("@imagesUrl/{$this->path}$this->file_basename{$size_label}.$this->file_extension");
     }
+
+    public function getLocation($size_label = null)
+    {
+        if ($size_label == null) {
+            return Yii::getAlias("@images/{$this->path}$this->file_name");
+        }
+        return Yii::getAlias("@images/{$this->path}$this->file_basename{$size_label}.$this->file_extension");
+    }
+
+    public function getOldLocation($size_label = null)
+    {
+        if ($size_label == null) {
+            return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_name')}");
+        }
+        return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_basename')}$size_label.{$this->getOldAttribute('file_extension')}");
+    }
+
+
+
+    public function getResizeLabels()
+    {
+        $result = json_decode($this->resize_labels, true);
+        if (is_array($result)) {
+            return $result;
+        }
+        return [];
+    }
+
+    public function getOldResizeLabels()
+    {
+        $result = json_decode($this->getOldAttribute('resize_labels'), true);
+        if (is_array($result)) {
+            return $result;
+        }
+        return [];
+    }
+
+
 
     /**
      * @inheritdoc

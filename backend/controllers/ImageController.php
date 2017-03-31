@@ -117,50 +117,53 @@ class ImageController extends Controller
 
                 $model->file_name = "$model->file_basename.$model->file_extension";
 
-                if (is_file($alias = Yii::getAlias("@images/$model->path{$model->getOldAttribute('file_name')}"))) {
+                if (is_file($alias = $model->getOldLocation())) {
                     unlink($alias);
                 }
-                foreach (json_decode($model->getOldAttribute('resize_labels')) as $old_size_label) {
-                    if (is_file($alias = Yii::getAlias("@images/$model->path{$model->getOldAttribute('file_basename')}$old_size_label.{$model->getOldAttribute('file_extension')}"))) {
+                foreach ($model->getOldResizeLabels() as $old_size_label) {
+                    if (is_file($alias = $model->getOldLocation($old_size_label))) {
                         unlink($alias);
                     }
                 }
 
-                $old_origin_destination = Yii::getAlias("@images/$model->path{$model->getOldAttribute('file_basename')}-origin.{$model->getOldAttribute('file_extension')}");
-                $origin_destination = Yii::getAlias("@images/$model->path{$model->file_basename}-origin.$model->file_extension");
-                $destination = Yii::getAlias("@images/$model->path{$model->file_name}");
+                $old_origin_destination = $model->getOldLocation(Image::LABEL_ORIGIN);
+                $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
+                $destination = $model->getLocation();
 
-                if ($model->file_basename != $model->getOldAttribute('file_basename')
-                    || $model->file_extension != $model->getOldAttribute('file_extension')
-                ) {
-                    if (is_file($alias = Yii::getAlias("@images/$model->path{$model->getOldAttribute('file_basename')}-origin.{$model->getOldAttribute('file_extension')}"))) {
-                        copy($alias, $origin_destination);
+                if (is_file($old_origin_destination)) {
+                    if ($model->file_basename != $model->getOldAttribute('file_basename')
+                        || $model->file_extension != $model->getOldAttribute('file_extension')
+                    ) {
+                        copy($old_origin_destination, $origin_destination);
                         unlink($old_origin_destination);
                     }
-                }
 
-                $thumb0 = ImagineImage::getImagine()->open($origin_destination);
-                $thumb0->save($destination, ['quality' => $model->image_quality]);
-                foreach ($model->image_resize_labels as $size_label) {
-                    if (isset($image_sizes[$size_label])) {
-                        $size = $image_sizes[$size_label];
-                        $dimension = explode('x', $size);
-                        if ($model->image_crop) {
-                            $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
-                                ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
-                        } else {
-                            $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                ->thumbnail(new Box($dimension[0], $dimension[1]));
-                        }
-                        $suffix = '-' . $thumb->getSize()->getWidth() . 'x' . $thumb->getSize()->getHeight();
-                        if ($thumb->save(Yii::getAlias("@images/{$model->path}$model->file_basename{$suffix}.$model->file_extension")
-                            , ['quality' => $model->image_quality])) {
-                            $resize_labels[$size_label] = $suffix;
+                    $thumb0 = ImagineImage::getImagine()->open($origin_destination);
+                    $thumb0->save($destination, ['quality' => $model->image_quality]);
+                    foreach ($model->image_resize_labels as $size_label) {
+                        if (isset($image_sizes[$size_label])) {
+                            $size = $image_sizes[$size_label];
+                            $dimension = explode('x', $size);
+                            if ($model->image_crop) {
+                                $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                    ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                    ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                            } else {
+                                $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                    ->thumbnail(new Box($dimension[0], $dimension[1]));
+                            }
+                            $suffix = preg_replace(
+                                ['/{w}/', '/{h}/'],
+                                [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()],
+                                Image::LABEL_SIZE
+                            );
+                            if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                $resize_labels[$size_label] = $suffix;
+                            }
                         }
                     }
+                    $model->resize_labels = json_encode($resize_labels);
                 }
-                $model->resize_labels = json_encode($resize_labels);
 
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -168,7 +171,7 @@ class ImageController extends Controller
             }
         }
 
-        $model->image_resize_labels = array_keys(json_decode($model->resize_labels, true));
+        $model->image_resize_labels = array_keys($model->getResizeLabels());
 
         return $this->render('update', [
             'model' => $model,
@@ -185,10 +188,16 @@ class ImageController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->delete()) {
-            unlink(Yii::getAlias("@images/$model->path{$model->file_basename}-origin.$model->file_extension"));
-            unlink(Yii::getAlias("@images/$model->path{$model->file_name}"));
-            foreach (json_decode($model->resize_labels) as $resize_label) {
-                unlink(Yii::getAlias("@images/$model->path{$model->file_basename}$resize_label.$model->file_extension"));
+            if (is_file($origin = $model->getLocation(Image::LABEL_ORIGIN))) {
+                unlink($origin);
+            }
+            if (is_file($default = $model->getLocation())) {
+                unlink($default);
+            }
+            foreach ($model->getResizeLabels() as $resize_label) {
+                if (is_file($resized = $model->getLocation($resize_label))) {
+                    unlink($resized);
+                }
             }
         }
 
