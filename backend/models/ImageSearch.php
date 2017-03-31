@@ -18,8 +18,8 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id', 'creator_id', 'updater_id', 'active', 'views', 'likes', 'comments', 'shares', 'create_time', 'update_time'], 'integer'],
-            [['name', 'path', 'file_name', 'resize_list', 'string_data', 'mime_type', 'sort_order'], 'safe'],
+            [['id', 'creator_id', 'updater_id', 'active', 'status', 'sort_order', 'views', 'likes', 'comments', 'shares', 'create_time', 'update_time'], 'integer'],
+            [['name', 'path', 'file_name', 'file_basename', 'file_extension', 'resize_list', 'string_data', 'mime_type'], 'safe'],
         ];
     }
 
@@ -63,6 +63,8 @@ class ImageSearch extends Image
             'creator_id' => $this->creator_id,
             'updater_id' => $this->updater_id,
             'active' => $this->active,
+            'status' => $this->status,
+            'sort_order' => $this->sort_order,
             'views' => $this->views,
             'likes' => $this->likes,
             'comments' => $this->comments,
@@ -74,10 +76,11 @@ class ImageSearch extends Image
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'path', $this->path])
             ->andFilterWhere(['like', 'file_name', $this->file_name])
+            ->andFilterWhere(['like', 'file_basename', $this->file_basename])
+            ->andFilterWhere(['like', 'file_extension', $this->file_extension])
             ->andFilterWhere(['like', 'resize_list', $this->resize_list])
             ->andFilterWhere(['like', 'string_data', $this->string_data])
-            ->andFilterWhere(['like', 'mime_type', $this->mime_type])
-            ->andFilterWhere(['like', 'sort_order', $this->sort_order]);
+            ->andFilterWhere(['like', 'mime_type', $this->mime_type]);
 
         return $dataProvider;
     }

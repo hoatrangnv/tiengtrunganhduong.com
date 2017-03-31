@@ -16,11 +16,14 @@ use yii\behaviors\TimestampBehavior;
  * @property string $name
  * @property string $path
  * @property string $file_name
+ * @property string $file_basename
+ * @property string $file_extension
  * @property string $resize_list
  * @property string $string_data
  * @property string $mime_type
- * @property string $sort_order
  * @property integer $active
+ * @property integer $status
+ * @property integer $sort_order
  * @property integer $views
  * @property integer $likes
  * @property integer $comments
@@ -73,11 +76,11 @@ class Image extends \common\models\MyActiveRecord
     public function rules()
     {
         return [
-            [[/*'creator_id', 'updater_id',*/ 'active', 'views', 'likes', 'comments', 'shares', /*'create_time', 'update_time'*/], 'integer'],
+            [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order', 'views', 'likes', 'comments', 'shares', /*'create_time', 'update_time'*/], 'integer'],
             [['name', 'path', 'file_name'], 'required'],
-            [['name', 'path', 'file_name'], 'string', 'max' => 128],
+            [['name', 'path', 'file_name', 'file_basename'], 'string', 'max' => 128],
+            [['file_extension', 'mime_type'], 'string', 'max' => 32],
             [['resize_list', 'string_data'], 'string', 'max' => 2048],
-            [['mime_type', 'sort_order'], 'string', 'max' => 32],
             [['file_name'], 'unique'],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
@@ -96,11 +99,14 @@ class Image extends \common\models\MyActiveRecord
             'name' => 'Name',
             'path' => 'Path',
             'file_name' => 'File Name',
+            'file_basename' => 'File Basename',
+            'file_extension' => 'File Extension',
             'resize_list' => 'Resize List',
             'string_data' => 'String Data',
             'mime_type' => 'Mime Type',
-            'sort_order' => 'Sort Order',
             'active' => 'Active',
+            'status' => 'Status',
+            'sort_order' => 'Sort Order',
             'views' => 'Views',
             'likes' => 'Likes',
             'comments' => 'Comments',

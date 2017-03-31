@@ -35,6 +35,8 @@ class UploadForm extends Model
                 $image->path = $path;
                 $image->mime_type = $file->type;
                 $image->file_name = $file->name;
+                $image->file_basename = $file->baseName;
+                $image->file_extension = $file->extension;
                 $image->active = 1;
 
                 if ($image->validate() && $file->saveAs($destination) && $image->save()) {

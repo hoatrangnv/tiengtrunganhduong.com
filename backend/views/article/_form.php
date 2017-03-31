@@ -12,12 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-
     <?= $form->field($model, 'category_id')->textInput() ?>
 
     <?= $form->field($model, 'image_id')->textInput() ?>
-
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -39,15 +36,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'hot')->textInput() ?>
 
-    <?= $form->field($model, 'sort_order')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'status')->textInput() ?>
 
     <?= $form->field($model, 'type')->textInput() ?>
 
-    <?= $form->field($model, 'create_time')->textInput() ?>
-
-    <?= $form->field($model, 'update_time')->textInput() ?>
+    <?= $form->field($model, 'sort_order')->textInput() ?>
 
     <?= $form->field($model, 'publish_time')->textInput() ?>
 

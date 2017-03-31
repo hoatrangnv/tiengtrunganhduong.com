@@ -18,8 +18,8 @@ class ArticleSearch extends Article
     public function rules()
     {
         return [
-            [['id', 'creator_id', 'updater_id', 'category_id', 'image_id', 'active', 'visible', 'hot', 'status', 'type', 'create_time', 'update_time', 'publish_time', 'views', 'likes', 'comments', 'shares'], 'integer'],
-            [['slug', 'name', 'meta_title', 'meta_keywords', 'meta_description', 'description', 'content', 'sub_content', 'sort_order'], 'safe'],
+            [['id', 'creator_id', 'updater_id', 'category_id', 'image_id', 'active', 'visible', 'hot', 'status', 'type', 'sort_order', 'create_time', 'update_time', 'publish_time', 'views', 'likes', 'comments', 'shares'], 'integer'],
+            [['slug', 'name', 'meta_title', 'meta_keywords', 'meta_description', 'description', 'content', 'sub_content'], 'safe'],
         ];
     }
 
@@ -69,6 +69,7 @@ class ArticleSearch extends Article
             'hot' => $this->hot,
             'status' => $this->status,
             'type' => $this->type,
+            'sort_order' => $this->sort_order,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time,
             'publish_time' => $this->publish_time,
@@ -85,8 +86,7 @@ class ArticleSearch extends Article
             ->andFilterWhere(['like', 'meta_description', $this->meta_description])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'sub_content', $this->sub_content])
-            ->andFilterWhere(['like', 'sort_order', $this->sort_order]);
+            ->andFilterWhere(['like', 'sub_content', $this->sub_content]);
 
         return $dataProvider;
     }

@@ -27,9 +27,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $active
  * @property integer $visible
  * @property integer $hot
- * @property string $sort_order
  * @property integer $status
  * @property integer $type
+ * @property integer $sort_order
  * @property integer $create_time
  * @property integer $update_time
  * @property integer $publish_time
@@ -85,12 +85,11 @@ class Article extends \common\models\MyActiveRecord
     public function rules()
     {
         return [
-            [[/*'creator_id', 'updater_id',*/ 'category_id', 'image_id', 'active', 'visible', 'hot', 'status', 'type', /*'create_time', 'update_time',*/ 'publish_time', 'views', 'likes', 'comments', 'shares'], 'integer'],
+            [[/*'creator_id', 'updater_id',*/ 'category_id', 'image_id', 'active', 'visible', 'hot', 'status', 'type', 'sort_order', /*'create_time', 'update_time',*/ 'publish_time', 'views', 'likes', 'comments', 'shares'], 'integer'],
             [[/*'slug', */'name', 'content'], 'required'],
             [['content', 'sub_content'], 'string'],
             [[/*'slug', */'name', 'meta_title'], 'string', 'max' => 128],
             [['meta_keywords', 'meta_description', 'description'], 'string', 'max' => 512],
-            [['sort_order'], 'string', 'max' => 32],
 //            [['slug'], 'unique'],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
@@ -120,9 +119,9 @@ class Article extends \common\models\MyActiveRecord
             'active' => 'Active',
             'visible' => 'Visible',
             'hot' => 'Hot',
-            'sort_order' => 'Sort Order',
             'status' => 'Status',
             'type' => 'Type',
+            'sort_order' => 'Sort Order',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
             'publish_time' => 'Publish Time',

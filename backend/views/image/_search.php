@@ -27,15 +27,21 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'file_name') ?>
 
+    <?php // echo $form->field($model, 'file_basename') ?>
+
+    <?php // echo $form->field($model, 'file_extension') ?>
+
     <?php // echo $form->field($model, 'resize_list') ?>
 
     <?php // echo $form->field($model, 'string_data') ?>
 
     <?php // echo $form->field($model, 'mime_type') ?>
 
-    <?php // echo $form->field($model, 'sort_order') ?>
-
     <?php // echo $form->field($model, 'active') ?>
+
+    <?php // echo $form->field($model, 'status') ?>
+
+    <?php // echo $form->field($model, 'sort_order') ?>
 
     <?php // echo $form->field($model, 'views') ?>
 
