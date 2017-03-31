@@ -6,7 +6,7 @@ use backend\models\Image;
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-<?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
+<?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => $model->getValidImageMimeTypes()]) ?>
 <?= $form->field($model, 'quantity')->textInput() ?>
 <?= $form->field($model, 'crop')->checkbox() ?>
 <?php /*echo $form->field($model, 'resizeLabels')->widget(Select2::classname(), [

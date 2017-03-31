@@ -2,6 +2,7 @@
 namespace backend\models;
 
 use common\models\MyActiveRecord;
+use common\helpers\MyStringHelper;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
@@ -27,16 +28,25 @@ class UploadForm extends Model
     public $images_file_extension;
     public $images_name_to_basename;
 
-    public static function getAllowedExtensions()
+    public function getValidImageExtensions()
     {
         return ['png', 'jpg', 'jpeg', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
+    }
+    
+    public function getValidImageMimeTypes()
+    {
+        return ['image/png', 'image/jpeg', 'image/gif'];
     }
 
     public function rules()
     {
         return [
             [['imageFiles'], 'file', 'skipOnEmpty' => false,
-                'extensions' => self::getAllowedExtensions(), 'maxFiles' => 10],
+                'mimeTypes' => $this->getValidImageMimeTypes(),
+                'extensions' => $this->getValidImageExtensions(),
+                'maxFiles' => 20,
+                'maxSize' => 20 * 1024 * 1024,
+            ],
             [['quantity'], 'integer', 'min' => 10, 'max' => 100],
             [['crop', 'images_name_to_basename'], 'boolean'],
             [['crop', 'images_name_to_basename'], 'default', 'value' => false],
@@ -45,7 +55,7 @@ class UploadForm extends Model
             ['images_name', 'string', 'max' => 128],
             ['images_file_basename', 'string', 'max' => 128],
             ['images_file_extension', 'string', 'max' => 32],
-            ['images_file_extension', 'in', 'range' => self::getAllowedExtensions()],
+            ['images_file_extension', 'in', 'range' => $this->getValidImageExtensions()],
         ];
     }
 
@@ -71,7 +81,7 @@ class UploadForm extends Model
                 }
 
                 if ($this->images_name_to_basename) {
-                    $this->images_file_basename = Inflector::slug($image->name);
+                    $this->images_file_basename = Inflector::slug(MyStringHelper::vietnameseFilter($image_name));
                 }
 
                 if ($this->images_file_basename) {

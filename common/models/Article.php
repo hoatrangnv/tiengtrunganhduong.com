@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use common\behaviors\MySluggableBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -62,7 +63,7 @@ class Article extends \common\models\MyActiveRecord
                 'value' => time(),
             ],
             [
-                'class' => SluggableBehavior::className(),
+                'class' => MySluggableBehavior::className(),
                 'attribute' => 'name',
                 'slugAttribute' => 'slug',
                 'immutable' => false,
