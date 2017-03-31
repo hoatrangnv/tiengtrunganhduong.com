@@ -3,10 +3,13 @@ namespace backend\models;
 
 use common\models\MyActiveRecord;
 use common\helpers\MyStringHelper;
+use Imagine\Image\ManipulatorInterface;
+use Imagine\Image\Point;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\helpers\Inflector;
+use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 use yii\imagine\Image as ImagineImage;
 use backend\models\Image;
@@ -120,12 +123,18 @@ class UploadForm extends Model
                         if (isset($image_sizes[$size_label])) {
                             $size = $image_sizes[$size_label];
                             $dimension = explode('x', $size);
-                            ImagineImage::getImagine()->open($destination)
-                                ->thumbnail(new Box($dimension[0], $dimension[1]))
-                                ->save(Yii::getAlias("@images/{$image->path}$image->file_basename{$size_label}.$image->file_extension")
-                                    , ['quality' => $this->image_quantity]);
-
-                            $resize_labels[] = $size_label;
+                            $thumb = ImagineImage::getImagine()->open($destination);
+                            if ($this->image_crop) {
+                                $thumb->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                            } else {
+                                $thumb->thumbnail(new Box($dimension[0], $dimension[1]));
+                            }
+                            $suffix = '-' . $thumb->getSize()->getWidth() . 'x' . $thumb->getSize()->getHeight();
+                            if ($thumb->save(Yii::getAlias("@images/{$image->path}$image->file_basename{$suffix}.$image->file_extension")
+                                    , ['quality' => $this->image_quantity])) {
+                                $resize_labels[$size_label] = $suffix;
+                            }
                         }
                     }
 

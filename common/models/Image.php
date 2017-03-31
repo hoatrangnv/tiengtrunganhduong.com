@@ -37,21 +37,21 @@ use yii\behaviors\TimestampBehavior;
  */
 class Image extends \common\models\MyActiveRecord
 {
-    const SIZE_S1 = '--s1';
-    const SIZE_S2 = '--s2';
-    const SIZE_S3 = '--s3';
-    const SIZE_S4 = '--s4';
-    const SIZE_S5 = '--s5';
-    const SIZE_S6 = '--s6';
-    const SIZE_S7 = '--s7';
-    const SIZE_S8 = '--s8';
-    const SIZE_S9 = '--s9';
-    const SIZE_S10 = '--s10';
-    const SIZE_S11 = '--s11';
-    const SIZE_S12 = '--s12';
-    const SIZE_S13 = '--s13';
-    const SIZE_S14 = '--s14';
-    const SIZE_S15 = '--s15';
+    const SIZE_S1 = 's1';
+    const SIZE_S2 = 's2';
+    const SIZE_S3 = 's3';
+    const SIZE_S4 = 's4';
+    const SIZE_S5 = 's5';
+    const SIZE_S6 = 's6';
+    const SIZE_S7 = 's7';
+    const SIZE_S8 = 's8';
+    const SIZE_S9 = 's9';
+    const SIZE_S10 = 's10';
+    const SIZE_S11 = 's11';
+    const SIZE_S12 = 's12';
+    const SIZE_S13 = 's13';
+    const SIZE_S14 = 's14';
+    const SIZE_S15 = 's15';
 
     public static function getSizes()
     {
