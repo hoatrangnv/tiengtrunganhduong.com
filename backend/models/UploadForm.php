@@ -123,12 +123,13 @@ class UploadForm extends Model
                         if (isset($image_sizes[$size_label])) {
                             $size = $image_sizes[$size_label];
                             $dimension = explode('x', $size);
-                            $thumb = ImagineImage::getImagine()->open($destination);
                             if ($this->image_crop) {
-                                $thumb->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                $thumb = ImagineImage::getImagine()->open($destination)
+                                ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
                                 ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
                             } else {
-                                $thumb->thumbnail(new Box($dimension[0], $dimension[1]));
+                                $thumb = ImagineImage::getImagine()->open($destination)
+                                    ->thumbnail(new Box($dimension[0], $dimension[1]));
                             }
                             $suffix = '-' . $thumb->getSize()->getWidth() . 'x' . $thumb->getSize()->getHeight();
                             if ($thumb->save(Yii::getAlias("@images/{$image->path}$image->file_basename{$suffix}.$image->file_extension")
