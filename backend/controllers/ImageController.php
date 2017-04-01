@@ -85,7 +85,6 @@ class ImageController extends Controller
             $model->castValueToArray('image_resize_labels');
 
             if ($file = UploadedFile::getInstance($model, 'image_file')) {
-
                 $model->mime_type = $file->type;
                 $model->name = $model->name ? $model->name : $file->baseName;
 
