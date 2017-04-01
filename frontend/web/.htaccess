@@ -73,7 +73,9 @@
 # www -> none www
 Options +FollowSymLinks
 RewriteEngine On
-RewriteBase /
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} !^www\.example\.com [NC]
+RewriteRule (.*) http://www.example.com/$1 [R=301,L]
 # block bad bots
 RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
 RewriteRule .* ? [F,L]
