@@ -21,7 +21,8 @@
         "yiisoft/yii2-imagine": "*",
         "mdmsoft/yii2-admin": "~2.0",
         "kartik-v/yii2-widget-select2": "*",
-        "janisto/yii2-timepicker": "*"
+        "janisto/yii2-timepicker": "*",
+        "trntv/yii2-aceeditor": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

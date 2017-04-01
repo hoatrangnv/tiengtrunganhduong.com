@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\helpers\MyFileHelper;
 use Yii;
 use backend\models\Image;
 use backend\models\ImageSearch;
@@ -84,13 +85,13 @@ class ImageController extends Controller
             $model->castValueToArray('image_resize_labels');
 
             if ($file = UploadedFile::getInstance($model, 'image_file')) {
-                $model->path = Image::getImagesPath();
+
                 $model->mime_type = $file->type;
                 $model->name = $model->name ? $model->name : $file->baseName;
 
                 if ($model->image_name_to_basename) {
-                    $model->image_file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
-                } else if (!$model->file_basename) {
+                    $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
+                } else {
                     $model->file_basename = $file->baseName;
                 }
                 if (!$model->file_extension) {
@@ -100,6 +101,7 @@ class ImageController extends Controller
                 $model->file_name = "$model->file_basename.$model->file_extension";
 
                 // @TODO: Save origin image
+                $model->generatePath();
                 $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
                 if ($file->saveAs($origin_destination)) {
                     // @TODO: Save cropped and compressed images
@@ -167,81 +169,95 @@ class ImageController extends Controller
 
                 $model->castValueToArray('image_resize_labels');
 
-                if ($model->image_name_to_basename) {
-                    $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
-                }
-
                 $file = UploadedFile::getInstance($model, 'image_file');
 
                 if ($file) {
-                    if ($model->file_basename == $model->getOldAttribute('file_basename')) {
+                    if (!$model->file_basename || $model->file_basename == $model->getOldAttribute('file_basename')) {
                         $model->file_basename = $file->baseName;
                     }
-                    if ($model->file_extension == $model->getOldAttribute('file_extension')) {
+                    if (!$model->file_extension || $model->file_extension == $model->getOldAttribute('file_extension')) {
                         $model->file_extension = $file->extension;
                     }
                 }
 
+                if ($model->image_name_to_basename) {
+                    $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
+                }
+
                 $model->file_name = "$model->file_basename.$model->file_extension";
 
-                if ($file) {
-                    $file->saveAs($model->getLocation(Image::LABEL_ORIGIN));
-                }
 
-                if (is_file($alias = $model->getOldLocation())) {
-                    unlink($alias);
-                }
-                foreach ($model->getOldResizeLabels() as $old_size_label) {
-                    if (is_file($alias = $model->getOldLocation($old_size_label))) {
-                        unlink($alias);
-                    }
-                }
+                if ($model->validate()) {
+                    $model->generatePath();
+                    if ($model->validate()) {
+                        $old_origin_destination = $model->getOldLocation(Image::LABEL_ORIGIN);
+                        $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
+                        $destination = $model->getLocation();
 
-                $old_origin_destination = $model->getOldLocation(Image::LABEL_ORIGIN);
-                $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
-                $destination = $model->getLocation();
-
-                if (is_file($old_origin_destination)) {
-                    if ($model->file_basename != $model->getOldAttribute('file_basename')
-                        || $model->file_extension != $model->getOldAttribute('file_extension')
-                    ) {
-                        copy($old_origin_destination, $origin_destination);
-                        unlink($old_origin_destination);
-                    }
-
-                    $thumb0 = ImagineImage::getImagine()->open($origin_destination);
-                    $thumb0->save($destination, ['quality' => $model->image_quality]);
-                    foreach ($model->image_resize_labels as $size_label) {
-                        if (isset($image_sizes[$size_label])) {
-                            $size = $image_sizes[$size_label];
-                            $dimension = explode('x', $size);
-                            if ($model->image_crop) {
-                                $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                    ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
-                                    ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
-                            } else {
-                                $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                    ->thumbnail(new Box($dimension[0], $dimension[1]));
-                            }
-                            $suffix = preg_replace(
-                                ['/{w}/', '/{h}/'],
-                                [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()],
-                                Image::LABEL_SIZE
-                            );
-                            if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
-                                $resize_labels[$size_label] = $suffix;
+                        if (is_file($old_origin_destination)) {
+                            if ($model->file_basename != $model->getOldAttribute('file_basename')
+                                || $model->file_extension != $model->getOldAttribute('file_extension')
+                                || $model->getDirectory() != $model->getOldDirectory()
+                            ) {
+                                copy($old_origin_destination, $origin_destination);
+                                unlink($old_origin_destination);
                             }
                         }
-                    }
-                    $model->resize_labels = json_encode($resize_labels);
-                }
 
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                } else {
-                    Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->errors));
+                        if ($file) {
+                            $file->saveAs($model->getLocation(Image::LABEL_ORIGIN));
+                        }
+
+                        if (is_file($alias = $model->getOldLocation())) {
+                            unlink($alias);
+                        }
+                        foreach ($model->getOldResizeLabels() as $old_size_label) {
+                            if (is_file($alias = $model->getOldLocation($old_size_label))) {
+                                unlink($alias);
+                            }
+                        }
+
+                        if (is_file($origin_destination)) {
+                            $thumb0 = ImagineImage::getImagine()->open($origin_destination);
+                            $thumb0->save($destination, ['quality' => $model->image_quality]);
+                            foreach ($model->image_resize_labels as $size_label) {
+                                if (isset($image_sizes[$size_label])) {
+                                    $size = $image_sizes[$size_label];
+                                    $dimension = explode('x', $size);
+                                    if ($model->image_crop) {
+                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                            ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                    } else {
+                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                    }
+                                    $suffix = preg_replace(
+                                        ['/{w}/', '/{h}/'],
+                                        [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()],
+                                        Image::LABEL_SIZE
+                                    );
+                                    if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                        $resize_labels[$size_label] = $suffix;
+                                    }
+                                }
+                            }
+                            $model->resize_labels = json_encode($resize_labels);
+                        }
+
+                        $dir = $model->getDirectory();
+                        $old_dir = $model->getOldDirectory();
+                        if ($dir != $old_dir && MyFileHelper::isEmptyDirectory($old_dir)) {
+                            FileHelper::removeDirectory($old_dir);
+                        }
+
+                        if ($model->save()) {
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        }
+                    }
                 }
             }
+            Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->errors));
         }
 
         $model->image_resize_labels = array_keys($model->getResizeLabels());

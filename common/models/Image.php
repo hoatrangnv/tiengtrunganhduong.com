@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "image".
@@ -87,14 +88,29 @@ class Image extends \common\models\MyActiveRecord
         return ['image/png', 'image/jpeg', 'image/gif'];
     }
 
-    public static function getImagesPath()
+    public function getDirectory()
     {
-        $path = date('Ym/');
-        $full_path = Yii::getAlias("@images/$path");
-        if (!file_exists($full_path)) {
-            mkdir($full_path);
+        return Yii::getAlias("@images/$this->path");
+    }
+
+    public function getOldDirectory()
+    {
+        return Yii::getAlias("@images/{$this->getOldAttribute('path')}");
+    }
+
+    public function generatePath()
+    {
+        $time = $this->create_time ? $this->create_time : time();
+        $this->path = date('Ym/', $time);
+        if ($this->file_basename) {
+            $this->path .= "$this->file_basename/";
+        } else {
+            $this->path .= date('d/', $time);
         }
-        return $path;
+        $dir = Yii::getAlias("@images/$this->path");
+        if (!file_exists($dir)) {
+            FileHelper::createDirectory($dir);
+        }
     }
 
     public function getSource($size_label = null)
@@ -140,8 +156,6 @@ class Image extends \common\models\MyActiveRecord
         }
         return [];
     }
-
-
 
     /**
      * @inheritdoc

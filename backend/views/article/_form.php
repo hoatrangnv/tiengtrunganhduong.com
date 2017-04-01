@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use trntv\aceeditor\AceEditor;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Article */
@@ -12,9 +14,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?php //echo $form->field($model, 'category_id')->textInput() ?>
 
-    <?= $form->field($model, 'image_id')->textInput() ?>
+    <?= $form->field($model, 'image_id')->widget(Select2::classname(), [
+        'data' => \backend\models\Image::listAsId2Name(),
+        'options' => [
+            'multiple' => false,
+            'placeholder' => 'Select...'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -26,7 +38,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content')->widget(
+        AceEditor::className(),
+        [
+            'mode' => 'php', // programing language mode. Default "html"
+            'theme' => 'tomorrow_night_eighties', // editor theme. Default "github"
+        ]
+    ) ?>
 
     <?= $form->field($model, 'sub_content')->textarea(['rows' => 6]) ?>
 

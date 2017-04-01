@@ -63,7 +63,7 @@ class UploadForm extends Model
             foreach ($this->image_files as $file) {
                 $i++;
                 $model = new Image();
-                $model->path = Image::getImagesPath();
+
                 $model->mime_type = $file->type;
 
                 $image_name = $this->image_name ? $this->image_name : $file->baseName;
@@ -97,6 +97,7 @@ class UploadForm extends Model
                 $model->active = 1;
 
                 // @TODO: Save origin image
+                $model->generatePath();
                 $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
                 $file->saveAs($origin_destination);
 
