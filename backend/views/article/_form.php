@@ -43,6 +43,9 @@ use kartik\select2\Select2;
         [
             'mode' => 'php', // programing language mode. Default "html"
             'theme' => 'tomorrow_night_eighties', // editor theme. Default "github"
+            'containerOptions' => [
+                'style' => 'width:100%;min-height:400px;font-size:14px'
+            ]
         ]
     ) ?>
 
