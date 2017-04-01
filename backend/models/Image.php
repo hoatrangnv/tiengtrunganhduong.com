@@ -12,6 +12,7 @@ use Yii;
 
 class Image extends \common\models\Image
 {
+    public $image_source;
     public $image_file;
     public $image_resize_labels;
     public $image_crop;
@@ -23,6 +24,7 @@ class Image extends \common\models\Image
     public function rules()
     {
         return array_merge(parent::rules(), [
+            ['image_source', 'string'],
             [['image_file'], 'file', 'skipOnEmpty' => true,
                 'mimeTypes' => Image::getValidMimeTypes(),
                 'extensions' => Image::getValidExtensions(),

@@ -23,4 +23,19 @@ class MyFileHelper extends FileHelper
         }
         return TRUE;
     }
+
+    public static function moveFile($from, $to, $ensure_remove_source = false)
+    {
+        if (is_file($from)) {
+            if (copy($from, $to)) {
+                unlink($from);
+                return true;
+            }
+            if ($ensure_remove_source) {
+                unlink($from);
+            }
+        }
+        return false;
+    }
+
 }
