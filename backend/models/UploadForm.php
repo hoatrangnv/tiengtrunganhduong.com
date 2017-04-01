@@ -109,11 +109,9 @@ class UploadForm extends Model
                     $images['saved'][] = $model;
 
                     $resize_labels = [];
-                    $image_sizes = Image::getSizes();
                     $this->image_resize_labels = Image::castToArray($this->image_resize_labels);
                     foreach ($this->image_resize_labels as $size_label) {
-                        if (isset($image_sizes[$size_label])) {
-                            $dimension = $model->getSizeFromLabel($size_label);
+                        if ($dimension = $model->getSizeFromLabel($size_label)) {
                             if ($this->image_crop) {
                                 $thumb = ImagineImage::getImagine()->open($origin_destination)
                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)

@@ -130,8 +130,7 @@ class ImageController extends Controller
 
                         if ($model->validate() && $thumb0->save($destination, ['quality' => $model->image_quality])) {
                             foreach ($model->image_resize_labels as $size_label) {
-                                if (isset($image_sizes[$size_label])) {
-                                    $dimension = $model->getSizeFromLabel($size_label);
+                                if ($dimension = $model->getSizeFromLabel($size_label)) {
                                     if ($model->image_crop) {
                                         $thumb = ImagineImage::getImagine()->open($origin_destination)
                                             ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
@@ -252,8 +251,7 @@ class ImageController extends Controller
                             $thumb0 = ImagineImage::getImagine()->open($origin_destination);
                             $thumb0->save($destination, ['quality' => $model->image_quality]);
                             foreach ($model->image_resize_labels as $size_label) {
-                                if (isset($image_sizes[$size_label])) {
-                                    $dimension = $model->getSizeFromLabel($size_label);
+                                if ($dimension = $model->getSizeFromLabel($size_label)) {
                                     if ($model->image_crop) {
                                         $thumb = ImagineImage::getImagine()->open($origin_destination)
                                             ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)

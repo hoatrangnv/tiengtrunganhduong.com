@@ -99,11 +99,15 @@ class Image extends \common\models\MyActiveRecord
 
     public function getSizeFromLabel($label)
     {
-        $sizes = explode('x', $label);
-        foreach ($sizes as &$size) {
-            $size = (int) $size;
+        $image_sizes = self::getSizes();
+        if (isset($image_sizes[$label])) {
+            $sizes = explode('x', $image_sizes[$label]);
+            foreach ($sizes as &$size) {
+                $size = (int) $size;
+            }
+            return $sizes;
         }
-        return $sizes;
+        return null;
     }
 
     public function getDirectory()
