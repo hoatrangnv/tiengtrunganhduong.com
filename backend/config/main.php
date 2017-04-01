@@ -92,8 +92,5 @@ return [
 //            ],
 //        ],
 //    ],
-//    'on beforeAction' => function ($event) {
-//        \common\models\MyActiveQuery::$cache_duration = false;
-//    },
     'params' => $params,
 ];

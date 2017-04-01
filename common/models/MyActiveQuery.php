@@ -19,6 +19,19 @@ class MyActiveQuery extends ActiveQuery {
     public static $enable_cache = true;
     public static $cache_duration = 3600;
 
+    public function __construct($modelClass, array $config = [])
+    {
+        if (isset(Yii::$app->params['cacheDuration'])) {
+            self::$cache_duration = Yii::$app->params['cacheDuration'];
+        }
+
+        if (isset(Yii::$app->params['enableCache'])) {
+            self::$enable_cache = Yii::$app->params['enableCache'];
+        }
+
+        parent::__construct($modelClass, $config);
+    }
+
     public function active()
     {
         return $this->andWhere('[[active]]=1');
