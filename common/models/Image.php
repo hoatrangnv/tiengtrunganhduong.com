@@ -88,6 +88,24 @@ class Image extends \common\models\MyActiveRecord
         return ['image/png', 'image/jpeg', 'image/gif'];
     }
 
+    public function getLabelFromSize(array $sizes)
+    {
+        return preg_replace(
+            ['/{w}/', '/{h}/'],
+            [$sizes[0], $sizes[1]],
+            self::LABEL_SIZE
+        );
+    }
+
+    public function getSizeFromLabel($label)
+    {
+        $sizes = explode('x', $label);
+        foreach ($sizes as &$size) {
+            $size = (int) $size;
+        }
+        return $sizes;
+    }
+
     public function getDirectory()
     {
         return Yii::getAlias("@images/$this->path");
