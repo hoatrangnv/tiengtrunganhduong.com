@@ -16,8 +16,6 @@ use backend\models\Image;
 
     <?= $form->field($model, 'image_file')->fileInput(['accept' => Image::getValidExtensions()]) ?>
 
-    <?= $form->field($model, 'image_source')->textInput() ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'file_basename')->textInput(['maxlength' => true]) ?>
