@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use trntv\aceeditor\AceEditor;
 use kartik\select2\Select2;
 
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\Article */
 /* @var $form yii\widgets\ActiveForm */
