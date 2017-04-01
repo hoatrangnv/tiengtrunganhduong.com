@@ -53,7 +53,7 @@ AppAsset::register($this);
                 ]],
                 ['label' => 'Image', 'items' => [
                     ['label' => 'Index', 'url' => ['/image/index']],
-                    ['label' => 'Upload', 'url' => ['/image/create']],
+                    ['label' => 'Create', 'url' => ['/image/create']],
                     ['label' => 'Upload Multiple', 'url' => ['/upload/images']],
                     ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
