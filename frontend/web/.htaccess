@@ -71,11 +71,11 @@
 </IfModule>
 
 # www -> none www
-Options +FollowSymLinks
+#Options +FollowSymLinks
 RewriteEngine On
-RewriteCond %{HTTP_HOST} .
-RewriteCond %{HTTP_HOST} !^quyettran\.com [NC]
-RewriteRule (.*) http://quyettran.com/$1 [R=301,L]
+RewriteBase /
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 # block bad bots
 RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
 RewriteRule .* ? [F,L]
