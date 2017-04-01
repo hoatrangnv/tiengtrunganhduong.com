@@ -17,7 +17,6 @@ use backend\models\Image;
     <?= $form->field($model, 'image_file')->fileInput(['accept' => Image::getValidExtensions()]) ?>
 
     <div class="label label-info">OR:</div>
-
     <?= $form->field($model, 'image_source')->textInput() ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
