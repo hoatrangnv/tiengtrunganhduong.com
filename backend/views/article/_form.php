@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use trntv\aceeditor\AceEditor;
 use kartik\select2\Select2;
+use backend\models\Image;
 
 
 /* @var $this yii\web\View */
@@ -38,6 +39,27 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+
+    <div class="form-group">
+        <div class="my-grid-view g8 md-g6 sm-g4">
+            <div class="clr"></div>
+            <ul>
+                <?php
+                foreach (Image::find()->allActive() as $item) {
+                    ?><li>
+                        <div class="img-wrap">
+                            <?= $item->img(Image::SIZE_2) ?>
+                        </div>
+                        <div class="caption">
+                            <?= $item->getImgTemplate(Image::SIZE_2) ?>
+                        </div>
+                    </li><?php
+                }
+                ?>
+            </ul>
+            <div class="clr"></div>
+        </div>
+    </div>
 
     <?= $form->field($model, 'content')->widget(
         AceEditor::className(),

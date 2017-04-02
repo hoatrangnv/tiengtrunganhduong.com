@@ -43,6 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_description',
             // 'description',
             // 'content:ntext',
+            [
+                'attribute' => 'content',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->getContentWithTemplates();
+                }
+            ],
             // 'sub_content:ntext',
              'active',
             // 'visible',

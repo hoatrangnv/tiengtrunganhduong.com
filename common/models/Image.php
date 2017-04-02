@@ -187,6 +187,62 @@ class Image extends \common\models\MyActiveRecord
         return [];
     }
 
+    const T_IMG_BEGIN = '{img(';
+    const T_IMG_END = ')}';
+    const T_IMG_VAR_SEPARATOR = ',,';
+    const T_IMG_ATT_VAL_SEPARATOR = '=';
+
+    public function getImgTemplate($size_key = 0)
+    {
+//        $template = "{img($this->id,,$size_key)}";
+        $template = self::T_IMG_BEGIN . $this->id . self::T_IMG_VAR_SEPARATOR . $size_key . self::T_IMG_END;
+        return $template;
+    }
+
+    public static function imgTemplate2Html($template)
+    {
+        $params_string = substr(substr($template, 0, -strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
+        $params = explode(self::T_IMG_VAR_SEPARATOR, $params_string);
+        if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
+            return '';
+        }
+        $size_key = 0;
+        if (isset($params[1])) {
+            $size_key = $params[1];
+        }
+        $options = [];
+        if (isset($params[2])) {
+            foreach (array_slice($params, 2) as $param) {
+                $att_val = explode(self::T_IMG_ATT_VAL_SEPARATOR, $param);
+                if (isset($att_val[1])) {
+                    $att = $att_val[0];
+                    $val = $att_val[1];
+                    if (isset($att_val[2])) {
+                        foreach (array_slice($att_val, 2) as $val_part) {
+                            $val .= self::T_IMG_ATT_VAL_SEPARATOR . $val_part;
+                        }
+                    }
+                    $options[$att] = $val;
+                }
+            }
+        }
+        return $model->img($size_key, $options);
+    }
+
+    public static function textWithTemplates2Html($string)
+    {
+        preg_match_all(
+            "/" . preg_quote(self::T_IMG_BEGIN) . "(.*?)" . preg_quote(self::T_IMG_END) . "/",
+            $string,
+            $matches
+        );
+        foreach ($matches[0] as $template) {
+            $img = self::imgTemplate2Html($template);
+            $string = str_replace($template, $img, $string);
+        }
+        return $string;
+    }
+
     /**
      * @inheritdoc
      */

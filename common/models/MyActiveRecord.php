@@ -20,7 +20,12 @@ class MyActiveRecord extends ActiveRecord
         // Initialize
         if (is_null($this->_imgs)) {
             $this->_imgs = [];
-            if ($image = $this->image) {
+            if ($this instanceof Image) {
+                $image = $this;
+            } else {
+                $image = $this->image;
+            }
+            if ($image) {
                 if (!isset($options['alt'])) {
                     if ($this->hasAttribute('name')) {
                         $options['alt'] = $this->name;
@@ -52,7 +57,14 @@ class MyActiveRecord extends ActiveRecord
                 return $this->_imgs[$key];
             }
         }
-        return isset($this->_imgs[3]) ? $this->_imgs[3] : '';
+        return isset($this->_imgs[0]) ? $this->_imgs[0] : '';
+    }
+
+    public function getContentWithTemplates($attribute = 'content') {
+        if (!$this->hasAttribute($attribute)) {
+            return '';
+        }
+        return Image::textWithTemplates2Html($this->$attribute);
     }
 
     public static function castToArray($input)
