@@ -78,6 +78,11 @@ class Image extends \common\models\MyActiveRecord
         ];
     }
 
+    public static function getMaxSize()
+    {
+        return 2 * 1024 * 1024;
+    }
+
     public static function getValidExtensions()
     {
         return ['png', 'jpg', 'jpeg', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];

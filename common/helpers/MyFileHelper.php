@@ -24,18 +24,33 @@ class MyFileHelper extends FileHelper
         return TRUE;
     }
 
-    public static function moveFile($from, $to, $ensure_remove_source = false)
+    public static function moveFile($from, $to, $remove_on_fail = false)
     {
         if (is_file($from)) {
             if (copy($from, $to)) {
                 unlink($from);
                 return true;
             }
-            if ($ensure_remove_source) {
+            if ($remove_on_fail) {
                 unlink($from);
             }
         }
         return false;
     }
 
+    public static function moveImage($from, $to, $remove_on_fail = false)
+    {
+        if (is_file($from)) {
+            if(@is_array(getimagesize($from))){
+                if (copy($from, $to)) {
+                    unlink($from);
+                    return true;
+                }
+            }
+            if ($remove_on_fail) {
+                unlink($from);
+            }
+        }
+        return false;
+    }
 }

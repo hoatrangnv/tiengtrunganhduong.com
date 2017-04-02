@@ -25,10 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'creator_id',
-            'updater_id',
-            'category_id',
+//            'creator_id',
+//            'updater_id',
+//            'category_id',
             'image_id',
+            [
+                'attribute' => 'image_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($image = $model->image) {
+                        return Html::img($model->image->getSource());
+                    }
+                    return $model->image_id;
+                }
+            ],
             // 'slug',
             // 'name',
             // 'meta_title',
