@@ -73,9 +73,8 @@
 # www -> none www
 #Options +FollowSymLinks
 RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^quyettran.com [NC]
+RewriteRule ^(.*)$ http://www.quyettran.com/$1 [L,R=301,NC]
 # block bad bots
 RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
 RewriteRule .* ? [F,L]
