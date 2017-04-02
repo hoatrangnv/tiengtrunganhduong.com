@@ -5,8 +5,7 @@
     [].forEach.call(tables, function (table) {
         var wrap = table.parentNode;
         if (wrap) {
-            wrap.style.maxWidth = "100%";
-            wrap.style.overflowX = "auto";
+            wrap.classList.add("table-wrap");
         }
     })
 }(document.querySelectorAll("table"));

@@ -1,6 +1,9 @@
-table {
+.table-wrap {
     overflow-x: auto;
     max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+table {
     word-wrap: break-word;
 }
 table td img {
