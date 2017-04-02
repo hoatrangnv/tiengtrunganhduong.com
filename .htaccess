@@ -81,6 +81,7 @@ RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # www -> non-www
 RewriteCond %{HTTP_HOST} ^www\.quyettran\.com [NC]
+RewriteRule ^(.*)$ http://quyettran.com [L,R=301]
 RewriteCond %{HTTP_HOST} ^www\.quyettran\.com$ [NC]
 RewriteRule ^(.*)$ http://quyettran.com/$1 [L,R=301]
 #RewriteCond %{HTTP_HOST} ^www.quyettran.com$ [NC]
