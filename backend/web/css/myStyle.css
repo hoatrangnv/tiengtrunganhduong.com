@@ -1,0 +1,8 @@
+table {
+    overflow-x: auto;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+table td img {
+    max-width: 120px;
+}

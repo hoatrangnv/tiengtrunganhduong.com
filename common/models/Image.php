@@ -41,40 +41,40 @@ class Image extends \common\models\MyActiveRecord
     const LABEL_ORIGIN = '-origin';
     const LABEL_SIZE = '-{w}x{h}';
 
-    const SIZE_S1 = 's1';
-    const SIZE_S2 = 's2';
-    const SIZE_S3 = 's3';
-    const SIZE_S4 = 's4';
-    const SIZE_S5 = 's5';
-    const SIZE_S6 = 's6';
-    const SIZE_S7 = 's7';
-    const SIZE_S8 = 's8';
-    const SIZE_S9 = 's9';
-    const SIZE_S10 = 's10';
-    const SIZE_S11 = 's11';
-    const SIZE_S12 = 's12';
-    const SIZE_S13 = 's13';
-    const SIZE_S14 = 's14';
-    const SIZE_S15 = 's15';
+    const SIZE_1 = 1;
+    const SIZE_2 = 2;
+    const SIZE_3 = 3;
+    const SIZE_4 = 3;
+    const SIZE_5 = 4;
+    const SIZE_6 = 5;
+    const SIZE_7 = 6;
+    const SIZE_8 = 7;
+    const SIZE_9 = 8;
+    const SIZE_10 = 9;
+    const SIZE_11 = 10;
+    const SIZE_12 = 11;
+    const SIZE_13 = 12;
+    const SIZE_14 = 13;
+    const SIZE_15 = 14;
 
     public static function getSizes()
     {
         return [
-            self::SIZE_S1 => '50x50',
-            self::SIZE_S2 => '100x100',
-            self::SIZE_S3 => '150x150',
-            self::SIZE_S4 => '200x200',
-            self::SIZE_S5 => '250x250',
-            self::SIZE_S6 => '300x300',
-            self::SIZE_S7 => '350x350',
-            self::SIZE_S8 => '400x400',
-            self::SIZE_S9 => '450x450',
-            self::SIZE_S10 => '500x500',
-            self::SIZE_S11 => '200x600',
-            self::SIZE_S12 => '800x800',
-            self::SIZE_S13 => '1000x1000',
-            self::SIZE_S14 => '1200x1200',
-            self::SIZE_S15 => '1400x1400',
+            self::SIZE_1 => '50x50',
+            self::SIZE_2 => '100x100',
+            self::SIZE_3 => '150x150',
+            self::SIZE_4 => '200x200',
+            self::SIZE_5 => '250x250',
+            self::SIZE_6 => '300x300',
+            self::SIZE_7 => '350x350',
+            self::SIZE_8 => '400x400',
+            self::SIZE_9 => '450x450',
+            self::SIZE_10 => '500x500',
+            self::SIZE_11 => '200x600',
+            self::SIZE_12 => '800x800',
+            self::SIZE_13 => '1000x1000',
+            self::SIZE_14 => '1200x1200',
+            self::SIZE_15 => '1400x1400',
         ];
     }
 
@@ -93,13 +93,18 @@ class Image extends \common\models\MyActiveRecord
         return ['image/png', 'image/jpeg', 'image/gif'];
     }
 
-    public function getLabelFromSize(array $sizes)
+    public function getLabelFromSize($sizes)
     {
-        return preg_replace(
-            ['/{w}/', '/{h}/'],
-            [$sizes[0], $sizes[1]],
-            self::LABEL_SIZE
-        );
+        if (is_string($sizes)) {
+            $sizes = explode('x', $sizes);
+        }
+        if (is_array($sizes) && count($sizes) == 2) {
+            foreach ($sizes as &$size) {
+                $size = abs((int) $size);
+            }
+            return preg_replace(['/{w}/', '/{h}/'], [$sizes[0], $sizes[1]], self::LABEL_SIZE);
+        }
+        return '';
     }
 
     public function getSizeFromLabel($label)
@@ -108,7 +113,7 @@ class Image extends \common\models\MyActiveRecord
         if (isset($image_sizes[$label])) {
             $sizes = explode('x', $image_sizes[$label]);
             foreach ($sizes as &$size) {
-                $size = (int) $size;
+                $size = abs((int) $size);
             }
             return $sizes;
         }
@@ -163,8 +168,6 @@ class Image extends \common\models\MyActiveRecord
         }
         return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_basename')}$size_label.{$this->getOldAttribute('file_extension')}");
     }
-
-
 
     public function getResizeLabels()
     {

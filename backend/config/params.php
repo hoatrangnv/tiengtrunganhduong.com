@@ -2,6 +2,6 @@
 return [
     'adminEmail' => 'admin@example.com',
     'myActiveQuery' => [
-        'enableCache' => true,
+        'enableCache' => false
     ],
 ];

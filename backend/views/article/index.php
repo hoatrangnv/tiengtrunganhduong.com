@@ -24,30 +24,27 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
 //            'creator_id',
 //            'updater_id',
 //            'category_id',
-            'image_id',
             [
                 'attribute' => 'image_id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    if ($image = $model->image) {
-                        return Html::img($model->image->getSource());
-                    }
-                    return $model->image_id;
+                    return $model->img(\backend\models\Image::SIZE_2);
+
                 }
             ],
             // 'slug',
-            // 'name',
+             'name',
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',
             // 'description',
             // 'content:ntext',
             // 'sub_content:ntext',
-            // 'active',
+             'active',
             // 'visible',
             // 'hot',
             // 'status',
@@ -55,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'sort_order',
             // 'create_time:datetime',
             // 'update_time:datetime',
-            // 'publish_time:datetime',
+             'publish_time:datetime',
             // 'views',
             // 'likes',
             // 'comments',
