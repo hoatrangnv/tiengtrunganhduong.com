@@ -80,12 +80,10 @@ RewriteCond %{HTTPS} on
 RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # www -> non-www
-#RewriteCond %{HTTP_HOST} ^www\.quyettran\.com [NC]
-#RewriteRule ^(.*)$ http://quyettran.com [L,R=301]
-#RewriteCond %{HTTP_HOST} ^www.quyettran.com$ [NC]
-#RewriteRule ^(.*)$ http://quyettran.com/$1 [R=301,L]
-RewriteCond %{HTTP_HOST} ^www\. [NC]
-RewriteRule ^(.*)$ http://%{HTTP_HOST} [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.quyettran\.com [NC]
+RewriteRule ^(.*)$ http://quyettran.com [L,R=301]
+#RewriteCond %{HTTP_HOST} ^www\. [NC]
+#RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]
 
 # End the processing, if a rewrite already occurred
 RewriteRule ^(frontend|backend)/web/ - [L]
