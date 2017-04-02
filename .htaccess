@@ -80,7 +80,7 @@ RewriteCond %{HTTPS} on
 RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # www -> non-www
-RewriteCond %{HTTP_HOST} ^www\.quyettran\.com\/site\/about [NC]
+RewriteCond %{HTTP_HOST} ^www\.quyettran\.com/site/about [NC]
 RewriteRule ^(.*)$ http://quyettran.com/site/about [L,R=301]
 
 #RewriteCond %{HTTP_HOST} ^www\.quyettran\.com [NC]
