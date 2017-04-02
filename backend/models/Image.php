@@ -127,7 +127,7 @@ class Image extends \common\models\Image
 
     public function getImageSourceAsUploadedFile()
     {
-        if ($this->image_source) {
+        if ($this->image_source && $this->validate('image_source')) {
             if ($this->image_source_mime_type) {
                 $temp_name = Yii::getAlias("@images/$this->image_source_basename.$this->image_source_extension");
                 if (file_put_contents($temp_name, $this->image_source_content)) {
