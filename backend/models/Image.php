@@ -29,6 +29,7 @@ class Image extends \common\models\Image
     public $image_source_mime_type; // Save image source mime type after validate
     public $image_source_basename; // Save image source basename after validate
     public $image_source_size; // Save image source size after validate
+    public $image_source_loaded = false; // Check image source was loaded
 
     public function rules()
     {
@@ -60,7 +61,7 @@ class Image extends \common\models\Image
 
     public function imageSource($attribute, $params)
     {
-        if ($this->image_source_mime_type) {
+        if ($this->image_source_loaded) {
             return true;
         }
 
@@ -122,6 +123,9 @@ class Image extends \common\models\Image
             return false;
         }
 
+        // Loaded
+        $this->image_source_loaded = true;
+
         return true;
     }
 
@@ -145,6 +149,7 @@ class Image extends \common\models\Image
                 $this->addError('image_source', Yii::t('app', 'Invalid mime type.'));
             }
         }
+
         return false;
     }
 

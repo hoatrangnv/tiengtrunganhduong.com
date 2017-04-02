@@ -27,8 +27,9 @@ use yii\web\UploadedFile;
 /**
  * ImageController implements the CRUD actions for Image model.
  */
-class ImageController extends Controller
+class ImageController extends BaseController
 {
+
     /**
      * @inheritdoc
      */

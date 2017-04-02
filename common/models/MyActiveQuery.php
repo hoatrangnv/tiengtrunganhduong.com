@@ -16,17 +16,15 @@ use yii\db\ActiveQuery;
  */
 class MyActiveQuery extends ActiveQuery {
 
-    public static $enable_cache = true;
-    public static $cache_duration = 3600;
+    public static $enableCache = true;
+    public static $cacheDuration = 3600;
 
     public function __construct($modelClass, array $config = [])
     {
-        if (isset(Yii::$app->params['cacheDuration'])) {
-            self::$cache_duration = Yii::$app->params['cacheDuration'];
-        }
-
-        if (isset(Yii::$app->params['enableCache'])) {
-            self::$enable_cache = Yii::$app->params['enableCache'];
+        if (isset(Yii::$app->params['myActiveQuery'])) {
+            foreach (Yii::$app->params['myActiveQuery'] as $param => $value) {
+                self::${$param} = $value;
+            }
         }
 
         parent::__construct($modelClass, $config);
@@ -78,13 +76,13 @@ class MyActiveQuery extends ActiveQuery {
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, $db);
-        if (self::$enable_cache) {
+        if (self::$enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enable_cache || $result === false) {
+        if (!self::$enableCache || $result === false) {
             $result = parent::all($db);
-            if (self::$enable_cache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cache_duration);
+            if (self::$enableCache) {
+                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
             }
         }
         return $result;
@@ -94,16 +92,16 @@ class MyActiveQuery extends ActiveQuery {
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, $db);
-        if (self::$enable_cache) {
+        if (self::$enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enable_cache || $result === false) {
+        if (!self::$enableCache || $result === false) {
             $result = parent::one($db);
             if ($result === false) {
                 $result = 'F';
             }
-            if (self::$enable_cache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cache_duration);
+            if (self::$enableCache) {
+                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
             }
         }
         if ($result === 'F') {
@@ -116,13 +114,13 @@ class MyActiveQuery extends ActiveQuery {
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, [$db, $q]);
-        if (self::$enable_cache) {
+        if (self::$enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enable_cache || (is_bool($result) && !$result)) {
+        if (!self::$enableCache || (is_bool($result) && !$result)) {
             $result = parent::count($q, $db);
-            if (self::$enable_cache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cache_duration);
+            if (self::$enableCache) {
+                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
             }
         }
         return $result;
