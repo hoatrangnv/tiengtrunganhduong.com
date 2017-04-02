@@ -74,7 +74,7 @@
 #Options +FollowSymLinks
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.quyettran\.com [NC]
-RewriteRule ^(.*)$ http://quyettran.com/$1 [L,R=301]
+RewriteRule ^(.*)$ http://quyettran.com [L,R=301]
 # block bad bots
 RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
 RewriteRule .* ? [F,L]
