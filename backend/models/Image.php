@@ -11,6 +11,7 @@ namespace backend\models;
 use Yii;
 use yii\helpers\FileHelper;
 use yii\validators\FileValidator;
+use yii\web\UploadedFile;
 
 class Image extends \common\models\Image
 {
@@ -23,14 +24,18 @@ class Image extends \common\models\Image
     public $image_file_extension;
 
     public $image_source;
-    public $image_content; // Save image content after validate
+    public $image_source_content; // Save image source content after validate
+    public $image_source_extension; // Save image source extension after validate
+    public $image_source_mime_type; // Save image source mime type after validate
+    public $image_source_basename; // Save image source basename after validate
+    public $image_source_size; // Save image source size after validate
 
     public function rules()
     {
         return array_merge(parent::rules(), [
             ['image_source', 'string'],
             ['image_source', 'url'],
-            [['image_source'], 'imageSource',
+            [['image_source'], 'imageSource', 'skipOnEmpty' => true,
                 'params' => [
                 'mimeTypes' => Image::getValidMimeTypes(),
                 'extensions' => Image::getValidExtensions(),
@@ -55,46 +60,92 @@ class Image extends \common\models\Image
 
     public function imageSource($attribute, $params)
     {
-        if (isset($params['extensions'])) {
-            $parse_url = parse_url($this->image_source);
-            $path_info = pathinfo($parse_url['path']);
-            if (!isset($path_info['extension']) || !in_array($path_info['extension'], $params['extensions'])) {
-                $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
-                    . ' extension must be ' . implode(', ', $params['extensions'])));
-                return false;
-            }
+        if ($this->image_source_mime_type) {
+            return true;
         }
-        if (isset($params['mimeTypes']) || isset($params['maxSize'])) {
-            $file_content = file_get_contents($this->$attribute);
 
-            if (isset($params['mimeTypes'])) {
-                $f = finfo_open();
-                $mime_type = finfo_buffer($f, $file_content, FILEINFO_MIME_TYPE);
-                if (!in_array($mime_type, $params['mimeTypes'])) {
-                    $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
-                        . ' mime type must be ' . implode(', ', $params['mimeTypes'])));
-                    return false;
-                }
-                finfo_close($f);
-            }
+        $this->image_source_content = file_get_contents($this->$attribute);
 
-            if (isset($params['maxSize'])) {
-                if (function_exists('mb_strlen')) {
-                    $size = mb_strlen($file_content, '8bit');
-                } else {
-                    $size = strlen($file_content);
-                }
-                if ($size > $params['maxSize']) {
-                    $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
-                        . ' size cannot bigger than ' . $params['maxSize'] . ' bytes'));
-                    return false;
-                }
-            }
-
-            // @TODO: Save to use after without get content again
-            $this->image_content = $file_content;
+        if (!$this->image_source_content) {
+            $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
+                . ' cannot get content.'));
+            return false;
         }
+
+        // Basename
+        $this->image_source_basename = md5(uniqid());
+
+        // Mime type and extension
+        $f = finfo_open();
+        $this->image_source_mime_type = finfo_buffer($f, $this->image_source_content, FILEINFO_MIME_TYPE);
+        finfo_close($f);
+
+        switch ($this->image_source_mime_type) {
+            case 'image/jpeg':
+                $this->image_source_extension = 'jpg';
+                break;
+            case 'image/png':
+                $this->image_source_extension = 'png';
+                break;
+            case 'image/gif':
+                $this->image_source_extension = 'gif';
+                break;
+            default:
+                $parse_url = parse_url($this->image_source);
+                $path_info = pathinfo($parse_url['path']);
+                if (isset($path_info['extension'])) {
+                    $this->image_source_extension = $path_info['extension'];
+                }
+        }
+
+        if (isset($params['mimeTypes']) && !in_array($this->image_source_mime_type, $params['mimeTypes'])) {
+            $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
+                . ' mime type must be ' . implode(', ', $params['mimeTypes']) . '.'));
+            return false;
+        }
+
+        if (isset($params['extensions']) && !in_array($this->image_source_extension, $params['extensions'])) {
+            $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
+                . ' extension must be ' . implode(', ', $params['extensions']) . '.'));
+            return false;
+        }
+
+        // Size
+        if (function_exists('mb_strlen')) {
+            $this->image_source_size = mb_strlen($this->image_source_content, '8bit');
+        } else {
+            $this->image_source_size = strlen($this->image_source_content);
+        }
+        if ($this->image_source_size > $params['maxSize']) {
+            $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
+                . ' size cannot bigger than ' . $params['maxSize'] . ' bytes.'));
+            return false;
+        }
+
         return true;
+    }
+
+    public function getImageSourceAsUploadedFile()
+    {
+        if ($this->image_source) {
+            if ($this->image_source_mime_type) {
+                $temp_name = Yii::getAlias("@images/$this->image_source_basename.$this->image_source_extension");
+                if (file_put_contents($temp_name, $this->image_source_content)) {
+                    $file = new UploadedFile();
+                    $file->name = "$this->image_source_basename.$this->image_source_extension";
+                    $file->type = $this->image_source_mime_type;
+                    $file->size = $this->image_source_size;
+                    $file->error = UPLOAD_ERR_OK;
+                    $file->tempName = $temp_name;
+                    return $file;
+                } else {
+                    $this->addError('image_source', Yii::t('app', 'Cannot save temp image.'));
+                }
+            } else {
+                $this->addError('image_source', Yii::t('app', 'Invalid mime type.'));
+            }
+        }
+        return false;
     }
 
 }

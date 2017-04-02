@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\helpers\MyFileHelper;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Yii;
 use backend\models\Image;
 use backend\models\ImageSearch;
@@ -84,28 +85,7 @@ class ImageController extends Controller
                 $resize_labels = [];
                 $model->castValueToArray('image_resize_labels');
 
-                if ($model->image_source) {
-                    $parse_url = parse_url($model->image_source);
-                    $path_info = pathinfo($parse_url['path']);
-                    if (isset($path_info['basename'], $path_info['extension'])) {
-                        $tmp_name = Yii::getAlias('@images/' . uniqid() . '.' . $path_info['extension']);
-                        $file_content = $model->image_content
-                            ? $model->image_content
-                            : file_get_contents($model->image_source);
-                        if ($file_content) {
-                            if (file_put_contents($tmp_name, $file_content)) {
-                                $file = new UploadedFile();
-                                $file->name = $path_info['basename'];
-                                $file->type = mime_content_type($tmp_name);
-                                $file->size = filesize($tmp_name);
-                                $file->error = UPLOAD_ERR_OK;
-                                $file->tempName = $tmp_name;
-                            }
-                        }
-                    }
-                }
-
-                if (!isset($file)) {
+                if (!$file = $model->getImageSourceAsUploadedFile()) {
                     $file = UploadedFile::getInstance($model, 'image_file');
                 }
 
@@ -133,29 +113,35 @@ class ImageController extends Controller
                         $destination = $model->getLocation();
                         $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
-                        if ($model->validate() && $thumb0->save($destination, ['quality' => $model->image_quality])) {
-                            foreach ($model->image_resize_labels as $size_label) {
-                                if ($dimension = $model->getSizeFromLabel($size_label)) {
-                                    if ($model->image_crop) {
-                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                            ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
-                                            ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
-                                    } else {
-                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                            ->thumbnail(new Box($dimension[0], $dimension[1]));
-                                    }
-                                    $suffix = $model->getLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                    if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
-                                        $resize_labels[$size_label] = $suffix;
+                        if ($model->validate()) {
+                            try {
+                                $thumb0->save($destination, ['quality' => $model->image_quality]);
+                                foreach ($model->image_resize_labels as $size_label) {
+                                    if ($dimension = $model->getSizeFromLabel($size_label)) {
+                                        if ($model->image_crop) {
+                                            $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                                ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                                ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                        } else {
+                                            $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                                ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                        }
+                                        $suffix = $model->getLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                        if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                            $resize_labels[$size_label] = $suffix;
+                                        }
                                     }
                                 }
+                                $model->resize_labels = json_encode($resize_labels);
+                                if ($model->save()) {
+                                    return $this->redirect(['view', 'id' => $model->id]);
+                                }
+                            } catch (\Exception $e) {
+                                $model->addError($model->image_source ? 'image_source' : 'image_file',
+                                    Yii::t('app', $e->getMessage()));
                             }
-                            $model->resize_labels = json_encode($resize_labels);
                         }
 
-                        if ($model->save()) {
-                            return $this->redirect(['view', 'id' => $model->id]);
-                        }
                     } else {
                         $model->addError($model->image_source ? 'image_source' : 'image_file',
                             Yii::t('app', 'Cannot save image or file is not image.'));
@@ -187,28 +173,7 @@ class ImageController extends Controller
                 $resize_labels = [];
                 $model->castValueToArray('image_resize_labels');
 
-                if ($model->image_source) {
-                    $parse_url = parse_url($model->image_source);
-                    $path_info = pathinfo($parse_url['path']);
-                    if (isset($path_info['basename'], $path_info['extension'])) {
-                        $tmp_name = Yii::getAlias('@images/' . uniqid() . '.' . $path_info['extension']);
-                        $file_content = $model->image_content
-                            ? $model->image_content
-                            : file_get_contents($model->image_source);
-                        if ($file_content) {
-                            if (file_put_contents($tmp_name, $file_content)) {
-                                $file = new UploadedFile();
-                                $file->name = $path_info['basename'];
-                                $file->type = mime_content_type($tmp_name);
-                                $file->size = filesize($tmp_name);
-                                $file->error = UPLOAD_ERR_OK;
-                                $file->tempName = $tmp_name;
-                            }
-                        }
-                    }
-                }
-
-                if (!isset($file)) {
+                if (!$file = $model->getImageSourceAsUploadedFile()) {
                     $file = UploadedFile::getInstance($model, 'image_file');
                 }
 
