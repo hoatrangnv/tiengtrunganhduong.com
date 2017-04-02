@@ -75,6 +75,7 @@ class Image extends \common\models\Image
                         . ' mime type must be ' . implode(', ', $params['mimeTypes'])));
                     return false;
                 }
+                finfo_close($f);
             }
 
             if (isset($params['maxSize'])) {
