@@ -10,8 +10,8 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     Yii::setAlias('@backendUrl', '//localhost/quyettran.com/backend');
     Yii::setAlias('@imagesUrl', '//localhost/quyettran.com/images');
 } else {
-    var_dump($_SERVER['HTTP_HOST']);die;
-    Yii::setAlias('@frontendUrl', $_SERVER['HTTP_HOST']);
-    Yii::setAlias('@backendUrl', $_SERVER['HTTP_HOST'] . '/backend');
-    Yii::setAlias('@imagesUrl', $_SERVER['HTTP_HOST'] . '/images');
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
+    Yii::setAlias('@frontendUrl', $protocol . $_SERVER['HTTP_HOST']);
+    Yii::setAlias('@backendUrl', $protocol . $_SERVER['HTTP_HOST'] . '/backend');
+    Yii::setAlias('@imagesUrl', $protocol . $_SERVER['HTTP_HOST'] . '/images');
 }
