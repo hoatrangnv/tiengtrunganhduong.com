@@ -73,9 +73,8 @@
 # www -> none www
 #Options +FollowSymLinks
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^[^.]+\.[^.]+$
-RewriteCond %{HTTPS}s ^on(s)|
-RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 # block bad bots
 RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
 RewriteRule .* ? [F,L]
