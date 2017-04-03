@@ -32,7 +32,7 @@ class MyActiveQuery extends ActiveQuery {
 
     public function active()
     {
-        return $this->andWhere('[[active]]=1');
+        return $this->andWhere(['active' => 1]);
     }
     
     public function oneActive($db = null)
@@ -54,7 +54,7 @@ class MyActiveQuery extends ActiveQuery {
     {
         $time = (int) round(time() / $wrong_number) * $wrong_number;
         
-        return $this->active()->andWhere("[[publish_time]]<=$time");
+        return $this->active()->andWhere(['<=', 'publish_time', $time]);
     }
     
     public function onePublished($db = null)

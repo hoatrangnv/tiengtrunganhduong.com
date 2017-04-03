@@ -14,8 +14,12 @@ use yii\helpers\Html;
 
 class MyActiveRecord extends ActiveRecord
 {
-    private $_img_src_list = null;
+    public function a()
+    {
+        return Html::a($this->name);
+    }
 
+    private $_img_src_list = null;
     public function getImgSrc($size)
     {
 
@@ -41,12 +45,12 @@ class MyActiveRecord extends ActiveRecord
         }
 
         // Get image src by size key
-        foreach ($this->_img_src_list as $key => $img) {
+        foreach ($this->_img_src_list as $key => $img_src) {
             if ($key >= $size) {
                 return $this->_img_src_list[$key];
             }
         }
-        return isset($this->_img_src_list[0]) ? $this->_img_src_list[0] : '';
+        return isset($this->_img_src_list[Image::SIZE_0]) ? $this->_img_src_list[Image::SIZE_0] : '';
     }
 
     public function img($size = 0, array $options = [])

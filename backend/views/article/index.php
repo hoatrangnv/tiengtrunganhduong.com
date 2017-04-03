@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\grid\ActionColumn;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ArticleSearch */
@@ -43,13 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_description',
             // 'description',
             // 'content:ntext',
-            [
-                'attribute' => 'content',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->getContentWithTemplates();
-                }
-            ],
+//            [
+//                'attribute' => 'content',
+//                'format' => 'raw',
+//                'value' => function ($model) {
+//                    return $model->getContentWithTemplates();
+//                }
+//            ],
             // 'sub_content:ntext',
              'active',
             // 'visible',
@@ -64,8 +65,30 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'likes',
             // 'comments',
             // 'shares',
+            [
+                'attribute' => 'active',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->active) {
+                        return '<span class="label label-success">active</span>';
+                    }
+                    return '<span class="label label-default">inactive</span>';
+                }
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => ActionColumn::className(),
+                'template' => '{view} {update} {code_update} {delete}',
+                'buttons' => [
+                    'code_update' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-console"></span>',
+                            \yii\helpers\Url::to(['article/update', 'id' => $model->id, 'code_editor' => 'tomorrow_night_eighties']),
+                            ['aria-label' => 'Update', 'data-pjax' => 0]
+                        );
+                    }
+                ]
+            ],
         ],
     ]); ?>
 </div>
