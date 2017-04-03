@@ -153,7 +153,7 @@ class Image extends \common\models\MyActiveRecord
             $size = self::getSizeByResizeLabel($size);
         }
         $rs_key = self::SIZE_0;
-        $rs_size = [INF,INF];
+        $rs_size = [INF, INF];
         if (is_array($size) && count($size) == 2) {
             foreach ($image_sizes as $key => $resize_label) {
                 $size_i = self::getSizeByResizeLabel($resize_label);
