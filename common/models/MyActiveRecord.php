@@ -16,17 +16,19 @@ class MyActiveRecord extends ActiveRecord
 {
     private $_img_src_list = null;
 
-    public function getImgSrc($size_key)
+    public function getImgSrc($size)
     {
+
         // Initialize
         if (is_null($this->_img_src_list)) {
             $this->_img_src_list = [];
             if ($this instanceof Image) {
                 $image = $this;
             } else {
-                $image = $this->image;
+                $image = $this->getImage()->oneActive();
             }
             if ($image) {
+                $size = $image->getSizeKeyBySize($size);
                 $this->_img_src_list[0] = $image->getSource();
                 $resize_labels = json_decode($image->resize_labels, true);
                 if (is_array($resize_labels)) {
@@ -40,14 +42,14 @@ class MyActiveRecord extends ActiveRecord
 
         // Get image src by size key
         foreach ($this->_img_src_list as $key => $img) {
-            if ($key >= $size_key) {
+            if ($key >= $size) {
                 return $this->_img_src_list[$key];
             }
         }
         return isset($this->_img_src_list[0]) ? $this->_img_src_list[0] : '';
     }
 
-    public function img($size_key = 0, array $options = [])
+    public function img($size = 0, array $options = [])
     {
         if (!isset($options['alt'])) {
             if ($this->hasAttribute('name')) {
@@ -63,7 +65,7 @@ class MyActiveRecord extends ActiveRecord
         if (!isset($options['title'])) {
             $options['title'] = $options['alt'];
         }
-        return Html::img($this->getImgSrc($size_key), $options);
+        return Html::img($this->getImgSrc($size), $options);
     }
 
     public function getContentWithTemplates($attribute = 'content') {

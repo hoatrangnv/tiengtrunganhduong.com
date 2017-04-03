@@ -111,7 +111,7 @@ class UploadForm extends Model
                     $resize_labels = [];
                     $this->image_resize_labels = Image::castToArray($this->image_resize_labels);
                     foreach ($this->image_resize_labels as $size_label) {
-                        if ($dimension = $model->getSizeFromSizeKey($size_label)) {
+                        if ($dimension = Image::getSizeBySizeKey($size_label)) {
                             if ($this->image_crop) {
                                 $thumb = ImagineImage::getImagine()->open($origin_destination)
                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
@@ -120,7 +120,7 @@ class UploadForm extends Model
                                 $thumb = ImagineImage::getImagine()->open($origin_destination)
                                     ->thumbnail(new Box($dimension[0], $dimension[1]));
                             }
-                            $suffix = $model->getResizeLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                            $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
                             if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
                                 $resize_labels[$size_label] = $suffix;
                             }

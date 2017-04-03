@@ -118,7 +118,7 @@ class ImageController extends BaseController
                             try {
                                 $thumb0->save($destination, ['quality' => $model->image_quality]);
                                 foreach ($model->image_resize_labels as $size_label) {
-                                    if ($dimension = $model->getSizeFromSizeKey($size_label)) {
+                                    if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                         if ($model->image_crop) {
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
@@ -127,7 +127,7 @@ class ImageController extends BaseController
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
-                                        $suffix = $model->getResizeLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                        $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
                                         if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
                                             $resize_labels[$size_label] = $suffix;
                                         }
@@ -232,7 +232,7 @@ class ImageController extends BaseController
                                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
                                 $thumb0->save($destination, ['quality' => $model->image_quality]);
                                 foreach ($model->image_resize_labels as $size_label) {
-                                    if ($dimension = $model->getSizeFromSizeKey($size_label)) {
+                                    if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                         if ($model->image_crop) {
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
@@ -241,7 +241,7 @@ class ImageController extends BaseController
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
-                                        $suffix = $model->getResizeLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                        $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
                                         if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
                                             $resize_labels[$size_label] = $suffix;
                                         }

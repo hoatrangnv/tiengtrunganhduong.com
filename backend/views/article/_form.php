@@ -45,7 +45,7 @@ use backend\models\Image;
             <div class="clr"></div>
             <ul>
                 <?php
-                foreach (Image::find()->allActive() as $item) {
+                foreach (Image::find()->limit(10)->allActive() as $item) {
                     ?><li>
                         <div class="img-wrap">
                             <?= $item->img(Image::SIZE_2) ?>

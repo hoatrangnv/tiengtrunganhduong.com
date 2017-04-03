@@ -41,6 +41,8 @@ class Image extends \common\models\MyActiveRecord
     const SIZE_ORIGIN_LABEL = '-origin';
     const SIZE_RESIZE_LABEL = '-{w}x{h}';
 
+    const SIZE_0 = 0;
+
     const SIZE_1 = 1;
     const SIZE_2 = 2;
     const SIZE_3 = 3;
@@ -93,15 +95,15 @@ class Image extends \common\models\MyActiveRecord
         return ['image/png', 'image/jpeg', 'image/gif'];
     }
 
-    public function getResizeLabelFromSizeKey($size_key)
+    public static function getResizeLabelBySizeKey($size_key)
     {
-        return $this->getResizeLabelFromSize($this->getSizeFromSizeKey($size_key));
+        return self::getResizeLabelBySize(self::getSizeBySizeKey($size_key));
     }
 
-    public function getResizeLabelFromSize($size)
+    public static function getResizeLabelBySize($size)
     {
         if (is_string($size)) {
-            $size = explode('x', $size);
+            $size = static::getSizeByResizeLabel($size);
         }
         if (is_array($size) && count($size) == 2) {
             foreach ($size as &$item) {
@@ -112,17 +114,60 @@ class Image extends \common\models\MyActiveRecord
         return '';
     }
 
-    public function getSizeFromSizeKey($size_key)
+    public static function getSizeBySizeKey($size_key)
     {
         $image_sizes = self::getSizes();
         if (isset($image_sizes[$size_key])) {
-            $sizes = explode('x', $image_sizes[$size_key]);
-            foreach ($sizes as &$size) {
-                $size = abs((int) $size);
+            $size = static::getSizeByResizeLabel($image_sizes[$size_key]);
+            if (count($size) == 2) {
+                foreach ($size as &$item) {
+                    $item = abs((int) $item);
+                }
+                return $size;
             }
-            return $sizes;
         }
         return null;
+    }
+
+    public static function getSizeByResizeLabel($resize_label)
+    {
+        if (is_string($resize_label)) {
+            $size = explode('x', $resize_label);
+            if (count($size) == 2) {
+                foreach ($size as &$item) {
+                    $item = abs((int) $item);
+                }
+                return $size;
+            }
+        }
+        return null;
+    }
+
+    public function getSizeKeyBySize($size)
+    {
+        $image_sizes = json_decode($this->resize_labels, true);
+        if ($image_sizes == self::SIZE_0 || isset($image_sizes[$size])) {
+            return $size;
+        }
+        if (is_string($size)) {
+            $size = self::getSizeByResizeLabel($size);
+        }
+        $rs_key = self::SIZE_0;
+        $rs_size = [INF,INF];
+        if (is_array($size) && count($size) == 2) {
+            foreach ($image_sizes as $key => $resize_label) {
+                $size_i = self::getSizeByResizeLabel($resize_label);
+                if (is_array($size_i) && count($size_i) == 2) {
+                    if ( $size_i[0] >= $size[0] && $size_i[1] >= $size[1]
+                      && $size_i[0] <= $rs_size[0] && $size_i[1] <= $rs_size[1]
+                    ) {
+                        $rs_key = $key;
+                        $rs_size = $size_i;
+                    }
+                }
+            }
+        }
+        return $rs_key;
     }
 
     public function getDirectory()
