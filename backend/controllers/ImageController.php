@@ -195,7 +195,7 @@ class ImageController extends BaseController
 
                 if ($model->validate()) {
                     $model->generatePath();
-                    if ($model->validate()) {
+                    if ($model->validate(['path'])) {
                         $old_origin_destination = $model->getOldLocation(Image::SIZE_ORIGIN_LABEL);
                         $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
                         $destination = $model->getLocation();
