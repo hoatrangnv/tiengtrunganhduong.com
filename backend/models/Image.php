@@ -29,7 +29,7 @@ class Image extends \common\models\Image
     public $image_source_mime_type; // Save image source mime type after validate
     public $image_source_basename; // Save image source basename after validate
     public $image_source_size; // Save image source size after validate
-    public $image_source_loaded = false; // Check image source was loaded
+    public $image_source_loaded; // Check image source was loaded
 
     public function rules()
     {
@@ -61,11 +61,18 @@ class Image extends \common\models\Image
 
     public function imageSource($attribute, $params)
     {
-        if ($this->image_source_loaded) {
+        if ($this->image_source_loaded === true) {
             return true;
         }
 
-        $this->image_source_content = file_get_contents($this->$attribute);
+        if ($this->image_source_loaded === false) {
+            return false;
+        }
+
+        if (!$this->image_source_content = file_get_contents($this->$attribute)) {
+            $this->image_source_loaded = false;
+            return false;
+        }
 
         if (!$this->image_source_content) {
             $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
