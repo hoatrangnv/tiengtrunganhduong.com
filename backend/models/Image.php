@@ -70,13 +70,9 @@ class Image extends \common\models\Image
         }
 
         if (!$this->image_source_content = file_get_contents($this->$attribute)) {
-            $this->image_source_loaded = false;
-            return false;
-        }
-
-        if (!$this->image_source_content) {
             $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
                 . ' cannot get content.'));
+            $this->image_source_loaded = false;
             return false;
         }
 
@@ -157,7 +153,7 @@ class Image extends \common\models\Image
             }
         }
 
-        return false;
+        return null;
     }
 
 }

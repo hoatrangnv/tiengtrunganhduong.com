@@ -189,20 +189,24 @@ class Image extends \common\models\MyActiveRecord
 
     const T_IMG_BEGIN = '{img(';
     const T_IMG_END = ')}';
-    const T_IMG_VAR_SEPARATOR = ',,';
-    const T_IMG_ATT_VAL_SEPARATOR = '=';
+    const T_IMG_VAR_SEP = ',,';
+    const T_IMG_OPT_SEP = '=';
+    const T_IMG_ATT_START = '[[';
+    const T_IMG_ATT_END = ']]';
+    const T_IMG_MET_SRC_START = '[src(';
+    const T_IMG_MET_SRC_END = ')]';
 
     public function getImgTemplate($size_key = 0)
     {
 //        $template = "{img($this->id,,$size_key)}";
-        $template = self::T_IMG_BEGIN . $this->id . self::T_IMG_VAR_SEPARATOR . $size_key . self::T_IMG_END;
+        $template = self::T_IMG_BEGIN . $this->id . self::T_IMG_VAR_SEP . $size_key . self::T_IMG_END;
         return $template;
     }
 
     public static function imgTemplate2Html($template)
     {
-        $params_string = substr(substr($template, 0, -strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
-        $params = explode(self::T_IMG_VAR_SEPARATOR, $params_string);
+        $params_string = substr(substr($template, 0, - strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
+        $params = explode(self::T_IMG_VAR_SEP, $params_string);
         if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
             return '';
         }
@@ -212,14 +216,43 @@ class Image extends \common\models\MyActiveRecord
         }
         $options = [];
         if (isset($params[2])) {
+            if (strpos($params[2], self::T_IMG_VAR_SEP) === false) {
+                if ($model->hasAttribute($params[2])) {
+                    return $model->{$params[2]};
+                }
+                if ($params[2] == 'src') {
+                    return $model->getSource($size_key);
+                }
+            }
+
             foreach (array_slice($params, 2) as $param) {
-                $att_val = explode(self::T_IMG_ATT_VAL_SEPARATOR, $param);
+                $att_val = explode(self::T_IMG_OPT_SEP, $param);
                 if (isset($att_val[1])) {
                     $att = $att_val[0];
                     $val = $att_val[1];
                     if (isset($att_val[2])) {
                         foreach (array_slice($att_val, 2) as $val_part) {
-                            $val .= self::T_IMG_ATT_VAL_SEPARATOR . $val_part;
+                            $val .= self::T_IMG_OPT_SEP . $val_part;
+                        }
+                    }
+                    preg_match_all(
+                        "/" . preg_quote(self::T_IMG_ATT_START) . "(.*?)" . preg_quote(self::T_IMG_ATT_END) . "/",
+                        $val,
+                        $attributes
+                    );
+                    foreach ($attributes[1] as $attribute) {
+                        if ($model->hasAttribute($attribute)) {
+                            $val = str_replace(
+                                self::T_IMG_ATT_START . $attribute . self::T_IMG_ATT_END,
+                                $model->$attribute,
+                                $val
+                            );
+                        } else if ($attribute == 'src') {
+                            $val = str_replace(
+                                self::T_IMG_ATT_START . $attribute . self::T_IMG_ATT_END,
+                                $model->getSource($size_key),
+                                $val
+                            );
                         }
                     }
                     $options[$att] = $val;
