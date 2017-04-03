@@ -14,50 +14,56 @@ use yii\helpers\Html;
 
 class MyActiveRecord extends ActiveRecord
 {
-    private $_imgs = null;
-    public function img($size_key = 0, array $options = [])
+    private $_img_src_list = null;
+
+    public function getImgSrc($size_key)
     {
         // Initialize
-        if (is_null($this->_imgs)) {
-            $this->_imgs = [];
+        if (is_null($this->_img_src_list)) {
+            $this->_img_src_list = [];
             if ($this instanceof Image) {
                 $image = $this;
             } else {
                 $image = $this->image;
             }
             if ($image) {
-                if (!isset($options['alt'])) {
-                    if ($this->hasAttribute('name')) {
-                        $options['alt'] = $this->name;
-                    } else if ($this->hasAttribute('title')) {
-                        $options['alt'] = $this->title;
-                    } else if ($this->hasAttribute('caption')) {
-                        $options['alt'] = $this->caption;
-                    } else {
-                        $options['alt'] = '';
-                    }
-                }
-                if (!isset($options['title'])) {
-                    $options['title'] = $options['alt'];
-                }
-                $this->_imgs[0] = Html::img($image->getSource(), $options);
+                $this->_img_src_list[0] = $image->getSource();
                 $resize_labels = json_decode($image->resize_labels, true);
                 if (is_array($resize_labels)) {
                     ksort($resize_labels);
                     foreach ($resize_labels as $key => $label) {
-                        $this->_imgs[$key] = Html::img($image->getSource($label), $options);
+                        $this->_img_src_list[$key] = $image->getSource($label);
                     }
                 }
             }
         }
 
-        // Get image by size key
-        foreach ($this->_imgs as $key => $img) {
+        // Get image src by size key
+        foreach ($this->_img_src_list as $key => $img) {
             if ($key >= $size_key) {
-                return $this->_imgs[$key];
+                return $this->_img_src_list[$key];
             }
         }
-        return isset($this->_imgs[0]) ? $this->_imgs[0] : '';
+        return isset($this->_img_src_list[0]) ? $this->_img_src_list[0] : '';
+    }
+
+    public function img($size_key = 0, array $options = [])
+    {
+        if (!isset($options['alt'])) {
+            if ($this->hasAttribute('name')) {
+                $options['alt'] = $this->name;
+            } else if ($this->hasAttribute('title')) {
+                $options['alt'] = $this->title;
+            } else if ($this->hasAttribute('caption')) {
+                $options['alt'] = $this->caption;
+            } else {
+                $options['alt'] = '';
+            }
+        }
+        if (!isset($options['title'])) {
+            $options['title'] = $options['alt'];
+        }
+        return Html::img($this->getImgSrc($size_key), $options);
     }
 
     public function getContentWithTemplates($attribute = 'content') {

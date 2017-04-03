@@ -229,7 +229,7 @@ class Image extends \common\models\MyActiveRecord
                     return $model->{$params[2]};
                 }
                 if ($params[2] == self::T_IMG_SRC) {
-                    return $model->getSource($size_key);
+                    return $model->getImgSrc($size_key);
                 }
             }
 
@@ -260,7 +260,7 @@ class Image extends \common\models\MyActiveRecord
                         if ($attribute == self::T_IMG_SRC) {
                             $val = str_replace(
                                 self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                                $model->getSource($size_key),
+                                $model->getImgSrc($size_key),
                                 $val
                             );
                         }
@@ -274,7 +274,7 @@ class Image extends \common\models\MyActiveRecord
                             );
                             $val = str_replace(
                                 self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                                $model->getSource($other_size_key),
+                                $model->getImgSrc($other_size_key),
                                 $val
                             );
                         }
