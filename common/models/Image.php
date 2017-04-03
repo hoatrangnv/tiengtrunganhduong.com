@@ -38,8 +38,8 @@ use yii\helpers\FileHelper;
  */
 class Image extends \common\models\MyActiveRecord
 {
-    const LABEL_ORIGIN = '-origin';
-    const LABEL_SIZE = '-{w}x{h}';
+    const SIZE_ORIGIN_LABEL = '-origin';
+    const SIZE_RESIZE_LABEL = '-{w}x{h}';
 
     const SIZE_1 = 1;
     const SIZE_2 = 2;
@@ -93,25 +93,30 @@ class Image extends \common\models\MyActiveRecord
         return ['image/png', 'image/jpeg', 'image/gif'];
     }
 
-    public function getLabelFromSize($sizes)
+    public function getResizeLabelFromSizeKey($size_key)
     {
-        if (is_string($sizes)) {
-            $sizes = explode('x', $sizes);
+        return $this->getResizeLabelFromSize($this->getSizeFromSizeKey($size_key));
+    }
+
+    public function getResizeLabelFromSize($size)
+    {
+        if (is_string($size)) {
+            $size = explode('x', $size);
         }
-        if (is_array($sizes) && count($sizes) == 2) {
-            foreach ($sizes as &$size) {
-                $size = abs((int) $size);
+        if (is_array($size) && count($size) == 2) {
+            foreach ($size as &$item) {
+                $item = abs((int) $item);
             }
-            return preg_replace(['/{w}/', '/{h}/'], [$sizes[0], $sizes[1]], self::LABEL_SIZE);
+            return preg_replace(['/{w}/', '/{h}/'], [$size[0], $size[1]], self::SIZE_RESIZE_LABEL);
         }
         return '';
     }
 
-    public function getSizeFromLabel($label)
+    public function getSizeFromSizeKey($size_key)
     {
         $image_sizes = self::getSizes();
-        if (isset($image_sizes[$label])) {
-            $sizes = explode('x', $image_sizes[$label]);
+        if (isset($image_sizes[$size_key])) {
+            $sizes = explode('x', $image_sizes[$size_key]);
             foreach ($sizes as &$size) {
                 $size = abs((int) $size);
             }
@@ -192,13 +197,12 @@ class Image extends \common\models\MyActiveRecord
     const T_IMG_VAR_SEP = ',,';
     const T_IMG_OPT_SEP = '=';
 
-    const T_IMG_EMB_BEGIN = '[[';
+    const T_IMG_EMB_BEGIN = '[['; // attribute embed
     const T_IMG_EMB_END = ']]';
 
-    const T_IMG_SRC_BEGIN = 'src(';
+    const T_IMG_SRC = 'src'; // src with this size key
+    const T_IMG_SRC_BEGIN = 'src('; // src with other size key
     const T_IMG_SRC_END = ')';
-
-    const T_IMG_SRC = 'src';
 
     public function getImgTemplate($size_key = 0)
     {

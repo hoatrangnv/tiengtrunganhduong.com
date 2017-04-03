@@ -107,7 +107,7 @@ class ImageController extends BaseController
 
                     // @TODO: Save origin image
                     $model->generatePath();
-                    $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
+                    $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
 //                    if ($file->saveAs($origin_destination)) {
                     if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
                         // @TODO: Save cropped and compressed images
@@ -118,7 +118,7 @@ class ImageController extends BaseController
                             try {
                                 $thumb0->save($destination, ['quality' => $model->image_quality]);
                                 foreach ($model->image_resize_labels as $size_label) {
-                                    if ($dimension = $model->getSizeFromLabel($size_label)) {
+                                    if ($dimension = $model->getSizeFromSizeKey($size_label)) {
                                         if ($model->image_crop) {
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
@@ -127,7 +127,7 @@ class ImageController extends BaseController
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
-                                        $suffix = $model->getLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                        $suffix = $model->getResizeLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
                                         if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
                                             $resize_labels[$size_label] = $suffix;
                                         }
@@ -196,8 +196,8 @@ class ImageController extends BaseController
                 if ($model->validate()) {
                     $model->generatePath();
                     if ($model->validate()) {
-                        $old_origin_destination = $model->getOldLocation(Image::LABEL_ORIGIN);
-                        $origin_destination = $model->getLocation(Image::LABEL_ORIGIN);
+                        $old_origin_destination = $model->getOldLocation(Image::SIZE_ORIGIN_LABEL);
+                        $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
                         $destination = $model->getLocation();
 
                         if (is_file($old_origin_destination)) {
@@ -211,9 +211,9 @@ class ImageController extends BaseController
                         }
 
                         if ($file) {
-//                            $file->saveAs($model->getLocation(Image::LABEL_ORIGIN));
+//                            $file->saveAs($model->getLocation(Image::SIZE_ORIGIN_LABEL));
                             $new_image_saved = MyFileHelper::moveImage($file->tempName,
-                                $model->getLocation(Image::LABEL_ORIGIN), true);
+                                $model->getLocation(Image::SIZE_ORIGIN_LABEL), true);
 
                         }
 
@@ -232,7 +232,7 @@ class ImageController extends BaseController
                                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
                                 $thumb0->save($destination, ['quality' => $model->image_quality]);
                                 foreach ($model->image_resize_labels as $size_label) {
-                                    if ($dimension = $model->getSizeFromLabel($size_label)) {
+                                    if ($dimension = $model->getSizeFromSizeKey($size_label)) {
                                         if ($model->image_crop) {
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
@@ -241,7 +241,7 @@ class ImageController extends BaseController
                                             $thumb = ImagineImage::getImagine()->open($origin_destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
-                                        $suffix = $model->getLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                        $suffix = $model->getResizeLabelFromSize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
                                         if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
                                             $resize_labels[$size_label] = $suffix;
                                         }
@@ -288,7 +288,7 @@ class ImageController extends BaseController
     {
         $model = $this->findModel($id);
         if ($model->delete()) {
-            if (is_file($origin = $model->getLocation(Image::LABEL_ORIGIN))) {
+            if (is_file($origin = $model->getLocation(Image::SIZE_ORIGIN_LABEL))) {
                 unlink($origin);
             }
             if (is_file($default = $model->getLocation())) {
