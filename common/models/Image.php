@@ -191,10 +191,14 @@ class Image extends \common\models\MyActiveRecord
     const T_IMG_END = ')}';
     const T_IMG_VAR_SEP = ',,';
     const T_IMG_OPT_SEP = '=';
-    const T_IMG_ATT_START = '[[';
-    const T_IMG_ATT_END = ']]';
-    const T_IMG_MET_SRC_START = '[src(';
-    const T_IMG_MET_SRC_END = ')]';
+
+    const T_IMG_EMB_BEGIN = '[[';
+    const T_IMG_EMB_END = ']]';
+
+    const T_IMG_SRC_BEGIN = 'src(';
+    const T_IMG_SRC_END = ')';
+
+    const T_IMG_SRC = 'src';
 
     public function getImgTemplate($size_key = 0)
     {
@@ -220,7 +224,7 @@ class Image extends \common\models\MyActiveRecord
                 if ($model->hasAttribute($params[2])) {
                     return $model->{$params[2]};
                 }
-                if ($params[2] == 'src') {
+                if ($params[2] == self::T_IMG_SRC) {
                     return $model->getSource($size_key);
                 }
             }
@@ -236,21 +240,29 @@ class Image extends \common\models\MyActiveRecord
                         }
                     }
                     preg_match_all(
-                        "/" . preg_quote(self::T_IMG_ATT_START) . "(.*?)" . preg_quote(self::T_IMG_ATT_END) . "/",
+                        "/" . preg_quote(self::T_IMG_EMB_BEGIN) . "(.*?)" . preg_quote(self::T_IMG_EMB_END) . "/",
                         $val,
                         $attributes
                     );
                     foreach ($attributes[1] as $attribute) {
                         if ($model->hasAttribute($attribute)) {
                             $val = str_replace(
-                                self::T_IMG_ATT_START . $attribute . self::T_IMG_ATT_END,
+                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
                                 $model->$attribute,
                                 $val
                             );
-                        } else if ($attribute == 'src') {
+                        }
+                        else
+                        if ( substr($attribute, 0, strlen(self::T_IMG_SRC_BEGIN)) == self::T_IMG_SRC_BEGIN
+                          && substr($attribute, - strlen(self::T_IMG_SRC_END)) == self::T_IMG_SRC_END
+                        ) {
+                            $i_size_key = substr(
+                                substr($attribute, 0, - strlen(self::T_IMG_SRC_END)),
+                                strlen(self::T_IMG_SRC_BEGIN)
+                            );
                             $val = str_replace(
-                                self::T_IMG_ATT_START . $attribute . self::T_IMG_ATT_END,
-                                $model->getSource($size_key),
+                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
+                                $model->getSource($i_size_key),
                                 $val
                             );
                         }
