@@ -13,7 +13,7 @@ use yii\web\Controller;
 use backend\models\UploadForm;
 use yii\web\UploadedFile;
 
-class UploadController extends Controller
+class UploadController extends BaseController
 {
     public function actionImages()
     {

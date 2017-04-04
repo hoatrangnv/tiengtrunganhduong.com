@@ -87,7 +87,9 @@ class Image extends \common\models\MyActiveRecord
 
     public static function getValidExtensions()
     {
-        return ['png', 'jpg', 'jpeg', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
+        return [
+            'png', 'jpg', 'jpeg', 'gif',
+            'PNG', 'JPG', 'JPEG', 'GIF'];
     }
 
     public static function getValidMimeTypes()

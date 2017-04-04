@@ -93,7 +93,7 @@ class Article extends \common\models\MyActiveRecord
 
     public function beforeSave($insert)
     {
-        // Convert publish time timestamp to time
+        //
         $this->publish_time = strtotime($this->publish_time_timestamp);
         return parent::beforeSave($insert);
     }

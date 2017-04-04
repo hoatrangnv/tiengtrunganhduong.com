@@ -17,7 +17,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @inheritdoc

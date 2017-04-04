@@ -3,6 +3,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveQuery;
+use yii\di\Instance;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,16 +15,25 @@ use yii\db\ActiveQuery;
  *
  * @author Quyet Tran <quyettvq at gmail.com>
  */
-class MyActiveQuery extends ActiveQuery {
+class MyActiveQuery extends ActiveQuery
+{
+    public $enableCache = true;
 
-    public static $enableCache = true;
-    public static $cacheDuration = 3600;
+    public $cacheDuration = 3600;
+
+    public $publishTimeWrongNumber = 300;
+
+    public $activeAttribute = 'active';
+
+    public $publishTimeAttribute = 'publish_time';
 
     public function __construct($modelClass, array $config = [])
     {
         if (isset(Yii::$app->params['myActiveQuery'])) {
-            foreach (Yii::$app->params['myActiveQuery'] as $param => $value) {
-                self::${$param} = $value;
+            foreach (Yii::$app->params['myActiveQuery'] as $key => $value) {
+                if ($this->hasProperty($key)) {
+                    $config[$key] = $value;
+                }
             }
         }
 
@@ -32,7 +42,7 @@ class MyActiveQuery extends ActiveQuery {
 
     public function active()
     {
-        return $this->andWhere(['active' => 1]);
+        return $this->andWhere([$this->activeAttribute => true]);
     }
     
     public function oneActive($db = null)
@@ -50,11 +60,15 @@ class MyActiveQuery extends ActiveQuery {
         return $this->active()->count($q, $db);
     }
     
-    public function published($wrong_number = 300)
+    public function published($wrong_number = null)
     {
+        if ($wrong_number === null) {
+            $wrong_number = $this->publishTimeWrongNumber;
+        }
+
         $time = (int) round(time() / $wrong_number) * $wrong_number;
         
-        return $this->active()->andWhere(['<=', 'publish_time', $time]);
+        return $this->active()->andWhere(['<=', $this->publishTimeAttribute, $time]);
     }
     
     public function onePublished($db = null)
@@ -76,13 +90,13 @@ class MyActiveQuery extends ActiveQuery {
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, $db);
-        if (self::$enableCache) {
+        if ($this->enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enableCache || $result === false) {
+        if (!$this->enableCache || $result === false) {
             $result = parent::all($db);
-            if (self::$enableCache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
+            if ($this->enableCache) {
+                Yii::$app->cache->set($cache_key, $result, $this->cacheDuration);
             }
         }
         return $result;
@@ -92,16 +106,16 @@ class MyActiveQuery extends ActiveQuery {
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, $db);
-        if (self::$enableCache) {
+        if ($this->enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enableCache || $result === false) {
+        if (!$this->enableCache || $result === false) {
             $result = parent::one($db);
             if ($result === false) {
                 $result = 'F';
             }
-            if (self::$enableCache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
+            if ($this->enableCache) {
+                Yii::$app->cache->set($cache_key, $result, $this->cacheDuration);
             }
         }
         if ($result === 'F') {
@@ -114,13 +128,13 @@ class MyActiveQuery extends ActiveQuery {
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, [$db, $q]);
-        if (self::$enableCache) {
+        if ($this->enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enableCache || (is_bool($result) && !$result)) {
+        if (!$this->enableCache || (is_bool($result) && !$result)) {
             $result = parent::count($q, $db);
-            if (self::$enableCache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
+            if ($this->enableCache) {
+                Yii::$app->cache->set($cache_key, $result, $this->cacheDuration);
             }
         }
         return $result;

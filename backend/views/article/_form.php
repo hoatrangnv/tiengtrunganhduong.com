@@ -37,7 +37,7 @@ use backend\models\Image;
             <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'publish_time_timestamp')->textInput(['type' => 'datetime']) ?>
-            <?= $form->field($model, 'active')->checkbox() ?>
+
         </div>
         <div class="col-md-6">
 
@@ -102,10 +102,12 @@ use backend\models\Image;
                     );
                 }
             ?>
+            <?= $form->field($model, 'active')->checkbox() ?>
 
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
+
         </div>
     </div>
 
