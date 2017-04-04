@@ -40,7 +40,7 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/admin/user/login']];
     } else {
         $menuItems = array_merge(
             $menuItems,
@@ -98,7 +98,7 @@ AppAsset::register($this);
                     ['label' => 'Change Password', 'url' => ['/admin/user/change-password']],
                     [
                         'label' => 'Logout',
-                        'url' => ['/site/logout'],
+                        'url' => ['/admin/user/logout'],
                         'linkOptions' => ['data-method' => 'post']
                     ]
                 ]],
