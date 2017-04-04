@@ -87,7 +87,7 @@ use backend\models\Image;
         <div class="col-md-12">
             <?php
                 $code_editor = Yii::$app->request->get('code_editor');
-                if (!$code_editor) {
+                if (!$code_editor || $code_editor == 'text') {
                     echo $form->field($model, 'content')->textarea(['rows' => 10]);
                 } else {
                     echo $form->field($model, 'content')->widget(

@@ -47,7 +47,8 @@ AppAsset::register($this);
             Helper::filter([
                 ['label' => 'Article', 'items' => [
                     ['label' => 'Index', 'url' => ['/article/index']],
-                    ['label' => 'Create', 'url' => ['/article/create']],
+                    ['label' => 'Create', 'url' => ['/article/create', 'code_editor' => 'text']],
+                    ['label' => 'Code Editor', 'url' => ['/article/create', 'code_editor' => 'tomorrow_night_eighties']],
                     ['label' => 'Update', 'url' => ['/article/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/article/view'], 'visible' => false],
                 ]],
@@ -61,6 +62,8 @@ AppAsset::register($this);
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
                     ['label' => 'Users', 'url' => ['/admin/user/index']],
+                    ['label' => 'Users', 'url' => ['/admin/user/update'], 'visible' => false],
+                    ['label' => 'Users', 'url' => ['/admin/user/view'], 'visible' => false],
 
                     ['label' => 'Assignment', 'url' => ['/admin/assignment/index']],
                     ['label' => 'Assignment', 'url' => ['/admin/assignment/view'], 'visible' => false],
