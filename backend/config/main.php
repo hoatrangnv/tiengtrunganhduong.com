@@ -76,7 +76,7 @@ return [
             'site/index',
             'admin/user/request-password-reset',
             'admin/user/reset-password',
-//            'admin/user/signup', // If you want to initialize first user, uncomment this line
+            'admin/user/signup', // When signup, default status is inactive
         ]
     ],
     // follow config when redirect user to login form if not logged in
