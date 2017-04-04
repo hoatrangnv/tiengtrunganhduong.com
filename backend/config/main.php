@@ -70,10 +70,10 @@ return [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/login',
-            'site/logout',
             'site/error',
             'site/index',
+            'admin/user/login',
+            'admin/user/logout',
             'admin/user/request-password-reset',
             'admin/user/reset-password',
             'admin/user/signup', // When signup, default status is inactive
