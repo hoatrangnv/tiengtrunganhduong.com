@@ -235,27 +235,48 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Activate new user
-     * @param integer $id
-     * @return type
-     * @throws UserException
-     * @throws NotFoundHttpException
-     */
-    public function actionActivate($id)
+//    /**
+//     * Activate new user
+//     * @param integer $id
+//     * @return type
+//     * @throws UserException
+//     * @throws NotFoundHttpException
+//     */
+//    public function actionActivate($id)
+//    {
+//        /* @var $user User */
+//        $user = $this->findModel($id);
+//        if ($user->status == User::STATUS_INACTIVE) {
+//            $user->status = User::STATUS_ACTIVE;
+//            if ($user->save()) {
+//                return $this->goHome();
+//            } else {
+//                $errors = $user->firstErrors;
+//                throw new UserException(reset($errors));
+//            }
+//        }
+//        return $this->goHome();
+//    }
+
+    public function actionUpdate($id)
     {
-        /* @var $user User */
-        $user = $this->findModel($id);
-        if ($user->status == User::STATUS_INACTIVE) {
-            $user->status = User::STATUS_ACTIVE;
-            if ($user->save()) {
-                return $this->goHome();
-            } else {
-                $errors = $user->firstErrors;
-                throw new UserException(reset($errors));
+        if (Yii::$app->user->isGuest) {
+            throw new BadRequestHttpException();
+        }
+        $model = $this->findModel($id);
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if ($model->reset_password != '') {
+                $model->setPassword($model->reset_password);
+                if (Yii::$app->user->id == $model->id) {
+                    Yii::$app->user->logout();
+                }
+            }
+            if ($model->save()) {
+                return $this->redirect(['index']);
             }
         }
-        return $this->goHome();
+
+        return $this->render('update', ['model' => $model]);
     }
 
     /**

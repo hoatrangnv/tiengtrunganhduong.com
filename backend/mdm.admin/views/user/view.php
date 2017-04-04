@@ -19,11 +19,21 @@ $controllerId = $this->context->uniqueId . '/';
 
     <p>
         <?php
-        if ($model->status == 0 && Helper::checkRoute($controllerId . 'activate')) {
-            echo Html::a(Yii::t('rbac-admin', 'Activate'), ['activate', 'id' => $model->id], [
+//        if ($model->status == 0 && Helper::checkRoute($controllerId . 'activate')) {
+//            echo Html::a(Yii::t('rbac-admin', 'Activate'), ['activate', 'id' => $model->id], [
+//                'class' => 'btn btn-primary',
+//                'data' => [
+//                    'confirm' => Yii::t('rbac-admin', 'Are you sure you want to activate this user?'),
+//                    'method' => 'post',
+//                ],
+//            ]);
+//        }
+        ?>
+        <?php
+        if (Helper::checkRoute($controllerId . 'update')) {
+            echo Html::a(Yii::t('rbac-admin', 'Update'), ['update', 'id' => $model->id], [
                 'class' => 'btn btn-primary',
                 'data' => [
-                    'confirm' => Yii::t('rbac-admin', 'Are you sure you want to activate this user?'),
                     'method' => 'post',
                 ],
             ]);

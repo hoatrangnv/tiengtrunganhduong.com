@@ -85,6 +85,30 @@ class User extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public function getStatusLabel()
+    {
+        $status_labels = $this->statusLabels();
+        return
+            isset($status_labels[$this->status])
+                ? $status_labels[$this->status]
+                : $this->status;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTypeLabel()
+    {
+        $type_labels = $this->typeLabels();
+        return
+            isset($type_labels[$this->type])
+                ? $type_labels[$this->type]
+                : $this->type;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return '{{%user}}';
@@ -110,9 +134,9 @@ class User extends ActiveRecord
     {
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => $this->statuses()],
-            ['type', 'default', 'range' => self::TYPE_FRONTEND],
-            ['type', 'in', 'range' => $this->types()],
+            ['status', 'in', 'range' => self::statuses()],
+            ['type', 'default', 'value' => self::TYPE_FRONTEND],
+            ['type', 'in', 'range' => self::types()],
         ];
     }
 

@@ -27,14 +27,21 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
-                    return $model->status;
+                    return $model->getStatusLabel();
                 },
                 'filter' => \mdm\admin\models\User::statusLabels()
             ],
             [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    return $model->getTypeLabel();
+                },
+                'filter' => \mdm\admin\models\User::typeLabels()
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => Helper::filterActionColumn(['view', 'update', 'delete']),
-//                'buttons' => [
+                'buttons' => [
 //                    'activate' => function($url, $model) {
 //                        if ($model->status == \mdm\admin\models\searchs\User::STATUS_ACTIVE) {
 //                            return '';
@@ -47,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
 //                            'data-pjax' => '0',
 //                        ];
 //                        return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
-//                    }
-//                    ]
+//                    },
+                ]
                 ],
             ],
         ]);
