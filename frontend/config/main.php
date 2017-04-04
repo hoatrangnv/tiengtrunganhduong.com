@@ -1,4 +1,6 @@
 <?php
+use common\models\UrlParam;
+
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
@@ -44,6 +46,7 @@ return [
                 // Home page
                 ['pattern' => '', 'route' => 'site/index'],
                 ['pattern' => '/', 'route' => 'site/index'],
+                ['pattern' => '<' . UrlParam::SLUG . '>.html', 'route' => 'article/view'],
             ],
         ],
     ],

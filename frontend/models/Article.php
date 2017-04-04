@@ -16,6 +16,6 @@ class Article extends MyActiveRecord
 {
     public function getUrl()
     {
-        return Url::to(['article/index', 'slug' => $this->slug], true);
+        return Url::to(['article/view', 'slug' => $this->slug], true);
     }
 }

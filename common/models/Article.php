@@ -44,7 +44,7 @@ use yii\validators\DateValidator;
  * @property User $creator
  * @property User $updater
  */
-class Article extends \common\models\MyActiveRecord
+abstract class Article extends \common\models\MyActiveRecord
 {
     /**
      * @inheritdoc
