@@ -19,41 +19,46 @@ class MyActiveRecord extends ActiveRecord
         return Html::a($this->name);
     }
 
-    private $_img_src_list = null;
+    private $_img_srcs = null;
+
+    private $_img_sizes = null;
+
     public function getImgSrc($size)
     {
-
         // Initialize
-        if (is_null($this->_img_src_list)) {
-            $this->_img_src_list = [];
+        if (is_null($this->_img_srcs)) {
+            $this->_img_srcs = [];
+            $this->_img_sizes = [];
             if ($this instanceof Image) {
                 $image = $this;
             } else {
                 $image = $this->getImage()->oneActive();
             }
             if ($image) {
-                $size = $image->getSizeKeyBySize($size);
-                $this->_img_src_list[0] = $image->getSource();
-                $resize_labels = json_decode($image->resize_labels, true);
-                if (is_array($resize_labels)) {
-                    ksort($resize_labels);
-                    foreach ($resize_labels as $key => $label) {
-                        $this->_img_src_list[$key] = $image->getSource($label);
+                $this->_img_srcs[Image::SIZE_0] = $image->getSource();
+                $img_sizes = json_decode($image->resize_labels, true);
+
+                if (is_array($img_sizes)) {
+                    ksort($img_sizes);
+                    foreach ($img_sizes as $key => $label) {
+                        $this->_img_srcs[$key] = $image->getSource($label);
                     }
+                    $this->_img_sizes = $img_sizes;
                 }
             }
         }
 
-        // Get image src by size key
-        foreach ($this->_img_src_list as $key => $img_src) {
-            if ($key >= $size) {
-                return $this->_img_src_list[$key];
+        // Get image src by size key or size
+        $size_key = Image::getSizeKeyBySize($size, $this->_img_sizes);
+        foreach ($this->_img_srcs as $key => $img_src) {
+            if ($key >= $size_key) {
+                return $this->_img_srcs[$key];
             }
         }
-        return isset($this->_img_src_list[Image::SIZE_0]) ? $this->_img_src_list[Image::SIZE_0] : '';
+        return isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '';
     }
 
-    public function img($size = 0, array $options = [])
+    public function img($size = null, array $options = [])
     {
         if (!isset($options['alt'])) {
             if ($this->hasAttribute('name')) {
@@ -72,7 +77,8 @@ class MyActiveRecord extends ActiveRecord
         return Html::img($this->getImgSrc($size), $options);
     }
 
-    public function getContentWithTemplates($attribute = 'content') {
+    public function getContentWithTemplates($attribute = 'content')
+    {
         if (!$this->hasAttribute($attribute)) {
             return '';
         }
@@ -103,7 +109,7 @@ class MyActiveRecord extends ActiveRecord
             $allChildren = array_merge($allChildren, $item->allChildren);
         }
         $query = static::find();
-        $query->where(['in', 'id', \yii\helpers\ArrayHelper::getColumn($allChildren, 'id')]);
+        $query->where(['in', 'id', ArrayHelper::getColumn($allChildren, 'id')]);
         $query->multiple = true;
         return $query;
     }
