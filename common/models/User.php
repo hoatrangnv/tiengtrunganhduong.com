@@ -26,12 +26,61 @@ use yii\web\IdentityInterface;
  * Class User
  * @package common\models
  *
- * Used for frontend, not for backend, backend use mdm.admin instead
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord
 {
-    const STATUS_DELETED = 0; // Not active in bold frontend and backend
-    const STATUS_ACTIVE = 1; // For user in frontend, but is not active status in backend
+    const STATUS_ACTIVE = 10;
+    const STATUS_INACTIVE = 5;
+    const STATUS_DELETED = 0;
+
+    const TYPE_BACKEND = 10;
+    const TYPE_FRONTEND = 0;
+
+    /**
+     * @inheritdoc
+     */
+    public static function statuses()
+    {
+        return [
+            self::STATUS_ACTIVE,
+            self::STATUS_INACTIVE,
+            self::STATUS_DELETED,
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function types()
+    {
+        return [
+            self::TYPE_BACKEND,
+            self::TYPE_FRONTEND,
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function statusLabels()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_INACTIVE => 'Inactive',
+            self::STATUS_DELETED => 'Deleted',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function typeLabels()
+    {
+        return [
+            self::TYPE_BACKEND => 'Backend',
+            self::TYPE_FRONTEND => 'Frontend',
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -46,9 +95,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function behaviors()
     {
-        return [
-            TimestampBehavior::className(),
-        ];
+        return [[
+            'class' => TimestampBehavior::className(),
+            'createdAtAttribute' => 'create_time',
+            'updatedAtAttribute' => 'update_time',
+            'value' => time(),
+        ]];
     }
 
     /**
@@ -57,55 +109,57 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => $this->statuses()],
+            ['type', 'default', 'range' => self::TYPE_FRONTEND],
+            ['type', 'in', 'range' => $this->types()],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    /**
-     * Finds user by password reset token
-     *
-     * @param string $token password reset token
-     * @return static|null
-     */
-    public static function findByPasswordResetToken($token)
-    {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
-
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
-    }
+//    /**
+//     * @inheritdoc
+//     */
+//    public static function findIdentity($id)
+//    {
+//        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+//    }
+//
+//    /**
+//     * @inheritdoc
+//     */
+//    public static function findIdentityByAccessToken($token, $type = null)
+//    {
+//        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+//    }
+//
+//    /**
+//     * Finds user by username
+//     *
+//     * @param string $username
+//     * @return static|null
+//     */
+//    public static function findByUsername($username)
+//    {
+//        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+//    }
+//
+//    /**
+//     * Finds user by password reset token
+//     *
+//     * @param string $token password reset token
+//     * @return static|null
+//     */
+//    public static function findByPasswordResetToken($token)
+//    {
+//        if (!static::isPasswordResetTokenValid($token)) {
+//            return null;
+//        }
+//
+//        return static::findOne([
+//            'password_reset_token' => $token,
+//            'status' => self::STATUS_ACTIVE,
+//        ]);
+//    }
 
     /**
      * Finds out if password reset token is valid

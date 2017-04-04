@@ -60,6 +60,7 @@ AppAsset::register($this);
                 ]],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
+                    ['label' => 'Users', 'url' => ['/admin/user/index']],
 
                     ['label' => 'Assignment', 'url' => ['/admin/assignment/index']],
                     ['label' => 'Assignment', 'url' => ['/admin/assignment/view'], 'visible' => false],
@@ -91,7 +92,7 @@ AppAsset::register($this);
                     ['label' => 'Menu', 'url' => ['/admin/menu/create'], 'visible' => false],
                     ['label' => 'Menu', 'url' => ['/admin/menu/update'], 'visible' => false],
                 ]],
-                ['label' => 'User', 'url' => ['/user/index']],
+//                ['label' => 'User', 'url' => ['/user/index']],
             ]),
             [
                 ['label' => \Yii::$app->user->identity->username, 'items' => [

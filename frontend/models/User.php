@@ -1,23 +1,19 @@
 <?php
-namespace backend\models;
+/**
+ * Created by PhpStorm.
+ * User: User
+ * Date: 4/4/2017
+ * Time: 10:27 PM
+ */
+
+namespace frontend\models;
+
 
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
 class User extends \common\models\User implements IdentityInterface
 {
-    public $reset_password;
-
-    public function rules()
-    {
-        return array_merge(
-            parent::rules(),
-            [
-                ['reset_password', 'string', 'min' => 6, 'max' => 32]
-            ]
-        );
-    }
-
     /**
      * @inheritdoc
      */
@@ -26,7 +22,7 @@ class User extends \common\models\User implements IdentityInterface
         return static::findOne([
             'id' => $id,
             'status' => self::STATUS_ACTIVE,
-            'type' => self::TYPE_BACKEND,
+            'type' => self::TYPE_FRONTEND,
         ]);
     }
 
@@ -49,7 +45,7 @@ class User extends \common\models\User implements IdentityInterface
         return static::findOne([
             'username' => $username,
             'status' => self::STATUS_ACTIVE,
-            'type' => self::TYPE_BACKEND,
+            'type' => self::TYPE_FRONTEND,
         ]);
     }
 
@@ -68,8 +64,7 @@ class User extends \common\models\User implements IdentityInterface
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
-            'type' => self::TYPE_BACKEND,
+            'type' => self::TYPE_FRONTEND,
         ]);
     }
-
 }

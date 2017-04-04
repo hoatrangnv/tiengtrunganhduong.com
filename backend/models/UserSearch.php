@@ -8,10 +8,7 @@
 
 namespace backend\models;
 
-
-use mdm\admin\models\searchs\User;
-
-class UserSearch extends User
+class UserSearch extends \common\models\UserSearch
 {
 
 }
