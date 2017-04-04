@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 
+use mdm\admin\components\Configs;
 use yii\web\Controller;
 use Yii;
 
@@ -17,6 +18,7 @@ class BaseController extends Controller
     public function beforeAction($action)
     {
         return parent::beforeAction($action);
+        new Configs();
     }
 
     public function afterAction($action, $result)

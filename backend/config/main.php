@@ -64,9 +64,9 @@ return [
             ],
         ],
     ],
-//    'aliases'   =>   [
-//        '@mdm/admin'   =>   '@vendor/mdm/yii2-admin' ,
-//    ],
+    'aliases' => [
+        '@mdm/admin' => '@common/mdm.admin',
+    ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
