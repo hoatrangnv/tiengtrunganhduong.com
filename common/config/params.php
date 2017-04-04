@@ -5,4 +5,7 @@ return [
     'adminEmail' => 'admin@traxanhthainguyen.com',
     'supportEmail' => 'hotro@traxanhthainguyen.com',
     'user.passwordResetTokenExpire' => 3600,
+    'mdm.admin.configs' => [
+        'userTable' => '{{%user}}',
+    ]
 ];

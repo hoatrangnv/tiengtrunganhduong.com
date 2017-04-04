@@ -4,8 +4,4 @@ return [
     'myActiveQuery' => [
         'enableCache' => true
     ],
-    'mdm.admin.configs' => [
-        'userTable' => '{{%user}}',
-        'defaultUserStatus' => 0 // 0: Inactive, 10: Active
-    ]
 ];
