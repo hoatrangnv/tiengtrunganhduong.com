@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value' => function($model) {
-                    return $model->status == 0 ? 'Inactive' : 'Active';
+                    return $model->status == \mdm\admin\models\User::STATUS_ACTIVE ? 'Active' : 'Inactive';
                 },
                 'filter' => [
-                    0 => 'Inactive',
-                    10 => 'Active'
+                    \mdm\admin\models\User::STATUS_INACTIVE => 'Inactive',
+                    \mdm\admin\models\User::STATUS_ACTIVE => 'Active'
                 ]
             ],
             [
