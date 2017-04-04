@@ -36,7 +36,7 @@ use backend\models\Image;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'publish_time')->textInput(['type' => 'datetime']) ?>
+            <?= $form->field($model, 'publish_time_timestamp')->textInput(['type' => 'datetime']) ?>
             <?= $form->field($model, 'active')->checkbox() ?>
         </div>
         <div class="col-md-6">

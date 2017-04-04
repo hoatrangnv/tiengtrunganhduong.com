@@ -8,6 +8,7 @@ use common\behaviors\MySluggableBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\validators\DateValidator;
 
 /**
  * This is the model class for table "article".
@@ -72,6 +73,31 @@ class Article extends \common\models\MyActiveRecord
         ];
     }
 
+    public $publish_time_timestamp;
+
+    public function __construct(array $config = [])
+    {
+        // Init publish time for new record, round up ten minute (600s)
+        if ($this->isNewRecord) {
+            $this->publish_time_timestamp = date('Y-m-d H:i:s', 600 * ceil(time() / 600));
+        }
+        parent::__construct($config);
+    }
+
+    public function afterFind()
+    {
+        // Init publish time for record found
+        $this->publish_time_timestamp = date('Y-m-d H:i:s', $this->publish_time);
+        parent::afterFind();
+    }
+
+    public function beforeSave($insert)
+    {
+        // Convert publish time timestamp to time
+        $this->publish_time = strtotime($this->publish_time_timestamp);
+        return parent::beforeSave($insert);
+    }
+
     /**
      * @inheritdoc
      */
@@ -95,6 +121,7 @@ class Article extends \common\models\MyActiveRecord
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
+            ['publish_time_timestamp', 'date', 'format' => 'php:Y-m-d H:i:s'],
         ];
     }
 
