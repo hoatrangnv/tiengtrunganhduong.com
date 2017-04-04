@@ -26,12 +26,12 @@ use yii\web\IdentityInterface;
  * Class User
  * @package common\models
  *
- * Used for frontend, not backend, backend use
+ * Used for frontend, not for backend, backend use mdm.admin instead
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 1; // Status active for user in frontend.
+    const STATUS_DELETED = 0; // Not active in bold frontend and backend
+    const STATUS_ACTIVE = 1; // For user in frontend, but is not active status in backend
 
     /**
      * @inheritdoc
