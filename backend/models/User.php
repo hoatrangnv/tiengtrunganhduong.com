@@ -1,7 +1,7 @@
 <?php
 namespace backend\models;
 
-class User extends \mdm\admin\models\User
+class User extends \common\models\User
 {
     public $reset_password;
 
@@ -16,7 +16,7 @@ class User extends \mdm\admin\models\User
     {
         return [
             self::STATUS_ACTIVE => 'Active',
-            self::STATUS_INACTIVE => 'Inactive',
+            self::STATUS_DELETED => 'Inactive',
         ];
     }
 }
