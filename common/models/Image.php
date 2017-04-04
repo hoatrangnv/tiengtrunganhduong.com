@@ -145,7 +145,6 @@ class Image extends \common\models\MyActiveRecord
 
     public static function getSizeKeyBySize($size, array $image_sizes = [])
     {
-//        $image_sizes = json_decode($this->resize_labels, true);
         if ($size == self::SIZE_0 || isset($image_sizes[$size])) {
             return $size;
         }
