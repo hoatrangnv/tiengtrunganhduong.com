@@ -15,8 +15,19 @@ use yii\helpers\Html;
 
 abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
-    public function a($text, $options = [])
+    public function a($text = null, $options = [])
     {
+        if (!$text) {
+            if ($this->hasAttribute('name')) {
+                $text = $this->name;
+            } else if ($this->hasAttribute('title')) {
+                $text = $this->title;
+            } else if ($this->hasAttribute('caption')) {
+                $text = $this->caption;
+            } else {
+                $text = '';
+            }
+        }
         return Html::a($text ? $text : $this->name, $this->getUrl(), $options);
     }
 

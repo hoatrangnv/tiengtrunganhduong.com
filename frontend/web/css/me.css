@@ -5,4 +5,14 @@
     content: "\00A0\00BB\00A0";
     display: inline;
 }
-a {}
+
+.list-view li {
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+}
+.list-view a {
+    text-decoration: none;
+}
+.list-view a:hover {
+    text-decoration: underline;
+}
