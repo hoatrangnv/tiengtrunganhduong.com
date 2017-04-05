@@ -8,16 +8,19 @@
 
 namespace common\models;
 
+use Prophecy\Exception\Doubler\MethodNotFoundException;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
+abstract class MyActiveRecord extends ActiveRecord
 {
     public function a()
     {
         return Html::a($this->name, $this->getUrl());
     }
+
+    abstract public function getUrl();
 
     private $_img_srcs = null;
 
@@ -104,14 +107,17 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     public function getAllChildren()
     {
-        $allChildren = $this->children;
-        foreach ($allChildren as $item) {
-            $allChildren = array_merge($allChildren, $item->allChildren);
+        if ($this->hasMethod('getChildren')) {
+            $allChildren = $this->getChildren();
+            foreach ($allChildren as $item) {
+                $allChildren = array_merge($allChildren, $item->getAllChildren());
+            }
+            $query = static::find();
+            $query->where(['in', 'id', ArrayHelper::getColumn($allChildren, 'id')]);
+            $query->multiple = true;
+            return $query;
         }
-        $query = static::find();
-        $query->where(['in', 'id', ArrayHelper::getColumn($allChildren, 'id')]);
-        $query->multiple = true;
-        return $query;
+        throw new MethodNotFoundException('Method getChildren not found.', self::className(), 'getChildren');
     }
 
     public static function listAsId2Name()

@@ -12,7 +12,7 @@ namespace frontend\models;
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
-class User extends \common\models\User implements IdentityInterface
+class User extends \common\models\User
 {
     /**
      * @inheritdoc
@@ -24,6 +24,14 @@ class User extends \common\models\User implements IdentityInterface
             'status' => self::STATUS_ACTIVE,
             'type' => self::TYPE_FRONTEND,
         ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUrl()
+    {
+        // TODO: Implement getUrl() method.
     }
 
     /**

@@ -38,6 +38,11 @@ use yii\helpers\FileHelper;
  */
 class Image extends \common\models\MyActiveRecord
 {
+    public function getUrl()
+    {
+        // TODO: Implement getUrl() method.
+    }
+
     const SIZE_ORIGIN_LABEL = '-origin';
     const SIZE_RESIZE_LABEL = '-{w}x{h}';
 
@@ -194,11 +199,6 @@ class Image extends \common\models\MyActiveRecord
         if (!file_exists($dir)) {
             FileHelper::createDirectory($dir);
         }
-    }
-
-    public function getUrl()
-    {
-        // TODO: Implement getUrl() method.
     }
 
     public function getSource($size_label = null)
