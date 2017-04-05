@@ -21,39 +21,31 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'updater_id') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'file_basename') ?>
 
     <?= $form->field($model, 'path') ?>
 
-    <?php // echo $form->field($model, 'file_name') ?>
-
-    <?php // echo $form->field($model, 'file_basename') ?>
+    <?php // echo $form->field($model, 'name') ?>
 
     <?php // echo $form->field($model, 'file_extension') ?>
 
+    <?php // echo $form->field($model, 'mime_type') ?>
+
+    <?php // echo $form->field($model, 'description') ?>
+
     <?php // echo $form->field($model, 'resize_labels') ?>
 
-    <?php // echo $form->field($model, 'string_data') ?>
-
-    <?php // echo $form->field($model, 'mime_type') ?>
+    <?php // echo $form->field($model, 'encode_data') ?>
 
     <?php // echo $form->field($model, 'active') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 
-    <?php // echo $form->field($model, 'sort_order') ?>
-
-    <?php // echo $form->field($model, 'views') ?>
-
-    <?php // echo $form->field($model, 'likes') ?>
-
-    <?php // echo $form->field($model, 'comments') ?>
-
-    <?php // echo $form->field($model, 'shares') ?>
-
     <?php // echo $form->field($model, 'create_time') ?>
 
     <?php // echo $form->field($model, 'update_time') ?>
+
+    <?php // echo $form->field($model, 'sort_order') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

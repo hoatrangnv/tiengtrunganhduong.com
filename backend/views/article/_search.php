@@ -21,9 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'updater_id') ?>
 
-    <?= $form->field($model, 'category_id') ?>
-
     <?= $form->field($model, 'image_id') ?>
+
+    <?= $form->field($model, 'category_id') ?>
 
     <?php // echo $form->field($model, 'slug') ?>
 
@@ -31,9 +31,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'meta_title') ?>
 
-    <?php // echo $form->field($model, 'meta_keywords') ?>
-
     <?php // echo $form->field($model, 'meta_description') ?>
+
+    <?php // echo $form->field($model, 'meta_keywords') ?>
 
     <?php // echo $form->field($model, 'description') ?>
 
@@ -45,11 +45,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'visible') ?>
 
-    <?php // echo $form->field($model, 'hot') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
+    <?php // echo $form->field($model, 'featured') ?>
 
     <?php // echo $form->field($model, 'type') ?>
+
+    <?php // echo $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'sort_order') ?>
 
@@ -59,13 +59,13 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'publish_time') ?>
 
-    <?php // echo $form->field($model, 'views') ?>
+    <?php // echo $form->field($model, 'view_count') ?>
 
-    <?php // echo $form->field($model, 'likes') ?>
+    <?php // echo $form->field($model, 'like_count') ?>
 
-    <?php // echo $form->field($model, 'comments') ?>
+    <?php // echo $form->field($model, 'comment_count') ?>
 
-    <?php // echo $form->field($model, 'shares') ?>
+    <?php // echo $form->field($model, 'share_count') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

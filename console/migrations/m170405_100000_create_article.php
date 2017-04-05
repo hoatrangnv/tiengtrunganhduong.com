@@ -34,10 +34,12 @@ class m170405_100000_create_article extends Migration
             'content' => $this->text(),
             'sub_content' => $this->text(),
 
-            // Display controller
+            // Flag
             'active' => $this->smallInteger(1),
             'visible' => $this->smallInteger(1),
             'featured' => $this->smallInteger(1),
+
+            // Other
             'type' => $this->smallInteger(),
             'status' => $this->smallInteger(),
             'sort_order' => $this->integer(),
@@ -57,6 +59,6 @@ class m170405_100000_create_article extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%article}}');
     }
 }

@@ -16,19 +16,18 @@ use yii\helpers\FileHelper;
  * @property integer $updater_id
  * @property string $name
  * @property string $path
- * @property string $file_name
  * @property string $file_basename
  * @property string $file_extension
  * @property string $resize_labels
- * @property string $string_data
+ * @property string $encode_data
  * @property string $mime_type
  * @property integer $active
  * @property integer $status
  * @property integer $sort_order
- * @property integer $views
- * @property integer $likes
- * @property integer $comments
- * @property integer $shares
+ * @property integer $view_count
+ * @property integer $like_count
+ * @property integer $comment_count
+ * @property integer $share_count
  * @property integer $create_time
  * @property integer $update_time
  *
@@ -204,7 +203,7 @@ class Image extends \common\models\MyActiveRecord
     public function getSource($size_label = null)
     {
         if ($size_label == null) {
-            return Yii::getAlias("@imagesUrl/{$this->path}$this->file_name");
+            return Yii::getAlias("@imagesUrl/{$this->path}$this->file_basename.$this->file_extension");
         }
         return Yii::getAlias("@imagesUrl/{$this->path}$this->file_basename{$size_label}.$this->file_extension");
     }
@@ -212,7 +211,7 @@ class Image extends \common\models\MyActiveRecord
     public function getLocation($size_label = null)
     {
         if ($size_label == null) {
-            return Yii::getAlias("@images/{$this->path}$this->file_name");
+            return Yii::getAlias("@images/{$this->path}$this->file_basename.$this->file_extension");
         }
         return Yii::getAlias("@images/{$this->path}$this->file_basename{$size_label}.$this->file_extension");
     }
@@ -220,7 +219,7 @@ class Image extends \common\models\MyActiveRecord
     public function getOldLocation($size_label = null)
     {
         if ($size_label == null) {
-            return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_name')}");
+            return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_basename')}.{$this->getOldAttribute('file_extension')}");
         }
         return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_basename')}$size_label.{$this->getOldAttribute('file_extension')}");
     }
@@ -385,12 +384,13 @@ class Image extends \common\models\MyActiveRecord
     public function rules()
     {
         return [
-            [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order', 'views', 'likes', 'comments', 'shares', /*'create_time', 'update_time'*/], 'integer'],
-            [['name', /*'path',*/ 'file_name'], 'required'],
-            [['name', /*'path',*/ 'file_name', 'file_basename'], 'string', 'max' => 128],
+            [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order',
+                'view_count', 'like_count', 'comment_count', 'share_count',
+                /*'create_time', 'update_time'*/], 'integer'],
+            [['name', /*'path',*/ 'file_basename'], 'string', 'max' => 255],
             [['file_extension', /*'mime_type'*/], 'string', 'max' => 32],
-            [['resize_labels', 'string_data'], 'string', 'max' => 2048],
-            [['file_name', 'file_basename'], 'unique'],
+            [['resize_labels', 'encode_data'], 'string', 'max' => 2047],
+            [['file_basename'], 'unique'],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];
@@ -407,19 +407,18 @@ class Image extends \common\models\MyActiveRecord
             'updater_id' => 'Updater ID',
             'name' => 'Name',
             'path' => 'Path',
-            'file_name' => 'File Name',
             'file_basename' => 'File Basename',
             'file_extension' => 'File Extension',
             'resize_labels' => 'Resize Labels',
-            'string_data' => 'String Data',
+            'encode_data' => 'String Data',
             'mime_type' => 'Mime Type',
             'active' => 'Active',
             'status' => 'Status',
             'sort_order' => 'Sort Order',
-            'views' => 'Views',
-            'likes' => 'Likes',
-            'comments' => 'Comments',
-            'shares' => 'Shares',
+            'view_count' => 'View Count',
+            'like_count' => 'Like Count',
+            'comment_count' => 'Comment Count',
+            'share_count' => 'Share Count',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
         ];

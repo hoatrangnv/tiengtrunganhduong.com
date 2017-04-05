@@ -93,7 +93,6 @@ class UploadForm extends Model
                     $model->file_extension = $file->extension;
                 }
 
-                $model->file_name = "$model->file_basename.$model->file_extension";
                 $model->active = 1;
 
                 // @TODO: Save origin image

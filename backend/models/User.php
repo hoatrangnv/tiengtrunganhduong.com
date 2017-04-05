@@ -4,8 +4,16 @@ namespace backend\models;
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
-class User extends \common\models\User
+class User extends \common\models\User implements IdentityInterface
 {
+    /**
+     * @inheritdoc
+     */
+    public function getUrl()
+    {
+        // TODO: Implement getUrl() method.
+    }
+
     public $reset_password;
 
     public function rules()
@@ -16,14 +24,6 @@ class User extends \common\models\User
                 ['reset_password', 'string', 'min' => 6, 'max' => 32]
             ]
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getUrl()
-    {
-        // TODO: Implement getUrl() method.
     }
 
     /**

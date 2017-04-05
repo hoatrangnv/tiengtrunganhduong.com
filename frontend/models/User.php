@@ -17,6 +17,14 @@ class User extends \common\models\User
     /**
      * @inheritdoc
      */
+    public function getUrl()
+    {
+        // TODO: Implement getUrl() method.
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function findIdentity($id)
     {
         return static::findOne([
@@ -24,14 +32,6 @@ class User extends \common\models\User
             'status' => self::STATUS_ACTIVE,
             'type' => self::TYPE_FRONTEND,
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getUrl()
-    {
-        // TODO: Implement getUrl() method.
     }
 
     /**

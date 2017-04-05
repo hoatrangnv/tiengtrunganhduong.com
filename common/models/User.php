@@ -27,7 +27,7 @@ use yii\web\IdentityInterface;
  * @package common\models
  *
  */
-abstract class User extends MyActiveRecord  implements IdentityInterface
+abstract class User extends MyActiveRecord
 {
     const STATUS_ACTIVE = 10;
     const STATUS_INACTIVE = 5;

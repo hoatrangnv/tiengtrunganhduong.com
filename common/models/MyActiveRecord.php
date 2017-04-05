@@ -13,14 +13,12 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-abstract class MyActiveRecord extends ActiveRecord
+abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
     public function a()
     {
         return Html::a($this->name, $this->getUrl());
     }
-
-    abstract public function getUrl();
 
     private $_img_srcs = null;
 
@@ -117,7 +115,7 @@ abstract class MyActiveRecord extends ActiveRecord
             $query->multiple = true;
             return $query;
         }
-        throw new MethodNotFoundException('Method getChildren not found.', self::className(), 'getChildren');
+        throw new MethodNotFoundException('Method getChildren not found.', self::className());
     }
 
     public static function listAsId2Name()

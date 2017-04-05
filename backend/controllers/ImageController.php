@@ -103,8 +103,6 @@ class ImageController extends BaseController
                         $model->file_extension = $file->extension;
                     }
 
-                    $model->file_name = "$model->file_basename.$model->file_extension";
-
                     // @TODO: Save origin image
                     $model->generatePath();
                     $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
@@ -190,8 +188,6 @@ class ImageController extends BaseController
                 if ($model->image_name_to_basename) {
                     $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
                 }
-
-                $model->file_name = "$model->file_basename.$model->file_extension";
 
                 if ($model->validate()) {
                     $model->generatePath();

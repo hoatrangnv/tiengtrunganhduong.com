@@ -18,8 +18,8 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id', 'creator_id', 'updater_id', 'active', 'status', 'sort_order', 'views', 'likes', 'comments', 'shares', 'create_time', 'update_time'], 'integer'],
-            [['name', 'path', 'file_name', 'file_basename', 'file_extension', 'resize_labels', 'string_data', 'mime_type'], 'safe'],
+            [['id', 'creator_id', 'updater_id', 'active', 'status', 'create_time', 'update_time', 'sort_order'], 'integer'],
+            [['file_basename', 'path', 'name', 'file_extension', 'mime_type', 'description', 'resize_labels', 'encode_data'], 'safe'],
         ];
     }
 
@@ -64,23 +64,19 @@ class ImageSearch extends Image
             'updater_id' => $this->updater_id,
             'active' => $this->active,
             'status' => $this->status,
-            'sort_order' => $this->sort_order,
-            'views' => $this->views,
-            'likes' => $this->likes,
-            'comments' => $this->comments,
-            'shares' => $this->shares,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time,
+            'sort_order' => $this->sort_order,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'file_basename', $this->file_basename])
             ->andFilterWhere(['like', 'path', $this->path])
-            ->andFilterWhere(['like', 'file_name', $this->file_name])
-            ->andFilterWhere(['like', 'file_basename', $this->file_basename])
+            ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'file_extension', $this->file_extension])
+            ->andFilterWhere(['like', 'mime_type', $this->mime_type])
+            ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'resize_labels', $this->resize_labels])
-            ->andFilterWhere(['like', 'string_data', $this->string_data])
-            ->andFilterWhere(['like', 'mime_type', $this->mime_type]);
+            ->andFilterWhere(['like', 'encode_data', $this->encode_data]);
 
         return $dataProvider;
     }
