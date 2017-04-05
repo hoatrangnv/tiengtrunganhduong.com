@@ -10,12 +10,13 @@ namespace frontend\models;
 
 
 use common\models\MyActiveRecord;
+use common\models\UrlParam;
 use yii\helpers\Url;
 
 class Article extends MyActiveRecord
 {
     public function getUrl()
     {
-        return Url::to(['article/view', 'slug' => $this->slug], true);
+        return Url::to(['article/view', UrlParam::SLUG => $this->slug], true);
     }
 }

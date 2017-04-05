@@ -12,7 +12,7 @@ namespace frontend\models;
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
-class User extends \common\models\User
+class User extends \common\models\User implements IdentityInterface
 {
     /**
      * @inheritdoc

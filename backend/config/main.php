@@ -78,7 +78,6 @@ return [
             'admin/user/reset-password',
             //User can sign up themselves, but status will be inactive (config default status in params)
             //'admin/user/signup',
-//            '*'
         ]
     ],
     // follow config when redirect user to login form if not logged in

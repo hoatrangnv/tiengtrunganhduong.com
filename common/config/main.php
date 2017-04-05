@@ -1,4 +1,5 @@
 <?php
+
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
@@ -26,4 +27,14 @@ return [
             'rules' => [],
         ],
     ],
+    'aliases' =>
+        (!isset($_SERVER, $_SERVER['HTTP_HOST']) ||
+            !$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://')
+        )
+        ? []
+        : [
+            '@frontendUrl' => $protocol . $_SERVER['HTTP_HOST'],
+            '@backendUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/backend',
+            '@imagesUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/images',
+        ],
 ];

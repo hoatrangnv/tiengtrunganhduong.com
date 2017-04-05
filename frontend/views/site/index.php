@@ -2,14 +2,16 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Web development';
+$this->title = Yii::$app->name;
 ?>
-<div class="site-index">
-    <ul>
-        <?php
-        foreach (\frontend\models\Article::find()->orderBy('publish_time desc')->allPublished() as $item) {
-            echo "<li>{$item->a()}</li>";
-        }
+<h1>New Articles</h1>
+
+<section>
+    <?php
+    foreach (\frontend\models\Article::find()->orderBy('publish_time desc')->allPublished() as $item) {
         ?>
-    </ul>
-</div>
+        <?= $item->a("<h3>$item->name</h3><div>$item->description</div>") ?>
+        <?php
+    }
+    ?>
+</section>

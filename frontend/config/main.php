@@ -49,6 +49,23 @@ return [
                 ['pattern' => '<' . UrlParam::SLUG . '>.html', 'route' => 'article/view'],
             ],
         ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+            'bundles' => [
+                \yii\bootstrap\BootstrapAsset::className() => [
+                    'css' => [],
+                ],
+                \yii\web\YiiAsset::className() => [
+                    'js' => [],
+                ],
+                \yii\web\JqueryAsset::className() => [
+                    'js' => [],
+                ],
+                \yii\bootstrap\BootstrapPluginAsset::className() => [
+                    'js' => [],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
