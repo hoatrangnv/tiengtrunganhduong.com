@@ -24,10 +24,6 @@ use yii\helpers\FileHelper;
  * @property integer $active
  * @property integer $status
  * @property integer $sort_order
- * @property integer $view_count
- * @property integer $like_count
- * @property integer $comment_count
- * @property integer $share_count
  * @property integer $create_time
  * @property integer $update_time
  *
@@ -385,7 +381,6 @@ class Image extends \common\models\MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order',
-                'view_count', 'like_count', 'comment_count', 'share_count',
                 /*'create_time', 'update_time'*/], 'integer'],
             [['name', /*'path',*/ 'file_basename'], 'string', 'max' => 255],
             [['file_extension', /*'mime_type'*/], 'string', 'max' => 32],
@@ -415,10 +410,6 @@ class Image extends \common\models\MyActiveRecord
             'active' => 'Active',
             'status' => 'Status',
             'sort_order' => 'Sort Order',
-            'view_count' => 'View Count',
-            'like_count' => 'Like Count',
-            'comment_count' => 'Comment Count',
-            'share_count' => 'Share Count',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
         ];
