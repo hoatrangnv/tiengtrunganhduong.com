@@ -92,13 +92,17 @@ class ImageController extends BaseController
 
                 if ($file) {
                     $model->mime_type = $file->type;
-                    $model->name = $model->name ? $model->name : $file->baseName;
+
+                    if (!$model->name) {
+                        $model->name = $model->file_basename;
+                    }
 
                     if ($model->image_name_to_basename) {
                         $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
                     } else {
                         $model->file_basename = $file->baseName;
                     }
+
                     if (!$model->file_extension) {
                         $model->file_extension = $file->extension;
                     }
@@ -183,6 +187,10 @@ class ImageController extends BaseController
                     if (!$model->file_extension || $model->file_extension == $model->getOldAttribute('file_extension')) {
                         $model->file_extension = $file->extension;
                     }
+                }
+
+                if (!$model->name) {
+                    $model->name = $model->file_basename;
                 }
 
                 if ($model->image_name_to_basename) {

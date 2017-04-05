@@ -67,6 +67,7 @@ class UploadForm extends Model
                 $model->mime_type = $file->type;
 
                 $image_name = $this->image_name ? $this->image_name : $file->baseName;
+
                 if ($i == 1) {
                     $model->name = $image_name;
                 } else {
