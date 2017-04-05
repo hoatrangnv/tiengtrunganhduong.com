@@ -59,27 +59,26 @@ class UploadForm extends Model
                 'saved' => [],
                 'unsaved' => [],
             ];
-            $i = 0;
+            $i = 1;
             foreach ($this->image_files as $file) {
-                $i++;
                 $model = new Image();
 
                 $model->mime_type = $file->type;
 
                 $image_name = $this->image_name ? $this->image_name : $file->baseName;
 
-                if ($i == 1) {
+                if ($i == 1 || !$this->image_name_to_basename) {
                     $model->name = $image_name;
                 } else {
-                    $model->name = "$image_name $i";
+                    $model->name = strpos($image_name, ' ') === false ? "$image_name-$i" : "$image_name $i";
                 }
 
                 if ($this->image_name_to_basename) {
-                    $this->image_file_basename = Inflector::slug(MyStringHelper::stripUnicode($image_name));
+                    $this->image_file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
                 }
 
                 if ($this->image_file_basename) {
-                    if ($i == 1) {
+                    if ($i == 1 || !$this->image_name_to_basename) {
                         $model->file_basename = $this->image_file_basename;
                     } else {
                         $model->file_basename = "$this->image_file_basename-$i";
@@ -106,6 +105,7 @@ class UploadForm extends Model
                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
                 if ($model->validate() && $thumb0->save($destination, ['quality' => $this->image_quality])) {
+                    $i++;
                     $images['saved'][] = $model;
 
                     $resize_labels = [];
@@ -128,6 +128,7 @@ class UploadForm extends Model
                     }
 
                     $model->resize_labels = json_encode($resize_labels);
+
                     $model->save();
                 } else {
                     $images['unsaved'][] = $model;
