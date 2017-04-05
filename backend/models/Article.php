@@ -10,5 +10,8 @@ namespace backend\models;
 
 class Article extends \common\models\Article
 {
-
+    public function getUrl()
+    {
+        // TODO: Implement getUrl() method.
+    }
 }

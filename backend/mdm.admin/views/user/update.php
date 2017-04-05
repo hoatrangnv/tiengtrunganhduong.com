@@ -7,7 +7,9 @@ use yii\bootstrap\ActiveForm;
 /* @var $model \mdm\admin\models\form\ChangePassword */
 
 $this->title = Yii::t('app', 'Update');
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="site-signup">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -15,7 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-change']); ?>
-            <?= $form->field($model, 'status')->dropDownList($model->getStatuses(), ['prompt' => '--Select--']) ?>
+            <?= $form->field($model, 'status')->dropDownList(\backend\models\User::statusLabels(), ['prompt' => '--Select--']) ?>
+            <?= $form->field($model, 'type')->dropDownList(\backend\models\User::typeLabels(), ['prompt' => '--Select--']) ?>
             <?= $form->field($model, 'reset_password')->passwordInput() ?>
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary', 'name' => 'change-button']) ?>

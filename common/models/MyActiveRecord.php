@@ -12,11 +12,11 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-class MyActiveRecord extends ActiveRecord
+abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
     public function a()
     {
-        return Html::a($this->name);
+        return Html::a($this->name, $this->getUrl());
     }
 
     private $_img_srcs = null;

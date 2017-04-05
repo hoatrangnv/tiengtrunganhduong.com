@@ -196,6 +196,11 @@ class Image extends \common\models\MyActiveRecord
         }
     }
 
+    public function getUrl()
+    {
+        // TODO: Implement getUrl() method.
+    }
+
     public function getSource($size_label = null)
     {
         if ($size_label == null) {
