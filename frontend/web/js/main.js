@@ -3,8 +3,10 @@
  */
 
 !function (code_examples) {
+    var tab = "    "; // 1 tab ===> 4 space
     [].forEach.call(code_examples, function (code_example) {
         code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
+        code_example.innerHTML.split("\t").join(tab);
         var test_block = document.createElement("DIV");
 
         if (code_example.nextSibling) {
@@ -26,59 +28,61 @@
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
 
-            var tab = "    "; // 1 tab ===> 4 space
-            code_example.innerHTML.split("\t").join(tab);
-
-            var code = htmlEntitiesDecode(code_example.innerHTML);
-
-            if (event.keyCode === 13) { // ENTER
-                var current_pos = getCaretCharacterOffsetWithin(code_example);
-                var white_space = "";
-                var last_type = false;
-                var last_tag = "";
-                do {
-                    current_pos--;
-                    var char = code.charAt(current_pos);
-                    if (char == " ") {
-                        white_space += " ";
-                    } else if (char != "\n") {
-                        white_space = "";
-                        if (last_type === false) {
-                            last_type = char;
-                        }
-                        if (last_type === ">" && char == "<") {
-                            last_type = "<>";
-                        }
-                        if (last_type === ">" && char == "/") {
-                            last_type = "";
-                        }
-                        if (last_type === ">" && last_type != char) {
-                            last_tag = char + last_tag;
-                        }
-                    }
-                } while (char && (char != "\n"));
-
-                if (last_tag.toLowerCase() === "br") {
-                    last_type = "";
-                }
-                if (last_type === "{" || last_type === "<>") {
-                    white_space += tab;
-                }
-                document.execCommand("insertHTML", false, "\n" + white_space);
-                console.log(getCaretCharacterOffsetWithin(code_example));
-                console.log(code.length);
-                if ( code_example.innerHTML.slice(-1) === "\n"
-                  && code_example.innerHTML.slice(-2, -1) !== "\n"
-                  && code.length == getCaretCharacterOffsetWithin(code_example)
-                ) {
-                    // Ensure break line
-                    document.execCommand("insertHTML", false, "\n" + white_space);
-                }
-                return false;
+            if (event.keyCode === 9) { // TAB
+                code_example.innerHTML.split("\t").join(tab);
+                document.execCommand("insertHTML", false, tab);
             }
 
-            if (event.keyCode === 9) { // TAB
-                document.execCommand("insertHTML", false, tab);
+            if ([9, 13].indexOf(event.keyCode)) {
+                var code = htmlEntitiesDecode(code_example.innerHTML);
+
+                if (event.keyCode === 9) { // TAB
+                    document.execCommand("insertHTML", false, tab);
+                }
+
+                if (event.keyCode === 13) { // ENTER
+                    var current_pos = getCaretOffset(code_example);
+                    var white_space = "";
+                    var last_type = false;
+                    var last_tag = "";
+                    do {
+                        current_pos--;
+                        var char = code.charAt(current_pos);
+                        if (char == " ") {
+                            white_space += " ";
+                        } else if (char != "\n") {
+                            white_space = "";
+                            if (last_type === false) {
+                                last_type = char;
+                            }
+                            if (last_type === ">" && char == "<") {
+                                last_type = "<>";
+                            }
+                            if (last_type === ">" && char == "/") {
+                                last_type = "";
+                            }
+                            if (last_type === ">" && last_type != char) {
+                                last_tag = char + last_tag;
+                            }
+                        }
+                    } while (char && (char != "\n"));
+
+                    if (last_tag.toLowerCase() === "br") {
+                        last_type = "";
+                    }
+                    if (last_type === "{" || last_type === "<>") {
+                        white_space += tab;
+                    }
+                    document.execCommand("insertHTML", false, "\n" + white_space);
+                    if ( code_example.innerHTML.slice(-1) === "\n"
+                      && code_example.innerHTML.slice(-2, -1) !== "\n"
+                      && code.length == getCaretOffset(code_example)
+                    ) {
+                        // Ensure break line
+                        document.execCommand("insertHTML", false, "\n" + white_space);
+                    }
+                }
+
                 return false;
             }
         };
@@ -87,17 +91,16 @@
 
 function htmlEntitiesEncode(str) {
     return str
-        // .split("&").join("&amp;")
+        .split("&").join("&amp;")
         .split("<").join("&lt;").split(">").join("&gt;");
 }
 
 function htmlEntitiesDecode(str) {
     return str.split("&lt;").join("<").split("&gt;").join(">")
-        // .split("&amp;").join("&")
-        ;
+        .split("&amp;").join("&");
 }
 
-function getCaretCharacterOffsetWithin(element) {
+function getCaretOffset(element) {
     var caretOffset = 0;
     if (typeof window.getSelection != "undefined") {
         var range = window.getSelection().getRangeAt(0);
