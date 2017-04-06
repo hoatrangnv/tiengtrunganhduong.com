@@ -62,7 +62,8 @@
                 if (current_pos === code_example.innerHTML.length && white_space === "") {
                     white_space = "\n";
                 }
-                console.log(white_space);
+                console.log("length"+code_example.innerHTML.length);
+                console.log("current_pos"+current_pos);
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
