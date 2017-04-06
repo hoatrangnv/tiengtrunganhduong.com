@@ -64,7 +64,7 @@
                 console.log(white_space.length);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code_example.innerHTML.length);
-                if ( code_example.innerHTML.slice(-1) !== "\n"
+                if ( code_example.innerHTML.slice(-1) === "\n" && code_example.innerHTML.slice(-2, 1) !== "\n"
                   && getCaretCharacterOffsetWithin(code_example) === code_example.innerHTML.length - 1
                 ) {
                     document.execCommand("insertHTML", false, "\n");
