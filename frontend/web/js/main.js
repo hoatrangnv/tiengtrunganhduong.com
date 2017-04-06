@@ -45,10 +45,11 @@
             if (event.keyCode === 9) { // TAB
                 var start = code_example.selectionStart;
                 var end = code_example.selectionEnd;
+                var value = code_example.innerHTML;
                 code_example.innerHTML =
-                    code_example.innerHTML.substring(0, start)
+                    value.substring(0, start)
                     + tab
-                    + code_example.innerHTML.substring(end);
+                    + value.substring(end);
                 code_example.selectionStart = code_example.selectionEnd = start + 1;
                 return false;
             }
