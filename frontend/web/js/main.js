@@ -25,7 +25,8 @@
 
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
-            code_example.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
+            if ([13, 9].indexOf(event.keyCode) > -1) {
+                code_example.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
 
@@ -76,7 +77,6 @@
                 document.execCommand("insertHTML", false, tab);
             }
 
-            if ([13, 9].indexOf(event.keyCode) > -1) {
                 code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
                 return false;
             }
