@@ -26,7 +26,8 @@
             if (event.keyCode === 13) {
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
-                while (--current_pos != "\n") {
+                do {
+                    current_pos--;
                     console.log(current_pos);
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
@@ -34,7 +35,7 @@
                     } else {
                         white_space = "";
                     }
-                }
+                } while (char != "\n");
 
                 document.execCommand("insertHTML", false, "\n" + white_space);
 
