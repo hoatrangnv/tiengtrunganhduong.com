@@ -28,13 +28,13 @@
                 var white_space = "";
                 do {
                     current_pos--;
-                    console.log(current_pos);
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
                         white_space += " ";
                     } else {
                         white_space = "";
                     }
+                    console.log(white_space);
                 } while (char != "\n");
 
                 document.execCommand("insertHTML", false, "\n" + white_space);
