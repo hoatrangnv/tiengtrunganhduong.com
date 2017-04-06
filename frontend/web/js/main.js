@@ -83,7 +83,7 @@
                       && code.length == getCaretOffset(code_example)
                     ) {
                         // Ensure break line
-                        document.execCommand("insertHTML", false, "\n" + white_space);
+                        document.execCommand("insertHTML", false, "\n");
                     }
                 }
 
