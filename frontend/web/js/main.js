@@ -77,14 +77,14 @@
                     if (last_type === "{" || last_type === "<>") {
                         white_space += tab;
                     }
-                    if (white_space === "" && code.slice(-1) === "\n"
-                      && code.slice(-2, -1) !== "\n"
-                      && code.length == getCaretOffset(code_example)
-                    ) {
-                        // Ensure break line
-                        white_space = "\n";
-                    }
                     document.execCommand("insertHTML", false, "\n" + white_space);
+                    // if ( code_example.innerHTML.slice(-1) === "\n"
+                    //   && code_example.innerHTML.slice(-2, -1) !== "\n"
+                    //   && code.length == getCaretOffset(code_example)
+                    // ) {
+                    //     // Ensure break line
+                    //     document.execCommand("insertHTML", false, "\n");
+                    // }
                 }
 
                 return false;
