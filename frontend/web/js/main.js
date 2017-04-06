@@ -82,11 +82,15 @@
 }(document.querySelectorAll(".code-example"));
 
 function htmlEntitiesEncode(str) {
-    return str.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+    return str
+        // .split("&").join("&amp;")
+        .split("<").join("&lt;").split(">").join("&gt;");
 }
 
 function htmlEntitiesDecode(str) {
-    return str.split("&lt;").join("<").split("&gt;").join(">").split("&amp;").join("&");
+    return str.split("&lt;").join("<").split("&gt;").join(">")
+        // .split("&amp;").join("&")
+        ;
 }
 
 function getCaretCharacterOffsetWithin(element) {
