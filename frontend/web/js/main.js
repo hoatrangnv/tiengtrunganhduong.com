@@ -45,7 +45,9 @@
                         }
                     }
                 } while (char != "\n");
-                if (last_char === "{" || last_char === ">")
+                if (last_char === "{" || last_char === ">") {
+                    white_space += tab;
+                }
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
