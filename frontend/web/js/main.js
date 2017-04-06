@@ -47,13 +47,13 @@
                         if (last_char === ">" && char == "/") {
                             last_char = "";
                         }
-                        if (last_char === ">") {
-                            last_tag += char;
+                        if (last_char === ">" && last_char != char) {
+                            last_tag = char + last_tag;
                         }
                     }
                 } while (char != "\n");
                 console.log(last_tag);
-                if (last_tag.toLowerCase() === ">rb") {
+                if (last_tag.toLowerCase() === "br") {
                     last_char = "";
                 }
                 if (last_char === "{" || last_char === "<>") {
