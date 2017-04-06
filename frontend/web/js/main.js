@@ -29,7 +29,7 @@
             if (event.keyCode === 13) { // ENTER
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
-                var last_char = false;
+                var last_type = false;
                 var last_tag = "";
                 do {
                     current_pos--;
@@ -38,25 +38,25 @@
                         white_space += " ";
                     } else if (char != "\n") {
                         white_space = "";
-                        if (last_char === false) {
-                            last_char = char;
+                        if (last_type === false) {
+                            last_type = char;
                         }
-                        if (last_char === ">" && char == "<") {
-                            last_char = "<>";
+                        if (last_type === ">" && char == "<") {
+                            last_type = "<>";
                         }
-                        if (last_char === ">" && char == "/") {
-                            last_char = "";
+                        if (last_type === ">" && char == "/") {
+                            last_type = "";
                         }
-                        if (last_char === ">" && last_char != char) {
+                        if (last_type === ">" && last_type != char) {
                             last_tag = char + last_tag;
                         }
                     }
                 } while (char != "\n");
                 console.log(last_tag);
                 if (last_tag.toLowerCase() === "br") {
-                    last_char = "";
+                    last_type = "";
                 }
-                if (last_char === "{" || last_char === "<>") {
+                if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
