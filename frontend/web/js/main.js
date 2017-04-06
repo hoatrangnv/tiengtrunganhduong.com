@@ -59,7 +59,7 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                if (current_pos === code_example.innerHTML.length - 1 && white_space === "") {
+                if (current_pos === code_example.innerHTML.length && white_space === "") {
                     white_space = "\n";
                 }
                 console.log(white_space);
