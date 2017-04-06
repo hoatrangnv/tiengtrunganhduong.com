@@ -62,6 +62,11 @@
                 console.log(current_pos);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code_example.innerHTML.length);
+                if ( code_example.innerHTML.lastcharacter !== "\n"
+                  && getCaretCharacterOffsetWithin(code_example) === code_example.innerHTML.length - 1
+                ) {
+                    white_space += "\n";
+                }
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
