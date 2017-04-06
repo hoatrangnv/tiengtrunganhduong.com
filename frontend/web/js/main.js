@@ -67,8 +67,8 @@
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code.length);
-                if ( code.slice(-1) === "\n"
-                  && code.slice(-2, -1) !== "\n"
+                if ( code_example.innerHTML.slice(-1) === "\n"
+                  && code_example.innerHTML.slice(-2, -1) !== "\n"
                   && code.length == getCaretCharacterOffsetWithin(code_example)
                 ) {
                     // Ensure break line
