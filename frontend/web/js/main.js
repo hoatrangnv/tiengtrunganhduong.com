@@ -59,7 +59,7 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 } else {
-                    white_space += "\n";
+                    white_space += " ";
                 }
                 console.log(white_space);
                 document.execCommand("insertHTML", false, "\n" + white_space);
