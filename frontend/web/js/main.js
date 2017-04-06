@@ -25,8 +25,9 @@
 
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
+            var code = htmlEntitiesDecode(code_example.innerHTML);
             var tab = "    "; // 1 tab ===> 4 space
-            code_example.innerHTML.split("\t").join(tab);
+            code.split("\t").join(tab);
 
             if (event.keyCode === 13) { // ENTER
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
@@ -35,7 +36,7 @@
                 var last_tag = "";
                 do {
                     current_pos--;
-                    var char = code_example.innerHTML.charAt(current_pos);
+                    var char = code.charAt(current_pos);
                     if (char == " ") {
                         white_space += " ";
                     } else if (char != "\n") {
@@ -62,9 +63,9 @@
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
-                if ( code_example.innerHTML.slice(-1) === "\n"
-                  && code_example.innerHTML.slice(-2, -1) !== "\n"
-                  && code_example.innerHTML.length - getCaretCharacterOffsetWithin(code_example) === 1
+                if ( code.slice(-1) === "\n"
+                  && code.slice(-2, -1) !== "\n"
+                  && code.length - getCaretCharacterOffsetWithin(code_example) === 1
                 ) {
                     // Ensure break line
                     document.execCommand("insertHTML", false, "\n" + white_space);
@@ -107,5 +108,7 @@ function getCaretCharacterOffsetWithin(element) {
         preCaretTextRange.setEndPoint("EndToEnd", textRange);
         caretOffset = preCaretTextRange.text.length;
     }
-    return caretOffset;
+    var decoded_content = htmlEntitiesDecode(element.innerHTML);
+
+    return decoded_content.substring(0, caretOffset).length;
 }
