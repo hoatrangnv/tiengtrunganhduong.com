@@ -23,6 +23,7 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
+            var length0 = code_example.innerHTML.length;
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
 
@@ -35,7 +36,7 @@
                     current_pos--;
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
-                        white_space += "_";
+                        white_space += " ";
                     } else if (char != "\n") {
                         white_space = "";
                         if (last_type === false) {
@@ -59,11 +60,11 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                if (current_pos === code_example.innerHTML.length && white_space === "") {
+                if (current_pos === length0 - 1 && white_space === "") {
                     white_space = "\n";
                 }
-                console.log("length"+code_example.innerHTML.length);
-                console.log("current_pos"+current_pos);
+                console.log("length0 "+length0);
+                console.log("current_pos "+current_pos);
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
