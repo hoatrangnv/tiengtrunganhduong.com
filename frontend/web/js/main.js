@@ -60,9 +60,6 @@
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
-                if (code_example.innerHTML.lastcharacter != "\n") {
-                    code_example.innerHTML += "\n";
-                }
                 return false;
             }
 
