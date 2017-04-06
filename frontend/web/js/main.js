@@ -60,11 +60,11 @@
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
-                console.log(code_example.innerHTML.lastcharacter);
+                console.log(code_example.innerHTML.slice(-1));
                 console.log(white_space.length);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code_example.innerHTML.length);
-                if ( code_example.innerHTML.lastcharacter !== "\n"
+                if ( code_example.innerHTML.slice(-1) !== "\n"
                   && getCaretCharacterOffsetWithin(code_example) === code_example.innerHTML.length - 1
                 ) {
                     document.execCommand("insertHTML", false, "\n");
