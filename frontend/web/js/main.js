@@ -25,8 +25,6 @@
 
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
-            if ([13, 9].indexOf(event.keyCode) > -1) {
-                code_example.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
 
@@ -71,13 +69,11 @@
                     // Ensure break line
                     document.execCommand("insertHTML", false, "\n" + white_space);
                 }
+                return false;
             }
 
             if (event.keyCode === 9) { // TAB
                 document.execCommand("insertHTML", false, tab);
-            }
-
-                code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
                 return false;
             }
         };
