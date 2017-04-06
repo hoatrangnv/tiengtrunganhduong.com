@@ -60,7 +60,7 @@
                     white_space += tab;
                 }
                 console.log(white_space);
-                document.execCommand("insertHTML", true, "\n" + white_space);
+                document.execCommand("insertHTML", false, "\n");
                 return false;
             }
 
