@@ -60,6 +60,8 @@
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
+                console.log(current_pos);
+                console.log(getCaretCharacterOffsetWithin(code_example));
                 if (current_pos === getCaretCharacterOffsetWithin(code_example)) {
                     document.execCommand("insertHTML", false, "\n");
                 }
