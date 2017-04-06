@@ -53,7 +53,7 @@
                             last_tag = char + last_tag;
                         }
                     }
-                } while (char != "\n" || !char);
+                } while (char != "\n" && char);
 
                 if (last_tag.toLowerCase() === "br") {
                     last_type = "";
