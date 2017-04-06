@@ -110,6 +110,6 @@ function getCaretCharacterOffsetWithin(element) {
         preCaretTextRange.setEndPoint("EndToEnd", textRange);
         caretOffset = preCaretTextRange.text.length;
     }
-    var left_str = htmlEntitiesDecode(element.innerHTML.substring(0, caretOffset));
+    var left_str = htmlEntitiesDecode(element.innerHTML.substring(0, caretOffset - 1));
     return left_str.length;
 }
