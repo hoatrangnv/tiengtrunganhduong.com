@@ -13,4 +13,4 @@
             code_example.parentNode.appendChild(test_block);
         }
     });
-}(document.querySelectorAll("code-example"));
+}(document.querySelectorAll(".code-example"));
