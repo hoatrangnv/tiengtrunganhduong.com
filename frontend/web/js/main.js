@@ -30,6 +30,7 @@
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
                 var last_char = false;
+                var last_tag = "";
                 do {
                     current_pos--;
                     var char = code_example.innerHTML.charAt(current_pos);
@@ -40,12 +41,21 @@
                         if (last_char === false) {
                             last_char = char;
                         }
+                        if (last_char === ">" && char == "<") {
+                            last_char = "<>";
+                        }
                         if (last_char === ">" && char == "/") {
+                            last_char = "";
+                        }
+                        if (last_char === ">") {
+                            last_tag += char;
+                        }
+                        if (last_tag.toLocaleLowerCase() === "br") {
                             last_char = "";
                         }
                     }
                 } while (char != "\n");
-                if (last_char === "{" || last_char === ">") {
+                if (last_char === "{" || last_char === "<>") {
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
