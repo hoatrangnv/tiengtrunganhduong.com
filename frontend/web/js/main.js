@@ -31,7 +31,7 @@
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
                         white_space += "_";
-                    } else {
+                    } else if (char != "\n") {
                         white_space = "";
                     }
                 } while (char != "\n");
