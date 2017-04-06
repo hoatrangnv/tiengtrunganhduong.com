@@ -4,7 +4,7 @@
 
 !function (code_examples) {
     [].forEach.call(code_examples, function (code_example) {
-        code_example.innerHTML.split("<").join("&lt;").split(">").join("&gt;");
+        code_example.innerHTML = code_example.innerHTML.split("<").join("&lt;").split(">").join("&gt;");
         var test_block = document.createElement("DIV");
 
         if (code_example.nextSibling) {
