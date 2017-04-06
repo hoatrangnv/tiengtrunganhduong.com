@@ -24,22 +24,41 @@
 
         code_example.addEventListener("keydown", function (event) {
             if (event.keyCode === 13) {
-                var lines = code_example.innerHTML.split("\n");
-                var current_line_number = code_example.innerHTML.substr(0, code_example.selectionStart).split("\n").length;
-                var current_line = lines[current_line_number];
-                var white_space = "\n";
-                for (var i = 0; i< current_line.length; i++) {
-                    if (current_line.charAt(i) == " ") {
+                var current_pos = getCaretCharacterOffsetWithin(code_example);
+                var white_space = "";
+                while (--current_pos) {
+                    var char = code_example.innerHTML.charAt(current_pos);
+                    if (char == " ") {
                         white_space += " ";
-                    } else {
+                    } else if (char == "\n") {
                         break;
+                    } else {
+                        white_space = "";
                     }
                 }
 
-                document.execCommand("insertHTML", false, white_space);
+                document.execCommand("insertHTML", false, "\n" + white_space);
 
                 return false;
             }
         }, false);
     });
 }(document.querySelectorAll(".code-example"));
+
+function getCaretCharacterOffsetWithin(element) {
+    var caretOffset = 0;
+    if (typeof window.getSelection != "undefined") {
+        var range = window.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = preCaretRange.toString().length;
+    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+        var textRange = document.selection.createRange();
+        var preCaretTextRange = document.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text.length;
+    }
+    return caretOffset;
+}
