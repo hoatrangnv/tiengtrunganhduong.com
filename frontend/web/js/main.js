@@ -22,7 +22,7 @@
 
         code_example.contentEditable = true;
 
-        code_example.addEventListener("keydown", function (event) {
+        code_example.onkeydown = function (event) {
             if (event.keyCode === 13) {
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
@@ -41,7 +41,7 @@
 
                 return false;
             }
-        }, false);
+        };
     });
 }(document.querySelectorAll(".code-example"));
 
