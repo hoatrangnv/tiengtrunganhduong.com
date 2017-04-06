@@ -3,14 +3,14 @@
  */
 
 !function (code_blocks) {
-    var spaces2tab = "    "; // 1 spaces2tab ===> 4 space
+    var tab = "    "; // 1 tab ===> 4 space
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
         code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.trim());
-        code_example.innerHTML.split(spaces2tab).join("\t");
+        code_example.innerHTML.split("\t").join(tab);
         var test_block = document.createElement("DIV");
 
         if (code_block.nextSibling) {
@@ -32,17 +32,19 @@
 
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
-
+            if (code_example.innerHTML.slice(-1) !== "\n") {
+                code_example.innerHTML += "\n";
+            }
             if (event.keyCode === 9) { // TAB
-                document.execCommand("insertHTML", false, "\t");
-                code_example.innerHTML.split(spaces2tab).join("\t");
+                code_example.innerHTML.split("\t").join(tab);
+                document.execCommand("insertHTML", false, tab);
             }
 
             if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = htmlEntitiesDecode(code_example.innerHTML);
 
                 if (event.keyCode === 9) { // TAB
-                    document.execCommand("insertHTML", false, "\t");
+                    document.execCommand("insertHTML", false, tab);
                 }
 
                 if (event.keyCode === 13) { // ENTER
@@ -76,7 +78,7 @@
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
-                        white_space += "\t";
+                        white_space += tab;
                     }
                     document.execCommand("insertHTML", false, "\n" + white_space);
                     // if ( code_example.innerHTML.slice(-1) === "\n"
