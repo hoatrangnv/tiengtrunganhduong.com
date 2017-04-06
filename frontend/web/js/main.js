@@ -58,11 +58,9 @@
                 }
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
-                } else {
-                    white_space += " ";
                 }
                 console.log(white_space);
-                document.execCommand("insertHTML", false, "\n" + white_space);
+                document.execCommand("insertHTML", false, "\r\n" + white_space);
                 return false;
             }
 
