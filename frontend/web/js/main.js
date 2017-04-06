@@ -6,6 +6,8 @@
     var tab = "    "; // 1 tab ===> 4 space
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
+        var editor = document.createElement("TEXTAREA");
+        editor.value = code_example.innerHTML.trim();
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
@@ -13,6 +15,9 @@
         code_example.innerHTML.split("\t").join(tab);
         var test_block = document.createElement("DIV");
 
+        editor.style.height = code_example.offsetHeight + "px";
+        editor.style.fontSize = window.getComputedStyle(code_example, null).getPropertyValue("font-size");
+        editor.style.fontFamily = window.getComputedStyle(code_example, null).getPropertyValue("font-family");
         if (code_block.nextSibling) {
             code_block.parentNode.insertBefore(test_block, code_block.nextSibling);
         } else {
@@ -21,14 +26,26 @@
 
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
+        var editor_display = false;
         btn.addEventListener("click", function (event) {
-            test_block.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
-            nodeScriptReplace(test_block);
+            if (!editor_display) {
+                editor_display = true;
+                code_block.replaceChild(editor, code_example);
+                code_block.parentNode.insertBefore(editor, btn);
+            }
+            runCode();
         }, false);
-        code_block.parentNode.insertBefore(btn, test_block);
-        btn.click();
 
-        code_example.contentEditable = true;
+        code_block.parentNode.insertBefore(btn, test_block);
+
+        function runCode() {
+            test_block.innerHTML = editor.value;
+            nodeScriptReplace(test_block);
+        }
+
+        runCode();
+
+        // code_example.contentEditable = true;
 
         // code_example.onkeydown = function (event) {
         //     code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);

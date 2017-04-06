@@ -17,5 +17,10 @@
     text-decoration: underline;
 }
 
-.code-example {
+* {
+    box-sizing: border-box;
+}
+.code-example + textarea {
+    width: 100%;
+    height: auto;
 }
