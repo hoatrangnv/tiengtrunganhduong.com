@@ -78,13 +78,13 @@
                         white_space += tab;
                     }
                     document.execCommand("insertHTML", false, "\n" + white_space);
-                    if ( code_example.innerHTML.slice(-1) === "\n"
-                      && code_example.innerHTML.slice(-2, -1) !== "\n"
-                      && code.length == getCaretOffset(code_example)
-                    ) {
-                        // Ensure break line
-                        document.execCommand("insertHTML", false, "\n" + white_space);
-                    }
+                    // if ( code_example.innerHTML.slice(-1) === "\n"
+                    //   && code_example.innerHTML.slice(-2, -1) !== "\n"
+                    //   && code.length == getCaretOffset(code_example)
+                    // ) {
+                    //     // Ensure break line
+                    //     document.execCommand("insertHTML", false, "\n" + white_space);
+                    // }
                 }
 
                 return false;
