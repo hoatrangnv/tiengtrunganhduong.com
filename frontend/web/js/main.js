@@ -59,9 +59,9 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                if (code_example.innerHTML.lastcharacter != "\n") {
-                    code_example.innerHTML += "\n";
-                }
+                console.log(current_pos);
+                console.log(getCaretCharacterOffsetWithin());
+                console.log(code_example.innerHTML.length);
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
