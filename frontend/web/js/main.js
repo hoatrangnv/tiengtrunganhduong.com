@@ -50,11 +50,11 @@
                         if (last_char === ">") {
                             last_tag += char;
                         }
-                        if (last_tag.toLocaleLowerCase() === "br") {
-                            last_char = "";
-                        }
                     }
                 } while (char != "\n");
+                if (last_tag.toLowerCase() === "br") {
+                    last_char = "";
+                }
                 if (last_char === "{" || last_char === "<>") {
                     white_space += tab;
                 }
