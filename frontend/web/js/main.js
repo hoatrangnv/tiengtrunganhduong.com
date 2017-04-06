@@ -2,17 +2,21 @@
  * Created by User on 4/6/2017.
  */
 
-!function (code_examples) {
+!function (code_blocks) {
     var tab = "    "; // 1 tab ===> 4 space
-    [].forEach.call(code_examples, function (code_example) {
+    [].forEach.call(code_blocks, function (code_block) {
+        var code_example = code_block.querySelector("code");
+        if (!code_example || code_example != code_block.firstChild) {
+            code_example = code_block;
+        }
         code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
         code_example.innerHTML.split("\t").join(tab);
         var test_block = document.createElement("DIV");
 
-        if (code_example.nextSibling) {
-            code_example.parentNode.insertBefore(test_block, code_example.nextSibling);
+        if (code_block.nextSibling) {
+            code_block.parentNode.insertBefore(test_block, code_block.nextSibling);
         } else {
-            code_example.parentNode.appendChild(test_block);
+            code_block.parentNode.appendChild(test_block);
         }
 
         var btn = document.createElement("BUTTON");
@@ -20,7 +24,7 @@
         btn.addEventListener("click", function (event) {
             test_block.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
         }, false);
-        code_example.parentNode.insertBefore(btn, test_block);
+        code_block.parentNode.insertBefore(btn, test_block);
         btn.click();
 
         code_example.contentEditable = true;
@@ -94,8 +98,6 @@ function htmlEntitiesEncode(str) {
         .split("&").join("&amp;")
         .split("<").join("&lt;")
         .split(">").join("&gt;")
-        .split("&lt;code&gt;").join("<code>")
-        .split("&lt;/code&gt;").join("</code>")
         ;
 }
 
