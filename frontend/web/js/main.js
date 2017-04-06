@@ -77,13 +77,13 @@
                     if (last_type === "{" || last_type === "<>") {
                         white_space += tab;
                     }
-                    insertAtCaret(code_example, "\n" + white_space);
+                    document.execCommand("insertHTML", false, "\n" + white_space);
                     if ( code_example.innerHTML.slice(-1) === "\n"
                       && code_example.innerHTML.slice(-2, -1) !== "\n"
                       && code.length == getCaretOffset(code_example)
                     ) {
                         // Ensure break line
-                        insertAtCaret(code_example, "\n");
+                        document.execCommand("insertHTML", false, "\n");
                     }
                 }
 
