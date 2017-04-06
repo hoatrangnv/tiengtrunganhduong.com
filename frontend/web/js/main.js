@@ -16,7 +16,7 @@
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
         btn.addEventListener("click", function (event) {
-            test_block.innerHTML = code_example.innerHTML.innerHTML
+            test_block.innerHTML = code_example.innerHTML
                 .split("&amp;").join("&").split("&lt;").join("<").split("&gt;").join(">");;
         }, false);
         code_example.parentNode.insertBefore(btn, test_block);
