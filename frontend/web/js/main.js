@@ -5,6 +5,7 @@
 !function (code_examples) {
     var tab = "    "; // 1 tab ===> 4 space
     [].forEach.call(code_examples, function (code_example) {
+        code_example.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
         code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
         code_example.innerHTML.split("\t").join(tab);
         var test_block = document.createElement("DIV");
@@ -91,6 +92,7 @@
 
 function htmlEntitiesEncode(str) {
     return str
+        .split("&").join("&amp;")
         .split("<").join("&lt;")
         .split(">").join("&gt;")
         ;
@@ -100,6 +102,7 @@ function htmlEntitiesDecode(str) {
     return str
         .split("&gt;").join(">")
         .split("&lt;").join("<")
+        .split("&amp;").join("&")
         ;
 }
 
