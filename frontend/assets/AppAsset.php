@@ -14,11 +14,11 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/Skeleton-2.0.4/css/normalize.css',
         'css/Skeleton-2.0.4/css/skeleton.css',
-        'css/Skeleton-2.0.4/css/custom.css',
+//        'css/Skeleton-2.0.4/css/custom.css',
         'css/me.css',
     ];
     public $js = [
-
+        'js/main.js',
     ];
     public $depends = [
 //        'yii\web\YiiAsset',
