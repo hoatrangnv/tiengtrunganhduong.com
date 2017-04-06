@@ -31,9 +31,8 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
-            code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
             if (code_example.innerHTML.slice(-1) !== "\n") {
-                code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML) + "\n";
+                code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML + "\n");
             } else {
                 code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
             }
