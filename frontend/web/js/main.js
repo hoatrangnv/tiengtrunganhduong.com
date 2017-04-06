@@ -29,6 +29,8 @@
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
 
+            var code = htmlEntitiesDecode(code_example.innerHTML);
+
             if (event.keyCode === 13) { // ENTER
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
@@ -36,7 +38,7 @@
                 var last_tag = "";
                 do {
                     current_pos--;
-                    var char = code_example.innerHTML.charAt(current_pos);
+                    var char = code.charAt(current_pos);
                     if (char == " ") {
                         white_space += " ";
                     } else if (char != "\n") {
@@ -54,7 +56,7 @@
                             last_tag = char + last_tag;
                         }
                     }
-                } while (char != "\n" && char);
+                } while (char && (char != "\n"));
 
                 if (last_tag.toLowerCase() === "br") {
                     last_type = "";
