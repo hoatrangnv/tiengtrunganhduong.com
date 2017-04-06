@@ -53,10 +53,7 @@
                     }
                 } while (char != "\n");
 
-                // if (last_tag.toLowerCase() === "br") {
-                //     last_type = "";
-                // }
-                if (last_type === "{" || last_type === "<>") {
+                if (last_type === "{" || (last_type === "<>" && last_tag.toLowerCase() !== "br")) {
                     white_space += tab;
                 }
                 console.log(white_space);
