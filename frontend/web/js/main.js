@@ -91,13 +91,13 @@
 
 function htmlEntitiesEncode(str) {
     return str
-        .split("&").join("&amp;")
-        .split("<").join("&lt;").split(">").join("&gt;");
+
+        .split("<").join("&lt;").split(">").join("&gt;").split("&").join("&amp;");
 }
 
 function htmlEntitiesDecode(str) {
-    return str.split("&lt;").join("<").split("&gt;").join(">")
-        .split("&amp;").join("&");
+    return str.split("&amp;").join("&").split("&lt;").join("<").split("&gt;").join(">")
+        ;
 }
 
 function getCaretOffset(element) {
