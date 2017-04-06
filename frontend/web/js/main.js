@@ -102,15 +102,13 @@ function getCaretCharacterOffsetWithin(element) {
         var preCaretRange = range.cloneRange();
         preCaretRange.selectNodeContents(element);
         preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString().length;
+        caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
     } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
         var textRange = document.selection.createRange();
         var preCaretTextRange = document.body.createTextRange();
         preCaretTextRange.moveToElementText(element);
         preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text.length;
+        caretOffset = htmlEntitiesDecode(preCaretTextRange.text).length;
     }
-    var left_str = htmlEntitiesDecode(element.innerHTML.substring(0, caretOffset - 1));
-    console.log(left_str);
-    return left_str.length;
+    return caretOffset;
 }
