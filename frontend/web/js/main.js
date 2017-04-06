@@ -22,11 +22,22 @@
 
         code_example.contentEditable = true;
 
-        code_example.onkeydown = function (event) {
+        code_example.addEventListener("keydown", function (event) {
             if (event.keyCode === 13) {
-                document.execCommand('insertHTML', false, "\n");
+                var lines = code_example.innerHTML.split("\n");
+                var current_line_number = code_example.innerHTML.substr(0, code_example.selectionStart).split("\n").length;
+                var current_line = lines[current_line_number];
+                var num_space = 0;
+                for (var i = 0; i< current_line.length; i++) {
+                    if (current_line.charAt(i) == " ") {
+                        num_space += 1;
+                    }
+                }
+
+                document.execCommand("insertHTML", false, "\n");
+
                 return false;
             }
-        };
+        }, false);
     });
 }(document.querySelectorAll(".code-example"));
