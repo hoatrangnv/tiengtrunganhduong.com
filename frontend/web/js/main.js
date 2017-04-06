@@ -59,8 +59,11 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
+                if (current_pos === code_example.length - 1 && white_space === "") {
+                    white_space = "\n";
+                }
                 console.log(white_space);
-                document.execCommand("insertHTML", false, "\r\n" + white_space);
+                document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
 
