@@ -35,7 +35,7 @@
                     current_pos--;
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
-                        white_space += "_";
+                        white_space += " ";
                     } else if (char != "\n") {
                         white_space = "";
                         if (last_type === false) {
@@ -59,11 +59,11 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                console.log(white_space);
-                console.log(current_pos);
+                document.execCommand("insertHTML", false, "\n" + white_space);
+                console.log(code_example.innerHTML.lastcharacter);
+                console.log(white_space.length);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code_example.innerHTML.length);
-                document.execCommand("insertHTML", false, "\n" + white_space);
                 if ( code_example.innerHTML.lastcharacter !== "\n"
                   && getCaretCharacterOffsetWithin(code_example) === code_example.innerHTML.length - 1
                 ) {
