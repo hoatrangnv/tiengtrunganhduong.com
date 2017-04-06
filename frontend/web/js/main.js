@@ -92,7 +92,7 @@
 function htmlEntitiesEncode(str) {
     return str
 
-        .split("<").join("&lt;").split(">").join("&gt;").split("&").join("&amp;");
+        .split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 }
 
 function htmlEntitiesDecode(str) {
