@@ -91,6 +91,8 @@
 
 function htmlEntitiesEncode(str) {
     return str
+        .split("&lt;").join("<")
+        .split("&gt;").join(">")
         .split("&").join("&amp;")
         .split("<").join("&lt;")
         .split(">").join("&gt;")
