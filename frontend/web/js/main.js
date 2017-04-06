@@ -31,6 +31,7 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
+            event.preventDefault();
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
             if (event.keyCode === 9) { // TAB
                 code_example.innerHTML.split("\t").join(tab);
@@ -78,13 +79,13 @@
                         white_space += tab;
                     }
                     document.execCommand("insertHTML", false, "\n" + white_space);
-                    // if ( code_example.innerHTML.slice(-1) === "\n"
-                    //   && code_example.innerHTML.slice(-2, -1) !== "\n"
-                    //   && code.length == getCaretOffset(code_example)
-                    // ) {
-                    //     // Ensure break line
-                    //     document.execCommand("insertHTML", false, "\n");
-                    // }
+                    if ( code_example.innerHTML.slice(-1) === "\n"
+                      && code_example.innerHTML.slice(-2, -1) !== "\n"
+                      && code.length == getCaretOffset(code_example)
+                    ) {
+                        // Ensure break line
+                        document.execCommand("insertHTML", false, "\n");
+                    }
                 }
 
                 return false;
