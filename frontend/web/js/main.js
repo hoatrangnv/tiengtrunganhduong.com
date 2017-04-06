@@ -27,45 +27,49 @@
             code_example.innerHTML.split("\t").join(tab);
 
             if (event.keyCode === 13) { // ENTER
-                // var current_pos = getCaretCharacterOffsetWithin(code_example);
-                // var white_space = "";
-                // var last_type = false;
-                // var last_tag = "";
-                // do {
-                //     current_pos--;
-                //     var char = code_example.innerHTML.charAt(current_pos);
-                //     if (char == " ") {
-                //         white_space += " ";
-                //     } else if (char != "\n") {
-                //         white_space = "";
-                //         if (last_type === false) {
-                //             last_type = char;
-                //         }
-                //         if (last_type === ">" && char == "<") {
-                //             last_type = "<>";
-                //         }
-                //         if (last_type === ">" && char == "/") {
-                //             last_type = "";
-                //         }
-                //         if (last_type === ">" && last_type != char) {
-                //             last_tag = char + last_tag;
-                //         }
-                //     }
-                // } while (char != "\n");
-                //
-                // if (last_tag.toLowerCase() === "br") {
-                //     last_type = "";
-                // }
-                // if (last_type === "{" || last_type === "<>") {
-                //     white_space += tab;
-                // }
-                document.execCommand("insertHTML", false, "\n");
+                var current_pos = getCaretCharacterOffsetWithin(code_example);
+                var white_space = "";
+                var last_type = false;
+                var last_tag = "";
+                do {
+                    current_pos--;
+                    var char = code_example.innerHTML.charAt(current_pos);
+                    if (char == " ") {
+                        white_space += " ";
+                    } else if (char != "\n") {
+                        white_space = "";
+                        if (last_type === false) {
+                            last_type = char;
+                        }
+                        if (last_type === ">" && char == "<") {
+                            last_type = "<>";
+                        }
+                        if (last_type === ">" && char == "/") {
+                            last_type = "";
+                        }
+                        if (last_type === ">" && last_type != char) {
+                            last_tag = char + last_tag;
+                        }
+                    }
+                } while (char != "\n");
+
+                if (last_tag.toLowerCase() === "br") {
+                    last_type = "";
+                }
+                if (last_type === "{" || last_type === "<>") {
+                    white_space += tab;
+                }
+                document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
 
             if (event.keyCode === 9) { // TAB
                 document.execCommand("insertHTML", false, tab);
                 return false;
+            }
+
+            if (code_example.innerHTML.lastcharacter != "\n") {
+                code_example.innerHTML += "\n";
             }
         };
     });
