@@ -43,14 +43,7 @@
                 return false;
             }
             if (event.keyCode === 9) { // TAB
-                var start = code_example.selectionStart;
-                var end = code_example.selectionEnd;
-                var value = code_example.innerHTML;
-                code_example.innerHTML =
-                    value.substring(0, start)
-                    + tab
-                    + value.substring(end);
-                code_example.selectionStart = code_example.selectionEnd = start + 1;
+                document.execCommand("insertHTML", false, tab);
                 return false;
             }
         };
