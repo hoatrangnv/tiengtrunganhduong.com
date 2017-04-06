@@ -90,11 +90,12 @@
 }(document.querySelectorAll(".code-example"));
 
 function htmlEntitiesEncode(str) {
-    str = htmlEntitiesDecode(str);
-    return str
+    return htmlEntitiesDecode(str)
         .split("&").join("&amp;")
         .split("<").join("&lt;")
         .split(">").join("&gt;")
+        .split("&lt;code&gt;").join("<code>")
+        .split("&lt;/code&gt;").join("</code>")
         ;
 }
 
