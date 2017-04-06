@@ -25,9 +25,11 @@
         code_example.onkeydown = function (event) {
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
+
             if (event.keyCode === 13) { // ENTER
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
+                var last_char = false;
                 do {
                     current_pos--;
                     var char = code_example.innerHTML.charAt(current_pos);
@@ -35,13 +37,19 @@
                         white_space += " ";
                     } else if (char != "\n") {
                         white_space = "";
+                        if (last_char === false) {
+                            last_char = char;
+                        }
+                        if (last_char === ">" && char == "/") {
+                            last_char = "";
+                        }
                     }
                 } while (char != "\n");
-
+                if (last_char === "{" || last_char === ">")
                 document.execCommand("insertHTML", false, "\n" + white_space);
-
                 return false;
             }
+
             if (event.keyCode === 9) { // TAB
                 document.execCommand("insertHTML", false, tab);
                 return false;
