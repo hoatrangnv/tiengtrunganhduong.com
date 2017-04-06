@@ -59,6 +59,9 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
+                if (code_example.innerHTML.lastcharacter != "\n") {
+                    code_example.innerHTML += "\n";
+                }
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
@@ -68,9 +71,6 @@
                 return false;
             }
 
-            if (code_example.innerHTML.lastcharacter != "\n") {
-                code_example.innerHTML += "\n";
-            }
         };
     });
 }(document.querySelectorAll(".code-example"));
