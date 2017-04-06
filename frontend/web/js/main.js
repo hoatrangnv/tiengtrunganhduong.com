@@ -31,7 +31,6 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
-            event.preventDefault();
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
             if (event.keyCode === 9) { // TAB
                 code_example.innerHTML.split("\t").join(tab);
@@ -78,13 +77,13 @@
                     if (last_type === "{" || last_type === "<>") {
                         white_space += tab;
                     }
-                    document.execCommand("insertHTML", false, "\n" + white_space);
+                    insertAtCaret(code_example, "\n" + white_space);
                     if ( code_example.innerHTML.slice(-1) === "\n"
                       && code_example.innerHTML.slice(-2, -1) !== "\n"
                       && code.length == getCaretOffset(code_example)
                     ) {
                         // Ensure break line
-                        document.execCommand("insertHTML", false, "\n");
+                        insertAtCaret(code_example, "\n");
                     }
                 }
 
@@ -153,4 +152,40 @@ function nodeScriptClone(node){
         script.setAttribute( node.attributes[i].name, node.attributes[i].value );
     }
     return script;
+}
+
+function insertAtCaret(txtarea, text) {
+    if (!txtarea) { return; }
+
+    var scrollPos = txtarea.scrollTop;
+    var strPos = 0;
+    var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+        "ff" : (document.selection ? "ie" : false ) );
+    if (br == "ie") {
+        txtarea.focus();
+        var range = document.selection.createRange();
+        range.moveStart ('character', -txtarea.value.length);
+        strPos = range.text.length;
+    } else if (br == "ff") {
+        strPos = txtarea.selectionStart;
+    }
+
+    var front = (txtarea.value).substring(0, strPos);
+    var back = (txtarea.value).substring(strPos, txtarea.value.length);
+    txtarea.value = front + text + back;
+    strPos = strPos + text.length;
+    if (br == "ie") {
+        txtarea.focus();
+        var ieRange = document.selection.createRange();
+        ieRange.moveStart ('character', -txtarea.value.length);
+        ieRange.moveStart ('character', strPos);
+        ieRange.moveEnd ('character', 0);
+        ieRange.select();
+    } else if (br == "ff") {
+        txtarea.selectionStart = strPos;
+        txtarea.selectionEnd = strPos;
+        txtarea.focus();
+    }
+
+    txtarea.scrollTop = scrollPos;
 }
