@@ -59,16 +59,14 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                document.execCommand("insertHTML", false, "\n" + white_space);
-                console.log(code_example.innerHTML.slice(-2, -1));
-                console.log(white_space.length);
-                console.log(getCaretCharacterOffsetWithin(code_example));
-                console.log(code_example.innerHTML.length);
-                if ( code_example.innerHTML.slice(-1) === "\n" && code_example.innerHTML.slice(-2, -1) !== "\n"
-                  && getCaretCharacterOffsetWithin(code_example) === code_example.innerHTML.length - 1
+                if (white_space === ""
+                  && code_example.innerHTML.slice(-1) === "\n"
+                  && code_example.innerHTML.slice(-2, -1) !== "\n"
+                  && code_example.innerHTML.length - getCaretCharacterOffsetWithin(code_example) === 1
                 ) {
-                    document.execCommand("insertHTML", false, "\n");
+                    white_space = "\n";
                 }
+                document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
 
