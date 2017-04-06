@@ -70,14 +70,16 @@
                     // Ensure break line
                     document.execCommand("insertHTML", false, "\n" + white_space);
                 }
-                return false;
             }
 
             if (event.keyCode === 9) { // TAB
                 document.execCommand("insertHTML", false, tab);
+            }
+
+            if (event.keyCode.indexOf([13, 9]) > -1) {
+                code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
                 return false;
             }
-            code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
         };
     });
 }(document.querySelectorAll(".code-example"));
