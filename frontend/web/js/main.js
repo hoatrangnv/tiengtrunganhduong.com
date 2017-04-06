@@ -65,9 +65,9 @@
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
-                if ( code_example.innerHTML.slice(-1) === "\n"
-                  && code_example.innerHTML.slice(-2, -1) !== "\n"
-                  && code_example.innerHTML.length - getCaretCharacterOffsetWithin(code_example) === 1
+                if ( code.slice(-1) === "\n"
+                  && code.slice(-2, -1) !== "\n"
+                  && code.length - getCaretCharacterOffsetWithin(code_example) === 1
                 ) {
                     // Ensure break line
                     document.execCommand("insertHTML", false, "\n" + white_space);
