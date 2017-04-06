@@ -52,6 +52,7 @@
                         }
                     }
                 } while (char != "\n");
+                console.log(last_tag);
                 if (last_tag.toLowerCase() === "br") {
                     last_char = "";
                 }
