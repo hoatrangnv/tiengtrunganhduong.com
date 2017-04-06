@@ -91,12 +91,17 @@
 
 function htmlEntitiesEncode(str) {
     return str
-
-        .split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+        .split("&").join("&amp;")
+        .split("<").join("&lt;")
+        .split(">").join("&gt;")
+        ;
 }
 
 function htmlEntitiesDecode(str) {
-    return str.split("&amp;").join("&").split("&lt;").join("<").split("&gt;").join(">")
+    return str
+        .split("&gt;").join(">")
+        .split("&lt;").join("<")
+        .split("&amp;").join("&")
         ;
 }
 
