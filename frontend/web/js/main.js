@@ -28,13 +28,13 @@
         code_block.parentNode.insertBefore(btn, test_block);
         btn.click();
 
-        code_example.contentEdispaces2table = true;
+        code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
 
             if (event.keyCode === 9) { // TAB
-                document.execCommand("insertHTML", false, spaces2tab);
+                document.execCommand("insertHTML", false, "\t");
                 code_example.innerHTML.split(spaces2tab).join("\t");
             }
 
@@ -42,7 +42,7 @@
                 var code = htmlEntitiesDecode(code_example.innerHTML);
 
                 if (event.keyCode === 9) { // TAB
-                    document.execCommand("insertHTML", false, spaces2tab);
+                    document.execCommand("insertHTML", false, "\t");
                 }
 
                 if (event.keyCode === 13) { // ENTER
@@ -76,7 +76,7 @@
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
-                        white_space += spaces2tab;
+                        white_space += "\t";
                     }
                     document.execCommand("insertHTML", false, "\n" + white_space);
                     // if ( code_example.innerHTML.slice(-1) === "\n"
