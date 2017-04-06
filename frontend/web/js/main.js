@@ -52,13 +52,14 @@
                         }
                     }
                 } while (char != "\n");
-                console.log(last_tag);
+
                 if (last_tag.toLowerCase() === "br") {
                     last_type = "";
                 }
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
+                console.log(white_space);
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
