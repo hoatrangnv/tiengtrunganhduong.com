@@ -69,7 +69,7 @@
                 console.log(code.length);
                 if ( code.slice(-1) === "\n"
                   && code.slice(-2, -1) !== "\n"
-                  && code.length === getCaretCharacterOffsetWithin(code_example)
+                  && code.length == getCaretCharacterOffsetWithin(code_example)
                 ) {
                     // Ensure break line
                     document.execCommand("insertHTML", false, "\n" + white_space);
