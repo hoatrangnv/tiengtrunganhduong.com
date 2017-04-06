@@ -59,14 +59,14 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                if (white_space === ""
-                  && code_example.innerHTML.slice(-1) === "\n"
+                document.execCommand("insertHTML", false, "\n" + white_space);
+                if ( code_example.innerHTML.slice(-1) === "\n"
                   && code_example.innerHTML.slice(-2, -1) !== "\n"
                   && code_example.innerHTML.length - getCaretCharacterOffsetWithin(code_example) === 1
                 ) {
-                    white_space = "\n";
+                    // Ensure break line
+                    document.execCommand("insertHTML", false, "\n" + white_space);
                 }
-                document.execCommand("insertHTML", false, "\n" + white_space);
                 return false;
             }
 
