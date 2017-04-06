@@ -60,7 +60,7 @@
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
-                console.log(code_example.innerHTML.slice(-1) === "\n");
+                console.log(code_example.innerHTML.slice(-2, 1) === "\n");
                 console.log(white_space.length);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code_example.innerHTML.length);
