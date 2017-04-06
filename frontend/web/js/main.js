@@ -30,7 +30,7 @@
                     current_pos--;
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
-                        white_space += "_";
+                        white_space += " ";
                     } else if (char != "\n") {
                         white_space = "";
                     }
