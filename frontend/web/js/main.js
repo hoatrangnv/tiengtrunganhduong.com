@@ -4,6 +4,7 @@
 
 !function (code_examples) {
     [].forEach.call(code_examples, function (code_example) {
+        code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
         var test_block = document.createElement("DIV");
 
         if (code_example.nextSibling) {
@@ -15,7 +16,7 @@
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
         btn.addEventListener("click", function (event) {
-            test_block.innerHTML = code_example.innerHTML;
+            test_block.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
         }, false);
         code_example.parentNode.insertBefore(btn, test_block);
         btn.click();
@@ -23,8 +24,9 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
+            var code = htmlEntitiesDecode(code_example.innerHTML);
             var tab = "    "; // 1 tab ===> 4 space
-            code_example.innerHTML.split("\t").join(tab);
+            code.split("\t").join(tab);
 
             if (event.keyCode === 13) { // ENTER
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
@@ -33,7 +35,7 @@
                 var last_tag = "";
                 do {
                     current_pos--;
-                    var char = code_example.innerHTML.charAt(current_pos);
+                    var char = code.charAt(current_pos);
                     if (char == " ") {
                         white_space += " ";
                     } else if (char != "\n") {
@@ -78,6 +80,14 @@
         };
     });
 }(document.querySelectorAll(".code-example"));
+
+function htmlEntitiesEncode(str) {
+    return str.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+}
+
+function htmlEntitiesDecode(str) {
+    return str.split("&lt;").join("<").split("&gt;").join(">").split("&amp;").join("&");
+}
 
 function getCaretCharacterOffsetWithin(element) {
     var caretOffset = 0;
