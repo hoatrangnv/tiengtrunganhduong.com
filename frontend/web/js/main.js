@@ -22,11 +22,11 @@
 
         code_example.contentEditable = true;
 
-        code_example.onkeydown(function (event) {
+        code_example.onkeydown = function (event) {
             if (event.keyCode === 13) {
                 document.execCommand('insertHTML', false, "\n");
                 return false;
             }
-        });
+        };
     });
 }(document.querySelectorAll(".code-example"));
