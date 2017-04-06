@@ -53,7 +53,10 @@
                     }
                 } while (char != "\n");
 
-                if (last_type === "{" || (last_type === "<>" && last_tag.toLowerCase() !== "br")) {
+                if (last_tag === "br") {
+                    last_type = "";
+                }
+                if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
                 console.log(white_space);
