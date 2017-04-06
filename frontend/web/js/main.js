@@ -4,7 +4,7 @@
 
 !function (code_examples) {
     [].forEach.call(code_examples, function (code_example) {
-        code_example.innerHTML.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+        code_example.innerHTML.split("<").join("&lt;").split(">").join("&gt;");
         var test_block = document.createElement("DIV");
 
         if (code_example.nextSibling) {
@@ -17,7 +17,7 @@
         btn.innerHTML = "Try it here";
         btn.addEventListener("click", function (event) {
             test_block.innerHTML = code_example.innerHTML
-                .split("&amp;").join("&").split("&lt;").join("<").split("&gt;").join(">");;
+                .split("&lt;").join("<").split("&gt;").join(">");;
         }, false);
         code_example.parentNode.insertBefore(btn, test_block);
         btn.click();
