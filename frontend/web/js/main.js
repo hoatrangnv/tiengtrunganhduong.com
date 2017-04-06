@@ -34,8 +34,8 @@
                     } else {
                         white_space = "";
                     }
-                    console.log(white_space);
                 } while (char != "\n");
+                    console.log(white_space);
 
                 document.execCommand("insertHTML", false, "\n" + white_space);
 
