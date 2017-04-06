@@ -33,7 +33,7 @@
                 document.execCommand("insertHTML", false, tab);
             }
 
-            if ([9, 13].indexOf(event.keyCode)) {
+            if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = htmlEntitiesDecode(code_example.innerHTML);
 
                 if (event.keyCode === 9) { // TAB
@@ -91,9 +91,6 @@
 
 function htmlEntitiesEncode(str) {
     return str
-        .split("&lt;").join("<")
-        .split("&gt;").join(">")
-        .split("&").join("&amp;")
         .split("<").join("&lt;")
         .split(">").join("&gt;")
         ;
@@ -103,7 +100,6 @@ function htmlEntitiesDecode(str) {
     return str
         .split("&gt;").join(">")
         .split("&lt;").join("<")
-        .split("&amp;").join("&")
         ;
 }
 
