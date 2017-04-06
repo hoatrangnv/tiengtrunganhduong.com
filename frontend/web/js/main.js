@@ -4,8 +4,6 @@
 
 !function (code_examples) {
     [].forEach.call(code_examples, function (code_example) {
-        code_example.innerHTML = code_example.innerHTML.split("&").join("&amp;")
-            .split("<").join("&lt;").split(">").join("&gt;");
         var test_block = document.createElement("DIV");
 
         if (code_example.nextSibling) {
@@ -17,8 +15,7 @@
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
         btn.addEventListener("click", function (event) {
-            test_block.innerHTML = code_example.innerHTML
-                .split("&lt;").join("<").split("&gt;").join(">").split("&amp;").join("&");
+            test_block.innerHTML = code_example.innerHTML;
         }, false);
         code_example.parentNode.insertBefore(btn, test_block);
         btn.click();
@@ -44,13 +41,13 @@
                         if (last_type === false) {
                             last_type = char;
                         }
-                        if (last_type === "&gt;" && char == "&lt;") {
-                            last_type = "&lt;&gt;";
+                        if (last_type === ">" && char == "<") {
+                            last_type = "<>";
                         }
-                        if (last_type === "&gt;" && char == "/") {
+                        if (last_type === ">" && char == "/") {
                             last_type = "";
                         }
-                        if (last_type === "&gt;" && last_type != char) {
+                        if (last_type === ">" && last_type != char) {
                             last_tag = char + last_tag;
                         }
                     }
@@ -59,7 +56,7 @@
                 if (last_tag.toLowerCase() === "br") {
                     last_type = "";
                 }
-                if (last_type === "{" || last_type === "&gt;&lt;") {
+                if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
                 document.execCommand("insertHTML", false, "\n" + white_space);
