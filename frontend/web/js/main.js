@@ -25,9 +25,9 @@
         code_example.addEventListener("keydown", function (event) {
             if (event.keyCode === 13) {
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
-                console.log(current_pos);
                 var white_space = "";
                 while (--current_pos != "\n") {
+                    console.log(current_pos);
                     var char = code_example.innerHTML.charAt(current_pos);
                     if (char == " ") {
                         white_space += " ";
