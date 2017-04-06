@@ -76,7 +76,7 @@
                 document.execCommand("insertHTML", false, tab);
             }
 
-            if (event.keyCode.indexOf([13, 9]) > -1) {
+            if ([13, 9].indexOf(event.keyCode) > -1) {
                 code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
                 return false;
             }
