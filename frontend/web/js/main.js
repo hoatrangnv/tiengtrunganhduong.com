@@ -23,7 +23,9 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
-            if (event.keyCode === 13) {
+            var tab = "    "; // 1 tab ===> 4 space
+            code_example.innerHTML.split("\t").join(tab);
+            if (event.keyCode === 13) { // ENTER
                 var current_pos = getCaretCharacterOffsetWithin(code_example);
                 var white_space = "";
                 do {
@@ -35,10 +37,19 @@
                         white_space = "";
                     }
                 } while (char != "\n");
-                    console.log(white_space);
 
                 document.execCommand("insertHTML", false, "\n" + white_space);
 
+                return false;
+            }
+            if (event.keyCode === 9) { // TAB
+                var start = code_example.selectionStart;
+                var end = code_example.selectionEnd;
+                code_example.innerHTML =
+                    code_example.innerHTML.substring(0, start)
+                    + tab
+                    + code_example.innerHTML.substring(end);
+                code_example.selectionStart = code_example.selectionEnd = start + 1;
                 return false;
             }
         };
