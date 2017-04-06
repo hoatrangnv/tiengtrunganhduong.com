@@ -59,6 +59,7 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
+                console.log(white_space);
                 console.log(current_pos);
                 console.log(getCaretCharacterOffsetWithin(code_example));
                 console.log(code_example.innerHTML.length);
