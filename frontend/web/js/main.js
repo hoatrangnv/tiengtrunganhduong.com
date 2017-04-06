@@ -27,14 +27,16 @@
                 var lines = code_example.innerHTML.split("\n");
                 var current_line_number = code_example.innerHTML.substr(0, code_example.selectionStart).split("\n").length;
                 var current_line = lines[current_line_number];
-                var num_space = 0;
+                var white_space = "\n";
                 for (var i = 0; i< current_line.length; i++) {
                     if (current_line.charAt(i) == " ") {
-                        num_space += 1;
+                        white_space += " ";
+                    } else {
+                        break;
                     }
                 }
 
-                document.execCommand("insertHTML", false, "\n");
+                document.execCommand("insertHTML", false, white_space);
 
                 return false;
             }
