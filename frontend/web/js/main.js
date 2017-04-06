@@ -34,14 +34,14 @@
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
             if (event.keyCode === 9) { // TAB
                 code_example.innerHTML.split("\t").join(tab);
-                document.execCommand("insertHTML", false, tab);
+                document.execCommand("insertText", false, tab);
             }
 
             if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = htmlEntitiesDecode(code_example.innerHTML);
 
                 if (event.keyCode === 9) { // TAB
-                    document.execCommand("insertHTML", false, tab);
+                    document.execCommand("insertText", false, tab);
                 }
 
                 if (event.keyCode === 13) { // ENTER
@@ -77,13 +77,13 @@
                     if (last_type === "{" || last_type === "<>") {
                         white_space += tab;
                     }
-                    document.execCommand("insertHTML", false, "\n" + white_space);
+                    document.execCommand("insertText", false, "\n" + white_space);
                     if ( code_example.innerHTML.slice(-1) === "\n"
                       && code_example.innerHTML.slice(-2, -1) !== "\n"
                       && code.length == getCaretOffset(code_example)
                     ) {
                         // Ensure break line
-                        document.execCommand("insertHTML", false, "\n");
+                        document.execCommand("insertText", false, "\n");
                     }
                 }
 
