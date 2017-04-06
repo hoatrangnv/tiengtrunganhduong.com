@@ -24,7 +24,7 @@
         code_example.contentEditable = true;
 
         code_example.onkeydown = function (event) {
-            code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
+            // code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
 
