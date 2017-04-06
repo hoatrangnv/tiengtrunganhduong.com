@@ -25,7 +25,7 @@
 
         code_example.onkeydown = function (event) {
             code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
-            code_example.innerHTML = htmlEntitiesDecode(code_example.innerHTML);
+
             var tab = "    "; // 1 tab ===> 4 space
             code_example.innerHTML.split("\t").join(tab);
 
@@ -62,7 +62,6 @@
                 if (last_type === "{" || last_type === "<>") {
                     white_space += tab;
                 }
-                code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
                 document.execCommand("insertHTML", false, "\n" + white_space);
                 if ( code_example.innerHTML.slice(-1) === "\n"
                   && code_example.innerHTML.slice(-2, -1) !== "\n"
@@ -75,7 +74,6 @@
             }
 
             if (event.keyCode === 9) { // TAB
-                code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML);
                 document.execCommand("insertHTML", false, tab);
                 return false;
             }
