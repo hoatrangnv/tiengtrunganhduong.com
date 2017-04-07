@@ -206,3 +206,55 @@ function insertAtCaret(txtarea, text) {
 
     txtarea.scrollTop = scrollPos;
 }
+
+autoGrowTextareas(document.getElementsByTagName("textarea"));
+function autoGrowTextareas(textareas) {
+    for (var i = 0; i < textareas.length; i++) {
+        !function (e) {
+            var d = document.createElement("div");
+            var f = window.getComputedStyle(e, null);
+
+            e.style.overflow = "hidden";
+            e.style.transition = "all 0.3s";
+
+            d.style.position = "absolute";
+            d.style.top = "0px";
+            d.style.left = "0px";
+            d.style.visibility = "hidden";
+            d.style.pointerEvents = "none";
+            d.style.zIndex = -999;
+            d.style.width = f.getPropertyValue("width");
+            d.style.font = f.getPropertyValue("font");
+            d.style.lineHeight = f.getPropertyValue("line-height");
+            d.style.padding = f.getPropertyValue("padding");
+            d.style.border = f.getPropertyValue("border");
+
+            d.innerHTML = e.placeholder;
+            document.body.appendChild(d);
+
+            e.onkeydown = function () {
+                while (e.value.indexOf("    ") > -1) {
+                    e.value = e.value.split("    ").join("   ");
+                }
+                while (e.value.indexOf("\n\n\n\n") > -1) {
+                    e.value = e.value.split("\n\n\n\n").join("\n\n\n");
+                }
+                while (/ |\n/g.test(e.value.charAt(0))) {
+                    e.value = e.value.substring(1);
+                }
+                d.innerHTML = e.value
+                        .split("<").join("&lt;")
+                        .split(">").join("&gt;")
+                        .split("\n").join("<br>")
+                        .split("  ").join(" &nbsp;")
+                    + "<br>&nbsp;";
+                e.style.height = d.offsetHeight + "px";
+
+                var enter_submit = !e.classList.contains("no-enter-submit");
+                if (enter_submit && event.keyCode === 13 && !event.shiftKey) {
+                    submitForm(e.form);
+                }
+            };
+        }(textareas[i]);
+    }
+}
