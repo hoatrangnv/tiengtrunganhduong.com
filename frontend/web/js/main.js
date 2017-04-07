@@ -88,7 +88,7 @@
                     if (last_type === "{" || last_type === "<>") {
                         white_space += tab;
                     }
-                    document.execCommand("insertText", false, "\n" + white_space);
+                    insertAtCursor(editor, "\n" + white_space);
                     if (editor.value.slice(-1) === "\n"
                         && editor.value.slice(-2, -1) !== "\n"
                         && code.length == getCaretOffset(code_example)
