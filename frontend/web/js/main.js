@@ -71,7 +71,7 @@
 
         editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
-            if (/9|13/.test(event.keyCode)) {
+            if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = editor.value;
 
                 if (event.keyCode === 9) { // TAB
