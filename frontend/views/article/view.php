@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $html = $model->getContentWithTemplates();
 
-    $patt = "<code>((?:(?!<code>)[\s\S])*)<\/code>";
+    $patt = "/<code>((?:(?!<code>)[\s\S])*)<\/code>/gi";
     preg_match_all($patt, $html, $matches);
     foreach ($matches[1] as $inner_code) {
         $html = str_replace($inner_code, htmlspecialchars($inner_code), $html);
