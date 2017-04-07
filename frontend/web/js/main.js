@@ -30,9 +30,7 @@
 
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
-        var editor_display = true;
-
-        code_block.insertBefore(editor, code_example);
+        var editor_display = false;
         btn.addEventListener("click", function (event) {
             if (!editor_display) {
                 editor_display = true;
@@ -165,16 +163,14 @@ function setCaret(elem, caretPos) {
             range.select();
         }
         else {
-            setTimeout(function () {
-            elem.focus();
-            elem.setSelectionRange(caretPos, caretPos);
-
-            }, 500);
             // if(elem.selectionStart) {
+                elem.focus();
+                elem.setSelectionRange(caretPos, caretPos);
             // } else {
             //     elem.focus();
             // }
-            // alert("ok");
+            return false;
+            alert("ok");
         }
     }
 }
