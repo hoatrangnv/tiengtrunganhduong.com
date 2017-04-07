@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $dom->loadHTML($html);
     $codes = $dom->getElementsByTagName('code');
     foreach ($codes as $code) {
+        var_dump(htmlspecialchars($code->textContent));
         $html = str_replace($code->textContent, htmlspecialchars($code->textContent), $html);
     }
 
