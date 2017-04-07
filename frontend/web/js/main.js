@@ -48,13 +48,14 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
+            var scroll_top = document.body.scrollTop;
             setTimeout(function () {
                 var caret = getCaretOffset(code_example);
                 setTimeout(function () {
                     setCaret(editor, caret);
                     console.log('caret'+caret);
-                    window.scrollTo(0, 0);
-                    document.body.scrollTop = 0;
+                    window.scrollTo(scroll_top, 0);
+                    document.body.scrollTop = scroll_top;
 
                 },100);
                 if (!editor_display) {
