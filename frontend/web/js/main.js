@@ -8,7 +8,7 @@
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
         editor.value = code_example.innerHTML.trim();
-        autoGrowTextareas([editor]);
+        // autoGrowTextareas([editor]);
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
@@ -45,6 +45,62 @@
         }
 
         runCode();
+
+        editor.value.split("\t").join(tab);
+        editor.onkeydown = function (event) {
+            if ([9, 13].indexOf(event.keyCode) > -1) {
+                var code = editor.value;
+
+                if (event.keyCode === 9) { // TAB
+                    insertAtCursor(editor, tab);
+                }
+
+                if (event.keyCode === 13) { // ENTER
+                    var current_pos = getCaretOffset(editor);
+                    var white_space = "";
+                    var last_type = false;
+                    var last_tag = "";
+                    do {
+                        current_pos--;
+                        var char = code.charAt(current_pos);
+                        if (char == " ") {
+                            white_space += " ";
+                        } else if (char != "\n") {
+                            white_space = "";
+                            if (last_type === false) {
+                                last_type = char;
+                            }
+                            if (last_type === ">" && char == "<") {
+                                last_type = "<>";
+                            }
+                            if (last_type === ">" && char == "/") {
+                                last_type = "";
+                            }
+                            if (last_type === ">" && last_type != char) {
+                                last_tag = char + last_tag;
+                            }
+                        }
+                    } while (char && (char != "\n"));
+
+                    if (last_tag.toLowerCase() === "br") {
+                        last_type = "";
+                    }
+                    if (last_type === "{" || last_type === "<>") {
+                        white_space += tab;
+                    }
+                    document.execCommand("insertText", false, "\n" + white_space);
+                    if (editor.value.slice(-1) === "\n"
+                        && editor.value.slice(-2, -1) !== "\n"
+                        && code.length == getCaretOffset(code_example)
+                    ) {
+                        // Ensure break line
+                        document.execCommand("insertText", false, "\n");
+                    }
+                }
+
+                return false;
+            }
+        };
 
         // code_example.contentEditable = true;
 
@@ -170,6 +226,25 @@ function nodeScriptClone(node){
         script.setAttribute( node.attributes[i].name, node.attributes[i].value );
     }
     return script;
+}
+
+function insertAtCursor(myField, myValue) {
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        var sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+    } else {
+        myField.value += myValue;
+    }
 }
 
 function insertAtCaret(txtarea, text) {
