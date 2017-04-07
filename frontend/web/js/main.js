@@ -52,7 +52,7 @@
                 var code = editor.value;
 
                 if (event.keyCode === 9) { // TAB
-                    insertAtCursor(editor, tab);
+                    insertAtCaret(editor, tab);
                 }
 
                 if (event.keyCode === 13) { // ENTER
@@ -88,7 +88,7 @@
                     if (last_type === "{" || last_type === "<>") {
                         white_space += tab;
                     }
-                    insertAtCursor(editor, "\n" + white_space);
+                    insertAtCaret(editor, "\n" + white_space);
                     // if (editor.value.slice(-1) === "\n"
                     //     && editor.value.slice(-2, -1) !== "\n"
                     //     && code.length == getCaretOffset(code_example)
