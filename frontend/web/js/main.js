@@ -74,7 +74,8 @@
                             if (last_type === ">" && char == "<") {
                                 last_type = "<>";
                             }
-                            if (last_type === ">" && char == "/") {
+                            if (last_type === ">"
+                                && ([0,1,2,3,4,5,6,7,8,9].indexOf(char) == -1 && char.toLowerCase() != char.toUpperCase())) {
                                 last_type = "";
                             }
                             if (last_type === ">" && last_type != char) {
