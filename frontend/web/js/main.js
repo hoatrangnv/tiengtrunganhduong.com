@@ -48,23 +48,23 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
+            document.getElementsByTagName("html")[0].classList.add("disable-scroll");
+            document.getElementsByTagName("body")[0].classList.add("disable-scroll");
             setTimeout(function () {
                 var caret = getCaretOffset(code_example);
                 setTimeout(function () {
                     setCaret(editor, caret);
                     console.log('caret'+caret);
+                    document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
+                    document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
 
                 },100);
                 if (!editor_display) {
-                    // document.getElementsByTagName("html")[0].classList.add("disable-scroll");
-                    // document.getElementsByTagName("body")[0].classList.add("disable-scroll");
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                     // code_block.parentNode.insertBefore(editor, btn);
 
                     // setTimeout(function () {
-                    //     document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
-                    //     document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
                     //
                     // },100);
                 }
