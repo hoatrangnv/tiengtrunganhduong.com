@@ -167,7 +167,10 @@ function setCaret(elem, caretPos) {
         else {
             if(elem.selectionStart) {
                 elem.focus();
+                setTimeout(function () {
                 elem.setSelectionRange(caretPos, caretPos);
+                    alert("ok");
+                },100);
             }
             else
                 elem.focus();
