@@ -11,8 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
     $dom = new DOMDocument;
     $dom->loadHTML($html);
     $codes = $dom->getElementsByTagName('code');
-    foreach ($codes as $code) {
+    foreach ($codes as &$code) {
         $code->textContent = htmlentities($code->textContent);
+
     }
 
     ?>
