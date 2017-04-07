@@ -54,7 +54,6 @@
                 code_block.replaceChild(editor, code_example);
                 code_block.parentNode.insertBefore(editor, btn);
             }
-            editor.focus();
             setCaret(editor, caret);
         };
 
