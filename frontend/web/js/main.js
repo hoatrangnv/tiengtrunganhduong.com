@@ -2,6 +2,27 @@
  * Created by User on 4/6/2017.
  */
 
+HTMLTextAreaElement.prototype.insertAtCaret = function (text) {
+    text = text || '';
+    if (document.selection) {
+        // IE
+        this.focus();
+        var sel = document.selection.createRange();
+        sel.text = text;
+    } else if (this.selectionStart || this.selectionStart === 0) {
+        // Others
+        var startPos = this.selectionStart;
+        var endPos = this.selectionEnd;
+        this.value = this.value.substring(0, startPos) +
+            text +
+            this.value.substring(endPos, this.value.length);
+        this.selectionStart = startPos + text.length;
+        this.selectionEnd = startPos + text.length;
+    } else {
+        this.value += text;
+    }
+};
+
 !function (code_blocks) {
     var tab = "\t";
     var tab2space = "    "; // 1 tab ===> 4 space
@@ -61,7 +82,8 @@
                 }
                 setTimeout(function () {
                     console.log("caret " + caret);
-                    setCaret(editor, caret);
+                    // setCaret(editor, caret);
+                    editor.insertAtCaret("");
                     window.scrollTo(0, scroll_top);
                 }, 100);
             }, 100);
@@ -169,7 +191,6 @@ function setCaret(elem, caretPos) {
             // } else {
             //     elem.focus();
             // }
-            alert("ok");
         }
     }
 }
