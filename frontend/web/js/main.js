@@ -56,7 +56,7 @@
                 }
 
                 if (event.keyCode === 13) { // ENTER
-                    var current_pos = getCaretOffset(editor);
+                    var current_pos = getCaret(editor);
                     console.log("current pos " + current_pos);
                     var white_space = "";
                     var last_type = false;
@@ -168,6 +168,27 @@
         // };
     });
 }(document.querySelectorAll(".code-example"));
+
+function getCaret(el) {
+    if (el.selectionStart) {
+        return el.selectionStart;
+    } else if (document.selection) {
+        el.focus();
+
+        var r = document.selection.createRange();
+        if (r == null) {
+            return 0;
+        }
+
+        var re = el.createTextRange(),
+            rc = re.duplicate();
+        re.moveToBookmark(r.getBookmark());
+        rc.setEndPoint('EndToStart', re);
+
+        return rc.text.length;
+    }
+    return 0;
+}
 
 function htmlEntitiesEncode(str) {
     return htmlEntitiesDecode(str)
