@@ -48,7 +48,7 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
-            var caret = getCaret(code_example);
+            var caret = getCaretOffset(code_example);
             // if (!editor_display) {
             //     editor_display = true;
             //     code_block.replaceChild(editor, code_example);
@@ -108,21 +108,28 @@
 }(document.querySelectorAll(".code-example"));
 
 function getCaretOffset(element) {
-    var caretOffset = 0;
-    if (typeof window.getSelection != "undefined") {
-        var range = window.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
-    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
-        var textRange = document.selection.createRange();
-        var preCaretTextRange = document.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = htmlEntitiesDecode(preCaretTextRange.text).length;
+    var caretPos = 0,
+        sel, range;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            if (range.commonAncestorContainer.parentNode == editableDiv) {
+                caretPos = range.endOffset;
+            }
+        }
+    } else if (document.selection && document.selection.createRange) {
+        range = document.selection.createRange();
+        if (range.parentElement() == editableDiv) {
+            var tempEl = document.createElement("span");
+            editableDiv.insertBefore(tempEl, editableDiv.firstChild);
+            var tempRange = range.duplicate();
+            tempRange.moveToElementText(tempEl);
+            tempRange.setEndPoint("EndToEnd", range);
+            caretPos = tempRange.text.length;
+        }
     }
-    return caretOffset;
+    return caretPos;
 }
 
 function getCaret(el) {
