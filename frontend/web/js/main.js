@@ -50,12 +50,12 @@
         code_example.onfocus = function () {
             setTimeout(function () {
             var caret = getCaretOffset(code_example);
-            // if (!editor_display) {
-            //     editor_display = true;
-            //     code_block.replaceChild(editor, code_example);
-            //     code_block.parentNode.insertBefore(editor, btn);
-            // }
-            // setCaret(editor, caret);
+            if (!editor_display) {
+                editor_display = true;
+                code_block.replaceChild(editor, code_example);
+                code_block.parentNode.insertBefore(editor, btn);
+            }
+            setCaret(editor, caret);
             console.log('caret'+caret);
 
             },100);
