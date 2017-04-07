@@ -48,7 +48,7 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
-            var caret = getCaretOffset(code_example);
+            var caret = getCaret(code_example);
             // if (!editor_display) {
             //     editor_display = true;
             //     code_block.replaceChild(editor, code_example);
