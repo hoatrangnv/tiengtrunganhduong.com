@@ -6,5 +6,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <h1><?= $model->name ?></h1>
 <article>
+    <?php
+    $html = $model->getContentWithTemplates();
+    $dom = new DOMDocument;
+    $dom->loadHTML($html);
+    $codes = $dom->getElementsByTagName('code');
+    foreach ($codes as $code) {
+        var_dump($code);
+    }
+
+    ?>
+
+    ?>
     <?= $model->getContentWithTemplates() ?>
 </article>

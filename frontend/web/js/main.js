@@ -9,7 +9,7 @@
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
         editor.className = "code-example-editor";
-        editor.value = code_example.innerHTML.split(tab).join(tab2space).trim();
+        editor.value = htmlEntitiesDecode(code_example.innerHTML).split(tab).join(tab2space).trim();
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
