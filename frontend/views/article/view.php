@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
     foreach ($matches[0] as $code) {
         $html = str_replace($code, '<code>'
 //            . htmlspecialchars(substr(substr($code, 0, -7), 6))
-            . str_replace('&', '&amp;',
+            . str_replace('>', '&gt;',
                 str_replace('<', '&lt;',
-                    str_replace('>', '&gt;',
+                    str_replace('&', '&amp;',
                         substr(substr($code, 0, -7), 6)
                     )
                 )
