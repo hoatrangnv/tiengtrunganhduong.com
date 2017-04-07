@@ -165,13 +165,14 @@ function setCaret(elem, caretPos) {
             range.select();
         }
         else {
-            if(elem.selectionStart) {
+            // if(elem.selectionStart) {
                 elem.focus();
                 elem.setSelectionRange(caretPos, caretPos);
-            } else {
-                elem.focus();
-                alert(elem.selectionStart);
-            }
+            alert(caretPos);
+            // } else {
+            //     elem.focus();
+            //     alert(elem.selectionStart);
+            // }
         }
     }
 }
