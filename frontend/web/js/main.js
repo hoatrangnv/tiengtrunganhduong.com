@@ -89,13 +89,14 @@
                         white_space += tab;
                     }
                     insertAtCursor(editor, "\n" + white_space);
-                    if (editor.value.slice(-1) === "\n"
-                        && editor.value.slice(-2, -1) !== "\n"
-                        && code.length == getCaretOffset(code_example)
-                    ) {
-                        // Ensure break line
-                        document.execCommand("insertText", false, "\n");
-                    }
+                    // if (editor.value.slice(-1) === "\n"
+                    //     && editor.value.slice(-2, -1) !== "\n"
+                    //     && code.length == getCaretOffset(code_example)
+                    // ) {
+                    //     // Ensure break line
+                    //     document.execCommand("insertText", false, "\n");
+                    //
+                    // }
                 }
 
                 return false;
