@@ -8,6 +8,7 @@
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
         editor.value = code_example.innerHTML.trim();
+        autoGrowTextareas([editor]);
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
@@ -207,7 +208,6 @@ function insertAtCaret(txtarea, text) {
     txtarea.scrollTop = scrollPos;
 }
 
-autoGrowTextareas(document.getElementsByTagName("textarea"));
 function autoGrowTextareas(textareas) {
     for (var i = 0; i < textareas.length; i++) {
         !function (e) {
