@@ -75,7 +75,9 @@
                                 last_type = "<>";
                             }
                             if (last_type === ">"
-                                && (!["0","1","2","3","4","5","6","7","8","9"].indexOf(char) > -1 && char.toLowerCase() == char.toUpperCase())) {
+                                && isNaN(char) // not number
+                                && char.toLowerCase() == char.toUpperCase() // not letter
+                            ) {
                                 last_type = "";
                             }
                             if (last_type === ">" && last_type != char) {
