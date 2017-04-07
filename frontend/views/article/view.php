@@ -12,7 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
     $dom->loadHTML($html);
     $codes = $dom->getElementsByTagName('code');
     foreach ($codes as $code) {
-        $html = str_replace($code->textContent, htmlentities($code->textContent), $html);
+//        $html = str_replace($code->textContent, htmlentities($code->textContent), $html);
+        $code->textContent = $code->nodeValue = "haha";
     }
 
     ?>
