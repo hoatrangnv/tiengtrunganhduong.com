@@ -52,21 +52,12 @@
             var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
             setTimeout(function () {
                 var caret = getCaretOffset(code_example);
-                setTimeout(function () {
-                    setCaret(editor, caret);
-                    console.log('caret'+caret);
-                    window.scrollTo(0, scroll_top);
-                    // document.body.scrollTop = scroll_top;
-
-                },100);
+                setCaret(editor, caret);
+                console.log('caret'+caret);
+                window.scrollTo(0, scroll_top);
                 if (!editor_display) {
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
-                    // code_block.parentNode.insertBefore(editor, btn);
-
-                    // setTimeout(function () {
-                    //
-                    // },100);
                 }
 
             },100);
