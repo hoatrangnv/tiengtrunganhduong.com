@@ -51,14 +51,19 @@
             setTimeout(function () {
             var caret = getCaretOffset(code_example);
             if (!editor_display) {
+                document.getElementsByClassName("html")[0].classList.add("disable-scroll");
+                document.getElementsByClassName("body")[0].classList.add("disable-scroll");
                 editor_display = true;
                 code_block.replaceChild(editor, code_example);
                 code_block.parentNode.insertBefore(editor, btn);
+
             }
             setCaret(editor, caret);
             console.log('caret'+caret);
 
             },100);
+            document.getElementsByClassName("html")[0].classList.remove("disable-scroll");
+            document.getElementsByClassName("body")[0].classList.remove("disable-scroll");
         };
 
         editor.value.split(tab2space).join(tab);

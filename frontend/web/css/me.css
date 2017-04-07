@@ -27,3 +27,7 @@
     -o-tab-size : 4;
     tab-size : 4;
 }
+
+.disable-scroll {
+    overflow: hidden;
+}
