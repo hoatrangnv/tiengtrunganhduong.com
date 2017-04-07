@@ -57,30 +57,16 @@
                 var caret = getCaretOffset(code_example);
                 if (!editor_display) {
                     editor_display = true;
-                    code_block.replaceChild(editor, code_example);
+                    // code_block.replaceChild(editor, code_example);
+                    code_block.insertBefore(editor, code_example);
+
                 }
                 setTimeout(function () {
+                    console.log("caret " + caret);
                     setCaret(editor, caret);
-                    console.log('caret'+caret);
                     window.scrollTo(0, scroll_top);
-                    setTimeout(function () {
-                        setCaret(editor, caret);
-                        window.scrollTo(0, scroll_top);
-
-                    setTimeout(function () {
-                        setCaret(editor, caret);
-                        window.scrollTo(0, scroll_top);
-
-                    },200);
-
-
-
-                    },200);
-
-
                 }, 100);
-
-            },100);
+            }, 100);
         };
 
         // editor.value.split(tab).join(tab2space);
