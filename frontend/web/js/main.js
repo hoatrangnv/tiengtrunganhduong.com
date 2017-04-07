@@ -246,8 +246,7 @@ function autoGrowTextareas(textareas) {
                         .split("<").join("&lt;")
                         .split(">").join("&gt;")
                         .split("\n").join("<br>")
-                        .split("  ").join(" &nbsp;")
-                    + "<br>&nbsp;";
+                        .split("  ").join(" &nbsp;");
                 e.style.height = d.offsetHeight + "px";
 
                 // var enter_submit = !e.classList.contains("no-enter-submit");
