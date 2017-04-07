@@ -64,8 +64,8 @@
                     do {
                         current_pos--;
                         var char = code.charAt(current_pos);
-                        if (char == " ") {
-                            white_space += " ";
+                        if (char == " " || char == "\t") {
+                            white_space += char;
                         } else if (char != "\n") {
                             white_space = "";
                             if (last_type === false) {
