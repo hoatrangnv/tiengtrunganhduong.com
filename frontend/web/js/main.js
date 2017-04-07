@@ -8,6 +8,7 @@
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
+        editor.style.tabSize = 4;
         editor.className = "code-example-editor";
         editor.value = code_example.innerHTML.split(tab2space).join(tab).trim();
         // autoGrowTextareas([editor]);
