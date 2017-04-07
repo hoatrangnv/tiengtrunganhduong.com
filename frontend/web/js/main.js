@@ -57,6 +57,7 @@
 
                 if (event.keyCode === 13) { // ENTER
                     var current_pos = getCaretOffset(editor);
+                    console.log("current pos " + current_pos);
                     var white_space = "";
                     var last_type = false;
                     var last_tag = "";
