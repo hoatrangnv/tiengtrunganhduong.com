@@ -12,7 +12,16 @@ $this->params['breadcrumbs'][] = $this->title;
     $patt = "/<code>(?:(?!<code>)(?:(?!<\/code>))[\s\S])*<\/code>/i";
     preg_match_all($patt, $html, $matches);
     foreach ($matches[0] as $code) {
-        $html = str_replace($code, '<code>' . htmlspecialchars(substr(substr($code, 0, -7), 6)) . '</code>', $html);
+        $html = str_replace($code, '<code>'
+//            . htmlspecialchars(substr(substr($code, 0, -7), 6))
+            . str_replace('&', '&amp;',
+                str_replace('<', '&lt;',
+                    str_replace('>', '&gt;',
+                        substr(substr($code, 0, -7), 6)
+                    )
+                )
+            )
+            . '</code>', $html);
     }
 
     ?>

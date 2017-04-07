@@ -171,7 +171,7 @@ function setCaret(elem, caretPos) {
             // } else {
             //     elem.focus();
             // }
-            alert("ok")
+            // alert("ok")
         }
     }
 }
@@ -190,9 +190,9 @@ function htmlEntitiesDecode(str) {
     return str
         .split("&gt;").join(">")
         .split("&lt;").join("<")
-        .split("&#039;").join("'")
-        .split("&quot;").join("\"")
         .split("&amp;").join("&")
+        // .split("&quot;").join("\"")
+        // .split("&#039;").join("'")
         ;
 }
 
