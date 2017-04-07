@@ -9,11 +9,11 @@
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
         editor.className = "code-example-editor";
-        editor.value = htmlEntitiesDecode(code_example.innerHTML).split(tab).join(tab2space).trim();
+        code_example.innerHTML = code_example.innerHTML.split(tab).join(tab2space).trim();
+        editor.value = htmlEntitiesDecode(code_example.innerHTML);
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
-        code_example.innerHTML = code_example.innerHTML.split(tab).join(tab2space).trim();
         // code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.split(tab).join(tab2space).trim());
         var test_block = document.createElement("DIV");
 
