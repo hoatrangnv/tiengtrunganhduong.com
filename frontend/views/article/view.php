@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $dom->loadHTML($html);
     $codes = $dom->getElementsByTagName('code');
     foreach ($codes as $code) {
-        var_dump($code);
+        $code->textContent = htmlentities($code->textContent);
     }
 
     ?>
