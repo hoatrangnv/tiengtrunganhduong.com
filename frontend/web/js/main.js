@@ -31,7 +31,8 @@
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
         var editor_display = true;
-        code_block.parentNode.insertBefore(editor, btn);
+
+        code_block.insertBefore(editor, code_example);
         btn.addEventListener("click", function (event) {
             if (!editor_display) {
                 editor_display = true;
