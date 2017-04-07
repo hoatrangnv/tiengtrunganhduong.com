@@ -67,7 +67,17 @@
                         setCaret(editor, caret);
                         window.scrollTo(0, scroll_top);
 
+                    setTimeout(function () {
+                        setCaret(editor, caret);
+                        window.scrollTo(0, scroll_top);
+
                     },200);
+
+
+
+                    },200);
+
+
                 }, 100);
 
             },100);
@@ -163,31 +173,31 @@ function getCaret(el) {
 
 function setCaret(elem, caretPos) {
     if(elem != null) {
-        // if(elem.createTextRange) {
-        //     var range = elem.createTextRange();
-        //     range.move('character', caretPos);
-        //     range.select();
-        // }
-        // else {
+        if(elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', caretPos);
+            range.select();
+        }
+        else {
             if(elem.selectionStart) {
                 elem.focus();
                 elem.setSelectionRange(caretPos, caretPos);
             }
             else
                 elem.focus();
-        // }
+        }
     }
 }
 
-function htmlEntitiesEncode(str) {
-    return htmlEntitiesDecode(str)
-        .split("&").join("&amp;")
-        .split("'").join("&#039;")
-        .split("\"").join("&quot;")
-        .split("<").join("&lt;")
-        .split(">").join("&gt;")
-        ;
-}
+// function htmlEntitiesEncode(str) {
+//     return htmlEntitiesDecode(str)
+//         .split("&").join("&amp;")
+//         .split("'").join("&#039;")
+//         .split("\"").join("&quot;")
+//         .split("<").join("&lt;")
+//         .split(">").join("&gt;")
+//         ;
+// }
 
 function htmlEntitiesDecode(str) {
     return str
