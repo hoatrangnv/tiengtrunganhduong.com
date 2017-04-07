@@ -30,7 +30,8 @@
 
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
-        var editor_display = false;
+        var editor_display = true;
+        code_block.parentNode.insertBefore(editor, btn);
         btn.addEventListener("click", function (event) {
             if (!editor_display) {
                 editor_display = true;
@@ -165,7 +166,7 @@ function setCaret(elem, caretPos) {
         else {
             setTimeout(function () {
             elem.focus();
-            // elem.setSelectionRange(caretPos, caretPos);
+            elem.setSelectionRange(caretPos, caretPos);
 
             }, 500);
             // if(elem.selectionStart) {
