@@ -191,13 +191,13 @@ function getCaretOffset(element) {
         var preCaretRange = range.cloneRange();
         preCaretRange.selectNodeContents(element);
         preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
+        caretOffset = preCaretRange.toString().length;
     } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
         var textRange = document.selection.createRange();
         var preCaretTextRange = document.body.createTextRange();
         preCaretTextRange.moveToElementText(element);
         preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = htmlEntitiesDecode(preCaretTextRange.text).length;
+        caretOffset = preCaretTextRange.text.length;
     }
     return caretOffset;
 }
