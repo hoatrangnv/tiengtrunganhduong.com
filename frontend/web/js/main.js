@@ -46,6 +46,16 @@
 
         runCode();
 
+        code_example.contentEditable = true;
+        code_example.onfocus = function () {
+            setCaret(editor, getCaret(code_example));
+            if (!editor_display) {
+                editor_display = true;
+                code_block.replaceChild(editor, code_example);
+                code_block.parentNode.insertBefore(editor, btn);
+            }
+        };
+
         editor.value.split(tab2space).join(tab);
         editor.onkeydown = function (event) {
             if (/9|13/.test(event.keyCode)) {
@@ -114,6 +124,24 @@ function getCaret(el) {
         return rc.text.length;
     }
     return 0;
+}
+
+function setCaret(elem, caretPos) {
+    if(elem != null) {
+        if(elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', caretPos);
+            range.select();
+        }
+        else {
+            if(elem.selectionStart) {
+                elem.focus();
+                elem.setSelectionRange(caretPos, caretPos);
+            }
+            else
+                elem.focus();
+        }
+    }
 }
 
 function htmlEntitiesEncode(str) {
