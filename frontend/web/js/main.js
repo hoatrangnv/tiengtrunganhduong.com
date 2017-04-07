@@ -172,6 +172,8 @@ function setCaret(elem, caretPos) {
 function htmlEntitiesEncode(str) {
     return htmlEntitiesDecode(str)
         .split("&").join("&amp;")
+        .split("'").join("&#039;")
+        .split("\"").join("&quot;")
         .split("<").join("&lt;")
         .split(">").join("&gt;")
         ;
@@ -181,6 +183,8 @@ function htmlEntitiesDecode(str) {
     return str
         .split("&gt;").join(">")
         .split("&lt;").join("<")
+        .split("&#039;").join("'")
+        .split("&quot;").join("\"")
         .split("&amp;").join("&")
         ;
 }
