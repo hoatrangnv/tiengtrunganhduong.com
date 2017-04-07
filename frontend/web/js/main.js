@@ -107,7 +107,7 @@
     });
 }(document.querySelectorAll(".code-example"));
 
-function getCaretOffset(element) {
+function getCaretOffset(editableDiv) {
     var caretPos = 0,
         sel, range;
     if (window.getSelection) {
