@@ -163,9 +163,12 @@ function setCaret(elem, caretPos) {
             range.select();
         }
         else {
-            // if(elem.selectionStart) {
-            // elem.focus();
+            setTimeout(function () {
+            elem.focus();
             elem.setSelectionRange(caretPos, caretPos);
+
+            }, 500);
+            // if(elem.selectionStart) {
             // } else {
             //     elem.focus();
             // }
