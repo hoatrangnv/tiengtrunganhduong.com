@@ -57,8 +57,11 @@
                 code_block.replaceChild(editor, code_example);
                 code_block.parentNode.insertBefore(editor, btn);
 
-                document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
-                document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
+                setTimeout(function () {
+                    document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
+                    document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
+
+                },100);
             }
             setCaret(editor, caret);
             console.log('caret'+caret);
