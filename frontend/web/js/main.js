@@ -74,16 +74,16 @@
                             if (last_type === ">" && char == "<") {
                                 last_type = "<>";
                             }
-                            if (last_type === ">" && ["/", "--"].indexOf(last_tag) > -1) {
-                                last_type = "";
-                            }
+                            // if (last_type === ">" && char == "/") {
+                            //     last_type = "";
+                            // }
                             if (last_type === ">" && last_type != char) {
                                 last_tag = char + last_tag;
                             }
                         }
                     } while (char && (char != "\n"));
 
-                    if (last_tag.toLowerCase() === "br") {
+                    if (last_tag.toLowerCase() === "br" || last_tag.search("/\/|--/")) {
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
