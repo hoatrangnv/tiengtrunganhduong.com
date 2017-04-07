@@ -9,7 +9,9 @@
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
         editor.className = "code-example-editor";
-        code_example.innerHTML = code_example.innerHTML.split(tab).join(tab2space).trim();
+        code_example.innerHTML = code_example.innerHTML
+            // .split(tab).join(tab2space)
+            .trim();
         editor.value = htmlEntitiesDecode(code_example.innerHTML);
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
@@ -55,16 +57,18 @@
                 var caret = getCaretOffset(code_example);
                 setCaret(editor, caret);
                 console.log('caret'+caret);
-                window.scrollTo(0, scroll_top);
-                if (!editor_display) {
-                    editor_display = true;
-                    code_block.replaceChild(editor, code_example);
-                }
+                setTimeout(function () {
+                    window.scrollTo(0, scroll_top);
+                    if (!editor_display) {
+                        editor_display = true;
+                        code_block.replaceChild(editor, code_example);
+                    }
+                },100);
 
             },100);
         };
 
-        editor.value.split(tab).join(tab2space);
+        // editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
             if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = editor.value;
