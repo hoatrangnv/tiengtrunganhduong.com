@@ -84,7 +84,7 @@
                     } while (char && (char != "\n"));
 
                     console.log(last_tag);
-                    console.log(last_tag.search("/(\/|--)/"));
+                    console.log(last_tag.search("/(\/|\-\-)/"));
 
                     if (last_tag.toLowerCase() === "br" || last_tag.search("/(\/|--)/") > -1) {
                         last_type = "";
