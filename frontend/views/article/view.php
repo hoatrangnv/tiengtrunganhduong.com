@@ -11,13 +11,12 @@ $this->params['breadcrumbs'][] = $this->title;
     $dom = new DOMDocument;
     $dom->loadHTML($html);
     $codes = $dom->getElementsByTagName('code');
-    foreach ($codes as &$code) {
-        $code->textContent = htmlentities($code->textContent);
-
+    foreach ($codes as $code) {
+        str_replace($code->textContent, htmlentities($code->textContent), $html);
     }
 
     ?>
 
     ?>
-    <?= $model->getContentWithTemplates() ?>
+    <?= $html ?>
 </article>
