@@ -48,15 +48,13 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
-            document.getElementsByTagName("html")[0].classList.add("disable-scroll");
-            document.getElementsByTagName("body")[0].classList.add("disable-scroll");
             setTimeout(function () {
                 var caret = getCaretOffset(code_example);
                 setTimeout(function () {
                     setCaret(editor, caret);
                     console.log('caret'+caret);
-                    document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
-                    document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
+                    window.scrollTo(0, 0);
+                    document.body.scrollTop = 0;
 
                 },100);
                 if (!editor_display) {
