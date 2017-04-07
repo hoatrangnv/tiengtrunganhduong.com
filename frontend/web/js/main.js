@@ -168,7 +168,6 @@ function setCaret(elem, caretPos) {
             // if(elem.selectionStart) {
                 elem.focus();
                 elem.setSelectionRange(caretPos, caretPos);
-            alert(caretPos);
             // } else {
             //     elem.focus();
             //     alert(elem.selectionStart);
