@@ -163,7 +163,6 @@ function setCaret(elem, caretPos) {
             var range = elem.createTextRange();
             range.move('character', caretPos);
             range.select();
-                alert("ok000");
         }
         else {
             if(elem.selectionStart) {
@@ -171,7 +170,7 @@ function setCaret(elem, caretPos) {
                 elem.setSelectionRange(caretPos, caretPos);
             } else {
                 elem.focus();
-                alert("ok");
+                alert(elem.selectionStart);
             }
         }
     }
