@@ -62,9 +62,9 @@
                 setTimeout(function () {
                     setCaret(editor, caret);
                     console.log('caret'+caret);
+                    window.scrollTo(0, scroll_top);
 
                 }, 100);
-                window.scrollTo(0, scroll_top);
 
             },100);
         };
