@@ -53,19 +53,15 @@
         code_example.onfocus = function () {
             var doc = document.documentElement;
             var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-            setTimeout(function () {
                 var caret = getCaretOffset(code_example);
+                if (!editor_display) {
+                    editor_display = true;
+                    code_block.replaceChild(editor, code_example);
+                }
                 setCaret(editor, caret);
                 console.log('caret'+caret);
-                setTimeout(function () {
-                    window.scrollTo(0, scroll_top);
-                    if (!editor_display) {
-                        editor_display = true;
-                        code_block.replaceChild(editor, code_example);
-                    }
-                },100);
+                window.scrollTo(0, scroll_top);
 
-            },100);
         };
 
         // editor.value.split(tab).join(tab2space);
