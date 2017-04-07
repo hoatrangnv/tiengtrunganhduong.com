@@ -13,7 +13,7 @@
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
-        code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.trim());
+        code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.split(tab2space).join(tab).trim());
         var test_block = document.createElement("DIV");
 
         editor.style.height = code_example.offsetHeight + "px";
