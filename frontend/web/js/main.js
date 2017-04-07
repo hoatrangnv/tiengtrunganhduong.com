@@ -3,7 +3,7 @@
  */
 
 !function (code_blocks) {
-    var tab = "    "; // 1 tab ===> 4 space
+    var tab = "\t"; // 1 tab ===> 4 space
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
