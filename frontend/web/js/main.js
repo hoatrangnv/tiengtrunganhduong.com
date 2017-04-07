@@ -48,7 +48,8 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
-            var scroll_top = document.body.scrollTop;
+            var doc = document.documentElement;
+            var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
             setTimeout(function () {
                 var caret = getCaretOffset(code_example);
                 setTimeout(function () {
