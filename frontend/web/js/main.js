@@ -83,7 +83,7 @@
                         }
                     } while (char && (char != "\n"));
 
-                    if (last_tag.toLowerCase() === "br" || last_tag.search("/\/|--/") > -1) {
+                    if (last_tag.toLowerCase() === "br" || last_tag.search("/(\/|--)/") > -1) {
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
