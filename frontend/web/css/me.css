@@ -20,7 +20,7 @@
 * {
     box-sizing: border-box;
 }
-.code-example + textarea {
+.code-example-editor {
     width: 100%;
     height: auto;
     -moz-tab-size : 4;

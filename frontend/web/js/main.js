@@ -8,6 +8,7 @@
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
+        editor.className = "code-example-editor";
         editor.value = code_example.innerHTML.split(tab2space).join(tab).trim();
         // autoGrowTextareas([editor]);
         if (!code_example || code_example != code_block.firstChild) {
@@ -32,7 +33,7 @@
             if (!editor_display) {
                 editor_display = true;
                 code_block.replaceChild(editor, code_example);
-                code_block.parentNode.insertBefore(editor, btn);
+                // code_block.parentNode.insertBefore(editor, btn);
             }
             runCode();
         }, false);
