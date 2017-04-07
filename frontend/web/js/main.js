@@ -74,7 +74,7 @@
                             if (last_type === ">" && char == "<") {
                                 last_type = "<>";
                             }
-                            if (last_type === ">" && char == "/") {
+                            if (last_type === ">" && ["/", "--"].indexOf(last_tag) > -1) {
                                 last_type = "";
                             }
                             if (last_type === ">" && last_type != char) {
@@ -83,7 +83,7 @@
                         }
                     } while (char && (char != "\n"));
 
-                    if (last_tag.toLowerCase() === "br" || ["/", "--"].indexOf(last_tag) > -1) {
+                    if (last_tag.toLowerCase() === "br") {
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
