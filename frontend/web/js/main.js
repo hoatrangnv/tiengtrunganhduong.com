@@ -48,7 +48,7 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
-            var caret = getCaret(code_example);
+            var caret = getCaretOffset(code_example);
             // if (!editor_display) {
             //     editor_display = true;
             //     code_block.replaceChild(editor, code_example);
@@ -106,6 +106,24 @@
 
     });
 }(document.querySelectorAll(".code-example"));
+
+function getCaretOffset(element) {
+    var caretOffset = 0;
+    if (typeof window.getSelection != "undefined") {
+        var range = window.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
+    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+        var textRange = document.selection.createRange();
+        var preCaretTextRange = document.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = htmlEntitiesDecode(preCaretTextRange.text).length;
+    }
+    return caretOffset;
+}
 
 function getCaret(el) {
     if (el.selectionStart) {
