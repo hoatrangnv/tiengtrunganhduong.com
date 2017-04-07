@@ -8,14 +8,12 @@
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
-        editor.style.tabSize = 4;
         editor.className = "code-example-editor";
-        editor.value = code_example.innerHTML.split(tab2space).join(tab).trim();
-        // autoGrowTextareas([editor]);
+        editor.value = code_example.innerHTML.split(tab).join(tab2space).trim();
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
-        code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.split(tab2space).join(tab).trim());
+        code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.split(tab).join(tab2space).trim());
         var test_block = document.createElement("DIV");
 
         editor.style.height = code_example.offsetHeight + "px";
@@ -71,7 +69,7 @@
             },100);
         };
 
-        editor.value.split(tab2space).join(tab);
+        editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
             if (/9|13/.test(event.keyCode)) {
                 var code = editor.value;
