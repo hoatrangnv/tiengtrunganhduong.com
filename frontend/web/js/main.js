@@ -3,11 +3,12 @@
  */
 
 !function (code_blocks) {
+    var tab = "\t";
     var tab2space = "    "; // 1 tab ===> 4 space
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
-        editor.value = code_example.innerHTML.split(tab2space).join("\t").trim();
+        editor.value = code_example.innerHTML.split(tab2space).join(tab).trim();
         // autoGrowTextareas([editor]);
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
@@ -45,7 +46,7 @@
 
         runCode();
 
-        editor.value.split(tab2space).join("\t");
+        editor.value.split(tab2space).join(tab);
         editor.onkeydown = function (event) {
             if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = editor.value;
