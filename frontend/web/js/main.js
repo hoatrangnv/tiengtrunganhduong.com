@@ -54,8 +54,8 @@
                 setTimeout(function () {
                     setCaret(editor, caret);
                     console.log('caret'+caret);
-                    window.scrollTo(scroll_top, 0);
-                    document.body.scrollTop = scroll_top;
+                    window.scrollTo(0, scroll_top);
+                    // document.body.scrollTop = scroll_top;
 
                 },100);
                 if (!editor_display) {
