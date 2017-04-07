@@ -74,18 +74,11 @@
                             if (last_type === ">" && char == "<") {
                                 last_type = "<>";
                             }
-                            // if (last_type === ">" && char == "/") {
-                            //     last_type = "";
-                            // }
                             if (last_type === ">" && last_type != char) {
                                 last_tag = char + last_tag;
                             }
                         }
                     } while (char && (char != "\n"));
-
-                    console.log(last_tag);
-                    console.log(last_tag.search("/"));
-                    console.log(last_tag.search(/(--|\/)/));
 
                     if (last_tag.toLowerCase() === "br" || last_tag.search(/(\/|--)/) > -1) {
                         last_type = "";
@@ -94,14 +87,6 @@
                         white_space += tab;
                     }
                     insertAtCaret(editor, "\n" + white_space);
-                    // if (editor.value.slice(-1) === "\n"
-                    //     && editor.value.slice(-2, -1) !== "\n"
-                    //     && code.length == getCaretOffset(code_example)
-                    // ) {
-                    //     // Ensure break line
-                    //     document.execCommand("insertText", false, "\n");
-                    //
-                    // }
                 }
 
                 return false;
