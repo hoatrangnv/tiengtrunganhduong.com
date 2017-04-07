@@ -59,8 +59,11 @@
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                 }
-                setCaret(editor, caret);
-                console.log('caret'+caret);
+                setTimeout(function () {
+                    setCaret(editor, caret);
+                    console.log('caret'+caret);
+
+                }, 100);
                 window.scrollTo(0, scroll_top);
 
             },100);
