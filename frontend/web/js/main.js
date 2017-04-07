@@ -57,9 +57,7 @@
                 var caret = getCaretOffset(code_example);
                 if (!editor_display) {
                     editor_display = true;
-                    // code_block.replaceChild(editor, code_example);
-                    code_block.insertBefore(editor, code_example);
-
+                    code_block.replaceChild(editor, code_example);
                 }
                 setTimeout(function () {
                     console.log("caret " + caret);
@@ -165,12 +163,12 @@ function setCaret(elem, caretPos) {
             range.select();
         }
         else {
-            // if(elem.selectionStart) {
+            if(elem.selectionStart) {
                 elem.focus();
                 elem.setSelectionRange(caretPos, caretPos);
-            // } else {
-            //     elem.focus();
-            // }
+            } else {
+                elem.focus();
+            }
             alert("ok");
         }
     }
