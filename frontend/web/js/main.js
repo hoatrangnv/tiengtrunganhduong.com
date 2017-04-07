@@ -163,17 +163,16 @@ function setCaret(elem, caretPos) {
             var range = elem.createTextRange();
             range.move('character', caretPos);
             range.select();
+                alert("ok000");
         }
         else {
             if(elem.selectionStart) {
                 elem.focus();
-                setTimeout(function () {
                 elem.setSelectionRange(caretPos, caretPos);
-                    alert("ok");
-                },100);
-            }
-            else
+            } else {
                 elem.focus();
+                alert("ok");
+            }
         }
     }
 }
