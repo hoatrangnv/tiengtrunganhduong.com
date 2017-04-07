@@ -169,7 +169,6 @@ function setCaret(elem, caretPos) {
             // } else {
             //     elem.focus();
             // }
-            return false;
             alert("ok");
         }
     }
