@@ -13,6 +13,7 @@
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
+        code_example.innerHTML = code_example.innerHTML.split(tab).join(tab2space).trim();
         // code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.split(tab).join(tab2space).trim());
         var test_block = document.createElement("DIV");
 
