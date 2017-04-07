@@ -48,6 +48,7 @@
 
         code_example.contentEditable = true;
         code_example.onfocus = function () {
+            editor.focus();
             setCaret(editor, getCaret(code_example));
             if (!editor_display) {
                 editor_display = true;
