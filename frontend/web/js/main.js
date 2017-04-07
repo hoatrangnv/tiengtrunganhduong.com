@@ -164,10 +164,8 @@ function setCaret(elem, caretPos) {
         }
         else {
             // if(elem.selectionStart) {
-                elem.focus();
-            setTimeout(function () {
-                elem.setSelectionRange(caretPos, caretPos);
-            }, 100);
+            // elem.focus();
+            elem.setSelectionRange(caretPos, caretPos);
             // } else {
             //     elem.focus();
             // }
