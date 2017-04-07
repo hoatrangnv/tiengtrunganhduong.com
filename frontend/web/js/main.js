@@ -64,7 +64,7 @@
                     do {
                         current_pos--;
                         var char = code.charAt(current_pos);
-                        if (char == " " || char == "\t") {
+                        if (/ |\t/.test(char)) {
                             white_space += char;
                         } else if (char != "\n") {
                             white_space = "";
@@ -133,27 +133,8 @@ function htmlEntitiesDecode(str) {
         ;
 }
 
-function getCaretOffset(element) {
-    var caretOffset = 0;
-    if (typeof window.getSelection != "undefined") {
-        var range = window.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString().length;
-    } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
-        var textRange = document.selection.createRange();
-        var preCaretTextRange = document.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text.length;
-    }
-    return caretOffset;
-}
-
-
 function nodeScriptReplace(node) {
-    if ( nodeScriptIs(node) === true ) {
+    if ( node.tagName === 'SCRIPT' ) {
         node.parentNode.replaceChild( nodeScriptClone(node) , node );
     }
     else {
@@ -166,35 +147,14 @@ function nodeScriptReplace(node) {
 
     return node;
 }
-function nodeScriptIs(node) {
-    return node.tagName === 'SCRIPT';
-}
+
 function nodeScriptClone(node){
-    var script  = document.createElement("script");
+    var script  = document.createElement("SCRIPT");
     script.text = node.innerHTML;
     for( var i = node.attributes.length-1; i >= 0; i-- ) {
         script.setAttribute( node.attributes[i].name, node.attributes[i].value );
     }
     return script;
-}
-
-function insertAtCursor(myField, myValue) {
-    //IE support
-    if (document.selection) {
-        myField.focus();
-        var sel = document.selection.createRange();
-        sel.text = myValue;
-    }
-    //MOZILLA and others
-    else if (myField.selectionStart || myField.selectionStart == '0') {
-        var startPos = myField.selectionStart;
-        var endPos = myField.selectionEnd;
-        myField.value = myField.value.substring(0, startPos)
-            + myValue
-            + myField.value.substring(endPos, myField.value.length);
-    } else {
-        myField.value += myValue;
-    }
 }
 
 function insertAtCaret(txtarea, text) {
