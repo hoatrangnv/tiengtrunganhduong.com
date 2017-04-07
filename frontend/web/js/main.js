@@ -74,13 +74,7 @@
                             if (last_type === ">" && char == "<") {
                                 last_type = "<>";
                             }
-                            console.log(char);
-                            console.log(isNaN(char));
-                            console.log(char.toLowerCase() == char.toUpperCase());
-                            if (last_type === ">"
-                                && isNaN(char) // not number
-                                && char.toLowerCase() == char.toUpperCase() // not letter
-                            ) {
+                            if (last_type === ">" && char == "/") {
                                 last_type = "";
                             }
                             if (last_type === ">" && last_type != char) {
@@ -89,7 +83,7 @@
                         }
                     } while (char && (char != "\n"));
 
-                    if (last_tag.toLowerCase() === "br") {
+                    if (last_tag.toLowerCase() === "br" || last_tag.test("/\/|--/")) {
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
