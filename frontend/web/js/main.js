@@ -49,13 +49,13 @@
         code_example.contentEditable = true;
         code_example.onfocus = function () {
             var caret = getCaret(code_example);
-            if (!editor_display) {
-                editor_display = true;
-                code_block.replaceChild(editor, code_example);
-                code_block.parentNode.insertBefore(editor, btn);
-            }
+            // if (!editor_display) {
+            //     editor_display = true;
+            //     code_block.replaceChild(editor, code_example);
+            //     code_block.parentNode.insertBefore(editor, btn);
+            // }
+            // setCaret(editor, caret);
             console.log('caret'+caret);
-            setCaret(editor, caret);
         };
 
         editor.value.split(tab2space).join(tab);
