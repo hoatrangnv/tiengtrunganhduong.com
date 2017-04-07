@@ -74,6 +74,8 @@
                             if (last_type === ">" && char == "<") {
                                 last_type = "<>";
                             }
+                            console.log(isNaN(char));
+                            console.log(char.toLowerCase() == char.toUpperCase());
                             if (last_type === ">"
                                 && isNaN(char) // not number
                                 && char.toLowerCase() == char.toUpperCase() // not letter
