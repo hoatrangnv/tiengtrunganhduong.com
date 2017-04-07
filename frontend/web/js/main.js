@@ -58,8 +58,8 @@
                 code_block.parentNode.insertBefore(editor, btn);
 
                 setTimeout(function () {
-                    document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
-                    document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
+                    // document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
+                    // document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
 
                 },100);
             }
