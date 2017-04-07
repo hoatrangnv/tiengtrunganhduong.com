@@ -48,7 +48,7 @@
 
         editor.value.split(tab2space).join(tab);
         editor.onkeydown = function (event) {
-            if ([9, 13].indexOf(event.keyCode) > -1) {
+            if (/9|13/.test(event.keyCode)) {
                 var code = editor.value;
 
                 if (event.keyCode === 9) { // TAB
@@ -57,10 +57,9 @@
 
                 if (event.keyCode === 13) { // ENTER
                     var current_pos = getCaret(editor);
-                    console.log("current pos " + current_pos);
                     var white_space = "";
-                    var last_type = false;
                     var last_tag = "";
+                    var last_type = false;
                     do {
                         current_pos--;
                         var char = code.charAt(current_pos);
