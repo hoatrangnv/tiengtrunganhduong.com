@@ -57,13 +57,13 @@
                 code_block.replaceChild(editor, code_example);
                 code_block.parentNode.insertBefore(editor, btn);
 
+                document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
+                document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
             }
             setCaret(editor, caret);
             console.log('caret'+caret);
 
             },100);
-            document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
-            document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
         };
 
         editor.value.split(tab2space).join(tab);
