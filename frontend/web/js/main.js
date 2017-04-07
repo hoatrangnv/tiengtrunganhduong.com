@@ -51,17 +51,17 @@
             setTimeout(function () {
             var caret = getCaretOffset(code_example);
             if (!editor_display) {
-                document.getElementsByTagName("html")[0].classList.add("disable-scroll");
-                document.getElementsByTagName("body")[0].classList.add("disable-scroll");
+                // document.getElementsByTagName("html")[0].classList.add("disable-scroll");
+                // document.getElementsByTagName("body")[0].classList.add("disable-scroll");
                 editor_display = true;
                 code_block.replaceChild(editor, code_example);
-                code_block.parentNode.insertBefore(editor, btn);
+                // code_block.parentNode.insertBefore(editor, btn);
 
-                setTimeout(function () {
-                    // document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
-                    // document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
-
-                },100);
+                // setTimeout(function () {
+                //     document.getElementsByTagName("html")[0].classList.remove("disable-scroll");
+                //     document.getElementsByTagName("body")[0].classList.remove("disable-scroll");
+                //
+                // },100);
             }
             setCaret(editor, caret);
             console.log('caret'+caret);
