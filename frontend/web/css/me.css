@@ -45,6 +45,7 @@
     position: relative;
     display: block;
     white-space: pre;
+    word-wrap: normal;
     overflow-x: auto;
     overflow-y: hidden;
     height: auto;
