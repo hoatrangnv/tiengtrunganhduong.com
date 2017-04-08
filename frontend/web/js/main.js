@@ -3,21 +3,20 @@
  */
 
 !function (code_blocks) {
-    var tab = "\t";
     var tab2space = "    "; // 1 tab ===> 4 space
     [].forEach.call(code_blocks, function (code_block) {
         var code_example = code_block.querySelector("code");
         var editor = document.createElement("TEXTAREA");
-        editor.className = "code-example-editor";
+        editor.className = "code-example-input";
         code_example.innerHTML = code_example.innerHTML
-            // .split(tab).join(tab2space)
+            .split("\t").join(tab2space)
             .trim();
         editor.value = htmlEntitiesDecode(code_example.innerHTML);
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
-        // code_example.innerHTML = htmlEntitiesEncode(code_example.innerHTML.split(tab).join(tab2space).trim());
-        var test_block = document.createElement("DIV");
+        var test_block = document.createElement("iframe");
+        test_block.className = "code-example-output";
 
         editor.style.height = code_example.offsetHeight + "px";
         editor.style.fontSize = window.getComputedStyle(code_example, null).getPropertyValue("font-size");
@@ -43,8 +42,14 @@
         code_block.parentNode.insertBefore(btn, test_block);
 
         function runCode() {
-            test_block.innerHTML = editor.value;
-            nodeScriptReplace(test_block);
+            // test_block.innerHTML = editor.value;
+            // nodeClassNamesReplace(test_block);
+            // nodeScriptReplace(test_block);
+            var doc = test_block.contentWindow.document;
+            doc.open();
+            doc.write(editor.value);
+            doc.close();
+            test_block.style.height = doc.body.scrollHeight + "px";
         }
 
         runCode();
@@ -85,13 +90,12 @@
 
         };
 
-            // editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
             if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = editor.value;
 
                 if (event.keyCode === 9) { // TAB
-                    insertAtCaret(editor, tab);
+                    insertAtCaret(editor, tab2space);
                 }
 
                 if (event.keyCode === 13) { // ENTER
@@ -122,7 +126,7 @@
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
-                        white_space += tab;
+                        white_space += tab2space;
                     }
                     insertAtCaret(editor, "\n" + white_space);
                 }
@@ -210,6 +214,27 @@ function htmlEntitiesDecode(str) {
         // .split("&#039;").join("'")
         ;
 }
+
+// function nodeClassNamesReplace(node) {
+//     var prefix = "_" + Math.random().toString(36).substring(7);
+//
+//     var classNames = [];
+//     [].forEach.call(
+//         node.querySelectorAll("*"),
+//         function (elem) {
+//             for (i = 0; i < elem.classList.length; i++) {
+//                 classNames.push(elem.classList[i]);
+//             }
+//             for (i = 0; i < elem.classList.length; i++) {
+//                 elem.classList.remove(elem.classList[i]);
+//                 elem.classList.add(prefix + classList[i]);
+//             }
+//         }
+//     );
+//     classNames.forEach(function (className) {
+//
+//     })
+// }
 
 function nodeScriptReplace(node) {
     if ( node.tagName === 'SCRIPT' ) {
