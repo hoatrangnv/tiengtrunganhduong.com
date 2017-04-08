@@ -119,7 +119,9 @@ use backend\models\Image;
     !function (forms) {
         [].forEach.call(forms, function (form) {
             form.addEventListener("submit", function () {
-                form.submit();
+                setTimeout(function () {
+                    form.submit();
+                }, 100);
             });
         })
     }(document.querySelectorAll("form"))
