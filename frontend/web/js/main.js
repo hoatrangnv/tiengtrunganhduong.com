@@ -49,6 +49,11 @@
 
         runCode();
 
+        var editor_focused = false;
+        editor.onfocus = function () {
+            editor_focused = true;
+        };
+
         code_example.contentEditable = true;
         code_example.onfocus =
             // code_example.ontouchstart =
@@ -66,9 +71,8 @@
                 editor.focus();
                 editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
-                console.log(editor === document.activeElement);
                 editor.addEventListener("touchstart", function () {
-                    if (editor !== document.activeElement) {
+                    if (!editor_focused) {
                         editor.focus();
                         editor.setSelectionRange(caret, caret);
                         window.scrollTo(0, scroll_top);
