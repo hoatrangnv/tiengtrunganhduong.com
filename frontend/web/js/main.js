@@ -82,16 +82,12 @@
                     focus();
                 }
             });
-            code_example.addEventListener("touchstart", function () {
-                if (!editor_focused) {
-                    editor_focused = true;
-                    focus();
-                }
-            });
 
         };
 
-        // editor.value.split(tab).join(tab2space);
+        code_example.addEventListener("touchstart", code_example.onfocus);
+
+            // editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
             if ([9, 13].indexOf(event.keyCode) > -1) {
                 var code = editor.value;
