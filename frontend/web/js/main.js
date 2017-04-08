@@ -49,13 +49,12 @@
 
         runCode();
 
+        autoGrow([editor]);
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
         code_example.contentEditable = true;
-        code_example.onfocus =
-            // code_example.ontouchstart =
-        function () {
+        code_example.onfocus = function () {
             var doc = document.documentElement;
             var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
             var caret;
@@ -85,8 +84,6 @@
             });
 
         };
-
-        code_example.addEventListener("touchstart", code_example.onfocus);
 
             // editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
@@ -274,7 +271,7 @@ function insertAtCaret(txtarea, text) {
     txtarea.scrollTop = scrollPos;
 }
 
-function autoGrowTextareas(textareas) {
+function autoGrow(textareas) {
     for (var i = 0; i < textareas.length; i++) {
         !function (e) {
             var d = document.createElement("div");
@@ -291,9 +288,21 @@ function autoGrowTextareas(textareas) {
             d.style.zIndex = -999;
             d.style.width = f.getPropertyValue("width");
             d.style.font = f.getPropertyValue("font");
+            d.style.fontFamily = f.getPropertyValue("font-family");
+            d.style.fontSize = f.getPropertyValue("font-size");
+            d.style.fontWeight = f.getPropertyValue("font-weight");
+            d.style.fontStyle = f.getPropertyValue("font-style");
             d.style.lineHeight = f.getPropertyValue("line-height");
             d.style.padding = f.getPropertyValue("padding");
+            d.style.paddingRight = f.getPropertyValue("padding-right");
+            d.style.paddingTop = f.getPropertyValue("padding-top");
+            d.style.paddingBottom = f.getPropertyValue("padding-bottom");
+            d.style.paddingLeft = f.getPropertyValue("padding-left");
             d.style.border = f.getPropertyValue("border");
+            d.style.borderTopWidth = f.getPropertyValue("border-top-width");
+            d.style.borderRightWidth = f.getPropertyValue("border-right-width");
+            d.style.borderBottomWidth = f.getPropertyValue("border-bottom-width");
+            d.style.borderLeftWidth = f.getPropertyValue("border-left-width");
 
             d.innerHTML = e.placeholder;
             document.body.appendChild(d);
