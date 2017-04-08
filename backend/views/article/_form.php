@@ -123,14 +123,15 @@ use backend\models\Image;
                             var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
                             textArea.value = editor.getValue();
                         });
-                        editor.$blockScrolling = Infinity;
                         var bak_overflow = window.getComputedStyle(document.body, null).getPropertyValue("overflow");
-//                        editor.getSession().selection.on('changeSelection', function(e) {
+                        editor.getSession().selection.on('changeSelection', function(e) {
 //                            document.body.style.overflow = "hidden";
 //                            setTimeout(function () {
 //                                document.body.style.overflow = bak_overflow;
 //                            }, 100);
-//                        });
+                            document.getElementsByTagName("html")[0].style.overflow = "hidden";
+                            document.getElementsByTagName("body")[0].style.overflow = "hidden";
+                        });
                     </script>
                     <?php
                 }
