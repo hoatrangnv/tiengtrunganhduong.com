@@ -124,12 +124,13 @@ use backend\models\Image;
                             textArea.value = editor.getValue();
                         });
                         var bak_overflow = window.getComputedStyle(document.body, null).getPropertyValue("overflow");
-                        editor.getSession().selection.on('changeSelection', function(e) {
-                            document.body.style.overflow = "hidden";
-                            setTimeout(function () {
-                                document.body.style.overflow = bak_overflow;
-                            }, 100);
-                        });
+//                        editor.getSession().selection.on('changeSelection', function(e) {
+//                            document.body.style.overflow = "hidden";
+//                            setTimeout(function () {
+//                                document.body.style.overflow = bak_overflow;
+//                            }, 100);
+//                        });
+                        document.getElementById("code-editor").data('ace').editor.$blockScrolling = Infinity;
                     </script>
                     <?php
                 }
