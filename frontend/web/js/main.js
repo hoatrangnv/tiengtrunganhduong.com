@@ -11,7 +11,8 @@
         code_example.innerHTML = code_example.innerHTML
             .split("\t").join(tab2space)
             .trim();
-        editor.value = htmlEntitiesDecode(code_example.innerHTML);
+        editor.innerHTML = code_example.innerHTML;
+
         if (!code_example || code_example != code_block.firstChild) {
             code_example = code_block;
         }
@@ -24,14 +25,18 @@
             code_block.parentNode.appendChild(test_block);
         }
 
+        function openEditor() {
+            code_block.replaceChild(editor, code_example);
+            textAreaAdjust(editor);
+        }
+
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Try it here";
         var editor_display = false;
         btn.addEventListener("click", function (event) {
             if (!editor_display) {
                 editor_display = true;
-                code_block.replaceChild(editor, code_example);
-                // code_block.parentNode.insertBefore(editor, btn);
+                openEditor();
             }
             runCode();
         }, false);
@@ -51,7 +56,6 @@
 
         runCode();
 
-        textAreaAdjust(editor);
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
@@ -64,7 +68,7 @@
                 caret = getCaretOffset(code_example);
                 if (!editor_display) {
                     editor_display = true;
-                    code_block.replaceChild(editor, code_example);
+                    openEditor();
                 }
                 focus();
             }, 100);
@@ -174,42 +178,45 @@ function getCaret(el) {
     return 0;
 }
 
-function setCaret(elem, caretPos) {
-    if(elem != null) {
-        if(elem.createTextRange) {
-            var range = elem.createTextRange();
-            range.move('character', caretPos);
-            range.select();
-        }
-        else {
-            // if(elem.selectionStart) {
-            //     elem.focus();
-                elem.setSelectionRange(caretPos, caretPos);
-            // } else {
-            //     elem.focus();
-            // }
-        }
-    }
-}
+// function setCaret(elem, caretPos) {
+//     if(elem != null) {
+//         if(elem.createTextRange) {
+//             var range = elem.createTextRange();
+//             range.move('character', caretPos);
+//             range.select();
+//         }
+//         else {
+//             // if(elem.selectionStart) {
+//             //     elem.focus();
+//                 elem.setSelectionRange(caretPos, caretPos);
+//             // } else {
+//             //     elem.focus();
+//             // }
+//         }
+//     }
+// }
 
-function htmlEntitiesEncode(str) {
-    return htmlEntitiesDecode(str)
-        .split("&").join("&amp;")
-        .split("<").join("&lt;")
-        .split(">").join("&gt;")
-        // .split("'").join("&#039;")
-        // .split("\"").join("&quot;")
-        ;
-}
+// function htmlEntitiesEncode(str) {
+//     return htmlEntitiesDecode(str)
+//         .split("&").join("&amp;")
+//         .split("<").join("&lt;")
+//         .split(">").join("&gt;")
+//         // .split("'").join("&#039;")
+//         // .split("\"").join("&quot;")
+//         ;
+// }
 
 function htmlEntitiesDecode(str) {
-    return str
-        .split("&gt;").join(">")
-        .split("&lt;").join("<")
-        .split("&amp;").join("&")
+    // return str
+    //     .split("&gt;").join(">")
+    //     .split("&lt;").join("<")
+    //     .split("&amp;").join("&")
         // .split("&quot;").join("\"")
         // .split("&#039;").join("'")
-        ;
+        // ;
+    var txtArea = document.createElement("TEXTAREA");
+    txtArea.innerHTML = str;
+    return txtArea.textContent;
 }
 
 // function nodeClassNamesReplace(node) {
@@ -233,29 +240,29 @@ function htmlEntitiesDecode(str) {
 //     })
 // }
 
-function nodeScriptReplace(node) {
-    if ( node.tagName === 'SCRIPT' ) {
-        node.parentNode.replaceChild( nodeScriptClone(node) , node );
-    }
-    else {
-        var i        = 0;
-        var children = node.childNodes;
-        while ( i < children.length ) {
-            nodeScriptReplace( children[i++] );
-        }
-    }
+// function nodeScriptReplace(node) {
+//     if ( node.tagName === 'SCRIPT' ) {
+//         node.parentNode.replaceChild( nodeScriptClone(node) , node );
+//     }
+//     else {
+//         var i        = 0;
+//         var children = node.childNodes;
+//         while ( i < children.length ) {
+//             nodeScriptReplace( children[i++] );
+//         }
+//     }
+//
+//     return node;
+// }
 
-    return node;
-}
-
-function nodeScriptClone(node){
-    var script  = document.createElement("SCRIPT");
-    script.text = node.innerHTML;
-    for( var i = node.attributes.length-1; i >= 0; i-- ) {
-        script.setAttribute( node.attributes[i].name, node.attributes[i].value );
-    }
-    return script;
-}
+// function nodeScriptClone(node){
+//     var script  = document.createElement("SCRIPT");
+//     script.text = node.innerHTML;
+//     for( var i = node.attributes.length-1; i >= 0; i-- ) {
+//         script.setAttribute( node.attributes[i].name, node.attributes[i].value );
+//     }
+//     return script;
+// }
 
 function insertAtCaret(txtarea, text) {
     if (!txtarea) { return; }
@@ -294,22 +301,61 @@ function insertAtCaret(txtarea, text) {
 }
 
 function textAreaAdjust(textArea) {
-    // if (!container) container = document.body;
-    // var d = document.createElement("div");
-    // d.className = "textarea-copy";
-    // container.appendChild(d);
+    var d = document.createElement("DIV");
+    var wrap = document.createElement("DIV");
+    wrap.style = "position:fixed;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden";
+    wrap.appendChild(d);
+    document.body.appendChild(wrap);
 
     // Condition to use rows property to adjust height
-    textArea.style.whiteSpace = "pre";
-    textArea.style.wordWrap = "normal";
-    textArea.style.height = "auto";
+    // textArea.style.whiteSpace = "pre";
+    // textArea.style.wordWrap = "normal";
+    // textArea.style.height = "auto";
     function handleKeyEvent() {
-        // d.innerHTML = htmlEntitiesEncode(textArea.value)
-        //         .split("\n").join("<br>")
-        //         .split("  ").join("&nbsp; ")
-        //     + "&nbsp;";
-        // d.style.width = textArea.offsetWidth + "px";
+        d.innerHTML = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + ".";
+
+        var f = window.getComputedStyle(textArea, null);
+        [
+            "width",
+            "border-box",
+
+            "border-style",
+            "border-width",
+            "border-left-width",
+            "border-top-width",
+            "border-bottom-width",
+            "border-right-width",
+
+            "font",
+            "font-size",
+            "font-family",
+            "font-weight",
+            "line-height",
+            "tab-size",
+            "letter-spacing",
+            "word-spacing",
+            "text-transform",
+
+            "padding",
+            "padding-left",
+            "padding-top",
+            "padding-bottom",
+            "padding-right",
+
+            "word-wrap",
+            "white-space",
+            "word-break",
+            "overflow"
+
+        ].forEach(function (prop) {
+            if (d.style.hasOwnProperty(prop)) {
+                console.log(prop, f.getPropertyValue(prop));
+                d.style[prop] = f.getPropertyValue(prop);
+            }
+        });
+
         // textArea.style.height = d.offsetHeight + "px";
+        textArea.style.height = window.getComputedStyle(d, null).getPropertyValue("height");
 
         // var computedStyle = window.getComputedStyle(textArea, null);
         // var borderWidth = 0;
@@ -322,7 +368,7 @@ function textAreaAdjust(textArea) {
         //     + borderWidth
         //     + "px";
 
-        textArea.rows = textArea.value.split("\n").length;
+        // textArea.rows = textArea.value.split("\n").length;
     }
     handleKeyEvent();
     textArea.addEventListener("keydown", handleKeyEvent);

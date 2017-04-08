@@ -48,7 +48,7 @@ AppAsset::register($this);
                 ['label' => 'Article', 'items' => [
                     ['label' => 'Index', 'url' => ['/article/index']],
                     ['label' => 'Create', 'url' => ['/article/create', 'code_editor' => 'text']],
-                    ['label' => 'Code Editor', 'url' => ['/article/create', 'code_editor' => 'tomorrow_night_eighties']],
+                    ['label' => 'Code Editor', 'url' => ['/article/create', 'code_editor' => 1]],
                     ['label' => 'Update', 'url' => ['/article/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/article/view'], 'visible' => false],
                 ]],

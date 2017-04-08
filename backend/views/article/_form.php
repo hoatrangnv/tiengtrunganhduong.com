@@ -90,16 +90,41 @@ use backend\models\Image;
                 if (!$code_editor || $code_editor == 'text') {
                     echo $form->field($model, 'content')->textarea(['rows' => 10]);
                 } else {
-                    echo $form->field($model, 'content')->widget(
-                        AceEditor::className(),
-                        [
-                            'mode' => 'php', // programing language mode. Default "html"
-                            'theme' => $code_editor, // editor theme. Default "github"
-                            'containerOptions' => [
-                                'style' => 'width:100%;min-height:400px;font-size:14px'
-                            ]
-                        ]
-                    );
+//                    echo $form->field($model, 'content')->widget(
+//                        AceEditor::className(),
+//                        [
+//                            'mode' => 'php', // programing language mode. Default "html"
+//                            'theme' => $code_editor, // editor theme. Default "github"
+//                            'containerOptions' => [
+//                                'style' => 'width:100%;min-height:400px;font-size:14px'
+//                            ]
+//                        ]
+//                    );
+                    echo $form->field($model, 'content')->textarea(['style' => 'display:none']);
+                    ?>
+                    <style type="text/css" media="screen">
+                        #editor {
+                            display: block;
+                            width: 100%;
+                            min-height: 300px;
+                        }
+                    </style>
+                    <div id="editor"><?= htmlentities($model->content) ?></div>
+                    <script src="<?= Yii::$app->homeUrl ?>/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+                    <script>
+                        var editor = ace.edit("editor");
+                        editor.setTheme("ace/theme/monokai");
+                        editor.getSession().setMode("ace/mode/php");
+                        editor.getSession().setTabSize(4);
+                        editor.getSession().on("change", function(e) {
+                            var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
+                            textArea.value = editor.getValue();
+                        });
+                        editor.setOptions({
+                            maxLines: Infinity
+                        });
+                    </script>
+                    <?php
                 }
             ?>
             <?= $form->field($model, 'active')->checkbox() ?>

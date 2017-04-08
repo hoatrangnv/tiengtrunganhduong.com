@@ -71,8 +71,8 @@ class ArticleController extends BaseController
                 $post['submit-and'] = '';
             }
             switch ($post['submit-and']) {
-                case 'stay-here':
-                    break;
+                case 'update':
+                    return $this->redirect(['update', 'id' => $model->id]);
                 default:
                     return $this->redirect(['view', 'id' => $model->id]);
             }
