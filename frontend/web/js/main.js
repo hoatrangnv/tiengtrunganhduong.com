@@ -64,6 +64,11 @@
                 editor.focus();
                 editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
+                editor.addEventListener("touchstart", function () {
+                    editor.focus();
+                    editor.setSelectionRange(caret, caret);
+                    window.scrollTo(0, scroll_top);
+                });
             }, 100);
         };
 
