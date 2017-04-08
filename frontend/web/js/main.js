@@ -191,15 +191,15 @@ function setCaret(elem, caretPos) {
     }
 }
 
-// function htmlEntitiesEncode(str) {
-//     return htmlEntitiesDecode(str)
-//         .split("&").join("&amp;")
-//         .split("'").join("&#039;")
-//         .split("\"").join("&quot;")
-//         .split("<").join("&lt;")
-//         .split(">").join("&gt;")
-//         ;
-// }
+function htmlEntitiesEncode(str) {
+    return htmlEntitiesDecode(str)
+        .split("&").join("&amp;")
+        .split("<").join("&lt;")
+        .split(">").join("&gt;")
+        // .split("'").join("&#039;")
+        // .split("\"").join("&quot;")
+        ;
+}
 
 function htmlEntitiesDecode(str) {
     return str
@@ -279,13 +279,10 @@ function autoGrow(textArea, container) {
     container.appendChild(d);
 
     function handleKeyEvent() {
-        d.innerHTML = textArea.value
-                .split("<").join("&lt;")
-                .split(">").join("&gt;")
+        d.innerHTML = htmlEntitiesEncode(textArea.value)
                 .split("\n").join("<br>")
                 .split("  ").join("&nbsp; ")
-            + "&nbsp;"
-        ;
+            + "&nbsp;";
         d.style.width = textArea.offsetWidth + "px";
         textArea.style.height = d.offsetHeight + "px";
     }
