@@ -105,8 +105,14 @@ use backend\models\Image;
             <?= $form->field($model, 'active')->checkbox() ?>
 
             <div class="form-group">
+                <label class="btn btn-default">
+                    <input type="radio" name="btn-submit" value="stay-here">
+                    <span>Submit and stay here</span>
+                </label>
+            </div>
+
+            <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-                <?= Html::submitButton($model->isNewRecord ? 'Create Here' : 'Update Here', ['name' => 'submit', 'value' => 'stay-here', 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
 
         </div>
@@ -116,13 +122,11 @@ use backend\models\Image;
 
 </div>
 <script>
-    !function (forms) {
-        [].forEach.call(forms, function (form) {
-            form.addEventListener("submit", function () {
-                setTimeout(function () {
-                    form.submit();
-                }, 100);
+    !function (inputs) {
+        [].forEach.call(inputs, function (input) {
+            input.addEventListener("change", function () {
+                input.form.submit();
             });
         })
-    }(document.querySelectorAll("form"))
+    }(document.querySelectorAll("input[name=btn-submit]"))
 </script>
