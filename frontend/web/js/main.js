@@ -86,7 +86,6 @@
         };
 
         code_example.addEventListener("touchstart", code_example.onfocus);
-        editor.addEventListener("touchstart", code_example.onfocus);
 
             // editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
