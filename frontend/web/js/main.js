@@ -60,6 +60,7 @@
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                 }
+                editor.focus();
             }, 100);
             setTimeout(function () {
                 console.log("caret " + caret);
@@ -165,7 +166,7 @@ function setCaret(elem, caretPos) {
         }
         else {
             // if(elem.selectionStart) {
-                elem.focus();
+            //     elem.focus();
                 elem.setSelectionRange(caretPos, caretPos);
             // } else {
             //     elem.focus();
