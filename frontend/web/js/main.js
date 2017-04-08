@@ -2,18 +2,6 @@
  * Created by User on 4/6/2017.
  */
 
-function isSafari() {
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf('safari') != -1) {
-        if (ua.indexOf('chrome') > -1) {
-            // alert("1") // Chrome
-        } else {
-            return true;
-        }
-    }
-    return false;
-}
-
 !function (code_blocks) {
     var tab = "\t";
     var tab2space = "    "; // 1 tab ===> 4 space
@@ -73,14 +61,9 @@ function isSafari() {
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                 }
-                setTimeout(function () {
-                    editor.focus();
-                    editor.setSelectionRange(caret, caret);
-                    window.scrollTo(0, scroll_top);
-                    if (isSafari()) {
-                        alert("ok");
-                    }
-                }, 100);
+                editor.focus();
+                editor.setSelectionRange(caret, caret);
+                window.scrollTo(0, scroll_top);
             }, 100);
         };
 
