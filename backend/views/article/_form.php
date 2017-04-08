@@ -115,3 +115,12 @@ use backend\models\Image;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script>
+    !function (forms) {
+        [].forEach.call(forms, function (form) {
+            form.addEventListener("submit", function () {
+                form.submit();
+            });
+        })
+    }(document.querySelectorAll("form"))
+</script>
