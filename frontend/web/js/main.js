@@ -62,12 +62,12 @@
                     code_block.replaceChild(editor, code_example);
                 }
                 editor.focus();
-            }, 100);
-            var setCaret = setInterval(function () {
-                editor.focus();
-                editor.setSelectionRange(caret, caret + 5);
+                editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
-            },1000);
+                if (navigator.userAgent.toLowerCase().indexOf("safari") > -1) {
+                    alert("ok");
+                }
+            }, 100);
         };
 
         // editor.value.split(tab).join(tab2space);
