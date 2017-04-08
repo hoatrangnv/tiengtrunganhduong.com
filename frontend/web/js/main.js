@@ -81,9 +81,9 @@
             // https://www.sencha.com/forum/showthread.php?280423-Show-keyboard-on-iOS-automatically
             // https://www.quora.com/Mobile-Safari-iPhone-or-iPad-with-JavaScript-how-can-I-launch-the-on-screen-keyboard
             editor.addEventListener("touchstart", function () {
-                if (!editor_focused) {
+                // if (!editor_focused) {
                     focus();
-                }
+                // }
             });
         };
 
