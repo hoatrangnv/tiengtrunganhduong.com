@@ -50,22 +50,22 @@
         runCode();
 
         code_example.contentEditable = true;
-        code_example.onfocus = function () {
-            var doc = document.documentElement;
-            var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-            setTimeout(function () {
-                var caret = getCaretOffset(code_example);
-                if (!editor_display) {
-                    editor_display = true;
-                    code_block.replaceChild(editor, code_example);
-                }
-                setTimeout(function () {
-                    console.log("caret " + caret);
-                    // setCaret(editor, caret);
-                    window.scrollTo(0, scroll_top);
-                }, 5000);
-            }, 5000);
-        };
+        // code_example.onfocus = function () {
+        //     var doc = document.documentElement;
+        //     var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+        //     setTimeout(function () {
+        //         var caret = getCaretOffset(code_example);
+        //         if (!editor_display) {
+        //             editor_display = true;
+        //             code_block.replaceChild(editor, code_example);
+        //         }
+        //         setTimeout(function () {
+        //             console.log("caret " + caret);
+        //             setCaret(editor, caret);
+        //             window.scrollTo(0, scroll_top);
+        //         }, 5000);
+        //     }, 5000);
+        // };
 
         // editor.value.split(tab).join(tab2space);
         editor.onkeydown = function (event) {
