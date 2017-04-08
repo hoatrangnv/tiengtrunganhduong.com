@@ -40,24 +40,21 @@
 }
 
 .code-example code,
-.code-example textarea,
-.code-example .textarea-copy {
-    font-size: 13px;
+.code-example textarea
+{
+    position: relative;
+    display: block;
+    white-space: pre;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: auto;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.4rem;
     font-weight: normal;
     font-family: monospace, monospace;
     transition: all 0.3s;
-    padding: 6px;
     border-width: 1px;
-    box-sizing: border-box;
-    line-height: 18px;
-    word-wrap: break-word;
-    overflow: hidden;
-}
-.code-example .textarea-copy {
-    position: absolute;
-    top: 0;
-    left: 0;
-    visibility: hidden;
-    z-index: -9999;
-    pointer-events: none;
+    padding: 1rem 1.5rem;
+    margin: 0;
 }

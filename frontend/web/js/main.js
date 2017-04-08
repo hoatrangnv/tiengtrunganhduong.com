@@ -18,9 +18,6 @@
         var test_block = document.createElement("iframe");
         test_block.className = "code-example-output";
 
-        editor.style.height = code_example.offsetHeight + "px";
-        editor.style.fontSize = window.getComputedStyle(code_example, null).getPropertyValue("font-size");
-        editor.style.fontFamily = window.getComputedStyle(code_example, null).getPropertyValue("font-family");
         if (code_block.nextSibling) {
             code_block.parentNode.insertBefore(test_block, code_block.nextSibling);
         } else {
@@ -54,7 +51,7 @@
 
         runCode();
 
-        autoGrow(editor, code_block);
+        textAreaAdjust(editor);
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
@@ -296,21 +293,37 @@ function insertAtCaret(txtarea, text) {
     txtarea.scrollTop = scrollPos;
 }
 
-function autoGrow(textArea, container) {
-    if (!container) container = document.body;
-    var d = document.createElement("div");
+function textAreaAdjust(textArea) {
+    // if (!container) container = document.body;
+    // var d = document.createElement("div");
+    // d.className = "textarea-copy";
+    // container.appendChild(d);
 
-    d.className = "textarea-copy";
-    container.appendChild(d);
-
+    // Condition to use rows property to adjust height
+    textArea.style.whiteSpace = "pre";
+    textArea.style.height = "auto";
     function handleKeyEvent() {
-        d.innerHTML = htmlEntitiesEncode(textArea.value)
-                .split("\n").join("<br>")
-                .split("  ").join("&nbsp; ")
-            + "&nbsp;";
-        d.style.width = textArea.offsetWidth + "px";
-        textArea.style.height = d.offsetHeight + "px";
+        // d.innerHTML = htmlEntitiesEncode(textArea.value)
+        //         .split("\n").join("<br>")
+        //         .split("  ").join("&nbsp; ")
+        //     + "&nbsp;";
+        // d.style.width = textArea.offsetWidth + "px";
+        // textArea.style.height = d.offsetHeight + "px";
+
+        // var computedStyle = window.getComputedStyle(textArea, null);
+        // var borderWidth = 0;
+        // if (computedStyle) {
+        //     borderWidth = parseFloat(computedStyle.getPropertyValue("border-top-width"))
+        //      + parseFloat(computedStyle.getPropertyValue("border-bottom-width"));
+        // }
+        // textArea.style.height =
+        //     textArea.scrollHeight
+        //     + borderWidth
+        //     + "px";
+
+        textArea.rows = textArea.value.split("\n").length;
     }
+    handleKeyEvent();
     textArea.addEventListener("keydown", handleKeyEvent);
     textArea.addEventListener("keyup", handleKeyEvent);
 }
