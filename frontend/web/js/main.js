@@ -73,12 +73,14 @@ function isSafari() {
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                 }
-                editor.focus();
-                editor.setSelectionRange(caret, caret);
-                window.scrollTo(0, scroll_top);
-                if (isSafari()) {
-                    alert("ok");
-                }
+                setTimeout(function () {
+                    editor.focus();
+                    editor.setSelectionRange(caret, caret);
+                    window.scrollTo(0, scroll_top);
+                    if (isSafari()) {
+                        alert("ok");
+                    }
+                }, 100);
             }, 100);
         };
 
