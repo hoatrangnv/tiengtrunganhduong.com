@@ -23,6 +23,7 @@
 .code-example-editor {
     width: 100%;
     height: auto;
+    -webkit-tab-size : 4;
     -moz-tab-size : 4;
     -o-tab-size : 4;
     tab-size : 4;
@@ -30,4 +31,27 @@
 
 .disable-scroll {
     overflow: hidden;
+}
+
+.code-example code,
+.code-example textarea,
+.code-example .textarea-copy {
+    font-size: 13px;
+    font-weight: normal;
+    font-family: monospace, monospace;
+    transition: all 0.3s;
+    padding: 6px;
+    border-width: 1px;
+    box-sizing: border-box;
+    line-height: 18px;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+.code-example .textarea-copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    z-index: -9999;
+    pointer-events: none;
 }

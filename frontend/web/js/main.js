@@ -49,7 +49,7 @@
 
         runCode();
 
-        autoGrow(editor);
+        autoGrow(editor, code_block);
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
@@ -271,63 +271,24 @@ function insertAtCaret(txtarea, text) {
     txtarea.scrollTop = scrollPos;
 }
 
-function autoGrow(e) {
+function autoGrow(textArea, container) {
+    if (!container) container = document.body;
     var d = document.createElement("div");
-    var f = window.getComputedStyle(e, null);
 
-    e.style.overflow = "hidden";
-    e.style.transition = "all 0.3s";
+    d.className = "textarea-copy";
+    container.appendChild(d);
 
-    d.style.position = "absolute";
-    d.style.top = "0px";
-    d.style.left = "0px";
-    d.style.visibility = "hidden";
-    d.style.pointerEvents = "none";
-    d.style.zIndex = -999;
-    d.style.width = f.getPropertyValue("width");
-    d.style.font = f.getPropertyValue("font");
-    d.style.fontFamily = f.getPropertyValue("font-family");
-    d.style.fontSize = f.getPropertyValue("font-size");
-    d.style.fontWeight = f.getPropertyValue("font-weight");
-    d.style.fontStyle = f.getPropertyValue("font-style");
-    d.style.lineHeight = f.getPropertyValue("line-height");
-    d.style.padding = f.getPropertyValue("padding");
-    d.style.paddingRight = f.getPropertyValue("padding-right");
-    d.style.paddingTop = f.getPropertyValue("padding-top");
-    d.style.paddingBottom = f.getPropertyValue("padding-bottom");
-    d.style.paddingLeft = f.getPropertyValue("padding-left");
-    d.style.border = f.getPropertyValue("border");
-    d.style.borderTopWidth = f.getPropertyValue("border-top-width");
-    d.style.borderRightWidth = f.getPropertyValue("border-right-width");
-    d.style.borderBottomWidth = f.getPropertyValue("border-bottom-width");
-    d.style.borderLeftWidth = f.getPropertyValue("border-left-width");
-
-    d.innerHTML = e.placeholder;
-    document.body.appendChild(d);
-
-    e.addEventListener("keydown", function () {
-
-        d.innerHTML = e.value
+    function handleKeyEvent() {
+        d.innerHTML = textArea.value
                 .split("<").join("&lt;")
                 .split(">").join("&gt;")
                 .split("\n").join("<br>")
-                .split("  ").join(" &nbsp;");
-        e.style.height = d.offsetHeight + "px";
-    });
-    // e.onkeydown = function () {
-        // while (e.value.indexOf("    ") > -1) {
-        //     e.value = e.value.split("    ").join("   ");
-        // }
-        // while (e.value.indexOf("\n\n\n\n") > -1) {
-        //     e.value = e.value.split("\n\n\n\n").join("\n\n\n");
-        // }
-        // while (/ |\n/g.test(e.value.charAt(0))) {
-        //     e.value = e.value.substring(1);
-        // }
-
-        // var enter_submit = !e.classList.contains("no-enter-submit");
-        // if (enter_submit && event.keyCode === 13 && !event.shiftKey) {
-        //     submitForm(e.form);
-        // }
-    // };
+                .split("  ").join(" &nbsp;")
+            + "&nbsp;"
+        ;
+        d.style.width = textArea.offsetWidth + "px";
+        textArea.style.height = d.offsetHeight + "px";
+    }
+    textArea.addEventListener("keydown", handleKeyEvent);
+    textArea.addEventListener("keyup", handleKeyEvent);
 }
