@@ -103,25 +103,32 @@ use backend\models\Image;
                     echo $form->field($model, 'content')->textarea(['style' => 'display:none']);
                     ?>
                     <style type="text/css" media="screen">
-                        #editor {
+                        #code-editor {
                             display: block;
                             width: 100%;
                             min-height: 300px;
                         }
                     </style>
-                    <div id="editor"><?= htmlentities($model->content) ?></div>
+                    <div id="code-editor"><?= htmlentities($model->content) ?></div>
                     <script src="<?= Yii::$app->homeUrl ?>/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
                     <script>
-                        var editor = ace.edit("editor");
+                        var editor = ace.edit("code-editor");
                         editor.setTheme("ace/theme/monokai");
+                        editor.setOptions({
+                            maxLines: Infinity
+                        });
                         editor.getSession().setMode("ace/mode/php");
                         editor.getSession().setTabSize(4);
                         editor.getSession().on("change", function(e) {
                             var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
                             textArea.value = editor.getValue();
                         });
-                        editor.setOptions({
-                            maxLines: Infinity
+                        var bak_overflow = window.getComputedStyle(document.body, null).getPropertyValue("overflow");
+                        editor.getSession().selection.on('changeSelection', function(e) {
+                            document.body.style.overflow = "hidden";
+                            setTimeout(function () {
+                                document.body.style.overflow = bak_overflow;
+                            }, 100);
                         });
                     </script>
                     <?php
