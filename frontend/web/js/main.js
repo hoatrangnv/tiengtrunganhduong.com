@@ -61,7 +61,7 @@
                 }
                 setTimeout(function () {
                     console.log("caret " + caret);
-                    setCaret(editor, caret);
+                    // setCaret(editor, caret);
                     window.scrollTo(0, scroll_top);
                 }, 5000);
             }, 5000);
