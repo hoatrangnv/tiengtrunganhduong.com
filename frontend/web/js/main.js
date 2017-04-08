@@ -63,8 +63,8 @@
                     console.log("caret " + caret);
                     setCaret(editor, caret);
                     window.scrollTo(0, scroll_top);
-                }, 1000);
-            }, 100);
+                }, 5000);
+            }, 5000);
         };
 
         // editor.value.split(tab).join(tab2space);
