@@ -123,6 +123,7 @@ use backend\models\Image;
                             var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
                             textArea.value = editor.getValue();
                         });
+                        editor.$blockScrolling = Infinity;
                         var bak_overflow = window.getComputedStyle(document.body, null).getPropertyValue("overflow");
 //                        editor.getSession().selection.on('changeSelection', function(e) {
 //                            document.body.style.overflow = "hidden";
@@ -130,7 +131,6 @@ use backend\models\Image;
 //                                document.body.style.overflow = bak_overflow;
 //                            }, 100);
 //                        });
-                        document.getElementById("code-editor").data('ace').editor.$blockScrolling = Infinity;
                     </script>
                     <?php
                 }
