@@ -283,7 +283,7 @@ function autoGrow(textArea, container) {
                 .split("<").join("&lt;")
                 .split(">").join("&gt;")
                 .split("\n").join("<br>")
-                .split("  ").join(" &nbsp;")
+                .split("  ").join("&nbsp; ")
             + "&nbsp;"
         ;
         d.style.width = textArea.offsetWidth + "px";
