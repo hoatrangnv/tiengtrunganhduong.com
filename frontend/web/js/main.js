@@ -63,7 +63,7 @@
                     console.log("caret " + caret);
                     setCaret(editor, caret);
                     window.scrollTo(0, scroll_top);
-                }, 100);
+                }, 1000);
             }, 100);
         };
 
