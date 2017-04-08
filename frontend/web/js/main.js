@@ -82,6 +82,13 @@
                     focus();
                 }
             });
+            code_example.addEventListener("touchstart", function () {
+                if (!editor_focused) {
+                    editor_focused = true;
+                    focus();
+                }
+            });
+
         };
 
         // editor.value.split(tab).join(tab2space);
