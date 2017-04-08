@@ -63,22 +63,28 @@
             var caret;
             setTimeout(function () {
                 caret = getCaretOffset(code_example);
-                console.log("caret " + caret);
                 if (!editor_display) {
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                 }
+                focus();
+            }, 100);
+
+            function focus() {
                 editor.focus();
                 editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
-                editor.addEventListener("touchstart", function () {
-                    if (!editor_focused) {
-                        editor.focus();
-                        editor.setSelectionRange(caret, caret);
-                        // window.scrollTo(0, scroll_top);
-                    }
-                });
-            }, 100);
+            }
+
+            // iOS/Safari only "accepts" the focus when inside a touch event handler
+            // http://stackoverflow.com/questions/18728166/programatically-focus-on-next-input-field-in-mobile-safari
+            // https://www.sencha.com/forum/showthread.php?280423-Show-keyboard-on-iOS-automatically
+            // https://www.quora.com/Mobile-Safari-iPhone-or-iPad-with-JavaScript-how-can-I-launch-the-on-screen-keyboard
+            editor.addEventListener("touchstart", function () {
+                if (!editor_focused) {
+                    focus();
+                }
+            });
         };
 
         // editor.value.split(tab).join(tab2space);
