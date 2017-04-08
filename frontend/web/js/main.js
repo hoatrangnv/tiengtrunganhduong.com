@@ -64,7 +64,7 @@
                 editor.focus();
             }, 100);
             var setCaret = setInterval(function () {
-                editor.setSelectionRange(caret, caret);
+                editor.setSelectionRange(caret, caret + 5);
                 window.scrollTo(0, scroll_top);
             },1000);
         };
