@@ -53,8 +53,9 @@
         code_example.onfocus = function () {
             var doc = document.documentElement;
             var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+            var caret;
             setTimeout(function () {
-                var caret = getCaretOffset(code_example);
+                caret = getCaretOffset(code_example);
                 if (!editor_display) {
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
