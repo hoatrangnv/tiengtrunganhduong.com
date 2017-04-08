@@ -56,17 +56,17 @@
             var caret;
             setTimeout(function () {
                 caret = getCaretOffset(code_example);
+                console.log("caret " + caret);
                 if (!editor_display) {
                     editor_display = true;
                     code_block.replaceChild(editor, code_example);
                 }
                 editor.focus();
             }, 100);
-            setTimeout(function () {
-                console.log("caret " + caret);
-                setCaret(editor, caret);
+            var setCaret = setInterval(function () {
+                editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
-            }, 5000);
+            },1000);
         };
 
         // editor.value.split(tab).join(tab2space);
