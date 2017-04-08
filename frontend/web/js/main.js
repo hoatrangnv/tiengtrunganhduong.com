@@ -2,6 +2,18 @@
  * Created by User on 4/6/2017.
  */
 
+function isSafari() {
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('safari') != -1) {
+        if (ua.indexOf('chrome') > -1) {
+            // alert("1") // Chrome
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
+
 !function (code_blocks) {
     var tab = "\t";
     var tab2space = "    "; // 1 tab ===> 4 space
@@ -64,7 +76,7 @@
                 editor.focus();
                 editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
-                if (navigator.userAgent.toLowerCase().indexOf("safari") > -1) {
+                if (isSafari()) {
                     alert("ok");
                 }
             }, 100);
