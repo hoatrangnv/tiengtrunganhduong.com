@@ -50,7 +50,9 @@
         runCode();
 
         code_example.contentEditable = true;
-        code_example.onfocus = code_example.ontouchstart = function () {
+        code_example.onfocus =
+            // code_example.ontouchstart =
+        function () {
             var doc = document.documentElement;
             var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
             var caret;
@@ -64,11 +66,14 @@
                 editor.focus();
                 editor.setSelectionRange(caret, caret);
                 window.scrollTo(0, scroll_top);
-                // editor.addEventListener("touchstart", function () {
-                //     editor.focus();
-                //     editor.setSelectionRange(caret, caret);
-                //     window.scrollTo(0, scroll_top);
-                // });
+                console.log(editor === document.activeElement);
+                editor.addEventListener("touchstart", function () {
+                    if (editor !== document.activeElement) {
+                        editor.focus();
+                        editor.setSelectionRange(caret, caret);
+                        window.scrollTo(0, scroll_top);
+                    }
+                });
             }, 100);
         };
 
