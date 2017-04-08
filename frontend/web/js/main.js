@@ -49,11 +49,6 @@
 
         runCode();
 
-        var editor_focused = false;
-        // editor.onfocus = function () {
-            // editor_focused = true;
-        // };
-
         code_example.contentEditable = true;
         code_example.onfocus =
             // code_example.ontouchstart =
@@ -80,6 +75,7 @@
             // http://stackoverflow.com/questions/18728166/programatically-focus-on-next-input-field-in-mobile-safari
             // https://www.sencha.com/forum/showthread.php?280423-Show-keyboard-on-iOS-automatically
             // https://www.quora.com/Mobile-Safari-iPhone-or-iPad-with-JavaScript-how-can-I-launch-the-on-screen-keyboard
+            var editor_focused = false;
             editor.addEventListener("touchstart", function () {
                 if (!editor_focused) {
                     editor_focused = true;
