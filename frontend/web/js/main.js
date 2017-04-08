@@ -49,7 +49,7 @@
 
         runCode();
 
-        autoGrow([editor]);
+        autoGrow(editor);
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
