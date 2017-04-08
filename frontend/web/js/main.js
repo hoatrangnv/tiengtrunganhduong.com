@@ -75,7 +75,7 @@
                     if (!editor_focused) {
                         editor.focus();
                         editor.setSelectionRange(caret, caret);
-                        window.scrollTo(0, scroll_top);
+                        // window.scrollTo(0, scroll_top);
                     }
                 });
             }, 100);
