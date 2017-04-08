@@ -106,7 +106,7 @@ use backend\models\Image;
 
             <div class="form-group">
                 <label class="btn btn-default">
-                    <input type="radio" name="btn-submit" value="stay-here">
+                    <input type="radio" name="submit-and" value="stay-here">
                     <span>Submit and stay here</span>
                 </label>
             </div>
@@ -128,5 +128,5 @@ use backend\models\Image;
                 input.form.submit();
             });
         })
-    }(document.querySelectorAll("input[name=btn-submit]"))
+    }(document.querySelectorAll("input[name=submit-and]"))
 </script>

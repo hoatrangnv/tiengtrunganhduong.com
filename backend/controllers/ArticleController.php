@@ -67,10 +67,10 @@ class ArticleController extends BaseController
 
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save()) {
-            if (!isset($post['submit'])) {
-                $post['submit'] = '';
+            if (!isset($post['submit-and'])) {
+                $post['submit-and'] = '';
             }
-            switch ($post['submit']) {
+            switch ($post['submit-and']) {
                 case 'stay-here':
                     break;
                 default:
@@ -95,10 +95,10 @@ class ArticleController extends BaseController
 
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save()) {
-            if (!isset($post['submit'])) {
-                $post['submit'] = '';
+            if (!isset($post['submit-and'])) {
+                $post['submit-and'] = '';
             }
-            switch ($post['submit']) {
+            switch ($post['submit-and']) {
                 case 'stay-here':
                     break;
                 default:
