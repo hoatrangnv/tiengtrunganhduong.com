@@ -301,6 +301,7 @@ function textAreaAdjust(textArea) {
 
     // Condition to use rows property to adjust height
     textArea.style.whiteSpace = "pre";
+    textArea.style.wordWrap = "normal";
     textArea.style.height = "auto";
     function handleKeyEvent() {
         // d.innerHTML = htmlEntitiesEncode(textArea.value)
