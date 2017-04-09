@@ -56,3 +56,12 @@
     resize: none;
     /*background: #fafafa;*/
 }
+
+.table-wrap {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+}
+.table-wrap table {
+    min-width: 100%;
+}

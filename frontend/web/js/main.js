@@ -76,7 +76,6 @@
                     focus();
                 }
             });
-
         };
 
         editor.onkeydown = function (event) {
