@@ -33,7 +33,7 @@ use yii\helpers\FileHelper;
  */
 class Image extends \common\models\MyActiveRecord
 {
-    public function getUrl()
+    public function getUrl($options = [])
     {
         // TODO: Implement getUrl() method.
     }

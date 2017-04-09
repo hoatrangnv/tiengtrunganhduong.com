@@ -28,7 +28,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 $text = '';
             }
         }
-        return Html::a($text ? $text : $this->name, $this->getUrl(), $options);
+        return Html::a($text, $this->getUrl(), $options);
     }
 
     private $_img_srcs = null;

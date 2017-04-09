@@ -9,7 +9,7 @@ class User extends \common\models\User implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function getUrl()
+    public function getUrl($options = [])
     {
         // TODO: Implement getUrl() method.
     }

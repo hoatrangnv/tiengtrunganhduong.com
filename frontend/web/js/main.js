@@ -4,9 +4,9 @@
 
 !function (code_examples) {
     var tab2space = "    "; // 1 tab ===> 4 space
-    var tab_size = 4;
+    var tabSize = 4;
     if (window.innerWidth < 641) {
-        tab_size = 2;
+        tabSize = 2;
     }
     [].forEach.call(code_examples, function (code_example) {
         // Code snippet (code tag)
@@ -16,14 +16,16 @@
         }
         // snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
         snippet.innerHTML = snippet.innerHTML.split(tab2space).join("\t").trim();
-        snippet.style.setProperty("tab-size", tab_size);
-        snippet.style.setProperty("-moz-tab-size", tab_size);
+        // snippet.style.setProperty("tab-size", tabSize);
+        // snippet.style.setProperty("-moz-tab-size", tabSize);
+        snippet.style["tab-size"] = snippet.style["-moz-tab-size"] = tabSize;
 
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
         editor.innerHTML = snippet.innerHTML;
-        editor.style.setProperty("tab-size", tab_size);
-        editor.style.setProperty("-moz-tab-size", tab_size);
+        // editor.style.setProperty("tab-size", tabSize);
+        // editor.style.setProperty("-moz-tab-size", tabSize);
+        editor.style["tab-size"] = editor.style["-moz-tab-size"] = tabSize;
         editor.addEventListener("focus", function () {
             this.focused = true;
         });

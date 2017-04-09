@@ -15,7 +15,7 @@ use yii\helpers\Url;
 
 class Article extends MyActiveRecord
 {
-    public function getUrl()
+    public function getUrl($options = [])
     {
         return Url::to(['article/view', UrlParam::SLUG => $this->slug], true);
     }
