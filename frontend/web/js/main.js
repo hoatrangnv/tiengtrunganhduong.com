@@ -15,6 +15,7 @@
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
         editor.innerHTML = snippet.innerHTML;
+        editor.style.tabSize = editor.style.mozTabSize = tab2space;
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
@@ -289,8 +290,9 @@ function insertAtCaret(txtarea, text) {
 
 function textAreaAdjust(textArea) {
     var d = document.createElement("DIV");
+    d.style = "position:absolute;visibility:hidden;pointer-events:none";
     var wrap = document.createElement("DIV");
-    wrap.style = "position:fixed;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden";
+    wrap.style = "position:fixed;top:0;left:0;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none";
     wrap.appendChild(d);
     document.body.appendChild(wrap);
 
@@ -305,6 +307,7 @@ function textAreaAdjust(textArea) {
         [
             "width",
             "border-box",
+            "display",
 
             "border-style",
             "border-width",
@@ -318,9 +321,10 @@ function textAreaAdjust(textArea) {
             "font-family",
             "font-weight",
             "line-height",
-            "tab-size",
-            "letter-spacing",
             "word-spacing",
+            "letter-spacing",
+            "tab-size",
+            "-moz-tab-size",
             "text-transform",
 
             "padding",
@@ -335,7 +339,7 @@ function textAreaAdjust(textArea) {
             "overflow"
 
         ].forEach(function (prop) {
-            if (d.style.hasOwnProperty(prop)) {
+            if (typeof d.style[prop] !== "undefined") {
                 console.log(prop, f.getPropertyValue(prop));
                 d.style[prop] = f.getPropertyValue(prop);
             }
