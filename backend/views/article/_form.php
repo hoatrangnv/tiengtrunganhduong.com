@@ -127,6 +127,7 @@ use backend\models\Image;
                     <?php
                 }
             ?>
+            </div>
             <?= $form->field($model, 'active')->checkbox() ?>
 
             <div class="form-group">
