@@ -4,8 +4,9 @@
 
 !function (code_examples) {
     var tab2space = "    "; // 1 tab ===> 4 space
+    var tab_size = 4;
     if (window.innerWidth < 641) {
-        tab2space = "  ";
+        tab_size = 2;
     }
     [].forEach.call(code_examples, function (code_example) {
         // Code snippet (code tag)
@@ -15,11 +16,14 @@
         }
         // snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
         snippet.innerHTML = snippet.innerHTML.split(tab2space).join("\t").trim();
+        snippet.style.setProperty("tab-size", tab_size);
+        snippet.style.setProperty("-moz-tab-size", tab_size);
 
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
         editor.innerHTML = snippet.innerHTML;
-        editor.style.tabSize = editor.style.mozTabSize = tab2space.length;
+        editor.style.setProperty("tab-size", tab_size);
+        editor.style.setProperty("-moz-tab-size", tab_size);
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
