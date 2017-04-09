@@ -10,12 +10,10 @@
         if (!snippet) {
             return false;
         }
-        
+        snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
+
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
-        snippet.innerHTML = snippet.innerHTML
-            .split("\t").join(tab2space)
-            .trim();
         editor.innerHTML = snippet.innerHTML;
         editor.addEventListener("focus", function () {
             this.focused = true;
