@@ -17,7 +17,8 @@ $this->title = 'My Yii Application';
             <?php
             foreach (\backend\models\Article::find()->orderBy('id desc')->limit(10)->all() as $item) {
             ?>
-            <a class="label label-primary" href="<?= $item->getUrl(['code_editor' => true]) ?>"><?= $item->name ?></a>
+            <a class="label <?= $item->active ? 'label-primary' : 'label-default' ?>"
+               href="<?= $item->getUrl(['code_editor' => true]) ?>"><?= $item->name ?></a>
             <?php
             }
             ?>
