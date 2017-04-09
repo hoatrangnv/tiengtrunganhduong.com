@@ -2,72 +2,62 @@
  * Created by User on 4/6/2017.
  */
 
-!function (code_blocks) {
+!function (code_examples) {
     var tab2space = "    "; // 1 tab ===> 4 space
-    [].forEach.call(code_blocks, function (code_block) {
-        var code_example = code_block.querySelector("code");
+    [].forEach.call(code_examples, function (code_example) {
+        // Code snippet (code tag)
+        var snippet = code_example.querySelector("code");
+        if (!snippet) {
+            return false;
+        }
+        
+        // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
-        editor.className = "code-example-input";
-        code_example.innerHTML = code_example.innerHTML
+        snippet.innerHTML = snippet.innerHTML
             .split("\t").join(tab2space)
             .trim();
-        editor.innerHTML = code_example.innerHTML;
-
-        if (!code_example || code_example != code_block.firstChild) {
-            code_example = code_block;
-        }
-        var test_block = document.createElement("iframe");
-        test_block.className = "code-example-output";
-
-        if (code_block.nextSibling) {
-            code_block.parentNode.insertBefore(test_block, code_block.nextSibling);
-        } else {
-            code_block.parentNode.appendChild(test_block);
-        }
-
+        editor.innerHTML = snippet.innerHTML;
+        editor.addEventListener("focus", function () {
+            this.focused = true;
+        });
         function openEditor() {
-            code_block.replaceChild(editor, code_example);
+            editor.appeared = true;
+            snippet.parentNode.replaceChild(editor, snippet);
             textAreaAdjust(editor);
         }
 
-        var btn = document.createElement("BUTTON");
-        btn.innerHTML = "Try it here";
-        var editor_display = false;
-        btn.addEventListener("click", function (event) {
-            if (!editor_display) {
-                editor_display = true;
+        // Code submit button
+        var submit = document.createElement("BUTTON");
+        submit.innerHTML = "Try it here";
+        submit.addEventListener("click", function (event) {
+            if (!editor.appeared) {
                 openEditor();
             }
             runCode();
         }, false);
+        code_example.appendChild(submit);
 
-        code_block.parentNode.insertBefore(btn, test_block);
-
+        // Code result
+        var result = document.createElement("iframe");
+        code_example.appendChild(result);
         function runCode() {
-            // test_block.innerHTML = editor.value;
-            // nodeClassNamesReplace(test_block);
-            // nodeScriptReplace(test_block);
-            var doc = test_block.contentWindow.document;
+            var doc = result.contentWindow.document;
             doc.open();
             doc.write(editor.value);
             doc.close();
-            test_block.style.height = doc.body.scrollHeight + "px";
+            result.style.height = doc.body.scrollHeight + "px";
         }
-
         runCode();
 
-        editor.addEventListener("focus", function () {
-            this.focused = true;
-        });
-        code_example.contentEditable = true;
-        code_example.onfocus = function () {
+        //----
+        snippet.contentEditable = true;
+        snippet.onfocus = function () {
             var doc = document.documentElement;
             var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
             var caret;
             setTimeout(function () {
-                caret = getCaretOffset(code_example);
-                if (!editor_display) {
-                    editor_display = true;
+                caret = getCaretOffset(snippet);
+                if (!editor.appeared) {
                     openEditor();
                 }
                 focus();
