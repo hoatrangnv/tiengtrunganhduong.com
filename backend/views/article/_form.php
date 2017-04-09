@@ -90,17 +90,6 @@ use backend\models\Image;
                 if (!$code_editor || $code_editor == 'text') {
                     echo $form->field($model, 'content')->textarea(['rows' => 10]);
                 } else {
-//                    echo $form->field($model, 'content')->widget(
-//                        AceEditor::className(),
-//                        [
-//                            'mode' => 'php', // programing language mode. Default "html"
-//                            'theme' => $code_editor, // editor theme. Default "github"
-//                            'containerOptions' => [
-//                                'style' => 'width:100%;min-height:400px;font-size:14px'
-//                            ]
-//                        ]
-//                    );
-                    echo $form->field($model, 'content')->textarea(['style' => 'display:none']);
                     ?>
                     <style type="text/css" media="screen">
                         #code-editor {
@@ -109,25 +98,28 @@ use backend\models\Image;
                             min-height: 300px;
                         }
                     </style>
-                    <div id="code-editor"><?= htmlentities($model->content) ?></div>
-                    <script src="<?= Yii::$app->homeUrl ?>/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-                    <script>
-                        var editor = ace.edit("code-editor");
-                        editor.setTheme("ace/theme/monokai");
-                        editor.setOptions({
-                            maxLines: Infinity
-                        });
-                        editor.getSession().setMode("ace/mode/php");
-                        editor.getSession().setTabSize(4);
-                        editor.getSession().on("change", function(e) {
-                            var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
-                            textArea.value = editor.getValue();
-                        });
-                    </script>
+                    <?php echo $form->field($model, 'content')->textarea(['style' => 'display:none']); ?>
+                    <div class="form-group">
+                        <div id="code-editor"><?= htmlentities($model->content) ?></div>
+                        <script src="<?= Yii::$app->homeUrl ?>/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+                        <script>
+                            var editor = ace.edit("code-editor");
+                            editor.setTheme("ace/theme/monokai");
+                            editor.setOptions({
+                                maxLines: Infinity
+                            });
+                            editor.getSession().setMode("ace/mode/php");
+                            editor.getSession().setTabSize(4);
+                            editor.getSession().on("change", function(e) {
+                                var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
+                                textArea.value = editor.getValue();
+                            });
+                        </script>
+                    </div>
                     <?php
                 }
             ?>
-            </div>
+
             <?= $form->field($model, 'active')->checkbox() ?>
 
             <div class="form-group">
