@@ -291,7 +291,6 @@ function insertAtCaret(txtarea, text) {
 function textAreaAdjust(textArea) {
     var d = document.createElement("DIV");
     var wrap = document.createElement("DIV");
-    // wrap.style = "position:fixed;top:0;left:0;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none";
     wrap.style.position = "fixed";
     wrap.style.width = "0px";
     wrap.style.height = "0px";
