@@ -4,7 +4,7 @@
 
 !function (code_examples) {
     var tab2space = "    "; // 1 tab ===> 4 space
-    if (window.innerWidth < 640) {
+    if (window.innerWidth < 641) {
         tab2space = "  ";
     }
     [].forEach.call(code_examples, function (code_example) {
@@ -13,7 +13,8 @@
         if (!snippet) {
             return false;
         }
-        snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
+        // snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
+        snippet.innerHTML = snippet.innerHTML.split(tab2space).join("\t").trim();
 
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
@@ -87,7 +88,8 @@
                 var code = editor.value;
 
                 if (event.keyCode === 9) { // TAB
-                    insertAtCaret(editor, tab2space);
+                    // insertAtCaret(editor, tab2space);
+                    insertAtCaret(editor, "\t");
                 }
 
                 if (event.keyCode === 13) { // ENTER
@@ -118,7 +120,8 @@
                         last_type = "";
                     }
                     if (last_type === "{" || last_type === "<>") {
-                        white_space += tab2space;
+                        // white_space += tab2space;
+                        white_space += "\t";
                     }
                     insertAtCaret(editor, "\n" + white_space);
                 }
