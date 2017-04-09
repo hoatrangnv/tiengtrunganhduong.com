@@ -4,6 +4,9 @@
 
 !function (code_examples) {
     var tab2space = "    "; // 1 tab ===> 4 space
+    if (window.innerWidth < 640) {
+        tab2space = "  ";
+    }
     [].forEach.call(code_examples, function (code_example) {
         // Code snippet (code tag)
         var snippet = code_example.querySelector("code");
@@ -15,7 +18,7 @@
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
         editor.innerHTML = snippet.innerHTML;
-        editor.style.tabSize = editor.style.mozTabSize = tab2space;
+        editor.style.tabSize = editor.style.mozTabSize = tab2space.length;
         editor.addEventListener("focus", function () {
             this.focused = true;
         });
