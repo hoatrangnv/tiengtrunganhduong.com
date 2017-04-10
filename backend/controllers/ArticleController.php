@@ -65,13 +65,22 @@ class ArticleController extends BaseController
     {
         $model = new Article();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->save()) {
+            if (!isset($post['submit-and'])) {
+                $post['submit-and'] = '';
+            }
+            switch ($post['submit-and']) {
+                case 'update':
+                    return $this->redirect(['update', 'id' => $model->id]);
+                default:
+                    return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -84,13 +93,22 @@ class ArticleController extends BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->save()) {
+            if (!isset($post['submit-and'])) {
+                $post['submit-and'] = '';
+            }
+            switch ($post['submit-and']) {
+                case 'stay-here':
+                    break;
+                default:
+                    return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

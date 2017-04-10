@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -11,7 +11,18 @@ $this->title = 'My Yii Application';
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p><a class="btn btn-lg btn-success" href="<?= Url::to(['article/create', 'code_editor' => true]) ?>">New Article</a></p>
+
+        <p>
+            <?php
+            foreach (\backend\models\Article::find()->orderBy('id desc')->limit(10)->all() as $item) {
+            ?>
+            <a class="label <?= $item->active ? 'label-primary' : 'label-default' ?>"
+               href="<?= $item->getUrl(['code_editor' => true]) ?>"><?= $item->name ?></a>
+            <?php
+            }
+            ?>
+        </p>
     </div>
 
     <div class="body-content">

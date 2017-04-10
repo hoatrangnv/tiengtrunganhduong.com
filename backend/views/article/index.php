@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'code_update' => function ($url, $model, $key) {
                         return Html::a(
                             '<span class="glyphicon glyphicon-console"></span>',
-                            \yii\helpers\Url::to(['article/update', 'id' => $model->id, 'code_editor' => 'tomorrow_night_eighties']),
+                            \yii\helpers\Url::to(['article/update', 'id' => $model->id, 'code_editor' => 1]),
                             ['aria-label' => 'Update', 'data-pjax' => 0]
                         );
                     }

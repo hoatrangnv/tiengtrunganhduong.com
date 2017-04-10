@@ -90,19 +90,44 @@ use backend\models\Image;
                 if (!$code_editor || $code_editor == 'text') {
                     echo $form->field($model, 'content')->textarea(['rows' => 10]);
                 } else {
-                    echo $form->field($model, 'content')->widget(
-                        AceEditor::className(),
-                        [
-                            'mode' => 'php', // programing language mode. Default "html"
-                            'theme' => $code_editor, // editor theme. Default "github"
-                            'containerOptions' => [
-                                'style' => 'width:100%;min-height:400px;font-size:14px'
-                            ]
-                        ]
-                    );
+                    ?>
+                    <style type="text/css" media="screen">
+                        #code-editor {
+                            display: block;
+                            width: 100%;
+                            min-height: 300px;
+                        }
+                    </style>
+                    <?php echo $form->field($model, 'content')->textarea(['style' => 'display:none']); ?>
+                    <div class="form-group">
+                        <div id="code-editor"><?= htmlentities($model->content) ?></div>
+                        <script src="<?= Yii::$app->homeUrl ?>/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+                        <script>
+                            var editor = ace.edit("code-editor");
+                            editor.setTheme("ace/theme/monokai");
+                            editor.setOptions({
+                                maxLines: Infinity
+                            });
+                            editor.getSession().setMode("ace/mode/php");
+                            editor.getSession().setTabSize(4);
+                            editor.getSession().on("change", function(e) {
+                                var textArea = document.getElementById("<?= Html::getInputId($model, 'content') ?>");
+                                textArea.value = editor.getValue();
+                            });
+                        </script>
+                    </div>
+                    <?php
                 }
             ?>
+
             <?= $form->field($model, 'active')->checkbox() ?>
+
+            <div class="form-group">
+                <label class="btn btn-default">
+                    <input type="radio" name="submit-and" value="stay-here">
+                    <span>Submit and stay here</span>
+                </label>
+            </div>
 
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -114,3 +139,12 @@ use backend\models\Image;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script>
+    !function (inputs) {
+        [].forEach.call(inputs, function (input) {
+            input.addEventListener("change", function () {
+                input.form.submit();
+            });
+        })
+    }(document.querySelectorAll("input[name=submit-and]"))
+</script>
