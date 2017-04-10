@@ -34,7 +34,7 @@
     position: relative;
     display: block;
     white-space: pre;
-    word-wrap: break-word;
+    word-wrap: normal;
     overflow-x: auto;
     overflow-y: hidden;
     height: auto;
