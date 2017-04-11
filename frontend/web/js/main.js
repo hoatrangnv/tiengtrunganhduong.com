@@ -59,8 +59,13 @@
             doc.write(editor.value);
             doc.close();
 
-            result.setHeight();
-            result.contentWindow.addEventListener("load", result.setHeight);
+            // result.setHeight();
+            // result.contentWindow.addEventListener("load", result.setHeight);
+            if (doc.readyState === "complete"
+                || doc.readyState === "loaded"
+                || doc.readyState === "interactive") {
+                result.setHeight();
+            }
         }
         runCode();
 
