@@ -19,19 +19,6 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-lg-4">
-                <h2>Active Articles</h2>
-
-                <ul>
-                    <?php
-                    foreach (Article::find()->where(['active' => 1])->orderBy('publish_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a()}</li>";
-                    }
-                    ?>
-                </ul>
-
-                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">Articles &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
                 <h2>Inactive Articles</h2>
 
                 <ul>
@@ -43,6 +30,19 @@ $this->title = 'My Yii Application';
                 </ul>
 
                 <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 0]) ?>">Articles &raquo;</a></p>
+            </div>
+            <div class="col-lg-4">
+                <h2>Active Articles</h2>
+
+                <ul>
+                    <?php
+                    foreach (Article::find()->where(['active' => 1])->orderBy('publish_time desc')->limit(20)->all() as $item) {
+                        echo "<li>{$item->a()}</li>";
+                    }
+                    ?>
+                </ul>
+
+                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">Articles &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Images</h2>
