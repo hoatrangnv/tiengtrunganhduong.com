@@ -49,13 +49,15 @@
         // Code result
         var result = document.createElement("iframe");
         code_example.appendChild(result);
+        var result_height_init = result.offsetHeight;
         function runCode() {
             var doc = result.contentWindow.document;
             doc.open();
             doc.write(editor.value);
             doc.close();
             result.contentWindow.addEventListener("load", function () {
-                result.style.height = doc.body.scrollHeight + "px";
+                result.style.height =
+                    result_height_init + doc.body.scrollHeight + "px";
             });
         }
         runCode();
