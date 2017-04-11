@@ -49,9 +49,9 @@
         // Code result
         var result = document.createElement("iframe");
         code_example.appendChild(result);
-        result.height_init = result.offsetHeight;
+        result.init_height = result.offsetHeight;
         result.setHeight = function () {
-            this.style.height = this.height_init + this.contentWindow.document.body.scrollHeight + "px";
+            this.style.height = this.init_height + this.contentWindow.document.body.scrollHeight + "px";
         };
         function runCode() {
             var doc = result.contentWindow.document;
