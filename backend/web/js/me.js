@@ -12,14 +12,15 @@
 
 function copyTextToClipboard (text) {
     var textArea = document.createElement("TEXTAREA");
-    textArea.style.position = "absolute";
+    textArea.style.position = "fixed";
+    textArea.style.bottom = "0px";
     textArea.disabled = true;
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
     var message = document.createElement("DIV");
-    message.style.position = "absolute";
-    // message.style.bottom = "0px";
+    message.style.position = "fixed";
+    message.style.bottom = "0px";
     message.style.background = "black";
     message.style.color = "white";
     message.style.zIndex = "9999";
@@ -29,9 +30,9 @@ function copyTextToClipboard (text) {
     } catch (error) {
         message.innerHTML = "Oops, Unable to copy.";
     }
-    // document.body.removeChild(textArea);
+    document.body.removeChild(textArea);
     document.body.appendChild(message);
-    // setTimeout(function () {
-    //     document.body.removeChild(message);
-    // }, 999);
+    setTimeout(function () {
+        document.body.removeChild(message);
+    }, 999);
 }
