@@ -50,7 +50,7 @@ $this->title = 'My Yii Application';
                 <ul>
                     <?php
                     foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->img('100x100')} {$item->a()}</li>";
+                        echo "<li>{$item->img('100x100', ['style' => 'max-width:100px;max-height:100px'])} {$item->a()}</li>";
                     }
                     ?>
                 </ul>
