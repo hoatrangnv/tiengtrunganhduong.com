@@ -259,10 +259,10 @@ abstract class Image extends \common\models\MyActiveRecord
     {
         $params_string = substr(substr($template, 0, - strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
         $params = explode(self::T_IMG_VAR_SEP, $params_string);
-        die;
         if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
             return '';
         }
+        die;
         $size_key = 0;
         if (isset($params[1])) {
             $size_key = $params[1];
