@@ -13,7 +13,7 @@
 function copyTextToClipboard (text) {
     var textArea = document.createElement("TEXTAREA");
     textArea.style.position = "absolute";
-    textArea.disabled = "true";
+    textArea.disabled = true;
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
