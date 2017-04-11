@@ -35,8 +35,7 @@
     display: block;
     white-space: pre;
     word-wrap: normal;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto;
     height: auto;
     line-height: 2rem;
     box-sizing: border-box;
