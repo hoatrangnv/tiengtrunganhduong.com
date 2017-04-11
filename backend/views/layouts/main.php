@@ -36,15 +36,14 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
+    $menuItems = array();
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/admin/user/login']];
     } else {
         $menuItems = array_merge(
             $menuItems,
             Helper::filter([
+                ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Article', 'items' => [
                     ['label' => 'Index', 'url' => ['/article/index']],
                     ['label' => 'Create', 'url' => ['/article/create', 'code_editor' => 'text']],
