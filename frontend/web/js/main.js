@@ -51,7 +51,8 @@
         code_example.appendChild(result);
         result.init_height = result.offsetHeight;
         result.setHeight = function () {
-            this.style.height = this.init_height + this.contentWindow.document.body.scrollHeight + "px";
+            var doc = result.contentDocument || result.contentWindow.document;
+            this.style.height = this.init_height + doc.body.scrollHeight + "px";
         };
         result.handleLoaded = function(callback) {
             var doc = this.contentDocument || this.contentWindow.document;
