@@ -52,10 +52,10 @@
         result.init_height = result.offsetHeight;
         result.setHeight = function () {
             var doc = result.contentDocument || result.contentWindow.document;
-            this.style.height = this.init_height + doc.body.scrollHeight + "px";
+            result.style.height = result.init_height + doc.body.scrollHeight + "px";
         };
         result.handleLoaded = function(callback) {
-            var doc = this.contentDocument || this.contentWindow.document;
+            var doc = result.contentDocument || result.contentWindow.document;
 
             if (doc.readyState  == "complete") {
                 callback();
