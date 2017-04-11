@@ -28,9 +28,9 @@ function copyTextToClipboard (text) {
     } catch (error) {
         message.innerHTML = "Oops, Unable to copy.";
     }
-    document.body.removeChild(textArea);
+    // document.body.removeChild(textArea);
     document.body.appendChild(message);
-    setTimeout(function () {
-        document.body.removeChild(message);
-    }, 999);
+    // setTimeout(function () {
+    //     document.body.removeChild(message);
+    // }, 999);
 }
