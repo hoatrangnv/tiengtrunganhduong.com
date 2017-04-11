@@ -14,20 +14,23 @@ function copyTextToClipboard (text) {
     var textArea = document.createElement("TEXTAREA");
     textArea.style.position = "fixed";
     textArea.style.bottom = "0px";
-    textArea.style.right = "0px";
     textArea.style.left = "0px";
-    textArea.style.margin = "auto";
-    textArea.style.zIndex = "999999";
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
+    var message = document.createElement("DIV");
+    message.style.position = "relative";
+    message.style.top = "0px";
+    message.style.margin = "auto";
+    document.body.appendChild(message);
     try {
         var successful = document.execCommand("copy");
-        console.log("Copying text command was " + (successful ? "successful." : "unsuccessful."));
+        message.innerHTML = "Copying text command was " + (successful ? "successful." : "unsuccessful.");
     } catch (error) {
-        console.log("Oops, Unable to copy.");
+        message.innerHTML = "Oops, Unable to copy.";
     }
-    setTimeout(function () {
-       document.body.removeChild(textArea);
-    }, 500);
+    document.body.removeChild(textArea);
+    // setTimeout(function () {
+    //     document.body.removeChild(message);
+    // }, 999);
 }
