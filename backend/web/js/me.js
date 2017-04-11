@@ -23,7 +23,6 @@ function copyTextToClipboard (text) {
     message.style.background = "black";
     message.style.color = "white";
     message.style.zIndex = "9999";
-    document.body.appendChild(message);
     try {
         var successful = document.execCommand("copy");
         message.innerHTML = "Copying text command was " + (successful ? "successful." : "unsuccessful.");
@@ -31,6 +30,7 @@ function copyTextToClipboard (text) {
         message.innerHTML = "Oops, Unable to copy.";
     }
     document.body.removeChild(textArea);
+    document.body.appendChild(message);
     setTimeout(function () {
         document.body.removeChild(message);
     }, 999);
