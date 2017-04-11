@@ -58,7 +58,7 @@ var motivatebox = document.getElementById('motivatebox');
 motivatebox.addEventListener('mouseup', function(e){
     e = e || event; // equalize event object between modern and older IE browsers
     var target = e.target || e.srcElement; // get target element mouse is over
-    if (target.className == 'motivate') {
+    if (target.classList.contains('motivate')) {
         selectElementText(target); // select the element's text we wish to read
         var copysuccess = copySelectionText();
         if (copysuccess){
