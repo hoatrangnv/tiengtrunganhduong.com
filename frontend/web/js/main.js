@@ -53,19 +53,16 @@
         result.setHeight = function () {
             this.style.height = this.init_height + this.contentWindow.document.body.scrollHeight + "px";
         };
+        result.contentWindow.addEventListener("load", function () {
+            alert("ok");
+        });
         function runCode() {
             var doc = result.contentWindow.document;
             doc.open();
             doc.write(editor.value);
             doc.close();
 
-            // result.setHeight();
-            // result.contentWindow.addEventListener("load", result.setHeight);
-            if (doc.readyState === "complete"
-                || doc.readyState === "loaded"
-                || doc.readyState === "interactive") {
-                result.setHeight();
-            }
+            result.setHeight();
         }
         runCode();
 
