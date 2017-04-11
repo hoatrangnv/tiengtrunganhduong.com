@@ -54,7 +54,9 @@
             doc.open();
             doc.write(editor.value);
             doc.close();
-            result.style.height = doc.body.scrollHeight + "px";
+            result.contentWindow.addEventListener("load", function () {
+                result.body.style.height = doc.body.scrollHeight + "px";
+            });
         }
         runCode();
 
