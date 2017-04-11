@@ -52,7 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
 //                }
 //            ],
             // 'sub_content:ntext',
-             'active',
             // 'visible',
             // 'hot',
             // 'status',

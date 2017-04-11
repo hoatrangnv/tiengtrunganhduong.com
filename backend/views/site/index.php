@@ -1,7 +1,8 @@
 <?php
 use yii\helpers\Url;
 /* @var $this yii\web\View */
-
+use backend\models\Article;
+use backend\models\Image;
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
@@ -12,51 +13,49 @@ $this->title = 'My Yii Application';
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
         <p><a class="btn btn-lg btn-success" href="<?= Url::to(['article/create', 'code_editor' => true]) ?>">New Article</a></p>
-
-        <p>
-            <?php
-            foreach (\backend\models\Article::find()->orderBy('id desc')->limit(10)->all() as $item) {
-            ?>
-            <a class="label <?= $item->active ? 'label-primary' : 'label-default' ?>"
-               href="<?= $item->getUrl(['code_editor' => true]) ?>"><?= $item->name ?></a>
-            <?php
-            }
-            ?>
-        </p>
     </div>
 
     <div class="body-content">
 
         <div class="row">
             <div class="col-lg-4">
-                <h2>Heading</h2>
+                <h2>Active Articles</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <ul>
+                    <?php
+                    foreach (Article::find()->where(['active' => 1])->orderBy('publish_time desc')->limit(20)->all() as $item) {
+                        echo "<li>{$item->a()}</li>";
+                    }
+                    ?>
+                </ul>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">Articles &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Heading</h2>
+                <h2>Inactive Articles</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <ul>
+                    <?php
+                    foreach (Article::find()->where(['active' => 0])->orderBy('publish_time desc')->limit(20)->all() as $item) {
+                        echo "<li>{$item->a()}</li>";
+                    }
+                    ?>
+                </ul>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 0]) ?>">Articles &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Heading</h2>
+                <h2>Images</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <ul>
+                    <?php
+                    foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
+                        echo "<li>{$item->img('100x100')} {$item->a()}</li>";
+                    }
+                    ?>
+                </ul>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['image/index']) ?>">Images &raquo;</a></p>
             </div>
         </div>
 
