@@ -94,7 +94,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         if (!$this->hasAttribute($attribute)) {
             return '';
         }
-//        return Image::textWithTemplates2Html($this->$attribute);
+        return Image::textWithTemplates2Html($this->$attribute);
     }
 
     public static function castToArray($input)

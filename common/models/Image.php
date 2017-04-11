@@ -337,6 +337,7 @@ abstract class Image extends \common\models\MyActiveRecord
             $string,
             $matches
         );
+        die;
         foreach ($matches[0] as $template) {
             $img = self::imgTemplate2Html($template);
             $string = str_replace($template, $img, $string);
