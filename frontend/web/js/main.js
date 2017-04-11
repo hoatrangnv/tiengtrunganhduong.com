@@ -75,7 +75,7 @@
             doc.close();
 
             // result.setHeight();
-            result.handleLoaded(result.setHeight);
+            result.handleLoaded(function(){result.setHeight();});
         }
         runCode();
 
