@@ -12,5 +12,5 @@ namespace common\models;
 interface iMyActiveRecord
 {
 
-    public function getUrl($options = []);
+    public function getUrl($params = []);
 }

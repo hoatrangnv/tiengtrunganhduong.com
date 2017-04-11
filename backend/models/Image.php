@@ -16,10 +16,10 @@ use yii\web\UploadedFile;
 
 class Image extends \common\models\Image
 {
-    public function getUrl($options = [])
+    public function getUrl($params = [])
     {
         // TODO: Implement getUrl() method.
-        return Url::to(['image/update', 'id' => $this->id], true);
+        return Url::to(array_merge(['image/update', 'id' => $this->id], $params), true);
     }
 
     public $image_file;

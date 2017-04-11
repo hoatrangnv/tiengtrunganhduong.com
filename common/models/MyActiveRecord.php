@@ -15,7 +15,7 @@ use yii\helpers\Html;
 
 abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
-    public function a($text = null, $options = [])
+    public function a($text = null, $options = [], $params = [])
     {
         if (!$text) {
             if ($this->hasAttribute('name')) {
@@ -28,7 +28,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 $text = '';
             }
         }
-        return Html::a($text, $this->getUrl(), $options);
+        return Html::a($text, $this->getUrl($params), $options);
     }
 
     private $_img_srcs = null;

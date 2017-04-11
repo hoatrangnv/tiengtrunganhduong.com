@@ -24,7 +24,7 @@ $this->title = 'My Yii Application';
                 <ul>
                     <?php
                     foreach (Article::find()->where(['active' => 0])->orderBy('publish_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a()}</li>";
+                        echo "<li>{$item->a(null, [], ['code_editor' => 1])}</li>";
                     }
                     ?>
                 </ul>
@@ -37,7 +37,7 @@ $this->title = 'My Yii Application';
                 <ul>
                     <?php
                     foreach (Article::find()->where(['active' => 1])->orderBy('publish_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a()}</li>";
+                        echo "<li>{$item->a(null, [], ['code_editor' => 1])}</li>";
                     }
                     ?>
                 </ul>
