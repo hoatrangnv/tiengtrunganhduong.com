@@ -12,6 +12,10 @@
 
 function copyTextToClipboard (text) {
     var textArea = document.createElement("TEXTAREA");
+    textArea.style.position = "absolute";
+    textArea.style.top = "0px";
+    textArea.style.left = "0px";
+    textArea.style.visibility = "hidden";
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
