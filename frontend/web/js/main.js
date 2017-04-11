@@ -57,7 +57,7 @@
             doc.close();
             result.contentWindow.addEventListener("load", function () {
                 result.style.height =
-                    result_height_init + doc.body.scrollHeight + "px";
+                    (result_height_init + doc.body.scrollHeight) + "px";
             });
         }
         runCode();
