@@ -53,8 +53,6 @@
         result.setHeight = function () {
             this.style.height = this.init_height + this.contentWindow.document.body.scrollHeight + "px";
         };
-        // result.contentWindow.addEventListener("load", result.setHeight);
-        window.addEventListener("load", result.setHeight);
         function runCode() {
             var doc = result.contentWindow.document;
             doc.open();
@@ -62,6 +60,7 @@
             doc.close();
 
             result.setHeight();
+            result.contentWindow.addEventListener("load", result.setHeight);
         }
         runCode();
 
