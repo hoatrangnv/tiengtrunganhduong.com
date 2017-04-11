@@ -9,12 +9,19 @@
 namespace backend\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\helpers\FileHelper;
 use yii\validators\FileValidator;
 use yii\web\UploadedFile;
 
 class Image extends \common\models\Image
 {
+    public function getUrl($options = [])
+    {
+        // TODO: Implement getUrl() method.
+        return Url::to(['image/update', 'id' => $this->id], true);
+    }
+
     public $image_file;
     public $image_resize_labels;
     public $image_crop;

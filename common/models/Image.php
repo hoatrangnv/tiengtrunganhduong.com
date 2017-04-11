@@ -31,13 +31,8 @@ use yii\helpers\FileHelper;
  * @property User $creator
  * @property User $updater
  */
-class Image extends \common\models\MyActiveRecord
+abstract class Image extends \common\models\MyActiveRecord
 {
-    public function getUrl($options = [])
-    {
-        // TODO: Implement getUrl() method.
-    }
-
     const SIZE_ORIGIN_LABEL = '-origin';
     const SIZE_RESIZE_LABEL = '-{w}x{h}';
 

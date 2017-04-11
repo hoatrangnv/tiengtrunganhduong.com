@@ -9,3 +9,7 @@
         }
     })
 }(document.querySelectorAll("table"));
+function copyToClipboard(elem) {
+    var copied = elem.createTextRange();
+    copied.execCommand("Copy");
+}

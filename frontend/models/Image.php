@@ -10,5 +10,8 @@ namespace frontend\models;
 use \common\models\Image as CommonImage;
 class Image extends CommonImage
 {
-
+    public function getUrl($options = [])
+    {
+        // TODO: Implement getUrl() method.
+    }
 }
