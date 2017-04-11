@@ -12,9 +12,14 @@
 
 function copyTextToClipboard (text) {
     var textArea = document.createElement("TEXTAREA");
-    textArea.style.position = "absolute";
+    textArea.style.position = "fixed";
     textArea.style.top = "0px";
     textArea.style.left = "0px";
+    textArea.style.bottom = "0px";
+    textArea.style.height = "0px";
+    textArea.style.width = "100px";
+    textArea.style.height = "100px";
+    textArea.style.margin = "auto";
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
@@ -24,5 +29,7 @@ function copyTextToClipboard (text) {
     } catch (error) {
         console.log("Oops, Unable to copy.");
     }
-    document.body.removeChild(textArea);
+    setTimeout(function () {
+       document.body.removeChild(textArea);
+    }, 500);
 }
