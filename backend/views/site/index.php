@@ -50,11 +50,14 @@ $this->title = 'My Yii Application';
                 <ul>
                     <?php
                     foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a(
+                        echo
+                            "<li>"
+                            . "<span class=\"btn btn-sm btn-default\">{$item->getImgTemplate()}</span>"
+                            . $item->a(
                                 $item->img('50x50', ['style' => 'max-width:50px;max-height:50px'])
-                                . "<span class=\"btn btn-sm btn-default\">{$item->getImgTemplate()}</span>"
                                 . "{$item->name}"
-                            )}</li>";
+                              )
+                            . "</li>";
                     }
                     ?>
                 </ul>
