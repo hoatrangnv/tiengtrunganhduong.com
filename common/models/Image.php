@@ -259,6 +259,7 @@ abstract class Image extends \common\models\MyActiveRecord
     {
         $params_string = substr(substr($template, 0, - strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
         $params = explode(self::T_IMG_VAR_SEP, $params_string);
+        die;
         if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
             return '';
         }
@@ -337,7 +338,6 @@ abstract class Image extends \common\models\MyActiveRecord
             $string,
             $matches
         );
-        die;
         foreach ($matches[0] as $template) {
             $img = self::imgTemplate2Html($template);
             $string = str_replace($template, $img, $string);
