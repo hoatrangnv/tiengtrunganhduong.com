@@ -52,7 +52,7 @@ $this->title = 'My Yii Application';
                     foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
                         echo
                             "<li>"
-                            . "<span class=\"bg-default motivate\">{$item->getImgTemplate()}</span>"
+                            . "<span class=\"motivate\">{$item->getImgTemplate()}</span>"
                             . $item->a(
                                 $item->img('50x50', ['style' => 'max-width:50px;max-height:50px'])
                                 . "{$item->name}"
