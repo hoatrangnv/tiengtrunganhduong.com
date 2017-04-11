@@ -64,7 +64,6 @@
 
             window.setTimeout(function () {
                 result.handleLoaded(callback);
-                alert("ok");
             }, 1000);
         };
 
@@ -74,7 +73,7 @@
             doc.write(editor.value);
             doc.close();
 
-            // result.setHeight();
+            result.setHeight();
             result.handleLoaded(result.setHeight);
         }
         runCode();
