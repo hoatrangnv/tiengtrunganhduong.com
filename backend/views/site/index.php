@@ -52,7 +52,7 @@ $this->title = 'My Yii Application';
                     foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
                         echo
                             "<li>"
-                            . "<span class=\"btn btn-sm btn-default\" onclick=\"selectElementText(this);copySelection()\">{$item->getImgTemplate()}</span>"
+                            . "<span class=\"btn btn-sm btn-default\" onclick=\"copyTextToClipboard(this.innerHTML)\">{$item->getImgTemplate()}</span>"
                             . $item->a(
                                 $item->img('50x50', ['style' => 'max-width:50px;max-height:50px'])
                                 . "{$item->name}"
