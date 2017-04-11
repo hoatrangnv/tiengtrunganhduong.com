@@ -250,11 +250,14 @@ class Image extends \common\models\MyActiveRecord
     const T_IMG_SRC_BEGIN = 'src('; // src with other size key
     const T_IMG_SRC_END = ')';
 
-    public function getImgTemplate($size_key = 0)
+    public function getImgTemplate($size_key = Image::SIZE_0)
     {
-//        $template = "{img($this->id,,$size_key)}";
-        $template = self::T_IMG_BEGIN . $this->id . self::T_IMG_VAR_SEP . $size_key . self::T_IMG_END;
-        return $template;
+        // "{img($this->id)}"
+        if ($size_key == Image::SIZE_0) {
+            return self::T_IMG_BEGIN . $this->id . self::T_IMG_END;
+        }
+        // "{img($this->id,,$size_key)}"
+        return self::T_IMG_BEGIN . $this->id . self::T_IMG_VAR_SEP . $size_key . self::T_IMG_END;
     }
 
     public static function imgTemplate2Html($template)
