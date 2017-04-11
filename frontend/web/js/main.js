@@ -53,17 +53,18 @@
         result.setHeight = function () {
             var doc = result.contentDocument || result.contentWindow.document;
             result.style.height = result.init_height + doc.body.scrollHeight + "px";
-            alert("ok");
         };
         result.handleLoaded = function(callback) {
             var doc = result.contentDocument || result.contentWindow.document;
 
-            if (doc.readyState  == "complete") {
+            if (doc.readyState  === "complete") {
                 callback();
                 return;
             }
 
-            window.setTimeout(result.handleLoaded, 100);
+            window.setTimeout(function () {
+                result.handleLoaded();
+            }, 100);
         };
         result.handleLoaded(result.setHeight);
         function runCode() {
