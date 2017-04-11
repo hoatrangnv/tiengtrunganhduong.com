@@ -64,7 +64,8 @@
 
             window.setTimeout(function () {
                 result.handleLoaded();
-            }, 100);
+                alert("ok");
+            }, 1000);
         };
         result.handleLoaded(result.setHeight);
         function runCode() {
