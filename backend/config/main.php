@@ -72,7 +72,7 @@ return [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/error',
-            'site/index',
+//            'site/index',
             'admin/user/login',
             'admin/user/logout',
             'admin/user/request-password-reset',
