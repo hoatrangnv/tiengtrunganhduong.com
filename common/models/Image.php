@@ -240,7 +240,7 @@ class Image extends \common\models\MyActiveRecord
 
     const T_IMG_BEGIN = '{img(';
     const T_IMG_END = ')}';
-    const T_IMG_VAR_SEP = ',,';
+    const T_IMG_VAR_SEP = ',';
     const T_IMG_OPT_SEP = '=';
 
     const T_IMG_EMB_BEGIN = '[['; // attribute embed
