@@ -20,6 +20,9 @@ function copyTextToClipboard (text) {
     var message = document.createElement("DIV");
     message.style.position = "fixed";
     message.style.top = "0px";
+    message.style.background = "black";
+    message.style.color = "white";
+    message.style.zIndex = "9999";
     document.body.appendChild(message);
     try {
         var successful = document.execCommand("copy");
