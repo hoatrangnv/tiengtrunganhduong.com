@@ -13,13 +13,12 @@
 function copyTextToClipboard (text) {
     var textArea = document.createElement("TEXTAREA");
     textArea.style.position = "absolute";
-    textArea.style.bottom = "0px";
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
     var message = document.createElement("DIV");
     message.style.position = "absolute";
-    message.style.bottom = "0px";
+    // message.style.bottom = "0px";
     message.style.background = "black";
     message.style.color = "white";
     message.style.zIndex = "9999";
