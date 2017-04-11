@@ -63,7 +63,7 @@
             }
 
             window.setTimeout(function () {
-                result.handleLoaded();
+                result.handleLoaded(callback);
                 alert("ok");
             }, 1000);
         };
@@ -75,7 +75,7 @@
             doc.close();
 
             // result.setHeight();
-            result.handleLoaded(function(){result.setHeight();});
+            result.handleLoaded(result.setHeight);
         }
         runCode();
 
