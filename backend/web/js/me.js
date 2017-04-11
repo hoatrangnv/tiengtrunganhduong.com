@@ -49,6 +49,7 @@ function createtooltip(){ // call this function ONCE at the end of page to creat
     tooltip.innerHTML = 'Copied!'
     document.body.appendChild(tooltip)
 }
+createtooltip();
 
 function showtooltip(e){
     var evt = e || event
