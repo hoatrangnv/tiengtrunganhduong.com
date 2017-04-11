@@ -49,15 +49,19 @@
         // Code result
         var result = document.createElement("iframe");
         code_example.appendChild(result);
-        var result_height_init = result.offsetHeight;
+        result.height_init = result.offsetHeight;
+        result.setHeight = function () {
+            this.style.height = this.height_init + this.contentWindow.document.body.scrollHeight + "px";
+        };
         function runCode() {
             var doc = result.contentWindow.document;
             doc.open();
             doc.write(editor.value);
             doc.close();
+
+            result.setHeight();
             result.contentWindow.addEventListener("load", function () {
-                result.style.height =
-                    (result_height_init + doc.body.scrollHeight) + "px";
+                result.setHeight();
             });
         }
         runCode();
