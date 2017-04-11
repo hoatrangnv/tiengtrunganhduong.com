@@ -67,14 +67,15 @@
                 alert("ok");
             }, 1000);
         };
-        result.handleLoaded(result.setHeight);
+
         function runCode() {
             var doc = result.contentDocument || result.contentWindow.document;
             doc.open();
             doc.write(editor.value);
             doc.close();
 
-            result.setHeight();
+            // result.setHeight();
+            result.handleLoaded(result.setHeight);
         }
         runCode();
 
