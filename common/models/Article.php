@@ -44,8 +44,13 @@ use yii\validators\DateValidator;
  * @property User $creator
  * @property User $updater
  */
-abstract class Article extends \common\models\MyActiveRecord
+class Article extends \common\models\MyActiveRecord
 {
+    public function getUrl($params = [])
+    {
+        // TODO: Implement getUrl() method.
+    }
+
     /**
      * @inheritdoc
      */

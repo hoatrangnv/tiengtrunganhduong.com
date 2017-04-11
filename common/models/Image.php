@@ -31,8 +31,13 @@ use yii\helpers\FileHelper;
  * @property User $creator
  * @property User $updater
  */
-abstract class Image extends \common\models\MyActiveRecord
+class Image extends \common\models\MyActiveRecord
 {
+    public function getUrl($params = [])
+    {
+        // TODO: Implement getUrl() method.
+    }
+
     const SIZE_ORIGIN_LABEL = '-origin';
     const SIZE_RESIZE_LABEL = '-{w}x{h}';
 
@@ -262,7 +267,6 @@ abstract class Image extends \common\models\MyActiveRecord
         if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
             return '';
         }
-        die;
         $size_key = 0;
         if (isset($params[1])) {
             $size_key = $params[1];
