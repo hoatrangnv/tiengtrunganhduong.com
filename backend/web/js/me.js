@@ -15,8 +15,7 @@ function copyTextToClipboard (text) {
     textArea.style.position = "fixed";
     textArea.style.top = "0px";
     textArea.style.left = "0px";
-    textArea.style.width = "100px";
-    textArea.style.height = "100px";
+    textArea.style.zIndex = "999999";
     document.body.appendChild(textArea);
     textArea.value = text;
     textArea.select();
