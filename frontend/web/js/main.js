@@ -53,6 +53,7 @@
         result.setHeight = function () {
             var doc = result.contentDocument || result.contentWindow.document;
             result.style.height = result.init_height + doc.body.scrollHeight + "px";
+            alert("ok");
         };
         result.handleLoaded = function(callback) {
             var doc = result.contentDocument || result.contentWindow.document;
