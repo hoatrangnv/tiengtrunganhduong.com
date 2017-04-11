@@ -47,12 +47,12 @@ $this->title = 'My Yii Application';
             <div class="col-lg-4">
                 <h2>Images</h2>
 
-                <ul>
+                <ul id="motivatebox">
                     <?php
                     foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
                         echo
                             "<li>"
-                            . "<span class=\"btn btn-sm btn-default\" onclick=\"copyTextToClipboard(this.innerHTML)\">{$item->getImgTemplate()}</span>"
+                            . "<span class=\"btn btn-sm btn-default motivate\" onclick=\"copyTextToClipboard(this.innerHTML)\">{$item->getImgTemplate()}</span>"
                             . $item->a(
                                 $item->img('50x50', ['style' => 'max-width:50px;max-height:50px'])
                                 . "{$item->name}"
