@@ -38,10 +38,10 @@
     overflow-x: auto;
     overflow-y: hidden;
     height: auto;
-    line-height: 2rem;
     box-sizing: border-box;
     width: 100%;
     font-size: 1.4rem;
+    line-height: 1.1em;
     font-weight: normal;
     font-family: monospace, monospace;
     transition: all 0.3s;
@@ -49,7 +49,6 @@
     padding: 1rem 1.5rem;
     margin: 0;
     resize: none;
-    /*background: #fafafa;*/
 }
 
 .table-wrap {
