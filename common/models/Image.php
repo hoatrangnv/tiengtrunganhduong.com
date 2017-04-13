@@ -31,8 +31,13 @@ use yii\helpers\FileHelper;
  * @property User $creator
  * @property User $updater
  */
-abstract class Image extends \common\models\MyActiveRecord
+class Image extends \common\models\MyActiveRecord
 {
+    public function getUrl($params = [])
+    {
+        // TODO: Implement getUrl() method.
+    }
+
     const SIZE_ORIGIN_LABEL = '-origin';
     const SIZE_RESIZE_LABEL = '-{w}x{h}';
 
@@ -235,7 +240,7 @@ abstract class Image extends \common\models\MyActiveRecord
 
     const T_IMG_BEGIN = '{img(';
     const T_IMG_END = ')}';
-    const T_IMG_VAR_SEP = ',,';
+    const T_IMG_VAR_SEP = ',';
     const T_IMG_OPT_SEP = '=';
 
     const T_IMG_EMB_BEGIN = '[['; // attribute embed

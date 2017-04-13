@@ -126,7 +126,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
             $query->multiple = true;
             return $query;
         }
-        throw new MethodNotFoundException('Method getChildren not found.', self::className());
+        throw new MethodNotFoundException('Method getChildren not found.', self::className(), null);
     }
 
     public static function listAsId2Name()

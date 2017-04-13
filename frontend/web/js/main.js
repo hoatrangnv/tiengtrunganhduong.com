@@ -49,12 +49,32 @@
         // Code result
         var result = document.createElement("iframe");
         code_example.appendChild(result);
+        result.init_height = result.offsetHeight;
+        result.setHeight = function () {
+            var doc = result.contentDocument || result.contentWindow.document;
+            result.style.height = result.init_height + doc.body.scrollHeight + "px";
+        };
+        result.handleLoaded = function(callback) {
+            var doc = result.contentDocument || result.contentWindow.document;
+
+            if (doc.readyState  === "complete") {
+                callback();
+                return;
+            }
+
+            window.setTimeout(function () {
+                result.handleLoaded(callback);
+            }, 1000);
+        };
+
         function runCode() {
-            var doc = result.contentWindow.document;
+            var doc = result.contentDocument || result.contentWindow.document;
             doc.open();
             doc.write(editor.value);
             doc.close();
-            result.style.height = doc.body.scrollHeight + "px";
+
+            result.setHeight();
+            result.handleLoaded(result.setHeight);
         }
         runCode();
 
