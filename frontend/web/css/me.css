@@ -22,6 +22,10 @@
     box-sizing: border-box;
 }
 
+code {
+    word-wrap: break-word;
+}
+
 .code-example iframe {
     display: block;
     width: 100%;
