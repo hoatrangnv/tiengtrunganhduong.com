@@ -24,6 +24,7 @@
 
 code {
     word-wrap: break-word;
+    white-space: normal;
 }
 
 .code-example iframe {
