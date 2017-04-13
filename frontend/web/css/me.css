@@ -60,3 +60,9 @@
 .table-wrap table {
     min-width: 100%;
 }
+
+.img-wrap,
+.img-wrap img {
+    display: block;
+    max-width: 100%;
+}
