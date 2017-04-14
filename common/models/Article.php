@@ -98,7 +98,7 @@ class Article extends \common\models\MyActiveRecord
 
     public function beforeSave($insert)
     {
-        if ($this->publish_time_timestamp == '') {
+        if (!$this->publish_time_timestamp) {
             $this->publish_time = $this->getDefaultPublishTime();
         } else {
             $this->publish_time = strtotime($this->publish_time_timestamp);
