@@ -22,6 +22,11 @@
     box-sizing: border-box;
 }
 
+code {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
 .code-example iframe {
     display: block;
     width: 100%;
@@ -58,4 +63,10 @@
 }
 .table-wrap table {
     min-width: 100%;
+}
+
+.img-wrap,
+.img-wrap img {
+    display: block;
+    max-width: 100%;
 }
