@@ -82,9 +82,9 @@ class Article extends \common\models\MyActiveRecord
 
     public function __construct(array $config = [])
     {
-        // Init publish time for new record, round up ten minute (600s)
+        // Init publish time for new record
         if ($this->isNewRecord) {
-            $this->publish_time_timestamp = date('Y-m-d H:i:s', 600 * ceil(time() / 600));
+            $this->publish_time_timestamp = date('Y-m-d H:i:s', $this->getDefaultPublishTime());
         }
         parent::__construct($config);
     }
@@ -98,9 +98,18 @@ class Article extends \common\models\MyActiveRecord
 
     public function beforeSave($insert)
     {
-        //
-        $this->publish_time = strtotime($this->publish_time_timestamp);
+        if ($this->publish_time_timestamp == '') {
+            $this->publish_time = $this->getDefaultPublishTime();
+        } else {
+            $this->publish_time = strtotime($this->publish_time_timestamp);
+        }
         return parent::beforeSave($insert);
+    }
+
+    public function getDefaultPublishTime()
+    {
+        // Round up ten minute (600s)
+        return 600 * ceil(time() / 600);
     }
 
     /**
