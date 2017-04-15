@@ -76,9 +76,6 @@ code {
     max-height: 90vh;
     border-bottom-width: 1px;
 }
-.code-example iframe body {
-    min-height: 100px;
-}
 .code-example button {
     margin: 0;
     width: 100%;
