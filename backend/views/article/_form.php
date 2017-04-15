@@ -91,6 +91,53 @@ use backend\models\Image;
                     echo $form->field($model, 'content')->textarea(['rows' => 10]);
                 } else {
                     ?>
+                    <?php echo $form->field($model, 'content')->textarea(['height' => 'auto']); ?>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/lib/codemirror.js') ?>"></script>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/mode/css/css.js') ?>"></script>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/mode/xml/xml.js') ?>"></script>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/mode/clike/clike.js') ?>"></script>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/mode/php/php.js') ?>"></script>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/mode/javascript/javascript.js') ?>"></script>
+                    <script src="<?= Yii::getAlias('@web/code-mirror/mode/htmlmixed/htmlmixed.js') ?>"></script>
+                    <link rel="stylesheet" href="<?= Yii::getAlias('@web/code-mirror/lib/codemirror.css') ?>">
+                    <link rel="stylesheet" href="<?= Yii::getAlias('@web/code-mirror/theme/base16-light.css') ?>">
+                    <style>
+                        .CodeMirror {
+                            height: auto;
+                            border: none;
+                            max-height: none;
+                        }
+                        .CodeMirror-scroll {
+                            height: auto;
+                            max-height: none;
+                            overflow-x: auto;
+                            overflow-y: hidden;
+                        }
+                        .CodeMirror pre {
+                            padding: 0 5px;
+                            line-height: 1.25;
+                        }
+                    </style>
+
+                    <script>
+                        var editor = CodeMirror.fromTextArea(
+                            document.getElementById("<?= Html::getInputId($model, 'content') ?>"),
+                            {
+                                lineNumbers: window.innerWidth > 640,
+                                mode: "php",
+                                matchBrackets: true,
+                                theme: "base16-light",
+                                tabSize: 4,
+                                indentUnit: 4,
+                                viewportMargin: Infinity
+                            }
+                        );
+                    </script>
+                    <?php
+
+
+                    /*
+                    ?>
                     <style type="text/css" media="screen">
                         #code-editor {
                             display: block;
@@ -117,6 +164,7 @@ use backend\models\Image;
                         </script>
                     </div>
                     <?php
+                    */
                 }
             ?>
 
