@@ -388,6 +388,10 @@ function textAreaAdjust(textArea) {
     handleKeyEvent();
     textArea.addEventListener("keydown", handleKeyEvent);
     textArea.addEventListener("keyup", handleKeyEvent);
+    textArea.addEventListener("scroll", function () {
+        mirror.scrollTop = textArea.scrollTop;
+        mirror.scrollLeft = textArea.scrollLeft;
+    });
 }
 
 /*
