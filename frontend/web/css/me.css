@@ -72,10 +72,10 @@ code {
 }
 
 .mirror-html-comment {
-    background: #fff;
-    opacity: 0.6;
+    background: #fc9;
+    opacity: 0.5;
 }
 .mirror-js-comment {
-    background: #fff;
-    opacity: 0.6;
+    background: #9ef;
+    opacity: 0.5;
 }

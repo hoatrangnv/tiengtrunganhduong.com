@@ -16,7 +16,8 @@
         }
         snippet.spellcheck = false;
         // snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
-        snippet.innerHTML = snippet.innerHTML.split(tab2space).join("\t").trim();
+        snippet.textContent = snippet.innerHTML.split(tab2space).join("\t").trim();
+        snippet.innerHTML = highlightCode(snippet.textContent);
         // snippet.style.setProperty("tab-size", tabSize);
         // snippet.style.setProperty("-moz-tab-size", tabSize);
         snippet.style["tab-size"] = snippet.style["-moz-tab-size"] = tabSize;
@@ -24,7 +25,7 @@
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
         editor.spellcheck = false;
-        editor.innerHTML = snippet.innerHTML;
+        editor.innerHTML = snippet.textContent;
         // editor.style.setProperty("tab-size", tabSize);
         // editor.style.setProperty("-moz-tab-size", tabSize);
         editor.style["tab-size"] = editor.style["-moz-tab-size"] = tabSize;
@@ -327,18 +328,7 @@ function textAreaAdjust(textArea) {
     textArea.parentNode.insertBefore(mirror, textArea);
     function handleKeyEvent() {
         var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
-
-        text = text.replace(/&lt;!--[\s\S]*?--&gt;/gm, function (comment) {
-            return "<span class=\"mirror-html-comment\">" + comment + "</span>";
-        });
-
-        text = text.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, function (comment) {
-            return "<span class=\"mirror-js-comment\">" + comment + "</span>";
-        });
-
-
-
-        mirror.innerHTML = text;
+        mirror.innerHTML = highlightCode(text);
         var textAreaStyle = window.getComputedStyle(textArea, null);
         mirror.style.zIndex = parseInt(1 + textAreaStyle.getPropertyValue("z-index"));
         [
@@ -396,6 +386,18 @@ function textAreaAdjust(textArea) {
         mirror.scrollWidth = textArea.scrollWidth;
         mirror.scrollHeight = textArea.scrollHeight;
     });
+}
+
+function highlightCode(text) {
+    text = text.replace(/&lt;!--[\s\S]*?--&gt;/gm, function (comment) {
+        return "<span class=\"mirror-html-comment\">" + comment + "</span>";
+    });
+
+    text = text.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, function (comment) {
+        return "<span class=\"mirror-js-comment\">" + comment + "</span>";
+    });
+
+    return text;
 }
 
 /*
