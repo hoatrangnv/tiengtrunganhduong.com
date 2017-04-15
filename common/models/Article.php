@@ -80,11 +80,13 @@ class Article extends \common\models\MyActiveRecord
 
     public $publish_time_timestamp;
 
+    const TIMESTAMP_FORMAT = 'Y-m-d H:i:s';
+
     public function __construct(array $config = [])
     {
-        // Init publish time for new record, round up ten minute (600s)
+        // Init publish time for new record
         if ($this->isNewRecord) {
-            $this->publish_time_timestamp = date('Y-m-d H:i:s', 600 * ceil(time() / 600));
+            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->getDefaultPublishTime());
         }
         parent::__construct($config);
     }
@@ -92,15 +94,25 @@ class Article extends \common\models\MyActiveRecord
     public function afterFind()
     {
         // Init publish time for record found
-        $this->publish_time_timestamp = date('Y-m-d H:i:s', $this->publish_time);
+        $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
         parent::afterFind();
     }
 
     public function beforeSave($insert)
     {
-        //
-        $this->publish_time = strtotime($this->publish_time_timestamp);
+        if (!$this->publish_time_timestamp) {
+            $this->publish_time = $this->getDefaultPublishTime();
+            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
+        } else {
+            $this->publish_time = strtotime($this->publish_time_timestamp);
+        }
         return parent::beforeSave($insert);
+    }
+
+    public function getDefaultPublishTime()
+    {
+        // Round up ten minute (600s)
+        return 600 * ceil(time() / 600);
     }
 
     /**
@@ -128,7 +140,7 @@ class Article extends \common\models\MyActiveRecord
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
-            ['publish_time_timestamp', 'date', 'format' => 'php:Y-m-d H:i:s'],
+            ['publish_time_timestamp', 'date', 'format' => 'php:' . self::TIMESTAMP_FORMAT],
         ];
     }
 
