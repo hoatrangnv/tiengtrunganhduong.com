@@ -3,14 +3,16 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 use backend\models\Article;
 use backend\models\Image;
-$this->title = 'My Yii Application';
+$this->title = Yii::$app->name;
 ?>
 <div class="site-index">
 
     <div align="center">
-        <h1>Congratulations!</h1>
+<!--        <h1>Congratulations!</h1>-->
+        <h1>Welcome to <?= Yii::$app->name ?>!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+<!--        <p class="lead">You have successfully created your Yii-powered application.</p>-->
+        <p class="lead">You have successfully logged in. Now you can start with:</p>
 
         <p><a class="btn btn-lg btn-success" href="<?= Url::to(['article/create', 'code_editor' => true]) ?>"><span class="glyphicon glyphicon-edit"></span> NEW Article</a></p>
         <p><a class="btn btn-lg btn-primary" href="<?= Url::to(['upload/images']) ?>"><span class="glyphicon glyphicon-cloud-upload"></span> Images</a></p>
