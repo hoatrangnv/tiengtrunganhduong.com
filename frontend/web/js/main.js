@@ -323,21 +323,20 @@ function insertAtCaret(txtarea, text) {
 
 function textAreaAdjust(textArea) {
     var mirror = document.createElement("DIV");
-    mirror.style.cssText = "position:absolute;pointer-events:none";
+    mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
     textArea.parentNode.insertBefore(mirror, textArea);
     function handleKeyEvent() {
         var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
-        // var comment_regex = new RegExp(
-        //     '<!--[\\s\\S]*?(?:-->)?'
-        //     + '<!---+>?'  // A comment with no body
-        //     + '|<!(?![dD][oO][cC][tT][yY][pP][eE]|\\[CDATA\\[)[^>]*>?'
-        //     + '|<[?][^>]*>?',  // A pseudo-comment
-        //     'g');
 
-
-        text = text.replace(/&lt;!--[\s\S]*?--&gt;/g, function (comment) {
+        text = text.replace(/&lt;!--[\s\S]*?--&gt;/gm, function (comment) {
             return "<span class=\"mirror-html-comment\">" + comment + "</span>";
         });
+
+        text = text.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, function (comment) {
+            return "<span class=\"mirror-js-comment\">" + comment + "</span>";
+        });
+
+
 
         mirror.innerHTML = text;
         var textAreaStyle = window.getComputedStyle(textArea, null);
