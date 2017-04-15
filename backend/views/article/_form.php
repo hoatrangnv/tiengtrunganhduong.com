@@ -123,7 +123,7 @@ use backend\models\Image;
                         var editor = CodeMirror.fromTextArea(
                             document.getElementById("<?= Html::getInputId($model, 'content') ?>"),
                             {
-                                lineNumbers: window.innerWidth > 640,
+                                lineNumbers: true,
                                 mode: "php",
                                 matchBrackets: true,
                                 theme: "base16-light",
