@@ -323,7 +323,7 @@ function insertAtCaret(txtarea, text) {
 
 function textAreaAdjust(textArea) {
     var mirror = document.createElement("DIV");
-    mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
+    mirror.style.cssText = "position:absolute;pointer-events:none";
     textArea.parentNode.insertBefore(mirror, textArea);
     function handleKeyEvent() {
         var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
@@ -394,10 +394,6 @@ function textAreaAdjust(textArea) {
             }
         );
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
-        var tr = textArea.getBoundingClientRect();
-        alert("textArea left:" + tr.left + " width:" + tr.width);
-        var mr = mirror.getBoundingClientRect();
-        alert("mirror left:" + mr.left + " width:" + tr.width);
     }
     handleKeyEvent();
     textArea.addEventListener("keydown", handleKeyEvent);

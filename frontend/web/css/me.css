@@ -54,7 +54,7 @@ code {
     font-size: 1.4rem;
     line-height: 1.1em;
     font-weight: normal;
-    font-family: "Lucida Console";
+    font-family: monospace, monospace;
     font-stretch: normal;
     border-top-width: 1px;
 }
