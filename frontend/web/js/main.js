@@ -374,7 +374,10 @@ function textAreaAdjust(textArea) {
             "word-wrap",
             "white-space",
             "word-break",
-            "overflow"
+
+            "overflow",
+            "overflow-x",
+            "overflow-y"
         ].forEach(
             function (prop) {
                 if (typeof mirror.style[prop] !== "undefined") {
@@ -391,6 +394,8 @@ function textAreaAdjust(textArea) {
     textArea.addEventListener("scroll", function () {
         mirror.scrollTop = textArea.scrollTop;
         mirror.scrollLeft = textArea.scrollLeft;
+        mirror.scrollWidth = textArea.scrollWidth;
+        mirror.scrollHeight = textArea.scrollHeight;
     });
 }
 
