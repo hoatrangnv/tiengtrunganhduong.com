@@ -389,13 +389,36 @@ function textAreaAdjust(textArea) {
 }
 
 function highlightCode(text) {
-    text = text.replace(/&lt;!--[\s\S]*?--&gt;/gm, function (comment) {
+    // HTML
+    text = text.replace(/&lt;!--[\w\W]*?--&gt;/gm, function (comment) {
         return "<span class=\"mirror-html-comment\">" + comment + "</span>";
     });
 
-    text = text.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, function (comment) {
-        return "<span class=\"mirror-js-comment\">" + comment + "</span>";
-    });
+    // CSS
+    text = text.replace(
+        /(\&lt\;style[\w\W]*?\&gt\;)[\w\W]*?(?=\&lt\;\/style\&gt\;)/gmi,
+        function (style) {
+            return style.replace(
+                /\/\*[\w\W]*?\*\//gm,
+                function (comment) {
+                    return "<span class=\"mirror-css-comment\">" + comment + "</span>";
+                }
+            );
+        }
+    );
+
+    // JavaScript
+    text = text.replace(
+        /(\&lt\;script[\w\W]*?\&gt\;)[\w\W]*?(?=\&lt\;\/script\&gt\;)/gmi,
+        function (script) {
+            return script.replace(
+                /\/\*[\w\W]*?\*\/|([^\\:]|^)\/\/.*$/gm,
+                function (comment) {
+                    return "<span class=\"mirror-js-comment\">" + comment + "</span>";
+                }
+            );
+        }
+    );
 
     return text;
 }

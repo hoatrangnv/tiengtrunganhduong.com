@@ -75,6 +75,10 @@ code {
     background: #fc9;
     opacity: 0.5;
 }
+.mirror-css-comment {
+    background: #bfa;
+    opacity: 0.5;
+}
 .mirror-js-comment {
     background: #9ef;
     opacity: 0.5;
