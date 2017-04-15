@@ -36,7 +36,7 @@ code {
     border-color: #cde;
     border-width: 0;
     border-radius: 0;
-    padding: 1rem 1px;
+    padding: 1rem 0;
     box-sizing: border-box;
     margin: 0;
 }
