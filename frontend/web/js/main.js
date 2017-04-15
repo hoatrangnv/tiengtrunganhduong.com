@@ -330,65 +330,67 @@ function textAreaAdjust(textArea) {
         mirror.innerHTML = highlightCode(text);
         var textAreaStyle = window.getComputedStyle(textArea, null);
         // mirror.style.zIndex = parseInt(1 + textAreaStyle.getPropertyValue("z-index"));
-        var myCSS = [];
-        for (var i = 0; i < textAreaStyle.length; i++) {
-            myCSS.push(textAreaStyle[i]);
-        }
-        // [
-        //     "width",
-        //     "border-box",
-        //     "display",
-        //
-        //     "border-style",
-        //     "border-width",
-        //     "border-left-width",
-        //     "border-top-width",
-        //     "border-bottom-width",
-        //     "border-right-width",
-        //
-        //     "font",
-        //     "font-size",
-        //     "font-family",
-        //     "font-weight",
-        //     "font-stretch",
-        //     "line-height",
-        //     "word-spacing",
-        //     "letter-spacing",
-        //     "tab-size",
-        //     "-moz-tab-size",
-        //     "text-indent",
-        //     "text-transform",
-        //
-        //     "padding",
-        //     "padding-left",
-        //     "padding-top",
-        //     "padding-bottom",
-        //     "padding-right",
-        //
-        //     "word-wrap",
-        //     "white-space",
-        //     "word-break",
-        //
-        //     "overflow",
-        //     "overflow-x",
-        //     "overflow-y"
-        // ].forEach(
-        myCSS.forEach(
+        // var myCSS = [];
+        // for (var i = 0; i < textAreaStyle.length; i++) {
+        //     myCSS.push(textAreaStyle[i]);
+        // }
+        [
+            "width",
+            "border-box",
+            "display",
+
+            "border-style",
+            "border-width",
+            "border-left-width",
+            "border-top-width",
+            "border-bottom-width",
+            "border-right-width",
+
+            "font",
+            "font-size",
+            "font-family",
+            "font-weight",
+            "font-stretch",
+            "line-height",
+            "word-spacing",
+            "letter-spacing",
+            "tab-size",
+            "-moz-tab-size",
+            "text-indent",
+            "text-transform",
+
+            "padding",
+            "padding-left",
+            "padding-top",
+            "padding-bottom",
+            "padding-right",
+
+            "word-wrap",
+            "white-space",
+            "word-break",
+
+            "overflow",
+            "overflow-x",
+            "overflow-y"
+        ].forEach(
+        // myCSS.forEach(
             function (prop) {
-                if ([
-                        "pointer-events",
-                        "position",
-                        "z-index",
-                        "height",
-                        "left",
-                        "top",
-                        "right",
-                        "bottom"
-                    ].indexOf(prop) === -1) {
+                // if ([
+                //         "pointer-events",
+                //         "position",
+                //         "z-index",
+                //         "height",
+                //         "left",
+                //         "top",
+                //         "right",
+                //         "bottom",
+                //         "color",
+                //         "background"
+                //     ].indexOf(prop) === -1) {
                         if (typeof mirror.style[prop] !== "undefined") {
                             mirror.style[prop] = textAreaStyle.getPropertyValue(prop);
                         }
-                }
+                // }
             }
         );
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
