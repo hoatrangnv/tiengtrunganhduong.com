@@ -323,7 +323,7 @@ function insertAtCaret(txtarea, text) {
 
 function textAreaAdjust(textArea) {
     var mirror = document.createElement("DIV");
-    mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent;background:rgba(255,240,240)";
+    mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent;background:rgba(255,240,240,0.3)";
     textArea.parentNode.insertBefore(mirror, textArea);
     textArea.style.background = "rgba(240,255,240,0.3)";
     function handleKeyEvent() {
