@@ -397,7 +397,7 @@ function textAreaAdjust(textArea) {
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
     }
     handleKeyEvent();
-    textArea.addEventListener("keydown", handleKeyEvent);
+    // textArea.addEventListener("keydown", handleKeyEvent);
     textArea.addEventListener("keyup", handleKeyEvent);
     textArea.addEventListener("scroll", function () {
         mirror.scrollTop = textArea.scrollTop;
