@@ -38,11 +38,14 @@ code {
     border-radius: 0;
     padding: 1rem 0;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     margin: 0;
 }
 .code-example code,
 .code-example textarea
 {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     position: relative;
     display: block;
     white-space: pre;

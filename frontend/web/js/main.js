@@ -337,6 +337,7 @@ function textAreaAdjust(textArea) {
         [
             "width",
             "border-box",
+            "-webkit-border-box",
             "display",
 
             "border-style",
