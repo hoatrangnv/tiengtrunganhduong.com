@@ -49,7 +49,7 @@ code {
     line-height: 1.1em;
     font-weight: normal;
     font-family: monospace, monospace;
-    transition: all 0.3s;
+    /*transition: height 0.3s;*/
     border-width: 1px;
     padding: 1rem 1.5rem;
     margin: 0;
@@ -69,4 +69,8 @@ code {
 .img-wrap img {
     display: block;
     max-width: 100%;
+}
+
+.mirror-html-comment {
+    color: #5c0;
 }
