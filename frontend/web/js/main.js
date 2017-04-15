@@ -14,6 +14,7 @@
         if (!snippet) {
             return false;
         }
+        snippet.spellcheck = false;
         // snippet.innerHTML = snippet.innerHTML.split("\t").join(tab2space).trim();
         snippet.innerHTML = snippet.innerHTML.split(tab2space).join("\t").trim();
         // snippet.style.setProperty("tab-size", tabSize);
