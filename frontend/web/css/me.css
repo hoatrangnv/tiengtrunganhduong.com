@@ -103,11 +103,12 @@ code {
 }
 
 .mirror-html-comment {
-    background: rgb(255, 230, 204);
+    /*background: rgb(255, 230, 204);*/
+    background: rgba(255, 255, 255, 0.8);
 }
 .mirror-css-comment {
-    background: rgb(221, 255, 213);
+    background: rgba(221, 255, 213, 0.8);
 }
 .mirror-js-comment {
-    background: rgb(204, 247, 255);
+    background: rgba(204, 247, 255, 0.8);
 }

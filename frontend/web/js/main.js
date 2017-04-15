@@ -329,7 +329,7 @@ function textAreaAdjust(textArea) {
         var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
         mirror.innerHTML = highlightCode(text);
         var textAreaStyle = window.getComputedStyle(textArea, null);
-        // mirror.style.zIndex = parseInt(1 + textAreaStyle.getPropertyValue("z-index"));
+        mirror.style.zIndex = 1 + (parseInt(textAreaStyle.getPropertyValue("z-index")) || 0);
         // var myCSS = [];
         // for (var i = 0; i < textAreaStyle.length; i++) {
         //     myCSS.push(textAreaStyle[i]);
@@ -399,6 +399,7 @@ function textAreaAdjust(textArea) {
     handleKeyEvent();
     // textArea.addEventListener("keydown", handleKeyEvent);
     textArea.addEventListener("keyup", handleKeyEvent);
+    textArea.addEventListener("resize", handleKeyEvent);
     textArea.addEventListener("scroll", function () {
         mirror.scrollTop = textArea.scrollTop;
         mirror.scrollLeft = textArea.scrollLeft;
