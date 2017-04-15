@@ -105,15 +105,15 @@ code {
 .mirror-html-comment {
     /*background: rgba(255, 255, 255, 0.3);*/
     background: #fff;
-    opacity: 0.2;
+    opacity: 0.5;
 }
 .mirror-css-comment {
     /*background: rgba(221, 255, 213, 0.3);*/
     background: #6c2;
-    opacity: 0.2;
+    opacity: 0.5;
 }
 .mirror-js-comment {
     /*background: rgba(204, 247, 255, 0.3);*/
     background: #6ce;
-    opacity: 0.2;
+    opacity: 0.5;
 }
