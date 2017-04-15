@@ -40,7 +40,6 @@
 
         // Code submit button
         var submit = document.createElement("BUTTON");
-        submit.innerHTML = "Try it here";
         submit.addEventListener("click", function (event) {
             if (!editor.appeared) {
                 openEditor();
@@ -330,7 +329,7 @@ function textAreaAdjust(textArea) {
         var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
         mirror.innerHTML = highlightCode(text);
         var textAreaStyle = window.getComputedStyle(textArea, null);
-        mirror.style.zIndex = parseInt(1 + textAreaStyle.getPropertyValue("z-index"));
+        // mirror.style.zIndex = parseInt(1 + textAreaStyle.getPropertyValue("z-index"));
         [
             "width",
             "border-box",
@@ -412,7 +411,7 @@ function highlightCode(text) {
         /(\&lt\;script[\w\W]*?\&gt\;)[\w\W]*?(?=\&lt\;\/script\&gt\;)/gmi,
         function (script) {
             return script.replace(
-                /\/\*[\w\W]*?\*\/|([^\\:]|^)\/\/.*$/gm,
+                /\/\*[\w\W]*?\*\/|\/\/.*$/gm,
                 function (comment) {
                     return "<span class=\"mirror-js-comment\">" + comment + "</span>";
                 }
