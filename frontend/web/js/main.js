@@ -394,6 +394,10 @@ function textAreaAdjust(textArea) {
             }
         );
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
+        var tr = textArea.getBoundingClientRect();
+        alert("textArea left:" + tr.left);
+        var mr = mirror.getBoundingClientRect();
+        alert("mirror left:" + mr.left);
     }
     handleKeyEvent();
     textArea.addEventListener("keydown", handleKeyEvent);
