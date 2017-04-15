@@ -30,12 +30,15 @@ code {
 .code-example code,
 .code-example textarea,
 .code-example iframe {
+    display: block;
+    width: 100%;
     border-style: solid;
     border-color: #cde;
-    border-width: 1px 0;
+    border-width: 0;
     border-radius: 0;
-    padding: 1rem;
+    padding: 1rem 1px;
     box-sizing: border-box;
+    margin: 0;
 }
 .code-example code,
 .code-example textarea
@@ -53,26 +56,26 @@ code {
     font-weight: normal;
     font-family: monospace, monospace;
     font-stretch: normal;
-    margin: 0;
-    resize: none;
+    border-top-width: 1px;
 }
 .code-example code {
     background: #f8f8f8;
 }
 .code-example textarea {
+    resize: none;
     background: transparent;
 }
 .code-example iframe {
-    display: block;
-    width: 100%;
     height: 0;
     max-height: 90vh;
+    border-bottom-width: 1px;
 }
 .code-example button {
     margin: 0;
     width: 100%;
     border: none;
     border-radius: 0;
+    background: #e6eaef;
 }
 .code-example button:after {
     content: "Run code";
