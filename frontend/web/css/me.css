@@ -34,12 +34,11 @@ code {
     width: 100%;
     border-style: solid;
     border-color: #cde;
-    border-width: 0;
-    border-radius: 0;
-    padding: 1rem 0;
-    box-sizing: border-box;
-    margin: 0;
-    left: 0;
+    border-width: 0 !important;
+    border-radius: 0 !important;
+    padding: 1rem 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
 }
 .code-example code,
 .code-example textarea
