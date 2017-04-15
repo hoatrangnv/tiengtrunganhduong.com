@@ -66,9 +66,8 @@
 
             window.setTimeout(function () {
                 result.handleLoaded(callback);
-            }, 1000);
+            }, 100);
         };
-
         function runCode() {
             var doc = result.contentDocument || result.contentWindow.document;
             doc.open();
