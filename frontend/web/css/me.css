@@ -64,6 +64,9 @@ code {
 .code-example textarea {
     resize: none;
     background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 .code-example iframe {
     height: 0;
