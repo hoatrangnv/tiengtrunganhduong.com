@@ -16,9 +16,9 @@ var tooltip, // global variables oh my! Refactor when deploying!
 function createTooltip(){ // call this function ONCE at the end of page to create tool tip object
     tooltip = document.createElement('div');
     tooltip.style.cssText =
-        'position:absolute; background:black; color:white; padding:4px;z-index:10000;'
-        + 'border-radius:2px; font-size:12px;box-shadow:3px 3px 3px rgba(0,0,0,.4);'
-        + 'opacity:0;transition:opacity 0.3s';
+        'position:absolute; background:black; color:white; padding:4px; z-index:10000;'
+        + 'border-radius:2px; font-size:12px; box-shadow:3px 3px 3px rgba(0,0,0,.4);'
+        + 'opacity:0; transition:opacity 0.3s; top:0; left:0; pointer-events:none';
     tooltip.innerHTML = 'Copied!';
     document.body.appendChild(tooltip);
 }
