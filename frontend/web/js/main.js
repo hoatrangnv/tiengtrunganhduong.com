@@ -323,9 +323,8 @@ function insertAtCaret(txtarea, text) {
 
 function textAreaAdjust(textArea) {
     var mirror = document.createElement("DIV");
-    mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent;background:rgba(255,100,100,0.3)";
+    mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
     textArea.parentNode.insertBefore(mirror, textArea);
-    // textArea.style.background = "rgba(100,255,100,0.3)";
     function handleKeyEvent() {
         var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
         mirror.innerHTML = highlightCode(text);
