@@ -19,7 +19,7 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-lg-4">
-                <h2>Inactive Articles</h2>
+                <h2>Inactive Articles (<?= Article::find()->where(['active' => 0])->count() ?>)</h2>
 
                 <ul>
                     <?php
@@ -32,7 +32,7 @@ $this->title = 'My Yii Application';
                 <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 0]) ?>">Articles &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Active Articles</h2>
+                <h2>Active Articles (<?= Article::find()->where(['active' => 1])->count() ?>)</h2>
 
                 <ul>
                     <?php
@@ -45,11 +45,11 @@ $this->title = 'My Yii Application';
                 <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">Articles &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Images</h2>
+                <h2>Active Images (<?= Image::find()->where(['active' => 1])->count() ?>)</h2>
 
                 <ul id="motivatebox">
                     <?php
-                    foreach (Image::find()->orderBy('create_time desc')->limit(20)->all() as $item) {
+                    foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(20)->all() as $item) {
                         echo
                             "<li>"
                             . "<span class=\"bg-success motivate\">{$item->getImgTemplate()}</span>"
