@@ -346,11 +346,13 @@ function textAreaAdjust(textArea) {
             "font-size",
             "font-family",
             "font-weight",
+            "font-stretch",
             "line-height",
             "word-spacing",
             "letter-spacing",
             "tab-size",
             "-moz-tab-size",
+            "text-indent",
             "text-transform",
 
             "padding",
