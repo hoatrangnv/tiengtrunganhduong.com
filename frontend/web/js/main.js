@@ -22,6 +22,7 @@
 
         // Code editor (textarea tag)
         var editor = document.createElement("TEXTAREA");
+        editor.spellcheck = false;
         editor.innerHTML = snippet.innerHTML;
         // editor.style.setProperty("tab-size", tabSize);
         // editor.style.setProperty("-moz-tab-size", tabSize);
