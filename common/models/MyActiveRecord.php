@@ -35,15 +35,17 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     private $_img_sizes = null;
 
-    public function getImgSrc($size, $timestamp = false)
+    public function getImgSrc($size, $options)
     {
         // Initialize
         if (is_null($this->_img_srcs)) {
-            if ($timestamp) {
+
+            if (isset($options['data-timestamp']) && $options['data-timestamp'] == 1) {
                 $timestamp = '?v=' . time();
             } else {
                 $timestamp = '';
             }
+
             $this->_img_srcs = [];
             $this->_img_sizes = [];
             if ($this instanceof Image) {
@@ -91,11 +93,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 //        if (!isset($options['title'])) {
 //            $options['title'] = $options['alt'];
 //        }
-        if (isset($options['data-timestamp'])) {
-            $src = $this->getImgSrc($size, true);
-        } else {
-            $src = $this->getImgSrc($size);
-        }
+        $src = $this->getImgSrc($size, $options);
         return Html::img($src, $options);
     }
 

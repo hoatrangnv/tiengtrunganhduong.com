@@ -332,7 +332,12 @@ class Image extends \common\models\MyActiveRecord
                 }
             }
         }
-        $model->img($size_key, $options);
+
+        // Maybe have some options affect to src and all src of different sizes will be stored
+        // so we need to call function getImgSrc before replace template in attribute value
+        $model->getImgSrc(null, $options);
+
+        // Replace template in value of attributes by real data
         foreach ($options as $att => $val) {
             preg_match_all(
                 "/" . preg_quote(self::T_IMG_EMB_BEGIN) . "(.*?)" . preg_quote(self::T_IMG_EMB_END) . "/",
@@ -372,6 +377,8 @@ class Image extends \common\models\MyActiveRecord
             }
             $options[$att] = $val;
         }
+
+        // Return an img tag
         return $model->img($size_key, $options);
     }
 
