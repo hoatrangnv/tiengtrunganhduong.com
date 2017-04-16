@@ -35,10 +35,15 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     private $_img_sizes = null;
 
-    public function getImgSrc($size)
+    public function getImgSrc($size, $timestamp = false)
     {
         // Initialize
         if (is_null($this->_img_srcs)) {
+            if ($timestamp) {
+                $timestamp = '?v=' . time();
+            } else {
+                $timestamp = '';
+            }
             $this->_img_srcs = [];
             $this->_img_sizes = [];
             if ($this instanceof Image) {
@@ -47,13 +52,13 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 $image = $this->getImage()->oneActive();
             }
             if ($image) {
-                $this->_img_srcs[Image::SIZE_0] = $image->getSource();
+                $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
                 $img_sizes = json_decode($image->resize_labels, true);
 
                 if (is_array($img_sizes)) {
                     ksort($img_sizes);
                     foreach ($img_sizes as $key => $label) {
-                        $this->_img_srcs[$key] = $image->getSource($label);
+                        $this->_img_srcs[$key] = $image->getSource($label) . $timestamp;
                     }
                     $this->_img_sizes = $img_sizes;
                 }
@@ -83,12 +88,13 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 $options['alt'] = '';
             }
         }
-        if (!isset($options['title'])) {
-            $options['title'] = $options['alt'];
-        }
-        $src = $this->getImgSrc($size);
+//        if (!isset($options['title'])) {
+//            $options['title'] = $options['alt'];
+//        }
         if (isset($options['data-timestamp'])) {
-            $src .= '?v=' . time();
+            $src = $this->getImgSrc($size, true);
+        } else {
+            $src = $this->getImgSrc($size);
         }
         return Html::img($src, $options);
     }
