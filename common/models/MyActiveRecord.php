@@ -88,7 +88,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         }
         $src = $this->getImgSrc($size);
         if (isset($options['data-timestamp'])) {
-            $src .= '?' . time();
+            $src .= '?v=' . time();
         }
         return Html::img($src, $options);
     }
