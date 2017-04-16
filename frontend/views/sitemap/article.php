@@ -25,7 +25,7 @@ foreach ($urls as $url) {
             <news:genres>Blog</news:genres>
             <news:publication_date><?= $url['news']['publication_date'] ?></news:publication_date>
             <news:title><?= $url['news']['title'] ?></news:title>
-            <news:keywords><?= $url['news']['keywords'] ?> ]]></news:keywords>
+            <news:keywords><?= $url['news']['keywords'] ?></news:keywords>
         </news:news>
         <?php
         if (isset($url['image'])) {
