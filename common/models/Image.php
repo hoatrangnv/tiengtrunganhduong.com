@@ -250,6 +250,10 @@ class Image extends \common\models\MyActiveRecord
     const T_IMG_SRC_BEGIN = 'src('; // src with other size key
     const T_IMG_SRC_END = ')';
 
+    const T_IMG_FILENAME = 'filename'; // filename with this size key
+    const T_IMG_FILENAME_BEGIN = 'filename('; // filename with other size key
+    const T_IMG_FILENAME_END = ')';
+
     public function getImgTemplate($size_key = Image::SIZE_0)
     {
         // "{img($this->id)}"
@@ -304,7 +308,11 @@ class Image extends \common\models\MyActiveRecord
             if ($params[2] == self::T_IMG_SRC) {
                 return $model->getImgSrc($size_key);
             }
+            if ($params[2] == self::T_IMG_FILENAME) {
+                return $model->getImgFilename($size_key);
+            }
         }
+
 
         // Replace template in value of attributes by real data
         foreach ($options as $att => $val) {
@@ -330,6 +338,14 @@ class Image extends \common\models\MyActiveRecord
                         );
                     }
                     else
+                        if ($attribute == self::T_IMG_FILENAME) {
+                            $val = str_replace(
+                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
+                                $model->getImgFilename($size_key),
+                                $val
+                            );
+                        }
+                    else
                         if ( substr($attribute, 0, strlen(self::T_IMG_SRC_BEGIN)) == self::T_IMG_SRC_BEGIN
                             && substr($attribute, - strlen(self::T_IMG_SRC_END)) == self::T_IMG_SRC_END
                         ) {
@@ -340,6 +356,20 @@ class Image extends \common\models\MyActiveRecord
                             $val = str_replace(
                                 self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
                                 $model->getImgSrc($other_size_key),
+                                $val
+                            );
+                        }
+                    else
+                        if ( substr($attribute, 0, strlen(self::T_IMG_FILENAME_BEGIN)) == self::T_IMG_FILENAME_BEGIN
+                            && substr($attribute, - strlen(self::T_IMG_FILENAME_END)) == self::T_IMG_FILENAME_END
+                        ) {
+                            $other_size_key = substr(
+                                substr($attribute, 0, - strlen(self::T_IMG_FILENAME_END)),
+                                strlen(self::T_IMG_FILENAME_BEGIN)
+                            );
+                            $val = str_replace(
+                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
+                                $model->getImgFilename($other_size_key),
                                 $val
                             );
                         }
