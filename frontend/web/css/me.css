@@ -86,6 +86,9 @@ code {
 .code-example button:after {
     content: "Run code";
 }
+.code-example.code-example-manual-running button:after {
+    content: "Click to run code";
+}
 
 .table-wrap {
     display: block;
