@@ -264,13 +264,16 @@ class Image extends \common\models\MyActiveRecord
     {
         $params_string = substr(substr($template, 0, - strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
         $params = explode(self::T_IMG_VAR_SEP, $params_string);
+
         if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
             return '';
         }
-        $size_key = 0;
+
+        $size_key = self::SIZE_0;
         if (isset($params[1])) {
             $size_key = $params[1];
         }
+
         $options = [];
         if (isset($params[2])) {
             if (strpos($params[2], self::T_IMG_VAR_SEP) === false) {
@@ -292,42 +295,6 @@ class Image extends \common\models\MyActiveRecord
                             $val .= self::T_IMG_OPT_SEP . $val_part;
                         }
                     }
-//                    preg_match_all(
-//                        "/" . preg_quote(self::T_IMG_EMB_BEGIN) . "(.*?)" . preg_quote(self::T_IMG_EMB_END) . "/",
-//                        $val,
-//                        $attributes
-//                    );
-//                    foreach ($attributes[1] as $attribute) {
-//                        if ($model->hasAttribute($attribute)) {
-//                            $val = str_replace(
-//                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-//                                $model->$attribute,
-//                                $val
-//                            );
-//                        }
-//                        else
-//                        if ($attribute == self::T_IMG_SRC) {
-//                            $val = str_replace(
-//                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-//                                $model->getImgSrc($size_key),
-//                                $val
-//                            );
-//                        }
-//                        else
-//                        if ( substr($attribute, 0, strlen(self::T_IMG_SRC_BEGIN)) == self::T_IMG_SRC_BEGIN
-//                          && substr($attribute, - strlen(self::T_IMG_SRC_END)) == self::T_IMG_SRC_END
-//                        ) {
-//                            $other_size_key = substr(
-//                                substr($attribute, 0, - strlen(self::T_IMG_SRC_END)),
-//                                strlen(self::T_IMG_SRC_BEGIN)
-//                            );
-//                            $val = str_replace(
-//                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-//                                $model->getImgSrc($other_size_key),
-//                                $val
-//                            );
-//                        }
-//                    }
                     $options[$att] = $val;
                 }
             }
