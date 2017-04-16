@@ -38,7 +38,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     public function getImgFilename($size, $options = [])
     {
-        $pathInfo = pathinfo($this->getImgSrc($size, $options));
+        $pathInfo = pathinfo(parse_url($this->getImgSrc($size, $options)));
         return $pathInfo['basename'] . '.' . $pathInfo['extension'];
     }
 
