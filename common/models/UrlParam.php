@@ -14,4 +14,5 @@ class UrlParam
     const SLUG = 'slug';
     const PARENT_SLUG = 'parent_slug';
     const CATEGORY_SLUG = 'category_slug';
+    const PAGE = '_page';
 }

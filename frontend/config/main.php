@@ -46,6 +46,11 @@ return [
                 // Home page
                 ['pattern' => '', 'route' => 'site/index'],
                 ['pattern' => '/', 'route' => 'site/index'],
+                // Sitemap
+                ['pattern' => 'sitemap.xml', 'route' => 'sitemap/index'],
+                ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
+                ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
+                // Article
                 ['pattern' => '<' . UrlParam::SLUG . '>.html', 'route' => 'article/view'],
             ],
         ],

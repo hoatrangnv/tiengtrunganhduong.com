@@ -9,11 +9,11 @@
 namespace frontend\models;
 
 
-use common\models\MyActiveRecord;
+use common\models\Article as CommonArticle;
 use common\models\UrlParam;
 use yii\helpers\Url;
 
-class Article extends MyActiveRecord
+class Article extends CommonArticle
 {
     public function getUrl($params = [])
     {
