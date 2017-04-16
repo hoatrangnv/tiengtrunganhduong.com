@@ -370,6 +370,7 @@ class Image extends \common\models\MyActiveRecord
                             );
                         }
             }
+            $options[$att] = $val;
         }
         return $model->img($size_key, $options);
     }
