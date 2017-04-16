@@ -276,15 +276,6 @@ class Image extends \common\models\MyActiveRecord
 
         $options = [];
         if (isset($params[2])) {
-            if (strpos($params[2], self::T_IMG_VAR_SEP) === false) {
-                if ($model->hasAttribute($params[2])) {
-                    return $model->{$params[2]};
-                }
-                if ($params[2] == self::T_IMG_SRC) {
-                    return $model->getImgSrc($size_key);
-                }
-            }
-
             foreach (array_slice($params, 2) as $param) {
                 $att_val = explode(self::T_IMG_OPT_SEP, $param);
                 if (isset($att_val[1])) {
@@ -303,6 +294,15 @@ class Image extends \common\models\MyActiveRecord
         // Maybe have some options affect to src and all src of different sizes will be stored
         // so we need to call function getImgSrc before replace template in attribute value
         $model->getImgSrc(null, $options);
+
+        if (strpos($params[2], self::T_IMG_VAR_SEP) === false) {
+            if ($model->hasAttribute($params[2])) {
+                return $model->{$params[2]};
+            }
+            if ($params[2] == self::T_IMG_SRC) {
+                return $model->getImgSrc($size_key);
+            }
+        }
 
         // Replace template in value of attributes by real data
         foreach ($options as $att => $val) {
