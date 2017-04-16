@@ -48,11 +48,13 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
             $this->_img_srcs = [];
             $this->_img_sizes = [];
+
             if ($this instanceof Image) {
                 $image = $this;
             } else {
                 $image = $this->getImage()->oneActive();
             }
+
             if ($image) {
                 $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
                 $img_sizes = json_decode($image->resize_labels, true);
