@@ -83,9 +83,9 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 $options['alt'] = '';
             }
         }
-        if (!isset($options['title'])) {
-            $options['title'] = $options['alt'];
-        }
+//        if (!isset($options['title'])) {
+//            $options['title'] = $options['alt'];
+//        }
         return Html::img($this->getImgSrc($size), $options);
     }
 
