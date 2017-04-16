@@ -77,7 +77,7 @@
             result.setHeight();
             result.handleLoaded(result.setHeight);
         }
-        if (!code_example.classList.contains("code-example-disable-autorun")) {
+        if (!code_example.classList.contains("code-example-manual-run")) {
             runCode();
         }
 
