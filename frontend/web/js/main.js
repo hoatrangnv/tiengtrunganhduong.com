@@ -77,7 +77,9 @@
             result.setHeight();
             result.handleLoaded(result.setHeight);
         }
-        runCode();
+        if (!code_example.classList.contains("code-example-disable-autorun")) {
+            runCode();
+        }
 
         //----
         snippet.contentEditable = true;
