@@ -89,7 +89,7 @@ use backend\models\Image;
                 $code_editor = Yii::$app->request->get('code_editor');
                 if (!$code_editor || $code_editor == 'text') {
                     echo $form->field($model, 'content')->textarea(['rows' => 10]);
-                } else {
+                } else if ($code_editor == 'mirror') {
                     ?>
                     <?php echo $form->field($model, 'content')->textarea(['height' => 'auto']); ?>
                     <script src="<?= Yii::getAlias('@web/code-mirror/lib/codemirror.js') ?>"></script>
@@ -107,12 +107,14 @@ use backend\models\Image;
                             border: none;
                             max-height: none;
                         }
+
                         .CodeMirror-scroll {
                             height: auto;
                             max-height: none;
                             overflow-x: auto;
                             overflow-y: hidden;
                         }
+
                         .CodeMirror pre {
                             padding: 0 5px;
                             line-height: 1.25;
@@ -135,8 +137,8 @@ use backend\models\Image;
                     </script>
                     <?php
 
+                } else {
 
-                    /*
                     ?>
                     <style type="text/css" media="screen">
                         #code-editor {
@@ -164,7 +166,7 @@ use backend\models\Image;
                         </script>
                     </div>
                     <?php
-                    */
+
                 }
             ?>
 
