@@ -43,6 +43,8 @@ AppAsset::register($this);
     </div>
 </footer>
 
+<?php require_once 'tracking.php' ?>
+
 <?php $this->endBody() ?>
 </body>
 </html>
