@@ -40,7 +40,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         // Initialize
         if (is_null($this->_img_srcs)) {
 
-            if (isset($options['data-timestamp']) && $options['data-timestamp'] == 1) {
+            if (isset($options['data-timestamp'])) {
                 $timestamp = '?v=' . time();
             } else {
                 $timestamp = '';
