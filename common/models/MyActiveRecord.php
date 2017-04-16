@@ -86,7 +86,11 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         if (!isset($options['title'])) {
             $options['title'] = $options['alt'];
         }
-        return Html::img($this->getImgSrc($size), $options);
+        $src = $this->getImgSrc($size);
+        if (isset($options['data-timestamp'])) {
+            $src .= '?' . time();
+        }
+        return Html::img($src, $options);
     }
 
     public function getContentWithTemplates($attribute = 'content')
