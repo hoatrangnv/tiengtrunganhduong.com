@@ -4,7 +4,7 @@
 
 $this->title = Yii::$app->name;
 ?>
-<h2>New Articles</h2>
+<h2>HTML, CSS, JavaScript, PHP and somethings else...</h2>
 
 <div class="list-view">
     <ul>
@@ -13,7 +13,6 @@ $this->title = Yii::$app->name;
             ?>
             <li>
                 <h3><?= $item->a() ?></h3>
-                <p><?= $item->description ?></p>
             </li>
             <?php
         }
