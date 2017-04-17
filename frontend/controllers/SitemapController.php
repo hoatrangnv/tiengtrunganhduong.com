@@ -88,6 +88,10 @@ class SitemapController extends Controller
             ->limit(self::ITEMS_PER_PAGE)
             ->allPublished();
 
+        if (empty($articles)) {
+            throw new NotFoundHttpException();
+        }
+
         $urls = [];
 
         foreach ($articles as $article) {
