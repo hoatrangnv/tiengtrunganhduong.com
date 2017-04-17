@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Web development code snippets and tips';
+$this->title = 'Web development tips & code snippets';
 ?>
 <h1><?= $this->title ?></h1>
 
