@@ -4,6 +4,7 @@
 
 $this->title = 'Web development code snippets and tips';
 ?>
+<h1><?= $this->title ?></h1>
 
 <div class="list-view">
     <ul>
