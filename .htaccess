@@ -80,8 +80,8 @@ RewriteRule .* ? [F,L]
 #RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # www -> non-www
-RewriteCond %{HTTP_HOST} ^www.quyettran.com [NC]
-RewriteRule ^(.*)$ http://quyettran.com [L,R=301]
+RewriteCond %{HTTP_HOST} ^www.vanquyet.com [NC]
+RewriteRule ^(.*)$ http://vanquyet.com [L,R=301]
 
 # End the processing, if a rewrite already occurred
 RewriteRule ^(frontend|backend)/web/ - [L]
