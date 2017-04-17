@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'quyettran.com',
+    'name' => 'vanquyet.com',
     'charset' => 'UTF-8',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
