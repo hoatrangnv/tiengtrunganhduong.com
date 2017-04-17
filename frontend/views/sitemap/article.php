@@ -19,7 +19,7 @@ foreach ($urls as $url) {
         <priority>0.8</priority>
         <news:news>
             <news:publication>
-                <news:name>quyettran.com</news:name>
+                <news:name><?= \Yii::$app->name ?></news:name>
                 <news:language>en</news:language>
             </news:publication>
             <news:genres>Blog</news:genres>
