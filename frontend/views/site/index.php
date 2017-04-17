@@ -4,7 +4,7 @@
 
 $this->title = Yii::$app->name;
 ?>
-<h2>HTML, CSS, JavaScript, PHP and somethings else...</h2>
+<h1>HTML, CSS, JavaScript, PHP and somethings else...</h1>
 
 <div class="list-view">
     <ul>
