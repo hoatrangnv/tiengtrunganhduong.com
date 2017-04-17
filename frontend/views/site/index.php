@@ -2,9 +2,8 @@
 
 /* @var $this yii\web\View */
 
-$this->title = Yii::$app->name;
+$this->title = 'Web development code snippets and tips';
 ?>
-<h1>My code with HTML, CSS, JavaScript, PHP...</h1>
 
 <div class="list-view">
     <ul>
