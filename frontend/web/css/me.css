@@ -7,12 +7,12 @@
     /*word-wrap: break-word;*/
     /*line-height: 1.4;*/
 /*}*/
-/*.container {*/
-    /*max-width: 640px;*/
-    /*margin: auto;*/
-    /*width: 100%;*/
-    /*padding: 0.5rem;*/
-/*}*/
+.container {
+    max-width: 640px;
+    margin: auto;
+    width: 100%;
+    padding: 0.5rem;
+}
 /*html {*/
     /*font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;*/
     /*font-size: 15px;*/
