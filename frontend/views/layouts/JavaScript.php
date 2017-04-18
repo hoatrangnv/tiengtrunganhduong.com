@@ -101,7 +101,7 @@
                 }, 100);
 
                 function focus() {
-                    if (caret > 0) {
+                    if (caret > -1) {
                         editor.focus();
                         editor.setSelectionRange(caret, caret);
                         window.scrollTo(0, scroll_top);
