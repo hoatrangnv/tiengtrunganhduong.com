@@ -18,17 +18,17 @@
     /*font-size: 15px;*/
     /*color: #333;*/
 /*}*/
-/*a {*/
-    /*text-decoration: none;*/
-    /*color: inherit;*/
-    /*cursor: pointer;*/
-/*}*/
-/*a.link {*/
-    /*color: #06b;*/
-/*}*/
-/*a.link:hover {*/
-    /*text-decoration: underline;*/
-/*}*/
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+a.link {
+    color: #06b;
+}
+a.link:hover {
+    text-decoration: underline;
+}
 
 .breadcrumb {
     margin-bottom: 1em;
