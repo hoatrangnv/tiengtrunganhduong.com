@@ -168,13 +168,13 @@
     }
 
     .mirror-html-comment {
-        background: rgb(255, 220, 180);
+        background: rgb(255, 240, 200);
     }
     .mirror-css-comment {
-        background: rgb(200, 255, 180);
+        background: rgb(210, 255, 200);
     }
     .mirror-js-comment {
-        background: rgb(180, 240, 255);
+        background: rgb(200, 240, 255);
     }
 
 </style>
