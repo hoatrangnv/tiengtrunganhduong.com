@@ -264,10 +264,10 @@
     function textAreaAdjust(textArea) {
         // Initialize
         var mirror = document.createElement("CODE");
+        textArea.parentNode.insertBefore(mirror, textArea);
         setMirrorStyle();
         setMirrorScroll();
         handleKeyEvent();
-        textArea.parentNode.insertBefore(mirror, textArea);
 
         // Handle events
         textArea.addEventListener("keydown", handleKeyEvent);
