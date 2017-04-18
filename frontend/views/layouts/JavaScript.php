@@ -165,13 +165,13 @@
 
     function getCaretOffset(element) {
         var caretOffset = 0;
-        if (typeof window.getSelection != "undefined") {
+        if (window.getSelection) {
             var range = window.getSelection().getRangeAt(0);
             var preCaretRange = range.cloneRange();
             preCaretRange.selectNodeContents(element);
             preCaretRange.setEnd(range.endContainer, range.endOffset);
             caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
-        } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+        } else if (document.selection && document.selection.type !== "Control") {
             var textRange = document.selection.createRange();
             var preCaretTextRange = document.body.createTextRange();
             preCaretTextRange.moveToElementText(element);
