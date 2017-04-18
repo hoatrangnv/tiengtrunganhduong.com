@@ -262,20 +262,37 @@
     }
 
     function textAreaAdjust(textArea) {
+        // Initialize
         var mirror = document.createElement("CODE");
-        mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
+        setMirrorStyle();
+        setMirrorScroll();
+        handleKeyEvent();
         textArea.parentNode.insertBefore(mirror, textArea);
+
+        // Handle events
+        textArea.addEventListener("keydown", handleKeyEvent);
+        textArea.addEventListener("keyup", handleKeyEvent);
+        textArea.addEventListener("scroll", setMirrorScroll);
+        textArea.addEventListener("resize", function () {
+            setMirrorStyle();
+            setMirrorScroll();
+        });
+
+        // Functions
         function handleKeyEvent() {
             var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
             mirror.innerHTML = highlightCode(text);
-            var textAreaStyle = window.getComputedStyle(textArea, null);
-//            mirror.style.zIndex = 1 + (parseInt(textAreaStyle.getPropertyValue("z-index")) || 0);
+            textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
+        }
+        function setMirrorStyle() {
+            mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
 
+            // Copy style textArea -> mirror
             [
+                "display",
                 "width",
                 "border-box",
                 "-webkit-border-box",
-                "display",
 
                 "border",
                 "border-top",
@@ -300,6 +317,7 @@
                 "font-family",
                 "font-weight",
                 "font-stretch",
+
                 "line-height",
                 "word-spacing",
                 "letter-spacing",
@@ -346,18 +364,13 @@
                     // }
                 }
             );
-            textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
         }
-        handleKeyEvent();
-        // textArea.addEventListener("keydown", handleKeyEvent);
-        textArea.addEventListener("keyup", handleKeyEvent);
-        textArea.addEventListener("resize", handleKeyEvent);
-        textArea.addEventListener("scroll", function () {
+        function setMirrorScroll() {
             mirror.scrollTop = textArea.scrollTop;
             mirror.scrollLeft = textArea.scrollLeft;
             mirror.scrollWidth = textArea.scrollWidth;
             mirror.scrollHeight = textArea.scrollHeight;
-        });
+        }
     }
 
     function highlightCode(text) {
