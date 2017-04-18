@@ -46,7 +46,8 @@
         color: #06b;
     }
     .breadcrumb li:not(:first-child):before {
-        content: "\00BB\00A0";
+        /*content: "\00BB\00A0";*/
+        content: "/\00A0";
         display: inline;
     }
 
