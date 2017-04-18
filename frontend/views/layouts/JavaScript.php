@@ -90,17 +90,19 @@
                 var caret;
                 setTimeout(function () {
                     caret = getCaretOffset(snippet);
-                    if (!editor.appeared) {
-                        openEditor();
+                    if (isNaN(caret)) {
+                        if (!editor.appeared) {
+                            openEditor();
+                        }
+                        focus();
                     }
-                    focus();
                 }, 100);
 
                 function focus() {
-                    editor.focus();
-                    editor.setSelectionRange(caret, caret);
-                    window.scrollTo(0, scroll_top);
                     if (isNaN(caret)) {
+                        editor.focus();
+                        editor.setSelectionRange(caret, caret);
+                        window.scrollTo(0, scroll_top);
                     }
                 }
 
