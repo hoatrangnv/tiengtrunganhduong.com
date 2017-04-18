@@ -163,7 +163,11 @@
 
     .article-desc {
         font-weight: bold;
-        color: #666;
+        color: #888;
+        font-style: italic;
+        border: solid #ade;
+        border-width: 1px 0;
+        padding: 1em 0;
     }
 
     .mirror-html-comment {
