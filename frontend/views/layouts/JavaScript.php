@@ -96,8 +96,7 @@
                         if (!editor.appeared) {
                             openEditor();
                         }
-                        setTimeout(focus, 10);
-//                        focus();
+                        focus();
                     }
                 }, 100);
 
@@ -107,6 +106,7 @@
                         editor.setSelectionRange(caret, caret);
                     }
                     window.scrollTo(0, scroll_top);
+                    console.log("scroll top = " + scroll_top)
                 }
 
                 // iOS/Safari only "accepts" the focus when inside a touch event handler
