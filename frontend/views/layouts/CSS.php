@@ -162,19 +162,19 @@
     }
 
     .mirror-html-comment {
-        /*background: rgba(255, 255, 255, 0.3);*/
-        background: #fff;
-        opacity: 0.5;
+        background: rgba(255, 255, 255, 0.3);
+        /*background: #fff;*/
+        /*opacity: 0.5;*/
     }
     .mirror-css-comment {
-        /*background: rgba(221, 255, 213, 0.3);*/
-        background: #dfc;
-        opacity: 0.5;
+        background: rgba(221, 255, 213, 0.3);
+        /*background: #dfc;*/
+        /*opacity: 0.5;*/
     }
     .mirror-js-comment {
-        /*background: rgba(204, 247, 255, 0.3);*/
-        background: #fdc;
-        opacity: 0.5;
+        background: rgba(204, 247, 255, 0.3);
+        /*background: #fdc;*/
+        /*opacity: 0.5;*/
     }
 
 </style>

@@ -269,7 +269,7 @@
             var text = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + "&nbsp;";
             mirror.innerHTML = highlightCode(text);
             var textAreaStyle = window.getComputedStyle(textArea, null);
-            mirror.style.zIndex = 1 + (parseInt(textAreaStyle.getPropertyValue("z-index")) || 0);
+//            mirror.style.zIndex = 1 + (parseInt(textAreaStyle.getPropertyValue("z-index")) || 0);
 
             [
                 "width",
@@ -277,12 +277,23 @@
                 "-webkit-border-box",
                 "display",
 
+                "border",
+                "border-top",
+                "border-right",
+                "border-bottom",
+                "border-left",
+
                 "border-style",
+                "border-top-style",
+                "border-right-style",
+                "border-bottom-style",
+                "border-left-style",
+
                 "border-width",
-                "border-left-width",
                 "border-top-width",
-                "border-bottom-width",
                 "border-right-width",
+                "border-bottom-width",
+                "border-left-width",
 
                 "font",
                 "font-size",
