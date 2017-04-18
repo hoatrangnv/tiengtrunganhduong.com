@@ -83,41 +83,41 @@
             }
 
             //----
-            snippet.contentEditable = true;
-            snippet.addEventListener("focus", function () {
-                var scroll_top
-                    = (window.pageYOffset || document.documentElement.scrollTop)
-                    - (document.documentElement.clientTop || 0);
-                var caret;
-
-                setTimeout(function () {
-                    caret = getCaretOffset(snippet);
-                    if (caret > 0) {
-                        if (!editor.appeared) {
-                            openEditor();
-                        }
-                        focus();
-                    }
-                }, 100);
-
-                function focus() {
-                    if (caret > -1) {
-                        editor.focus();
-                        editor.setSelectionRange(caret, caret);
-                        window.scrollTo(0, scroll_top);
-                    }
-                }
-
-                // iOS/Safari only "accepts" the focus when inside a touch event handler
-                // http://stackoverflow.com/questions/18728166/programatically-focus-on-next-input-field-in-mobile-safari
-                // https://www.sencha.com/forum/showthread.php?280423-Show-keyboard-on-iOS-automatically
-                // https://www.quora.com/Mobile-Safari-iPhone-or-iPad-with-JavaScript-how-can-I-launch-the-on-screen-keyboard
-                editor.addEventListener("touchstart", function () {
-                    if (!editor.focused) {
-                        focus();
-                    }
-                });
-            });
+//            snippet.contentEditable = true;
+//            snippet.addEventListener("focus", function () {
+//                var scroll_top
+//                    = (window.pageYOffset || document.documentElement.scrollTop)
+//                    - (document.documentElement.clientTop || 0);
+//                var caret;
+//
+//                setTimeout(function () {
+//                    caret = getCaretOffset(snippet);
+//                    if (caret > -1) {
+//                        if (!editor.appeared) {
+//                            openEditor();
+//                        }
+//                        focus();
+//                    }
+//                }, 100);
+//
+//                function focus() {
+//                    if (caret > -1) {
+//                        editor.focus();
+//                        editor.setSelectionRange(caret, caret);
+//                        window.scrollTo(0, scroll_top);
+//                    }
+//                }
+//
+//                // iOS/Safari only "accepts" the focus when inside a touch event handler
+//                // http://stackoverflow.com/questions/18728166/programatically-focus-on-next-input-field-in-mobile-safari
+//                // https://www.sencha.com/forum/showthread.php?280423-Show-keyboard-on-iOS-automatically
+//                // https://www.quora.com/Mobile-Safari-iPhone-or-iPad-with-JavaScript-how-can-I-launch-the-on-screen-keyboard
+//                editor.addEventListener("touchstart", function () {
+//                    if (!editor.focused) {
+//                        focus();
+//                    }
+//                });
+//            });
 
             editor.onkeydown = function (event) {
                 if ([9, 13].indexOf(event.keyCode) > -1) {
@@ -169,24 +169,24 @@
         });
     }(document.querySelectorAll(".code-example"));
 
-    function getCaretOffset(element) {
-        var caretOffset = -1;
-        var sel = window.getSelection && window.getSelection();
-        if (sel && sel.rangeCount > 0) {
-            var range = sel.getRangeAt(0);
-            var preCaretRange = range.cloneRange();
-            preCaretRange.selectNodeContents(element);
-            preCaretRange.setEnd(range.endContainer, range.endOffset);
-            caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
-        } else if (typeof document.selection !== "undefined" && document.selection.type !== "Control") {
-            var textRange = document.selection.createRange();
-            var preCaretTextRange = document.body.createTextRange();
-            preCaretTextRange.moveToElementText(element);
-            preCaretTextRange.setEndPoint("EndToEnd", textRange);
-            caretOffset = htmlEntitiesDecode(preCaretTextRange.text).length;
-        }
-        return caretOffset;
-    }
+//    function getCaretOffset(element) {
+//        var caretOffset = -1;
+//        var sel = window.getSelection && window.getSelection();
+//        if (sel && sel.rangeCount > 0) {
+//            var range = sel.getRangeAt(0);
+//            var preCaretRange = range.cloneRange();
+//            preCaretRange.selectNodeContents(element);
+//            preCaretRange.setEnd(range.endContainer, range.endOffset);
+//            caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
+//        } else if (typeof document.selection !== "undefined" && document.selection.type !== "Control") {
+//            var textRange = document.selection.createRange();
+//            var preCaretTextRange = document.body.createTextRange();
+//            preCaretTextRange.moveToElementText(element);
+//            preCaretTextRange.setEndPoint("EndToEnd", textRange);
+//            caretOffset = htmlEntitiesDecode(preCaretTextRange.text).length;
+//        }
+//        return caretOffset;
+//    }
 
     function getCaret(el) {
         if (el.selectionStart) {
