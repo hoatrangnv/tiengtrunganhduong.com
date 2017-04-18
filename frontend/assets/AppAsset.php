@@ -15,10 +15,10 @@ class AppAsset extends AssetBundle
 //        'css/Skeleton-2.0.4/css/normalize.css',
 //        'css/Skeleton-2.0.4/css/skeleton.css',
 //        'css/Skeleton-2.0.4/css/custom.css',
-        'css/me.css',
+//        'css/me.css',
     ];
     public $js = [
-        'js/main.js',
+//        'js/main.js',
     ];
     public $depends = [
 //        'yii\web\YiiAsset',
