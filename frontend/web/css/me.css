@@ -3,6 +3,7 @@
     padding: 0;
     position: relative;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     vertical-align: baseline;
     word-wrap: break-word;
 }
@@ -100,9 +101,6 @@ code {
 .code-example code,
 .code-example textarea
 {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    position: relative;
     display: block;
     white-space: pre;
     word-wrap: normal;
@@ -111,7 +109,7 @@ code {
     height: auto;
     width: 100%;
     font-size: 1rem;
-    line-height: 1.1em;
+    line-height: 1.1;
     font-weight: normal;
     font-family: monospace, monospace;
     font-stretch: normal;
