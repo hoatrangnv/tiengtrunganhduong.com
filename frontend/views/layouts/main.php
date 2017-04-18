@@ -18,11 +18,11 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font for Skeleton CSS -->
-    <!--<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">-->
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php require_once 'CSS.php' ?>
+    <style>
+    <?= $this->renderFile(Yii::getAlias('@webroot/css/main.css')) ?>
+    </style>
     <?php $this->head() ?>
 </head>
 <body>
@@ -44,7 +44,9 @@ AppAsset::register($this);
     </div>
 </footer>
 
-<?php require_once 'JavaScript.php' ?>
+<script>
+<?= $this->renderFile(Yii::getAlias('@webroot/js/main.js')) ?>
+</script>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
 </body>

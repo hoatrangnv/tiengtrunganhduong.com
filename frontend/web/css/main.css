@@ -4,20 +4,14 @@
     position: relative;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    vertical-align: baseline;
-    word-wrap: break-word;
-}
-.container {
-    max-width: 640px;
-    margin: auto;
-    width: 100%;
-    padding: 0.5rem;
 }
 html {
     font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
     font-size: 15px;
     line-height: 1.4;
     color: #333;
+    word-wrap: break-word;
+    vertical-align: baseline;
 }
 a {
     text-decoration: none;
@@ -30,7 +24,16 @@ a.link {
 a.link:hover {
     text-decoration: underline;
 }
+button {
+    font-size: 1em;
+}
 
+.container {
+    max-width: 640px;
+    margin: auto;
+    width: 100%;
+    padding: 0.5rem;
+}
 .breadcrumb {
     margin-bottom: 1em;
     color: #aaa;
@@ -42,7 +45,8 @@ a.link:hover {
     color: #06b;
 }
 .breadcrumb li:not(:first-child):before {
-    content: "\00A0\00BB\00A0";
+    /*content: "\00BB\00A0";*/
+    content: "/\00A0";
     display: inline;
 }
 
@@ -53,9 +57,6 @@ footer .container {
     background: #eee;
 }
 
-h1 {
-    border-bottom: 0.25em solid #eee;
-}
 h1 + * {
     margin-top: 2em;
 }
@@ -81,17 +82,16 @@ article div + div {
 }
 
 code {
-    word-wrap: break-word;
     white-space: normal;
+}
+.code-example {
+    margin: 1em 0;
 }
 .code-example code,
 .code-example textarea,
 .code-example iframe {
     display: block;
     width: 100%;
-    border-style: solid;
-    border-color: #cde;
-    border-width: 0;
     border-radius: 0;
     padding: 1rem 0;
     box-sizing: border-box;
@@ -108,17 +108,18 @@ code {
     overflow-y: hidden;
     height: auto;
     width: 100%;
-    font-size: 1rem;
+    font-size: 0.93rem;
     line-height: 1.1;
     font-weight: normal;
     font-family: monospace, monospace;
     font-stretch: normal;
-    border-top-width: 1px;
 }
 .code-example code {
     background: #f8f8f8;
+    border: 1px solid transparent;
 }
 .code-example textarea {
+    border: 1px solid #def;
     resize: none;
     background: transparent;
     -webkit-appearance: none;
@@ -128,9 +129,12 @@ code {
 .code-example iframe {
     height: 0;
     max-height: 90vh;
-    border-bottom-width: 1px;
+    margin-top: 0.5em;
+    border: 1px solid #def;
 }
-.code-example button {
+.code-example-submit-button,
+.code-example-mode-button {
+    display: block;
     margin: 0;
     width: 100%;
     border: none;
@@ -138,11 +142,14 @@ code {
     background: #e6eaef;
     padding: 0.5em;
 }
-.code-example button:after {
-    content: "run code";
+.code-example-submit-button:after {
+    content: "click to run";
 }
-.code-example.code-example-manual-running button:after {
-    content: "click to run code";
+.code-example[data-readonly="1"] .code-example-mode-button:after {
+    content: "edit code";
+}
+.code-example[data-readonly="0"] .code-example-mode-button:after {
+    content: "back to origin";
 }
 
 .table-wrap {
@@ -160,18 +167,20 @@ code {
     max-width: 100%;
 }
 
+.article-desc {
+    font-weight: bold;
+    color: #888;
+    font-style: italic;
+    border: solid #ade;
+    padding: 1em;
+}
+
 .mirror-html-comment {
-    /*background: rgba(255, 255, 255, 0.3);*/
-    background: #fff;
-    opacity: 0.5;
+    background: rgb(255, 240, 200);
 }
 .mirror-css-comment {
-    /*background: rgba(221, 255, 213, 0.3);*/
-    background: #dfc;
-    opacity: 0.5;
+    background: rgb(210, 255, 200);
 }
 .mirror-js-comment {
-    /*background: rgba(204, 247, 255, 0.3);*/
-    background: #fdc;
-    opacity: 0.5;
+    background: rgb(200, 240, 255);
 }
