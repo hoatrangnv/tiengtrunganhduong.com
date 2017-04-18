@@ -349,6 +349,7 @@
             textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
         }
         handleKeyEvent();
+        setTimeout(handleKeyEvent, 100);
         // textArea.addEventListener("keydown", handleKeyEvent);
         textArea.addEventListener("keyup", handleKeyEvent);
         textArea.addEventListener("resize", handleKeyEvent);
