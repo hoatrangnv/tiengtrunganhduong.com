@@ -287,7 +287,8 @@
         function setMirrorStyle() {
             mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
 
-            // Copy style textArea -> mirror
+            // Copy style of textArea -> mirror
+            var textAreaStyle = window.getComputedStyle(textArea, null);
             [
                 "display",
                 "width",
