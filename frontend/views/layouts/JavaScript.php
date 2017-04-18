@@ -97,6 +97,9 @@
                 }, 100);
 
                 function focus() {
+                    if (isNaN(caret)) {
+                        return;
+                    }
                     editor.focus();
                     editor.setSelectionRange(caret, caret);
                     window.scrollTo(0, scroll_top);
@@ -164,14 +167,14 @@
     }(document.querySelectorAll(".code-example"));
 
     function getCaretOffset(element) {
-        var caretOffset = 0;
-        if (window.getSelection) {
+        var caretOffset = null;
+        if (typeof window.getSelection !== "undefined" && window.getSelection()) {
             var range = window.getSelection().getRangeAt(0);
             var preCaretRange = range.cloneRange();
             preCaretRange.selectNodeContents(element);
             preCaretRange.setEnd(range.endContainer, range.endOffset);
             caretOffset = htmlEntitiesDecode(preCaretRange.toString()).length;
-        } else if (document.selection && document.selection.type !== "Control") {
+        } else if (typeof document.selection !== "undefined" && document.selection.type !== "Control") {
             var textRange = document.selection.createRange();
             var preCaretTextRange = document.body.createTextRange();
             preCaretTextRange.moveToElementText(element);
