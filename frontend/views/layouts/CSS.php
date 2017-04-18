@@ -162,17 +162,17 @@
     }
 
     .mirror-html-comment {
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(200, 255, 180, 1);
         /*background: #fff;*/
         /*opacity: 0.5;*/
     }
     .mirror-css-comment {
-        background: rgba(221, 255, 213, 0.3);
+        background: rgba(255, 220, 180, 1);
         /*background: #dfc;*/
         /*opacity: 0.5;*/
     }
     .mirror-js-comment {
-        background: rgba(204, 247, 255, 0.3);
+        background: rgba(180, 240, 255, 1);
         /*background: #fdc;*/
         /*opacity: 0.5;*/
     }
