@@ -262,7 +262,7 @@
     }
 
     function textAreaAdjust(textArea) {
-        var mirror = document.createElement("DIV");
+        var mirror = document.createElement("CODE");
         mirror.style.cssText = "position:absolute;pointer-events:none;color:transparent";
         textArea.parentNode.insertBefore(mirror, textArea);
         function handleKeyEvent() {
@@ -349,7 +349,6 @@
             textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
         }
         handleKeyEvent();
-        setTimeout(handleKeyEvent, 100);
         // textArea.addEventListener("keydown", handleKeyEvent);
         textArea.addEventListener("keyup", handleKeyEvent);
         textArea.addEventListener("resize", handleKeyEvent);
