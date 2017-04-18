@@ -57,9 +57,6 @@
         background: #eee;
     }
 
-    h1 {
-        border-bottom: 0.25em solid #eee;
-    }
     h1 + * {
         margin-top: 2em;
     }
@@ -166,8 +163,7 @@
         color: #888;
         font-style: italic;
         border: solid #ade;
-        border-width: 1px 0;
-        padding: 1em 0;
+        padding: 1em;
     }
 
     .mirror-html-comment {
