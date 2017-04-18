@@ -332,68 +332,69 @@ function textAreaAdjust(textArea) {
         mirror.innerHTML = highlightCode(text);
         var textAreaStyle = window.getComputedStyle(textArea, null);
         mirror.style.zIndex = 1 + (parseInt(textAreaStyle.getPropertyValue("z-index")) || 0);
-        // var myCSS = [];
-        // for (var i = 0; i < textAreaStyle.length; i++) {
-        //     myCSS.push(textAreaStyle[i]);
-        // }
-        [
-            "width",
-            "border-box",
-            "-webkit-border-box",
-            "display",
 
-            "border-style",
-            "border-width",
-            "border-left-width",
-            "border-top-width",
-            "border-bottom-width",
-            "border-right-width",
-
-            "font",
-            "font-size",
-            "font-family",
-            "font-weight",
-            "font-stretch",
-            "line-height",
-            "word-spacing",
-            "letter-spacing",
-            "tab-size",
-            "-moz-tab-size",
-            "text-indent",
-            "text-transform",
-
-            "padding",
-            "padding-left",
-            "padding-top",
-            "padding-bottom",
-            "padding-right",
-
-            "word-wrap",
-            "white-space",
-            "word-break",
-
-            "overflow",
-            "overflow-x",
-            "overflow-y"
-        ].forEach(
-        // myCSS.forEach(
+        // [
+        //     "width",
+        //     "border-box",
+        //     "-webkit-border-box",
+        //     "display",
+        //
+        //     "border-style",
+        //     "border-width",
+        //     "border-left-width",
+        //     "border-top-width",
+        //     "border-bottom-width",
+        //     "border-right-width",
+        //
+        //     "font",
+        //     "font-size",
+        //     "font-family",
+        //     "font-weight",
+        //     "font-stretch",
+        //     "line-height",
+        //     "word-spacing",
+        //     "letter-spacing",
+        //     "tab-size",
+        //     "-moz-tab-size",
+        //     "text-indent",
+        //     "text-transform",
+        //
+        //     "padding",
+        //     "padding-left",
+        //     "padding-top",
+        //     "padding-bottom",
+        //     "padding-right",
+        //
+        //     "word-wrap",
+        //     "white-space",
+        //     "word-break",
+        //
+        //     "overflow",
+        //     "overflow-x",
+        //     "overflow-y"
+        // ].forEach(
+        var myCSS = [];
+        for (var i = 0; i < textAreaStyle.length; i++) {
+            myCSS.push(textAreaStyle[i]);
+        }
+        myCSS.forEach(
             function (prop) {
-                // if ([
-                //         "pointer-events",
-                //         "position",
-                //         "z-index",
-                //         "height",
-                //         "left",
-                //         "top",
-                //         "right",
-                //         "bottom",
-                //         "color",
-                //         "background"
-                //     ].indexOf(prop) === -1) {
+                if ([
+                        "pointer-events",
+                        "position",
+                        "z-index",
+                        "height",
+                        "left",
+                        "top",
+                        "right",
+                        "bottom",
+                        "color",
+                        "background"
+                    ].indexOf(prop) === -1) {
                         if (typeof mirror.style[prop] !== "undefined") {
                             mirror.style[prop] = textAreaStyle.getPropertyValue(prop);
                         }
-                // }
+                }
             }
         );
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
@@ -444,87 +445,3 @@ function highlightCode(text) {
 
     return text;
 }
-
-/*
-function textAreaAdjust(textArea) {
-    var d = document.createElement("DIV");
-    var wrap = document.createElement("DIV");
-    wrap.style.position = "fixed";
-    wrap.style.width = "0px";
-    wrap.style.height = "0px";
-    wrap.style.visibility = "hidden";
-    wrap.style.pointerEvents = "none";
-    wrap.style.overflow = "hidden";
-    wrap.appendChild(d);
-    document.body.appendChild(wrap);
-
-    // Condition to use rows property to adjust height
-    // textArea.style.whiteSpace = "pre";
-    // textArea.style.wordWrap = "normal";
-    // textArea.style.height = "auto";
-    function handleKeyEvent() {
-        d.innerHTML = textArea.value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + ".";
-
-        var f = window.getComputedStyle(textArea, null);
-        [
-            "width",
-            "border-box",
-            "display",
-
-            "border-style",
-            "border-width",
-            "border-left-width",
-            "border-top-width",
-            "border-bottom-width",
-            "border-right-width",
-
-            "font",
-            "font-size",
-            "font-family",
-            "font-weight",
-            "line-height",
-            "word-spacing",
-            "letter-spacing",
-            "tab-size",
-            "-moz-tab-size",
-            "text-transform",
-
-            "padding",
-            "padding-left",
-            "padding-top",
-            "padding-bottom",
-            "padding-right",
-
-            "word-wrap",
-            "white-space",
-            "word-break",
-            "overflow"
-
-        ].forEach(function (prop) {
-            if (typeof d.style[prop] !== "undefined") {
-                console.log(prop, f.getPropertyValue(prop));
-                d.style[prop] = f.getPropertyValue(prop);
-            }
-        });
-
-        // textArea.style.height = d.offsetHeight + "px";
-        textArea.style.height = window.getComputedStyle(d, null).getPropertyValue("height");
-
-        // var computedStyle = window.getComputedStyle(textArea, null);
-        // var borderWidth = 0;
-        // if (computedStyle) {
-        //     borderWidth = parseFloat(computedStyle.getPropertyValue("border-top-width"))
-        //      + parseFloat(computedStyle.getPropertyValue("border-bottom-width"));
-        // }
-        // textArea.style.height =
-        //     textArea.scrollHeight
-        //     + borderWidth
-        //     + "px";
-
-        // textArea.rows = textArea.value.split("\n").length;
-    }
-    handleKeyEvent();
-    textArea.addEventListener("keydown", handleKeyEvent);
-    textArea.addEventListener("keyup", handleKeyEvent);
-}
-*/
