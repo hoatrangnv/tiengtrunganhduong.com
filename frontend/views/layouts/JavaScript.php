@@ -170,6 +170,7 @@
         var caretOffset = undefined;
         if (typeof window.getSelection !== "undefined" && window.getSelection()) {
             var range = window.getSelection().getRangeAt(0);
+            console.log("range", range);
             var preCaretRange = range.cloneRange();
             preCaretRange.selectNodeContents(element);
             preCaretRange.setEnd(range.endContainer, range.endOffset);
