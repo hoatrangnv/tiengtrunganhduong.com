@@ -161,6 +161,11 @@
         max-width: 100%;
     }
 
+    .article-desc {
+        font-weight: bold;
+        color: #666;
+    }
+
     .mirror-html-comment {
         background: rgba(200, 255, 180, 1);
         /*background: #fff;*/
