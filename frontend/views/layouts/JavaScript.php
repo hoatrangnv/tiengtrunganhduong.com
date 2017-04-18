@@ -168,8 +168,9 @@
 
     function getCaretOffset(element) {
         var caretOffset = undefined;
-        if (typeof window.getSelection !== "undefined" && window.getSelection()) {
-            var range = window.getSelection().getRangeAt(0);
+        var sel = window.getSelection && window.getSelection();
+        if (sel && sel.rangeCount > 0) {
+            var range = sel.getRangeAt(0);
             var preCaretRange = range.cloneRange();
             preCaretRange.selectNodeContents(element);
             preCaretRange.setEnd(range.endContainer, range.endOffset);
