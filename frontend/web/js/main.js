@@ -105,7 +105,6 @@
         modeButton.addEventListener("click", toggleReadonlyMode);
 
         function toggleReadonlyMode() {
-            console.log(codeExample.isReadonly());
             if (codeExample.isReadonly()) {
                 snippet.parentNode.replaceChild(editor, snippet);
                 editor.appendChild(textArea);
