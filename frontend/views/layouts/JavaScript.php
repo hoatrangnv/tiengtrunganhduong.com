@@ -84,10 +84,12 @@
 
             //----
             snippet.contentEditable = true;
-            snippet.onfocus = function () {
-                var doc = document.documentElement;
-                var scroll_top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+            snippet.addEventListener("focus", function () {
+                var scroll_top
+                    = (window.pageYOffset || document.documentElement.scrollTop)
+                    - (document.documentElement.clientTop || 0);
                 var caret;
+
                 setTimeout(function () {
                     caret = getCaretOffset(snippet);
                     if (isNaN(caret)) {
@@ -115,7 +117,7 @@
                         focus();
                     }
                 });
-            };
+            });
 
             editor.onkeydown = function (event) {
                 if ([9, 13].indexOf(event.keyCode) > -1) {
