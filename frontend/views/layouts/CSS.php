@@ -5,20 +5,14 @@
         position: relative;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
-        vertical-align: baseline;
-        word-wrap: break-word;
-    }
-    .container {
-        max-width: 640px;
-        margin: auto;
-        width: 100%;
-        padding: 0.5rem;
     }
     html {
         font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
         font-size: 15px;
         line-height: 1.4;
         color: #333;
+        word-wrap: break-word;
+        vertical-align: baseline;
     }
     a {
         text-decoration: none;
@@ -32,6 +26,12 @@
         text-decoration: underline;
     }
 
+    .container {
+        max-width: 640px;
+        margin: auto;
+        width: 100%;
+        padding: 0.5rem;
+    }
     .breadcrumb {
         margin-bottom: 1em;
         color: #aaa;
@@ -82,7 +82,6 @@
     }
 
     code {
-        word-wrap: break-word;
         white-space: normal;
     }
     .code-example code,
@@ -90,9 +89,7 @@
     .code-example iframe {
         display: block;
         width: 100%;
-        border-style: solid;
-        border-color: #cde;
-        border-width: 0;
+        border: solid #cde 0;
         border-radius: 0;
         padding: 1rem 0;
         box-sizing: border-box;
