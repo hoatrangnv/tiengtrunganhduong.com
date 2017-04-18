@@ -401,7 +401,7 @@ function textAreaAdjust(textArea) {
     }
     handleKeyEvent();
     // textArea.addEventListener("keydown", handleKeyEvent);
-    textArea.addEventListener("keypress", handleKeyEvent);
+    textArea.addEventListener("keyup", handleKeyEvent);
     textArea.addEventListener("resize", handleKeyEvent);
     textArea.addEventListener("scroll", function () {
         mirror.scrollTop = textArea.scrollTop;
