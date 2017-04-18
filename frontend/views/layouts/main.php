@@ -22,8 +22,7 @@ AppAsset::register($this);
     <!--<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">-->
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?= $this->render('CSS') ?>
-    <?= $this->render('JavaScript') ?>
+    <?php require_once 'CSS.php' ?>
     <?php $this->head() ?>
 </head>
 <body>
@@ -45,8 +44,8 @@ AppAsset::register($this);
     </div>
 </footer>
 
+<?php require_once 'JavaScript.php' ?>
 <?php require_once 'tracking.php' ?>
-
 <?php $this->endBody() ?>
 </body>
 </html>
