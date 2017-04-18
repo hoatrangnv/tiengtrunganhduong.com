@@ -94,18 +94,18 @@
                     caret = getCaretOffset(snippet);
                     if (caret > -1) {
                         if (!editor.appeared) {
-                            openEditor();
+//                            openEditor();
                         }
                         focus();
                     }
                 }, 100);
 
                 function focus() {
-//                    if (caret > -1) {
-//                        editor.focus();
-//                        editor.setSelectionRange(caret, caret);
-//                    }
-//                    window.scrollTo(0, scroll_top);
+                    if (caret > -1) {
+                        editor.focus();
+                        editor.setSelectionRange(caret, caret);
+                        window.scrollTo(0, scroll_top);
+                    }
                 }
 
                 // iOS/Safari only "accepts" the focus when inside a touch event handler
