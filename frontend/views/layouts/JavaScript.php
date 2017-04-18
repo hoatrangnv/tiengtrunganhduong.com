@@ -97,12 +97,11 @@
                 }, 100);
 
                 function focus() {
-                    if (isNaN(caret)) {
-                        return;
-                    }
                     editor.focus();
-                    editor.setSelectionRange(caret, caret);
-                    window.scrollTo(0, scroll_top);
+                    if (isNaN(caret)) {
+                        editor.setSelectionRange(caret, caret);
+                        window.scrollTo(0, scroll_top);
+                    }
                 }
 
                 // iOS/Safari only "accepts" the focus when inside a touch event handler
