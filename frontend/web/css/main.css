@@ -130,7 +130,6 @@ code {
     height: 0;
     max-height: 90vh;
     border: 1px solid #def;
-    margin-top: 0.5em;
 }
 
 .code-example-submit-button,
