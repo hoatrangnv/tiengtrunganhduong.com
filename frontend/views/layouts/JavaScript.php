@@ -92,9 +92,9 @@
 
                 setTimeout(function () {
                     caret = getCaretOffset(snippet);
-                    if (caret > -1) {
+                    if (caret > 0) {
                         if (!editor.appeared) {
-//                            openEditor();
+                            openEditor();
                         }
                         focus();
                     }
