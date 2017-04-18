@@ -2,9 +2,9 @@
     margin: 0;
     padding: 0;
     position: relative;
-    /*box-sizing: border-box;*/
+    box-sizing: border-box;
     /*vertical-align: baseline;*/
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
     line-height: 1.34;
 }
 .container {
