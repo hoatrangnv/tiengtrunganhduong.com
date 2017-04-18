@@ -25,6 +25,9 @@
     a.link:hover {
         text-decoration: underline;
     }
+    button {
+        font-size: 1em;
+    }
 
     .container {
         max-width: 640px;
