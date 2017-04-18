@@ -129,13 +129,13 @@ code {
 .code-example iframe {
     height: 0;
     max-height: 90vh;
-    margin-top: 0.5em;
     border: 1px solid #def;
+    margin-top: 0.5em;
 }
+
 .code-example-submit-button,
 .code-example-mode-button {
     display: block;
-    margin: 0;
     width: 100%;
     border: none;
     border-radius: 0;
