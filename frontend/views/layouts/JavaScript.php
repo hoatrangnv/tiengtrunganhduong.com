@@ -92,7 +92,7 @@
 
                 setTimeout(function () {
                     caret = getCaretOffset(snippet);
-                    if (!isNaN(caret)) {
+                    if (caret > -1) {
                         if (!editor.appeared) {
                             openEditor();
                         }
@@ -101,7 +101,7 @@
                 }, 100);
 
                 function focus() {
-                    if (!isNaN(caret)) {
+                    if (caret > -1) {
                         editor.focus();
                         editor.setSelectionRange(caret, caret);
                         window.scrollTo(0, scroll_top);
@@ -170,7 +170,7 @@
     }(document.querySelectorAll(".code-example"));
 
     function getCaretOffset(element) {
-        var caretOffset = undefined;
+        var caretOffset = -1;
         var sel = window.getSelection && window.getSelection();
         if (sel && sel.rangeCount > 0) {
             var range = sel.getRangeAt(0);
