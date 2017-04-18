@@ -167,7 +167,7 @@
     }(document.querySelectorAll(".code-example"));
 
     function getCaretOffset(element) {
-        var caretOffset = null;
+        var caretOffset = undefined;
         if (typeof window.getSelection !== "undefined" && window.getSelection()) {
             var range = window.getSelection().getRangeAt(0);
             var preCaretRange = range.cloneRange();
