@@ -105,7 +105,8 @@
                         editor.focus();
                         editor.setSelectionRange(caret, caret);
                     }
-                    window.scrollTo(0, scroll_top);
+                    window.scrollTo = false;
+//                    window.scrollTo(0, scroll_top);
                 }
 
                 // iOS/Safari only "accepts" the focus when inside a touch event handler
