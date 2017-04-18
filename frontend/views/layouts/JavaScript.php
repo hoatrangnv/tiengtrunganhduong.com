@@ -92,7 +92,7 @@
 
                 setTimeout(function () {
                     caret = getCaretOffset(snippet);
-                    if (isNaN(caret)) {
+                    if (!isNaN(caret)) {
                         if (!editor.appeared) {
                             openEditor();
                         }
@@ -101,7 +101,7 @@
                 }, 100);
 
                 function focus() {
-                    if (isNaN(caret)) {
+                    if (!isNaN(caret)) {
                         editor.focus();
                         editor.setSelectionRange(caret, caret);
                         window.scrollTo(0, scroll_top);
