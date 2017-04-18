@@ -98,9 +98,9 @@
 
                 function focus() {
                     editor.focus();
+                    editor.setSelectionRange(caret, caret);
+                    window.scrollTo(0, scroll_top);
                     if (isNaN(caret)) {
-                        editor.setSelectionRange(caret, caret);
-                        window.scrollTo(0, scroll_top);
                     }
                 }
 
