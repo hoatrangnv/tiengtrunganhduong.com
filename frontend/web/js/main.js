@@ -84,7 +84,7 @@
             }, 100);
         };
         function runCode() {
-            var content = codeExample.isReadonly() ? snippet.textContent : textArea.value;
+            var content = codeExample.isReadonly() ? htmlEntitiesDecode(snippet.textContent) : textArea.value;
 
             var doc = sandbox.contentDocument || sandbox.contentWindow.document;
             doc.open();
