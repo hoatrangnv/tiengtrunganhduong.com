@@ -21,7 +21,7 @@ $this->registerLinkTag([
         foreach (Article::find()->orderBy('publish_time desc')->allPublished() as $item) {
             ?>
             <li>
-                <?= $item->a([], ['class' => 'link']) ?>
+                <?= $item->a(null, ['class' => 'link']) ?>
             </li>
             <?php
         }

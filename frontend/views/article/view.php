@@ -57,13 +57,13 @@ if ($next) {
     <p>
     <?php
     if ($prev)
-        echo "<p><strong>Previous:</strong> {$prev->getUrl()}</p>";
+        echo "<p><strong>Previous:</strong> {$prev->a(null, ['class' => 'link'])}</p>";
     ?>
     </p>
     <p>
     <?php
     if ($next)
-        echo "<p><strong>Next:</strong> {$next->getUrl()}</p>";
+        echo "<p><strong>Next:</strong> {$next->a(null, ['class' => 'link'])}</p>";
     ?>
     </p>
 
