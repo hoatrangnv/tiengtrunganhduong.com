@@ -32,12 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </article>
 <article>
-    <strong>Related Articles</strong>
-    <ul>
-        <?php
-        foreach (\frontend\models\Article::find()->orderBy('rand()')->limit(5)->all() as $item) {
-            echo "<li>{$item->a()}</li>";
-        }
-        ?>
-    </ul>
+    <p>
+        <strong>Related Articles</strong>
+    </p>
+    <?php
+    foreach (\frontend\models\Article::find()->orderBy('rand()')->limit(5)->all() as $item) {
+        echo "<p>{$item->a(['class' => 'link'])}</p>";
+    }
+    ?>
 </article>
