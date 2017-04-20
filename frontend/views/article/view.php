@@ -1,6 +1,15 @@
 <?php
+use yii\helpers\Url;
+
 $this->title = $model->name;
-//$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->registerMetaTag([
+    'name' => 'description',
+    'content' => $model->meta_description
+]);
+$this->registerLinkTag([
+    'rel' => 'canonical',
+    'href' => $model->getUrl()
+]);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

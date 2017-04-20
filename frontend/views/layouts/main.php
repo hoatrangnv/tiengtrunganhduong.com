@@ -19,11 +19,11 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
+    <?php $this->head() ?>
     <title><?= Html::encode($this->title) ?></title>
     <style>
     <?= $this->renderFile(Yii::getAlias('@webroot/css/main.css')) ?>
     </style>
-    <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
