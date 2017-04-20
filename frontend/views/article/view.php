@@ -1,7 +1,9 @@
 <?php
 use yii\helpers\Url;
+use frontend\models\Article;
 
 $this->title = $model->name;
+$this->params['breadcrumbs'][] = $this->title;
 $this->registerMetaTag([
     'name' => 'description',
     'content' => $model->meta_description
@@ -10,7 +12,27 @@ $this->registerLinkTag([
     'rel' => 'canonical',
     'href' => $model->getUrl()
 ]);
-$this->params['breadcrumbs'][] = $this->title;
+$prev = Article::find()
+    ->where(['<', 'publish_time', $model->publish_time])
+    ->orderBy('publish_time desc')
+    ->limit(1)->onePublished();
+$next = Article::find()
+    ->where(['>', 'publish_time', $model->publish_time])
+    ->orderBy('publish_time asc')
+    ->limit(1)->onePublished();
+
+if ($prev) {
+    $this->registerLinkTag([
+        'rel' => 'prev',
+        'href' => $prev->getUrl()
+    ]);
+}
+if ($next) {
+    $this->registerLinkTag([
+        'rel' => 'next',
+        'href' => $next->getUrl()
+    ]);
+}
 ?>
 
 <h1><?= $model->name ?></h1>
@@ -33,11 +55,16 @@ $this->params['breadcrumbs'][] = $this->title;
 </article>
 <article>
     <p>
-        <strong>Related Articles</strong>
-    </p>
     <?php
-    foreach (\frontend\models\Article::find()->orderBy('rand()')->limit(5)->allPublished() as $item) {
-        echo "<p>{$item->a([], ['class' => 'link'])}</p>";
-    }
+    if ($prev)
+        echo "<p><strong>Previous:</strong> {$prev->getUrl()}</p>";
     ?>
+    </p>
+    <p>
+    <?php
+    if ($next)
+        echo "<p><strong>Next:</strong> {$next->getUrl()}</p>";
+    ?>
+    </p>
+
 </article>
