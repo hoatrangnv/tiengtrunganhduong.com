@@ -11,8 +11,10 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-
-$this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1']);
+$this->registerMetaTag([
+    'name' => 'viewport',
+    'content' => 'width=device-width, initial-scale=1'
+]);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
