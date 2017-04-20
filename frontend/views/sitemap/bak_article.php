@@ -9,6 +9,7 @@
 <?= '<?xml version="1.0" encoding="UTF-8" ?>' ?>
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 <?php
 foreach ($urls as $url) {
@@ -17,6 +18,16 @@ foreach ($urls as $url) {
         <loc><?= $url['loc'] ?></loc>
         <changefreq>hourly</changefreq>
         <priority>0.8</priority>
+        <news:news>
+            <news:publication>
+                <news:name><?= \Yii::$app->name ?></news:name>
+                <news:language>en</news:language>
+            </news:publication>
+            <news:genres>Blog</news:genres>
+            <news:publication_date><?= $url['news']['publication_date'] ?></news:publication_date>
+            <news:title><?= $url['news']['title'] ?></news:title>
+            <news:keywords><?= $url['news']['keywords'] ?></news:keywords>
+        </news:news>
         <?php
         if (isset($url['image'])) {
             ?>
