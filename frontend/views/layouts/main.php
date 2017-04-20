@@ -11,19 +11,19 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+
+$this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1']);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="<?= Yii::$app->charset ?>">
+<?php $this->head() ?>
+
     <?= Html::csrfMetaTags() ?>
-    <?php $this->head() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <style>
-    <?= $this->renderFile(Yii::getAlias('@webroot/css/main.css')) ?>
-    </style>
+<title><?= Html::encode($this->title) ?></title>
+<style><?php require_once Yii::getAlias('@webroot/css/main.css') ?></style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -44,9 +44,7 @@ AppAsset::register($this);
     </div>
 </footer>
 
-<script>
-<?= $this->renderFile(Yii::getAlias('@webroot/js/main.js')) ?>
-</script>
+<script><?php require_once Yii::getAlias('@webroot/js/main.js') ?></script>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
 </body>
