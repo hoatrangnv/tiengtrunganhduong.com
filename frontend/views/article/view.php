@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?php
     foreach (\frontend\models\Article::find()->orderBy('rand()')->limit(5)->all() as $item) {
-        echo "<p>{$item->a(['class' => 'link'])}</p>";
+        echo "<p>{$item->a([], ['class' => 'link'])}</p>";
     }
     ?>
 </article>
