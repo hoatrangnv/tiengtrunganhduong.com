@@ -19,6 +19,7 @@ $this->registerMetaTag([
     'name' => 'propeller',
     'content' => 'f3aac67abe9ca2b997e4162b0c9d7661'
 ]);
+$this->registerJsFile('//go.onclasrv.com/apu.php?zoneid=1177264');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -48,7 +49,6 @@ $this->registerMetaTag([
         <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
     </div>
 </footer>
-
 <script><?php require_once Yii::getAlias('@webroot/js/main.js') ?></script>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
