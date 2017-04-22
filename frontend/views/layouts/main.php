@@ -21,7 +21,7 @@ $this->registerMetaTag([
 ]);
 //$this->registerJsFile('//go.onclasrv.com/apu.php?zoneid=1177264');
 //$this->registerJsFile('//go.onclasrv.com/apu.php?zoneid=1177264');
-$this->registerJsFile('//go.mobisla.com/notice.php?p=1177286&interactive=1&pushup=1', ['async' => 'async']);
+//$this->registerJsFile('//go.mobisla.com/notice.php?p=1177286&interactive=1&pushup=1', ['async' => 'async']);
 //http://go.ad2upapp.com/afu.php?id=1177282
 ?>
 <?php $this->beginPage() ?>
