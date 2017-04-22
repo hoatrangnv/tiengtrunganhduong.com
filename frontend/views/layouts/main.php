@@ -15,6 +15,10 @@ $this->registerMetaTag([
     'name' => 'viewport',
     'content' => 'width=device-width, initial-scale=1'
 ]);
+$this->registerMetaTag([
+    'name' => 'propeller',
+    'content' => 'f3aac67abe9ca2b997e4162b0c9d7661'
+]);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -22,8 +26,7 @@ $this->registerMetaTag([
 <head>
 <meta charset="<?= Yii::$app->charset ?>">
 <?php $this->head() ?>
-
-    <?= Html::csrfMetaTags() ?>
+<?php echo Html::csrfMetaTags() ?>
 <title><?= Html::encode($this->title) ?></title>
 <style><?php require_once Yii::getAlias('@webroot/css/main.css') ?></style>
 </head>
