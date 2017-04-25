@@ -134,13 +134,15 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
 }
-.code-example .code-example-buttons-wrapper button {
+.code-example-buttons-wrapper button {
     display: inline-block;
     width: 50%;
-    background: #e6eaef;
     padding: 0.5em;
-    border: 1px solid #ddd;
     border-radius: 3px;
+    border: 1px solid #ddd;
+}
+.code-example-mode-switcher {
+    background: #e6eaef;
 }
 .code-example-submit-button {
     background: #06b;
