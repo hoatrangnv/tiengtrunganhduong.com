@@ -352,7 +352,8 @@ function textAreaAdjust(textArea) {
 
             "overflow",
             "overflow-x",
-            "overflow-y"
+            "overflow-y",
+            "-webkit-overflow-scrolling"
         ].forEach(
             // var myCSS = [];
             // for (var i = 0; i < textAreaStyle.length; i++) {
