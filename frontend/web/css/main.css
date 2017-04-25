@@ -134,6 +134,7 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     text-align: center;
+    padding: 0 0.5em;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
