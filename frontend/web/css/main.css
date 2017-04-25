@@ -140,8 +140,8 @@ code {
     padding: 0.5em;
     border-radius: 3px;
     border: 1px solid #ddd;
-    width: 40%;
-    margin: 0.25em 1%;
+    width: calc(50% - 1em);
+    margin: 0.5em;
 }
 .code-example-mode-switcher {
     background: #e6eaef;
