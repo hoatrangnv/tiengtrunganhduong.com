@@ -133,7 +133,7 @@ code {
 }
 
 .code-example-submit-button,
-.code-example-mode-button {
+.code-example-mode-switcher {
     display: block;
     width: 100%;
     border: none;
@@ -144,10 +144,10 @@ code {
 .code-example-submit-button:after {
     content: "click to run";
 }
-.code-example[data-readonly="1"] .code-example-mode-button:after {
+.code-example[data-readonly="1"] .code-example-mode-switcher:after {
     content: "edit code";
 }
-.code-example[data-readonly="0"] .code-example-mode-button:after {
+.code-example[data-readonly="0"] .code-example-mode-switcher:after {
     content: "back to origin";
 }
 

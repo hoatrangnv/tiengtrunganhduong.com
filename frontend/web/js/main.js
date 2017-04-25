@@ -56,11 +56,9 @@
         //     textAreaAdjust(textArea);
         // }
 
-        // Code submit button
-        var submit = document.createElement("BUTTON");
-        submit.className = "code-example-submit-button";
+        var buttonsWrapper = document.createElement("DIV");
+        buttonsWrapper.className = "code-example-buttons-wrapper";
         codeExample.appendChild(submit);
-        submit.addEventListener("click", runCode);
 
         // Code sandbox
         var sandbox = document.createElement("iframe");
@@ -99,10 +97,16 @@
         }
 
         // Toggle Readonly Mode
-        var modeButton = document.createElement("BUTTON");
-        codeExample.insertBefore(modeButton, codeExample.firstChild);
-        modeButton.className = "code-example-mode-button";
-        modeButton.addEventListener("click", toggleReadonlyMode);
+        var modeSwitcher = document.createElement("BUTTON");
+        modeSwitcher.className = "code-example-mode-switcher";
+        modeSwitcher.addEventListener("click", toggleReadonlyMode);
+        buttonsWrapper.appendChild(modeSwitcher);
+
+        // Code submit button
+        var submit = document.createElement("BUTTON");
+        submit.className = "code-example-submit-button";
+        submit.addEventListener("click", runCode);
+        buttonsWrapper.appendChild(submit);
 
         function toggleReadonlyMode() {
             if (codeExample.isReadonly()) {

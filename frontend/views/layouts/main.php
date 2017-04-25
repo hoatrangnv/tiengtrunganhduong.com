@@ -30,7 +30,7 @@ $this->registerMetaTag([
 <head>
 <meta charset="<?= Yii::$app->charset ?>">
 <?php $this->head() ?>
-<?php echo Html::csrfMetaTags() ?>
+<?= Html::csrfMetaTags() ?>
 <title><?= Html::encode($this->title) ?></title>
 <style><?php require_once Yii::getAlias('@webroot/css/main.css') ?></style>
 </head>
@@ -52,6 +52,7 @@ $this->registerMetaTag([
         <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
     </div>
 </footer>
+
 <script><?php require_once Yii::getAlias('@webroot/js/main.js') ?></script>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
