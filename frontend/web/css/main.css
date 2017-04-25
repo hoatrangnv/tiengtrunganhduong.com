@@ -151,7 +151,7 @@ code {
     color: #fff;
 }
 .code-example-submit-button:after {
-    content: "click to run";
+    content: "run code";
 }
 .code-example[data-readonly="1"] .code-example-submit-button {
     display: none;
@@ -160,7 +160,7 @@ code {
     content: "edit code";
 }
 .code-example[data-readonly="0"] .code-example-mode-switcher:after {
-    content: "back to origin";
+    content: "back origin";
 }
 
 .table-wrap {
