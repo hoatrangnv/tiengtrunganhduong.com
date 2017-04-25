@@ -354,8 +354,6 @@ function textAreaAdjust(textArea) {
             "overflow-x",
             "overflow-y",
             "-webkit-overflow-scrolling",
-
-            "transform"
         ].forEach(
             // var myCSS = [];
             // for (var i = 0; i < textAreaStyle.length; i++) {
@@ -387,6 +385,7 @@ function textAreaAdjust(textArea) {
         mirror.scrollLeft = textArea.scrollLeft;
         mirror.scrollWidth = textArea.scrollWidth;
         mirror.scrollHeight = textArea.scrollHeight;
+        mirror.style.fontSize = "0.9rem";
     }
 }
 
