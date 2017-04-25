@@ -131,7 +131,9 @@ code {
     max-height: 90vh;
     border: 1px solid #def;
 }
-
+.code-example-buttons-wrapper {
+    margin: 0;
+}
 .code-example-submit-button,
 .code-example-mode-switcher {
     display: block;
