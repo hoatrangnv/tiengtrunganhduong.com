@@ -385,7 +385,7 @@ function textAreaAdjust(textArea) {
         mirror.scrollLeft = textArea.scrollLeft;
         mirror.scrollWidth = textArea.scrollWidth;
         mirror.scrollHeight = textArea.scrollHeight;
-        mirror.style.fontSize = "0.9rem";
+        mirror.style.fontSize = "13px";
     }
 }
 
