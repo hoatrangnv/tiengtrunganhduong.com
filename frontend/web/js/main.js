@@ -284,12 +284,8 @@ function textAreaAdjust(textArea) {
     // Handle events
     textArea.addEventListener("keydown", handleKeyEvent);
     textArea.addEventListener("keyup", handleKeyEvent);
-    // textArea.addEventListener("scroll", setMirrorScroll);
+    textArea.addEventListener("scroll", setMirrorScroll);
     textArea.addEventListener("resize", function () {
-        setMirrorStyle();
-        setMirrorScroll();
-    });
-    textArea.addEventListener("scroll", function () {
         setMirrorStyle();
         setMirrorScroll();
     });
