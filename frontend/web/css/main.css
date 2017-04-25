@@ -146,6 +146,9 @@ code {
 .code-example-submit-button:after {
     content: "click to run";
 }
+.code-example[data-readonly="1"] .code-example-submit-button {
+    display: none;
+}
 .code-example[data-readonly="1"] .code-example-mode-switcher:after {
     content: "edit code";
 }
