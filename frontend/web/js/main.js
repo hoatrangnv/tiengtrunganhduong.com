@@ -303,57 +303,57 @@ function textAreaAdjust(textArea) {
         // Copy style of textArea -> mirror
         var textAreaStyle = window.getComputedStyle(textArea, null);
         [
-            "display",
-            "width",
-            "border-box",
-            "-webkit-border-box",
-
-            "border",
-            "border-top",
-            "border-right",
-            "border-bottom",
-            "border-left",
-
-            "border-style",
-            "border-top-style",
-            "border-right-style",
-            "border-bottom-style",
-            "border-left-style",
-
-            "border-width",
-            "border-top-width",
-            "border-right-width",
-            "border-bottom-width",
-            "border-left-width",
-
-            "font",
-            "font-size",
-            "font-family",
-            "font-weight",
-            "font-stretch",
-
-            "line-height",
-            "word-spacing",
-            "letter-spacing",
-            "tab-size",
-            "-moz-tab-size",
-            "text-indent",
-            "text-transform",
-
-            "padding",
-            "padding-left",
-            "padding-top",
-            "padding-bottom",
-            "padding-right",
-
-            "word-wrap",
-            "white-space",
-            "word-break",
-
-            "overflow",
-            "overflow-x",
-            "overflow-y",
-            "-webkit-overflow-scrolling"
+            // "display",
+            // "width",
+            // "border-box",
+            // "-webkit-border-box",
+            //
+            // "border",
+            // "border-top",
+            // "border-right",
+            // "border-bottom",
+            // "border-left",
+            //
+            // "border-style",
+            // "border-top-style",
+            // "border-right-style",
+            // "border-bottom-style",
+            // "border-left-style",
+            //
+            // "border-width",
+            // "border-top-width",
+            // "border-right-width",
+            // "border-bottom-width",
+            // "border-left-width",
+            //
+            // "font",
+            // "font-size",
+            // "font-family",
+            // "font-weight",
+            // "font-stretch",
+            //
+            // "line-height",
+            // "word-spacing",
+            // "letter-spacing",
+            // "tab-size",
+            // "-moz-tab-size",
+            // "text-indent",
+            // "text-transform",
+            //
+            // "padding",
+            // "padding-left",
+            // "padding-top",
+            // "padding-bottom",
+            // "padding-right",
+            //
+            // "word-wrap",
+            // "white-space",
+            // "word-break",
+            //
+            // "overflow",
+            // "overflow-x",
+            // "overflow-y",
+            // "-webkit-overflow-scrolling"
         ].forEach(
             // var myCSS = [];
             // for (var i = 0; i < textAreaStyle.length; i++) {
