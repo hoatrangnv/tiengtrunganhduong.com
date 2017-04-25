@@ -134,15 +134,6 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
 }
-.code-example-submit-button,
-.code-example-mode-switcher {
-    display: block;
-    width: 100%;
-    border: none;
-    border-radius: 0;
-    background: #e6eaef;
-    padding: 0.5em;
-}
 .code-example-submit-button:after {
     content: "click to run";
 }
@@ -154,6 +145,17 @@ code {
 }
 .code-example[data-readonly="0"] .code-example-mode-switcher:after {
     content: "back to origin";
+}
+.code-example[data-readonly="0"] .code-example-buttons-wrapper button {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background: #e6eaef;
+    padding: 0.5em;
+}
+.code-example[data-readonly="0"] .code-example-buttons-wrapper button {
+    width: 50%;
 }
 
 .table-wrap {
