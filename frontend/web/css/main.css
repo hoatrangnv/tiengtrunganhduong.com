@@ -116,10 +116,9 @@ code {
 }
 .code-example code {
     background: #f8f8f8;
-    border: 1px solid transparent;
+    /*border: 1px solid transparent;*/
 }
 .code-example textarea {
-    border: 1px solid #def;
     resize: none;
     background: transparent;
     -webkit-appearance: none;
@@ -133,6 +132,10 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     padding: 0.5em 0.25em;
+}
+.code-example-editor {
+    border: solid #def;
+    border-width: 1px 1px 0;
 }
 .code-example-sandbox,
 .code-example-buttons-wrapper {
