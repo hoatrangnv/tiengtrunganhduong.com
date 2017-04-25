@@ -134,6 +134,18 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
 }
+.code-example .code-example-buttons-wrapper button {
+    display: inline-block;
+    width: 50%;
+    background: #e6eaef;
+    padding: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+.code-example-submit-button {
+    background: #06b;
+    color: #fff;
+}
 .code-example-submit-button:after {
     content: "click to run";
 }
@@ -145,17 +157,6 @@ code {
 }
 .code-example[data-readonly="0"] .code-example-mode-switcher:after {
     content: "back to origin";
-}
-.code-example .code-example-buttons-wrapper button {
-    display: inline-block;
-    width: 100%;
-    border: none;
-    border-radius: 0;
-    background: #e6eaef;
-    padding: 0.5em;
-}
-.code-example[data-readonly="0"] .code-example-buttons-wrapper button {
-    width: 50%;
 }
 
 .table-wrap {
