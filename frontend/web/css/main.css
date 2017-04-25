@@ -101,7 +101,7 @@ code {
     resize: vertical;
     overflow: auto;
 }
-.code-example-snippet,
+.code-example code,
 .code-example textarea
 {
     display: block;
@@ -112,7 +112,7 @@ code {
     height: auto;
     width: 100%;
     padding: 1rem 0;
-    font-size: 13px;
+    font-size: 0.93rem;
     line-height: 1.1;
     font-weight: normal;
     font-family: monospace, monospace;
