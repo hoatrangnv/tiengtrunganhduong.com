@@ -144,7 +144,7 @@ code {
 }
 .code-example-buttons-wrapper,
 .code-example-sandbox {
-    border: solid #ddd;
+    border: solid #eee;
     border-width: 1px 1px 0;
 }
 .code-example-sandbox {
@@ -152,7 +152,6 @@ code {
 }
 .code-example-buttons-wrapper {
     border-width: 0 1px 1px;
-    border-bottom-color: #eee;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
