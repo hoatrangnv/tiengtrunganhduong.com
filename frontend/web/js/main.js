@@ -330,7 +330,7 @@ function textAreaAdjust(textArea) {
             "font-size",
             "font-family",
             "font-weight",
-            "font-stretch",
+            // "font-stretch",
 
             "line-height",
             "word-spacing",
@@ -353,7 +353,7 @@ function textAreaAdjust(textArea) {
             "overflow",
             "overflow-x",
             "overflow-y",
-            "-webkit-overflow-scrolling",
+            "-webkit-overflow-scrolling"
         ].forEach(
             // var myCSS = [];
             // for (var i = 0; i < textAreaStyle.length; i++) {
@@ -385,7 +385,6 @@ function textAreaAdjust(textArea) {
         mirror.scrollLeft = textArea.scrollLeft;
         mirror.scrollWidth = textArea.scrollWidth;
         mirror.scrollHeight = textArea.scrollHeight;
-        mirror.style.fontSize = "13px";
     }
 }
 
