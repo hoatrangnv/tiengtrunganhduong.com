@@ -116,7 +116,6 @@ code {
 }
 .code-example-snippet {
     background: #f8f8f8;
-    border: 1px solid transparent;
 }
 .code-example textarea {
     border: none;
@@ -133,12 +132,14 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     padding: 0.5em 0.25em;
-    background: #eee;
 }
 .code-example-snippet,
 .code-example-editor {
-    border: solid #ddd;
+    border: solid #def;
     border-width: 1px 1px 0;
+}
+.code-example-snippet {
+    border-color: transparent;
 }
 .code-example-buttons-wrapper,
 .code-example-sandbox {
@@ -153,10 +154,10 @@ code {
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
-    padding: 0.5em;
+    padding: 0.25em;
     border-radius: 3px;
     border: 1px solid #ddd;
-    width: calc(50% - 0.5em);
+    /*width: calc(50% - 0.5em);*/
     margin: 0 0.25em;
 }
 .code-example-submit-button {
