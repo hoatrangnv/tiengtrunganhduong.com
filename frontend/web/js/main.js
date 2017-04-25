@@ -62,7 +62,7 @@
 
         // Code sandbox
         var sandbox = document.createElement("iframe");
-        sandbox.className = "code-example-sanbox";
+        sandbox.className = "code-example-sandbox";
         codeExample.appendChild(sandbox);
         sandbox.init_height = sandbox.offsetHeight;
         sandbox.setHeight = function () {

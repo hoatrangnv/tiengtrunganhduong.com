@@ -126,17 +126,18 @@ code {
     -moz-appearance: none;
     appearance: none;
 }
-.code-example iframe {
+.code-example-sandbox {
     height: 0;
     max-height: 90vh;
-    border: 1px solid #def;
 }
 .code-example-buttons-wrapper {
     margin: 0;
-    /*text-align: center;*/
     padding: 0.5em 0.25em;
+}
+.code-example-sandbox,
+.code-example-buttons-wrapper {
     border: solid #def;
-    border-width: 0 1px;
+    border-width: 1px 1px 0;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
