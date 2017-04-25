@@ -132,6 +132,7 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     padding: 0.5em 0.25em;
+    text-align: right;
 }
 .code-example-snippet,
 .code-example-editor {
