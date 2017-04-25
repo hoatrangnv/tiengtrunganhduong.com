@@ -150,6 +150,9 @@ code {
     background: #06b;
     color: #fff;
 }
+.code-example-mode-switcher {
+    background: #e6eaef;
+}
 .code-example-submit-button:after {
     content: "run code";
 }
