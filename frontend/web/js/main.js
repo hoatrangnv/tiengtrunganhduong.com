@@ -58,7 +58,7 @@
 
         var buttonsWrapper = document.createElement("DIV");
         buttonsWrapper.className = "code-example-buttons-wrapper";
-        codeExample.appendChild(submit);
+        codeExample.appendChild(buttonsWrapper);
 
         // Code sandbox
         var sandbox = document.createElement("iframe");
