@@ -114,9 +114,9 @@ code {
     font-family: monospace, monospace;
     font-stretch: normal;
 }
-.code-example code {
+.code-example-snippet {
     background: #f8f8f8;
-    /*border: 1px solid transparent;*/
+    border: 1px solid transparent;
 }
 .code-example textarea {
     resize: none;
