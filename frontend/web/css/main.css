@@ -101,7 +101,7 @@ code {
     resize: vertical;
     overflow: auto;
 }
-.code-example code,
+.code-example-snippet,
 .code-example textarea
 {
     display: block;
