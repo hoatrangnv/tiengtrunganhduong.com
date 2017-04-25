@@ -133,18 +133,21 @@ code {
 }
 .code-example-buttons-wrapper {
     margin: 0;
+    text-align: center;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
-    width: 50%;
     padding: 0.5em;
     border-radius: 3px;
     border: 1px solid #ddd;
 }
 .code-example-mode-switcher {
+    width: 45%;
     background: #e6eaef;
 }
 .code-example-submit-button {
+    width: 45%;
+    margin-left: 10%;
     background: #06b;
     color: #fff;
 }
