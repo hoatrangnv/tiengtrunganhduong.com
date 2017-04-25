@@ -133,15 +133,23 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     padding: 0.5em 0.25em;
+    background: #eee;
 }
+.code-example-snippet,
 .code-example-editor {
     border: solid #ddd;
     border-width: 1px 1px 0;
 }
-.code-example-sandbox,
-.code-example-buttons-wrapper {
+.code-example-buttons-wrapper,
+.code-example-sandbox {
     border: solid #ddd;
+    border-width: 1px 1px 0;
+}
+.code-example-sandbox {
     border-width: 0 1px 1px;
+}
+.code-example-buttons-wrapper {
+    border-width: 1px 1px 0;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
