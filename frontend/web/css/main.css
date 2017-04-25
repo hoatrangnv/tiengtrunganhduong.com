@@ -93,7 +93,6 @@ code {
     display: block;
     width: 100%;
     border-radius: 0;
-    padding: 1rem 0;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     margin: 0;
@@ -108,6 +107,7 @@ code {
     overflow-y: hidden;
     height: auto;
     width: 100%;
+    padding: 1rem 0;
     font-size: 0.93rem;
     line-height: 1.1;
     font-weight: normal;
@@ -132,7 +132,7 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     padding: 0.5em 0.25em;
-    text-align: right;
+    /*text-align: right;*/
 }
 .code-example-snippet,
 .code-example-editor {
@@ -159,7 +159,6 @@ code {
     padding: 0.25em;
     border-radius: 3px;
     border: 1px solid #ddd;
-    /*width: calc(50% - 0.5em);*/
     margin: 0 0.25em;
 }
 .code-example-submit-button {
