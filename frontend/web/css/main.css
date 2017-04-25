@@ -119,6 +119,7 @@ code {
     border: 1px solid transparent;
 }
 .code-example textarea {
+    border: none;
     resize: none;
     background: transparent;
     -webkit-appearance: none;
@@ -134,12 +135,12 @@ code {
     padding: 0.5em 0.25em;
 }
 .code-example-editor {
-    border: solid #def;
+    border: solid #ddd;
     border-width: 1px 1px 0;
 }
 .code-example-sandbox,
 .code-example-buttons-wrapper {
-    border: solid #def;
+    border: solid #ddd;
     border-width: 0 1px 1px;
 }
 .code-example-buttons-wrapper button {
