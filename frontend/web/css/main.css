@@ -134,14 +134,15 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     text-align: center;
+    padding: 0 0.5em;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
     padding: 0.5em;
     border-radius: 3px;
     border: 1px solid #ddd;
-    width: 48%;
-    margin: 1%;
+    width: calc(50% - 1em);
+    margin: 0.5em;
 }
 .code-example-mode-switcher {
     background: #e6eaef;
