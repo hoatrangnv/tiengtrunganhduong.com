@@ -177,7 +177,7 @@ code {
     display: none;
 }
 .code-example[data-readonly="1"] .code-example-mode-switcher:after {
-    content: "edit code";
+    content: "editor";
 }
 .code-example[data-readonly="0"] .code-example-mode-switcher:after {
     content: "back origin";
