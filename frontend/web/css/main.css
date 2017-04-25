@@ -150,8 +150,8 @@ code {
     border-width: 0 1px 1px;
 }
 .code-example-buttons-wrapper {
-    border-width: 1px 1px 0;
-    background: #fafafa;
+    border-width: 0 1px;
+    background: #eee;
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
