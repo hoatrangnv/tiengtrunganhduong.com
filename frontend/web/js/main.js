@@ -298,7 +298,7 @@ function textAreaAdjust(textArea) {
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
     }
     function setMirrorStyle() {
-        mirror.style.cssText = "position:absolute;top:0;left:0;pointer-events:none;color:red";
+        mirror.style.cssText = "position:absolute;top:0;left:0;pointer-events:none;color:red;font-size:13px";
 
         // Copy style of textArea -> mirror
         var textAreaStyle = window.getComputedStyle(textArea, null);
