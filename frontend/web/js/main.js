@@ -330,7 +330,7 @@ function textAreaAdjust(textArea) {
             "font-size",
             "font-family",
             "font-weight",
-            // "font-stretch",
+            "font-stretch",
 
             "line-height",
             "word-spacing",

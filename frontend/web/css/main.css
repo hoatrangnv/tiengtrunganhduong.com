@@ -131,6 +131,7 @@ code {
 }
 .code-example-sandbox {
     height: 0;
+    width: 100%;
     max-height: 90vh;
 }
 .code-example-buttons-wrapper {
