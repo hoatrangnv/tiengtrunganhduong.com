@@ -64,10 +64,10 @@
         var sandbox = document.createElement("iframe");
         sandbox.className = "code-example-sandbox";
         codeExample.appendChild(sandbox);
-        sandbox.init_height = sandbox.offsetHeight;
         sandbox.setHeight = function () {
             var doc = sandbox.contentDocument || sandbox.contentWindow.document;
-            sandbox.style.height = sandbox.init_height + doc.body.scrollHeight + "px";
+            sandbox.style.height = "0px";
+            sandbox.style.height = sandbox.offsetHeight + doc.body.scrollHeight + "px";
         };
         sandbox.handleLoaded = function(callback) {
             var doc = sandbox.contentDocument || sandbox.contentWindow.document;
