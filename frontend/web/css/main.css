@@ -97,6 +97,10 @@ code {
     -webkit-box-sizing: border-box;
     margin: 0;
 }
+.code-example iframe {
+    resize: vertical;
+    overflow: auto;
+}
 .code-example code,
 .code-example textarea
 {
@@ -145,10 +149,9 @@ code {
 .code-example-buttons-wrapper,
 .code-example-sandbox {
     border: solid #eee;
-    border-width: 1px 1px 0;
 }
 .code-example-sandbox {
-    border-width: 0 1px 1px;
+    border-width: 0 1px 3px;
 }
 .code-example-buttons-wrapper {
     border-width: 0 1px 1px;
