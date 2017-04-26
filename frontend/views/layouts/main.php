@@ -44,6 +44,7 @@ $this->registerMetaTag([
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
+        <?php require_once 'disqus.php' ?>
     </div>
 </div>
 
@@ -54,7 +55,6 @@ $this->registerMetaTag([
 </footer>
 
 <script><?php require_once Yii::getAlias('@webroot/js/main.js') ?></script>
-<?php require_once 'disqus.php' ?>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
 </body>
