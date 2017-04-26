@@ -67,5 +67,5 @@ if ($next) {
     </p>
 </article>
 <article>
-    <?php require_once '../layouts/disqus.php' ?>
+    <?= $this->render('//layouts/disqus.php') ?>
 </article>
