@@ -157,7 +157,7 @@ code {
 }
 .code-example-buttons-wrapper button {
     display: inline-block;
-    padding: 0.25em;
+    padding: 0.5em;
     border-radius: 3px;
     border: 1px solid #ddd;
     margin: 0 0.25em;
@@ -172,11 +172,11 @@ code {
 .code-example-submit-button:after {
     content: "run code";
 }
-.code-example[data-readonly="1"] .code-example-submit-button {
+.code-example:not([data-autorun="0"])[data-readonly="1"] .code-example-submit-button {
     display: none;
 }
 .code-example[data-readonly="1"] .code-example-mode-switcher:after {
-    content: "code editor";
+    content: "edit code";
 }
 .code-example[data-readonly="0"] .code-example-mode-switcher:after {
     content: "back origin";

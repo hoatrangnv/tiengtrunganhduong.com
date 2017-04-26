@@ -64,10 +64,10 @@
         var sandbox = document.createElement("iframe");
         sandbox.className = "code-example-sandbox";
         codeExample.appendChild(sandbox);
-        sandbox.init_height = sandbox.offsetHeight;
         sandbox.setHeight = function () {
             var doc = sandbox.contentDocument || sandbox.contentWindow.document;
-            sandbox.style.height = sandbox.init_height + doc.body.scrollHeight + "px";
+            sandbox.style.height = "0px";
+            sandbox.style.height = sandbox.offsetHeight + doc.body.scrollHeight + "px";
         };
         sandbox.handleLoaded = function(callback) {
             var doc = sandbox.contentDocument || sandbox.contentWindow.document;
@@ -275,7 +275,7 @@ function insertAtCaret(txtarea, text) {
 
 function textAreaAdjust(textArea) {
     // Initialize
-    var mirror = document.createElement("DIV");
+    var mirror = document.createElement("CODE");
     textArea.parentNode.insertBefore(mirror, textArea);
     setMirrorStyle();
     setMirrorScroll();
@@ -298,7 +298,7 @@ function textAreaAdjust(textArea) {
         textArea.style.height = window.getComputedStyle(mirror, null).getPropertyValue("height");
     }
     function setMirrorStyle() {
-        mirror.style.cssText = "position:absolute;top:0;left:0;pointer-events:none;color:red";
+        mirror.style.cssText = "position:absolute;top:0;left:0;pointer-events:none;color:transparent";
 
         // Copy style of textArea -> mirror
         var textAreaStyle = window.getComputedStyle(textArea, null);
