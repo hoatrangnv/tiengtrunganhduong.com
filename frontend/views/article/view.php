@@ -63,5 +63,5 @@ if ($next) {
     ?>
 </article>
 <article>
-    <?= $this->render('//layouts/disqus.php') ?>
+    <div id="disqus_thread"></div>
 </article>
