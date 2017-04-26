@@ -229,3 +229,9 @@ code {
 .pull-right {
     float: right;
 }
+.clearfix:after {
+    clear: both;
+    display: block;
+    height: 0;
+    padding: 0;
+}

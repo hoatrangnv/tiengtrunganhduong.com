@@ -52,7 +52,7 @@ if ($next) {
         ?>
     </div>
 </article>
-<article>
+<article class="clearfix">
     <?php
     if ($prev)
         echo "<p class=\"pull-left\"><strong>Previous:</strong> {$prev->a(null, ['class' => 'link'])}</p>";
