@@ -14,7 +14,7 @@
 
 {{
     Article( 123 )
-    .attr(name)
+    .attr( "name" )
 }}
 
 
