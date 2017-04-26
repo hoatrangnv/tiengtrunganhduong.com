@@ -44,7 +44,6 @@ $this->registerMetaTag([
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-        <?php require_once 'disqus.php' ?>
     </div>
 </div>
 

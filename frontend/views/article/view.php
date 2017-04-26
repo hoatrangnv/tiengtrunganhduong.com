@@ -48,7 +48,6 @@ if ($next) {
         foreach ($matches[1] as $match) {
             $content = str_replace($match, htmlentities($match), $content);
         }
-
         echo $content;
         ?>
     </div>
@@ -66,5 +65,7 @@ if ($next) {
         echo "<p><strong>Next:</strong> {$next->a(null, ['class' => 'link'])}</p>";
     ?>
     </p>
-
+</article>
+<article>
+    <?php require_once '../layouts/disqus.php' ?>
 </article>
