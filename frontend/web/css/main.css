@@ -137,17 +137,19 @@ code {
 .code-example-buttons-wrapper {
     margin: 0;
     padding: 0.5em 0.25em;
-    /*text-align: right;*/
 }
 .code-example-snippet,
-.code-example-editor {
-    border: solid transparent;
-    border-width: 1px 1px 0;
-}
 .code-example-editor,
 .code-example-buttons-wrapper,
 .code-example-sandbox {
     border: solid #eee;
+}
+.code-example-snippet {
+    border-color: transparent;
+}
+.code-example-snippet,
+.code-example-editor {
+    border-width: 1px 1px 0;
 }
 .code-example-sandbox {
     border-width: 0 1px 3px;
