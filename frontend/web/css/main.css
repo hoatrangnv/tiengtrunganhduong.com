@@ -230,6 +230,7 @@ code {
     float: right;
 }
 .clearfix:after {
+    content: "";
     clear: both;
     display: block;
     height: 0;
