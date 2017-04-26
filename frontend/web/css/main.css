@@ -161,15 +161,17 @@ code {
     display: inline-block;
     padding: 0.3em;
     border-radius: 3px;
-    border: 1px solid #ddd;
+    border: 1px solid;
     margin: 0 0.25em;
 }
 .code-example-submit-button {
     background: #06b;
     color: #fff;
+    border-color: #048;
 }
 .code-example-mode-switcher {
     background: #e6eaef;
+    border-color: #ccc;
 }
 .code-example-submit-button:after {
     content: "run code";
