@@ -62,6 +62,3 @@ if ($next) {
         echo "<p class=\"pull-right\"><strong>Next:</strong> {$next->a(null, ['class' => 'link'])}</p>";
     ?>
 </article>
-<article>
-    <div id="disqus_thread"></div>
-</article>
