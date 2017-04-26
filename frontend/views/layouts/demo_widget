@@ -1,0 +1,21 @@
+
+{{
+    Image( 123 )
+    .size( 300, 250 )
+    .img( {"data-origin" : "[[ this.size(0).src() ]]", "alt" : "This image name [[ this.attr(name) ]], and..."} )
+}}
+
+{{
+    Article( 123 )
+    .getImage()
+    .size( 300, 250 )
+    .filename()
+}}
+
+{{
+    Article( 123 )
+    .attr(name)
+}}
+
+
+
