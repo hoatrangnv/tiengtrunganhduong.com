@@ -157,7 +157,8 @@ code {
 .code-example-buttons-wrapper {
     border-width: 0 1px 1px;
 }
-.code-example-buttons-wrapper button {
+.code-example-submit-button,
+.code-example-mode-switcher {
     display: inline-block;
     padding: 0.3em;
     border-radius: 3px;
