@@ -141,12 +141,10 @@ code {
 }
 .code-example-snippet,
 .code-example-editor {
-    border: solid #def;
+    border: solid transparent;
     border-width: 1px 1px 0;
 }
-.code-example-snippet {
-    border-color: transparent;
-}
+.code-example-editor,
 .code-example-buttons-wrapper,
 .code-example-sandbox {
     border: solid #eee;
