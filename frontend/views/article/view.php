@@ -43,6 +43,7 @@ if ($next) {
     <div class="article-content">
         <?php
         $content = $model->getContentWithTemplates();
+        //$content = \vanquyet\queryTemplate\QueryTemplate::widget();
         $pattern = "/<code>([\w\W]*?)<\/code>/i";
         preg_match_all($pattern, $content, $matches);
         foreach ($matches[1] as $match) {

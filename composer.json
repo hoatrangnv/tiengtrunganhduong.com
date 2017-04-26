@@ -21,7 +21,7 @@
         "yiisoft/yii2-imagine": "*",
         "kartik-v/yii2-widget-select2": "*",
         "janisto/yii2-timepicker": "*",
-        "vanquyet/yii2-query-template": "*"
+        "vanquyet/yii2-query-template": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
