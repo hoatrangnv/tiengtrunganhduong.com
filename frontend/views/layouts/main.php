@@ -44,13 +44,10 @@ $this->registerMetaTag([
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
-</div>
-<div class="wrap">
-    <div class="container">
         <?php require_once 'disqus.php' ?>
     </div>
 </div>
+
 <footer class="wrap">
     <div class="container">
         <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
