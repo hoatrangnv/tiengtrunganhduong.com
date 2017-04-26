@@ -63,6 +63,11 @@ h1 + * {
 h2 + * {
     margin-top: 0.5em;
 }
+article + article {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
 article div + p,
 article p + div,
 article div + div {
