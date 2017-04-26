@@ -7,7 +7,7 @@
 
 {{
     Article( 123 )
-    .getImage()
+    .image()
     .size( 300, 250 )
     .filename()
 }}
@@ -15,6 +15,11 @@
 {{
     Article( 123 )
     .attr( "name" )
+}}
+
+{{
+    Article( 123 )
+    .attr( "meta_keywords" )
 }}
 
 
