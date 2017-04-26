@@ -2,8 +2,23 @@
 {{
     Image( 123 )
     .size( 300, 250 )
-    .img( {"data-origin" : "[[ this.size(0).src() ]]", "alt" : "This image name [[ this.attr(name) ]], and..."} )
+    .timestamp()
+    .img( {"data-origin" : "[[ this.size( 0 ).src() ]]", "alt" : "This image name [[ this.attr(name) ]], and..."} )
 }}
+
+{{
+    Article( 123 )
+    .image()
+    .img()
+}}
+
+{{
+    Article( 123 )
+    .image()
+    .src()
+}}
+
+
 
 {{
     Article( 123 )
