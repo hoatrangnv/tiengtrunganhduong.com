@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "yiisoft/yii2-imagine": "*",
         "kartik-v/yii2-widget-select2": "*",
-        "janisto/yii2-timepicker": "*"
+        "janisto/yii2-timepicker": "*",
+        "vanquyet/yii2-query-template": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
