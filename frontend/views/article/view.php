@@ -1,4 +1,7 @@
 <?php
+// For test extension
+require_once (Yii::getAlias('@common/runtime/tmp-extensions/yii2-query-template/QueryTemplate.php'));
+
 use yii\helpers\Url;
 use frontend\models\Article;
 
@@ -43,7 +46,21 @@ if ($next) {
     <div class="article-content">
         <?php
         $content = $model->getContentWithTemplates();
-        //$content = \vanquyet\queryTemplate\QueryTemplate::widget();
+        echo \vanquyet\queryTemplate\QueryTemplate::widget([
+            'content' => 'abc
+             {{
+                Image(1)
+                .img(100, {
+                    "title" : "hahaha[[getAttribute(\"name\")]]"
+                })
+             }}
+             ',
+            'funcList' => [
+                'Image' => function ($id) {
+                    return \frontend\models\Image::find()->where(['id' => $id])->oneActive();
+                },
+            ]
+        ]);
         $pattern = "/<code>([\w\W]*?)<\/code>/i";
         preg_match_all($pattern, $content, $matches);
         foreach ($matches[1] as $match) {
