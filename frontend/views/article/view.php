@@ -47,18 +47,30 @@ if ($next) {
         <?php
         $content = $model->getContentWithTemplates();
         echo \vanquyet\queryTemplate\QueryTemplate::widget([
-            'content' => 'abc
+            'content' => '
              {{
-                Image(1)
+                Image(32)
                 .img(100, {
-                    "title" : "hahaha[[getAttribute(\"name\")]]"
+                    "title" : "hahaha [[ getAttribute(\"name\") ]]",
+                    "data-origin" : "[[ getSource() ]]"
                 })
              }}
+             {{
+                Article(2).a(null, {"class":"clearfix link","style":"display:block",
+                "title":"Xin chào Việt Nam thân yêu, tên tôi là \"[[ getAttribute(\"name\") ]]\""})
+             }}
+             {{ Xinchao() }}
              ',
-            'funcList' => [
+            'queries' => [
                 'Image' => function ($id) {
                     return \frontend\models\Image::find()->where(['id' => $id])->oneActive();
                 },
+                'Article' => function ($id) {
+                    return Article::find()->where(['id' => $id])->onePublished();
+                },
+                'Xinchao' => function () {
+                    return 'Xin chào Việt Nam.';
+                }
             ]
         ]);
         $pattern = "/<code>([\w\W]*?)<\/code>/i";
