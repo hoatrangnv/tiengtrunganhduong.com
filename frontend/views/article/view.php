@@ -57,9 +57,13 @@ if ($next) {
                 })
             }}
             {{
-                Article(2)~a("<? myImg ?>", {"class":"clearfix link","style":"display:block",
-                "data-tag":"<? myImg ?>",
-                "title":"Xin chào Việt Nam thân yêu, tên tôi là \"<% getAttribute(\"name\") %>\""})
+                Article(2)
+                ~a("<? myImg ?>", {
+                    "class" : "clearfix link",
+                    "style" : "display:block",
+                    "data-tag" : "<? myImg ?>",
+                    "title" : "Xin chào Việt Nam thân yêu, tên tôi là \"<% getAttribute(\"name\") %>\""
+                })
             }}
             {{ echo("<? myImg ?>") }}
             ',
