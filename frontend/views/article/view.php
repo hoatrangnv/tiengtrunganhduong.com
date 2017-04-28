@@ -48,19 +48,21 @@ if ($next) {
         $content = $model->getContentWithTemplates();
         echo \vanquyet\queryTemplate\QueryTemplate::widget([
             'content' => '
-             {{
+            [[ myImg : Image(32)~img() ]]
+            {{
                 Image(32)
-                .img(100, {
-                    "title" : "hahaha [[ getAttribute(\"name\") ]]",
-                    "data-origin" : "[[ getSource() ]]"
+                ~img(100, {
+                    "title" : "hahaha <% getAttribute(\"name\") %>",
+                    "data-origin" : "<% getSource() %>"
                 })
-             }}
-             {{
-                Article(2).a(null, {"class":"clearfix link","style":"display:block",
-                "title":"Xin chào Việt Nam thân yêu, tên tôi là \"[[ getAttribute(\"name\") ]]\""})
-             }}
-             {{ Xinchao() }}
-             ',
+            }}
+            {{
+                Article(2)~a("<? myImg ?>", {"class":"clearfix link","style":"display:block",
+                "data-tag":"<? myImg ?>",
+                "title":"Xin chào Việt Nam thân yêu, tên tôi là \"<% getAttribute(\"name\") %>\""})
+            }}
+            {{ echo("<? myImg ?>") }}
+            ',
             'queries' => [
                 'Image' => function ($id) {
                     return \frontend\models\Image::find()->where(['id' => $id])->oneActive();
@@ -68,8 +70,8 @@ if ($next) {
                 'Article' => function ($id) {
                     return Article::find()->where(['id' => $id])->onePublished();
                 },
-                'Xinchao' => function () {
-                    return 'Xin chào Việt Nam.';
+                'echo' => function ($text = '') {
+                    return $text;
                 }
             ]
         ]);
