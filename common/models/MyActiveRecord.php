@@ -171,7 +171,6 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         if (!isset($methods[$methodName])) {
             throw new \Exception("Template method \"$methodName\" does not exist in \"" . get_class($this) . "\"");
         }
-        $method = $methods[$methodName];
-        return $method(...$arguments);
+        return call_user_func_array($methods[$methodName], $arguments);
     }
 }
