@@ -487,4 +487,30 @@ class Image extends \common\models\MyActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updater_id']);
     }
+
+    /**
+     * Query Template
+     */
+
+    /**
+     * @return array
+     */
+    public function templateMethods()
+    {
+        return [
+            'attribute' => function ($name) {
+                return $this->getAttribute($name);
+            },
+            'imgTag' => function ($size = Image::SIZE_0, $options = []) {
+                return $this->img($size, $options);
+            },
+            'source' => function ($size = Image::SIZE_0) {
+                return $this->getImgSrc($size);
+            },
+            'filename' => function ($size = Image::SIZE_0) {
+                return $this->getImgFilename($size);
+            },
+        ];
+    }
+
 }

@@ -202,4 +202,26 @@ class Article extends \common\models\MyActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updater_id']);
     }
+
+    /**
+     * Query Template
+     */
+
+    /**
+     * @return array
+     */
+    public function templateMethods()
+    {
+        return [
+            'attribute' => function ($name) {
+                return $this->getAttribute($name);
+            },
+            'aTag' => function ($text = null, $options = []) {
+                return $this->a($text, $options);
+            },
+            'image' => function () {
+                return $this->getImage()->oneActive();
+            },
+        ];
+    }
 }

@@ -36,7 +36,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     private $_img_sizes = null;
 
 
-    public function getImgFilename($size, $options = [])
+    public function getImgFilename($size = Image::SIZE_0, $options = [])
     {
         return pathinfo($this->getImgSrc($size, $options), PATHINFO_BASENAME);
     }
@@ -153,5 +153,24 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public static function find()
     {
         return new MyActiveQuery(get_called_class());
+    }
+
+    /**
+     * @param $methodName
+     * @param $arguments
+     * @return mixed
+     * @throws \Exception
+     */
+    public function callTemplateMethod($methodName, $arguments)
+    {
+        if ($this->hasMethod('templateMethods')) {
+            $methods = $this->templateMethods();
+        } else {
+            throw new \Exception("There is not any template method in \"" . get_class($this) . "\"");
+        }
+        if (!isset($methods[$methodName])) {
+            throw new \Exception("Template method \"$methodName\" does not exist in \"" . get_class($this) . "\"");
+        }
+        return $methods[$methodName](...$arguments);
     }
 }

@@ -19,4 +19,5 @@ class Article extends CommonArticle
     {
         return Url::to(array_merge(['article/view', UrlParam::SLUG => $this->slug], $params), true);
     }
+
 }

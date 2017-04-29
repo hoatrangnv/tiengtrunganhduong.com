@@ -1,9 +1,9 @@
 <?php
 // For test extension
 require_once (Yii::getAlias('@common/runtime/tmp-extensions/yii2-query-template/QueryTemplate.php'));
-
 use yii\helpers\Url;
 use frontend\models\Article;
+use frontend\models\Image;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
@@ -45,39 +45,74 @@ if ($next) {
     </div>
     <div class="article-content">
         <?php
-        $content = $model->getContentWithTemplates();
+        /*
+        // TEST
+        $content = '';
         echo \vanquyet\queryTemplate\QueryTemplate::widget([
-            'content' => '
-            [[ myImg : Image(32)~img() ]]
-            {{
-                Image(32)
-                ~img(100, {
-                    "title" : "hahaha <% getAttribute(\"name\") %>",
-                    "data-origin" : "<% getSource() %>"
-                })
-            }}
-            {{
-                Article(2)
-                ~a("<? myImg ?>", {
-                    "class" : "clearfix link",
-                    "style" : "display:block",
-                    "data-tag" : "<? myImg ?>",
-                    "title" : "Xin chào Việt Nam thân yêu, tên tôi là \"<% getAttribute(\"name\") %>\""
-                })
-            }}
-            {{ echo("<? myImg ?>") }}
-            ',
+            'content' =>
+                '
+                [@ myImg : Image(32)->imgTag() @]
+                {%
+                    Image(32)
+                    ->imgTag(100, {
+                        "title" : "hahaha <% this=>attribute(\"name\") %>",
+                        "data-origin" : "<% this=>source() %>"
+                    })
+                %}
+                [@ attName : "name" @]
+                
+                
+                
+                
+                
+                
+                {%
+                    Article(2)
+                    ->aTag("\\n\\n\\n\\n\\n\\n\\t\\t <@ myImg @> \\n\\n\\n\\n\\n\\n", {
+                        "class" : "clearfix link",
+                        "style" : "display: block; background: blue;",
+                        "title" : "Xin chào Việt Nam thân yêu,tên tôi là <% this=>attribute(\"<@attName@>\") %>",
+                        "data-image" : "<% Image(32)=>imgTag() %>"
+                    })
+                %}
+                
+                
+                
+                
+                
+                
+                
+                {% Article(2)->image()->imgTag() %}
+                {% echo("<@ myImg @>") %}
+                {% Article(2)->image()->filename() %}
+                [@ msg2 : "Hello US!!" @]
+                {@ msg2 @}
+                {@ msg2 @}
+                ',
+            'queries' =>
+                [
+                    'Image' => function ($id) {
+                        return \frontend\models\Image::find()->where(['id' => $id])->oneActive();
+                    },
+                    'Article' => function ($id) {
+                        return Article::find()->where(['id' => $id])->onePublished();
+                    },
+                    'echo' => function ($text = '') {
+                        return $text;
+                    }
+                ]
+        ]);
+        */
+        $content = \vanquyet\queryTemplate\QueryTemplate::widget([
+            'content' => $model->content,
             'queries' => [
-                'Image' => function ($id) {
-                    return \frontend\models\Image::find()->where(['id' => $id])->oneActive();
-                },
                 'Article' => function ($id) {
                     return Article::find()->where(['id' => $id])->onePublished();
                 },
-                'echo' => function ($text = '') {
-                    return $text;
+                'Image' => function ($id) {
+                    return Image::find()->where(['id' => $id])->oneActive();
                 }
-            ]
+            ],
         ]);
         $pattern = "/<code>([\w\W]*?)<\/code>/i";
         preg_match_all($pattern, $content, $matches);
