@@ -1,6 +1,6 @@
 <?php
 // For test extension
-require_once (Yii::getAlias('@common/runtime/tmp-extensions/yii2-query-template/QueryTemplate.php'));
+//require_once (Yii::getAlias('@common/runtime/tmp-extensions/yii2-query-template/QueryTemplate.php'));
 use yii\helpers\Url;
 use frontend\models\Article;
 use frontend\models\Image;
