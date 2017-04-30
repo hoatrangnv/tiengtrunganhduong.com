@@ -3,6 +3,7 @@
 namespace console\controllers;
 
 use yii\console\Controller;
+use yii\helpers\FileHelper;
 
 class BackupController extends Controller
 {
@@ -25,7 +26,11 @@ class BackupController extends Controller
     }
     public function actionDb()
     {
-        $filename = \Yii::getAlias('@backups/' . date('Ymd') . '/' . date('His') . '_db.sql');
+        $destination = \Yii::getAlias('@backups/') . date('Ymd');
+        if (!file_exists($destination)) {
+            FileHelper::createDirectory($destination);
+        }
+        $filename = $destination . '/' . date('His') . '_db.sql';
         exec(
             "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >db/$filename",
             $output
@@ -40,15 +45,19 @@ class BackupController extends Controller
     }
     public function actionImages()
     {
-        $destination = \Yii::getAlias('@backups/' . date('Ymd') . '/' . date('His') . '_images.tar.gz');
+        $destination = \Yii::getAlias('@backups/') . date('Ymd');
+        if (!file_exists($destination)) {
+            FileHelper::createDirectory($destination);
+        }
+        $filename = $destination . '/' . date('His') . '_images.tar.gz';
         $source = \Yii::getAlias('@images');
         exec(
-            "tar -zcvf \"{$destination}\" \"{$source}\"",
+            "tar -zcvf \"{$filename}\" \"{$source}\"",
             $output
         );
         if ($output == '') {
             /* no output is good */
-            echo $destination;
+            echo $filename;
         } else {
             /* we have something to log the output here*/
             echo $output;
