@@ -12,10 +12,10 @@ use Yii;
 
 class BackupController extends BaseController
 {
-    public function actionDatabase($p)
+    public function actionDatabase()
     {
         chdir(dirname(Yii::getAlias('@backend')));
-        $filename = exec("php yii backup/database -p=\"$p\"", $output, $return);
+        $filename = exec("php yii backup/database", $output, $return);
         if (is_file($filename)) {
             Yii::$app->response->sendFile($filename);
         } else {
