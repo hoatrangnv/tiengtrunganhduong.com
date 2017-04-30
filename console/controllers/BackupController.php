@@ -40,11 +40,10 @@ class BackupController extends Controller
             $return
         );
         if (!$return) {
-            echo $filename;
+            echo "$filename\n";
         } else {
             var_dump($output);
         }
-        return;
     }
 
     public function actionImages()
@@ -64,11 +63,10 @@ class BackupController extends Controller
             $return
         );
         if (!$return) {
-            echo $filename;
+            echo "$filename\n";
         } else {
             var_dump($output);
         }
-        return;
     }
 
     public function actionRemoveAll()
