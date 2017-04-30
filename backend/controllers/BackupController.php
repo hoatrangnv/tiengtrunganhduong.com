@@ -16,7 +16,6 @@ class BackupController extends BaseController
     {
         chdir(dirname(Yii::getAlias('@backend')));
         exec("php yii backup/database -p=\"$p\" 2>&1", $output, $return);
-        var_dump($return);
         if (is_file($return)) {
             Yii::$app->response->sendFile($return);
             unlink($return);

@@ -40,13 +40,9 @@ class BackupController extends Controller
             $return
         );
         if (!$return) {
-            /* no output is good */
-            echo "Backup file created successfully: \n --> $filename\n";
             return $filename;
         } else {
-            /* we have something to log the output here*/
-            echo $output;
-            return false;
+            return $output;
         }
     }
 
@@ -67,13 +63,9 @@ class BackupController extends Controller
             $return
         );
         if (!$return) {
-            /* no output is good */
-            echo "Backup file created successfully: \n --> $filename\n";
             return $filename;
         } else {
-            /* we have something to log the output here*/
-            echo $output;
-            return false;
+            return $output;
         }
     }
 
