@@ -57,7 +57,7 @@ class BackupController extends Controller
         $source_dir = $source_info['dirname'];
         $source_f = $source_info['basename'];
         exec(
-            "tar -zcvf \"{$filename}\" -C \"{$source_dir}\" \"{$source_f}\"",
+            "tar -czf \"{$filename}\" -C \"{$source_dir}\" \"{$source_f}\"",
             $output,
             $return
         );
