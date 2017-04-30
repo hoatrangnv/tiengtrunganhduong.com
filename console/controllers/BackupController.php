@@ -33,14 +33,15 @@ class BackupController extends Controller
         $filename = $destination . '/' . date('His') . '_database.sql';
         exec(
             "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >$filename",
-            $output
+            $output,
+            $return
         );
-        if (!$output) {
+        if (!$return) {
             /* no output is good */
-            echo "$filename\n";
+            echo "Backup file created successfully: \n --> $filename\n";
         } else {
             /* we have something to log the output here*/
-            var_dump($output);
+            echo $output;
         }
     }
 
@@ -62,7 +63,7 @@ class BackupController extends Controller
             echo "Backup file created successfully: \n --> $filename\n";
         } else {
             /* we have something to log the output here*/
-            echo($output);
+            echo $output;
         }
     }
 
