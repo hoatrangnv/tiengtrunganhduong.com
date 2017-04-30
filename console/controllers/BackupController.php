@@ -12,7 +12,7 @@ class BackupController extends Controller
     {
         $result = [];
         switch ($actionID) {
-            case 'db':
+            case 'database':
                 $result = ['mysql_pwd'];
                 break;
             default:
@@ -24,15 +24,15 @@ class BackupController extends Controller
     {
         return ['p' => 'mysql_pwd'];
     }
-    public function actionDb()
+    public function actionDatabase()
     {
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
         if (!file_exists($destination)) {
             FileHelper::createDirectory($destination);
         }
-        $filename = $destination . '/' . date('His') . '_db.sql';
+        $filename = $destination . '/' . date('His') . '_database.sql';
         exec(
-            "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >db/$filename",
+            "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >$filename",
             $output
         );
         if ($output == '') {
@@ -52,7 +52,7 @@ class BackupController extends Controller
         $filename = $destination . '/' . date('His') . '_images.tar.gz';
         $source = \Yii::getAlias('@images');
         exec(
-            "tar -zcvf \"{$filename}\" \"{$source}\"",
+            "tar -zcvf -p \"{$filename}\" \"{$source}\"",
             $output
         );
         if ($output == '') {
