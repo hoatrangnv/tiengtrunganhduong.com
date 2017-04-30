@@ -40,9 +40,9 @@ class BackupController extends Controller
             $return
         );
         if (!$return) {
-            return $filename;
+            echo $filename;
         } else {
-            return $output;
+            var_dump($output);
         }
     }
 
@@ -63,9 +63,9 @@ class BackupController extends Controller
             $return
         );
         if (!$return) {
-            return $filename;
+            echo $filename;
         } else {
-            return $output;
+            var_dump($output);
         }
     }
 
