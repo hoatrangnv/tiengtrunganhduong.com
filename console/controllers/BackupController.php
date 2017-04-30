@@ -8,26 +8,6 @@ use yii\helpers\Console;
 
 class BackupController extends Controller
 {
-    public $mysql_pwd;
-
-    public function options($actionID)
-    {
-        $result = [];
-        switch ($actionID) {
-            case 'database':
-                $result = ['mysql_pwd'];
-                break;
-            default:
-                break;
-        }
-        return $result;
-    }
-
-    public function optionAliases()
-    {
-        return ['p' => 'mysql_pwd'];
-    }
-
     public function actionDatabase()
     {
         // Configuration
@@ -35,8 +15,9 @@ class BackupController extends Controller
             \Yii::$app->params['backupDB']['host'],
             \Yii::$app->params['backupDB']['port'],
             \Yii::$app->params['backupDB']['username'],
-            \Yii::$app->params['backupDB']['database'])
-        ) {
+            \Yii::$app->params['backupDB']['database'],
+            \Yii::$app->params['backupDB']['password']
+        )) {
             echo 'Cannot find full configuration';
             return false;
         }
@@ -44,6 +25,7 @@ class BackupController extends Controller
         $port = \Yii::$app->params['backupDB']['port'];
         $username = \Yii::$app->params['backupDB']['username'];
         $database = \Yii::$app->params['backupDB']['database'];
+        $password = \Yii::$app->params['backupDB']['password'];
 
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
         if (!file_exists($destination)) {
@@ -51,7 +33,7 @@ class BackupController extends Controller
         }
         $filename = $destination . '/' . date('Ymd_His') . '_database.sql';
         exec(
-            "mysqldump -P \"{$port}\" -h \"{$host}\" -u \"{$username}\" -p \"{$database}\" --password=\"{$this->mysql_pwd}\" >$filename",
+            "mysqldump -P \"{$port}\" -h \"{$host}\" -u \"{$username}\" -p \"{$database}\" --password=\"{$password}\" >$filename",
             $output,
             $return
         );
