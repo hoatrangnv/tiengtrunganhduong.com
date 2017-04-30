@@ -37,7 +37,7 @@ class BackupController extends Controller
         );
         if (!$output) {
             /* no output is good */
-            echo $filename;
+            echo "$filename\n";
         } else {
             /* we have something to log the output here*/
             var_dump($output);
@@ -57,10 +57,10 @@ class BackupController extends Controller
         );
         if (!$output) {
             /* no output is good */
-            echo $filename;
+            echo "$filename\n";
         } else {
             /* we have something to log the output here*/
-            var_dump($output);
+            echo($output);
         }
     }
 }
