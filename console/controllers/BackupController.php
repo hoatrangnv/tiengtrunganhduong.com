@@ -30,13 +30,17 @@ class BackupController extends Controller
 
     public function actionDatabase()
     {
+        $host = '127.6.245.2';
+        $port = '3306';
+        $username = 'adminRxtAczm';
+        $database = 'quyettran_com';
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
         if (!file_exists($destination)) {
             FileHelper::createDirectory($destination);
         }
         $filename = $destination . '/' . date('Ymd_His') . '_database.sql';
         exec(
-            "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >$filename",
+            "mysqldump -P \"{$port}\" -h \"{$host}\" -u \"{$username}\" -p \"{$database}\" --password=\"{$this->mysql_pwd}\" >$filename",
             $output,
             $return
         );
