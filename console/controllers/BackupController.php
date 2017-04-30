@@ -31,10 +31,19 @@ class BackupController extends Controller
     public function actionDatabase()
     {
         // Configuration
-        $host = '127.6.245.2';
-        $port = '3306';
-        $username = 'backer';
-        $database = 'quyettran_com';
+        if (!isset(\Yii::$app->params['backupDB'],
+            \Yii::$app->params['backupDB']['host'],
+            \Yii::$app->params['backupDB']['port'],
+            \Yii::$app->params['backupDB']['username'],
+            \Yii::$app->params['backupDB']['database'])
+        ) {
+            echo 'Cannot find full configuration';
+            return false;
+        }
+        $host = \Yii::$app->params['backupDB']['host'];
+        $port = \Yii::$app->params['backupDB']['port'];
+        $username = \Yii::$app->params['backupDB']['username'];
+        $database = \Yii::$app->params['backupDB']['database'];
 
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
         if (!file_exists($destination)) {
