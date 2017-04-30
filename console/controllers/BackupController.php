@@ -30,10 +30,12 @@ class BackupController extends Controller
 
     public function actionDatabase()
     {
+        // Configuration
         $host = '127.6.245.2';
         $port = '3306';
-        $username = 'adminRxtAczm';
+        $username = 'backer';
         $database = 'quyettran_com';
+
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
         if (!file_exists($destination)) {
             FileHelper::createDirectory($destination);
