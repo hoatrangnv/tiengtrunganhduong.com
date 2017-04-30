@@ -33,7 +33,7 @@ class BackupController extends Controller
         if (!file_exists($destination)) {
             FileHelper::createDirectory($destination);
         }
-        $filename = $destination . '/' . date('His') . '_database.sql';
+        $filename = $destination . '/' . date('Ymd_His') . '_database.sql';
         exec(
             "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >$filename",
             $output,
@@ -52,7 +52,7 @@ class BackupController extends Controller
         if (!file_exists($destination)) {
             FileHelper::createDirectory($destination);
         }
-        $filename = $destination . '/' . date('His') . '_images.tar.gz';
+        $filename = $destination . '/' . date('Ymd_His') . '_images.tar.gz';
         $source = \Yii::getAlias('@images');
         $source_info = pathinfo($source);
         $source_dir = $source_info['dirname'];
