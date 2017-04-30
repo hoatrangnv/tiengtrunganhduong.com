@@ -23,7 +23,7 @@ class ArticleController extends BaseController
 
     public function findModel($slug)
     {
-        if (!$model = Article::find()->where(['slug' => $slug])->onePublished()) {
+        if (!$model = Article::find()->where(['slug' => $slug])->oneActive()) {
             throw new NotFoundHttpException();
         }
         return $model;
