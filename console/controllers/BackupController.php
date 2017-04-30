@@ -52,9 +52,12 @@ class BackupController extends Controller
             FileHelper::createDirectory($destination);
         }
         $filename = $destination . '/' . date('His') . '_images.tar.gz';
-        $source = ltrim(\Yii::getAlias('@images'), '/');
+        $source = \Yii::getAlias('@images');
+        $source_info = pathinfo($source);
+        $source_dir = $source_info['dirname'];
+        $source_f = $source_info['basename'];
         exec(
-            "tar -zcvf \"{$filename}\" -C / \"{$source}\"",
+            "tar -zcvf \"{$filename}\" -C \"{$source_dir}\" \"{$source_f}\"",
             $output,
             $return
         );
