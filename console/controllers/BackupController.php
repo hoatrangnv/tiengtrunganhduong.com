@@ -8,6 +8,7 @@ use yii\helpers\FileHelper;
 class BackupController extends Controller
 {
     public $mysql_pwd;
+
     public function options($actionID)
     {
         $result = [];
@@ -20,10 +21,12 @@ class BackupController extends Controller
         }
         return $result;
     }
+
     public function optionAliases()
     {
         return ['p' => 'mysql_pwd'];
     }
+
     public function actionDatabase()
     {
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
@@ -39,9 +42,11 @@ class BackupController extends Controller
         if (!$return) {
             /* no output is good */
             echo "Backup file created successfully: \n --> $filename\n";
+            return $filename;
         } else {
             /* we have something to log the output here*/
             echo $output;
+            return false;
         }
     }
 
@@ -64,9 +69,11 @@ class BackupController extends Controller
         if (!$return) {
             /* no output is good */
             echo "Backup file created successfully: \n --> $filename\n";
+            return $filename;
         } else {
             /* we have something to log the output here*/
             echo $output;
+            return false;
         }
     }
 
