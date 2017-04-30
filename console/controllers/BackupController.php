@@ -40,7 +40,7 @@ class BackupController extends Controller
     }
     public function actionImages()
     {
-        $destination = \Yii::getAlias('@backups/' . date('Ymd') . '/' . date('His') . '_images.sql');
+        $destination = \Yii::getAlias('@backups/' . date('Ymd') . '/' . date('His') . '_images.tar.gz');
         $source = \Yii::getAlias('@images');
         exec(
             "tar -zcvf \"{$destination}\" \"{$source}\"",
