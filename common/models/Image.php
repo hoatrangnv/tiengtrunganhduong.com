@@ -413,24 +413,11 @@ class Image extends \common\models\MyActiveRecord
      */
     private $_timestamp;
 
-    public function __construct($config = [])
+    public function init()
     {
-        parent::__construct($config);
-
         $this->_timestamp = time();
-        $this->_img_srcs = [];
-        $this->_img_sizes = [];
 
-        $this->_img_srcs[Image::SIZE_0] = $this->getSource();
-        $img_sizes = json_decode($this->resize_labels, true);
-
-        if (is_array($img_sizes)) {
-            ksort($img_sizes);
-            foreach ($img_sizes as $key => $label) {
-                $this->_img_srcs[$key] = $this->getSource($label);
-            }
-            $this->_img_sizes = $img_sizes;
-        }
+        parent::init();
     }
 
     /**
@@ -451,36 +438,21 @@ class Image extends \common\models\MyActiveRecord
     public function getImgSrc($size, $options = [])
     {
         // Initialize
-//        if (is_null($this->_img_srcs)) {
-//
-//            if (isset($options['timestamp']) && $options['timestamp'] === true) {
-//                $timestamp = '?v=' . time();
-//            } else {
-//                $timestamp = '';
-//            }
-//
-//            $this->_img_srcs = [];
-//            $this->_img_sizes = [];
-//
-////            if ($this instanceof Image) {
-//                $image = $this;
-////            } else {
-////                $image = $this->getImage()->oneActive();
-////            }
-//
-//            if ($image) {
-//                $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
-//                $img_sizes = json_decode($image->resize_labels, true);
-//
-//                if (is_array($img_sizes)) {
-//                    ksort($img_sizes);
-//                    foreach ($img_sizes as $key => $label) {
-//                        $this->_img_srcs[$key] = $image->getSource($label) . $timestamp;
-//                    }
-//                    $this->_img_sizes = $img_sizes;
-//                }
-//            }
-//        }
+        if (is_null($this->_img_srcs)) {
+            $this->_img_srcs = [];
+            $this->_img_sizes = [];
+
+            $this->_img_srcs[Image::SIZE_0] = $this->getSource();
+            $img_sizes = json_decode($this->resize_labels, true);
+
+            if (is_array($img_sizes)) {
+                ksort($img_sizes);
+                foreach ($img_sizes as $key => $label) {
+                    $this->_img_srcs[$key] = $this->getSource($label);
+                }
+                $this->_img_sizes = $img_sizes;
+            }
+        }
 
         if (isset($options['timestamp']) && $options['timestamp'] === true) {
             $timestamp = '?v=' . $this->_timestamp;
