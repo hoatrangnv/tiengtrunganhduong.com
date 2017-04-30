@@ -70,7 +70,7 @@ class BackupController extends Controller
         }
     }
 
-    public function actionRemoveAll()
+    public function actionEmpty()
     {
         $backups_folder = \Yii::getAlias('@backups');
         if (Console::confirm("Are you sure want to remove folder: \"$backups_folder\"?")) {
