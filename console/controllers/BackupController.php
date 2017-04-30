@@ -74,7 +74,10 @@ class BackupController extends Controller
     {
         $backups_folder = \Yii::getAlias('@backups');
         if (Console::confirm("Are you sure want to remove folder: \"$backups_folder\"?")) {
+            echo "Removing: $backups_folder\n";
             FileHelper::removeDirectory($backups_folder);
+        } else {
+            echo "Don't remove\n";
         }
     }
 }
