@@ -422,12 +422,12 @@ class Image extends \common\models\MyActiveRecord
 
     /**
      * @param int $size
-     * @param array $srcOptions
+     * @param array $options
      * @return mixed
      */
-    public function getImgName($size = Image::SIZE_0, $srcOptions = [])
+    public function getImgName($size = Image::SIZE_0, $options = [])
     {
-        return pathinfo($this->getImgSrc($size, $srcOptions), PATHINFO_BASENAME);
+        return pathinfo($this->getImgSrc($size, $options), PATHINFO_BASENAME);
     }
 
     /**
@@ -591,11 +591,11 @@ class Image extends \common\models\MyActiveRecord
             'imgTag' => function ($size = Image::SIZE_0, $options = [], $srcOptions = []) {
                 return $this->img($size, $options, $srcOptions);
             },
-            'source' => function ($size = Image::SIZE_0) {
-                return $this->getImgSrc($size);
+            'source' => function ($size = Image::SIZE_0, $options = []) {
+                return $this->getImgSrc($size, $options);
             },
-            'filename' => function ($size = Image::SIZE_0) {
-                return $this->getImgName($size);
+            'filename' => function ($size = Image::SIZE_0, $options = []) {
+                return $this->getImgName($size, $options);
             },
         ];
     }
