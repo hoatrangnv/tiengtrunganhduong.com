@@ -44,6 +44,7 @@ class BackupController extends Controller
         } else {
             var_dump($output);
         }
+        return;
     }
 
     public function actionImages()
@@ -67,6 +68,7 @@ class BackupController extends Controller
         } else {
             var_dump($output);
         }
+        return;
     }
 
     public function actionRemoveAll()
