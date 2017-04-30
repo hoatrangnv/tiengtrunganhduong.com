@@ -15,7 +15,7 @@ class BackupController extends BaseController
     public function actionDatabase($p)
     {
         chdir(dirname(Yii::getAlias('@backend')));
-        exec("php yii backup/database -p=\"$p\"", $output, $return);
+        exec("php yii backup/database -p=\"$p\" 2>&1", $output, $return);
         var_dump($return);
         if (is_file($return)) {
             Yii::$app->response->sendFile($return);
@@ -28,7 +28,7 @@ class BackupController extends BaseController
     public function actionImages()
     {
         chdir(dirname(Yii::getAlias('@backend')));
-        exec("php yii backup/images", $output, $return);
+        exec("php yii backup/images 2>&1", $output, $return);
         if (is_file($return)) {
             Yii::$app->response->sendFile($return);
             unlink($return);
