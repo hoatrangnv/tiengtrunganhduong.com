@@ -43,6 +43,7 @@ class BackupController extends Controller
             var_dump($output);
         }
     }
+
     public function actionImages()
     {
         $destination = \Yii::getAlias('@backups/') . date('Ymd');
@@ -53,14 +54,20 @@ class BackupController extends Controller
         $source = ltrim(\Yii::getAlias('@images'), '/');
         exec(
             "tar -zcvf \"{$filename}\" -C / \"{$source}\"",
-            $output
+            $output,
+            $return
         );
-        if (!$output) {
+        if (!$return) {
             /* no output is good */
-            echo "$filename\n";
+            echo "Backup file created successfully: \n --> $filename\n";
         } else {
             /* we have something to log the output here*/
             echo($output);
         }
+    }
+
+    public function actionRemoveAll()
+    {
+        FileHelper::removeDirectory(\Yii::getAlias('@backups'));
     }
 }
