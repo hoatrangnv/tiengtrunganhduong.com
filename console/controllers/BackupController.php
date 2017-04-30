@@ -4,6 +4,7 @@ namespace console\controllers;
 
 use yii\console\Controller;
 use yii\helpers\FileHelper;
+use yii\helpers\Console;
 
 class BackupController extends Controller
 {
@@ -71,6 +72,9 @@ class BackupController extends Controller
 
     public function actionRemoveAll()
     {
-        FileHelper::removeDirectory(\Yii::getAlias('@backups'));
+        $backups_folder = \Yii::getAlias('@backups');
+        if (Console::confirm("Are you sure want to remove folder: \"$backups_folder\"?")) {
+            FileHelper::removeDirectory($backups_folder);
+        }
     }
 }

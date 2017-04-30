@@ -18,7 +18,6 @@ class BackupController extends BaseController
         $filename = exec("php yii backup/database -p=\"$p\"", $output, $return);
         if (is_file($filename)) {
             Yii::$app->response->sendFile($filename);
-//            unlink($filename);
         } else {
             var_dump($output);
         }
@@ -30,7 +29,6 @@ class BackupController extends BaseController
         $filename = exec("php yii backup/images", $output, $return);
         if (is_file($filename)) {
             Yii::$app->response->sendFile($filename);
-//            unlink($filename);
         } else {
             var_dump($output);
         }
