@@ -18,7 +18,7 @@ class BackupController extends Controller
             \Yii::$app->params['backupDB']['database'],
             \Yii::$app->params['backupDB']['password']
         )) {
-            echo 'Cannot find full configuration';
+            echo "Cannot find full configuration\n";
             return false;
         }
         $host = \Yii::$app->params['backupDB']['host'];
