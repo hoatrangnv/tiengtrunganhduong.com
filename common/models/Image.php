@@ -399,24 +399,48 @@ class Image extends \common\models\MyActiveRecord
     */
 
     /**
-     * @var null
+     * @var
      */
-    private $_img_srcs = null;
+    private $_img_srcs;
 
     /**
-     * @var null
+     * @var
      */
-    private $_img_sizes = null;
+    private $_img_sizes;
 
+    /**
+     * @var
+     */
+    private $_timestamp;
+
+    public function init()
+    {
+        parent::init();
+
+        $this->_timestamp = time();
+        $this->_img_srcs = [];
+        $this->_img_sizes = [];
+
+        $this->_img_srcs[Image::SIZE_0] = $this->getSource();
+        $img_sizes = json_decode($this->resize_labels, true);
+
+        if (is_array($img_sizes)) {
+            ksort($img_sizes);
+            foreach ($img_sizes as $key => $label) {
+                $this->_img_srcs[$key] = $this->getSource($label);
+            }
+            $this->_img_sizes = $img_sizes;
+        }
+    }
 
     /**
      * @param int $size
-     * @param array $options
+     * @param array $srcOptions
      * @return mixed
      */
-    public function getImgName($size = Image::SIZE_0, $options = [])
+    public function getImgName($size = Image::SIZE_0, $srcOptions = [])
     {
-        return pathinfo($this->getImgSrc($size, $options), PATHINFO_BASENAME);
+        return pathinfo($this->getImgSrc($size, $srcOptions), PATHINFO_BASENAME);
     }
 
     /**
@@ -427,45 +451,51 @@ class Image extends \common\models\MyActiveRecord
     public function getImgSrc($size, $options = [])
     {
         // Initialize
-        if (is_null($this->_img_srcs)) {
-
-            if (isset($options['timestamp']) && $options['timestamp'] === true) {
-                $timestamp = '?v=' . time();
-            } else {
-                $timestamp = '';
-            }
-
-            $this->_img_srcs = [];
-            $this->_img_sizes = [];
-
-//            if ($this instanceof Image) {
-                $image = $this;
+//        if (is_null($this->_img_srcs)) {
+//
+//            if (isset($options['timestamp']) && $options['timestamp'] === true) {
+//                $timestamp = '?v=' . time();
 //            } else {
-//                $image = $this->getImage()->oneActive();
+//                $timestamp = '';
 //            }
+//
+//            $this->_img_srcs = [];
+//            $this->_img_sizes = [];
+//
+////            if ($this instanceof Image) {
+//                $image = $this;
+////            } else {
+////                $image = $this->getImage()->oneActive();
+////            }
+//
+//            if ($image) {
+//                $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
+//                $img_sizes = json_decode($image->resize_labels, true);
+//
+//                if (is_array($img_sizes)) {
+//                    ksort($img_sizes);
+//                    foreach ($img_sizes as $key => $label) {
+//                        $this->_img_srcs[$key] = $image->getSource($label) . $timestamp;
+//                    }
+//                    $this->_img_sizes = $img_sizes;
+//                }
+//            }
+//        }
 
-            if ($image) {
-                $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
-                $img_sizes = json_decode($image->resize_labels, true);
-
-                if (is_array($img_sizes)) {
-                    ksort($img_sizes);
-                    foreach ($img_sizes as $key => $label) {
-                        $this->_img_srcs[$key] = $image->getSource($label) . $timestamp;
-                    }
-                    $this->_img_sizes = $img_sizes;
-                }
-            }
+        if (isset($options['timestamp']) && $options['timestamp'] === true) {
+            $timestamp = '?v=' . $this->_timestamp;
+        } else {
+            $timestamp = '';
         }
 
         // Get image src by size key or size
         $size_key = Image::getSizeKeyBySize($size, $this->_img_sizes);
         foreach ($this->_img_srcs as $key => $img_src) {
             if ($key >= $size_key) {
-                return $this->_img_srcs[$key];
+                return $this->_img_srcs[$key] . $timestamp;
             }
         }
-        return isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '';
+        return (isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '') . $timestamp;
     }
 
     /**
