@@ -413,9 +413,9 @@ class Image extends \common\models\MyActiveRecord
      */
     private $_timestamp;
 
-    public function init()
+    public function __construct($config = [])
     {
-        parent::init();
+        parent::__construct($config);
 
         $this->_timestamp = time();
         $this->_img_srcs = [];
