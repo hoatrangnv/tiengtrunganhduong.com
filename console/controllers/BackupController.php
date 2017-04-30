@@ -35,12 +35,12 @@ class BackupController extends Controller
             "mysqldump -P 3306 -h 127.6.245.2 -u adminRxtAczm -p quyettran_com --password=\"{$this->mysql_pwd}\" >$filename",
             $output
         );
-        if ($output == '') {
+        if (!$output) {
             /* no output is good */
             echo $filename;
         } else {
             /* we have something to log the output here*/
-            echo $output;
+            var_dump($output);
         }
     }
     public function actionImages()
@@ -50,17 +50,17 @@ class BackupController extends Controller
             FileHelper::createDirectory($destination);
         }
         $filename = $destination . '/' . date('His') . '_images.tar.gz';
-        $source = \Yii::getAlias('@images');
+        $source = ltrim(\Yii::getAlias('@images'), '/');
         exec(
-            "tar -zcvf -p \"{$filename}\" \"{$source}\"",
+            "tar -zcvf \"{$filename}\" -C / \"{$source}\"",
             $output
         );
-        if ($output == '') {
+        if (!$output) {
             /* no output is good */
             echo $filename;
         } else {
             /* we have something to log the output here*/
-            echo $output;
+            var_dump($output);
         }
     }
 }
