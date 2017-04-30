@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\FileHelper;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "image".
@@ -238,6 +239,7 @@ class Image extends \common\models\MyActiveRecord
         return [];
     }
 
+    /*
     const T_IMG_BEGIN = '{img(';
     const T_IMG_END = ')}';
     const T_IMG_VAR_SEP = ',';
@@ -394,6 +396,89 @@ class Image extends \common\models\MyActiveRecord
         }
         return $string;
     }
+    */
+
+    /**
+     * @var null
+     */
+    private $_img_srcs = null;
+
+    /**
+     * @var null
+     */
+    private $_img_sizes = null;
+
+
+    /**
+     * @param int $size
+     * @param array $options
+     * @return mixed
+     */
+    public function getImgName($size = Image::SIZE_0, $options = [])
+    {
+        return pathinfo($this->getImgSrc($size, $options), PATHINFO_BASENAME);
+    }
+
+    /**
+     * @param $size
+     * @param array $options
+     * @return mixed|string
+     */
+    public function getImgSrc($size, $options = [])
+    {
+        // Initialize
+        if (is_null($this->_img_srcs)) {
+
+            if (isset($options['timestamp']) && $options['timestamp'] === true) {
+                $timestamp = '?v=' . time();
+            } else {
+                $timestamp = '';
+            }
+
+            $this->_img_srcs = [];
+            $this->_img_sizes = [];
+
+//            if ($this instanceof Image) {
+                $image = $this;
+//            } else {
+//                $image = $this->getImage()->oneActive();
+//            }
+
+            if ($image) {
+                $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
+                $img_sizes = json_decode($image->resize_labels, true);
+
+                if (is_array($img_sizes)) {
+                    ksort($img_sizes);
+                    foreach ($img_sizes as $key => $label) {
+                        $this->_img_srcs[$key] = $image->getSource($label) . $timestamp;
+                    }
+                    $this->_img_sizes = $img_sizes;
+                }
+            }
+        }
+
+        // Get image src by size key or size
+        $size_key = Image::getSizeKeyBySize($size, $this->_img_sizes);
+        foreach ($this->_img_srcs as $key => $img_src) {
+            if ($key >= $size_key) {
+                return $this->_img_srcs[$key];
+            }
+        }
+        return isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '';
+    }
+
+    /**
+     * @param null $size
+     * @param array $options
+     * @param array $srcOptions
+     * @return string
+     */
+    public function getImgTag($size = null, array $options = [], array $srcOptions = [])
+    {
+        $src = $this->getImgSrc($size, $srcOptions);
+        return Html::img($src, $options);
+    }
 
     /**
      * @inheritdoc
@@ -501,14 +586,14 @@ class Image extends \common\models\MyActiveRecord
             'attribute' => function ($name) {
                 return $this->getAttribute($name);
             },
-            'imgTag' => function ($size = Image::SIZE_0, $options = []) {
-                return $this->img($size, $options);
+            'imgTag' => function ($size = Image::SIZE_0, $options = [], $srcOptions = []) {
+                return $this->img($size, $options, $srcOptions);
             },
             'source' => function ($size = Image::SIZE_0) {
                 return $this->getImgSrc($size);
             },
             'filename' => function ($size = Image::SIZE_0) {
-                return $this->getImgFilename($size);
+                return $this->getImgName($size);
             },
         ];
     }

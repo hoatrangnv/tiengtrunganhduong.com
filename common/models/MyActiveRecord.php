@@ -15,102 +15,49 @@ use yii\helpers\Html;
 
 abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
-    public function a($text = null, $options = [], $params = [])
+    public function a($text = null, array $options = [], array $urlParams = [])
     {
         if (!$text) {
             if ($this->hasAttribute('name')) {
-                $text = $this->name;
+                $text = $this->getAttribute('name');
             } else if ($this->hasAttribute('title')) {
-                $text = $this->title;
+                $text = $this->getAttribute('title');
             } else if ($this->hasAttribute('caption')) {
-                $text = $this->caption;
+                $text = $this->getAttribute('caption');
             } else {
                 $text = '';
             }
         }
-        return Html::a($text, $this->getUrl($params), $options);
+        return Html::a($text, $this->getUrl($urlParams), $options);
     }
 
-    private $_img_srcs = null;
-
-    private $_img_sizes = null;
-
-
-    public function getImgFilename($size = Image::SIZE_0, $options = [])
-    {
-        return pathinfo($this->getImgSrc($size, $options), PATHINFO_BASENAME);
-    }
-
-    public function getImgSrc($size, $options = [])
-    {
-        // Initialize
-        if (is_null($this->_img_srcs)) {
-
-            if (isset($options['data-timestamp'])) {
-                $timestamp = '?v=' . time();
-            } else {
-                $timestamp = '';
-            }
-
-            $this->_img_srcs = [];
-            $this->_img_sizes = [];
-
-            if ($this instanceof Image) {
-                $image = $this;
-            } else {
-                $image = $this->getImage()->oneActive();
-            }
-
-            if ($image) {
-                $this->_img_srcs[Image::SIZE_0] = $image->getSource() . $timestamp;
-                $img_sizes = json_decode($image->resize_labels, true);
-
-                if (is_array($img_sizes)) {
-                    ksort($img_sizes);
-                    foreach ($img_sizes as $key => $label) {
-                        $this->_img_srcs[$key] = $image->getSource($label) . $timestamp;
-                    }
-                    $this->_img_sizes = $img_sizes;
-                }
-            }
-        }
-
-        // Get image src by size key or size
-        $size_key = Image::getSizeKeyBySize($size, $this->_img_sizes);
-        foreach ($this->_img_srcs as $key => $img_src) {
-            if ($key >= $size_key) {
-                return $this->_img_srcs[$key];
-            }
-        }
-        return isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '';
-    }
-
-    public function img($size = null, array $options = [])
+    public function img($size = null, array $options = [], array $srcOptions = [])
     {
         if (!isset($options['alt'])) {
             if ($this->hasAttribute('name')) {
-                $options['alt'] = $this->name;
+                $options['alt'] = $this->getAttribute('name');
             } else if ($this->hasAttribute('title')) {
-                $options['alt'] = $this->title;
+                $options['alt'] = $this->getAttribute('title');
             } else if ($this->hasAttribute('caption')) {
-                $options['alt'] = $this->caption;
+                $options['alt'] = $this->getAttribute('caption');
             } else {
                 $options['alt'] = '';
             }
         }
+
         if (!isset($options['title'])) {
             $options['title'] = $options['alt'];
         }
-        $src = $this->getImgSrc($size, $options);
-        return Html::img($src, $options);
-    }
 
-    public function getContentWithTemplates($attribute = 'content')
-    {
-        if (!$this->hasAttribute($attribute)) {
-            return '';
+        if ($this instanceof Image) {
+            return $this->getImgTag($size, $options, $srcOptions);
         }
-        return Image::textWithTemplates2Html($this->$attribute);
+
+        if ($this->hasMethod('getImage') && $image = $this->getImage()->oneActive()) {
+            return $image->getImgTag($size, $options, $srcOptions);
+        }
+
+        return '';
     }
 
     public static function castToArray($input)

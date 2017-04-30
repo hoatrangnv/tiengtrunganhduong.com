@@ -33,16 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 }
             ],
-
-            [
-                'attribute' => 'Template',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->getImgTemplate();
-
-                }
-            ],
-
 //            'creator_id',
 //            'updater_id',
             'name',
