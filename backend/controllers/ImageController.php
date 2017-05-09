@@ -122,11 +122,11 @@ class ImageController extends BaseController
                                 foreach ($model->image_resize_labels as $size_label) {
                                     if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                         if ($model->image_crop) {
-                                            $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            $thumb = ImagineImage::getImagine()->open($destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
                                                 ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
                                         } else {
-                                            $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            $thumb = ImagineImage::getImagine()->open($destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
                                         $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
@@ -238,11 +238,11 @@ class ImageController extends BaseController
                                 foreach ($model->image_resize_labels as $size_label) {
                                     if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                         if ($model->image_crop) {
-                                            $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            $thumb = ImagineImage::getImagine()->open($destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
                                                 ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
                                         } else {
-                                            $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            $thumb = ImagineImage::getImagine()->open($destination)
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
                                         $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
