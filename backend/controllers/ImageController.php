@@ -110,7 +110,6 @@ class ImageController extends BaseController
                     // @TODO: Save origin image
                     $model->generatePath();
                     $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
-//                    if ($file->saveAs($origin_destination)) {
                     if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
                         // @TODO: Save cropped and compressed images
                         $destination = $model->getLocation();
@@ -215,7 +214,6 @@ class ImageController extends BaseController
                         }
 
                         if ($file) {
-//                            $file->saveAs($model->getLocation(Image::SIZE_ORIGIN_LABEL));
                             $new_image_saved = MyFileHelper::moveImage($file->tempName,
                                 $model->getLocation(Image::SIZE_ORIGIN_LABEL), true);
 
