@@ -54,7 +54,7 @@ $this->registerMetaTag([
 </footer>
 
 <script><?php require_once Yii::getAlias('@webroot/js/main.js') ?></script>
-<?php require_once 'disqus.php' ?>
+<?php !in_array(Yii::$app->requestedRoute, ['article/view']) ? : require_once 'disqus.php' ?>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
 </body>

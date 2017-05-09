@@ -111,7 +111,7 @@ if ($next) {
                 },
                 'Image' => function ($id) {
                     return Image::find()->where(['id' => $id])->oneActive();
-                }
+                },
             ],
         ]);
         $pattern = "/<code>([\w\W]*?)<\/code>/i";
