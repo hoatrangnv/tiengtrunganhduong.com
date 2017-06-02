@@ -29,14 +29,18 @@ return [
             'rules' => [],
         ],
     ],
-    'aliases' =>
+    'aliases' => array_merge(
+        [
+            '@mdm/admin' => '@backend/mdm.admin',
+        ],
         (!isset($_SERVER, $_SERVER['HTTP_HOST']) ||
             !$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://')
         )
-        ? []
-        : [
-            '@frontendUrl' => $protocol . $_SERVER['HTTP_HOST'],
-            '@backendUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/backend',
-            '@imagesUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/images',
-        ],
+            ? []
+            : [
+                '@frontendUrl' => $protocol . $_SERVER['HTTP_HOST'],
+                '@backendUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/backend',
+                '@imagesUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/images',
+            ]
+    )
 ];

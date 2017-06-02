@@ -68,9 +68,6 @@ return [
             ],
         ],
     ],
-    'aliases' => [
-        '@mdm/admin' => '@backend/mdm.admin',
-    ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
