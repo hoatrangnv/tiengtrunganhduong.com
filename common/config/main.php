@@ -33,7 +33,8 @@ return [
         [
             '@mdm/admin' => '@backend/mdm.admin',
         ],
-        (!isset($_SERVER, $_SERVER['HTTP_HOST']) ||
+        (
+            !isset($_SERVER, $_SERVER['HTTP_HOST']) ||
             !$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://')
         )
             ? []
