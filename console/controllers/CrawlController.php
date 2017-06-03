@@ -17,6 +17,7 @@ class CrawlController extends Controller
 {
     const SITEMAP_FILENAME = __DIR__ . '/../data/sitemap.xml';
 
+
     public function actionIndex()
     {
         $sitemap_content = file_get_contents(self::SITEMAP_FILENAME);
