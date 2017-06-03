@@ -78,7 +78,7 @@ class CrawlController extends Controller
 //        }
 //        return;
         foreach ($data as $key => $item) {
-            echo "$key\n$item->url";
+            echo "$item->url\n";
             $k++;
 //            if ($i > 9) {
 //                break;
@@ -90,7 +90,7 @@ class CrawlController extends Controller
             $content = $dom->find('div.contentNewTop', 0);
 //            var_dump($k, $h1, $content);
             $relative_url = str_replace('http://tiengtrunganhduong.com/', '', $item->url);
-            if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
+            if ($h1 && $content/* && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false*/) {
                 $article = new Article();
                 $article->name = $article->meta_title = $h1->innerHTML;
                 $article->content = $content->innerHTML;
