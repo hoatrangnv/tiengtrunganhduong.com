@@ -78,7 +78,7 @@ class CrawlController extends Controller
 //        }
 //        return;
         foreach ($data as $key => $item) {
-            echo "$key\n";
+            echo "$key\n$item->url";
             $k++;
 //            if ($i > 9) {
 //                break;
