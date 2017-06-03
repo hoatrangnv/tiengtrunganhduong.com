@@ -121,7 +121,7 @@ class CrawlController extends Controller
                     $article->description = $article->meta_description = $meta_description->getAttribute('content');
                     $meta_description = null;
                 }
-                if ($meta_ogImage = $dom->find('meta[name="og:image"]', 0)) {
+                if ($meta_ogImage = $dom->find('meta[property="og:image"]', 0)) {
                     $image_source = $meta_ogImage->getAttribute('content');
                     $image = new Image();
                     $image->image_source = $image_source;
