@@ -38,11 +38,13 @@ return [
             !$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://')
         )
             ? [
+                // For console env
                 '@frontendUrl' => 'http://tiengtrunganhduong.com',
                 '@backendUrl' => 'http://tiengtrunganhduong.com' . '/backend',
                 '@imagesUrl' => 'http://tiengtrunganhduong.com' . '/images',
             ]
             : [
+                // For browser env
                 '@frontendUrl' => $protocol . $_SERVER['HTTP_HOST'],
                 '@backendUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/backend',
                 '@imagesUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/images',

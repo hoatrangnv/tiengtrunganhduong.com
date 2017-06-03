@@ -91,7 +91,13 @@ class Image extends \common\models\Image
         }
 
         // Basename
-        $this->image_source_basename = md5(uniqid());
+        $parse_url = parse_url($this->image_source);
+        $path_info = pathinfo($parse_url['path']);
+        if (isset($path_info['basename'], $path_info['extension']) && $path_info['basename'] && $path_info['extension']) {
+            $this->image_source_basename = str_replace($path_info['extension'], '', $path_info['basename']);
+        } else {
+            $this->image_source_basename = md5(uniqid());
+        }
 
         // Mime type and extension
         $f = finfo_open();
@@ -109,8 +115,8 @@ class Image extends \common\models\Image
                 $this->image_source_extension = 'gif';
                 break;
             default:
-                $parse_url = parse_url($this->image_source);
-                $path_info = pathinfo($parse_url['path']);
+//                $parse_url = parse_url($this->image_source);
+//                $path_info = pathinfo($parse_url['path']);
                 if (isset($path_info['extension'])) {
                     $this->image_source_extension = $path_info['extension'];
                 }
