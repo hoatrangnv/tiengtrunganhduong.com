@@ -84,6 +84,7 @@ class CrawlController extends Controller
                 'http://tiengtrunganhduong.com/trung-tam-tieng-trung-Anh-Duong.htm',
                 'http://tiengtrunganhduong.com/bang-chu-cai-tieng-trung.htm',
                 'http://tiengtrunganhduong.com/250-tu-vung-tieng-trung-chu-de-thu-vien.htm',
+                'http://tiengtrunganhduong.com/bo-quan-ao-nay-hop-voi-toi-khong.htm',
             ])) {
                 echo "Locked list\n";
                 continue;
@@ -142,8 +143,12 @@ class CrawlController extends Controller
                         }
                     } else {
                         echo 'Save Image Errors: '; var_dump($image->getErrors());
+                        if ($image2 = Image::find()->where(['name' => $image->name])->one()) {
+                            $article->image_id = $image2->id;
+                        }
                     }
                     $image = null;
+                    $image2 = null;
                     $meta_ogImage = null;
                 }
 
