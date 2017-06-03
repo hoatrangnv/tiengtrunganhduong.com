@@ -160,7 +160,7 @@ class Image extends \common\models\Image
                     $file->tempName = $temp_name;
                     return $file;
                 } else {
-                    $this->addError('image_source', Yii::t('app', 'Cannot save temp image.'));
+                    $this->addError('image_source', Yii::t('app', 'Cannot save temp image: ' . $temp_name));
                 }
             } else {
                 $this->addError('image_source', Yii::t('app', 'Invalid mime type.'));
