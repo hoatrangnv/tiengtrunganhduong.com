@@ -29,16 +29,18 @@ class CrawlController extends Controller
         $sitemap_content = file_get_contents(self::$sitemap_filename);
 //        echo strlen($sitemap_content);
         $dom = new Dom;
-        $offset = strpos($sitemap_content, 'ten-tieng-trung-63-tinh-thanh-va-quan-huyen.htm');
+        $offset = strpos($sitemap_content, '264-tu-vung-ve-quan-ao.htm');
         $sitemap_sub_content = '<?xml version="1.0" encoding="UTF-8"?>'
-            . ' <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> <url> <loc>'
+            . ' <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            . ' <url> <loc>http://tiengtrunganhduong.com/'
             . substr($sitemap_content, $offset);
         $dom->load($sitemap_sub_content);
         foreach ($dom->find('url > loc') as $item) {
             $url = $item->innerHTML;
-            if (!$crawler = CrawledPage::find()->where(['url' => $url])->one()) {
-                $crawler = new CrawledPage();
+            if (CrawledPage::find()->where(['url' => $url])->one()) {
+                continue;
             }
+            $crawler = new CrawledPage();
             $crawler->url = $url;
 
             $relative_url = str_replace('http://tiengtrunganhduong.com/', '', $crawler->url);
