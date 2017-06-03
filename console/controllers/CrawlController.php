@@ -73,6 +73,10 @@ class CrawlController extends Controller
         $i = 0;
         $k = 0;
         $data = CrawledPage::find()->limit(100)->all();
+        foreach ($data as $key => $item) {
+            echo "$key\n";
+        }
+        return;
         foreach ($data as $item) {
             $k++;
             if ($i > 9) {
