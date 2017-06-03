@@ -85,11 +85,11 @@ class CrawlController extends Controller
 //            }
             $html = "<html>" . $item->content . "</html>";
             $dom = new Dom;
-            $dom->load($html);
             echo 1;
+            $dom->load($html);
             $h1 = $dom->find('h1.nameOtherNew', 0);
             $content = $dom->find('div.contentNewTop', 0);
-            echo 2;
+            echo 2 . "\n";
 //            var_dump($k, $h1, $content);
             $relative_url = str_replace('http://tiengtrunganhduong.com/', '', $item->url);
             if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
