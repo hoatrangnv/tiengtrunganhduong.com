@@ -13,6 +13,13 @@ use yii\helpers\Url;
 use yii\helpers\FileHelper;
 use yii\validators\FileValidator;
 use yii\web\UploadedFile;
+use common\helpers\MyStringHelper;
+use yii\helpers\Inflector;
+use yii\imagine\Image as ImagineImage;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
+use common\helpers\MyFileHelper;
+use Imagine\Image\ManipulatorInterface;
 
 class Image extends \common\models\Image
 {
@@ -161,6 +168,80 @@ class Image extends \common\models\Image
         }
 
         return null;
+    }
+
+    public function saveFile()
+    {
+        $model = $this;
+        if ($model->validate(['image_file', 'image_source'])) {
+            $resize_labels = [];
+            $model->castValueToArray('image_resize_labels');
+
+            if (!$file = $model->getImageSourceAsUploadedFile()) {
+                $file = UploadedFile::getInstance($model, 'image_file');
+            }
+
+            if ($file) {
+                $model->mime_type = $file->type;
+
+                if (!$model->name) {
+                    $model->name = $model->file_basename;
+                }
+
+                if ($model->image_name_to_basename) {
+                    $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
+                } else {
+                    $model->file_basename = $file->baseName;
+                }
+
+                if (!$model->file_extension) {
+                    $model->file_extension = $file->extension;
+                }
+
+                // @TODO: Save origin image
+                $model->generatePath();
+                $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
+                if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
+                    // @TODO: Save cropped and compressed images
+                    $destination = $model->getLocation();
+                    $thumb0 = ImagineImage::getImagine()->open($origin_destination);
+
+                    if ($model->validate()) {
+                        try {
+                            $thumb0->save($destination, ['quality' => $model->image_quality]);
+                            foreach ($model->image_resize_labels as $size_label) {
+                                if ($dimension = Image::getSizeBySizeKey($size_label)) {
+                                    if ($model->image_crop) {
+                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                            ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                    } else {
+                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                    }
+                                    $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                    if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                        $resize_labels[$size_label] = $suffix;
+                                    }
+                                }
+                            }
+                            $model->resize_labels = json_encode($resize_labels);
+                            if ($model->save()) {
+                                return true;
+                            }
+                        } catch (\Exception $e) {
+                            $model->addError($model->image_source ? 'image_source' : 'image_file',
+                                Yii::t('app', $e->getMessage()));
+                        }
+                    }
+
+                } else {
+                    $model->addError($model->image_source ? 'image_source' : 'image_file',
+                        Yii::t('app', 'Cannot save image or file is not image.'));
+                }
+            }
+        }
+        return false;
     }
 
 }

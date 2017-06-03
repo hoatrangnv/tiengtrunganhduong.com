@@ -9,10 +9,13 @@
 namespace console\controllers;
 
 
+use backend\models\Image;
+use common\helpers\MyStringHelper;
+use common\models\Article;
 use console\models\CrawledPage;
 use yii\console\Controller;
 use PHPHtmlParser\Dom;
-use yii\base\Module;
+use yii\helpers\Inflector;
 
 class CrawlController extends Controller
 {
@@ -62,5 +65,60 @@ class CrawlController extends Controller
             $crawler = null;
         }
 //        var_dump($dom->find('url > loc'));
+    }
+
+    public function actionArticle()
+    {
+        $i = 0;
+        foreach (CrawledPage::find()->all() as $item) {
+            if ($i > 9) {
+                break;
+            }
+            $html = "<html>{$item->content}</html>";
+            $dom = new Dom;
+            $dom->load($html);
+            $h1 = $dom->find('h1.nameOtherNew', 0);
+            $content = $dom->find('div.contentNewTop', 0);
+            $relative_url = str_replace('http://tiengtrunganhduong.com/', '', $item->url);
+            if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
+                $article = new Article();
+                $article->name = $article->meta_title = $h1->innerHTML;
+                $article->content = $content->innerHTML;
+//                $article->slug = Inflector::slug(MyStringHelper::stripUnicode($article->name));
+                $article->slug = $relative_url;
+                if ($meta_keywords = $dom->find('meta[name="keywords"]', 0)) {
+                    $article->meta_keywords = $meta_keywords->getAttribute('content');
+                    $meta_keywords = null;
+                }
+                if ($meta_description = $dom->find('meta[name="description"]', 0)) {
+                    $article->description = $article->meta_description = $meta_description->getAttribute('content');
+                    $meta_description = null;
+                }
+                if ($meta_ogImage = $dom->find('meta[name="og:image"]', 0)) {
+                    $image_source = $meta_ogImage->getAttribute('content');
+                    $image = new Image();
+                    $image->image_source = $image_source;
+                    if ($image->saveFile()) {
+                        $image->active = 1;
+                        if ($image->save()) {
+                            $article->image_id = $image->id;
+                            echo $image->getSource() . "\n";
+                        }
+                    }
+                    $image = null;
+                    $meta_ogImage = null;
+                }
+
+                if ($article->save()) {
+                    $i++;
+                    echo $i . '. ' . $article->slug . "\n\n";
+                }
+                
+                $article = null;
+            }
+            $dom = null;
+            $h1 = null;
+            $content = null;
+        }
     }
 }
