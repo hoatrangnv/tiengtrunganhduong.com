@@ -69,6 +69,7 @@ class CrawlController extends Controller
 
     public function actionArticle()
     {
+        ini_set('memory_limit', '1024M');
         $i = 0;
         foreach (CrawledPage::find()->all() as $item) {
             if ($i > 9) {
@@ -103,6 +104,8 @@ class CrawlController extends Controller
                         if ($image->save()) {
                             $article->image_id = $image->id;
                             echo $image->getSource() . "\n";
+                        } else {
+                            echo 'Image Errors: '; var_dump($image->getErrors());
                         }
                     }
                     $image = null;
@@ -112,6 +115,8 @@ class CrawlController extends Controller
                 if ($article->save()) {
                     $i++;
                     echo $i . '. ' . $article->slug . "\n\n";
+                } else {
+                    echo 'Article Errors: '; var_dump($article->getErrors());
                 }
                 
                 $article = null;
