@@ -29,7 +29,7 @@ class CrawlController extends Controller
         $sitemap_content = file_get_contents(self::$sitemap_filename);
 //        echo strlen($sitemap_content);
         $dom = new Dom;
-        $dom->load(substr($sitemap_content, 0, 50000));
+        $dom->load(substr($sitemap_content, 50001));
         foreach ($dom->find('url > loc') as $item) {
             $crawler = new CrawledPage();
             $crawler->url = $item->innerHTML;
