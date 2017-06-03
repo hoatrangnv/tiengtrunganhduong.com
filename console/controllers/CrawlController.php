@@ -79,6 +79,12 @@ class CrawlController extends Controller
 //        return;
         foreach ($data as $key => $item) {
             echo "$item->url\n";
+            if (in_array($item->url, [
+                'http://tiengtrunganhduong.com/trung-tam-tieng-trung-Anh-Duong.htm'
+            ])) {
+                echo "Locked list\n";
+                continue;
+            }
             $k++;
 //            if ($i > 9) {
 //                break;
