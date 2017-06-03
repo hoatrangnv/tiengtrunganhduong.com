@@ -86,7 +86,15 @@ class CrawlController extends Controller
             $html = "<html>" . $item->content . "</html>";
             $dom = new Dom;
             echo 1;
-            $dom->loadStr($html);
+            $dom->loadStr($html, [
+                'whitespaceTextNode' => true,
+                'strict'             => false,
+                'enforceEncoding'    => null,
+                'cleanupInput'       => false,
+                'removeScripts'      => false,
+                'removeStyles'       => false,
+                'preserveLineBreaks' => true,
+            ]);
             $h1 = $dom->find('h1.nameOtherNew', 0);
             $content = $dom->find('div.contentNewTop', 0);
             echo 2 . "\n";
