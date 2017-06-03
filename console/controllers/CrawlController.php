@@ -34,6 +34,7 @@ class CrawlController extends Controller
             . ' <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
             . substr($sitemap_content, $offset);
         $dom->load($sitemap_sub_content);
+        var_dump($dom->find('url > loc'));
         foreach ($dom->find('url > loc') as $item) {
             $url = $item->innerHTML;
             if (!$crawler = CrawledPage::find()->where(['url' => $url])->one()) {
