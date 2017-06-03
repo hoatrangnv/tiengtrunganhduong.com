@@ -30,7 +30,7 @@ class CrawlController extends Controller
         $sitemap_content = file_get_contents(self::$sitemap_filename);
 //        echo strlen($sitemap_content);
         $dom = new Dom;
-        $offset = strpos($sitemap_content, 'file-luyen-viet-chu-han-giao-trinh-han-ngu-bai-26.htm');
+        $offset = strpos($sitemap_content, 'cach-dung-tro-tu-ngu-khi-trong-tieng-trung.htm');
         $sitemap_sub_content = '<?xml version="1.0" encoding="UTF-8"?>'
             . ' <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
             . ' <url> <loc>http://tiengtrunganhduong.com/'
@@ -59,6 +59,7 @@ class CrawlController extends Controller
                 }
                 $item_dom = null;
             }
+            $crawler = null;
         }
 //        var_dump($dom->find('url > loc'));
     }
