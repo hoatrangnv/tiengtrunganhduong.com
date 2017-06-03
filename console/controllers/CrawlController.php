@@ -98,11 +98,11 @@ class CrawlController extends Controller
                 $article->slug = $relative_url;
                 if ($meta_keywords = $dom->find('meta[name="keywords"]', 0)) {
                     $article->meta_keywords = $meta_keywords->getAttribute('content');
-//                    $meta_keywords = null;
+                    $meta_keywords = null;
                 }
                 if ($meta_description = $dom->find('meta[name="description"]', 0)) {
                     $article->description = $article->meta_description = $meta_description->getAttribute('content');
-//                    $meta_description = null;
+                    $meta_description = null;
                 }
                 if ($meta_ogImage = $dom->find('meta[name="og:image"]', 0)) {
                     $image_source = $meta_ogImage->getAttribute('content');
@@ -117,8 +117,8 @@ class CrawlController extends Controller
                             echo 'Image Errors: '; var_dump($image->getErrors());
                         }
                     }
-//                    $image = null;
-//                    $meta_ogImage = null;
+                    $image = null;
+                    $meta_ogImage = null;
                 }
 
                 if ($article->save()) {
@@ -128,12 +128,12 @@ class CrawlController extends Controller
                     echo 'Article Errors: '; var_dump($article->getErrors());
                 }
                 
-//                $article = null;
+                $article = null;
             } else {
             }
-//            $dom = null;
-//            $h1 = null;
-//            $content = null;
+            $dom = null;
+            $h1 = null;
+            $content = null;
         }
     }
 }
