@@ -73,13 +73,14 @@ class CrawlController extends Controller
         $i = 0;
         foreach (CrawledPage::find()->all() as $item) {
             if ($i > 9) {
-                break;
+//                break;
             }
             $html = "<html>{$item->content}</html>";
             $dom = new Dom;
             $dom->load($html);
             $h1 = $dom->find('h1.nameOtherNew', 0);
             $content = $dom->find('div.contentNewTop', 0);
+            var_dump($h1, $content);
             $relative_url = str_replace('http://tiengtrunganhduong.com/', '', $item->url);
             if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
                 $article = new Article();
@@ -121,7 +122,6 @@ class CrawlController extends Controller
                 
                 $article = null;
             } else {
-                var_dump($h1, $content);
             }
             $dom = null;
             $h1 = null;
