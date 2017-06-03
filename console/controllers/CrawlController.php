@@ -38,7 +38,7 @@ class CrawlController extends Controller
         $dom->load($sitemap_sub_content);
         foreach ($dom->find('url > loc') as $item) {
             $url = $item->innerHTML;
-            if (CrawledPage::find()->where(['url' => $url])->one()) {
+            if (strpos($url, 'tiengtrunganhduong.com') === false || CrawledPage::find()->where(['url' => $url])->one()) {
                 continue;
             }
             $crawler = new CrawledPage();
