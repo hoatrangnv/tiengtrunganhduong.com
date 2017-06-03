@@ -130,6 +130,7 @@ class CrawlController extends Controller
                 
                 $article = null;
             } else {
+                echo "Do not pass";
             }
             $dom = null;
             $h1 = null;
