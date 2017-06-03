@@ -15,7 +15,7 @@ use PHPHtmlParser\Dom;
 
 class CrawlController extends Controller
 {
-    const SITEMAP_FILENAME = __DIR__ . '/../data/sitemap.xml';
+    const SITEMAP_FILENAME = '../data/sitemap.xml';
 
 
     public function actionIndex()
