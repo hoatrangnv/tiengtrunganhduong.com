@@ -15,12 +15,12 @@ use PHPHtmlParser\Dom;
 
 class CrawlController extends Controller
 {
-    const SITEMAP_FILENAME = '../data/sitemap.xml';
+    public static $sitemap_filename = __DIR__ . '/../data/sitemap.xml';
 
 
     public function actionIndex()
     {
-        $sitemap_content = file_get_contents(self::SITEMAP_FILENAME);
+        $sitemap_content = file_get_contents(self::$sitemap_filename);
 //        echo strlen($sitemap_content);
         $dom = new Dom;
         $dom->load(substr($sitemap_content, 0, 50000));
