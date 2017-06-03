@@ -77,12 +77,13 @@ class CrawlController extends Controller
 //            echo "$key\n";
 //        }
 //        return;
-        foreach ($data as $item) {
+        foreach ($data as $key => $item) {
+            echo "$key\n";
             $k++;
 //            if ($i > 9) {
 //                break;
 //            }
-            $html = "<html>{$item->content}</html>";
+            $html = "<html>" . $item->content . "</html>";
             $dom = new Dom;
             $dom->load($html);
             $h1 = $dom->find('h1.nameOtherNew', 0);
