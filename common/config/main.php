@@ -37,7 +37,11 @@ return [
             !isset($_SERVER, $_SERVER['HTTP_HOST']) ||
             !$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://')
         )
-            ? []
+            ? [
+                '@frontendUrl' => 'http://tiengtrunganhduong.com',
+                '@backendUrl' => 'http://tiengtrunganhduong.com' . '/backend',
+                '@imagesUrl' => 'http://tiengtrunganhduong.com' . '/images',
+            ]
             : [
                 '@frontendUrl' => $protocol . $_SERVER['HTTP_HOST'],
                 '@backendUrl' => $protocol . $_SERVER['HTTP_HOST'] . '/backend',
