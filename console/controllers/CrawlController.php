@@ -32,7 +32,7 @@ class CrawlController extends Controller
         $dom->load($sitemap_content);
         foreach ($dom->find('url > loc') as $item) {
             $url = $item->innerHTML;
-            if (!$crawler = CrawledPage::find()->where(['url' => $url])) {
+            if (!$crawler = CrawledPage::find()->where(['url' => $url])->one()) {
                 $crawler = new CrawledPage();
             }
             $crawler->url = $url;
