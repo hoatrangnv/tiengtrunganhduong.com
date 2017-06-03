@@ -68,13 +68,13 @@ class Article extends \common\models\MyActiveRecord
                 'updatedAtAttribute' => 'update_time',
                 'value' => time(),
             ],
-            [
-                'class' => MySluggableBehavior::className(),
-                'attribute' => 'name',
-                'slugAttribute' => 'slug',
-                'immutable' => false,
-                'ensureUnique' => true,
-            ],
+//            [
+//                'class' => MySluggableBehavior::className(),
+//                'attribute' => 'name',
+//                'slugAttribute' => 'slug',
+//                'immutable' => false,
+//                'ensureUnique' => true,
+//            ],
         ];
     }
 
@@ -134,9 +134,9 @@ class Article extends \common\models\MyActiveRecord
                 'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['slug', 'name', 'content'], 'required'],
             [['content', 'sub_content'], 'string'],
-            [[/*'slug', */'name', 'meta_title'], 'string', 'max' => 255],
+            [['slug', 'name', 'meta_title'], 'string', 'max' => 255],
             [['meta_keywords', 'meta_description', 'description'], 'string', 'max' => 511],
-//            [['slug'], 'unique'],
+            [['slug'], 'unique'],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
