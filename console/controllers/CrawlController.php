@@ -30,7 +30,7 @@ class CrawlController extends Controller
         $sitemap_content = file_get_contents(self::$sitemap_filename);
 //        echo strlen($sitemap_content);
         $dom = new Dom;
-        $offset = strpos($sitemap_content, '264-tu-vung-ve-quan-ao.htm');
+        $offset = strpos($sitemap_content, 'tu-vung-tieng-trung-chu-de-phong-tiec.htm');
         $sitemap_sub_content = '<?xml version="1.0" encoding="UTF-8"?>'
             . ' <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
             . ' <url> <loc>http://tiengtrunganhduong.com/'
