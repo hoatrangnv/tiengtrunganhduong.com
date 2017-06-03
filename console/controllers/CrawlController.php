@@ -72,7 +72,7 @@ class CrawlController extends Controller
         ini_set('memory_limit', '1024M');
         $i = 0;
         $k = 0;
-        $data = CrawledPage::find()->offset(2)->limit(100)->all();
+        $data = CrawledPage::find()->offset(100)->limit(400)->all();
 //        foreach ($data as $key => $item) {
 //            echo "$key\n";
 //        }
