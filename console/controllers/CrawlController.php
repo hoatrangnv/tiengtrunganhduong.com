@@ -86,7 +86,7 @@ class CrawlController extends Controller
             $html = "<html>" . $item->content . "</html>";
             $dom = new Dom;
             echo 1;
-            $dom->load($html);
+            $dom->loadStr($html);
             $h1 = $dom->find('h1.nameOtherNew', 0);
             $content = $dom->find('div.contentNewTop', 0);
             echo 2 . "\n";
