@@ -126,6 +126,8 @@ class CrawlController extends Controller
                     $image_source = $meta_ogImage->getAttribute('content');
                     $image = new Image();
                     $image->image_source = $image_source;
+                    $path_info = pathinfo($image_source);
+                    $image->name = isset($path_info['basename']) ? $path_info['basename'] : $image_source;
                     if ($image->saveFile()) {
                         $image->active = 1;
                         if ($image->save()) {
