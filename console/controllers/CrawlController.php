@@ -134,6 +134,8 @@ class CrawlController extends Controller
                         } else {
                             echo 'Image Errors: '; var_dump($image->getErrors());
                         }
+                    } else {
+                        echo 'Save Image Errors: '; var_dump($image->getErrors());
                     }
                     $image = null;
                     $meta_ogImage = null;
