@@ -83,9 +83,15 @@ class Image extends \common\models\Image
             return false;
         }
 
-        if (!$this->image_source_content = file_get_contents($this->$attribute)) {
-            $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
-                . ' cannot get content.'));
+        try {
+            if (!$this->image_source_content = file_get_contents($this->$attribute)) {
+                $this->addError($attribute, Yii::t('app', $this->getAttributeLabel($attribute)
+                    . ' cannot get content.'));
+                $this->image_source_loaded = false;
+                return false;
+            }
+        } catch (\Exception $e) {
+            $this->addError($attribute, $e->getMessage());
             $this->image_source_loaded = false;
             return false;
         }
