@@ -86,6 +86,7 @@ class CrawlController extends Controller
                 'http://tiengtrunganhduong.com/250-tu-vung-tieng-trung-chu-de-thu-vien.htm',
                 'http://tiengtrunganhduong.com/bo-quan-ao-nay-hop-voi-toi-khong.htm',
                 'http://tiengtrunganhduong.com/dich-ho-ten-tieng-viet-sang-tieng-trung.htm',
+                'http://tiengtrunganhduong.com/cong-viec-hang-ngay.htm',
             ])) {
                 echo "Locked list\n";
                 continue;
