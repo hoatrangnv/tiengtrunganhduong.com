@@ -138,8 +138,10 @@ class CrawlController extends Controller
                     $image = new Image();
                     $image->image_source = $image_source;
                     $image->name = $article->name;
+                    $image->create_time = $article->create_time;
+                    $image->update_time = $article->update_time;
+                    $image->active = 1;
                     if ($image->saveFile()) {
-                        $image->active = 1;
                         if ($image->save()) {
                             $article->image_id = $image->id;
                             echo $image->getSource() . "\n";
@@ -153,11 +155,6 @@ class CrawlController extends Controller
                         var_dump($image->getErrors());
                         echo "\n";
                         if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
-                            $image2->name = $image->name;
-                            if (!$image2->save()) {
-                                var_dump($image2->getErrors());
-                                echo "\n";
-                            }
                             $article->image_id = $image2->id;
                         }
                     }
