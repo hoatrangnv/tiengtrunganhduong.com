@@ -71,14 +71,15 @@ return [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
+            '*',
 //            'site/error',
 //            'site/index',
             'admin/user/login',
             'admin/user/logout',
             'admin/user/request-password-reset',
             'admin/user/reset-password',
-            //User can sign up themselves, but status will be inactive (config default status in params)
-            //'admin/user/signup',
+            //Users can sign up by themselves, but status will be inactive (config default status in params)
+//            'admin/user/signup',
         ]
     ],
     // follow config when redirect user to login form if not logged in

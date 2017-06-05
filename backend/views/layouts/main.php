@@ -42,7 +42,8 @@ AppAsset::register($this);
     } else {
         $menuItems = array_merge(
             $menuItems,
-            Helper::filter([
+            [
+//            Helper::filter([
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Article', 'items' => [
                     ['label' => 'Index', 'url' => ['/article/index']],
@@ -94,8 +95,8 @@ AppAsset::register($this);
                     ['label' => 'Menu', 'url' => ['/admin/menu/create'], 'visible' => false],
                     ['label' => 'Menu', 'url' => ['/admin/menu/update'], 'visible' => false],
                 ]],
-//                ['label' => 'User', 'url' => ['/user/index']],
-            ]),
+//            ]),
+            ],
             [
                 ['label' => \Yii::$app->user->identity->username, 'items' => [
                     ['label' => 'Change Password', 'url' => ['/admin/user/change-password']],
