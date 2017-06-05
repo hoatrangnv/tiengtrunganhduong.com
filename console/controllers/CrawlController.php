@@ -114,20 +114,20 @@ class CrawlController extends Controller
 //            var_dump($k, $h1, $content);
             if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
                 if ($article = Article::find()->where(['slug' => $relative_url])->one()) {
-                    if ($time_div = $dom->find('div.timeNewTop', 0)) {
-                        $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
-                        $article->view_count = $view_count;
-                        $article->active = 1;
-                        $article->visible = 1;
-                        if ($article->save()) {
-                            echo 'Update view_count for article id = ' . $article->id . ' ' . $time_div->innerHTML . ';' . str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11)) . '; ' . $view_count . "\n";
-                        } else {
-                            echo 'Update view_count errors:';
-                            var_dump($article->getErrors());
-                        }
-                        $time_div = null;
-                    }
-                    $article = null;
+//                    if ($time_div = $dom->find('div.timeNewTop', 0)) {
+//                        $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
+//                        $article->view_count = $view_count;
+//                        $article->active = 1;
+//                        $article->visible = 1;
+//                        if ($article->save()) {
+//                            echo 'Update view_count for article id = ' . $article->id . ' ' . $time_div->innerHTML . ';' . str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11)) . '; ' . $view_count . "\n";
+//                        } else {
+//                            echo 'Update view_count errors:';
+//                            var_dump($article->getErrors());
+//                        }
+//                        $time_div = null;
+//                    }
+//                    $article = null;
                     continue;
                 }
                 $article = new Article();
