@@ -72,7 +72,7 @@ class CrawlController extends Controller
         ini_set('memory_limit', '1024M');
         $i = 0;
         $k = 0;
-        $data = CrawledPage::find()->offset(500)->limit(500)->all();
+        $data = CrawledPage::find()->offset(0)->limit(500)->all();
 //        foreach ($data as $key => $item) {
 //            echo "$key\n";
 //        }
@@ -85,6 +85,7 @@ class CrawlController extends Controller
                 'http://tiengtrunganhduong.com/bang-chu-cai-tieng-trung.htm',
                 'http://tiengtrunganhduong.com/250-tu-vung-tieng-trung-chu-de-thu-vien.htm',
                 'http://tiengtrunganhduong.com/bo-quan-ao-nay-hop-voi-toi-khong.htm',
+                'http://tiengtrunganhduong.com/dich-ho-ten-tieng-viet-sang-tieng-trung.htm',
             ])) {
                 echo "Locked list\n";
                 continue;
@@ -119,6 +120,11 @@ class CrawlController extends Controller
                 $article->content = $content->innerHTML;
 //                $article->slug = Inflector::slug(MyStringHelper::stripUnicode($article->name));
                 $article->slug = $relative_url;
+                if ($time_div = $dom->find('div.timeNewTop', 0)) {
+                    $time = strtotime(str_replace('/', '-', substr($time_div->innerHTML, 0, 10)));
+                    $article->create_time = $article->update_time = $article->publish_time = $time;
+                    $time_div = null;
+                }
                 if ($meta_keywords = $dom->find('meta[name="keywords"]', 0)) {
                     $article->meta_keywords = $meta_keywords->getAttribute('content');
                     $meta_keywords = null;
@@ -131,19 +137,27 @@ class CrawlController extends Controller
                     $image_source = $meta_ogImage->getAttribute('content');
                     $image = new Image();
                     $image->image_source = $image_source;
-                    $path_info = pathinfo($image_source);
-                    $image->name = isset($path_info['basename']) ? $path_info['basename'] : $image_source;
+                    $image->name = $article->name;
                     if ($image->saveFile()) {
                         $image->active = 1;
                         if ($image->save()) {
                             $article->image_id = $image->id;
                             echo $image->getSource() . "\n";
                         } else {
-                            echo 'Image Errors: '; var_dump($image->getErrors());
+                            echo 'Image Errors: ';
+                            var_dump($image->getErrors());
+                            echo "\n";
                         }
                     } else {
-                        echo 'Save Image Errors: '; var_dump($image->getErrors());
-                        if ($image2 = Image::find()->where(['name' => $image->name])->one()) {
+                        echo 'Save Image Errors: ';
+                        var_dump($image->getErrors());
+                        echo "\n";
+                        if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
+                            $image2->name = $image->name;
+                            if (!$image2->save()) {
+                                var_dump($image2->getErrors());
+                                echo "\n";
+                            }
                             $article->image_id = $image2->id;
                         }
                     }
