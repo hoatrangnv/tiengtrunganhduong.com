@@ -168,7 +168,7 @@ class CrawlController extends Controller
 
                 if ($article->save()) {
                     $i++;
-                    echo $i . '. ' . $article->slug . "\n\n";
+                    echo $article->id . '. ' . $article->slug . "\n\n";
                 } else {
                     echo 'Article Errors: '; var_dump($article->getErrors());
                 }
