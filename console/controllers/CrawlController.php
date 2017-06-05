@@ -127,7 +127,7 @@ class CrawlController extends Controller
 //                        }
 //                        $time_div = null;
 //                    }
-//                    $article = null;
+                    $article = null;
                     continue;
                 }
                 $article = new Article();
