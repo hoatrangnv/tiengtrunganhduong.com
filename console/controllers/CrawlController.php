@@ -112,7 +112,19 @@ class CrawlController extends Controller
             echo 2 . "\n";
 //            var_dump($k, $h1, $content);
             if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
-                if (Article::find()->where(['slug' => $relative_url])->one()) {
+                if ($article = Article::find()->where(['slug' => $relative_url])->one()) {
+                    if ($time_div = $dom->find('div.timeNewTop', 0)) {
+                        $view_count = (int) substr($time_div->innerHTML, 11);
+                        $article->view_count = $view_count;
+                        if ($article->save()) {
+                            echo 'Update view_count for article id = ' . $article->id . "\n";
+                        } else {
+                            echo 'Update view_count errors:';
+                            var_dump($article->getErrors());
+                        }
+                        $time_div = null;
+                    }
+                    $article = null;
                     continue;
                 }
                 $article = new Article();
