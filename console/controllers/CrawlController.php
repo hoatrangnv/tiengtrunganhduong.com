@@ -116,6 +116,8 @@ class CrawlController extends Controller
                     if ($time_div = $dom->find('div.timeNewTop', 0)) {
                         $view_count = (int) substr($time_div->innerHTML, 11);
                         $article->view_count = $view_count;
+                        $article->active = 1;
+                        $article->visible = 1;
                         if ($article->save()) {
                             echo 'Update view_count for article id = ' . $article->id . "\n";
                         } else {
@@ -130,11 +132,14 @@ class CrawlController extends Controller
                 $article = new Article();
                 $article->name = $article->meta_title = $h1->innerHTML;
                 $article->content = $content->innerHTML;
-//                $article->slug = Inflector::slug(MyStringHelper::stripUnicode($article->name));
                 $article->slug = $relative_url;
+                $article->active = 1;
+                $article->visible = 1;
                 if ($time_div = $dom->find('div.timeNewTop', 0)) {
                     $time = strtotime(str_replace('/', '-', substr($time_div->innerHTML, 0, 10)));
+                    $view_count = (int) substr($time_div->innerHTML, 11);
                     $article->create_time = $article->update_time = $article->publish_time = $time;
+                    $article->view_count = $view_count;
                     $time_div = null;
                 }
                 if ($meta_keywords = $dom->find('meta[name="keywords"]', 0)) {
