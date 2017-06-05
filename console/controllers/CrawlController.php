@@ -119,7 +119,7 @@ class CrawlController extends Controller
                         $article->active = 1;
                         $article->visible = 1;
                         if ($article->save()) {
-                            echo 'Update view_count for article id = ' . $article->id . "\n";
+                            echo 'Update view_count for article id = ' . $article->id . ' ' . $time_div->innerHTML . ';' . str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11)) . '; ' . $view_count . "\n";
                         } else {
                             echo 'Update view_count errors:';
                             var_dump($article->getErrors());
