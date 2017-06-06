@@ -104,7 +104,7 @@ if ($next) {
         ]);
         */
         $content = \vanquyet\queryTemplate\QueryTemplate::widget([
-            'content' => $model->content,
+            'content' => $model->sub_content,
             'queries' => [
                 'Article' => function ($id) {
                     return Article::find()->where(['id' => $id])->onePublished();
