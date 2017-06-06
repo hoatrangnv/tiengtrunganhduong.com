@@ -4,10 +4,10 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use common\behaviors\MySluggableBehavior;
 use yii\behaviors\BlameableBehavior;
-use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\SluggableBehavior;
+use common\behaviors\MySluggableBehavior;
 use yii\validators\DateValidator;
 
 /**
@@ -63,12 +63,12 @@ class Article extends \common\models\MyActiveRecord
                 'createdByAttribute' => 'creator_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-//            [
-//                'class' => TimestampBehavior::className(),
-//                'createdAtAttribute' => 'create_time',
-//                'updatedAtAttribute' => 'update_time',
-//                'value' => time(),
-//            ],
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'create_time',
+                'updatedAtAttribute' => 'update_time',
+                'value' => time(),
+            ],
 //            [
 //                'class' => MySluggableBehavior::className(),
 //                'attribute' => 'name',
@@ -131,7 +131,7 @@ class Article extends \common\models\MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'category_id', 'image_id', 'active', 'visible', 'featured',
-                'status', 'type', 'sort_order', 'create_time', 'update_time',
+                'status', 'type', 'sort_order', /*'create_time', 'update_time',*/
                 'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['slug', 'name', 'content'], 'required'],
             [['content', 'sub_content'], 'string'],

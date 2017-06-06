@@ -3,6 +3,10 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\SluggableBehavior;
+use common\behaviors\MySluggableBehavior;
 
 /**
  * This is the model class for table "article_category".
@@ -45,6 +49,33 @@ class ArticleCategory extends \common\models\MyActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'creator_id',
+                'updatedByAttribute' => 'updater_id',
+            ],
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'create_time',
+                'updatedAtAttribute' => 'update_time',
+                'value' => time(),
+            ],
+//            [
+//                'class' => MySluggableBehavior::className(),
+//                'attribute' => 'name',
+//                'slugAttribute' => 'slug',
+//                'immutable' => false,
+//                'ensureUnique' => true,
+//            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'article_category';
@@ -56,14 +87,15 @@ class ArticleCategory extends \common\models\MyActiveRecord
     public function rules()
     {
         return [
-            [['creator_id', 'updater_id', 'image_id', 'parent_id', 'active', 'visible', 'featured', 'type', 'status', 'sort_order', 'create_time', 'update_time'], 'integer'],
+            [[/*'creator_id', 'updater_id',*/ 'image_id', 'parent_id', 'active', 'visible', 'featured',
+                'type', 'status', 'sort_order', /*'create_time', 'update_time'*/], 'integer'],
             [['slug', 'name'], 'required'],
             [['long_description'], 'string'],
             [['slug', 'name', 'meta_title'], 'string', 'max' => 255],
             [['meta_description', 'meta_keywords', 'description'], 'string', 'max' => 511],
             [['slug'], 'unique'],
-            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
-            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
+//            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
+//            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => ArticleCategory::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];

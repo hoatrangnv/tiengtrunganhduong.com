@@ -517,7 +517,7 @@ class Image extends \common\models\MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order',
-                'create_time', 'update_time'], 'integer'],
+                /*'create_time', 'update_time'*/], 'integer'],
             [['name', /*'path',*/ 'file_basename'], 'string', 'max' => 255],
             [['file_extension', /*'mime_type'*/], 'string', 'max' => 32],
             [['resize_labels', 'encode_data'], 'string', 'max' => 2047],
