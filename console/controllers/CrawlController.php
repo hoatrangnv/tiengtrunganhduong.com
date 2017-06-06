@@ -133,6 +133,7 @@ class CrawlController extends Controller
                         if ($category = ArticleCategory::findOne(['name' => $catName])) {
                             echo $category->name . "\n";
                             $article->category_id = $category->id;
+                            $article->slug = str_replace('.htm', '', $article->slug);
                             if ($article->save()) {
                                 echo '... ' . $article->name . "\n";
                             }
