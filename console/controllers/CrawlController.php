@@ -128,18 +128,26 @@ class CrawlController extends Controller
 //                        }
 //                        $time_div = null;
 //                    }
-                    if ($linkRoad = $dom->find('a.linkRoad', 2)) {
-                        $catName = $linkRoad->innerHTML;
-                        if ($category = ArticleCategory::findOne(['name' => $catName])) {
-                            echo $category->name . "\n";
-                            $article->category_id = $category->id;
-                            $article->slug = str_replace('.htm', '', $article->slug);
-                            if ($article->save()) {
-                                echo '... ' . $article->name . "\n";
-                            }
-                            $category = null;
+//                    if ($linkRoad = $dom->find('a.linkRoad', 2)) {
+//                        $catName = $linkRoad->innerHTML;
+//                        if ($category = ArticleCategory::findOne(['name' => $catName])) {
+//                            echo $category->name . "\n";
+//                            $article->category_id = $category->id;
+//                            $article->slug = str_replace('.htm', '', $article->slug);
+//                            if ($article->save()) {
+//                                echo '... ' . $article->name . "\n";
+//                            }
+//                            $category = null;
+//                        }
+//                        $linkRoad = null;
+//                    }
+                    if ($article->id < 21) {
+                        $article->content = $content->innerHTML;
+                        if ($article->save()) {
+                            echo $article->id . "\n";
+                        } else {
+
                         }
-                        $linkRoad = null;
                     }
                     $article = null;
                     continue;
