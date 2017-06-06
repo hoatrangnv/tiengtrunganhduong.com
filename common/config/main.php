@@ -31,8 +31,8 @@ return [
     ],
     'aliases' => [
         '@mdm/admin' => '@backend/mdm.admin',
-        '@frontendUrl' => 'http://tiengtrunganhduong.com',
-        '@backendUrl' => 'http://tiengtrunganhduong.com/backend',
-        '@imagesUrl' => 'http://tiengtrunganhduong.com/images',
+        '@frontendUrl' => '/',
+        '@backendUrl' => '/backend',
+        '@imagesUrl' => '/images',
     ]
 ];
