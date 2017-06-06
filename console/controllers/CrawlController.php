@@ -205,19 +205,19 @@ class CrawlController extends Controller
         $json_services = '[{"parent":"CÁC KHÓA HỌC VÀ HỌC PHÍ","children":[]},{"parent":"LỊCH KHAI GIẢNG","children":[]},{"parent":"CÁC LỚP ĐANG HỌC","children":[]},{"parent":"HƯỚNG DẪN ĐĂNG KÝ HỌC","children":[]},{"parent":"KHUYẾN MẠI","children":[]}]';
         $news = json_decode($json_news, true);
         $services = json_decode($json_services, true);
-        foreach ($news as $item) {
+        foreach ($services as $item) {
             $category = new ArticleCategory();
             $category->name = $item['parent'];
             $category->slug = Inflector::slug(MyStringHelper::stripUnicode($category->name));
-            $category->type = 1;
+            $category->type = 2;
             if ($category->save()) {
+                echo '...' . $category->name . "\n";
                 foreach ($item['children'] as $child) {
                     $cat = new ArticleCategory();
                     $cat->name = $child;
                     $cat->slug = Inflector::slug(MyStringHelper::stripUnicode($cat->name));
                     $cat->parent_id = $category->id;
-                    $cat->type = 1;
-                    echo '...' . $category->name . "\n";
+                    $cat->type = 2;
                     if ($cat->save()) {
                         echo '......' . $cat->name . "\n";
                     } else {
