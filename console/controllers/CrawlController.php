@@ -301,6 +301,16 @@ class CrawlController extends Controller
                         $img->setAttribute('data-id', $image2->id);
                     }
                 }
+                $newImg = (new Dom)->loadStr($img->outerHTML, [
+                    'whitespaceTextNode' => true,
+                    'strict'             => false,
+                    'enforceEncoding'    => null,
+                    'cleanupInput'       => false,
+                    'removeScripts'      => false,
+                    'removeStyles'       => false,
+                    'preserveLineBreaks' => true,
+                ]);
+                $img->getParent()->replaceChild($img->id(), $newImg);
                 $image = null;
                 $image2 = null;
                 $meta_ogImage = null;
