@@ -146,12 +146,13 @@ class CrawlController extends Controller
                         if ($article->save()) {
                             echo $article->id . "\n";
                         } else {
-
+                            var_dump($article->errors);
                         }
                     }
                     $article = null;
                     continue;
                 }
+                continue;
                 $article = new Article();
                 $article->name = $article->meta_title = $h1->innerHTML;
                 $article->content = $content->innerHTML;
