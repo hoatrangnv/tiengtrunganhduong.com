@@ -203,8 +203,8 @@ class CrawlController extends Controller
     {
         $json_news = '[{"parent":"SẮC MÀU TRUNG HOA","children":["Lịch sử và văn hóa","Âm nhạc","Xã Hội","Bài thuốc"]},{"parent":"VỀ CHÚNG TÔI","children":["Sự khác biệt","Quyền lợi của học viên","Cảm nhận của học viên","Video-Hình ảnh lớp học"]},{"parent":"CHIA SẺ KINH NGHIỆM","children":["Phương pháp học","Du học"]},{"parent":"GÓC HỌC TẬP","children":["Video, mp3","Thi HSK","Dịch thuật","Từ vựng theo chủ đề","Khẩu ngữ giao tiếp","Ngữ pháp","Học tiếng Trung qua hình ảnh","Tiếng Trung bồi"]},{"parent":"HOẠT ĐỘNG NGOẠI KHÓA","children":["Câu lạc bộ hán ngữ","Giao lưu, du lịch"]},{"parent":"GIẢI TRÍ","children":["Clip hài, truyện cười","Ca khúc tiếng Hoa","Người nổi tiếng","Ẩm thực"]},{"parent":"TÀI LIỆU","children":["Sách hay","Phát âm và chữ viết","Ngữ pháp và từ vựng","Phần mềm học tiếng Trung"]}]';
         $json_services = '[{"parent":"CÁC KHÓA HỌC VÀ HỌC PHÍ","children":[]},{"parent":"LỊCH KHAI GIẢNG","children":[]},{"parent":"CÁC LỚP ĐANG HỌC","children":[]},{"parent":"HƯỚNG DẪN ĐĂNG KÝ HỌC","children":[]},{"parent":"KHUYẾN MẠI","children":[]}]';
-        $news = json_decode($json_news);
-        $services = json_decode($json_services);
+        $news = json_decode($json_news, true);
+        $services = json_decode($json_services, true);
         foreach ($news as $item) {
             $category = new ArticleCategory();
             $category->name = $item['parent'];
