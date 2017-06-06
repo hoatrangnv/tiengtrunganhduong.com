@@ -73,7 +73,7 @@ class CrawlController extends Controller
         ini_set('memory_limit', '1024M');
         $i = 0;
         $k = 0;
-        $data = CrawledPage::find()->offset(2000)->limit(1000)->all();
+        $data = CrawledPage::find()->offset(0)->limit(3000)->all();
 //        foreach ($data as $key => $item) {
 //            echo "$key\n";
 //        }
@@ -128,6 +128,18 @@ class CrawlController extends Controller
 //                        }
 //                        $time_div = null;
 //                    }
+                    if ($linkRoad = $dom->find('a.linkRoad', 2)) {
+                        $catName = $linkRoad->innerHTML;
+                        if ($category = ArticleCategory::findOne(['name' => $catName])) {
+                            echo $category->name . "\n";
+                            $article->category_id = $category->id;
+                            if ($article->save()) {
+                                echo '... ' . $article->name . "\n";
+                            }
+                            $category = null;
+                        }
+                        $linkRoad = null;
+                    }
                     $article = null;
                     continue;
                 }
