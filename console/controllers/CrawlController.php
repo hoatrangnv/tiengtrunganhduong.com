@@ -215,7 +215,8 @@ class CrawlController extends Controller
     public function actionUpdateCategories()
     {
         foreach (ArticleCategory::find()->all() as $item) {
-            $item->active = $item->visible = 1;
+//            $item->active = $item->visible = 1;
+            $item->meta_title = $item->meta_description = $item->meta_keywords = $item->name;
             if ($item->save()) {
                 echo $item->name . "\n";
             }
