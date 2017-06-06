@@ -325,7 +325,7 @@ class CrawlController extends Controller
     public function actionArticleImages()
     {
         libxml_use_internal_errors(true);
-        foreach (Article::find()->limit(20)->orderBy('id asc')->all() as $article) {
+        foreach (Article::find()->limit(50)->orderBy('id asc')->all() as $article) {
             $doc = new \DOMDocument();
             $doc->loadHTML($article->content);
             foreach ($doc->getElementsByTagName("img") as $img) {
@@ -362,7 +362,7 @@ class CrawlController extends Controller
                 $image = null;
                 $image2 = null;
                 $meta_ogImage = null;
-                $article->content = $doc->saveHTML();
+                $article->sub_content = $doc->saveHTML();
             }
             if ($article->save()) {
                 echo $article->id . "\n";
