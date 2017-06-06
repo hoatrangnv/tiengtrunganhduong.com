@@ -310,7 +310,7 @@ class CrawlController extends Controller
                     'removeStyles'       => false,
                     'preserveLineBreaks' => true,
                 ]);
-                $img->getParent()->replaceChild($img->id(), $newImg);
+                $img->getParent()->replaceChild($img, $newImg);
                 $image = null;
                 $image2 = null;
                 $meta_ogImage = null;
