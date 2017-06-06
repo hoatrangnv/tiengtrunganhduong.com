@@ -325,7 +325,7 @@ class CrawlController extends Controller
     public function actionArticleImages()
     {
         libxml_use_internal_errors(true);
-        foreach (Article::find()->limit(50)->orderBy('id asc')->all() as $article) {
+        foreach (Article::find()->limit(3000)->offset(50)->orderBy('id asc')->all() as $article) {
             $doc = new \DOMDocument();
             $doc->loadHTML($article->content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             foreach ($doc->getElementsByTagName("img") as $img) {
