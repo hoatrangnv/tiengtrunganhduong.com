@@ -114,7 +114,7 @@ class CrawlController extends Controller
             echo 2 . "\n";
 //            var_dump($k, $h1, $content);
             if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
-                if ($article = Article::find()->where(['slug' => $relative_url])->one()) {
+                if ($article = Article::find()->where(['slug' => str_replace('.htm', '', $relative_url)])->one()) {
 //                    if ($time_div = $dom->find('div.timeNewTop', 0)) {
 //                        $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
 //                        $article->view_count = $view_count;
