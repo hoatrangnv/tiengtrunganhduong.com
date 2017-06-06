@@ -141,6 +141,7 @@ class CrawlController extends Controller
 //                        }
 //                        $linkRoad = null;
 //                    }
+                    echo "article id = $article->id\n";
                     if ($article->id < 21) {
                         $article->content = $content->innerHTML;
                         if ($article->save()) {
