@@ -327,7 +327,7 @@ class CrawlController extends Controller
         libxml_use_internal_errors(true);
         foreach (Article::find()->limit(50)->orderBy('id asc')->all() as $article) {
             $doc = new \DOMDocument();
-            $doc->loadHTML($article->content);
+            $doc->loadHTML($article->content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             foreach ($doc->getElementsByTagName("img") as $img) {
                 $image = new Image();
                 $image->image_source = $img->getAttribute('src');
