@@ -77,16 +77,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view} {update} {code_update} {delete}',
-                'buttons' => [
-                    'code_update' => function ($url, $model, $key) {
-                        return Html::a(
-                            '<span class="glyphicon glyphicon-console"></span>',
-                            \yii\helpers\Url::to(['article/update', 'id' => $model->id, 'code_editor' => 1]),
-                            ['aria-label' => 'Update', 'data-pjax' => 0]
-                        );
-                    }
-                ]
+                'template' => '{view} {update} {delete}',
+//                'buttons' => [
+//                    'delete' => function ($url, $model, $key) {
+//                    }
+//                ]
             ],
         ],
     ]); ?>

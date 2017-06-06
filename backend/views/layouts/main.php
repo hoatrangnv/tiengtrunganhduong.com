@@ -47,10 +47,15 @@ AppAsset::register($this);
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Article', 'items' => [
                     ['label' => 'Index', 'url' => ['/article/index']],
-                    ['label' => 'Create', 'url' => ['/article/create', 'code_editor' => 'text']],
-                    ['label' => 'Code Editor', 'url' => ['/article/create', 'code_editor' => 1]],
+                    ['label' => 'Create', 'url' => ['/article/create']],
                     ['label' => 'Update', 'url' => ['/article/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/article/view'], 'visible' => false],
+                ]],
+                ['label' => 'Article Category', 'items' => [
+                    ['label' => 'Index', 'url' => ['/article-category/index']],
+                    ['label' => 'Create', 'url' => ['/article-category/create']],
+                    ['label' => 'Update', 'url' => ['/article-category/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/article-category/view'], 'visible' => false],
                 ]],
                 ['label' => 'Image', 'items' => [
                     ['label' => 'Index', 'url' => ['/image/index']],
