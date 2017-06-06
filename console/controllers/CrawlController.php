@@ -305,6 +305,9 @@ class CrawlController extends Controller
                 $image2 = null;
                 $meta_ogImage = null;
             }
+            if ($article->save()) {
+                echo $article->id . "\n";
+            }
         }
     }
 }
