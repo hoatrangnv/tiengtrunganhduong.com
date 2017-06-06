@@ -273,6 +273,9 @@ class CrawlController extends Controller
             foreach ($dom->find('img') as $img) {
                 $image = new Image();
                 $image->image_source = $img->getAttribute('src');
+                if (strpos($image->image_source, 'http') === false) {
+                    $image->image_source = 'http://tiengtrunganhduong.com' . $image->image_source;
+                }
                 $image->name = $article->name;
                 $image->create_time = $article->create_time;
                 $image->update_time = $article->update_time;
