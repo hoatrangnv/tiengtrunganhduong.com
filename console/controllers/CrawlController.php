@@ -256,21 +256,68 @@ class CrawlController extends Controller
         }
     }
 
+//    public function actionArticleImages()
+//    {
+//        foreach (Article::find()->limit(20)->orderBy('id asc')->all() as $article) {
+//            $dom = new Dom;
+//            echo '...';
+//            $dom->loadStr($article->content, [
+//                'whitespaceTextNode' => true,
+//                'strict'             => false,
+//                'enforceEncoding'    => null,
+//                'cleanupInput'       => false,
+//                'removeScripts'      => false,
+//                'removeStyles'       => false,
+//                'preserveLineBreaks' => true,
+//            ]);
+//            foreach ($dom->find('img') as $img) {
+//                $image = new Image();
+//                $image->image_source = $img->getAttribute('src');
+//                if (strpos($image->image_source, 'http') === false) {
+//                    $image->image_source = 'http://tiengtrunganhduong.com' . $image->image_source;
+//                }
+//                $image->name = $article->name;
+//                $image->create_time = $article->create_time;
+//                $image->update_time = $article->update_time;
+//                $image->active = 1;
+//                if ($image->saveFile()) {
+//                    if ($image->save()) {
+//                        echo $image->getSource() . "\n";
+//                        $img->setAttribute('src', $image->getSource());
+//                        $img->setAttribute('data-id', $image->id);
+//                    } else {
+//                        echo 'Image Errors: ';
+//                        var_dump($image->getErrors());
+//                        echo "\n";
+//                    }
+//                } else {
+//                    echo 'Save Image Errors: ';
+//                    var_dump($image->getErrors());
+//                    echo "\n";
+//                    if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
+//                        echo 'Found Same Image: ';
+//                        echo $image2->getSource() . "\n";
+//                        $img->setAttribute('src', $image2->getSource());
+//                        $img->setAttribute('data-id', $image2->id);
+//                    }
+//                }
+//                $dom->saveHTML();
+//                $image = null;
+//                $image2 = null;
+//                $meta_ogImage = null;
+//            }
+//            if ($article->save()) {
+//                echo $article->id . "\n";
+//            }
+//        }
+//    }
+
     public function actionArticleImages()
     {
         foreach (Article::find()->limit(20)->orderBy('id asc')->all() as $article) {
-            $dom = new Dom;
-            echo '...';
-            $dom->loadStr($article->content, [
-                'whitespaceTextNode' => true,
-                'strict'             => false,
-                'enforceEncoding'    => null,
-                'cleanupInput'       => false,
-                'removeScripts'      => false,
-                'removeStyles'       => false,
-                'preserveLineBreaks' => true,
-            ]);
-            foreach ($dom->find('img') as $img) {
+            $doc = new \DOMDocument();
+            $doc->loadHTML($article->content);
+            foreach ($doc->getElementsByTagName("img") as $img) {
                 $image = new Image();
                 $image->image_source = $img->getAttribute('src');
                 if (strpos($image->image_source, 'http') === false) {
@@ -301,19 +348,10 @@ class CrawlController extends Controller
                         $img->setAttribute('data-id', $image2->id);
                     }
                 }
-                $newImg = (new Dom)->loadStr($img->outerHTML, [
-                    'whitespaceTextNode' => true,
-                    'strict'             => false,
-                    'enforceEncoding'    => null,
-                    'cleanupInput'       => false,
-                    'removeScripts'      => false,
-                    'removeStyles'       => false,
-                    'preserveLineBreaks' => true,
-                ]);
-                $img->getParent()->replaceChild($img, $newImg);
                 $image = null;
                 $image2 = null;
                 $meta_ogImage = null;
+                $article->content = $doc->saveHTML();
             }
             if ($article->save()) {
                 echo $article->id . "\n";
