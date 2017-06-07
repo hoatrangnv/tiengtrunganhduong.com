@@ -21,6 +21,12 @@ class ArticleController extends BaseController
         return $this->render('view', ['model' => $model]);
     }
 
+    public function actionTag()
+    {
+        $alias = Yii::$app->request->get(UrlParam::ALIAS);
+        return $this->render('tag', []);
+    }
+
     public function findModel($slug)
     {
         if (!$model = Article::find()->where(['slug' => $slug])->oneActive()) {
