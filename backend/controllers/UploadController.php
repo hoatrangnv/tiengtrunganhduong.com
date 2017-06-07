@@ -17,6 +17,7 @@ class UploadController extends BaseController
 {
     public function actionFile()
     {
+        set_time_limit(600);
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
