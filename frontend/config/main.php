@@ -51,7 +51,7 @@ return [
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
-                ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
+//                ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
                 ['pattern' => '<' . UrlParam::SLUG . '>.htm', 'route' => 'article/view'],
             ],
         ],
