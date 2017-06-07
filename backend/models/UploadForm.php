@@ -31,6 +31,11 @@ class UploadForm extends Model
     public $image_file_extension;
     public $image_name_to_basename;
 
+    /**
+     * @var UploadedFile
+     */
+    public $file;
+
     public function rules()
     {
         return [
@@ -49,6 +54,8 @@ class UploadForm extends Model
             ['image_file_basename', 'string', 'max' => 128],
             ['image_file_extension', 'string', 'max' => 32],
             ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
+
+            ['file', 'file'],
         ];
     }
 
@@ -140,4 +147,13 @@ class UploadForm extends Model
         }
     }
 
+    public function uploadFile()
+    {
+        if ($this->validate()) {
+            $this->file->saveAs(Yii::getAlias('@uploads/' . date('Ymd_His__') . $this->file->baseName . '.' . $this->file->extension));
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -15,6 +15,21 @@ use yii\web\UploadedFile;
 
 class UploadController extends BaseController
 {
+    public function actionFile()
+    {
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if ($model->uploadFile()) {
+                echo 'File is uploaded successfully';
+                return true;
+            }
+        }
+
+        return $this->render('file', ['model' => $model]);
+    }
+
     public function actionImages()
     {
         $model = new UploadForm();
