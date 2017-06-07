@@ -4,7 +4,7 @@ use kartik\select2\Select2;
 use backend\models\Image;
 use yii\helpers\Html;
 
-$this->title = 'Upload Images';
+$this->title = 'Upload File';
 $this->params['breadcrumbs'][] = 'Upload';
 $this->params['breadcrumbs'][] = 'Images';
 ?>
