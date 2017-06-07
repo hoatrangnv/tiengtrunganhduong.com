@@ -15,14 +15,6 @@ $this->registerMetaTag([
     'name' => 'viewport',
     'content' => 'width=device-width, initial-scale=1'
 ]);
-$this->registerMetaTag([
-    'name' => 'propeller',
-    'content' => 'f3aac67abe9ca2b997e4162b0c9d7661'
-]);
-//propeller_popunder
-//$this->registerJsFile('//go.onclasrv.com/apu.php?zoneid=1177264');
-//propeller_dialog
-//$this->registerJsFile('//go.mobisla.com/notice.php?p=1177286&interactive=1&pushup=1', ['async' => 'async']);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -38,6 +30,9 @@ $this->registerMetaTag([
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+    <div class="container">
+        <?= $this->render('navigation') ?>
+    </div>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
