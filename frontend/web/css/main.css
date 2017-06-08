@@ -36,7 +36,7 @@ button
 
 .container
 {
-    max-width: 720px;
+    max-width: 1000px;
     margin: auto;
     width: 100%;
     padding: 0.5rem;
@@ -166,10 +166,11 @@ article div + div
     clear: both;
     color: #fff;
     z-index: 100;
+    font-size: 0.86em;
 }
 .nav-bar .menu
 {
-    background: #1666A5;
+    background: #FF2D33;
 }
 .nav-bar .menu ul li
 {
@@ -277,19 +278,23 @@ article div + div
  */
 .item-view,
 .aspect-ratio,
-.aspect-ratio * {
+.aspect-ratio *
+{
     position: relative;
 }
-.item-view {
+.item-view
+{
     overflow: hidden;
 }
 .aspect-ratio .item-view,
-.item-view.aspect-ratio {
+.item-view.aspect-ratio
+{
     width: 100%;
     height: 0;
 }
 .aspect-ratio .item-view .img-wrap,
-.item-view.aspect-ratio .img-wrap {
+.item-view.aspect-ratio .img-wrap
+{
     position: absolute;
     top: 0;
     left: 0;
@@ -297,7 +302,8 @@ article div + div
     height: 100%;
 }
 .aspect-ratio .item-view .img-wrap > *,
-.item-view.aspect-ratio .img-wrap > * {
+.item-view.aspect-ratio .img-wrap > *
+{
     display: block;
     position: absolute;
     margin: auto;
@@ -307,17 +313,20 @@ article div + div
     right: -9999px;
 }
 .aspect-ratio .item-view .img-wrap img.landscape,
-.item-view.aspect-ratio .img-wrap img.landscape {
+.item-view.aspect-ratio .img-wrap img.landscape
+{
     height: 100%;
     width: auto;
 }
 .aspect-ratio .item-view .img-wrap img.portrait,
-.item-view.aspect-ratio .img-wrap img.portrait {
+.item-view.aspect-ratio .img-wrap img.portrait
+{
     height: auto;
     width: 100%;
 }
 .aspect-ratio .item-view .img-wrap :not(img):first-child,
-.item-view.aspect-ratio .img-wrap :not(img):first-child {
+.item-view.aspect-ratio .img-wrap :not(img):first-child
+{
     width: 100%;
     height: 100%;
 }
@@ -325,24 +334,24 @@ article div + div
 /*
  * Add your aspect ratios
  */
-.__7x2 .item-view,
-.item-view.__7x2 {
-    padding-bottom: calc(200% / 7);
-}
 .__16x9 .item-view,
-.item-view.__16x9 {
+.item-view.__16x9
+{
     padding-bottom: calc(900% / 16);
 }
 .__5x3 .item-view,
-.item-view.__5x3 {
+.item-view.__5x3
+{
     padding-bottom: calc(300% / 5);
 }
-.__4x3 .item-view,
-.item-view.__4x3 {
-    padding-bottom: calc(300% / 4);
+.__3x1 .item-view,
+.item-view.__3x1
+{
+    padding-bottom: calc(100% / 3);
 }
 .__1x1 .item-view,
-.item-view.__1x1 {
+.item-view.__1x1
+{
     padding-bottom: 100%;
 }
 

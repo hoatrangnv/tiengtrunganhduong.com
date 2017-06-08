@@ -35,6 +35,11 @@ $this->registerMetaTag([
 
 <div class="wrap">
     <div class="container">
+        <div class="img-wrap">
+            <img src="<?= Yii::getAlias('@web/img/desktop_logo_banner.png') ?>" alt="<?= Yii::$app->name ?>">
+        </div>
+    </div>
+    <div class="container">
         <?= $this->render('navBar') ?>
     </div>
     <div class="container">
