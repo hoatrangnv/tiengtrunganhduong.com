@@ -257,6 +257,13 @@ article div + div
     display: block;
 }
 
+.main-content {
+    width: calc(75% - 0.5rem);
+}
+.aside {
+    width: calc(25% - 0.5rem);
+}
+
 @media screen and (max-width: 860px)
 {
     

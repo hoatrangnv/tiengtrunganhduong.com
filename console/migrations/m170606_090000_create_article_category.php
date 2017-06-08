@@ -63,6 +63,6 @@ class m170606_090000_create_article_category extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%article}}');
+        $this->dropTable('{{%article_category}}');
     }
 }

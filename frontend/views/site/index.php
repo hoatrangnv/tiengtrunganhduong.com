@@ -14,16 +14,3 @@ $this->registerLinkTag([
     'href' => Url::home(true)
 ]);
 ?>
-<section class="list-view">
-    <ul>
-        <?php
-        foreach (Article::find()->orderBy('publish_time desc')->allPublished() as $item) {
-            ?>
-            <li>
-                <?= $item->a(null, ['class' => 'link']) ?>
-            </li>
-            <?php
-        }
-        ?>
-    </ul>
-</section>

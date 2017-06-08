@@ -35,14 +35,22 @@ $this->registerMetaTag([
 
 <div class="wrap">
     <div class="container">
-        <?= $this->render('navigation') ?>
+        <?= $this->render('navBar') ?>
     </div>
     <div class="container">
+        <?= $this->render('slider') ?>
+    </div>
+    <div class="container clr">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="main-content left">
+            <?= $content ?>
+        </div>
+        <aside class="aside right">
+
+        </aside>
     </div>
 </div>
 

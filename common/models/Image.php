@@ -239,165 +239,6 @@ class Image extends \common\models\MyActiveRecord
         return [];
     }
 
-    /*
-    const T_IMG_BEGIN = '{img(';
-    const T_IMG_END = ')}';
-    const T_IMG_VAR_SEP = ',';
-    const T_IMG_OPT_SEP = '=';
-
-    const T_IMG_EMB_BEGIN = '[['; // attribute embed
-    const T_IMG_EMB_END = ']]';
-
-    const T_IMG_SRC = 'src'; // src with this size key
-    const T_IMG_SRC_BEGIN = 'src('; // src with other size key
-    const T_IMG_SRC_END = ')';
-
-    const T_IMG_FILENAME = 'filename'; // filename with this size key
-    const T_IMG_FILENAME_BEGIN = 'filename('; // filename with other size key
-    const T_IMG_FILENAME_END = ')';
-
-    public function getImgTemplate($size_key = Image::SIZE_0)
-    {
-        // "{img($this->id)}"
-        if ($size_key == Image::SIZE_0) {
-            return self::T_IMG_BEGIN . $this->id . self::T_IMG_END;
-        }
-        // "{img($this->id,,$size_key)}"
-        return self::T_IMG_BEGIN . $this->id . self::T_IMG_VAR_SEP . $size_key . self::T_IMG_END;
-    }
-
-    public static function imgTemplate2Html($template)
-    {
-        $params_string = substr(substr($template, 0, - strlen(self::T_IMG_END)), strlen(self::T_IMG_BEGIN));
-        $params = explode(self::T_IMG_VAR_SEP, $params_string);
-
-        if (!isset($params[0]) || !$model = self::find()->where(['id' => $params[0]])->oneActive()) {
-            return '';
-        }
-
-        $size_key = self::SIZE_0;
-        if (isset($params[1])) {
-            $size_key = $params[1];
-        }
-
-        $options = [];
-
-        if (isset($params[2])) {
-            foreach (array_slice($params, 2) as $param) {
-                $att_val = explode(self::T_IMG_OPT_SEP, $param);
-                if (isset($att_val[1])) {
-                    $att = $att_val[0];
-                    $val = $att_val[1];
-                    if (isset($att_val[2])) {
-                        foreach (array_slice($att_val, 2) as $val_part) {
-                            $val .= self::T_IMG_OPT_SEP . $val_part;
-                        }
-                    }
-                    $options[$att] = $val;
-                }
-            }
-        }
-
-        // Maybe have some options affect to src and all src of different sizes will be stored
-        // so we need to call function getImgSrc before replace template in attribute value
-        $model->getImgSrc(null, $options);
-
-        // Check if template need to return attribute instead of an <img> tag
-        if (strpos($params[2], self::T_IMG_VAR_SEP) === false) {
-            if ($model->hasAttribute($params[2])) {
-                return $model->{$params[2]};
-            }
-            if ($params[2] == self::T_IMG_SRC) {
-                return $model->getImgSrc($size_key);
-            }
-            if ($params[2] == self::T_IMG_FILENAME) {
-                return $model->getImgFilename($size_key);
-            }
-        }
-
-
-        // Replace template in value of attributes by real data
-        foreach ($options as $att => $val) {
-            preg_match_all(
-                "/" . preg_quote(self::T_IMG_EMB_BEGIN) . "(.*?)" . preg_quote(self::T_IMG_EMB_END) . "/",
-                $val,
-                $attributes
-            );
-            foreach ($attributes[1] as $attribute) {
-                if ($model->hasAttribute($attribute)) {
-                    $val = str_replace(
-                        self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                        $model->$attribute,
-                        $val
-                    );
-                }
-                else
-                    if ($attribute == self::T_IMG_SRC) {
-                        $val = str_replace(
-                            self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                            $model->getImgSrc($size_key),
-                            $val
-                        );
-                    }
-                    else
-                        if ($attribute == self::T_IMG_FILENAME) {
-                            $val = str_replace(
-                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                                $model->getImgFilename($size_key),
-                                $val
-                            );
-                        }
-                    else
-                        if ( substr($attribute, 0, strlen(self::T_IMG_SRC_BEGIN)) == self::T_IMG_SRC_BEGIN
-                            && substr($attribute, - strlen(self::T_IMG_SRC_END)) == self::T_IMG_SRC_END
-                        ) {
-                            $other_size_key = substr(
-                                substr($attribute, 0, - strlen(self::T_IMG_SRC_END)),
-                                strlen(self::T_IMG_SRC_BEGIN)
-                            );
-                            $val = str_replace(
-                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                                $model->getImgSrc($other_size_key),
-                                $val
-                            );
-                        }
-                    else
-                        if ( substr($attribute, 0, strlen(self::T_IMG_FILENAME_BEGIN)) == self::T_IMG_FILENAME_BEGIN
-                            && substr($attribute, - strlen(self::T_IMG_FILENAME_END)) == self::T_IMG_FILENAME_END
-                        ) {
-                            $other_size_key = substr(
-                                substr($attribute, 0, - strlen(self::T_IMG_FILENAME_END)),
-                                strlen(self::T_IMG_FILENAME_BEGIN)
-                            );
-                            $val = str_replace(
-                                self::T_IMG_EMB_BEGIN . $attribute . self::T_IMG_EMB_END,
-                                $model->getImgFilename($other_size_key),
-                                $val
-                            );
-                        }
-            }
-            $options[$att] = $val;
-        }
-
-        // Return an img tag
-        return $model->img($size_key, $options);
-    }
-
-    public static function textWithTemplates2Html($string)
-    {
-        preg_match_all(
-            "/" . preg_quote(self::T_IMG_BEGIN) . "(.*?)" . preg_quote(self::T_IMG_END) . "/",
-            $string,
-            $matches
-        );
-        foreach ($matches[0] as $template) {
-            $img = self::imgTemplate2Html($template);
-            $string = str_replace($template, $img, $string);
-        }
-        return $string;
-    }
-    */
-
     /**
      * @var
      */
@@ -435,7 +276,7 @@ class Image extends \common\models\MyActiveRecord
      * @param array $options
      * @return mixed|string
      */
-    public function getImgSrc($size, $options = [])
+    public function getImgSrc($size = Image::SIZE_0, $options = [])
     {
         // Initialize
         if (is_null($this->_img_srcs)) {
@@ -461,7 +302,7 @@ class Image extends \common\models\MyActiveRecord
         }
 
         // Get image src by size key or size
-        $size_key = Image::getSizeKeyBySize($size, $this->_img_sizes);
+        $size_key = Image::getSizeKeyBySize($size , $this->_img_sizes);
         foreach ($this->_img_srcs as $key => $img_src) {
             if ($key >= $size_key) {
                 return $this->_img_srcs[$key] . $timestamp;
@@ -493,12 +334,12 @@ class Image extends \common\models\MyActiveRecord
                 'createdByAttribute' => 'creator_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-//            [
-//                'class' => TimestampBehavior::className(),
-//                'createdAtAttribute' => 'create_time',
-//                'updatedAtAttribute' => 'update_time',
-//                'value' => time(),
-//            ],
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'create_time',
+                'updatedAtAttribute' => 'update_time',
+                'value' => time(),
+            ],
         ];
     }
 

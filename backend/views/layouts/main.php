@@ -64,6 +64,12 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
                 ]],
+                ['label' => 'Banner', 'items' => [
+                    ['label' => 'Index', 'url' => ['/banner/index']],
+                    ['label' => 'Create', 'url' => ['/banner/create']],
+                    ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/banner/view'], 'visible' => false],
+                ]],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
                     ['label' => 'Users', 'url' => ['/admin/user/index']],
