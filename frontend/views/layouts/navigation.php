@@ -2,77 +2,74 @@
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
+use yii\helpers\Url;
 
-NavBar::begin([
-    'brandLabel' => '<strong>' . Yii::$app->name . '</strong>',
-    'brandUrl' => Yii::$app->homeUrl,
-    'options' => [
-        'class' => 'navbar-inverse navbar-fixed-top',
-    ],
-]);
+//require_once Yii::getAlias('@app/runtime/tmp-extensions/yii2-menu/Menu.php');
+//require_once Yii::getAlias('@app/runtime/tmp-extensions/yii2-menu/MenuItem.php');
+//use vanquyet\menu\Menu;
 
-$menuItems = [
-    ['label' => 'Home', 'url' => ['/site/index']],
-    ['label' => 'Article', 'items' => [
-        ['label' => 'Index', 'url' => ['/article/index']],
-        ['label' => 'Create', 'url' => ['/article/create']],
-        ['label' => 'Update', 'url' => ['/article/update'], 'visible' => false],
-        ['label' => 'View', 'url' => ['/article/view'], 'visible' => false],
-    ]],
-    ['label' => 'Article Category', 'items' => [
-        ['label' => 'Index', 'url' => ['/article-category/index']],
-        ['label' => 'Create', 'url' => ['/article-category/create']],
-        ['label' => 'Update', 'url' => ['/article-category/update'], 'visible' => false],
-        ['label' => 'View', 'url' => ['/article-category/view'], 'visible' => false],
-    ]],
-    ['label' => 'Image', 'items' => [
-        ['label' => 'Index', 'url' => ['/image/index']],
-        ['label' => 'Create', 'url' => ['/image/create']],
-        ['label' => 'Upload Multiple', 'url' => ['/upload/images']],
-        ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
-        ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
-    ]],
-    ['label' => 'Admin', 'items' => [
-        ['label' => '+User', 'url' => ['/admin/user/signup']],
-        ['label' => 'Users', 'url' => ['/admin/user/index']],
-        ['label' => 'Users', 'url' => ['/admin/user/update'], 'visible' => false],
-        ['label' => 'Users', 'url' => ['/admin/user/view'], 'visible' => false],
+//var_dump($this->context->menu->getRootItems());
 
-        ['label' => 'Assignment', 'url' => ['/admin/assignment/index']],
-        ['label' => 'Assignment', 'url' => ['/admin/assignment/view'], 'visible' => false],
-        ['label' => 'Assignment', 'url' => ['/admin/assignment/create'], 'visible' => false],
-        ['label' => 'Assignment', 'url' => ['/admin/assignment/update'], 'visible' => false],
-
-        ['label' => 'Permission', 'url' => ['/admin/permission/index']],
-        ['label' => 'Permission', 'url' => ['/admin/permission/view'], 'visible' => false],
-        ['label' => 'Permission', 'url' => ['/admin/permission/create'], 'visible' => false],
-        ['label' => 'Permission', 'url' => ['/admin/permission/update'], 'visible' => false],
-
-        ['label' => 'Role', 'url' => ['/admin/role/index']],
-        ['label' => 'Role', 'url' => ['/admin/role/view'], 'visible' => false],
-        ['label' => 'Role', 'url' => ['/admin/role/create'], 'visible' => false],
-        ['label' => 'Role', 'url' => ['/admin/role/update'], 'visible' => false],
-
-        ['label' => 'Route', 'url' => ['/admin/route/index']],
-        ['label' => 'Route', 'url' => ['/admin/route/view'], 'visible' => false],
-        ['label' => 'Route', 'url' => ['/admin/route/create'], 'visible' => false],
-        ['label' => 'Route', 'url' => ['/admin/route/update'], 'visible' => false],
-
-        ['label' => 'Rule', 'url' => ['/admin/rule/index']],
-        ['label' => 'Rule', 'url' => ['/admin/rule/view'], 'visible' => false],
-        ['label' => 'Rule', 'url' => ['/admin/rule/create'], 'visible' => false],
-        ['label' => 'Rule', 'url' => ['/admin/rule/update'], 'visible' => false],
-
-        ['label' => 'Menu', 'url' => ['/admin/menu/index']],
-        ['label' => 'Menu', 'url' => ['/admin/menu/view'], 'visible' => false],
-        ['label' => 'Menu', 'url' => ['/admin/menu/create'], 'visible' => false],
-        ['label' => 'Menu', 'url' => ['/admin/menu/update'], 'visible' => false],
-    ]],
-];
-
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
-    'items' => $menuItems,
-]);
-
-NavBar::end();
+$menu = $this->context->menu;
+?>
+<nav class="nav-bar">
+    <div class="menu clr">
+        <button class="menu-toggle" onclick="this.classList.toggle('active')">
+            <i class="icon menu-icon">
+                <b></b>
+                <b></b>
+                <b></b>
+            </i>
+            <span>&nbsp;<?= ($m = $menu->getActiveItem()) ? $m->label : 'Danh mục' ?></span>
+        </button>
+        <ul>
+            <?php
+            foreach ($menu->getRootItems() as $item) {
+                $children = $item->getChildren();
+                ?>
+                <li<?= $item->isActive() ? ' class="active"' : '' ?>>
+                    <?php
+                    if (empty($children)) {
+                        echo $item->a();
+                    } else {
+                        ?>
+                        <button class="menu-toggle<?= $item->isActive() ? ' active' : '' ?>" onclick="this.classList.toggle('active')"></button>
+                        <?= $item->a() ?>
+                        <ul>
+                            <?php
+                            foreach ($children as $child) {
+                                ?>
+                                <li<?= $child->isActive() ? ' class="active"' : '' ?>>
+                                    <?php
+                                    $grandchildren = $child->getChildren();
+                                    if (empty($grandchildren)) {
+                                        echo $child->a();
+                                    } else {
+                                        ?>
+                                        <button class="menu-toggle" onclick="this.classList.toggle('active')"></button>
+                                        <?= $child->a() ?>
+                                        <ul>
+                                            <?php
+                                            foreach ($grandchildren as $grandchild) {
+                                                echo ($grandchild->isActive() ? '<li class="active">' : '<li>') . "{$grandchild->a()}</li>";
+                                            }
+                                            ?>
+                                        </ul>
+                                        <?php
+                                    }
+                                    ?>
+                                </li>
+                                <?php
+                            }
+                            ?>
+                        </ul>
+                        <?php
+                    }
+                    ?>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
+    </div>
+</nav>

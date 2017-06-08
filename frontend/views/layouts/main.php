@@ -24,7 +24,11 @@ $this->registerMetaTag([
 <?php $this->head() ?>
 <?= Html::csrfMetaTags() ?>
 <title><?= Html::encode($this->title) ?></title>
-<style><?php require_once Yii::getAlias('@webroot/css/main.css') ?></style>
+<style>
+    <?php
+//    require_once Yii::getAlias('@webroot/css/main.css');
+    ?>
+</style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -48,8 +52,12 @@ $this->registerMetaTag([
     </div>
 </footer>
 
-<script><?php require_once Yii::getAlias('@webroot/js/main.js') ?></script>
-<?php !in_array(Yii::$app->requestedRoute, ['article/view']) ? : require_once 'disqus.php' ?>
+<script>
+    <?php
+//    require_once Yii::getAlias('@webroot/js/main.js')
+    ?>
+</script>
+<?php //!in_array(Yii::$app->requestedRoute, ['article/view']) ? : require_once 'disqus.php' ?>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
 </body>

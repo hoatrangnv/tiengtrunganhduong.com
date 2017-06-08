@@ -14,7 +14,6 @@ $this->registerLinkTag([
     'href' => Url::home(true)
 ]);
 ?>
-<h1><?= $this->title ?></h1>
 <section class="list-view">
     <ul>
         <?php
