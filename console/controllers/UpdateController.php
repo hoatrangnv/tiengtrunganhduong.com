@@ -19,7 +19,11 @@ class UpdateController extends Controller
         foreach (ArticleCategory::find()->all() as $category) {
             if ($category->type == ArticleCategory::TYPE_SERVICE) {
                 $category->parent_id = 41;
-                echo $category->name . "\n";
+                if ($category->save()) {
+                    echo $category->name . "\n";
+                } else {
+                    var_dump($category->getErrors());
+                }
             }
         }
     }
