@@ -21,6 +21,9 @@ class ArticleCategory extends \common\models\ArticleCategory
 
     private static $_indexData;
 
+    /**
+     * @return self[]
+     */
     public static function indexData()
     {
         if (self::$_indexData == null) {

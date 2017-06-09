@@ -42,30 +42,40 @@ class BaseController extends Controller
             'url' => Url::home(true),
             'parentKey' => null
         ];
-        $data1 = [
-            'news' => [
-                'label' => Yii::t('app', 'News'),
-                'url' => '#',
-                'parentKey' => null
-            ],
-            'service' => [
-                'label' => Yii::t('app', 'Courses and tuition fees'),
-                'url' => '#',
-                'parentKey' => null
-            ],
-            'document' => [
-                'label' => Yii::t('app', 'Documents'),
-                'url' => '#',
-                'parentKey' => null
-            ],
-        ];
+//        $data1 = [
+//            'news' => [
+//                'label' => Yii::t('app', 'News'),
+//                'url' => '#',
+//                'parentKey' => null
+//            ],
+//            'service' => [
+//                'label' => Yii::t('app', 'Courses and tuition fees'),
+//                'url' => '#',
+//                'parentKey' => null
+//            ],
+//            'document' => [
+//                'label' => Yii::t('app', 'Documents'),
+//                'url' => '#',
+//                'parentKey' => null
+//            ],
+//        ];
+//        foreach (ArticleCategory::indexData() as $category) {
+//            if (!$category->parent_id && in_array($category->type, array_keys(ArticleCategory::getTypes()))) {
+//                $data1[$category->id] = [
+//                    'label' => $category->name,
+//                    'url' => $category->getUrl(),
+//                    'parentKey' => $category->type == ArticleCategory::TYPE_NEWS ? 'news'
+//                        : ($category->type == ArticleCategory::TYPE_SERVICE ? 'service' : 'document')
+//                ];
+//            }
+//        }
+        $data1 = [];
         foreach (ArticleCategory::indexData() as $category) {
-            if (!$category->parent_id && in_array($category->type, array_keys(ArticleCategory::getTypes()))) {
+            if ($category->visible == 1) {
                 $data1[$category->id] = [
                     'label' => $category->name,
                     'url' => $category->getUrl(),
-                    'parentKey' => $category->type == ArticleCategory::TYPE_NEWS ? 'news'
-                        : ($category->type == ArticleCategory::TYPE_SERVICE ? 'service' : 'document')
+                    'parentKey' => $category->parent_id
                 ];
             }
         }
