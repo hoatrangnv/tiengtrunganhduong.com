@@ -25,7 +25,7 @@ foreach (\frontend\models\ArticleCategory::find()->where(['parent_id' => null])
         <?php
         foreach ($category->getAllArticles()->orderBy('publish_time desc')->limit(($i + 1) % 3 === 0 ? 6 : 3)->allPublished() as $j => $item) {
             ?>
-            <div class="item">
+            <div class="item clr">
                 <div class="image">
                     <div class="item-view">
                         <div class="img-wrap">

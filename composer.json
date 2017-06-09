@@ -23,6 +23,7 @@
         "janisto/yii2-timepicker": "*",
         "vanquyet/yii2-query-template": "*",
         "vanquyet/yii2-menu": "dev-master",
+        "mobiledetect/mobiledetectlib": "^2.8",
         "paquettg/php-html-parser": "*"
     },
     "require-dev": {

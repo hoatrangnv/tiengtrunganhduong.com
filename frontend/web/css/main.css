@@ -364,6 +364,30 @@ article div + div
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
+.news-block:nth-child(3n)
+{
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.news-block:not(:nth-child(3n)) .item:first-child .name,
+.news-block:nth-child(3n) .item .name
+{
+    font-weight: bold;
+}
+.news-block .item:first-child .name
+{
+    margin-top: 0.5em;
+    font-size: 1.1em;
+}
+.news-block:not(:nth-child(3n)) .item:not(:first-child) .name
+{
+    font-size: 0.93em;
+}
+.news-block .item .name * {
+    vertical-align: middle;
+    display: inline;
+}
 
 /**
  * ICON
@@ -515,7 +539,23 @@ i.icon {
 
 @media screen and (max-width: 640px)
 {
-    
+    /**
+     * NEWS BLOCK
+     */
+    .news-block .item:not(:first-child) .image
+    {
+        width: calc(20% - 0.5rem);
+        float: left;
+    }
+    .news-block .item:not(:first-child) .name
+    {
+        width: calc(80% - 0.5rem);
+        float: right;
+    }
+    .news-block .item:not(:first-child) .desc
+    {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 641px)
@@ -531,30 +571,6 @@ i.icon {
     .news-block:nth-child(even)
     {
         float: right;
-    }
-    .news-block:nth-child(3n)
-    {
-        width: 100%;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-    .news-block:not(:nth-child(3n)) .item:first-child .name,
-    .news-block:nth-child(3n) .item .name
-    {
-        font-weight: bold;
-    }
-    .news-block .item:first-child .name
-    {
-        margin-top: 0.5em;
-        font-size: 1.1em;
-    }
-    .news-block:not(:nth-child(3n)) .item:not(:first-child) .name
-    {
-        font-size: 0.93em;
-    }
-    .news-block .item .name * {
-        vertical-align: middle;
-        display: inline;
     }
     .news-block:not(:nth-child(3n)) .item:not(:first-child) .name:before
     {
@@ -610,9 +626,6 @@ i.icon {
     {
         display: none;
     }
-
-
-
 }
 
 @media screen and (min-width: 861px)
