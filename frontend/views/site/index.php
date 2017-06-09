@@ -2,6 +2,7 @@
 
 use frontend\models\Article;
 use yii\helpers\Url;
+use frontend\models\ArticleCategory;
 
 /* @var $this yii\web\View */
 $this->title = 'Web development tips & code snippets';
@@ -16,11 +17,12 @@ $this->registerLinkTag([
 ?>
 
 <?php
-foreach (\frontend\models\ArticleCategory::find()->where(['parent_id' => null])
-             ->orderBy('sort_order asc')->allActive() as $i => $category) {
+foreach (array_filter(ArticleCategory::indexData(), function ($category) {
+    return !$category->parent_id;
+}) as $i => $category) {
 ?>
 <div class="news-block aspect-ratio __5x3">
-    <h3 class="title"><?= $category->name ?></h3>
+    <h3 class="title"><?= $category->a() ?></h3>
     <div class="content">
         <?php
         foreach ($category->getAllArticles()->orderBy('publish_time desc')
