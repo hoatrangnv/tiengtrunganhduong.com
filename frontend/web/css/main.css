@@ -124,8 +124,7 @@ article div + div
     font-weight: bold;
     color: #888;
     font-style: italic;
-    border: solid #ade;
-    padding: 1em;
+    margin-top: 1em;
 }
 
 .left,

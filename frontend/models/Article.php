@@ -24,4 +24,12 @@ class Article extends CommonArticle
     {
         return $this->description;
     }
+
+    public static function findOneBySlug($slug)
+    {
+        if ($model = Article::find()->where(['slug' => $slug])->onePublished()) {
+            return $model;
+        }
+        return null;
+    }
 }

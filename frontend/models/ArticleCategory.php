@@ -46,6 +46,10 @@ class ArticleCategory extends \common\models\ArticleCategory
         return $query;
     }
 
+    /**
+     * @param $slug
+     * @return self | null
+     */
     public static function findOneBySlug($slug)
     {
         $data = static::indexData();
@@ -54,7 +58,6 @@ class ArticleCategory extends \common\models\ArticleCategory
                 return $item;
             }
         }
-
         return null;
     }
 
