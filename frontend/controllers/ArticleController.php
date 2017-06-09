@@ -21,6 +21,12 @@ class ArticleController extends BaseController
         return $this->render('view', ['model' => $model]);
     }
 
+    public function actionCategory()
+    {
+        $slug = Yii::$app->request->get(UrlParam::SLUG);
+        return $this->render('category', []);
+    }
+
     public function actionTag()
     {
         $alias = Yii::$app->request->get(UrlParam::ALIAS);

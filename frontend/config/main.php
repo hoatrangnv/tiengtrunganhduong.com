@@ -51,8 +51,7 @@ return [
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
-                ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
-                ['pattern' => '<' . UrlParam::SLUG . '>.htm', 'route' => 'article/view'],
+                // see: on beforeRequest
             ],
         ],
         'assetManager' => [
@@ -74,4 +73,17 @@ return [
         ],
     ],
     'params' => $params,
+    'on beforeRequest' => function ($event) {
+        // Article URL config
+        $urlConfig =  [
+            ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
+            ['pattern' => '<' . UrlParam::SLUG . ':('
+                . implode('|', \yii\helpers\ArrayHelper::getColumn(
+                    \frontend\models\ArticleCategory::indexData(), 'slug'))
+                . ')>.htm', 'route' => 'article/category'],
+            ['pattern' => '<' . UrlParam::SLUG . '>.htm', 'route' => 'article/view'],
+        ];
+
+        Yii::$app->urlManager->addRules($urlConfig, true);
+    },
 ];

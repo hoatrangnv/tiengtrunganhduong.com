@@ -3,6 +3,7 @@
 return [
     'name' => 'tiengtrunganhduong.com',
     'charset' => 'UTF-8',
+    'language' => 'vi',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'db' => [

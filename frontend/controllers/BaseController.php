@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\ArticleCategory;
 use Yii;
 use yii\web\Controller;
 use vanquyet\menu\Menu;
@@ -35,28 +36,42 @@ class BaseController extends Controller
         }
 
         // @TODO: Initializes menu
+        $data0 = [];
+        $data0['home_page'] = [
+            'label' => Yii::t('app', 'Home page'),
+            'url' => Url::home(true),
+            'parentKey' => null
+        ];
+        $data1 = [
+            'news' => [
+                'label' => Yii::t('app', 'News'),
+                'url' => '#',
+                'parentKey' => null
+            ],
+            'service' => [
+                'label' => Yii::t('app', 'Courses and tuition fees'),
+                'url' => '#',
+                'parentKey' => null
+            ],
+            'document' => [
+                'label' => Yii::t('app', 'Documents'),
+                'url' => '#',
+                'parentKey' => null
+            ],
+        ];
+        foreach (ArticleCategory::indexData() as $category) {
+            if (!$category->parent_id && in_array($category->type, array_keys(ArticleCategory::getTypes()))) {
+                $data1[$category->id] = [
+                    'label' => $category->name,
+                    'url' => $category->getUrl(),
+                    'parentKey' => $category->type == ArticleCategory::TYPE_NEWS ? 'news'
+                        : ($category->type == ArticleCategory::TYPE_SERVICE ? 'service' : 'document')
+                ];
+            }
+        }
+
         $this->menu = new Menu();
-        $this->menu->init(
-            [
-                'info' => [
-                    'homePage' => [
-                        'label' => 'Trang chủ',
-                        'url' => Url::home(true),
-                        'parentKey' => null
-                    ],
-                    'aboutPage' => [
-                        'label' => 'Giới thiệu',
-                        'url' => Url::to(['site/about'], true),
-                        'parentKey' => null
-                    ],
-                    'teachers' => [
-                        'label' => 'Giáo viên',
-                        'url' => '#',
-                        'parentKey' => 'aboutPage'
-                    ]
-                ]
-            ]
-        );
+        $this->menu->init([$data0, $data1]);
 
         return parent::beforeAction($action);
     }
