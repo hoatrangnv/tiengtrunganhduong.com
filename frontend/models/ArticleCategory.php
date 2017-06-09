@@ -79,6 +79,10 @@ class ArticleCategory extends \common\models\ArticleCategory
         return null;
     }
 
+    /**
+     * @param $id
+     * @return ArticleCategory|null
+     */
     public static function findOneById($id)
     {
         $data = static::indexData();
@@ -86,10 +90,14 @@ class ArticleCategory extends \common\models\ArticleCategory
     }
 
     public $_parent = 1;
+
+    /**
+     * @return ArticleCategory|null
+     */
     public function findParent()
     {
         if ($this->parent_id === null) {
-            return false;
+            return null;
         }
 
         if ($this->_parent === 1) {
