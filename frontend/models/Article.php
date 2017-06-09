@@ -25,6 +25,21 @@ class Article extends CommonArticle
         return $this->description;
     }
 
+    public function date()
+    {
+        return date('d/m/Y H:i', $this->publish_time);
+    }
+
+    public function views()
+    {
+        return $this->view_count ? $this->view_count : 0;
+    }
+
+    public function comments()
+    {
+        return $this->comment_count ? $this->comment_count : 0;
+    }
+
     public static function findOneBySlug($slug)
     {
         if ($model = Article::find()->where(['slug' => $slug])->onePublished()) {

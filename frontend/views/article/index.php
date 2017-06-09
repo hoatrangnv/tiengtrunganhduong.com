@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use common\models\UrlParam;
+use frontend\models\Image;
 
 /**
  * @var string $title
@@ -13,8 +14,11 @@ use common\models\UrlParam;
 ?>
 <div class="news-list">
     <h2 class="title"><?= $title ?></h2>
-    <div class="content">
-        <?= $this->render('items', ['models' => $models]) ?>
+    <div class="content aspect-ratio __5x3">
+        <?= $this->render('items', [
+            'models' => $models,
+            'imageSize' => $this->context->screen == 'small' ? Image::SIZE_3 : Image::SIZE_6,
+        ]) ?>
     </div>
     <?php
     if ($hasMore) {
