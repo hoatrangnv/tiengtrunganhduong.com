@@ -140,6 +140,7 @@ class ArticleCategory extends \common\models\MyActiveRecord
             'sort_order' => 'Sort Order',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
+            'parent.name' => 'Parent Name',
         ];
     }
 

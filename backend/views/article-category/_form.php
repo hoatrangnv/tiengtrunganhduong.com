@@ -12,46 +12,54 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'creator_id')->textInput() ?>
+    <div class="row">
 
-    <?= $form->field($model, 'updater_id')->textInput() ?>
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'image_id')->textInput() ?>
+            <?php echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'parent_id')->textInput() ?>
+            <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'image_id')->dropDownList(
+                \backend\models\Image::listAsId2Name(),
+                ['prompt' => Yii::t('app', 'Select one ...')]
+            ) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'parent_id')->dropDownList(
+                \backend\models\ArticleCategory::listAsId2Name(),
+                ['prompt' => Yii::t('app', 'Select one ...')])
+            ?>
 
-    <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'sort_order')->textInput() ?>
+        </div>
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'meta_description')->textInput(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'meta_description')->textarea(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'meta_keywords')->textarea(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'long_description')->textarea(['rows' => 6]) ?>
+            <?php echo $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+    <div class="row">
 
-    <?= $form->field($model, 'visible')->textInput() ?>
+        <div class="col-md-12">
 
-    <?= $form->field($model, 'featured')->textInput() ?>
+            <?php echo $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'type')->textInput() ?>
+            <?php echo $form->field($model, 'visible')->checkbox() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+            <?php echo $form->field($model, 'featured')->checkbox() ?>
 
-    <?= $form->field($model, 'sort_order')->textInput() ?>
-
-    <?= $form->field($model, 'create_time')->textInput() ?>
-
-    <?= $form->field($model, 'update_time')->textInput() ?>
+            <?php echo $form->field($model, 'long_description')->textarea(['rows' => 6]) ?>
+        </div>
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
