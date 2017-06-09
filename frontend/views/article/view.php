@@ -40,6 +40,9 @@ if ($next) {
 
 <h1><?= $model->name ?></h1>
 <article>
+    <div class="article-info">
+        <?= $this->render('info', ['model' => $model]) ?>
+    </div>
     <div class="article-desc">
         <?= nl2br($model->description) ?>
     </div>
