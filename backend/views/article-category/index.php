@@ -24,24 +24,31 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'creator_id',
-            'updater_id',
-            'image_id',
-            'parent_id',
-            // 'slug',
-            // 'name',
+//            'id',
+//            'creator_id',
+//            'updater_id',
+//            'image_id',
+            [
+                'attribute' => 'image_id',
+                'format' => 'raw',
+                'value' => function (\backend\models\ArticleCategory $model) {
+                    return $model->img(\backend\models\Image::SIZE_2, ['style' => 'max-width: 100px']);
+                }
+            ],
+            'name',
+            'slug',
+            'parent.name',
             // 'meta_title',
             // 'meta_description',
             // 'meta_keywords',
             // 'description',
             // 'long_description:ntext',
-            // 'active',
-            // 'visible',
-            // 'featured',
+             'active',
+             'visible',
+             'featured',
             // 'type',
             // 'status',
-            // 'sort_order',
+             'sort_order',
             // 'create_time:datetime',
             // 'update_time:datetime',
 
