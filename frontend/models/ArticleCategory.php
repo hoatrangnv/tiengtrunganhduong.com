@@ -27,8 +27,11 @@ class ArticleCategory extends \common\models\ArticleCategory
     public static function indexData()
     {
         if (self::$_indexData == null) {
-            self::$_indexData = self::find()->indexBy('id')
-                ->orderBy('sort_order asc')->allActive();
+            self::$_indexData = self::find()
+                ->where(['visible' => 1, 'active' => 1])
+                ->orderBy('sort_order asc')
+                ->indexBy('id')
+                ->all();
         }
 
         return self::$_indexData;

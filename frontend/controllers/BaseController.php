@@ -71,7 +71,7 @@ class BaseController extends Controller
 //        }
         $data1 = [];
         foreach (ArticleCategory::indexData() as $category) {
-            if ($category->visible == 1) {
+            if ($category->featured == 1) {
                 $data1[$category->id] = [
                     'label' => $category->name,
                     'url' => $category->getUrl(),
