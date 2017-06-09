@@ -15,12 +15,8 @@ $menu = $this->context->menu;
 <nav class="nav-bar">
     <div class="menu clr">
         <button class="menu-toggle" onclick="this.classList.toggle('active')">
-            <i class="icon menu-icon">
-                <b></b>
-                <b></b>
-                <b></b>
-            </i>
-            <span>&nbsp;<?= ($m = $menu->getActiveItem()) ? $m->label : 'Danh mục' ?></span>
+            <i class="icon menu-icon"></i>
+            <span class="menu-title"><?= ($m = $menu->getActiveItem()) ? $m->label : 'Danh mục' ?></span>
         </button>
         <ul>
             <?php

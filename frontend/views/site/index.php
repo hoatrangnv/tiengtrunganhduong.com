@@ -17,24 +17,35 @@ $this->registerLinkTag([
 
 <?php
 foreach (\frontend\models\ArticleCategory::find()->where(['parent_id' => null])
-             ->orderBy('sort_order asc')->allActive() as $category) {
+             ->orderBy('sort_order asc')->allActive() as $i => $category) {
 ?>
-<div class="news-block__small aspect-ratio __5x3">
+<div class="news-block aspect-ratio __5x3">
     <h3 class="title"><?= $category->name ?></h3>
-    <?php
-    foreach ($category->getAllArticles()->orderBy('publish_time desc')->limit(3)->allPublished() as $k => $item) {
-        if ($k == 0) {
+    <div class="content">
+        <?php
+        foreach ($category->getAllArticles()->orderBy('publish_time desc')
+                     ->limit($this->context->screen == 'small' ? 5 : (($i + 1) % 3 === 0 ? 6 : 3))
+                     ->allPublished() as $j => $item) {
             ?>
-            <div class="item-view">
-                <div class="img-wrap">
-                    <?= $item->img() ?>
+            <div class="item clr">
+                <div class="image">
+                    <div class="item-view">
+                        <div class="img-wrap">
+                            <?= $item->img() ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="name">
+                    <?= $item->a() ?>
+                </div>
+                <div class="desc">
+                    <?= $item->desc() ?>
                 </div>
             </div>
             <?php
         }
-        echo $item->a();
-    }
-    ?>
+        ?>
+    </div>
 </div>
 <?php
 }

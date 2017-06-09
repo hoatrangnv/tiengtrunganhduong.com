@@ -9,10 +9,15 @@
 namespace frontend\models;
 
 use yii\helpers\ArrayHelper;
-
+use yii\helpers\Url;
+use common\models\UrlParam;
 
 class ArticleCategory extends \common\models\ArticleCategory
 {
+    public function getUrl($params = [])
+    {
+        return Url::to(array_merge(['article/category', UrlParam::SLUG => $this->slug], $params), true);
+    }
 
     private static $_indexData;
 
@@ -41,6 +46,10 @@ class ArticleCategory extends \common\models\ArticleCategory
         return $query;
     }
 
+    /**
+     * @param $slug
+     * @return self | null
+     */
     public static function findOneBySlug($slug)
     {
         $data = static::indexData();
@@ -49,7 +58,6 @@ class ArticleCategory extends \common\models\ArticleCategory
                 return $item;
             }
         }
-
         return null;
     }
 

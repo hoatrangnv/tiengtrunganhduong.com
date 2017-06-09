@@ -123,16 +123,3 @@ if ($next) {
         ?>
     </div>
 </article>
-<article class="clearfix">
-    <?php
-    if ($prev)
-        echo "<p class=\"pull-left\"><strong>Previous:</strong> {$prev->a(null, ['class' => 'link'])}</p>";
-    ?>
-    <?php
-    if ($next)
-        echo "<p class=\"pull-right\"><strong>Next:</strong> {$next->a(null, ['class' => 'link'])}</p>";
-    ?>
-</article>
-<article>
-    <div id="disqus_thread"></div>
-</article>
