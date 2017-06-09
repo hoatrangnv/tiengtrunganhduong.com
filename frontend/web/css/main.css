@@ -370,11 +370,6 @@ article div + div
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-.news-block:not(:nth-child(3n)) .item:first-child .name,
-.news-block:nth-child(3n) .item .name
-{
-    font-weight: bold;
-}
 .news-block .item:first-child .name
 {
     margin-top: 0.5em;
@@ -542,6 +537,12 @@ i.icon {
     /**
      * NEWS BLOCK
      */
+    .news-block .item + .item {
+        margin-top: 0.5rem;
+    }
+    .news-block .item + .item:nth-child(2) {
+        margin-top: 1rem;
+    }
     .news-block .item:not(:first-child) .image
     {
         width: calc(20% - 0.5rem);
@@ -552,6 +553,15 @@ i.icon {
         width: calc(80% - 0.5rem);
         float: right;
     }
+    .news-block .item .name
+    {
+        font-weight: bold;
+    }
+    .news-block .item .desc
+    {
+        margin-top: 0.25em;
+    }
+
     .news-block .item:not(:first-child) .desc
     {
         display: none;
@@ -582,6 +592,11 @@ i.icon {
         background-repeat: no-repeat;
         width: 0.5em;
         height: 0.5em;
+    }
+    .news-block:not(:nth-child(3n)) .item:first-child .name,
+    .news-block:nth-child(3n) .item .name
+    {
+        font-weight: bold;
     }
     .news-block .item:first-child .desc
     {

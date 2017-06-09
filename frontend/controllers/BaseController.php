@@ -34,8 +34,6 @@ class BaseController extends Controller
                 $this->screen = 'large';
         }
 
-        echo $this->screen;
-
         // @TODO: Initializes menu
         $this->menu = new Menu();
         $this->menu->init(
