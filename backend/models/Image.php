@@ -8,6 +8,7 @@
 
 namespace backend\models;
 
+use Imagine\Image\ImageInterface;
 use Yii;
 use yii\helpers\Url;
 use yii\helpers\FileHelper;
@@ -32,7 +33,6 @@ class Image extends \common\models\Image
     public $image_file;
     public $image_resize_labels;
     public $image_crop;
-//    public $image_quality;
     public $image_name_to_basename;
     public $image_file_basename;
     public $image_file_extension;
@@ -62,10 +62,8 @@ class Image extends \common\models\Image
                 'maxSize' => Image::getMaxSize(),
                 'maxFiles' => 1,
             ],
-//            [['image_quality'], 'integer', 'min' => 10, 'max' => 100],
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
-//            [['image_quality'], 'default', 'value' => 50],
             [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
             ['image_file_basename', 'string', 'max' => 128],
             ['image_file_extension', 'string', 'max' => 32],
@@ -182,7 +180,7 @@ class Image extends \common\models\Image
         return null;
     }
 
-    public function saveFile()
+    public function saveFileAndModel()
     {
         $model = $this;
         if ($model->validate(['image_file', 'image_source'])) {
@@ -218,32 +216,41 @@ class Image extends \common\models\Image
                     $destination = $model->getLocation();
                     $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
+                    // @TODO: Calculate aspect ratio
+                    $size = $thumb0->getSize();
+                    $this->width = $size->getWidth();
+                    $this->height = $size->getHeight();
+                    $this->calculateAspectRatio();
+
                     if ($model->validate()) {
+                        // @TODO: Save compressed image
                         try {
                             $thumb0->save($destination, ['quality' => $model->quality]);
-                            foreach ($model->image_resize_labels as $size_label) {
-                                if ($dimension = Image::getSizeBySizeKey($size_label)) {
-                                    if ($model->image_crop) {
-                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                            ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
-                                            ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
-                                    } else {
-                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                            ->thumbnail(new Box($dimension[0], $dimension[1]));
-                                    }
-                                    $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                    if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
-                                        $resize_labels[$size_label] = $suffix;
-                                    }
-                                }
-                            }
-                            $model->resize_labels = json_encode($resize_labels);
-                            if ($model->save()) {
-                                return true;
-                            }
                         } catch (\Exception $e) {
                             $model->addError($model->image_source ? 'image_source' : 'image_file',
                                 Yii::t('app', $e->getMessage()));
+                        }
+                        foreach ($model->image_resize_labels as $size_label) {
+                            if ($dimension = Image::getSizeBySizeKey($size_label)) {
+                                if ($model->image_crop) {
+                                    $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                        ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                        ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                } else {
+                                    $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                        ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                }
+                                $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
+                                    $resize_labels[$size_label] = $suffix;
+                                }
+                            }
+                        }
+
+                        $model->resize_labels = json_encode($resize_labels);
+
+                        if ($model->save()) {
+                            return true;
                         }
                     }
 
@@ -254,6 +261,18 @@ class Image extends \common\models\Image
             }
         }
         return false;
+    }
+
+    public function calculateAspectRatio()
+    {
+        $width = $this->width;
+        $height = $this->height;
+        // Calculates greatest common divisor
+        $find_gcd = function ($a, $b) use (&$find_gcd) {
+            return $b ? $find_gcd($b, $a % $b) : $a;
+        };
+        $gcd = $find_gcd($width, $height);
+        $this->aspect_ratio = ($width / $gcd) . ':' . ($height / $gcd);
     }
 
 }

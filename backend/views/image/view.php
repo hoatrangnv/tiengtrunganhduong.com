@@ -44,6 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_time:datetime',
             'update_time:datetime',
             'sort_order',
+            'quality',
+            'aspect_ratio',
+            'width',
+            'height',
         ],
     ]) ?>
 

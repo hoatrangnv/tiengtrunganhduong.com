@@ -186,7 +186,7 @@ class CrawlController extends Controller
                     $image->create_time = $article->create_time;
                     $image->update_time = $article->update_time;
                     $image->active = 1;
-                    if ($image->saveFile()) {
+                    if ($image->saveFileAndModel()) {
                         if ($image->save()) {
                             $article->image_id = $image->id;
                             echo $image->getSource() . "\n";
@@ -293,7 +293,7 @@ class CrawlController extends Controller
 //                $image->create_time = $article->create_time;
 //                $image->update_time = $article->update_time;
 //                $image->active = 1;
-//                if ($image->saveFile()) {
+//                if ($image->saveFileAndModel()) {
 //                    if ($image->save()) {
 //                        echo $image->getSource() . "\n";
 //                        $img->setAttribute('src', $image->getSource());
@@ -341,7 +341,7 @@ class CrawlController extends Controller
                 $image->create_time = $article->create_time;
                 $image->update_time = $article->update_time;
                 $image->active = 1;
-                if ($image->saveFile()) {
+                if ($image->saveFileAndModel()) {
                     if ($image->save()) {
                         echo $image->getSource() . "\n";
                         $img->setAttribute('src', $image->getSource());

@@ -113,6 +113,12 @@ class UploadForm extends Model
                 $destination = $model->getLocation();
                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
+                // @TODO: Calculate aspect ratio
+                $size = $thumb0->getSize();
+                $model->width = $size->getWidth();
+                $model->height = $size->getHeight();
+                $model->calculateAspectRatio();
+
                 if ($model->validate() && $thumb0->save($destination, ['quality' => $model->quality])) {
                     $i++;
                     $images['saved'][] = $model;

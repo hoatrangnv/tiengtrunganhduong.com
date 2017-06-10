@@ -29,6 +29,8 @@ use yii\helpers\Html;
  * @property integer $update_time
  * @property integer $quality
  * @property string $aspect_ratio
+ * @property integer $width
+ * @property integer $height
  *
  * @property Article[] $articles
  * @property User $creator
@@ -359,8 +361,12 @@ class Image extends \common\models\MyActiveRecord
     public function rules()
     {
         return [
-            [[/*'creator_id', 'updater_id',*/ 'active', 'status', 'sort_order',
-                /*'create_time', 'update_time'*/], 'integer'],
+            [[
+                /*'creator_id', 'updater_id',*/
+                'active', 'status', 'sort_order',
+                /*'create_time', 'update_time'*/
+                'width', 'height'
+            ], 'integer'],
             [['name', /*'path',*/ 'file_basename'], 'string', 'max' => 255],
             [['file_extension', /*'mime_type', 'aspect_ratio'*/], 'string', 'max' => 32],
             [['resize_labels', 'encode_data'], 'string', 'max' => 2047],
@@ -368,7 +374,7 @@ class Image extends \common\models\MyActiveRecord
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
             [['quality'], 'integer', 'min' => 1, 'max' => 100],
-            [['image_quality'], 'default', 'value' => 50],
+            [['quality'], 'default', 'value' => 50],
         ];
     }
 
@@ -395,6 +401,8 @@ class Image extends \common\models\MyActiveRecord
             'update_time' => 'Update Time',
             'quality' => 'Quantity',
             'aspect_ratio' => 'Aspect Ratio',
+            'width' => 'Width',
+            'height' => 'Height',
         ];
     }
 
