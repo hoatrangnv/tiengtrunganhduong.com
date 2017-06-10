@@ -44,8 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'category_id',
                 'format' => 'raw',
-                'value' => function (Article $model, $attribute) {
-                    return ($category = $model->category) ? $category->name : $model->$attribute;
+                'value' => function (Article $model) {
+                    return ($category = $model->category) ? $category->name : $model->category_id;
                 },
                 'filter' => Html::activeDropDownList(
                     $searchModel,

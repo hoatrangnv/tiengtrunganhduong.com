@@ -145,20 +145,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         }
     }
 
-    public function afterFind()
-    {
-        parent::afterFind();
-
-        $this->templateToHtml();
-    }
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        $this->templateToHtml();
-    }
-
-    public function beforeValidate()
+    public function htmlToTemplate()
     {
         if (in_array(\Yii::$app->controller->action->id, ['create', 'update'])) {
             $attributes = ['content', 'long_description'];
@@ -171,8 +158,10 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 }
                 $html = $this->$attribute;
                 $doc = new \DOMDocument();
-                $doc->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-//                $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $doc->loadHTML(
+                    mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
+                    LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+                );
                 $imgTags = $doc->getElementsByTagName('img');
                 $i = 0;
                 while ($imgTag = $imgTags->item($i)) {
@@ -204,6 +193,24 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 $this->$attribute = $doc->saveHTML();
             }
         }
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $this->templateToHtml();
+    }
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $this->templateToHtml();
+    }
+
+    public function beforeValidate()
+    {
+        $this->htmlToTemplate();
 
         return parent::beforeValidate();
     }
