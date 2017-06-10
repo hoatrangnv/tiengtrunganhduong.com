@@ -18,6 +18,19 @@ use yii\web\UploadedFile;
 
 class UploadController extends BaseController
 {
+    public function beforeAction($action)
+    {
+        // With some actions
+        if (in_array($action->id, ['ckeditor-image'])) {
+            // @TODO: Retrieve CSRF token via GET method
+            $token = Yii::$app->request->get(Yii::$app->request->csrfParam);
+            if (Yii::$app->request->validateCsrfToken($token)) {
+                $this->enableCsrfValidation = false;
+            }
+        }
+        return parent::beforeAction($action);
+    }
+
     public function actionFile()
     {
         set_time_limit(600);
@@ -58,7 +71,7 @@ class UploadController extends BaseController
                         $unsaved .= "<li><a href='{$image->getSource()}' target='_blank'>$image->name</a></li>";
                     }
                     $unsaved .= '</ul>';
-                    Yii::$app->session->setFlash('error', '<div>Uploaded fail:</div>' . $unsaved);
+                    Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . $unsaved);
                 }
             }
         }
@@ -66,21 +79,33 @@ class UploadController extends BaseController
         return $this->render('images', ['model' => $model]);
     }
 
-    public $enableCsrfValidation = false;
-
     public function actionCkeditorImage()
     {
         $file = UploadedFile::getInstanceByName('upload');
         $image = new Image();
-        $source = '';
+        $image->active = 1;
         if ($image->saveFileAndModel($file)) {
             $message = Yii::t('app', 'Image was uploaded successfully');
-            $source = $image->getSource();
+            $source = $image->getSource() . '?id=' . $image->id;
         } else {
-            $message = Yii::t('app', "Image was not uploaded") . ': ' . json_encode($image->getErrors());
+            $message = Yii::t('app', "Image was not uploaded") . ': ';
+            foreach ($image->getErrors() as $attr => $errors) {
+                $message .=
+                    "\\ \\n    $attr:\\ \\n        " .
+                    implode("\\ \\n        ",
+                        array_map(function ($error) {
+                            return str_replace('"', "'", $error);
+                        }, $errors)
+                    );
+            }
+            $source = '';
         }
-        $message = str_replace("'", '"', $message);
         $funcNum = Yii::$app->request->get('CKEditorFuncNum');
-        echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$source', '$message');</script>";
+//        $editor = Yii::$app->request->get('CKEditor');
+        ?>
+        <script>
+            window.parent.CKEDITOR.tools.callFunction(<?= $funcNum ?>, "<?= $source ?>", "<?= $message ?>");
+        </script>
+        <?php
     }
 }

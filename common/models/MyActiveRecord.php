@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use PHPHtmlParser\Dom;
 use Prophecy\Exception\Doubler\MethodNotFoundException;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -119,5 +120,66 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
             throw new \Exception("Template method \"$methodName\" does not exist in \"" . get_class($this) . "\"");
         }
         return call_user_func_array($methods[$methodName], $arguments);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        if (!in_array(\Yii::$app->controller->action->id, ['view'])) {
+            $attributes = ['content', 'long_description'];
+            foreach ($attributes as $attribute) {
+                if (!$this->hasAttribute($attribute)) {
+                    continue;
+                }
+                $this->$attribute = \vanquyet\queryTemplate\QueryTemplate::widget([
+                    'content' => $this->$attribute,
+                    'queries' => [
+                        'Article' => function ($id) {
+                            return Article::find()->where(['id' => $id])->onePublished();
+                        },
+                        'Image' => function ($id) {
+                            return Image::find()->where(['id' => $id])->oneActive();
+                        },
+                    ],
+                ]);
+            }
+        }
+    }
+
+    public function beforeValidate()
+    {
+        $attributes = ['content', 'long_description'];
+        foreach ($attributes as $attribute) {
+            /**
+             * @var \DOMElement $imgTag
+             */
+            if (!$this->hasAttribute($attribute)) {
+                continue;
+            }
+            $html = $this->$attribute;
+            $doc = new \DOMDocument();
+            $doc->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $imgTags = $doc->getElementsByTagName('img');
+            while ($imgTag = $imgTags->item(0)) {
+                if (!$imgTag) continue;
+                $src = $imgTag->getAttribute('src');
+                $id = null;
+                $parts = parse_url($src);
+                if (isset($parts['query'])) {
+                    parse_str($parts['query'], $query);
+                    if (isset($query['id'])) {
+                        $id = $query['id'];
+                    }
+                }
+                if (!$id) {
+                    continue;
+                }
+                $tmpl = $doc->createElement("tmpl:func");
+                $tmpl->textContent = "Image($id)``imgTag()";
+                $imgTag->parentNode->replaceChild($tmpl, $imgTag);
+            }
+            $this->$attribute = $doc->saveHTML();
+        }
+        return parent::beforeValidate();
     }
 }

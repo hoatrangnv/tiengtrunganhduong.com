@@ -39,12 +39,13 @@ class UpdateController extends Controller
 
     public function actionImages()
     {
+        ini_set('memory_limit', '1024M');
         /**
          * @var Image $item
          */
         $successes = 0;
         $total = 0;
-        foreach (Image::find()->all() as $item) {
+        foreach (Image::find()->limit(1000)->offset(1000)->all() as $item) {
             $total++;
             try {
                 list($item->width, $item->height) = getimagesize($item->getLocation());

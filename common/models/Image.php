@@ -299,20 +299,31 @@ class Image extends \common\models\MyActiveRecord
             }
         }
 
-        if (isset($options['timestamp']) && $options['timestamp'] === true) {
-            $timestamp = '?v=' . $this->_timestamp;
+//        if (isset($options['timestamp']) && $options['timestamp'] === true) {
+//            $timestamp = '?v=' . $this->_timestamp;
+//        } else {
+//            $timestamp = '';
+//        }
+
+        if (empty($options)) {
+            $queryStr = '';
         } else {
-            $timestamp = '';
+            $queryStr = '?';
+            foreach ($options as $key => $value) {
+                if ((is_string($key) || is_numeric($key)) && (is_string($value) || is_numeric($value))) {
+                    $queryStr .= "$key=$value";
+                }
+            }
         }
 
         // Get image src by size key or size
         $size_key = Image::getSizeKeyBySize($size , $this->_img_sizes);
         foreach ($this->_img_srcs as $key => $img_src) {
             if ($key >= $size_key) {
-                return $this->_img_srcs[$key] . $timestamp;
+                return $this->_img_srcs[$key] . $queryStr;
             }
         }
-        return (isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '') . $timestamp;
+        return (isset($this->_img_srcs[Image::SIZE_0]) ? $this->_img_srcs[Image::SIZE_0] : '') . $queryStr;
     }
 
     /**
@@ -399,7 +410,7 @@ class Image extends \common\models\MyActiveRecord
             'sort_order' => 'Sort Order',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
-            'quality' => 'Quantity',
+            'quality' => 'Quality',
             'aspect_ratio' => 'Aspect Ratio',
             'width' => 'Width',
             'height' => 'Height',
@@ -444,6 +455,9 @@ class Image extends \common\models\MyActiveRecord
                 return $this->getAttribute($name);
             },
             'imgTag' => function ($size = Image::SIZE_0, $options = [], $srcOptions = []) {
+                if (in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])) {
+                    $srcOptions = array_merge($srcOptions, ['id' => $this->id]);
+                }
                 return $this->img($size, $options, $srcOptions);
             },
             'source' => function ($size = Image::SIZE_0, $options = []) {
