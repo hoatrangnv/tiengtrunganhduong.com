@@ -341,7 +341,7 @@ class ImageController extends BaseController
 
         $result = [
             'items' => [],
-            'totalCount' => Image::find()
+            'total_count' => Image::find()
                 ->where(['like', 'name', $q])
                 ->countActive()
         ];
@@ -350,7 +350,10 @@ class ImageController extends BaseController
             $result['items'][] = [
                 'id' => $image->id,
                 'name' => $image->name,
-                'source' => $image->getSource()
+                'width' => $image->width,
+                'height' => $image->height,
+                'aspect_ratio' => $image->aspect_ratio,
+                'source' => $image->getSource(),
             ];
         }
 

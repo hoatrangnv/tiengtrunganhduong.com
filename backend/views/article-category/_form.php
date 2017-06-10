@@ -80,8 +80,8 @@ var formatRepo = function (repo) {
         '<img src="' + repo.source + '" class="img-rounded" style="width:50px" />' +
         '<b style="margin-left:5px">' + repo.name + '</b>' + 
     '</div>' +
-    // '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + repo.forks_count + '</div>' +
-    // '<div class="col-sm-3"><i class="fa fa-star"></i> ' + repo.stargazers_count + '</div>' +
+    '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + repo.width + 'x' + repo.height + '</div>' +
+    '<div class="col-sm-3"><i class="fa fa-star"></i> ' + repo.aspect_ratio + '</div>' +
 '</div>';
     // if (repo.description) {
     //   markup += '<h5>' + repo.description + '</h5>';
@@ -104,7 +104,7 @@ function _(data, params) {
     return {
         results: data.items,
         pagination: {
-            more: (params.page * 30) < data.totalCount
+            more: (params.page * 30) < data.total_count
         }
     };
 }

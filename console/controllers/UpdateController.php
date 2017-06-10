@@ -9,6 +9,7 @@
 namespace console\controllers;
 
 
+use backend\models\Image;
 use frontend\models\ArticleCategory;
 use yii\console\Controller;
 
@@ -34,5 +35,32 @@ class UpdateController extends Controller
                 }
             }
         }
+    }
+
+    public function actionImages()
+    {
+        /**
+         * @var Image $item
+         */
+        $successes = 0;
+        $total = 0;
+        foreach (Image::find()->all() as $item) {
+            $total++;
+            try {
+                list($item->width, $item->height) = getimagesize($item->getLocation());
+                $item->calculateAspectRatio();
+                $item->quality = 50;
+                if ($item->save()) {
+                    $successes++;
+                    echo $item->name . "\n";
+                } else {
+                    var_dump($item->getErrors());
+                    echo "\n";
+                }
+            } catch (\Exception $e) {
+                echo $e->getMessage() . "\n";
+            }
+        }
+        echo "\nTotal: $total; Success: $successes\n";
     }
 }
