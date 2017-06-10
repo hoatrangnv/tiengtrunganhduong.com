@@ -125,7 +125,8 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        if (!in_array(\Yii::$app->controller->action->id, ['view'])) {
+
+        if (in_array(\Yii::$app->controller->action->id, ['index', 'update'])) {
             $attributes = ['content', 'long_description'];
             foreach ($attributes as $attribute) {
                 if (!$this->hasAttribute($attribute)) {
@@ -148,38 +149,51 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     public function beforeValidate()
     {
-        $attributes = ['content', 'long_description'];
-        foreach ($attributes as $attribute) {
-            /**
-             * @var \DOMElement $imgTag
-             */
-            if (!$this->hasAttribute($attribute)) {
-                continue;
-            }
-            $html = $this->$attribute;
-            $doc = new \DOMDocument();
-            $doc->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $imgTags = $doc->getElementsByTagName('img');
-            while ($imgTag = $imgTags->item(0)) {
-                if (!$imgTag) continue;
-                $src = $imgTag->getAttribute('src');
-                $id = null;
-                $parts = parse_url($src);
-                if (isset($parts['query'])) {
-                    parse_str($parts['query'], $query);
-                    if (isset($query['id'])) {
-                        $id = $query['id'];
-                    }
-                }
-                if (!$id) {
+        if (in_array(\Yii::$app->controller->action->id, ['create', 'update'])) {
+            $attributes = ['content', 'long_description'];
+            foreach ($attributes as $attribute) {
+                /**
+                 * @var \DOMElement $imgTag
+                 */
+                if (!$this->hasAttribute($attribute)) {
                     continue;
                 }
-                $tmpl = $doc->createElement("tmpl:func");
-                $tmpl->textContent = "Image($id)``imgTag()";
-                $imgTag->parentNode->replaceChild($tmpl, $imgTag);
+                $html = $this->$attribute;
+                $doc = new \DOMDocument();
+                $doc->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+//                $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+                $imgTags = $doc->getElementsByTagName('img');
+                $i = 0;
+                while ($imgTag = $imgTags->item($i)) {
+                    if (!$imgTag) {
+                        $i++;
+                        continue;
+                    }
+                    $src = $imgTag->getAttribute('src');
+                    $id = null;
+                    if (strpos($src, '?id=') === false && strpos($src, '&id=')) {
+                        $i++;
+                        continue;
+                    }
+                    $parts = parse_url($src);
+                    if (isset($parts['query'])) {
+                        parse_str($parts['query'], $query);
+                        if (isset($query['id'])) {
+                            $id = $query['id'];
+                        }
+                    }
+                    if (!$id) {
+                        $i++;
+                        continue;
+                    }
+                    $tmpl = $doc->createElement("tmpl:func");
+                    $tmpl->textContent = "Image($id)``imgTag()";
+                    $imgTag->parentNode->replaceChild($tmpl, $imgTag);
+                }
+                $this->$attribute = $doc->saveHTML();
             }
-            $this->$attribute = $doc->saveHTML();
         }
+
         return parent::beforeValidate();
     }
 }

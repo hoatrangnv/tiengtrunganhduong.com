@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $searchModel,
                     'category_id',
                     array_merge(ArticleCategory::dropDownListData(),ArticleCategory::dropDownListData()),
-                    ['class'=>'form-control', 'prompt' => '']
+                    ['class'=>'form-control', 'prompt' => Yii::t('app', 'Select one ...')]
                 )
             ],
             // 'meta_title',
