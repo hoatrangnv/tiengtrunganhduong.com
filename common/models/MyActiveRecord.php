@@ -195,23 +195,24 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         }
     }
 
+    public function beforeValidate()
+    {
+        $this->htmlToTemplate();
+
+        return parent::beforeValidate();
+    }
+
     public function afterFind()
     {
         parent::afterFind();
 
         $this->templateToHtml();
     }
+
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
 
         $this->templateToHtml();
-    }
-
-    public function beforeValidate()
-    {
-        $this->htmlToTemplate();
-
-        return parent::beforeValidate();
     }
 }
