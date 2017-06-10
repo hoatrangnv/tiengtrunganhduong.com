@@ -8,7 +8,10 @@
 
 namespace backend\controllers;
 
+use backend\models\Image;
 use Yii;
+use yii\helpers\Html;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use backend\models\UploadForm;
 use yii\web\UploadedFile;
@@ -61,5 +64,23 @@ class UploadController extends BaseController
         }
 
         return $this->render('images', ['model' => $model]);
+    }
+
+    public $enableCsrfValidation = false;
+
+    public function actionCkeditorImage()
+    {
+        $file = UploadedFile::getInstanceByName('upload');
+        $image = new Image();
+        $source = '';
+        if ($image->saveFileAndModel($file)) {
+            $message = Yii::t('app', 'Image was uploaded successfully');
+            $source = $image->getSource();
+        } else {
+            $message = Yii::t('app', "Image was not uploaded") . ': ' . json_encode($image->getErrors());
+        }
+        $message = str_replace("'", '"', $message);
+        $funcNum = Yii::$app->request->get('CKEditorFuncNum');
+        echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$source', '$message');</script>";
     }
 }

@@ -180,40 +180,41 @@ class Image extends \common\models\Image
         return null;
     }
 
-    public function saveFileAndModel()
+    public function saveFileAndModel(UploadedFile $file = null)
     {
-        $model = $this;
-        if ($model->validate(['image_file', 'image_source'])) {
+        if ($this->validate(['image_file', 'image_source'])) {
             $resize_labels = [];
-            $model->castValueToArray('image_resize_labels');
+            $this->castValueToArray('image_resize_labels');
 
-            if (!$file = $model->getImageSourceAsUploadedFile()) {
-                $file = UploadedFile::getInstance($model, 'image_file');
+            if ($file === null) {
+                if (!$file = $this->getImageSourceAsUploadedFile()) {
+                    $file = UploadedFile::getInstance($this, 'image_file');
+                }
             }
 
             if ($file) {
-                $model->mime_type = $file->type;
+                $this->mime_type = $file->type;
 
-                if (!$model->name) {
-                    $model->name = $model->file_basename;
+                if (!$this->name) {
+                    $this->name = $file->basename;
                 }
 
-                if ($model->image_name_to_basename) {
-                    $model->file_basename = Inflector::slug(MyStringHelper::stripUnicode($model->name));
+                if ($this->image_name_to_basename) {
+                    $this->file_basename = Inflector::slug(MyStringHelper::stripUnicode($this->name));
                 } else {
-                    $model->file_basename = $file->baseName;
+                    $this->file_basename = $file->baseName;
                 }
 
-                if (!$model->file_extension) {
-                    $model->file_extension = $file->extension;
+                if (!$this->file_extension) {
+                    $this->file_extension = $file->extension;
                 }
 
                 // @TODO: Save origin image
-                $model->generatePath();
-                $origin_destination = $model->getLocation(Image::SIZE_ORIGIN_LABEL);
+                $this->generatePath();
+                $origin_destination = $this->getLocation(Image::SIZE_ORIGIN_LABEL);
                 if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
                     // @TODO: Save cropped and compressed images
-                    $destination = $model->getLocation();
+                    $destination = $this->getLocation();
                     $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
                     // @TODO: Calculate aspect ratio
@@ -222,17 +223,17 @@ class Image extends \common\models\Image
                     $this->height = $size->getHeight();
                     $this->calculateAspectRatio();
 
-                    if ($model->validate()) {
+                    if ($this->validate()) {
                         // @TODO: Save compressed image
                         try {
-                            $thumb0->save($destination, ['quality' => $model->quality]);
+                            $thumb0->save($destination, ['quality' => $this->quality]);
                         } catch (\Exception $e) {
-                            $model->addError($model->image_source ? 'image_source' : 'image_file',
+                            $this->addError($this->image_source ? 'image_source' : 'image_file',
                                 Yii::t('app', $e->getMessage()));
                         }
-                        foreach ($model->image_resize_labels as $size_label) {
+                        foreach ($this->image_resize_labels as $size_label) {
                             if ($dimension = Image::getSizeBySizeKey($size_label)) {
-                                if ($model->image_crop) {
+                                if ($this->image_crop) {
                                     $thumb = ImagineImage::getImagine()->open($origin_destination)
                                         ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
                                         ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
@@ -241,21 +242,21 @@ class Image extends \common\models\Image
                                         ->thumbnail(new Box($dimension[0], $dimension[1]));
                                 }
                                 $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
+                                if ($thumb->save($this->getLocation($suffix), ['quality' => $this->quality])) {
                                     $resize_labels[$size_label] = $suffix;
                                 }
                             }
                         }
 
-                        $model->resize_labels = json_encode($resize_labels);
+                        $this->resize_labels = json_encode($resize_labels);
 
-                        if ($model->save()) {
+                        if ($this->save()) {
                             return true;
                         }
                     }
 
                 } else {
-                    $model->addError($model->image_source ? 'image_source' : 'image_file',
+                    $this->addError($this->image_source ? 'image_source' : 'image_file',
                         Yii::t('app', 'Cannot save image or file is not image.'));
                 }
             }

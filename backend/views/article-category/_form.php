@@ -137,3 +137,19 @@ $imageDropDownListOptions = [
 
 </div>
 
+<script src="http://cdn.ckeditor.com/4.7.0/full-all/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( '<?= Html::getInputId($model, 'long_description') ?>', {
+        height: 300,
+
+        // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+//        filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+        filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
+//        filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+//        filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'
+        filebrowserImageUploadUrl: '<?= \yii\helpers\Url::to([
+            'upload/ckeditor-image',
+            Yii::$app->request->csrfParam => Yii::$app->request->csrfToken
+        ]) ?>'
+    } );
+</script>
