@@ -18,27 +18,27 @@ class ArticleCategory extends \common\models\ArticleCategory
      */
     public static function dropDownListData()
     {
-        return self::_dropDownListData_recursive(self::find()->where(['parent_id' => null])->all());
+        /**
+         * @param self[] $categories
+         * @return array
+         */
+        $arrange = function ($categories) use (&$arrange) {
+            $result = [];
+            foreach ($categories as $category) {
+                $children = $category->getArticleCategories()->all();
+                if ($children) {
+                    $result[$category->name] = [
+                        $category->id => $category->name,
+                        '__________' => $arrange($children),
+                    ];
+                } else {
+                    $result[$category->id] = $category->name;
+                }
+            }
+            return $result;
+        };
+
+        return $arrange(self::find()->where(['parent_id' => null])->all());
     }
 
-    /**
-     * @param self[] $categories
-     * @return array
-     */
-    private static function _dropDownListData_recursive($categories)
-    {
-        $result = [];
-        foreach ($categories as $category) {
-            $children = $category->getArticleCategories()->all();
-            if ($children) {
-                $result[$category->name] = [
-                    $category->id => $category->name,
-                    '__________' => self::_dropDownListData_recursive($children),
-                ];
-            } else {
-                $result[$category->id] = $category->name;
-            }
-        }
-        return $result;
-    }
 }
