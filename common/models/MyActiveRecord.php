@@ -122,10 +122,8 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return call_user_func_array($methods[$methodName], $arguments);
     }
 
-    public function afterFind()
+    public function templateToHtml()
     {
-        parent::afterFind();
-
         if (in_array(\Yii::$app->controller->action->id, ['index', 'update'])) {
             $attributes = ['content', 'long_description'];
             foreach ($attributes as $attribute) {
@@ -145,6 +143,19 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 ]);
             }
         }
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $this->templateToHtml();
+    }
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $this->templateToHtml();
     }
 
     public function beforeValidate()
