@@ -45,10 +45,10 @@ class UploadForm extends Model
                 'maxSize' => Image::getMaxSize(),
                 'maxFiles' => 20,
             ],
-            [['image_quality'], 'integer', 'min' => 10, 'max' => 100],
+            [['image_quality'], 'integer', 'min' => 1, 'max' => 100],
+            [['image_quality'], 'default', 'value' => 50],
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
-            [['image_quality'], 'default', 'value' => 50],
             [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
             ['image_name', 'string', 'max' => 128],
             ['image_file_basename', 'string', 'max' => 128],
@@ -100,6 +100,8 @@ class UploadForm extends Model
                     $model->file_extension = $file->extension;
                 }
 
+                $model->quality = $this->image_quality;
+
                 $model->active = 1;
 
                 // @TODO: Save origin image
@@ -111,7 +113,7 @@ class UploadForm extends Model
                 $destination = $model->getLocation();
                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
 
-                if ($model->validate() && $thumb0->save($destination, ['quality' => $this->image_quality])) {
+                if ($model->validate() && $thumb0->save($destination, ['quality' => $model->quality])) {
                     $i++;
                     $images['saved'][] = $model;
 
@@ -128,7 +130,7 @@ class UploadForm extends Model
                                     ->thumbnail(new Box($dimension[0], $dimension[1]));
                             }
                             $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                            if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                            if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
                                 $resize_labels[$size_label] = $suffix;
                             }
                         }

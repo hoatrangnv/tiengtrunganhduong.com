@@ -32,7 +32,7 @@ class Image extends \common\models\Image
     public $image_file;
     public $image_resize_labels;
     public $image_crop;
-    public $image_quality;
+//    public $image_quality;
     public $image_name_to_basename;
     public $image_file_basename;
     public $image_file_extension;
@@ -62,10 +62,10 @@ class Image extends \common\models\Image
                 'maxSize' => Image::getMaxSize(),
                 'maxFiles' => 1,
             ],
-            [['image_quality'], 'integer', 'min' => 10, 'max' => 100],
+//            [['image_quality'], 'integer', 'min' => 10, 'max' => 100],
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
-            [['image_quality'], 'default', 'value' => 50],
+//            [['image_quality'], 'default', 'value' => 50],
             [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
             ['image_file_basename', 'string', 'max' => 128],
             ['image_file_extension', 'string', 'max' => 32],
@@ -220,7 +220,7 @@ class Image extends \common\models\Image
 
                     if ($model->validate()) {
                         try {
-                            $thumb0->save($destination, ['quality' => $model->image_quality]);
+                            $thumb0->save($destination, ['quality' => $model->quality]);
                             foreach ($model->image_resize_labels as $size_label) {
                                 if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                     if ($model->image_crop) {
@@ -232,7 +232,7 @@ class Image extends \common\models\Image
                                             ->thumbnail(new Box($dimension[0], $dimension[1]));
                                     }
                                     $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                    if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                    if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
                                         $resize_labels[$size_label] = $suffix;
                                     }
                                 }

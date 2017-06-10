@@ -41,19 +41,6 @@ use common\behaviors\MySluggableBehavior;
  */
 class ArticleCategory extends \common\models\MyActiveRecord
 {
-    const TYPE_NEWS = 1;
-    const TYPE_SERVICE = 2;
-    const TYPE_DOCUMENT = 3;
-
-    public static function getTypes()
-    {
-        return [
-            self::TYPE_NEWS => Yii::t('app', 'News'),
-            self::TYPE_SERVICE => Yii::t('app', 'Service'),
-            self::TYPE_DOCUMENT => Yii::t('app', 'Document'),
-        ];
-    }
-
     public function getUrl($params = [])
     {
         // TODO: Implement getUrl() method.

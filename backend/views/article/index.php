@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use backend\models\Article;
+use backend\models\ArticleCategory;
+use backend\models\Image;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ArticleSearch */
@@ -28,17 +31,29 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'id',
 //            'creator_id',
 //            'updater_id',
-//            'category_id',
             [
                 'attribute' => 'image_id',
                 'format' => 'raw',
-                'value' => function ($model) {
-                    return $model->img(\backend\models\Image::SIZE_2);
-
+                'value' => function (Article $model) {
+                    return $model->img(Image::SIZE_2);
                 }
             ],
-            // 'slug',
-             'name',
+            'name',
+            'slug',
+//            'category.name',
+            [
+                'attribute' => 'category_id',
+                'format' => 'raw',
+                'value' => function (Article $model, $attribute) {
+                    return ($category = $model->category) ? $category->name : $model->$attribute;
+                },
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'category_id',
+                    array_merge(ArticleCategory::dropDownListData(),ArticleCategory::dropDownListData()),
+                    ['class'=>'form-control', 'prompt' => '']
+                )
+            ],
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',

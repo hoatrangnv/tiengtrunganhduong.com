@@ -25,7 +25,7 @@ use backend\models\Image;
 
     <?= $form->field($model, 'file_extension')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image_resize_labels')->widget(Select2::classname(), [
+    <?= $form->field($model, 'image_resize_labels')->widget(Select2::className(), [
         'data' => \backend\models\Image::getSizes(),
         'options' => [
             'multiple' => true,
@@ -41,8 +41,10 @@ use backend\models\Image;
 
     <?= $form->field($model, 'active')->checkbox() ?>
 
+    <?= $form->field($model, 'quality')->textInput() ?>
+
     <?= $form->field($model, 'image_crop')->checkbox() ?>
-    <?= $form->field($model, 'image_quality')->textInput() ?>
+
     <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
 
     <div class="form-group">

@@ -117,7 +117,7 @@ class ImageController extends BaseController
 
                         if ($model->validate()) {
                             try {
-                                $thumb0->save($destination, ['quality' => $model->image_quality]);
+                                $thumb0->save($destination, ['quality' => $model->quality]);
                                 foreach ($model->image_resize_labels as $size_label) {
                                     if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                         if ($model->image_crop) {
@@ -129,7 +129,7 @@ class ImageController extends BaseController
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
                                         $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                        if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                        if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
                                             $resize_labels[$size_label] = $suffix;
                                         }
                                     }
@@ -232,7 +232,7 @@ class ImageController extends BaseController
 
                             if (is_file($origin_destination)) {
                                 $thumb0 = ImagineImage::getImagine()->open($origin_destination);
-                                $thumb0->save($destination, ['quality' => $model->image_quality]);
+                                $thumb0->save($destination, ['quality' => $model->quality]);
                                 foreach ($model->image_resize_labels as $size_label) {
                                     if ($dimension = Image::getSizeBySizeKey($size_label)) {
                                         if ($model->image_crop) {
@@ -244,7 +244,7 @@ class ImageController extends BaseController
                                                 ->thumbnail(new Box($dimension[0], $dimension[1]));
                                         }
                                         $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                        if ($thumb->save($model->getLocation($suffix), ['quality' => $model->image_quality])) {
+                                        if ($thumb->save($model->getLocation($suffix), ['quality' => $model->quality])) {
                                             $resize_labels[$size_label] = $suffix;
                                         }
                                     }
@@ -304,6 +304,37 @@ class ImageController extends BaseController
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSearch($q, $page = 1)
+    {
+        /**
+         * @var Image[] $images
+         */
+
+        $images = Image::find()
+            ->where(['like', 'name', $q])
+            ->offset($page - 1)
+            ->limit(30)
+            ->orderBy('create_time desc')
+            ->allActive();
+
+        $result = [
+            'items' => [],
+            'totalCount' => Image::find()
+                ->where(['like', 'name', $q])
+                ->countActive()
+        ];
+
+        foreach ($images as $image) {
+            $result['items'][] = [
+                'id' => $image->id,
+                'name' => $image->name,
+                'source' => $image->getSource()
+            ];
+        }
+
+        return json_encode($result);
     }
 
     /**
