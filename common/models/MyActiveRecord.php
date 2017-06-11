@@ -206,7 +206,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                     }
                     $src = $imgTag->getAttribute('src');
                     $id = null;
-                    if (strpos($src, '?id=') === false && strpos($src, '&id=')) {
+                    if (strpos($src, '?id=') === false && strpos($src, '&id=') === false) {
                         $i++;
                         continue;
                     }
