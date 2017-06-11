@@ -23,6 +23,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <?php require_once 'js.php' ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
