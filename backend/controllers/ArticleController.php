@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class ArticleController extends BaseController
 {
+
     /**
      * @inheritdoc
      */
@@ -95,6 +96,7 @@ class ArticleController extends BaseController
 
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save()) {
+            $model->save();
             if (!isset($post['submit-and'])) {
                 $post['submit-and'] = '';
             }

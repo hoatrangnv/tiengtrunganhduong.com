@@ -122,97 +122,143 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return call_user_func_array($methods[$methodName], $arguments);
     }
 
+    public $templateLastMethod = '';
+
+    public $templateLogMessage = '';
+
     public function templateToHtml()
     {
-        if (in_array(\Yii::$app->controller->action->id, ['index', 'update'])) {
-            $attributes = ['content', 'long_description'];
-            foreach ($attributes as $attribute) {
-                if (!$this->hasAttribute($attribute)) {
-                    continue;
-                }
-                $this->$attribute = \vanquyet\queryTemplate\QueryTemplate::widget([
-                    'content' => $this->$attribute,
-                    'queries' => [
-                        'Article' => function ($id) {
-                            return Article::find()->where(['id' => $id])->onePublished();
-                        },
-                        'Image' => function ($id) {
-                            return Image::find()->where(['id' => $id])->oneActive();
-                        },
-                    ],
-                ]);
-            }
+        if (__METHOD__ === $this->templateLastMethod
+            || !in_array(\Yii::$app->controller->action->id, ['index', 'update'])) {
+            return false;
         }
+
+        $attributes = ['content', 'long_description'];
+        foreach ($attributes as $attribute) {
+            if (!$this->hasAttribute($attribute)) {
+                continue;
+            }
+            $this->$attribute = \vanquyet\queryTemplate\QueryTemplate::widget([
+                'content' => $this->$attribute,
+                'queries' => [
+                    'Article' => function ($id) {
+                        return Article::find()->where(['id' => $id])->onePublished();
+                    },
+                    'Image' => function ($id) {
+                        return Image::find()->where(['id' => $id])->oneActive();
+                    },
+                ],
+            ]);
+        }
+
+        $this->templateLastMethod = __METHOD__;
+
+        return true;
     }
 
     public function htmlToTemplate()
     {
-        if (in_array(\Yii::$app->controller->action->id, ['create', 'update'])) {
-            $attributes = ['content', 'long_description'];
-            foreach ($attributes as $attribute) {
-                /**
-                 * @var \DOMElement $imgTag
-                 */
-                if (!$this->hasAttribute($attribute)) {
-                    continue;
-                }
-                $html = $this->$attribute;
-                $doc = new \DOMDocument();
+        if (__METHOD__ === $this->templateLastMethod
+            || !in_array(\Yii::$app->controller->action->id, ['create', 'update'])) {
+            return false;
+        }
+
+        $attributes = ['content', 'long_description'];
+        foreach ($attributes as $attribute) {
+            /**
+             * @var \DOMElement $imgTag
+             */
+            if (!$this->hasAttribute($attribute)) {
+                continue;
+            }
+            $html = $this->$attribute;
+            $doc = new \DOMDocument();
+            try {
                 $doc->loadHTML(
                     mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
                     LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
                 );
-                $imgTags = $doc->getElementsByTagName('img');
-                $i = 0;
-                while ($imgTag = $imgTags->item($i)) {
-                    if (!$imgTag) {
-                        $i++;
-                        continue;
-                    }
-                    $src = $imgTag->getAttribute('src');
-                    $id = null;
-                    if (strpos($src, '?id=') === false && strpos($src, '&id=')) {
-                        $i++;
-                        continue;
-                    }
-                    $parts = parse_url($src);
-                    if (isset($parts['query'])) {
-                        parse_str($parts['query'], $query);
-                        if (isset($query['id'])) {
-                            $id = $query['id'];
-                        }
-                    }
-                    if (!$id) {
-                        $i++;
-                        continue;
-                    }
-                    $tmpl = $doc->createElement("tmpl:func");
-                    $tmpl->textContent = "Image($id)``imgTag()";
-                    $imgTag->parentNode->replaceChild($tmpl, $imgTag);
-                }
-                $this->$attribute = $doc->saveHTML();
+            } catch (\Exception $e) {
+                $this->templateLogMessage .= $e->getMessage() . "\n";
+                return false;
             }
+            $imgTags = $doc->getElementsByTagName('img');
+            $i = 0;
+            while ($imgTag = $imgTags->item($i)) {
+                if (!$imgTag) {
+                    $i++;
+                    continue;
+                }
+                $src = $imgTag->getAttribute('src');
+                $id = null;
+                if (strpos($src, '?id=') === false && strpos($src, '&id=')) {
+                    $i++;
+                    continue;
+                }
+                $parts = parse_url($src);
+                if (isset($parts['query'])) {
+                    parse_str($parts['query'], $query);
+                    if (isset($query['id'])) {
+                        $id = $query['id'];
+                    }
+                }
+                if (!$id) {
+                    $i++;
+                    continue;
+                }
+                $tmpl = $doc->createElement("tmpl:func");
+                $tmpl->textContent = "Image($id)``imgTag()";
+                $imgTag->parentNode->replaceChild($tmpl, $imgTag);
+            }
+            $this->$attribute = $doc->saveHTML();
         }
+
+        $this->templateLastMethod = __METHOD__;
+
+        return true;
     }
 
     public function beforeValidate()
     {
-        $this->htmlToTemplate();
+        $success = $this->htmlToTemplate();
+
+        $this->templateLogMessage
+            .= ($success ? 'success' : 'failure')
+            . ': html --> template | ' . __METHOD__ . "\n\n";
 
         return parent::beforeValidate();
+    }
+
+    public function beforeSave($insert)
+    {
+        $success = $this->htmlToTemplate();
+
+        $this->templateLogMessage
+            .= ($success ? 'success' : 'failure')
+            . ': html --> template | ' . __METHOD__ . "\n\n";
+
+        return parent::beforeSave($insert);
     }
 
     public function afterFind()
     {
         parent::afterFind();
 
-        $this->templateToHtml();
+        $success = $this->templateToHtml();
+
+        $this->templateLogMessage
+            .= ($success ? 'success' : 'failure')
+            . ': template --> html | ' . __METHOD__ . "\n\n";
     }
 
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
 
-        $this->templateToHtml();
+        $success = $this->templateToHtml();
+
+        $this->templateLogMessage
+            .= ($success ? 'success' : 'failure')
+            . ': template --> html | ' . __METHOD__ . "\n\n";
     }
 }

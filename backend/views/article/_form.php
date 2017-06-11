@@ -12,8 +12,11 @@ use yii\web\View;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Article */
 /* @var $form yii\widgets\ActiveForm */
-?>
 
+?>
+<pre>
+<?= $model->templateLogMessage ?>
+</pre>
 <?php
 $formatJs = <<< JS
 var formatRepo = function (repo) {
@@ -155,7 +158,8 @@ $imageDropDownListOptions = [
     }(document.querySelectorAll("input[name=submit-and]"))
 </script>
 
-<script src="http://cdn.ckeditor.com/4.7.0/full-all/ckeditor.js"></script>
+<!--<script src="http://cdn.ckeditor.com/4.7.0/full-all/ckeditor.js"></script>-->
+<script src="<?= Yii::getAlias('@web/js/ckeditor.js') ?>"></script>
 <script>
     /**
      * Documentation:

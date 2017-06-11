@@ -15,11 +15,6 @@ use Yii;
 
 class BaseController extends Controller
 {
-    public function beforeAction($action)
-    {
-        return parent::beforeAction($action);
-        new Configs();
-    }
 
     public function afterAction($action, $result)
     {
