@@ -17,9 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Chat with us' => 'Chat với chúng tôi',
+    '{0,number} comments' => '{0,number} bình luận',
+    '{0,number} views' => '{0,number} xem',
     'Courses and tuition fees' => '@@Khóa học và học phí@@',
     'Documents' => '@@Tài liệu@@',
     'News' => '@@Tin tức@@',
+    'Chat with us' => 'Chat với chúng tôi',
     'Home page' => 'Trang chủ',
 ];
