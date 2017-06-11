@@ -10,9 +10,11 @@ namespace common\models;
 
 use PHPHtmlParser\Dom;
 use Prophecy\Exception\Doubler\MethodNotFoundException;
+use vanquyet\queryTemplate\QueryTemplate;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\VarDumper;
 
 abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
@@ -129,7 +131,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function templateToHtml()
     {
         if (__METHOD__ === $this->templateLastMethod
-            || !in_array(\Yii::$app->controller->action->id, ['index', 'update'])) {
+            || !in_array(\Yii::$app->controller->action->id, ['index', 'update', 'create'])) {
             return false;
         }
 
@@ -138,7 +140,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
             if (!$this->hasAttribute($attribute)) {
                 continue;
             }
-            $this->$attribute = \vanquyet\queryTemplate\QueryTemplate::widget([
+            $html = QueryTemplate::widget([
                 'content' => $this->$attribute,
                 'queries' => [
                     'Article' => function ($id) {
@@ -149,6 +151,11 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                     },
                 ],
             ]);
+            if (empty(QueryTemplate::$errors)) {
+                $this->$attribute = $html;
+            } else {
+                $this->templateLogMessage .= VarDumper::dumpAsString(QueryTemplate::$errors) . "\n";
+            }
         }
 
         $this->templateLastMethod = __METHOD__;
@@ -159,7 +166,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function htmlToTemplate()
     {
         if (__METHOD__ === $this->templateLastMethod
-            || !in_array(\Yii::$app->controller->action->id, ['create', 'update'])) {
+            || !in_array(\Yii::$app->controller->action->id, ['create', 'update', 'create'])) {
             return false;
         }
 
@@ -173,44 +180,52 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
             }
             $html = $this->$attribute;
             $doc = new \DOMDocument();
+
+            /**
+             * @TODO: Disable warning, which will be inserted into content
+             * Warning: DOMDocument::loadHTML(): Unexpected end tag: 'example' in Entity
+             * https://stackoverflow.com/questions/11819603/dom-loadhtml-doesnt-work-properly-on-a-server
+             */
+            libxml_use_internal_errors(true);
+
             try {
                 $doc->loadHTML(
                     mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
                     LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
                 );
+                $imgTags = $doc->getElementsByTagName('img');
+                $i = 0;
+                while ($imgTag = $imgTags->item($i)) {
+                    if (!$imgTag) {
+                        $i++;
+                        continue;
+                    }
+                    $src = $imgTag->getAttribute('src');
+                    $id = null;
+                    if (strpos($src, '?id=') === false && strpos($src, '&id=')) {
+                        $i++;
+                        continue;
+                    }
+                    $parts = parse_url($src);
+                    if (isset($parts['query'])) {
+                        parse_str($parts['query'], $query);
+                        if (isset($query['id'])) {
+                            $id = $query['id'];
+                        }
+                    }
+                    if (!$id) {
+                        $i++;
+                        continue;
+                    }
+                    $tmpl = $doc->createElement("tmpl:func");
+                    $tmpl->textContent = "Image($id)" . QueryTemplate::__OBJECT_OPERATOR . "imgTag()";
+                    $imgTag->parentNode->replaceChild($tmpl, $imgTag);
+                }
+                $this->$attribute = $doc->saveHTML();
             } catch (\Exception $e) {
                 $this->templateLogMessage .= $e->getMessage() . "\n";
                 return false;
             }
-            $imgTags = $doc->getElementsByTagName('img');
-            $i = 0;
-            while ($imgTag = $imgTags->item($i)) {
-                if (!$imgTag) {
-                    $i++;
-                    continue;
-                }
-                $src = $imgTag->getAttribute('src');
-                $id = null;
-                if (strpos($src, '?id=') === false && strpos($src, '&id=')) {
-                    $i++;
-                    continue;
-                }
-                $parts = parse_url($src);
-                if (isset($parts['query'])) {
-                    parse_str($parts['query'], $query);
-                    if (isset($query['id'])) {
-                        $id = $query['id'];
-                    }
-                }
-                if (!$id) {
-                    $i++;
-                    continue;
-                }
-                $tmpl = $doc->createElement("tmpl:func");
-                $tmpl->textContent = "Image($id)``imgTag()";
-                $imgTag->parentNode->replaceChild($tmpl, $imgTag);
-            }
-            $this->$attribute = $doc->saveHTML();
         }
 
         $this->templateLastMethod = __METHOD__;
@@ -218,16 +233,16 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return true;
     }
 
-    public function beforeValidate()
-    {
-        $success = $this->htmlToTemplate();
-
-        $this->templateLogMessage
-            .= ($success ? 'success' : 'failure')
-            . ': html --> template | ' . __METHOD__ . "\n\n";
-
-        return parent::beforeValidate();
-    }
+//    public function beforeValidate()
+//    {
+//        $success = $this->htmlToTemplate();
+//
+//        $this->templateLogMessage
+//            .= ($success ? 'success' : 'failure')
+//            . ': html --> template | ' . __METHOD__ . "\n\n";
+//
+//        return parent::beforeValidate();
+//    }
 
     public function beforeSave($insert)
     {
