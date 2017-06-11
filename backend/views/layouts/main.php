@@ -71,6 +71,24 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/banner/view'], 'visible' => false],
                 ]],
+                ['label' => 'Site Param', 'items' => [
+                    ['label' => 'Index', 'url' => ['/site-param/index']],
+                    ['label' => 'Create', 'url' => ['/site-param/create']],
+                    ['label' => 'Update', 'url' => ['/site-param/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/site-param/view'], 'visible' => false],
+                ]],
+                ['label' => 'Redirected Url', 'items' => [
+                    ['label' => 'Index', 'url' => ['/redirected-url/index']],
+                    ['label' => 'Create', 'url' => ['/redirected-url/create']],
+                    ['label' => 'Update', 'url' => ['/redirected-url/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/redirected-url/view'], 'visible' => false],
+                ]],
+                ['label' => 'SEO Info', 'items' => [
+                    ['label' => 'Index', 'url' => ['/seo-info/index']],
+                    ['label' => 'Create', 'url' => ['/seo-info/create']],
+                    ['label' => 'Update', 'url' => ['/seo-info/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
+                ]],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
                     ['label' => 'Users', 'url' => ['/admin/user/index']],
