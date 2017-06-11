@@ -534,11 +534,12 @@ i.icon {
     /*text-align: justify;*/
     max-height: calc(2 * 1.4em);
     /*font-weight: normal;*/
+    margin-top: 0.5em;
 }
 .grid-view > ul > li .desc {
     line-height: 1.4em;
     width: 100%;
-    margin-top: 0.5rem;
+    margin-top: 0.5em;
 }
 .grid-view > ul > li img {
     transition: 0.3s;
