@@ -1,4 +1,4 @@
-/*
+/**
  * Overwrite
  */
 .grid-view td {
@@ -17,7 +17,11 @@
     word-wrap: break-word;
 }
 
-/*
+.navbar {
+    font-size: 12px;
+}
+
+/**
  * Table
  */
 .table-wrap {
@@ -32,7 +36,7 @@ table td img {
     max-width: 120px;
 }
 
-/*
+/**
  * My Grid View
  */
 .my-grid-view {
