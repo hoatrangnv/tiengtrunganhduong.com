@@ -130,10 +130,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     public function templateToHtml()
     {
-        if (__METHOD__ === $this->templateLastMethod
-            || !\Yii::$app->controller
-            || !in_array(\Yii::$app->controller->action->id, ['index', 'update', 'create'])
-        ) {
+        if (__METHOD__ === $this->templateLastMethod) {
             return false;
         }
 
@@ -167,10 +164,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     public function htmlToTemplate()
     {
-        if (__METHOD__ === $this->templateLastMethod
-            || !\Yii::$app->controller
-            || !in_array(\Yii::$app->controller->action->id, ['create', 'update', 'create'])
-        ) {
+        if (__METHOD__ === $this->templateLastMethod) {
             return false;
         }
 
@@ -183,6 +177,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                 continue;
             }
             $html = $this->$attribute;
+//            $doc = new \DOMDocument('1.0', 'UTF-8');
             $doc = new \DOMDocument();
 
             /**
@@ -194,6 +189,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
             try {
                 $doc->loadHTML(
+//                    $html,
                     mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
                     LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
                 );
@@ -221,9 +217,34 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                         $i++;
                         continue;
                     }
-                    $tmpl = $doc->createElement("tmpl:func");
-                    $tmpl->textContent = "Image($id)" . QueryTemplate::__OBJECT_OPERATOR . "imgTag()";
-                    $imgTag->parentNode->replaceChild($tmpl, $imgTag);
+
+                    $width = $imgTag->getAttribute("width");
+                    $height = $imgTag->getAttribute("height");
+                    $style = $imgTag->getAttribute("style");
+                    $alt = $imgTag->getAttribute("alt");
+                    $title = $imgTag->getAttribute("title");
+                    $opts = [];
+                    foreach (['width', 'height', 'style', 'alt', 'title'] as $attr) {
+                        if ($$attr) {
+                            $opts[$attr] = $$attr;
+                        }
+                    }
+                    $opts_str = json_encode($opts);
+                    if ($width && $height) {
+                        $size = "{$width}x{$height}";
+                    } else {
+                        $size = 0;
+                    }
+                    $size_str = json_encode($size);
+
+                    $node = $doc->createTextNode(
+                        QueryTemplate::__FUNC_OPEN
+                        . "Image($id)"
+                        . QueryTemplate::__OBJECT_OPERATOR
+                        . "imgTag($size_str, $opts_str)"
+                        . QueryTemplate::__FUNC_CLOSE
+                    );
+                    $imgTag->parentNode->replaceChild($node, $imgTag);
                 }
                 $this->$attribute = $doc->saveHTML();
             } catch (\Exception $e) {
@@ -237,13 +258,20 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return true;
     }
 
+    public $allowedTemplateActions = ['index', 'create', 'update'];
+
     public function beforeSave($insert)
     {
-        $success = $this->htmlToTemplate();
+        if (\Yii::$app->controller
+            && \Yii::$app->controllerNamespace === 'backend\\controller'
+            && in_array(\Yii::$app->controller->action->id, $this->allowedTemplateActions)
+        ) {
+            $success = $this->htmlToTemplate();
 
-        $this->templateLogMessage
-            .= ($success ? 'success' : 'failure')
-            . ': html --> template | ' . __METHOD__ . "\n\n";
+            $this->templateLogMessage
+                .= ($success ? 'success' : 'failure')
+                . ': html --> template | ' . __METHOD__ . "\n\n";
+        }
 
         return parent::beforeSave($insert);
     }
@@ -252,21 +280,31 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     {
         parent::afterFind();
 
-        $success = $this->templateToHtml();
+        if (\Yii::$app->controller
+            && \Yii::$app->controllerNamespace === 'backend\\controller'
+            && in_array(\Yii::$app->controller->action->id, $this->allowedTemplateActions)
+        ) {
+            $success = $this->templateToHtml();
 
-        $this->templateLogMessage
-            .= ($success ? 'success' : 'failure')
-            . ': template --> html | ' . __METHOD__ . "\n\n";
+            $this->templateLogMessage
+                .= ($success ? 'success' : 'failure')
+                . ': template --> html | ' . __METHOD__ . "\n\n";
+        }
     }
 
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
 
-        $success = $this->templateToHtml();
+        if (\Yii::$app->controller
+            && \Yii::$app->controllerNamespace === 'backend\\controller'
+            && in_array(\Yii::$app->controller->action->id, $this->allowedTemplateActions)
+        ) {
+            $success = $this->templateToHtml();
 
-        $this->templateLogMessage
-            .= ($success ? 'success' : 'failure')
-            . ': template --> html | ' . __METHOD__ . "\n\n";
+            $this->templateLogMessage
+                .= ($success ? 'success' : 'failure')
+                . ': template --> html | ' . __METHOD__ . "\n\n";
+        }
     }
 }

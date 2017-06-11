@@ -310,7 +310,9 @@ class Image extends \common\models\MyActiveRecord
         } else {
             $queryStr = '?';
             foreach ($options as $key => $value) {
-                if ((is_string($key) || is_numeric($key)) && (is_string($value) || is_numeric($value))) {
+                if ((is_string($key) || is_numeric($key))
+                    && (is_string($value) || is_numeric($value))
+                ) {
                     $queryStr .= "$key=$value";
                 }
             }
@@ -455,7 +457,9 @@ class Image extends \common\models\MyActiveRecord
                 return $this->getAttribute($name);
             },
             'imgTag' => function ($size = Image::SIZE_0, $options = [], $srcOptions = []) {
-                if (in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])) {
+                if (Yii::$app->controller
+                    && in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])
+                ) {
                     $srcOptions = array_merge($srcOptions, ['id' => $this->id]);
                 }
                 return $this->img($size, $options, $srcOptions);
