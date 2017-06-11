@@ -872,8 +872,8 @@ i.icon {
         width: auto;
     }
     #popup.images-popup button.close-btn {
-        top: 0;
-        bottom: auto;
+        top: auto;
+        bottom: 0;
         width: 100%;
         background: rgba(255, 255, 255, 0.2);
     }
