@@ -131,7 +131,8 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function templateToHtml()
     {
         if (__METHOD__ === $this->templateLastMethod
-//            || !in_array(\Yii::$app->controller->action->id, ['index', 'update', 'create'])
+            || !\Yii::$app->controller
+            || !in_array(\Yii::$app->controller->action->id, ['index', 'update', 'create'])
         ) {
             return false;
         }
@@ -167,7 +168,8 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function htmlToTemplate()
     {
         if (__METHOD__ === $this->templateLastMethod
-//            || !in_array(\Yii::$app->controller->action->id, ['create', 'update', 'create'])
+            || !\Yii::$app->controller
+            || !in_array(\Yii::$app->controller->action->id, ['create', 'update', 'create'])
         ) {
             return false;
         }
@@ -234,17 +236,6 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
         return true;
     }
-
-//    public function beforeValidate()
-//    {
-//        $success = $this->htmlToTemplate();
-//
-//        $this->templateLogMessage
-//            .= ($success ? 'success' : 'failure')
-//            . ': html --> template | ' . __METHOD__ . "\n\n";
-//
-//        return parent::beforeValidate();
-//    }
 
     public function beforeSave($insert)
     {

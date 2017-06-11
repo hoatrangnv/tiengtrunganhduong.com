@@ -5,6 +5,10 @@ use yii\helpers\Url;
 use frontend\models\Article;
 use frontend\models\Image;
 
+/**
+ * @var Article $model
+ */
+
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerMetaTag([
@@ -106,23 +110,24 @@ if ($next) {
                 ]
         ]);
         */
-        $content = \vanquyet\queryTemplate\QueryTemplate::widget([
-            'content' => $model->content,
-            'queries' => [
-                'Article' => function ($id) {
-                    return Article::find()->where(['id' => $id])->onePublished();
-                },
-                'Image' => function ($id) {
-                    return Image::find()->where(['id' => $id])->oneActive();
-                },
-            ],
-        ]);
-        $pattern = "/<code>([\w\W]*?)<\/code>/i";
-        preg_match_all($pattern, $content, $matches);
-        foreach ($matches[1] as $match) {
-            $content = str_replace($match, htmlentities($match), $content);
-        }
-        echo $content;
+//        $content = \vanquyet\queryTemplate\QueryTemplate::widget([
+//            'content' => $model->content,
+//            'queries' => [
+//                'Article' => function ($id) {
+//                    return Article::find()->where(['id' => $id])->onePublished();
+//                },
+//                'Image' => function ($id) {
+//                    return Image::find()->where(['id' => $id])->oneActive();
+//                },
+//            ],
+//        ]);
+//        $pattern = "/<code>([\w\W]*?)<\/code>/i";
+//        preg_match_all($pattern, $content, $matches);
+//        foreach ($matches[1] as $match) {
+//            $content = str_replace($match, htmlentities($match), $content);
+//        }
+//        echo $content;
+        echo $model->content;
         ?>
     </div>
 </article>
