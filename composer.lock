@@ -833,16 +833,16 @@
         },
         {
             "name": "vanquyet/yii2-query-template",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vanquyettran/yii2-query-template.git",
-                "reference": "a6bcf7dc8e5a369424a8ea800bf88a14df1dd0d4"
+                "reference": "1d55cdf9596be1dd03bee62a8705ff5043c5acc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vanquyettran/yii2-query-template/zipball/a6bcf7dc8e5a369424a8ea800bf88a14df1dd0d4",
-                "reference": "a6bcf7dc8e5a369424a8ea800bf88a14df1dd0d4",
+                "url": "https://api.github.com/repos/vanquyettran/yii2-query-template/zipball/1d55cdf9596be1dd03bee62a8705ff5043c5acc7",
+                "reference": "1d55cdf9596be1dd03bee62a8705ff5043c5acc7",
                 "shasum": ""
             },
             "require": {
@@ -868,7 +868,7 @@
             "keywords": [
                 "yii2 query template"
             ],
-            "time": "2017-04-29T16:43:21+00:00"
+            "time": "2017-06-11T08:48:16+00:00"
         },
         {
             "name": "yiisoft/yii2",

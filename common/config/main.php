@@ -32,8 +32,8 @@ return [
     ],
     'aliases' => [
         '@mdm/admin' => '@backend/mdm.admin',
-        '@frontendUrl' => '/',
-        '@backendUrl' => '/backend',
-        '@imagesUrl' => '/images',
+        '@frontendUrl' => 'http://quyettran.com',
+        '@backendUrl' => 'http://admin.quyettran.com',
+        '@imagesUrl' => 'http://quyettran.com/images',
     ]
 ];
