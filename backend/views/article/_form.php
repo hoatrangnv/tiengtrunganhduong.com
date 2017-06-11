@@ -14,9 +14,9 @@ use yii\web\View;
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
-<pre>
+<!--
 <?= $model->templateLogMessage ?>
-</pre>
+-->
 <?php
 $formatJs = <<< JS
 var formatRepo = function (repo) {

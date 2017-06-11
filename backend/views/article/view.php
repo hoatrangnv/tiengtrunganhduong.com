@@ -10,9 +10,9 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<pre>
+<!--
 <?= $model->templateLogMessage ?>
-</pre>
+-->
 <div class="article-view">
 
     <h1><?= Html::encode($this->title) ?></h1>

@@ -13,7 +13,7 @@ $this->title = Yii::$app->name;
         <!--<p class="lead">You have successfully created your Yii-powered application.</p>-->
         <p class="lead">You have successfully logged in. Let's start with...</p>
 
-        <p><a class="btn btn-lg btn-success" href="<?= Url::to(['article/create', 'code_editor' => true]) ?>"><span class="glyphicon glyphicon-edit"></span> NEW Article</a></p>
+        <p><a class="btn btn-lg btn-success" href="<?= Url::to(['article/create']) ?>"><span class="glyphicon glyphicon-edit"></span> NEW Article</a></p>
         <p><a class="btn btn-lg btn-primary" href="<?= Url::to(['upload/images']) ?>"><span class="glyphicon glyphicon-cloud-upload"></span> Images</a></p>
     </div>
 
@@ -26,7 +26,7 @@ $this->title = Yii::$app->name;
                 <ul>
                     <?php
                     foreach (Article::find()->where(['active' => 0])->orderBy('publish_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a(null, [], ['code_editor' => 1])}</li>";
+                        echo "<li>{$item->a()}</li>";
                     }
                     ?>
                 </ul>
@@ -39,7 +39,7 @@ $this->title = Yii::$app->name;
                 <ul>
                     <?php
                     foreach (Article::find()->where(['active' => 1])->orderBy('publish_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a(null, [], ['code_editor' => 1])}</li>";
+                        echo "<li>{$item->a()}</li>";
                     }
                     ?>
                 </ul>
