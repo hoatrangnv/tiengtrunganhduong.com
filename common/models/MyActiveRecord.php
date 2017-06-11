@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 
-abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
+abstract class MyActiveRecord extends ActiveRecord
 {
     /**
      * @param null $text
@@ -26,6 +26,9 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
      */
     public function a($text = null, array $options = [], array $urlParams = [])
     {
+        if (!$this->hasMethod('getUrl')) {
+            return '';
+        }
         if (!$text) {
             if ($this->hasAttribute('name')) {
                 $text = $this->getAttribute('name');
