@@ -616,7 +616,7 @@ i.icon {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 999999;
+    z-index: 99999999;
 }
 #popup .content,
 #popup .modal {
