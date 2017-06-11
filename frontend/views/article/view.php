@@ -51,7 +51,7 @@ if ($next) {
     <div class="article-desc">
         <?= nl2br($model->description) ?>
     </div>
-    <div class="article-content fit-content">
+    <div class="article-content fit-content content-popup-images">
         <?php
         $model->templateToHtml(['content']);
         echo $model->content;
