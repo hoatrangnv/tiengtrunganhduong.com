@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\di\Instance;
+use yii\db\ActiveQueryInterface;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,18 +16,38 @@ use yii\di\Instance;
  *
  * @author Quyet Tran <quyettvq at gmail.com>
  */
-class MyActiveQuery extends ActiveQuery
+class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
 {
+    /**
+     * @var bool
+     */
     public $enableCache = true;
 
+    /**
+     * @var int
+     */
     public $cacheDuration = 3600;
 
+    /**
+     * @var int
+     */
     public $publishTimeWrongNumber = 300;
 
+    /**
+     * @var string
+     */
     public $activeAttribute = 'active';
 
+    /**
+     * @var string
+     */
     public $publishTimeAttribute = 'publish_time';
 
+    /**
+     * MyActiveQuery constructor.
+     * @param string $modelClass
+     * @param array $config
+     */
     public function __construct($modelClass, array $config = [])
     {
         if (isset(Yii::$app->params['myActiveQuery'])) {
@@ -40,26 +61,46 @@ class MyActiveQuery extends ActiveQuery
         parent::__construct($modelClass, $config);
     }
 
+    /**
+     * @return $this
+     */
     public function active()
     {
         return $this->andWhere([$this->activeAttribute => true]);
     }
-    
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|null|string|\yii\db\ActiveRecord
+     */
     public function oneActive($db = null)
     {
         return $this->active()->one($db);
     }
 
+    /**
+     * @param null $db
+     * @return array|bool|mixed|\yii\db\ActiveRecord[]
+     */
     public function allActive($db = null)
     {
         return $this->active()->all($db);
     }
-    
+
+    /**
+     * @param string $q
+     * @param null $db
+     * @return bool|int|mixed|string
+     */
     public function countActive($q = '*', $db = null)
     {
         return $this->active()->count($q, $db);
     }
-    
+
+    /**
+     * @param null $wrong_number
+     * @return $this
+     */
     public function published($wrong_number = null)
     {
         if ($wrong_number === null) {
@@ -70,22 +111,39 @@ class MyActiveQuery extends ActiveQuery
         
         return $this->active()->andWhere(['<=', $this->publishTimeAttribute, $time]);
     }
-    
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|null|string|\yii\db\ActiveRecord
+     */
     public function onePublished($db = null)
     {
         return $this->published()->one($db);
     }
-    
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|\yii\db\ActiveRecord[]
+     */
     public function allPublished($db = null)
     {
         return $this->published()->all($db);
     }
-    
+
+    /**
+     * @param string $q
+     * @param null $db
+     * @return bool|int|mixed|string
+     */
     public function countPublished($q = '*', $db = null)
     {
         return $this->published()->count($q, $db);
     }
-    
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|\yii\db\ActiveRecord[]
+     */
     public function all($db = null)
     {
         $result = false;
@@ -102,6 +160,10 @@ class MyActiveQuery extends ActiveQuery
         return $result;
     }
 
+    /**
+     * @param null $db
+     * @return array|bool|mixed|null|string|\yii\db\ActiveRecord
+     */
     public function one($db = null)
     {
         $result = false;
@@ -123,7 +185,12 @@ class MyActiveQuery extends ActiveQuery
         }
         return $result;
     }
-    
+
+    /**
+     * @param string $q
+     * @param null $db
+     * @return bool|int|mixed|string
+     */
     public function count($q = '*', $db = null)
     {
         $result = false;
@@ -139,7 +206,12 @@ class MyActiveQuery extends ActiveQuery
         }
         return $result;
     }
-    
+
+    /**
+     * @param $method
+     * @param $params
+     * @return string
+     */
     protected function getCacheKey($method, $params)
     {
         $query = clone $this;

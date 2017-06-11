@@ -149,20 +149,17 @@ $imageDropDownListOptions = [
 
 </div>
 <script>
+    // Submit and stay here
     !function (inputs) {
         [].forEach.call(inputs, function (input) {
             input.addEventListener("change", function () {
                 input.form.submit();
             });
         })
-    }(document.querySelectorAll("input[name=submit-and]"))
-</script>
+    }(document.querySelectorAll("input[name=submit-and]"));
 
-<?php
-if (!Yii::$app->request->get('code_editor')) {
-    ?>
-    <script>
-        ckeditor("<?= Html::getInputId($model, 'content') ?>");
-    </script>
-    <?php
-}
+    // CKEditor
+    !function (editor) {
+        editor && ckeditor(editor);
+    }(document.getElementById("<?= Html::getInputId($model, 'content') ?>"));
+</script>

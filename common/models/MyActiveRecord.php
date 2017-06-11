@@ -18,6 +18,12 @@ use yii\helpers\VarDumper;
 
 abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 {
+    /**
+     * @param null $text
+     * @param array $options
+     * @param array $urlParams
+     * @return string
+     */
     public function a($text = null, array $options = [], array $urlParams = [])
     {
         if (!$text) {
@@ -34,6 +40,12 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return Html::a($text, $this->getUrl($urlParams), $options);
     }
 
+    /**
+     * @param null $size
+     * @param array $options
+     * @param array $srcOptions
+     * @return string
+     */
     public function img($size = null, array $options = [], array $srcOptions = [])
     {
         if (!isset($options['alt'])) {
@@ -56,6 +68,9 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
             return $this->getImgTag($size, $options, $srcOptions);
         }
 
+        /**
+         * @var Image $image
+         */
         if ($this->hasMethod('getImage') && $image = $this->getImage()->oneActive()) {
             return $image->getImgTag($size, $options, $srcOptions);
         }
@@ -63,6 +78,10 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return '';
     }
 
+    /**
+     * @param $input
+     * @return array|string
+     */
     public static function castToArray($input)
     {
         if (!is_array($input)) {
@@ -75,14 +94,23 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return $input;
     }
 
+    /**
+     * @param $attribute
+     */
     public function castValueToArray($attribute)
     {
         $this->$attribute = self::castToArray($this->$attribute);
     }
 
+    /**
+     * @return MyActiveQuery
+     */
     public function getAllChildren()
     {
         if ($this->hasMethod('getChildren')) {
+            /**
+             * @var MyActiveRecord[] $allChildren
+             */
             $allChildren = $this->getChildren();
             foreach ($allChildren as $item) {
                 $allChildren = array_merge($allChildren, $item->getAllChildren());
@@ -95,11 +123,17 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         throw new MethodNotFoundException('Method getChildren not found.', self::className(), null);
     }
 
+    /**
+     * @return array
+     */
     public static function listAsId2Name()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 
+    /**
+     * @return MyActiveQuery
+     */
     public static function find()
     {
         return new MyActiveQuery(get_called_class());
@@ -224,32 +258,32 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
                         continue;
                     }
 
-                    $width = $imgTag->getAttribute("width");
-                    $height = $imgTag->getAttribute("height");
-                    $style = $imgTag->getAttribute("style");
-                    $alt = $imgTag->getAttribute("alt");
-                    $title = $imgTag->getAttribute("title");
                     $opts = [];
-                    foreach (['width', 'height', 'style', 'alt', 'title'] as $attr) {
-                        if ($$attr) {
-                            $opts[$attr] = $$attr;
+                    $width = null;
+                    $height = null;
+                    foreach (['width', 'height', 'id', 'class', 'style', 'alt', 'title'] as $attr) {
+                        $val = $imgTag->getAttribute($attr);
+                        if ($val) {
+                            $opts[$attr] = $val;
+                            if (in_array($attr, ['width', 'height'])) {
+                                $$attr = $val;
+                            }
                         }
                     }
                     $opts_str = json_encode($opts);
-                    if ($width && $height) {
+                    if (is_numeric($width) && is_numeric($height)) {
                         $size = "{$width}x{$height}";
                     } else {
-                        $size = 0;
+                        $size = null;
                     }
                     $size_str = json_encode($size);
 
                     $node = $doc->createTextNode(
                         QueryTemplate::__FUNC_OPEN
-                        . "Image($id)"
-                        . QueryTemplate::__OBJECT_OPERATOR
-                        . "imgTag($size_str, $opts_str)"
+                        . " Image($id)" . QueryTemplate::__OBJECT_OPERATOR . "imgTag($size_str, $opts_str) "
                         . QueryTemplate::__FUNC_CLOSE
                     );
+
                     $imgTag->parentNode->replaceChild($node, $imgTag);
                 }
                 $this->$attribute = $doc->saveHTML();

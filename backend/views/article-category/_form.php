@@ -138,5 +138,8 @@ $imageDropDownListOptions = [
 
 </div>
 <script>
-    ckeditor("<?= Html::getInputId($model, 'long_description') ?>");
+    // CKEditor
+    !function (editor) {
+        editor && ckeditor(editor);
+    }(document.getElementById("<?= Html::getInputId($model, 'long_description') ?>"));
 </script>

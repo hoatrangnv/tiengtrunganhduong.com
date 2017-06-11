@@ -17,8 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Courses and tuition fees' => 'Khóa học và học phí',
-    'Documents' => 'Tài liệu',
+    'Chat with us' => 'Chat với chúng tôi',
+    'Courses and tuition fees' => '@@Khóa học và học phí@@',
+    'Documents' => '@@Tài liệu@@',
+    'News' => '@@Tin tức@@',
     'Home page' => 'Trang chủ',
-    'News' => 'Tin tức',
 ];

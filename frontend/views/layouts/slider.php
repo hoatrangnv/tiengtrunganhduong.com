@@ -1,6 +1,6 @@
 <div>
     <!-- #region Jssor Slider Begin -->
-    <script src="<?= Yii::getAlias('@web/jssor/js/jssor.slider-24.1.5.min.js') ?>" type="text/javascript"></script>
+    <script src="<?= Yii::getAlias('@web/libs/jssor/js/jssor.slider-24.1.5.min.js') ?>" type="text/javascript"></script>
     <script type="text/javascript">
         jssor_1_slider_init = function() {
 
@@ -64,7 +64,7 @@
             /* size of bullet elment */
             width: 16px;
             height: 16px;
-            background: url('<?= Yii::getAlias('@web/jssor/img/b05.png') ?>') no-repeat;
+            background: url('<?= Yii::getAlias('@web/libs/jssor/img/b05.png') ?>') no-repeat;
             overflow: hidden;
             cursor: pointer;
         }
@@ -81,7 +81,7 @@
     </style>
     <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:900px;height:300px;overflow:hidden;visibility:hidden;">
         <!-- Loading Screen -->
-        <div data-u="loading" style="position:absolute;top:0px;left:0px;background:url('<?= Yii::getAlias('@web/jssor/img/loading.gif') ?>') no-repeat 50% 50%;background-color:rgba(0, 0, 0, 0.7);"></div>
+        <div data-u="loading" style="position:absolute;top:0px;left:0px;background:url('<?= Yii::getAlias('@web/libs/jssor/img/loading.gif') ?>') no-repeat 50% 50%;background-color:rgba(0, 0, 0, 0.7);"></div>
         <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:900px;height:300px;overflow:hidden;">
             <?php
             foreach (\frontend\models\Banner::find()->orderBy('sort_order asc')->allActive() as $item) {

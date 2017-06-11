@@ -46,89 +46,19 @@ if ($next) {
 <article>
     <div class="article-info">
         <?= $this->render('info', ['model' => $model]) ?>
+        <?= $this->render('//layouts/fbLike') ?>
     </div>
     <div class="article-desc">
         <?= nl2br($model->description) ?>
     </div>
-    <div class="article-content">
+    <div class="article-content fit-content">
         <?php
-        /*
-        // TEST
-        $content = '';
-        echo \vanquyet\queryTemplate\QueryTemplate::widget([
-            'content' =>
-                '
-                [@ myImg : Image(32)->imgTag() @]
-                {%
-                    Image(32)
-                    ->imgTag(100, {
-                        "title" : "hahaha <% this=>attribute(\"name\") %>",
-                        "data-origin" : "<% this=>source() %>"
-                    })
-                %}
-                [@ attName : "name" @]
-                
-                
-                
-                
-                
-                
-                {%
-                    Article(2)
-                    ->aTag("\\n\\n\\n\\n\\n\\n\\t\\t <@ myImg @> \\n\\n\\n\\n\\n\\n", {
-                        "class" : "clearfix link",
-                        "style" : "display: block; background: blue;",
-                        "title" : "Xin chào Việt Nam thân yêu,tên tôi là <% this=>attribute(\"<@attName@>\") %>",
-                        "data-image" : "<% Image(32)=>imgTag() %>"
-                    })
-                %}
-                
-                
-                
-                
-                
-                
-                
-                {% Article(2)->image()->imgTag() %}
-                {% echo("<@ myImg @>") %}
-                {% Article(2)->image()->filename() %}
-                [@ msg2 : "Hello US!!" @]
-                {@ msg2 @}
-                {@ msg2 @}
-                ',
-            'queries' =>
-                [
-                    'Image' => function ($id) {
-                        return \frontend\models\Image::find()->where(['id' => $id])->oneActive();
-                    },
-                    'Article' => function ($id) {
-                        return Article::find()->where(['id' => $id])->onePublished();
-                    },
-                    'echo' => function ($text = '') {
-                        return $text;
-                    }
-                ]
-        ]);
-        */
-//        $content = \vanquyet\queryTemplate\QueryTemplate::widget([
-//            'content' => $model->content,
-//            'queries' => [
-//                'Article' => function ($id) {
-//                    return Article::find()->where(['id' => $id])->onePublished();
-//                },
-//                'Image' => function ($id) {
-//                    return Image::find()->where(['id' => $id])->oneActive();
-//                },
-//            ],
-//        ]);
-//        $pattern = "/<code>([\w\W]*?)<\/code>/i";
-//        preg_match_all($pattern, $content, $matches);
-//        foreach ($matches[1] as $match) {
-//            $content = str_replace($match, htmlentities($match), $content);
-//        }
-//        echo $content;
         $model->templateToHtml(['content']);
         echo $model->content;
         ?>
     </div>
+</article>
+<article>
+    <?= $this->render('//layouts/fbLike', ['size' => 'large']) ?>
+    <?= $this->render('//layouts/fbComment') ?>
 </article>

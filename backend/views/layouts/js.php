@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <!--<script src="http://cdn.ckeditor.com/4.7.0/full-all/ckeditor.js"></script>-->
-<script src="<?= Yii::getAlias('@web/ckeditor/ckeditor.js') ?>"></script>
+<script src="<?= Yii::getAlias('@frontendUrl/libs/ckeditor/ckeditor.js') ?>"></script>
 <script>
 function ckeditor(id) {
     /**
