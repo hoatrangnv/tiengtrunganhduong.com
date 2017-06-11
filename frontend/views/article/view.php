@@ -127,6 +127,7 @@ if ($next) {
 //            $content = str_replace($match, htmlentities($match), $content);
 //        }
 //        echo $content;
+        $model->templateToHtml(['content']);
         echo $model->content;
         ?>
     </div>

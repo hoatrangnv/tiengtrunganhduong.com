@@ -128,13 +128,16 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
     public $templateLogMessage = '';
 
-    public function templateToHtml()
+    public function templateToHtml($attributes = null)
     {
         if (__METHOD__ === $this->templateLastMethod) {
             return false;
         }
 
-        $attributes = ['content', 'long_description'];
+        if (!$attributes) {
+            $attributes = ['content', 'long_description'];
+        }
+
         foreach ($attributes as $attribute) {
             if (!$this->hasAttribute($attribute)) {
                 continue;
@@ -162,13 +165,16 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         return true;
     }
 
-    public function htmlToTemplate()
+    public function htmlToTemplate($attributes = null)
     {
         if (__METHOD__ === $this->templateLastMethod) {
             return false;
         }
 
-        $attributes = ['content', 'long_description'];
+        if (!$attributes) {
+            $attributes = ['content', 'long_description'];
+        }
+
         foreach ($attributes as $attribute) {
             /**
              * @var \DOMElement $imgTag
@@ -263,7 +269,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function beforeSave($insert)
     {
         if (\Yii::$app->controller
-            && \Yii::$app->controllerNamespace === 'backend\\controller'
+            && \Yii::$app->controllerNamespace === 'backend\\controllers'
             && in_array(\Yii::$app->controller->action->id, $this->allowedTemplateActions)
         ) {
             $success = $this->htmlToTemplate();
@@ -281,7 +287,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         parent::afterFind();
 
         if (\Yii::$app->controller
-            && \Yii::$app->controllerNamespace === 'backend\\controller'
+            && \Yii::$app->controllerNamespace === 'backend\\controllers'
             && in_array(\Yii::$app->controller->action->id, $this->allowedTemplateActions)
         ) {
             $success = $this->templateToHtml();
@@ -297,7 +303,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
         parent::afterSave($insert, $changedAttributes);
 
         if (\Yii::$app->controller
-            && \Yii::$app->controllerNamespace === 'backend\\controller'
+            && \Yii::$app->controllerNamespace === 'backend\\controllers'
             && in_array(\Yii::$app->controller->action->id, $this->allowedTemplateActions)
         ) {
             $success = $this->templateToHtml();
