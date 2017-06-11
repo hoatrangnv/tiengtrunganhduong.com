@@ -276,7 +276,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
             $this->templateLogMessage
                 .= ($success ? 'success' : 'failure')
-                . ': html --> template | ' . __METHOD__ . "\n\n";
+                . ': html to template | ' . __METHOD__ . "\n\n";
         }
 
         return parent::beforeSave($insert);
@@ -294,7 +294,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
             $this->templateLogMessage
                 .= ($success ? 'success' : 'failure')
-                . ': template --> html | ' . __METHOD__ . "\n\n";
+                . ': template to html | ' . __METHOD__ . "\n\n";
         }
     }
 
@@ -310,7 +310,7 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
 
             $this->templateLogMessage
                 .= ($success ? 'success' : 'failure')
-                . ': template --> html | ' . __METHOD__ . "\n\n";
+                . ': template to html | ' . __METHOD__ . "\n\n";
         }
     }
 }
