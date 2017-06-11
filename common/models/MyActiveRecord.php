@@ -131,7 +131,8 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function templateToHtml()
     {
         if (__METHOD__ === $this->templateLastMethod
-            || !in_array(\Yii::$app->controller->action->id, ['index', 'update', 'create'])) {
+//            || !in_array(\Yii::$app->controller->action->id, ['index', 'update', 'create'])
+        ) {
             return false;
         }
 
@@ -166,7 +167,8 @@ abstract class MyActiveRecord extends ActiveRecord implements iMyActiveRecord
     public function htmlToTemplate()
     {
         if (__METHOD__ === $this->templateLastMethod
-            || !in_array(\Yii::$app->controller->action->id, ['create', 'update', 'create'])) {
+//            || !in_array(\Yii::$app->controller->action->id, ['create', 'update', 'create'])
+        ) {
             return false;
         }
 
