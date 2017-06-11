@@ -529,7 +529,7 @@ i.icon {
 }
 .grid-view > ul > li .name {
     display: block;
-    /*font-size: 1em;*/
+    font-size: 1em;
     transition: 0.3s;
     /*text-align: justify;*/
     max-height: calc(2 * 1.4em);
