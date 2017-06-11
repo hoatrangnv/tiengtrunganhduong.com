@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "redirected_url".
@@ -32,6 +34,26 @@ class RedirectedUrl extends MyActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'creator_id',
+                'updatedByAttribute' => 'updater_id',
+            ],
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'create_time',
+                'updatedAtAttribute' => 'update_time',
+                'value' => time(),
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'redirected_url';
@@ -43,12 +65,13 @@ class RedirectedUrl extends MyActiveRecord
     public function rules()
     {
         return [
-            [['creator_id', 'updater_id', 'active', 'type', 'status', 'sort_order', 'create_time', 'update_time'], 'integer'],
+            [[/*'creator_id', 'updater_id',*/ 'active', 'type', 'status', 'sort_order',
+                /*'create_time', 'update_time'*/], 'integer'],
             [['from_urls', 'to_url'], 'required'],
             [['from_urls'], 'string'],
             [['to_url'], 'string', 'max' => 255],
-            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
-            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
+//            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
+//            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];
     }
 
