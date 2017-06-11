@@ -59,6 +59,6 @@ if ($next) {
     </div>
 </article>
 <article>
-    <?= $this->render('//layouts/fbLike', ['size' => 'large']) ?>
+    <?= $this->render('//layouts/fbLike') ?>
     <?= $this->render('//layouts/fbComment') ?>
 </article>
