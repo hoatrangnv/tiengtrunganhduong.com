@@ -17,10 +17,10 @@
 </span>
 <span class="info-item">
     <i class="icon eye-icon"></i>
-    <span><?= Yii::t('app', '{0,number} views'), $model->views() ?></span>
+    <span><?= Yii::t('app', '{0,number} views', $model->views()) ?></span>
 </span>
 <span class="info-item">
     <i class="icon chat-icon"></i>
-    <span><?= Yii::t('app', '{0,number} comments'), $model->comments() ?></span>
+    <span><?= Yii::t('app', '{0,number} comments', $model->comments()) ?></span>
 </span>
 
