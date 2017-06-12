@@ -143,7 +143,7 @@ class CrawlController extends Controller
             } catch (\Exception $exception) {
                 $crawler->error_message = $exception->getMessage();
                 echo $this->stdout($crawler->error_message, Console::BG_RED);
-                $msg = $crawler->error_message . "\n";
+                $msg = "\n";
                 if ($crawler->save()) {
                     echo "Saved (url) Crawler#$crawler->id\n";
                 } else {
@@ -160,9 +160,10 @@ class CrawlController extends Controller
             }
 
             // Echo memory usage
-            echo $this->stdout(date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n", Console::FG_GREY);
+            $mem = date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n";
             // Echo memory peak usage
-            echo $this->stdout(date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n", Console::FG_GREY);;
+            $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
+            echo $this->stdout($mem, Console::FG_GREY);
         }
         echo "Errors Log:\n";
         var_dump($errorsLog);
