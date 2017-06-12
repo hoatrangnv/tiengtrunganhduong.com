@@ -45,7 +45,14 @@ class CrawlController extends Controller
             $url = $item->textContent;
 
             echo "\n------------------[ $i ]------------------\n";
+
             echo "$url\n";
+
+            if (strpos($url, 'http://m.tiengtrunganhduong.com')) {
+                echo "Ignore mobile version\n";
+                continue;
+            }
+
 
             if ($crawler = Crawler::find()->where(['url' => $url])->one()) {
                 echo "Update existed crawler#$crawler->id:\n";
@@ -131,7 +138,13 @@ class CrawlController extends Controller
                     $crawler->status,
                     $msg
                 ];
+                echo $msg;
             }
+
+            // Echo memory usage
+            echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB\n";
+            // Echo memory peak usage
+            echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB\n";
         }
         echo "Errors Log:\n";
         var_dump($errorsLog);
