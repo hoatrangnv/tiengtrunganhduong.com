@@ -133,7 +133,7 @@ class CrawlController extends Controller
                 ];
             }
         }
-        echo "Errors Log:";
+        echo "Errors Log:\n";
         var_dump($errorsLog);
     }
 
