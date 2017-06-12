@@ -3,12 +3,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <!--<script src="http://cdn.ckeditor.com/4.7.0/full-all/ckeditor.js"></script>-->
-<script src="<?= Yii::getAlias('@frontendUrl/libs/ckeditor/ckeditor.js') ?>"></script>
+<script src="<?= Yii::getAlias('@web/libs/ckeditor/ckeditor.js') ?>"></script>
 <script>
 function ckeditor(id) {
     /**
      * Documentation:
      * http://sdk.ckeditor.com/samples/fileupload.html
+     * http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)
      */
 //CKEDITOR.replace( '<?//= Html::getInputId($model, 'long_description') ?>//', {
 //    height: 300,
@@ -35,7 +36,8 @@ function ckeditor(id) {
 
         // Configure your file manager integration. This example uses CKFinder 3 for PHP.
 //    filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
-//    filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
+//        filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
+        filebrowserImageBrowseUrl: '<?= Yii::getAlias('@web/libs/ckfinder/ckfinder.html?type=Images') ?>',
         filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
         filebrowserImageUploadUrl: '<?php echo Url::to([
             'upload/ckeditor-image',

@@ -159,7 +159,13 @@ $imageDropDownListOptions = [
     }(document.querySelectorAll("input[name=submit-and]"));
 
     // CKEditor
+    <?php
+    if (!Yii::$app->request->get('code_editor')) {
+    ?>
     !function (editor) {
         editor && ckeditor(editor);
     }(document.getElementById("<?= Html::getInputId($model, 'content') ?>"));
+    <?php
+    }
+    ?>
 </script>

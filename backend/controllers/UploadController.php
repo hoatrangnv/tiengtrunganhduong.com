@@ -14,6 +14,7 @@ use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use backend\models\UploadForm;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class UploadController extends BaseController
@@ -81,30 +82,42 @@ class UploadController extends BaseController
 
     public function actionCkeditorImage()
     {
+//        if (Yii::$app->request->get('responseType') === 'json'
+//            || Yii::$app->response->format !== Response::FORMAT_JSON
+//        ) {
+//            return;
+//        }
+
+        $funcNum = (string) Yii::$app->request->get('CKEditorFuncNum');
+        $funcNum = preg_replace('/[^0-9]/', '', $funcNum);
+//        $editor = Yii::$app->request->get('CKEditor');
+
         $file = UploadedFile::getInstanceByName('upload');
         $image = new Image();
         $image->active = 1;
         if ($image->saveFileAndModel($file)) {
-            $message = Yii::t('app', 'Image was uploaded successfully');
-            $source = $image->getSource() . '?id=' . $image->id;
+            $errorMessage = '';
+            $fileUrl = $image->getSource() . '?id=' . $image->id;
         } else {
-            $message = Yii::t('app', "Image was not uploaded") . ': ';
+            $errorMessage = Yii::t('app', "Image was not uploaded") . ': ';
             foreach ($image->getErrors() as $attr => $errors) {
-                $message .=
-                    "\\ \\n    $attr:\\ \\n        " .
-                    implode("\\ \\n        ",
+                $errorMessage .=
+                    "\n    $attr:\n        " .
+                    implode("\n        ",
                         array_map(function ($error) {
                             return str_replace('"', "'", $error);
                         }, $errors)
                     );
             }
-            $source = '';
+            $fileUrl = '';
         }
-        $funcNum = Yii::$app->request->get('CKEditorFuncNum');
-//        $editor = Yii::$app->request->get('CKEditor');
+        ob_start();
         ?>
-        <script>
-            window.parent.CKEDITOR.tools.callFunction(<?= $funcNum ?>, "<?= $source ?>", "<?= $message ?>");
+        <script type="text/javascript">
+            /**
+             * http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)/Custom_File_Browser
+             */
+            window.parent.CKEDITOR.tools.callFunction(<?php echo json_encode($funcNum); ?>, <?php echo json_encode($fileUrl); ?>, <?php echo json_encode($errorMessage); ?>);
         </script>
         <?php
     }
