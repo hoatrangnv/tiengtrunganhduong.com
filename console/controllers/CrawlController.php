@@ -40,7 +40,7 @@ class CrawlController extends Controller
          * @var \DOMNode $item
          */
         $errorsLog = [];
-        foreach ($doc->getElementsByTagName('loc') as $i => $item) {
+        foreach (array_slice($doc->getElementsByTagName('loc'), 500) as $i => $item) {
 
             $url = $item->textContent;
 
