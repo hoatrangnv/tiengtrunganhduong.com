@@ -24,6 +24,18 @@ class CrawlController extends Controller
 {
     public static $sitemap_filename;
 
+    public $offset = 0;
+
+    public function options($actionID)
+    {
+        return ['offset'];
+    }
+
+    public function optionAliases()
+    {
+        return ['o' => 'offset'];
+    }
+
     public function beforeAction($action)
     {
         self::$sitemap_filename = __DIR__ . '/../data/tiengtrunganhduong.xml';
@@ -40,7 +52,9 @@ class CrawlController extends Controller
          * @var \DOMNode $item
          */
         $errorsLog = [];
-        foreach (array_slice($doc->getElementsByTagName('loc'), 500) as $i => $item) {
+        foreach ($doc->getElementsByTagName('loc') as $i => $item) {
+
+            if ($i < $this->offset) continue;
 
             $url = $item->textContent;
 
