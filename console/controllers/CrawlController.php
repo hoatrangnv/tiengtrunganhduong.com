@@ -137,11 +137,12 @@ class CrawlController extends Controller
                         $crawler->status,
                         $msg
                     ];
-                    echo $msg;
+                    echo $this->stdout($msg, Console::FG_YELLOW);
                 }
             } catch (\Exception $exception) {
                 $crawler->error_message = $exception->getMessage();
                 $msg = $crawler->error_message . "\n";
+                echo $this->stdout($msg, Console::BG_RED);
                 if ($crawler->save()) {
                     echo "Saved (url) Crawler#$crawler->id\n";
                 } else {
