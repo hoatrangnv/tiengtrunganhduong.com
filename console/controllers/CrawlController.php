@@ -64,7 +64,7 @@ class CrawlController extends Controller
             echo "$url\n";
 
             if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
-                echo "Ignore mobile version\n";
+                echo $this->stdout("Ignore mobile version\n", Console::BG_YELLOW);
                 continue;
             }
 
