@@ -64,7 +64,8 @@ class CrawlController extends Controller
             echo "$url\n";
 
             if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
-                echo $this->stdout("Ignore mobile version\n", Console::BG_YELLOW);
+                echo $this->stdout("Ignore mobile version", Console::BG_YELLOW);
+                echo "\n";
                 continue;
             }
 
@@ -141,8 +142,8 @@ class CrawlController extends Controller
                 }
             } catch (\Exception $exception) {
                 $crawler->error_message = $exception->getMessage();
+                echo $this->stdout($crawler->error_message, Console::BG_RED);
                 $msg = $crawler->error_message . "\n";
-                echo $this->stdout($msg, Console::BG_RED);
                 if ($crawler->save()) {
                     echo "Saved (url) Crawler#$crawler->id\n";
                 } else {
