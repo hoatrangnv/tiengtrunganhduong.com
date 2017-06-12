@@ -159,9 +159,9 @@ class CrawlController extends Controller
             }
 
             // Echo memory usage
-            echo $this->stdout(date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB\n", Console::FG_GREY);
+            echo $this->stdout(date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n", Console::FG_GREY);
             // Echo memory peak usage
-            echo $this->stdout(date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB\n", Console::FG_GREY);;
+            echo $this->stdout(date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n", Console::FG_GREY);;
         }
         echo "Errors Log:\n";
         var_dump($errorsLog);
