@@ -39,7 +39,7 @@ class CrawlController extends Controller
         /**
          * @var \DOMNode $item
          */
-        $errorLog = [];
+        $errorsLog = [];
         foreach ($doc->getElementsByTagName('loc') as $i => $item) {
 
             $url = $item->textContent;
@@ -69,7 +69,7 @@ class CrawlController extends Controller
                         $msg = "Saved (url, status) Crawler#$crawler->id\n";
                     } else {
                         $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
-                        $errorLog[] = [
+                        $errorsLog[] = [
                             $crawler->id,
                             $crawler->url,
                             $crawler->type,
@@ -90,7 +90,7 @@ class CrawlController extends Controller
                         $msg = "Saved (url, status, type) Crawler#$crawler->id\n";
                     } else {
                         $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
-                        $errorLog[] = [
+                        $errorsLog[] = [
                             $crawler->id,
                             $crawler->url,
                             $crawler->type,
@@ -107,7 +107,7 @@ class CrawlController extends Controller
                     $msg = "Saved (*) Crawler#$crawler->id successfully\n";
                 } else {
                     $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
-                    $errorLog[] = [
+                    $errorsLog[] = [
                         $crawler->id,
                         $crawler->url,
                         $crawler->type,
@@ -124,7 +124,7 @@ class CrawlController extends Controller
                 } else {
                     $msg .= VarDumper::dumpAsString($crawler->getErrors()) . "\n";
                 }
-                $errorLog[] = [
+                $errorsLog[] = [
                     $crawler->id,
                     $crawler->url,
                     $crawler->type,
@@ -133,7 +133,8 @@ class CrawlController extends Controller
                 ];
             }
         }
-        var_dump($errorLog);
+        echo "Errors Log:";
+        var_dump($errorsLog);
     }
 
     public function actionIndex()
