@@ -39,6 +39,7 @@ class CrawlController extends Controller
         /**
          * @var \DOMNode $item
          */
+        $errorLog = [];
         foreach ($doc->getElementsByTagName('loc') as $i => $item) {
 
             $url = $item->textContent;
@@ -53,6 +54,7 @@ class CrawlController extends Controller
                 echo "New crawler:\n";
             }
 
+            $crawler->time = date('Y-m-d H:i:s');
             $crawler->url = $url;
 
             try {
@@ -61,42 +63,77 @@ class CrawlController extends Controller
                 $crawler->status = $http_response_header[0];
 
                 if (strpos($crawler->status, '200 OK') === false) {
-                    echo 'Ignore Status: ' . $crawler->status . "\n";
+                    $crawler->error_message = 'Ignore Status: ' . $crawler->status;
+                    echo $crawler->error_message . "\n";
                     if ($crawler->save()) {
-                        echo "Saved (url, status) Crawler#$crawler->id\n";
+                        $msg = "Saved (url, status) Crawler#$crawler->id\n";
                     } else {
-                        echo VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                        $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                        $errorLog[] = [
+                            $crawler->id,
+                            $crawler->url,
+                            $crawler->type,
+                            $crawler->status,
+                            $msg
+                        ];
                     }
+                    echo $msg;
                     continue;
                 }
 
                 $crawler->type = $http_response_header[2];
 
                 if (strpos($crawler->type, 'text/html') === false) {
-                    echo 'Ignore Type: ' . $crawler->type . "\n";
+                    $crawler->error_message = 'Ignore Type: ' . $crawler->type;
+                    echo $crawler->error_message . "\n";
                     if ($crawler->save()) {
-                        echo "Saved (url, status, type) Crawler#$crawler->id\n";
+                        $msg = "Saved (url, status, type) Crawler#$crawler->id\n";
                     } else {
-                        echo VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                        $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                        $errorLog[] = [
+                            $crawler->id,
+                            $crawler->url,
+                            $crawler->type,
+                            $crawler->status,
+                            $msg
+                        ];
                     }
+                    echo $msg;
                     continue;
                 }
 
                 $crawler->content = $content;
                 if ($crawler->save()) {
-                    echo "Saved (*) Crawler#$crawler->id successfully\n";
+                    $msg = "Saved (*) Crawler#$crawler->id successfully\n";
                 } else {
-                    echo VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                    $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                    $errorLog[] = [
+                        $crawler->id,
+                        $crawler->url,
+                        $crawler->type,
+                        $crawler->status,
+                        $msg
+                    ];
                 }
+                echo $msg;
             } catch (\Exception $exception) {
-                echo $exception->getMessage() . "\n";
+                $crawler->error_message = $exception->getMessage();
+                $msg = $crawler->error_message . "\n";
                 if ($crawler->save()) {
                     echo "Saved (url) Crawler#$crawler->id\n";
                 } else {
-                    echo VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                    $msg .= VarDumper::dumpAsString($crawler->getErrors()) . "\n";
                 }
+                $errorLog[] = [
+                    $crawler->id,
+                    $crawler->url,
+                    $crawler->type,
+                    $crawler->status,
+                    $msg
+                ];
             }
         }
+        var_dump($errorLog);
     }
 
     public function actionIndex()

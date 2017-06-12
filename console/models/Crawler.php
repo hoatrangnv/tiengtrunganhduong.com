@@ -12,6 +12,8 @@ use Yii;
  * @property string $type
  * @property string $status
  * @property string $content
+ * @property string $error_message
+ * @property string $time
  */
 class Crawler extends \yii\db\ActiveRecord
 {
@@ -30,7 +32,8 @@ class Crawler extends \yii\db\ActiveRecord
     {
         return [
             [['url'], 'required'],
-            [['content'], 'string'],
+            [['content', 'error_message'], 'string'],
+            [['time'], 'safe'],
             [['url', 'type', 'status'], 'string', 'max' => 255],
         ];
     }
@@ -46,6 +49,8 @@ class Crawler extends \yii\db\ActiveRecord
             'type' => 'Type',
             'status' => 'Status',
             'content' => 'Content',
+            'error_message' => 'Error Message',
+            'time' => 'Time',
         ];
     }
 }
