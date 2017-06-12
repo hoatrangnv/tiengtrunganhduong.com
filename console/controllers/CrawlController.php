@@ -143,27 +143,26 @@ class CrawlController extends Controller
             } catch (\Exception $exception) {
                 $crawler->error_message = $exception->getMessage();
                 echo $this->stdout($crawler->error_message, Console::BG_RED);
-                $msg = "\n";
                 if ($crawler->save()) {
-                    echo "Saved (url) Crawler#$crawler->id\n";
+                    $msg = "Saved (url) Crawler#$crawler->id\n";
                 } else {
-                    $msg .= VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                    $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                    $errorsLog[] = [
+                        $crawler->id,
+                        $crawler->url,
+                        $crawler->type,
+                        $crawler->status,
+                        $msg
+                    ];
                 }
-                $errorsLog[] = [
-                    $crawler->id,
-                    $crawler->url,
-                    $crawler->type,
-                    $crawler->status,
-                    $msg
-                ];
-                echo $msg;
+                echo "\n$msg";
             }
 
             // Echo memory usage
             $mem = date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n";
             // Echo memory peak usage
             $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
-            echo $this->stdout($mem, Console::FG_GREY);
+            echo $mem;
         }
         echo "Errors Log:\n";
         var_dump($errorsLog);
