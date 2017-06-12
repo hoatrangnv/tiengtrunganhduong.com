@@ -17,6 +17,7 @@ use console\models\CrawledPage;
 use console\models\Crawler;
 use yii\console\Controller;
 use PHPHtmlParser\Dom;
+use yii\helpers\Console;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 
@@ -126,6 +127,7 @@ class CrawlController extends Controller
                 $crawler->content = $content;
                 if ($crawler->save()) {
                     $msg = "Saved (*) Crawler#$crawler->id successfully\n";
+                    echo $this->stdout($msg, Console::FG_GREEN);
                 } else {
                     $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
                     $errorsLog[] = [
@@ -135,8 +137,8 @@ class CrawlController extends Controller
                         $crawler->status,
                         $msg
                     ];
+                    echo $msg;
                 }
-                echo $msg;
             } catch (\Exception $exception) {
                 $crawler->error_message = $exception->getMessage();
                 $msg = $crawler->error_message . "\n";
