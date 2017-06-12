@@ -63,7 +63,7 @@ class CrawlController extends Controller
 
             echo "$url\n";
 
-            if (strpos($url, 'http://m.tiengtrunganhduong.com')) {
+            if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
                 echo "Ignore mobile version\n";
                 continue;
             }
