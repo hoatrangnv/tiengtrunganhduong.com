@@ -27,16 +27,18 @@ class CrawlController extends Controller
 
     public $offset = 0;
 
+    public $limit = null;
+
     public $delay = 0;
 
     public function options($actionID)
     {
-        return ['offset', 'delay'];
+        return ['offset', 'limit', 'delay'];
     }
 
     public function optionAliases()
     {
-        return ['o' => 'offset', 'd' => 'delay'];
+        return ['o' => 'offset', 'l' => 'limit', 'd' => 'delay'];
     }
 
     public function beforeAction($action)
@@ -59,6 +61,8 @@ class CrawlController extends Controller
         foreach ($doc->getElementsByTagName('loc') as $i => $item) {
 
             if ($i < $this->offset) continue;
+
+            if ($this->limit !== null && $i > $this->limit) break;
 
             $url = $item->textContent;
 
