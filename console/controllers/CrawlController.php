@@ -27,14 +27,16 @@ class CrawlController extends Controller
 
     public $offset = 0;
 
+    public $delay = 0;
+
     public function options($actionID)
     {
-        return ['offset'];
+        return ['offset', 'delay'];
     }
 
     public function optionAliases()
     {
-        return ['o' => 'offset'];
+        return ['o' => 'offset', 'd' => 'delay'];
     }
 
     public function beforeAction($action)
@@ -179,7 +181,9 @@ class CrawlController extends Controller
             $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
             echo $mem;
 
-            sleep(5);
+            if ($this->delay > 0) {
+                sleep($this->delay);
+            }
         }
         echo "Errors Log:\n";
         var_dump($errorsLog);
