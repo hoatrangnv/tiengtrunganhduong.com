@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Html::activeDropDownList(
                     $searchModel,
                     'category_id',
-                    array_merge(ArticleCategory::dropDownListData(),ArticleCategory::dropDownListData()),
+                    ArticleCategory::dropDownListData(),
                     ['class'=>'form-control', 'prompt' => Yii::t('app', 'Select one ...')]
                 )
             ],
