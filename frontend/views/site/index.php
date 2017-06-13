@@ -17,16 +17,18 @@ $this->registerLinkTag([
 ?>
 
 <?php
-foreach (array_filter(array_values(ArticleCategory::indexData()), function ($category) {
+$i = 0;
+foreach (array_filter(ArticleCategory::indexData(), function ($category) {
     return !$category->parent_id;
-}) as $i => $category) {
+}) as $category) {
+    $i++;
 ?>
 <div class="news-block aspect-ratio __5x3">
     <h3 class="title"><?= $category->a() ?></h3>
     <div class="content">
         <?php
         foreach ($category->getAllArticles()->orderBy('publish_time desc')
-                     ->limit($this->context->screen == 'small' ? 5 : (($i + 1) % 3 == 0 ? 6 : 3))
+                     ->limit($this->context->screen == 'small' ? 5 : ($i % 3 == 0 ? 6 : 3))
                      ->allPublished() as $j => $item) {
             ?>
             <div class="item clr">
