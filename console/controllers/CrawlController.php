@@ -476,6 +476,9 @@ class CrawlController extends Controller
                 $article->slug = $slug;
                 $article->name = $article->meta_title = $h1->innerHTML;
                 $article->content = $content->innerHTML;
+                if ($article->content === '') {
+                    $article->content = $article->name;
+                }
                 $article->active = 1;
                 $article->visible = 1;
                 if ($time_div = $dom->find('div.timeNewTop', 0)) {
@@ -530,7 +533,7 @@ class CrawlController extends Controller
                     $new_article_count++;
                     echo $this->stdout("Saved Article#$article->id successfully\n", Console::FG_GREEN);
                 } else {
-                    echo 'Image Errors: ';
+                    echo 'Article Errors: ';
                     var_dump($article->getErrors());
                     echo "\n";
                 }
