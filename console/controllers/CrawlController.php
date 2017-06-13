@@ -67,7 +67,9 @@ class CrawlController extends Controller
         echo count($relativeUrls) . "\n";
         for ($i = $this->offset; $i < count($relativeUrls) && $i < $this->offset + $this->limit; $i++) {
 
-            $url = 'http://tiengtrunganhduong.com' . $relativeUrls[$i];
+            $url = $relativeUrls[$i];
+
+            $url = 'http://tiengtrunganhduong.com' . parse_url($url, PHP_URL_PATH);
 
             echo "\n------------------[ $i ]------------------\n";
 
