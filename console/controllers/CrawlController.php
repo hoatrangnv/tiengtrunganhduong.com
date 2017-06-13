@@ -403,6 +403,145 @@ class CrawlController extends Controller
 //        var_dump($dom->find('url > loc'));
     }
 
+    public function actionGetArticlesFromCrawlers()
+    {
+        ini_set('memory_limit', '1024M');
+
+        /**
+         * @var Crawler[] $crawlers
+         */
+        $crawlers = Crawler::find()
+            ->where(['!=', 'content', ''])
+            ->andWhere(['not in', 'url', [
+                'http://tiengtrunganhduong.com/1226/tnd/doi-ngu-giao-vien.htm',
+                'http://tiengtrunganhduong.com/trung-tam-tieng-trung-Anh-Duong.htm',
+                'http://tiengtrunganhduong.com/bang-chu-cai-tieng-trung.htm',
+                'http://tiengtrunganhduong.com/250-tu-vung-tieng-trung-chu-de-thu-vien.htm',
+                'http://tiengtrunganhduong.com/bo-quan-ao-nay-hop-voi-toi-khong.htm',
+                'http://tiengtrunganhduong.com/dich-ho-ten-tieng-viet-sang-tieng-trung.htm',
+                'http://tiengtrunganhduong.com/cong-viec-hang-ngay.htm',
+            ]])
+            ->andWhere(['not like', 'url', 'http://m.tiengtrunganhduong.com%'])
+            ->offset($this->offset)
+            ->limit($this->limit)
+            ->all();
+
+        $errors = [];
+
+        $total = count($crawlers);
+
+        foreach ($crawlers as $i => $crawler) {
+
+            echo "\n------------[ $i ]------------/$total\n";
+            echo $crawler->url . "\n";
+
+            $url_path = parse_url($crawler->url, PHP_URL_PATH);
+            $url_slugs = explode('/', $url_path);
+            $last_slug = $url_slugs[count($url_slugs) - 1];
+            if (substr($last_slug, -4) !== '.htm') {
+                continue;
+            }
+
+            $slug = substr($last_slug, 0, -4);
+            echo "Slug: $slug\n";
+
+            try {
+                $dom = new Dom();
+                $dom->loadStr($crawler->content, [
+                    'whitespaceTextNode' => true,
+                    'strict'             => false,
+                    'enforceEncoding'    => null,
+                    'cleanupInput'       => false,
+                    'removeScripts'      => false,
+                    'removeStyles'       => false,
+                    'preserveLineBreaks' => true,
+                ]);
+                $h1 = $dom->find('h1.nameOtherNew', 0);
+                $content = $dom->find('div.contentNewTop', 0);
+                if (!$h1 || !$content) {
+                    continue;
+                }
+
+                $article = Article::find()->where(['slug' => $slug])->one();
+                if ($article) {
+                    echo "Article#$article->id has already existed\n";
+                    continue;
+                }
+
+                $article = new Article();
+                $article->slug = $slug;
+                $article->name = $article->meta_title = $h1->innerHTML;
+                $article->content = $content->innerHTML;
+                $article->active = 1;
+                $article->visible = 1;
+                if ($time_div = $dom->find('div.timeNewTop', 0)) {
+                    $time = strtotime(str_replace('/', '-', substr($time_div->innerHTML, 0, 10)));
+                    $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
+                    $article->create_time = $article->update_time = $article->publish_time = $time;
+                    $article->view_count = $view_count;
+                    $time_div = null;
+                }
+                if ($meta_keywords = $dom->find('meta[name="keywords"]', 0)) {
+                    $article->meta_keywords = $meta_keywords->getAttribute('content');
+                    $meta_keywords = null;
+                }
+                if ($meta_description = $dom->find('meta[name="description"]', 0)) {
+                    $article->description = $article->meta_description = $meta_description->getAttribute('content');
+                    $meta_description = null;
+                }
+                if ($meta_ogImage = $dom->find('meta[property="og:image"]', 0)) {
+                    $image_source = $meta_ogImage->getAttribute('content');
+                    $image = new Image();
+                    $image->image_source = $image_source;
+                    $image->name = $article->name;
+                    $image->create_time = $article->create_time;
+                    $image->update_time = $article->update_time;
+                    $image->active = 1;
+                    if ($image->saveFileAndModel()) {
+                        if ($image->save()) {
+                            $article->image_id = $image->id;
+                            echo $this->stdout("Saved Image#$image->id successfully\n", Console::FG_CYAN);;
+                        } else {
+                            echo 'Image Errors: ';
+                            var_dump($image->getErrors());
+                            echo "\n";
+                        }
+                    } else {
+                        echo 'Save Image Errors: ';
+                        var_dump($image->getErrors());
+                        echo "\n";
+                        if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
+                            $article->image_id = $image2->id;
+                        }
+                    }
+                    $image = null;
+                    $image2 = null;
+                    $meta_ogImage = null;
+                }
+                if ($article->save()) {
+                    echo $this->stdout("Saved Article#$article->id successfully\n", Console::FG_GREEN);
+                } else {
+                    echo 'Image Errors: ';
+                    var_dump($article->getErrors());
+                    echo "\n";
+                }
+                $article = null;
+                $dom = null;
+                $h1 = null;
+                $content = null;
+
+                // Echo memory usage
+                $mem = date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n";
+                // Echo memory peak usage
+                $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
+                echo $mem;
+            } catch (\Exception $e) {
+                $errors[] = [$crawler->url, $e->getMessage()];
+            }
+        }
+
+    }
+
     public function actionArticle()
     {
         ini_set('memory_limit', '1024M');
@@ -449,7 +588,9 @@ class CrawlController extends Controller
             echo 2 . "\n";
 //            var_dump($k, $h1, $content);
             if ($h1 && $content && substr($relative_url, -4) === '.htm' && strpos($relative_url, '/') === false) {
-                if ($article = Article::find()->where(['slug' => $relative_url])->orWhere(['slug' => str_replace('.htm', '', $relative_url)])->one()) {
+                if ($article = Article::find()
+                    ->where(['slug' => $relative_url])
+                    ->orWhere(['slug' => str_replace('.htm', '', $relative_url)])->one()) {
 //                    if ($time_div = $dom->find('div.timeNewTop', 0)) {
 //                        $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
 //                        $article->view_count = $view_count;
