@@ -46,12 +46,7 @@ class CrawlController extends Controller
     public function actionAllUrl()
     {
         ini_set('memory_limit', '1024M');
-//        ini_set('default_socket_timeout', 300);
-        $ctx = stream_context_create(array('http'=>
-            array(
-                'timeout' => 600,  //1200 Seconds is 20 Minutes
-            )
-        ));
+        ini_set('default_socket_timeout', 300);
         $sitemap_content = file_get_contents(self::$sitemap_filename);
         $doc = new \DOMDocument('1.0', 'UTF-8');
         $doc->loadXML($sitemap_content);
@@ -95,13 +90,13 @@ class CrawlController extends Controller
                             $msg
                         ];
                     }
-                    echo "\n$msg";
+                    echo $msg;
                 }
                 continue;
             }
 
             try {
-                $content = file_get_contents($crawler->url, false, $ctx);
+                $content = file_get_contents($crawler->url);
 
                 $crawler->status = $http_response_header[0];
 
