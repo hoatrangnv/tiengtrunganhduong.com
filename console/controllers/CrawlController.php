@@ -412,15 +412,15 @@ class CrawlController extends Controller
          */
         $crawlers = Crawler::find()
             ->where(['!=', 'content', ''])
-            ->andWhere(['in', 'url', [
-                'http://tiengtrunganhduong.com/1226/tnd/doi-ngu-giao-vien.htm',
-                'http://tiengtrunganhduong.com/trung-tam-tieng-trung-Anh-Duong.htm',
-                'http://tiengtrunganhduong.com/bang-chu-cai-tieng-trung.htm',
-                'http://tiengtrunganhduong.com/250-tu-vung-tieng-trung-chu-de-thu-vien.htm',
-                'http://tiengtrunganhduong.com/bo-quan-ao-nay-hop-voi-toi-khong.htm',
-                'http://tiengtrunganhduong.com/dich-ho-ten-tieng-viet-sang-tieng-trung.htm',
-                'http://tiengtrunganhduong.com/cong-viec-hang-ngay.htm',
-            ]])
+//            ->andWhere(['in', 'url', [
+//                'http://tiengtrunganhduong.com/1226/tnd/doi-ngu-giao-vien.htm',
+//                'http://tiengtrunganhduong.com/trung-tam-tieng-trung-Anh-Duong.htm',
+//                'http://tiengtrunganhduong.com/bang-chu-cai-tieng-trung.htm',
+//                'http://tiengtrunganhduong.com/250-tu-vung-tieng-trung-chu-de-thu-vien.htm',
+//                'http://tiengtrunganhduong.com/bo-quan-ao-nay-hop-voi-toi-khong.htm',
+//                'http://tiengtrunganhduong.com/dich-ho-ten-tieng-viet-sang-tieng-trung.htm',
+//                'http://tiengtrunganhduong.com/cong-viec-hang-ngay.htm',
+//            ]])
             ->andWhere(['not like', 'url', 'http://m.tiengtrunganhduong.com%'])
             ->offset($this->offset)
             ->limit($this->limit)
@@ -467,6 +467,26 @@ class CrawlController extends Controller
                 }
 
                 $article = Article::find()->where(['slug' => $slug])->one();
+
+                if ($article) {
+                    echo "Article#$article->id was found\n";
+                    if ($time_div = $dom->find('div.timeNewTop', 0)) {
+                        $time = strtotime(str_replace('/', '-', substr($time_div->innerHTML, 0, 10)));
+//                        $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
+                        $article->create_time = $article->update_time = $article->publish_time = $time;
+//                        $article->view_count = $view_count;
+                        $time_div = null;
+                    }
+                    if ($article->save()) {
+                        echo "Article#$article->id was update time = $article->create_time\n";
+                    } else {
+                        var_dump($article->getErrors());
+                        echo "\n";
+                    }
+
+                }
+                continue;
+
                 if ($article) {
                     echo "Article#$article->id has already existed\n";
                     continue;
