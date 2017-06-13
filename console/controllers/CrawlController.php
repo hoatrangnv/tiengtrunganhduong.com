@@ -912,11 +912,12 @@ class CrawlController extends Controller
             $k = 0;
             while (Image::find()
                 ->where(['!=', 'id', $image->id])
-                ->andWhere(['file_basename' => $image->file_basename, ])
+                ->andWhere(['file_basename' => $image->file_basename . "-$k", ])
                 ->one()
             ) {
-                $image->file_basename .= '-' . $k++;
+                $k++;
             }
+            $image->file_basename .= "-$k";
 
             if ($image->updateFileAndModel()) {
                 echo "To  : $image->file_basename\n";
