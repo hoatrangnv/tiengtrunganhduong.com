@@ -74,6 +74,10 @@ class CrawlController extends Controller
             echo "$url\n";
 
             if ($crawler = Crawler::find()->where(['url' => $url])->one()) {
+                if (!!$crawler->content && strpos($crawler->status, '200 OK') !== false) {
+                    echo "Ignore: Crawler#$crawler->id have already existed and has full info\n";
+                    continue;
+                }
                 echo "Update existed crawler#$crawler->id:\n";
             } else {
                 $crawler = new Crawler();
@@ -215,9 +219,6 @@ class CrawlController extends Controller
         echo $this->stdout($elements->length, Console::FG_CYAN);
         for ($i = $this->offset; $i < $this->offset + $this->limit; $i++) {
             $item = $elements->item($i);
-//            if ($i < $this->offset) continue;
-//
-//            if ($this->limit !== null && ($i - $this->offset + 1) > $this->limit) break;
 
             $url = $item->textContent;
 
@@ -226,6 +227,10 @@ class CrawlController extends Controller
             echo "$url\n";
 
             if ($crawler = Crawler::find()->where(['url' => $url])->one()) {
+                if (!!$crawler->content && strpos($crawler->status, '200 OK') !== false) {
+                    echo "Ignore: Crawler#$crawler->id have already existed and has full info\n";
+                    continue;
+                }
                 echo "Update existed crawler#$crawler->id:\n";
             } else {
                 $crawler = new Crawler();
