@@ -46,6 +46,7 @@ class CrawlController extends Controller
     public function actionAllUrl()
     {
         ini_set('memory_limit', '1024M');
+        ini_set('default_socket_timeout', 300);
         $sitemap_content = file_get_contents(self::$sitemap_filename);
         $doc = new \DOMDocument('1.0', 'UTF-8');
         $doc->loadXML($sitemap_content);
@@ -76,19 +77,21 @@ class CrawlController extends Controller
             if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
                 echo $this->stdout("Ignore mobile version", Console::BG_YELLOW);
                 echo "\n";
-                if ($crawler->save()) {
-                    $msg = "Saved (url) Crawler#$crawler->id\n";
-                } else {
-                    $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
-                    $errorsLog[] = [
-                        $crawler->id,
-                        $crawler->url,
-                        $crawler->type,
-                        $crawler->status,
-                        $msg
-                    ];
+                if ($crawler->isNewRecord) {
+                    if ($crawler->save()) {
+                        $msg = "Saved (url) Crawler#$crawler->id\n";
+                    } else {
+                        $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                        $errorsLog[] = [
+                            $crawler->id,
+                            $crawler->url,
+                            $crawler->type,
+                            $crawler->status,
+                            $msg
+                        ];
+                    }
+                    echo "\n$msg";
                 }
-                echo "\n$msg";
                 continue;
             }
 
