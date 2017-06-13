@@ -513,17 +513,22 @@ class CrawlController extends Controller
                     $image->create_time = $article->create_time;
                     $image->update_time = $article->update_time;
                     $image->active = 1;
-                    if ($image->saveFileAndModel()) {
-                        $new_image_count++;
-                        $article->image_id = $image->id;
-                        echo $this->stdout("Saved Image#$image->id successfully\n", Console::FG_CYAN);;
-                    } else {
-                        echo 'Save Image Errors: ';
-                        var_dump($image->getErrors());
-                        echo "\n";
-                        if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
-                            $article->image_id = $image2->id;
+                    try {
+                        if ($image->saveFileAndModel()) {
+                            $new_image_count++;
+                            $article->image_id = $image->id;
+                            echo $this->stdout("Saved Image#$image->id successfully\n", Console::FG_CYAN);;
+                        } else {
+                            echo 'Save Image Errors: ';
+                            var_dump($image->getErrors());
+                            echo "\n";
+                            if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
+                                $article->image_id = $image2->id;
+                            }
                         }
+                    } catch (\Exception $e) {
+                        $errors[] = $e->getMessage();
+                        echo "Cannot get image content\n";
                     }
                     $image = null;
                     $image2 = null;
