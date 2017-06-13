@@ -34,7 +34,8 @@ class Crawler extends \yii\db\ActiveRecord
             [['url'], 'required'],
             [['content', 'error_message'], 'string'],
             [['time'], 'safe'],
-            [['url', 'type', 'status'], 'string', 'max' => 255],
+            [['type', 'status'], 'string', 'max' => 255],
+            [['url'], 'string', 'max' => 1023],
         ];
     }
 
