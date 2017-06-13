@@ -76,6 +76,19 @@ class CrawlController extends Controller
             if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
                 echo $this->stdout("Ignore mobile version", Console::BG_YELLOW);
                 echo "\n";
+                if ($crawler->save()) {
+                    $msg = "Saved (url) Crawler#$crawler->id\n";
+                } else {
+                    $msg = VarDumper::dumpAsString($crawler->getErrors()) . "\n";
+                    $errorsLog[] = [
+                        $crawler->id,
+                        $crawler->url,
+                        $crawler->type,
+                        $crawler->status,
+                        $msg
+                    ];
+                }
+                echo "\n$msg";
                 continue;
             }
 
