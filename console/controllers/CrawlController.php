@@ -66,11 +66,13 @@ class CrawlController extends Controller
          * @var \DOMNode $item
          */
         $errorsLog = [];
-        foreach ($doc->getElementsByTagName('loc') as $i => $item) {
-
-            if ($i < $this->offset) continue;
-
-            if ($this->limit !== null && ($i - $this->offset + 1) > $this->limit) break;
+        $elements = $doc->getElementsByTagName('loc');
+        echo $this->stdout($elements->length, Console::FG_CYAN);
+        for ($i = $this->offset; $i < $this->offset + $this->limit; $i++) {
+            $item = $elements->item($i);
+//            if ($i < $this->offset) continue;
+//
+//            if ($this->limit !== null && ($i - $this->offset + 1) > $this->limit) break;
 
             $url = $item->textContent;
 
