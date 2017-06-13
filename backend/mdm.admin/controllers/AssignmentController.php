@@ -134,7 +134,6 @@ class AssignmentController extends Controller
     {
         $class = $this->userClassName;
         if (($user = $class::findIdentity($id)) !== null) {
-//        if (($user = $class::findOne($id)) !== null) {
             return new Assignment($id, $user);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
