@@ -482,14 +482,14 @@ class CrawlController extends Controller
                     $time_div = null;
                 }
                 if ($linkRoad = $dom->find('a.linkRoad', 2)) {
-                        $catName = $linkRoad->innerHTML;
-                        if ($category = ArticleCategory::findOne(['name' => $catName])) {
-                            echo "Category#$category->id " . $category->name . " was found\n";
-                            $article->category_id = $category->id;
-                            $category = null;
-                        }
-                        $linkRoad = null;
+                    $catName = $linkRoad->innerHTML;
+                    if ($category = ArticleCategory::findOne(['name' => $catName])) {
+                        echo "Category#$category->id " . $category->name . " was found\n";
+                        $article->category_id = $category->id;
+                        $category = null;
                     }
+                    $linkRoad = null;
+                }
                 if ($meta_keywords = $dom->find('meta[name="keywords"]', 0)) {
                     $article->meta_keywords = $meta_keywords->getAttribute('content');
                     $meta_keywords = null;
