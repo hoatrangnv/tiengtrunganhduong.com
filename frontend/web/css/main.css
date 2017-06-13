@@ -453,6 +453,7 @@ article div + div
 .related-news .news-item {
     vertical-align: top;
     border: none;
+    margin-top: 0;
 }
 .related-news .news-item .info {
     display: none;
