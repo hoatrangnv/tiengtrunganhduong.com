@@ -473,7 +473,8 @@ class CrawlController extends Controller
                     if ($time_div = $dom->find('div.timeNewTop', 0)) {
                         $time = strtotime(str_replace('/', '-', substr($time_div->innerHTML, 0, 10)));
 //                        $view_count = (int) str_replace(['lượt xem', '-', ' '], '', substr($time_div->innerHTML, 11));
-                        $article->create_time = $article->update_time = $article->publish_time = $time;
+                        $article->create_time = $article->update_time = $time;
+                        $article->publish_time_timestamp = date('Y-m-d H:i:s', $time);
 //                        $article->view_count = $view_count;
                         $time_div = null;
                     }
