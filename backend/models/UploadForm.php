@@ -88,7 +88,7 @@ class UploadForm extends Model
                     if ($i == 1 || !$this->image_name_to_basename) {
                         $model->file_basename = $this->image_file_basename;
                     } else {
-                        $model->file_basename = "$this->image_file_basename-$i";
+                        $model->file_basename = "$this->image_file_basename--$i";
                     }
                 } else {
                     $model->file_basename = $file->baseName;
