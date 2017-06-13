@@ -321,7 +321,7 @@ article div + div
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f2f2f2;
+    background: #eee;
 }
 .aspect-ratio .item-view .img-wrap > *,
 .item-view.aspect-ratio .img-wrap > *
