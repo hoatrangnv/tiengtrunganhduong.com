@@ -17,7 +17,7 @@ $this->registerLinkTag([
 ?>
 
 <?php
-foreach (array_filter(ArticleCategory::indexData(), function ($category) {
+foreach (array_filter(array_values(ArticleCategory::indexData()), function ($category) {
     return !$category->parent_id;
 }) as $i => $category) {
 ?>
