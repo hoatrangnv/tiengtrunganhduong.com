@@ -885,15 +885,47 @@ class CrawlController extends Controller
         foreach ($images as $i => $image) {
             echo "\n-----------[ $i ]-----------/$total\n";
             echo "From: $image->file_basename\n";
-            $image->image_name_to_basename = true;
+
+//            if ($image->file_basename === Inflector::slug(MyStringHelper::stripUnicode($image->name))) {
+//                echo "To  : Okay!\n";
+//                continue;
+//            }
+
+            if (!$image->quality) {
+                $image->quality = 50;
+            }
+
+            $image->image_resize_labels = [
+                Image::SIZE_1,
+                Image::SIZE_2,
+                Image::SIZE_3,
+                Image::SIZE_4,
+                Image::SIZE_5,
+                Image::SIZE_6,
+                Image::SIZE_7,
+                Image::SIZE_8,
+                Image::SIZE_9,
+            ];
+
+            $image->file_basename = Inflector::slug(MyStringHelper::stripUnicode($image->name));
+
+            $k = 0;
+            while (Image::find()
+                ->where(['!=', 'id', $image->id])
+                ->andWhere(['file_basename' => $image->file_basename, ])
+                ->one()
+            ) {
+                $image->file_basename .= '-' . $k++;
+            }
+
             if ($image->updateFileAndModel()) {
                 echo "To  : $image->file_basename\n";
+                echo "RS  : $image->resize_labels\n";
                 $successes++;
             } else {
-                $errors[] = [$image->id, $image->file_basename, $image->getErrors()];
-                echo "Errors:\n";
-                var_dump($image->getErrors());
-                echo "\n";
+                $errors_msg = VarDumper::dumpAsString($image->getErrors());
+                $errors[] = [$image->id, $image->file_basename, $errors_msg];
+                echo "Errors: $errors_msg\n";
             }
         }
         echo "\n==============================\n";

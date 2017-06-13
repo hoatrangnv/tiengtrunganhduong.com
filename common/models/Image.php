@@ -77,7 +77,7 @@ class Image extends \common\models\MyActiveRecord
             self::SIZE_8 => '400x400',
             self::SIZE_9 => '450x450',
             self::SIZE_10 => '500x500',
-            self::SIZE_11 => '200x600',
+            self::SIZE_11 => '600x600',
             self::SIZE_12 => '800x800',
             self::SIZE_13 => '1000x1000',
             self::SIZE_14 => '1200x1200',
