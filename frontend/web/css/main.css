@@ -402,8 +402,7 @@ article div + div
 .news-item
 {
     padding: 1rem 0;
-    border-top: 1px solid #eee;
-    margin-top: 0;
+    border-bottom: 1px solid #eee;
 }
 .news-item .image
 {
@@ -453,6 +452,7 @@ article div + div
 }
 .related-news .news-item {
     vertical-align: top;
+    border: none;
 }
 .related-news .news-item .info {
     display: none;
