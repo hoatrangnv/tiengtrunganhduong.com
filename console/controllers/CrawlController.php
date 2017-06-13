@@ -430,6 +430,9 @@ class CrawlController extends Controller
 
         $total = count($crawlers);
 
+        $new_article_count = 0;
+        $new_image_count = 0;
+
         foreach ($crawlers as $i => $crawler) {
 
             echo "\n------------[ $i ]------------/$total\n";
@@ -459,6 +462,7 @@ class CrawlController extends Controller
                 $h1 = $dom->find('h1.nameOtherNew', 0);
                 $content = $dom->find('div.contentNewTop', 0);
                 if (!$h1 || !$content) {
+                    echo "There is no h1 or content was found\n";
                     continue;
                 }
 
@@ -508,6 +512,7 @@ class CrawlController extends Controller
                     $image->active = 1;
                     if ($image->saveFileAndModel()) {
                         if ($image->save()) {
+                            $new_image_count++;
                             $article->image_id = $image->id;
                             echo $this->stdout("Saved Image#$image->id successfully\n", Console::FG_CYAN);;
                         } else {
@@ -528,6 +533,7 @@ class CrawlController extends Controller
                     $meta_ogImage = null;
                 }
                 if ($article->save()) {
+                    $new_article_count++;
                     echo $this->stdout("Saved Article#$article->id successfully\n", Console::FG_GREEN);
                 } else {
                     echo 'Image Errors: ';
@@ -549,6 +555,11 @@ class CrawlController extends Controller
             $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
             echo $mem;
         }
+        echo "===========================\n";
+        echo "New Articles: $new_article_count\n";
+        echo "New Images: $new_image_count\n";
+        echo "Errors:\n";
+        var_dump($errors);
 
     }
 
