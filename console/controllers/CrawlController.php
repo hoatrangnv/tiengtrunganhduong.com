@@ -523,6 +523,7 @@ class CrawlController extends Controller
                             var_dump($image->getErrors());
                             echo "\n";
                             if ($image2 = Image::find()->where(['file_basename' => $image->file_basename])->one()) {
+                                echo "An image with same base_filename was found: $image2->file_basename\n";
                                 $article->image_id = $image2->id;
                             }
                         }
