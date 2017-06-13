@@ -63,13 +63,6 @@ class CrawlController extends Controller
 
             echo "$url\n";
 
-            if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
-                echo $this->stdout("Ignore mobile version", Console::BG_YELLOW);
-                echo "\n";
-                continue;
-            }
-
-
             if ($crawler = Crawler::find()->where(['url' => $url])->one()) {
                 echo "Update existed crawler#$crawler->id:\n";
             } else {
@@ -79,6 +72,12 @@ class CrawlController extends Controller
 
             $crawler->time = date('Y-m-d H:i:s');
             $crawler->url = $url;
+
+            if (strpos($url, 'http://m.tiengtrunganhduong.com') !== false) {
+                echo $this->stdout("Ignore mobile version", Console::BG_YELLOW);
+                echo "\n";
+                continue;
+            }
 
             try {
                 $content = file_get_contents($crawler->url);
