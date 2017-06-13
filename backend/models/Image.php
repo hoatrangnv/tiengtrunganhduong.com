@@ -264,6 +264,127 @@ class Image extends \common\models\Image
         return false;
     }
 
+    public function updateFileAndModel(UploadedFile $file = null)
+    {
+        if ($this->validate()) {
+            $resize_labels = [];
+            $this->castValueToArray('image_resize_labels');
+
+            if ($file === null) {
+                if (!$file = $this->getImageSourceAsUploadedFile()) {
+                    $file = UploadedFile::getInstance($this, 'image_file');
+                }
+            }
+
+            if ($file) {
+                if (!$this->file_basename || $this->file_basename == $this->getOldAttribute('file_basename')) {
+                    $this->file_basename = $file->baseName;
+                }
+                if (!$this->file_extension || $this->file_extension == $this->getOldAttribute('file_extension')) {
+                    $this->file_extension = $file->extension;
+                }
+            }
+
+            if (!$this->name) {
+                $this->name = $this->file_basename;
+            }
+
+            if ($this->image_name_to_basename) {
+                $this->file_basename = Inflector::slug(MyStringHelper::stripUnicode($this->name));
+            }
+
+            if ($this->validate()) {
+                $this->generatePath();
+                if ($this->validate(['path'])) {
+                    $old_origin_destination = $this->getOldLocation(Image::SIZE_ORIGIN_LABEL);
+                    $origin_destination = $this->getLocation(Image::SIZE_ORIGIN_LABEL);
+                    $destination = $this->getLocation();
+
+                    if (is_file($old_origin_destination)) {
+                        if ($this->file_basename != $this->getOldAttribute('file_basename')
+                            || $this->file_extension != $this->getOldAttribute('file_extension')
+                            || $this->getDirectory() != $this->getOldDirectory()
+                        ) {
+                            copy($old_origin_destination, $origin_destination);
+                            unlink($old_origin_destination);
+                        }
+                    }
+
+                    if ($file) {
+                        $new_image_saved = MyFileHelper::moveImage($file->tempName,
+                            $this->getLocation(Image::SIZE_ORIGIN_LABEL), true);
+
+                    }
+
+                    if (!isset($new_image_saved) || $new_image_saved) {
+
+                        if (is_file($alias = $this->getOldLocation())) {
+                            unlink($alias);
+                        }
+                        foreach ($this->getOldResizeLabels() as $old_size_label) {
+                            if (is_file($alias = $this->getOldLocation($old_size_label))) {
+                                unlink($alias);
+                            }
+                        }
+
+                        if (is_file($origin_destination)) {
+                            $thumb0 = ImagineImage::getImagine()->open($origin_destination);
+
+                            // @TODO: Calculate aspect ratio
+                            $size = $thumb0->getSize();
+                            $this->width = $size->getWidth();
+                            $this->height = $size->getHeight();
+                            $this->calculateAspectRatio();
+
+                            // @TODO: Save compressed image
+                            try {
+                                $thumb0->save($destination, ['quality' => $this->quality]);
+                            } catch (\Exception $e) {
+                                $this->addError($this->image_source ? 'image_source' : 'image_file',
+                                    Yii::t('app', $e->getMessage()));
+                            }
+
+                            foreach ($this->image_resize_labels as $size_label) {
+                                if ($dimension = Image::getSizeBySizeKey($size_label)) {
+                                    if ($this->image_crop) {
+                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                            ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                    } else {
+                                        $thumb = ImagineImage::getImagine()->open($origin_destination)
+                                            ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                    }
+                                    $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
+                                    if ($thumb->save($this->getLocation($suffix), ['quality' => $this->quality])) {
+                                        $resize_labels[$size_label] = $suffix;
+                                    }
+                                }
+                            }
+
+                            $this->resize_labels = json_encode($resize_labels);
+                        }
+
+                        $dir = $this->getDirectory();
+                        $old_dir = $this->getOldDirectory();
+                        if ($dir != $old_dir && MyFileHelper::isEmptyDirectory($old_dir)) {
+                            FileHelper::removeDirectory($old_dir);
+                        }
+
+                        if ($this->save()) {
+                            return true;
+                        }
+                    }
+
+                    if (isset($new_image_saved) && !$new_image_saved) {
+                        $this->addError($this->image_source ? 'image_source' : 'image_file',
+                            Yii::t('app', 'Cannot save image or file is not image.'));
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public function calculateAspectRatio()
     {
         $width = $this->width;

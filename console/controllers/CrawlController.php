@@ -872,4 +872,34 @@ class CrawlController extends Controller
             }
         }
     }
+
+    public function actionUpdateImages()
+    {
+        /**
+         * @var Image[] $images
+         */
+        $images = Image::find()->offset($this->offset)->limit($this->limit)->all();
+        $errors = [];
+        $total = count($images);
+        $successes = 0;
+        foreach ($images as $i => $image) {
+            echo "\n-----------[ $i ]-----------/$total\n";
+            echo "From: $image->file_basename\n";
+            $image->image_name_to_basename = true;
+            if ($image->updateFileAndModel()) {
+                echo "To  : $image->file_basename\n";
+                $successes++;
+            } else {
+                $errors[] = [$image->id, $image->file_basename, $image->getErrors()];
+                echo "Errors:\n";
+                var_dump($image->getErrors());
+                echo "\n";
+            }
+        }
+        echo "\n==============================\n";
+        echo "Successes: $successes / $total\n";
+        echo "Errors:\n";
+        var_dump($errors);
+        echo "\n";
+    }
 }
