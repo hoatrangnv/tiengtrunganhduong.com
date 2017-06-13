@@ -62,7 +62,7 @@ class CrawlController extends Controller
 
             if ($i < $this->offset) continue;
 
-            if ($this->limit !== null && $i > $this->limit) break;
+            if ($this->limit !== null && ($i - $this->offset + 1) > $this->limit) break;
 
             $url = $item->textContent;
 
