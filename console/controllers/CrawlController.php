@@ -412,7 +412,7 @@ class CrawlController extends Controller
          */
         $crawlers = Crawler::find()
             ->where(['!=', 'content', ''])
-            ->andWhere(['not in', 'url', [
+            ->andWhere(['in', 'url', [
                 'http://tiengtrunganhduong.com/1226/tnd/doi-ngu-giao-vien.htm',
                 'http://tiengtrunganhduong.com/trung-tam-tieng-trung-Anh-Duong.htm',
                 'http://tiengtrunganhduong.com/bang-chu-cai-tieng-trung.htm',
