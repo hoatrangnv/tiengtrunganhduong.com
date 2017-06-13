@@ -457,6 +457,10 @@ article div + div
 .related-news .news-item .info {
     display: none;
 }
+.related-news .news-item .desc {
+    max-height: calc(3 * 1.4em);
+}
+
 
 /**
  * ICON
