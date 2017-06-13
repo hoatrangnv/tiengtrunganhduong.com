@@ -530,14 +530,15 @@ class CrawlController extends Controller
                 $h1 = null;
                 $content = null;
 
-                // Echo memory usage
-                $mem = date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n";
-                // Echo memory peak usage
-                $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
-                echo $mem;
             } catch (\Exception $e) {
                 $errors[] = [$crawler->url, $e->getMessage()];
             }
+
+            // Echo memory usage
+            $mem = date('H:i:s') . ' Current memory usage: ' . (memory_get_usage(true) / 1024 / 1024) . " MB\n";
+            // Echo memory peak usage
+            $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
+            echo $mem;
         }
 
     }
