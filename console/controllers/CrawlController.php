@@ -220,6 +220,10 @@ class CrawlController extends Controller
         for ($i = $this->offset; $i < $this->offset + $this->limit; $i++) {
             $item = $elements->item($i);
 
+            if (!is_object($item)) {
+                continue;
+            }
+
             $url = $item->textContent;
 
             echo "\n------------------[ $i ]------------------\n";
