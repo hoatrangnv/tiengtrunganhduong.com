@@ -179,7 +179,7 @@ class CrawlController extends Controller
             $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
             echo $mem;
 
-            sleep(10);
+            sleep(2);
         }
         echo "Errors Log:\n";
         var_dump($errorsLog);
