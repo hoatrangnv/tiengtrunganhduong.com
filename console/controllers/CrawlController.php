@@ -558,7 +558,7 @@ class CrawlController extends Controller
             $mem .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB\n";
             echo $mem;
         }
-        echo "===========================\n";
+        echo "\n===========================\n";
         echo "New Articles: $new_article_count\n";
         echo "New Images: $new_image_count\n";
         echo "Errors:\n";
