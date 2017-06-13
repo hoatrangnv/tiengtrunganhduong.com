@@ -909,7 +909,7 @@ class CrawlController extends Controller
 
             $image->file_basename = Inflector::slug(MyStringHelper::stripUnicode($image->name));
 
-            $k = 0;
+            $k = 1;
             while (Image::find()
                 ->where(['!=', 'id', $image->id])
                 ->andWhere(['file_basename' => $image->file_basename . "--$k", ])
