@@ -478,7 +478,8 @@ class CrawlController extends Controller
                         $time_div = null;
                     }
                     if ($article->save()) {
-                        echo "Article#$article->id was update time = $article->create_time: \n" . date('Y-m-d H:i:s', $article->create_time);
+                        echo "Article#$article->id was update time = $article->create_time: "
+                            . date('Y-m-d H:i:s', $article->create_time) . "\n";
                     } else {
                         var_dump($article->getErrors());
                         echo "\n";
