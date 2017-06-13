@@ -511,15 +511,9 @@ class CrawlController extends Controller
                     $image->update_time = $article->update_time;
                     $image->active = 1;
                     if ($image->saveFileAndModel()) {
-                        if ($image->save()) {
-                            $new_image_count++;
-                            $article->image_id = $image->id;
-                            echo $this->stdout("Saved Image#$image->id successfully\n", Console::FG_CYAN);;
-                        } else {
-                            echo 'Image Errors: ';
-                            var_dump($image->getErrors());
-                            echo "\n";
-                        }
+                        $new_image_count++;
+                        $article->image_id = $image->id;
+                        echo $this->stdout("Saved Image#$image->id successfully\n", Console::FG_CYAN);;
                     } else {
                         echo 'Save Image Errors: ';
                         var_dump($image->getErrors());
