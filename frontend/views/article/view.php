@@ -63,9 +63,12 @@ if ($next) {
     <?= $this->render('//layouts/fbLike') ?>
     <?= $this->render('//layouts/fbComment') ?>
 </article>
-<article class="related-news aspect-ratio __5x3">
-    <?= $this->render('items', [
-        'models' => $relatedItems,
-        'imagesSize' => Image::SIZE_3
-    ]) ?>
+<article class="related-news">
+    <h3>Bài viết liên quan</h3>
+    <div class="content aspect-ratio __5x3">
+        <?= $this->render('items', [
+            'models' => $relatedItems,
+            'imagesSize' => Image::SIZE_3
+        ]) ?>
+    </div>
 </article>

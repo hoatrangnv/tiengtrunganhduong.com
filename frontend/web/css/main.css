@@ -402,7 +402,8 @@ article div + div
 .news-item
 {
     padding: 1rem 0;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+    margin-top: 0;
 }
 .news-item .image
 {
@@ -449,6 +450,12 @@ article div + div
     color: #888;
     font-style: italic;
     margin-top: 1em;
+}
+.related-news .news-item {
+    vertical-align: top;
+}
+.related-news .news-item .info {
+    display: none;
 }
 
 /**
@@ -1088,8 +1095,23 @@ i.icon {
     .related-news .news-item:nth-child(even) {
         margin-left: 1rem;
     }
-    .related-news .news-item .info {
-        display: none;
+
+    /**
+     * SEE MORE
+     */
+    .see-more {
+        display: block;
+        padding: 0.5em 1em;
+        margin: 1em auto 0;
+        border: 1px solid #eee;
+        background: #fafafa;
+        color: #888;
+        width: 100%;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+    .see-more:hover {
+        color: #FF2D33;
     }
 }
 
