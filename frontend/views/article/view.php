@@ -7,6 +7,7 @@ use frontend\models\Image;
 
 /**
  * @var Article $model
+ * @var Article[] $relatedItems
  */
 
 $this->title = $model->name;
@@ -44,14 +45,14 @@ if ($next) {
 
 <h1><?= $model->name ?></h1>
 <article>
-    <div class="article-info">
+    <div class="news-info">
         <?= $this->render('info', ['model' => $model]) ?>
         <?= $this->render('//layouts/fbLike') ?>
     </div>
-    <div class="article-desc">
+    <div class="news-desc">
         <?= nl2br($model->description) ?>
     </div>
-    <div class="article-content fit-content content-popup-images">
+    <div class="news-content fit-content content-popup-images">
         <?php
         $model->templateToHtml(['content']);
         echo $model->content;
@@ -61,4 +62,10 @@ if ($next) {
 <article>
     <?= $this->render('//layouts/fbLike') ?>
     <?= $this->render('//layouts/fbComment') ?>
+</article>
+<article class="related-news aspect-ratio __5x3">
+    <?= $this->render('items', [
+        'models' => $relatedItems,
+        'imagesSize' => Image::SIZE_3
+    ]) ?>
 </article>

@@ -38,9 +38,15 @@ $this->registerMetaTag([
     <div class="container">
         <?= $this->render('navBar') ?>
     </div>
-    <div class="container">
-        <?= $this->render('slider') ?>
-    </div>
+    <?php
+    if (in_array(Yii::$app->requestedRoute, ['site/index'])) {
+        ?>
+        <div class="container">
+            <?= $this->render('slider') ?>
+        </div>
+        <?php
+    }
+    ?>
     <div class="container clr">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

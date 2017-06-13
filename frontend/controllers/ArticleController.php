@@ -24,7 +24,20 @@ class ArticleController extends BaseController
     public function actionView()
     {
         $model = $this->findModel(Yii::$app->request->get(UrlParam::SLUG));
-        return $this->render('view', ['model' => $model]);
+        if ($category = $model->category) {
+            $relatedItems = $category
+                ->getArticles()
+                ->andWhere(['!=', 'id', $model->id])
+                ->orderBy('publish_time desc')
+                ->limit(12)
+                ->allPublished();
+        } else {
+            $relatedItems = [];
+        }
+        return $this->render('view', [
+            'model' => $model,
+            'relatedItems' => $relatedItems
+        ]);
     }
 
     public function actionCategory()

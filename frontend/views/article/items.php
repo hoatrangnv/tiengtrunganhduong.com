@@ -6,21 +6,20 @@
  * Time: 4:36 PM
  */
 /**
- * @var string $imageSize
+ * @var string $imagesSize
  * @var \frontend\models\Article[] $models
  */
 
-if (!isset($imageSize)) {
-    $imageSize = null;
+if (!isset($imagesSize)) {
+    $imagesSize = null;
 }
 
 foreach ($models as $item) {
-?>
-<div class="news-item clr">
+?><div class="news-item clr">
     <div class="image">
         <div class="item-view">
             <div class="img-wrap">
-                <?= $item->img($imageSize) ?>
+                <?= $item->img($imagesSize) ?>
             </div>
         </div>
     </div>
@@ -33,6 +32,5 @@ foreach ($models as $item) {
     <div class="desc">
         <?= $item->desc() ?>
     </div>
-</div>
-<?php
+</div><?php
 }
