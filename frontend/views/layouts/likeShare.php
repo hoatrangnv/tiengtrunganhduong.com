@@ -25,13 +25,13 @@ if (!isset($size)) {
 
 <style>
     .social-share {
-        display: inline-block;
-        vertical-align: middle;
+        display: block;
         background: #fafafa;
         border-radius: 3px;
         padding: 0.4em;
+        margin-top: 1em;
     }
     .social-share .fb-like {
-        font-size: 0;
+        font-size: 0; /* Make fb, g+, twt lie in aline */
     }
 </style>
