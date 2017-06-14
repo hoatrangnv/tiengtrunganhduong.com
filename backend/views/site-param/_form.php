@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
 </div>
 
 <script>
-    !function (editor) {
-        editor && ckeditor(editor);
-    }(document.getElementById("<?= Html::getInputId($model, 'value') ?>"));
+//    !function (editor) {
+//        editor && ckeditor(editor);
+//    }(document.getElementById("<?//= Html::getInputId($model, 'value') ?>//"));
 </script>
