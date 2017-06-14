@@ -13,7 +13,7 @@ if (!isset($url)) {
     $url = \yii\helpers\Url::current([], true);
 }
 ?>
-<div class="social-share">
+<div class="social-share clr">
     <div id="fb-like" class="fb-like" data-href="<?= $url ?>" data-layout="button_count" data-size="small" data-action="like" data-show-faces="true" data-share="true"></div>
     <a class="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a>
     <div class="g-plus" data-action="share"></div>
@@ -27,10 +27,11 @@ if (!isset($url)) {
         padding: 0.4em;
         margin-top: 1em;
     }
-    .social-share .fb-like {
-        font-size: 0; /* Make fb, g+, twt lie in aline */
+    .social-share > * {
+        display: block;
+        float: left;
     }
-    .fb-like.fb_iframe_widget span{
-        vertical-align: top !important;
+    .social-share > * + * {
+        margin-left: 0.5em;
     }
 </style>
