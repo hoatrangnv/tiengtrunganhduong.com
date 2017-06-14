@@ -749,6 +749,10 @@ i.icon {
 /**
  * FOOTER
  */
+footer .container {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
 footer .container > * + * {
     margin-top: 1em;
 }
@@ -953,13 +957,6 @@ footer .container > * + * {
         opacity: 0.8;
     }
 
-    /**
-     * FOOTER
-     */
-    footer .container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
 }
 
 @media screen and (max-width: 860px) and (min-width: 641px)
@@ -1223,6 +1220,7 @@ footer .container > * + * {
      * FOOTER
      */
     footer .container {
-        padding: 2.5rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
     }
 }
