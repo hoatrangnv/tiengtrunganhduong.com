@@ -442,9 +442,11 @@ article div + div
  */
 .news-title {
     line-height: 1.3em;
+    font-size: 1.6em;
 }
 .news-info {
     color: #aaa;
+    margin-top: 0.5em;
 }
 .news-desc
 {
