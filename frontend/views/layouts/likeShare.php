@@ -30,4 +30,7 @@ if (!isset($url)) {
     .social-share .fb-like {
         font-size: 0; /* Make fb, g+, twt lie in aline */
     }
+    .fb-like.fb_iframe_widget span{
+        vertical-align: top !important;
+    }
 </style>
