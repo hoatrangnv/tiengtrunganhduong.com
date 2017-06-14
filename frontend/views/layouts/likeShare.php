@@ -17,7 +17,6 @@ if (!isset($size)) {
     $size = 'small';
 }
 ?>
-
 <div class="social-share">
     <div id="fb-like" class="fb-like" data-href="<?= $url ?>" data-layout="button_count" data-action="like" data-size="<?= $size ?>" data-show-faces="true" data-share="true"></div>
     <a class="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a>
