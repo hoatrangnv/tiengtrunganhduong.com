@@ -48,9 +48,9 @@
         <div class="fb-page" data-href="https://www.facebook.com/tiengtrunganhduong/"
              data-small-header="true"
              data-height="300"
-             data-width="200"
+             data-width="250"
              data-tabs="messages"
-             data-adapt-container-width="false"
+             data-adapt-container-width="true"
              data-hide-cover="true"
              data-show-facepile="false"
              data-show-posts="false">
