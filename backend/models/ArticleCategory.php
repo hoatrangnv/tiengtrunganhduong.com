@@ -11,6 +11,19 @@ namespace backend\models;
 
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class ArticleCategory
+ * @package backend\models
+ *
+ * @property Article[] $articles
+ * @property User $creator
+ * @property User $updater
+ * @property Image $image
+ * @property ArticleCategory $parent
+ * @property ArticleCategory[] $articleCategories
+ *
+ */
+
 class ArticleCategory extends \common\models\ArticleCategory
 {
     /**
@@ -39,6 +52,54 @@ class ArticleCategory extends \common\models\ArticleCategory
         };
 
         return $arrange(self::find()->where(['parent_id' => null])->all());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArticles()
+    {
+        return $this->hasMany(Article::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreator()
+    {
+        return $this->hasOne(User::className(), ['id' => 'creator_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUpdater()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updater_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImage()
+    {
+        return $this->hasOne(Image::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(ArticleCategory::className(), ['id' => 'parent_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArticleCategories()
+    {
+        return $this->hasMany(ArticleCategory::className(), ['parent_id' => 'id']);
     }
 
 }
