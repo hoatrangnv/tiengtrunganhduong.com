@@ -34,8 +34,8 @@ class Image extends \common\models\Image
     public $image_resize_labels;
     public $image_crop;
     public $image_name_to_basename;
-    public $image_file_basename;
-    public $image_file_extension;
+//    public $image_file_basename;
+//    public $image_file_extension;
 
     public $image_source;
     public $image_source_content; // Save image source content after validate
@@ -68,9 +68,9 @@ class Image extends \common\models\Image
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
             [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
-            ['image_file_basename', 'string', 'max' => 128],
-            ['image_file_extension', 'string', 'max' => 32],
-            ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
+//            ['image_file_basename', 'string', 'max' => 128],
+//            ['image_file_extension', 'string', 'max' => 32],
+//            ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
         ]);
     }
 
@@ -274,6 +274,9 @@ class Image extends \common\models\Image
                     $this->addError($this->image_source ? 'image_source' : 'image_file',
                         Yii::t('app', 'Cannot save image or file is not image.'));
                 }
+            } else {
+                $this->addError($this->image_source ? 'image_source' : 'image_file',
+                    Yii::t('app', 'No image was uploaded.'));
             }
         }
         return false;

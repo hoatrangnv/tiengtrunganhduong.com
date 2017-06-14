@@ -406,7 +406,7 @@ class Image extends \common\models\MyActiveRecord
             'file_basename' => 'File Basename',
             'file_extension' => 'File Extension',
             'resize_labels' => 'Resize Labels',
-            'encode_data' => 'String Data',
+            'encode_data' => 'Encode Data',
             'mime_type' => 'Mime Type',
             'active' => 'Active',
             'status' => 'Status',
