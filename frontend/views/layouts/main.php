@@ -66,7 +66,7 @@ $this->registerMetaTag([
     <div class="container clr">
         <div>
             <div><strong>&copy; <?= Yii::$app->name ?> <?= date('Y') ?></strong></div>
-            <div><?= ($item = SiteParam::findOneByName(SiteParam::FOOTER_INFO)) ? $item->value : '' ?></div>
+            <div><?= ($item = SiteParam::findOneByName(SiteParam::COMPANY_INFO)) ? $item->value : '' ?></div>
         </div>
         <div class="social-networks">
             <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank"><i class="icon facebook-icon"></i></a>

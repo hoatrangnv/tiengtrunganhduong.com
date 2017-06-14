@@ -12,7 +12,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->dropDownList(
+        \backend\models\SiteParam::getTypes(), ['prompt' => \Yii::t('app', 'Select one ...')]) ?>
 
     <?= $form->field($model, 'value')->textarea(['rows' => 6]) ?>
 
