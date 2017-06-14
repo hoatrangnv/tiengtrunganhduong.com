@@ -12,6 +12,7 @@
         z-index: 9999999;
         right: 1rem;
         bottom: 0;
+        max-width: 300px;
     }
     .fb-msg svg {
         display: inline-block;
