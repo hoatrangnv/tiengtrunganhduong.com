@@ -450,9 +450,12 @@ article div + div
 .news-desc
 {
     font-weight: bold;
-    color: #888;
-    font-style: italic;
+    color: #666;
+    font-size: 1.1em;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 0.5em;
     margin-top: 1em;
+    margin-bottom: 1.5em;
 }
 .related-news .news-item {
     vertical-align: top;
