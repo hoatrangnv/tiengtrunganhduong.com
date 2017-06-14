@@ -29,7 +29,7 @@ if (!isset($url)) {
     .social-share {
         display: block;
         padding: 0.2em 0.4em;
-        margin-top: 1em;
+        margin-top: 0.5em;
         border: solid #eee;
         border-width: 1px 0;
     }
