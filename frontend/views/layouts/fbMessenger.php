@@ -13,11 +13,6 @@
         right: 1rem;
         bottom: 0;
     }
-    .fb-msg,
-    .fb-msg * {
-        box-sizing: border-box;
-        max-width: 100%;
-    ]
     .fb-msg svg {
         display: inline-block;
     }
