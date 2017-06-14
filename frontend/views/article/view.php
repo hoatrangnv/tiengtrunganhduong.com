@@ -43,7 +43,7 @@ if ($next) {
 }
 ?>
 
-<h1><?= $model->name ?></h1>
+<h1 class="news-title"><?= $model->name ?></h1>
 <article>
     <div class="news-info">
         <?= $this->render('info', ['model' => $model]) ?>

@@ -440,6 +440,9 @@ article div + div
 /**
  * NEWS DETAILS
  */
+.news-title {
+    line-height: 1.3em;
+}
 .news-info {
     color: #aaa;
 }
@@ -771,7 +774,7 @@ footer .container > * + * {
         right: 0;
         z-index: 10;
         background: #fafafa;
-        border-radius: 3px;
+        /*border-radius: 3px;*/
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         display: none;
     }
