@@ -12,7 +12,6 @@
         z-index: 9999999;
         right: 1rem;
         bottom: 0;
-        max-width: 300px;
     }
     .fb-msg svg {
         display: inline-block;
@@ -49,7 +48,7 @@
         <div class="fb-page" data-href="https://www.facebook.com/tiengtrunganhduong/"
              data-small-header="true"
              data-height="300"
-             data-width="250"
+             data-width="200"
              data-tabs="messages"
              data-adapt-container-width="false"
              data-hide-cover="true"
