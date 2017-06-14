@@ -30,7 +30,10 @@ class SiteParam extends MyActiveRecord
     const GOOGLE_PLUS_URL = 'google_plus_url';
     const TWITTER_URL = 'twitter_url';
     const YOUTUBE_URL = 'youtube_url';
-    const COMPANY_INFO = 'company_info';
+    const ADDRESS = 'address';
+    const EMAIL = 'email';
+    const PHONE_NUMBER = 'phone_number';
+    const COMPANY_NAME = 'company_name';
 
     public static function getTypes()
     {
@@ -39,7 +42,10 @@ class SiteParam extends MyActiveRecord
             self::GOOGLE_PLUS_URL => 'Google plus URL',
             self::TWITTER_URL => 'Twitter URL',
             self::YOUTUBE_URL => 'Youtube URL',
-            self::COMPANY_INFO => 'Company info',
+            self::COMPANY_NAME => 'Company name',
+            self::PHONE_NUMBER => 'Phone number',
+            self::EMAIL => 'Email',
+            self::ADDRESS => 'Address',
         ];
     }
 
