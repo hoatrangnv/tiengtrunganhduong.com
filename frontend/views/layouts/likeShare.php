@@ -14,9 +14,15 @@ if (!isset($url)) {
 }
 ?>
 <div class="social-share clr">
-    <div id="fb-like" class="fb-like" data-href="<?= $url ?>" data-layout="button_count" data-size="small" data-action="like" data-show-faces="true" data-share="true"></div>
-    <a class="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a>
-    <div class="g-plus" data-action="share"></div>
+    <div class="social-share-item clr">
+        <div id="fb-like" class="fb-like" data-href="<?= $url ?>" data-layout="button_count" data-size="small" data-action="like" data-show-faces="true" data-share="true"></div>
+    </div>
+    <div class="social-share-item clr">
+        <a class="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a>
+    </div>
+    <div class="social-share-item clr">
+        <div class="g-plus" data-action="share"></div>
+    </div>
 </div>
 
 <style>
@@ -27,11 +33,11 @@ if (!isset($url)) {
         padding: 0.4em;
         margin-top: 1em;
     }
-    .social-share > * {
-        display: block;
-        float: left;
+    .social-share-item > * {
+        display: block !important;
+        float: left !important;
     }
-    .social-share > * + *:before {
-        content: "\0A00\0A00";
+    .social-share-item {
+        display: inline-block;
     }
 </style>
