@@ -52,7 +52,7 @@ class ArticleCategory extends \common\models\ArticleCategory
         };
 
         return array_merge(
-            [-1 => '(Không có)'],
+            [0 => '(Không có)'],
             $arrange(self::find()->where(['parent_id' => null])->all())
         );
     }
