@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use backend\models\ArticleCategory;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ArticleCategorySearch */
@@ -37,7 +38,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'name',
             'slug',
-            'parent.name',
+            [
+                'attribute' => 'category_id',
+                'format' => 'raw',
+                'value' => function (ArticleCategory $model) {
+                    return ($parent = $model->parent) ? $parent->name : $model->parent_id;
+                },
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'parent_id',
+                    ArticleCategory::dropDownListData(),
+                    ['class'=>'form-control', 'prompt' => Yii::t('app', 'Select one ...')]
+                )
+            ],
             // 'meta_title',
             // 'meta_description',
             // 'meta_keywords',
