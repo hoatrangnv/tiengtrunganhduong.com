@@ -30,7 +30,7 @@ if (!isset($url)) {
         display: block;
         background: #f8f8f8;
         border-radius: 3px;
-        padding: 0.2em;
+        padding: 0.2em 0.5em;
         margin-top: 1em;
     }
     .social-share-item > * {
