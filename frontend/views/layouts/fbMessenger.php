@@ -15,6 +15,7 @@
     }
     .fb-msg,
     .fb-msg * {
+        box-sizing: border-box !important;
         max-width: 100% !important;
     ]
     .fb-msg svg {
