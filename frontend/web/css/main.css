@@ -729,9 +729,6 @@ i.icon {
  */
 .social-networks {
 }
-.social-networks > * + * {
-    margin-top: 1em;
-}
 .social-networks a {
     display: inline-block;
 }
@@ -740,6 +737,12 @@ i.icon {
     height: 2.5em;
 }
 
+/**
+ * FOOTER
+ */
+footer .container > * + * {
+    margin-top: 1em;
+}
 
 @media screen and (max-width: 860px)
 {
