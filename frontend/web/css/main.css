@@ -952,6 +952,14 @@ footer .container > * + * {
         position: fixed;
         opacity: 0.8;
     }
+
+    /**
+     * FOOTER
+     */
+    footer .container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
 }
 
 @media screen and (max-width: 860px) and (min-width: 641px)
