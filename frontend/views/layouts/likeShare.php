@@ -28,9 +28,10 @@ if (!isset($url)) {
 <style>
     .social-share {
         display: block;
-        background: #f9f9f9;
         padding: 0.2em 0.4em;
         margin-top: 1em;
+        border: solid #eee;
+        border-width: 1px 0;
     }
     .social-share-item > * {
         display: block !important;
