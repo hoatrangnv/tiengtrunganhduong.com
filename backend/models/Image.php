@@ -224,7 +224,7 @@ class Image extends \common\models\Image
                     $this->file_extension = $file->extension;
                 }
 
-                // @TODO: Save origin image
+                // @TODO: Save original image
                 $this->generatePath();
                 $origin_destination = $this->getLocation(Image::SIZE_ORIGIN_LABEL);
                 if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
@@ -299,6 +299,8 @@ class Image extends \common\models\Image
             }
 
             if ($file) {
+                $this->mime_type = $file->type;
+
                 if (!$this->file_basename || $this->file_basename == $this->getOldAttribute('file_basename')) {
                     $this->file_basename = $file->baseName;
                 }
