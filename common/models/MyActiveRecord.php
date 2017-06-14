@@ -26,7 +26,7 @@ abstract class MyActiveRecord extends ActiveRecord
      */
     public function a($text = null, array $options = [], array $urlParams = [])
     {
-        if (!$this->hasMethod('getUrl')) {
+        if (!method_exists($this, 'getUrl')) {
             return '';
         }
         if (!$text) {
@@ -74,7 +74,7 @@ abstract class MyActiveRecord extends ActiveRecord
         /**
          * @var Image $image
          */
-        if ($this->hasMethod('getImage') && $image = $this->getImage()->oneActive()) {
+        if (method_exists($this, 'getImage') && $image = $this->getImage()->oneActive()) {
             return $image->getImgTag($size, $options, $srcOptions);
         }
 
@@ -110,7 +110,7 @@ abstract class MyActiveRecord extends ActiveRecord
      */
     public function getAllChildren()
     {
-        if ($this->hasMethod('getChildren')) {
+        if (method_exists($this, 'getChildren')) {
             /**
              * @var MyActiveRecord[] $allChildren
              */
@@ -150,7 +150,7 @@ abstract class MyActiveRecord extends ActiveRecord
      */
     public function callTemplateMethod($methodName, $arguments)
     {
-        if ($this->hasMethod('templateMethods')) {
+        if (method_exists($this, 'templateMethods')) {
             $methods = $this->templateMethods();
         } else {
             throw new \Exception("There is not any template method in \"" . get_class($this) . "\"");

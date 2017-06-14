@@ -45,6 +45,9 @@ class Image extends \common\models\Image
     public $image_source_size; // Save image source size after validate
     public $image_source_loaded; // Check image source was loaded
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         return array_merge(parent::rules(), [
@@ -71,6 +74,11 @@ class Image extends \common\models\Image
         ]);
     }
 
+    /**
+     * @param $attribute
+     * @param $params
+     * @return bool
+     */
     public function imageSource($attribute, $params)
     {
         if ($this->image_source_loaded === true) {
@@ -156,6 +164,9 @@ class Image extends \common\models\Image
         return true;
     }
 
+    /**
+     * @return null|UploadedFile
+     */
     public function getImageSourceAsUploadedFile()
     {
         if ($this->image_source && $this->validate(['image_source'])) {
@@ -170,7 +181,7 @@ class Image extends \common\models\Image
                     $file->tempName = $temp_name;
                     return $file;
                 } else {
-                    $this->addError('image_source', Yii::t('app', 'Cannot save temp image: ' . $temp_name));
+                    $this->addError('image_source', Yii::t('app', "Cannot save temp image: $temp_name."));
                 }
             } else {
                 $this->addError('image_source', Yii::t('app', 'Invalid mime type.'));
@@ -180,6 +191,10 @@ class Image extends \common\models\Image
         return null;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return bool
+     */
     public function saveFileAndModel(UploadedFile $file = null)
     {
         if ($this->validate(['image_file', 'image_source'])) {
@@ -264,6 +279,10 @@ class Image extends \common\models\Image
         return false;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return bool
+     */
     public function updateFileAndModel(UploadedFile $file = null)
     {
         if ($this->validate()) {

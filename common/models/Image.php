@@ -384,6 +384,7 @@ class Image extends \common\models\MyActiveRecord
             [['file_extension', /*'mime_type', 'aspect_ratio'*/], 'string', 'max' => 32],
             [['resize_labels', 'encode_data'], 'string', 'max' => 2047],
             [['file_basename'], 'unique'],
+            [['file_extension'], 'in', 'range' => Image::getValidExtensions()],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
             [['quality'], 'integer', 'min' => 1, 'max' => 100],
