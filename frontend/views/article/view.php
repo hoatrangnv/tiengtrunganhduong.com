@@ -64,7 +64,7 @@ if ($next) {
     <?= $this->render('//layouts/fbComment') ?>
 </article>
 <article class="related-news">
-    <h3>Bài viết liên quan</h3>
+    <h3><?= Yii::t('app', 'Related articles') ?></h3>
     <div class="content aspect-ratio __5x3">
         <?= $this->render('items', [
             'models' => $relatedItems,

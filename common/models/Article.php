@@ -40,10 +40,6 @@ use yii\validators\DateValidator;
  * @property integer $comment_count
  * @property integer $share_count
  *
- * @property User $creator
- * @property User $updater
- * @property Image $image
- * @property ArticleCategory $category
  */
 class Article extends \common\models\MyActiveRecord
 {
@@ -180,37 +176,37 @@ class Article extends \common\models\MyActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCreator()
-    {
-        return $this->hasOne(User::className(), ['id' => 'creator_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUpdater()
-    {
-        return $this->hasOne(User::className(), ['id' => 'updater_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getImage()
-    {
-        return $this->hasOne(Image::className(), ['id' => 'image_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
-    }
+//    /**
+//     * @return \yii\db\ActiveQuery
+//     */
+//    public function getCreator()
+//    {
+//        return $this->hasOne(User::className(), ['id' => 'creator_id']);
+//    }
+//
+//    /**
+//     * @return \yii\db\ActiveQuery
+//     */
+//    public function getUpdater()
+//    {
+//        return $this->hasOne(User::className(), ['id' => 'updater_id']);
+//    }
+//
+//    /**
+//     * @return \yii\db\ActiveQuery
+//     */
+//    public function getImage()
+//    {
+//        return $this->hasOne(Image::className(), ['id' => 'image_id']);
+//    }
+//
+//    /**
+//     * @return \yii\db\ActiveQuery
+//     */
+//    public function getCategory()
+//    {
+//        return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
+//    }
 
     /**
      * Query Template

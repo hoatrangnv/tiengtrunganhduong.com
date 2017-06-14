@@ -27,7 +27,7 @@ class ArticleController extends BaseController
         if ($category = $model->category) {
             $relatedItems = $category
                 ->getArticles()
-                ->andWhere(['!=', 'id', $model->id])
+                ->andWhere(['<', 'publish_time', $model->publish_time])
                 ->orderBy('publish_time desc')
                 ->limit(12)
                 ->allPublished();

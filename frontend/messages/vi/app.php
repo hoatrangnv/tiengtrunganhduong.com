@@ -24,4 +24,5 @@ return [
     'News' => '@@Tin tức@@',
     'Chat with us' => 'Chat với chúng tôi',
     'Home page' => 'Trang chủ',
+    'Related articles' => 'Bài viết liên quan',
 ];

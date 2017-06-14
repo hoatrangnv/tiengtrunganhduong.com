@@ -12,6 +12,18 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use common\models\UrlParam;
 
+/**
+ * Class ArticleCategory
+ * @package frontend\models
+ *
+ * @property Article[] $articles
+ * @property User $creator
+ * @property User $updater
+ * @property Image $image
+ * @property ArticleCategory $parent
+ * @property ArticleCategory[] $articleCategories
+ */
+
 class ArticleCategory extends \common\models\ArticleCategory
 {
     public function getUrl($params = [])

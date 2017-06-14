@@ -13,6 +13,16 @@ use common\models\Article as CommonArticle;
 use common\models\UrlParam;
 use yii\helpers\Url;
 
+/**
+ * Class Article
+ * @package frontend\models
+ *
+ * @property User $creator
+ * @property User $updater
+ * @property Image $image
+ * @property ArticleCategory $category
+ */
+
 class Article extends CommonArticle
 {
     public function getUrl($params = [])
