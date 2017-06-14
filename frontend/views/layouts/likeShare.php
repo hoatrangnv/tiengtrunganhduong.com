@@ -31,7 +31,7 @@ if (!isset($url)) {
         display: block;
         float: left;
     }
-    .social-share > * + * {
-        margin-left: 0.5em !important;
+    .social-share > * + *:before {
+        content: "\0A00\0A00";
     }
 </style>
