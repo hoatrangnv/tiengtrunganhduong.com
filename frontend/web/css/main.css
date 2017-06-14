@@ -1210,4 +1210,11 @@ footer .container > * + * {
     {
         width: calc(100% - 1rem - 200px);
     }
+
+    /**
+     * FOOTER
+     */
+    footer .container {
+        padding: 2.5rem;
+    }
 }
