@@ -47,7 +47,7 @@ if ($next) {
 <article>
     <div class="news-info">
         <?= $this->render('info', ['model' => $model]) ?>
-        <?= $this->render('//layouts/fbLike') ?>
+        <?= $this->render('//layouts/likeShare') ?>
     </div>
     <div class="news-desc">
         <?= nl2br($model->description) ?>
@@ -60,7 +60,7 @@ if ($next) {
     </div>
 </article>
 <article>
-    <?= $this->render('//layouts/fbLike') ?>
+    <?= $this->render('//layouts/likeShare') ?>
     <?= $this->render('//layouts/fbComment') ?>
 </article>
 <article class="related-news">

@@ -70,6 +70,8 @@ $this->registerMetaTag([
 <!--<script><?php /*require_once Yii::getAlias('@webroot/js/main.js') */?></script>-->
 <?php require_once 'fbMessenger.php' ?>
 <?php require_once 'fbSDK.php' ?>
+<?php require_once 'googlePlatform.php' ?>
+<?php require_once 'twitterWidget.php' ?>
 <?php require_once 'tracking.php' ?>
 <?php $this->endBody() ?>
 </body>
