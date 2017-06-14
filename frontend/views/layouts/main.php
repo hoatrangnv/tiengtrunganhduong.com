@@ -39,6 +39,7 @@ $this->registerMetaTag([
     <div class="container">
         <?= $this->render('navBar') ?>
     </div>
+    <div class="clr"></div>
     <?php
     if (in_array(Yii::$app->requestedRoute, ['site/index'])) {
         ?>
