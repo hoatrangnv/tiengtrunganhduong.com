@@ -65,7 +65,7 @@ $this->registerMetaTag([
 <footer class="wrap">
     <div class="container clr">
         <div>
-            <strong><?= ($item = SiteParam::findOneByName(SiteParam::COMPANY_NAME)) ? $item->value : '' ?></strong>
+            <h4><?= ($item = SiteParam::findOneByName(SiteParam::COMPANY_NAME)) ? $item->value : '' ?></h4>
         </div>
         <div>
             <div><?= Yii::t('app', 'Address') ?>: <?= ($item = SiteParam::findOneByName(SiteParam::ADDRESS)) ? $item->value : '' ?></div>
