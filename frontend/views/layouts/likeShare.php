@@ -32,6 +32,6 @@ if (!isset($url)) {
         float: left;
     }
     .social-share > * + * {
-        margin-left: 0.5em;
+        margin-left: 0.5em !important;
     }
 </style>
