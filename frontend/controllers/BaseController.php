@@ -81,7 +81,7 @@ class BaseController extends Controller
         }
 
         $this->menu = new Menu();
-        $this->menu->init([$data0, $data1]);
+        $this->menu->init(['_' => $data0, '__' => $data1]);
 
         return parent::beforeAction($action);
     }
