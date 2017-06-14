@@ -1,4 +1,4 @@
-<div>
+<div class="slider">
     <!-- #region Jssor Slider Begin -->
     <script src="<?= Yii::getAlias('@web/libs/jssor/js/jssor.slider-24.1.5.min.js') ?>" type="text/javascript"></script>
     <script type="text/javascript">

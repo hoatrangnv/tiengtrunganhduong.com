@@ -1031,6 +1031,14 @@ footer .container > * + * {
     .grid-view.sm-g8 > ul > li {
         width: calc(100% / 8 - 1em);
     }
+
+    /**
+     * SLIDER
+     */
+    .slider {
+        margin-top: -1rem;
+    }
+
 }
 
 @media screen and (min-width: 641px)
