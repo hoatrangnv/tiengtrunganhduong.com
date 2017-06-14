@@ -13,11 +13,6 @@
         right: 1rem;
         bottom: 0;
     }
-    .fb-msg,
-    .fb-msg * {
-        /*box-sizing: border-box !important;*/
-        /*max-width: 100% !important;*/
-    ]
     .fb-msg svg {
         display: inline-block;
     }
@@ -55,7 +50,7 @@
              data-height="300"
              data-width="250"
              data-tabs="messages"
-             data-adapt-container-width="true"
+             data-adapt-container-width="false"
              data-hide-cover="true"
              data-show-facepile="false"
              data-show-posts="false">
