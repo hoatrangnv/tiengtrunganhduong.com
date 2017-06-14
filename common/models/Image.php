@@ -93,13 +93,14 @@ class Image extends \common\models\MyActiveRecord
     public static function getValidExtensions()
     {
         return [
-            'png', 'jpg', 'jpeg', 'gif',
-            'PNG', 'JPG', 'JPEG', 'GIF'];
+            'png', 'jpg', 'jpeg', 'gif', 'svg',
+            'PNG', 'JPG', 'JPEG', 'GIF', 'SVG'
+        ];
     }
 
     public static function getValidMimeTypes()
     {
-        return ['image/png', 'image/jpeg', 'image/gif'];
+        return ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'];
     }
 
     public static function getResizeLabelBySizeKey($size_key)
