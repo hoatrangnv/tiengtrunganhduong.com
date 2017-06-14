@@ -82,7 +82,7 @@ class ArticleCategorySearch extends ArticleCategory
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'long_description', $this->long_description]);
 
-        if (0 == $this->parent_id) {
+        if ('null' == $this->parent_id) {
             $query->andWhere(['parent_id' => null]);
         } else {
             $query->andFilterWhere(['parent_id' => $this->parent_id]);
