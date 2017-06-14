@@ -63,7 +63,7 @@ class ArticleCategorySearch extends ArticleCategory
             'creator_id' => $this->creator_id,
             'updater_id' => $this->updater_id,
             'image_id' => $this->image_id,
-            'parent_id' => $this->parent_id,
+//            'parent_id' => $this->parent_id,
             'active' => $this->active,
             'visible' => $this->visible,
             'featured' => $this->featured,
@@ -81,6 +81,12 @@ class ArticleCategorySearch extends ArticleCategory
             ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'long_description', $this->long_description]);
+
+        if ($this->parent_id == -1) {
+            $query->andFilterWhere(['parent_id' => null]);
+        } else {
+            $query->andFilterWhere(['parent_id' => $this->parent_id]);
+        }
 
         return $dataProvider;
     }

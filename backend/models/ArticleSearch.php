@@ -68,7 +68,7 @@ class ArticleSearch extends Article
             'creator_id' => $this->creator_id,
             'updater_id' => $this->updater_id,
             'image_id' => $this->image_id,
-            'category_id' => $this->category_id,
+//            'category_id' => $this->category_id,
             'active' => $this->active,
             'visible' => $this->visible,
             'featured' => $this->featured,
@@ -92,6 +92,12 @@ class ArticleSearch extends Article
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'sub_content', $this->sub_content]);
+
+        if ($this->category_id == -1) {
+            $query->andFilterWhere(['category_id' => null]);
+        } else {
+            $query->andFilterWhere(['category_id' => $this->category_id]);
+        }
 
         return $dataProvider;
     }

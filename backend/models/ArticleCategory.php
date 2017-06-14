@@ -51,7 +51,10 @@ class ArticleCategory extends \common\models\ArticleCategory
             return $result;
         };
 
-        return $arrange(self::find()->where(['parent_id' => null])->all());
+        return array_merge(
+            [-1 => '(Không có)'],
+            $arrange(self::find()->where(['parent_id' => null])->all())
+        );
     }
 
     /**
