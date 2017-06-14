@@ -34,8 +34,8 @@ class Image extends \common\models\Image
     public $image_resize_labels;
     public $image_crop;
     public $image_name_to_basename;
-    public $image_file_basename;
-    public $image_file_extension;
+//    public $image_file_basename;
+//    public $image_file_extension;
 
     public $image_source;
     public $image_source_content; // Save image source content after validate
@@ -45,6 +45,9 @@ class Image extends \common\models\Image
     public $image_source_size; // Save image source size after validate
     public $image_source_loaded; // Check image source was loaded
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         return array_merge(parent::rules(), [
@@ -65,12 +68,17 @@ class Image extends \common\models\Image
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
             [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
-            ['image_file_basename', 'string', 'max' => 128],
-            ['image_file_extension', 'string', 'max' => 32],
-            ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
+//            ['image_file_basename', 'string', 'max' => 128],
+//            ['image_file_extension', 'string', 'max' => 32],
+//            ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
         ]);
     }
 
+    /**
+     * @param $attribute
+     * @param $params
+     * @return bool
+     */
     public function imageSource($attribute, $params)
     {
         if ($this->image_source_loaded === true) {
@@ -156,6 +164,9 @@ class Image extends \common\models\Image
         return true;
     }
 
+    /**
+     * @return null|UploadedFile
+     */
     public function getImageSourceAsUploadedFile()
     {
         if ($this->image_source && $this->validate(['image_source'])) {
@@ -170,7 +181,7 @@ class Image extends \common\models\Image
                     $file->tempName = $temp_name;
                     return $file;
                 } else {
-                    $this->addError('image_source', Yii::t('app', 'Cannot save temp image: ' . $temp_name));
+                    $this->addError('image_source', Yii::t('app', "Cannot save temp image: $temp_name."));
                 }
             } else {
                 $this->addError('image_source', Yii::t('app', 'Invalid mime type.'));
@@ -180,6 +191,10 @@ class Image extends \common\models\Image
         return null;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return bool
+     */
     public function saveFileAndModel(UploadedFile $file = null)
     {
         if ($this->validate(['image_file', 'image_source'])) {
@@ -209,7 +224,7 @@ class Image extends \common\models\Image
                     $this->file_extension = $file->extension;
                 }
 
-                // @TODO: Save origin image
+                // @TODO: Save original image
                 $this->generatePath();
                 $origin_destination = $this->getLocation(Image::SIZE_ORIGIN_LABEL);
                 if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
@@ -259,11 +274,18 @@ class Image extends \common\models\Image
                     $this->addError($this->image_source ? 'image_source' : 'image_file',
                         Yii::t('app', 'Cannot save image or file is not image.'));
                 }
+            } else {
+                $this->addError($this->image_source ? 'image_source' : 'image_file',
+                    Yii::t('app', 'No image was uploaded.'));
             }
         }
         return false;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return bool
+     */
     public function updateFileAndModel(UploadedFile $file = null)
     {
         if ($this->validate()) {
@@ -277,6 +299,8 @@ class Image extends \common\models\Image
             }
 
             if ($file) {
+                $this->mime_type = $file->type;
+
                 if (!$this->file_basename || $this->file_basename == $this->getOldAttribute('file_basename')) {
                     $this->file_basename = $file->baseName;
                 }

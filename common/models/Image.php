@@ -93,13 +93,14 @@ class Image extends \common\models\MyActiveRecord
     public static function getValidExtensions()
     {
         return [
-            'png', 'jpg', 'jpeg', 'gif',
-            'PNG', 'JPG', 'JPEG', 'GIF'];
+            'png', 'jpg', 'jpeg', 'gif', 'svg',
+            'PNG', 'JPG', 'JPEG', 'GIF', 'SVG'
+        ];
     }
 
     public static function getValidMimeTypes()
     {
-        return ['image/png', 'image/jpeg', 'image/gif'];
+        return ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'];
     }
 
     public static function getResizeLabelBySizeKey($size_key)
@@ -384,6 +385,7 @@ class Image extends \common\models\MyActiveRecord
             [['file_extension', /*'mime_type', 'aspect_ratio'*/], 'string', 'max' => 32],
             [['resize_labels', 'encode_data'], 'string', 'max' => 2047],
             [['file_basename'], 'unique'],
+            [['file_extension'], 'in', 'range' => Image::getValidExtensions()],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
             [['quality'], 'integer', 'min' => 1, 'max' => 100],
@@ -405,7 +407,7 @@ class Image extends \common\models\MyActiveRecord
             'file_basename' => 'File Basename',
             'file_extension' => 'File Extension',
             'resize_labels' => 'Resize Labels',
-            'encode_data' => 'String Data',
+            'encode_data' => 'Encode Data',
             'mime_type' => 'Mime Type',
             'active' => 'Active',
             'status' => 'Status',
