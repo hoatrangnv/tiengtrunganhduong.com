@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use frontend\models\SiteParam;
 
 AppAsset::register($this);
 $this->registerMetaTag([
@@ -62,8 +63,17 @@ $this->registerMetaTag([
 </div>
 
 <footer class="wrap">
-    <div class="container">
-        <p>&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
+    <div class="container clr">
+        <div>
+            <div><strong>&copy; <?= Yii::$app->name ?> <?= date('Y') ?></strong></div>
+            <div><?= ($item = SiteParam::findOneByName(SiteParam::FOOTER_INFO)) ? $item->value : '' ?></div>
+        </div>
+        <div class="social-networks">
+            <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank"><i class="icon facebook-icon"></i></a>
+            <a title="twitter" href="<?= ($item = SiteParam::findOneByName(SiteParam::TWITTER_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank"><i class="icon twitter-icon" ></i></a>
+            <a title="google plus" href="<?= ($item = SiteParam::findOneByName(SiteParam::GOOGLE_PLUS_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank"><i class="icon google-plus-icon"></i></a>
+            <a title="youtube" href="<?= ($item = SiteParam::findOneByName(SiteParam::YOUTUBE_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank"><i class="icon youtube-icon"></i></a>
+        </div>
     </div>
 </footer>
 

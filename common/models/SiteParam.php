@@ -26,6 +26,12 @@ use yii\behaviors\TimestampBehavior;
  */
 class SiteParam extends MyActiveRecord
 {
+    const FACEBOOK_URL = 'facebook_url';
+    const GOOGLE_PLUS_URL = 'google_plus_url';
+    const TWITTER_URL = 'twitter_url';
+    const YOUTUBE_URL = 'youtube_url';
+    const FOOTER_INFO = 'footer_info';
+
     /**
      * @inheritdoc
      */
