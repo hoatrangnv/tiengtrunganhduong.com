@@ -45,16 +45,13 @@ class ArticleCategory extends \common\models\ArticleCategory
                         '__________' => $arrange($children),
                     ];
                 } else {
-                    $result[$category->id] = $category->name;
+                    $result[$category->name] = [$category->id => $category->name];
                 }
             }
             return $result;
         };
 
-        return array_merge(
-            ['null' => '(Không có)'],
-            $arrange(self::find()->where(['parent_id' => null])->all())
-        );
+        return array_merge([[-1 => '(Không có)']], $arrange(self::find()->where(['parent_id' => null])->all()));
     }
 
     /**

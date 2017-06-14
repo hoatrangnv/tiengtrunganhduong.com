@@ -93,7 +93,7 @@ class ArticleSearch extends Article
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'sub_content', $this->sub_content]);
 
-        if ('null' == $this->category_id) {
+        if (-1 == $this->category_id) {
             $query->andWhere(['category_id' => null]);
         } else {
             $query->andFilterWhere(['category_id' => $this->category_id]);
