@@ -1,6 +1,6 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'quyettvq@gmail.com',
     'myActiveQuery' => [
         'enableCache' => false,
         'publishTimeWrongNumber' => 60

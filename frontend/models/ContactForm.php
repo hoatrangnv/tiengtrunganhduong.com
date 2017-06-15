@@ -12,6 +12,7 @@ class ContactForm extends Model
 {
     public $name;
     public $email;
+    public $phone_number;
     public $subject;
     public $body;
     public $verifyCode;
@@ -24,11 +25,14 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'email', 'subject', 'body', 'verifyCode'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
+            [['body'], 'string'],
+            [['phone_number'], 'string', 'max' => 32],
+            [['name', 'email', 'subject'], 'string', 'max' => 255],
         ];
     }
 
@@ -38,7 +42,12 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'verifyCode' => 'Verification Code',
+            'name' => Yii::t('app', 'Name'),
+            'email' => Yii::t('app', 'Email'),
+            'phone_number' => Yii::t('app', 'Phone number'),
+            'subject' => Yii::t('app', 'Subject'),
+            'body' => Yii::t('app', 'Body'),
+            'verifyCode' => Yii::t('app', 'Verification Code'),
         ];
     }
 
@@ -56,5 +65,17 @@ class ContactForm extends Model
             ->setSubject($this->subject)
             ->setTextBody($this->body)
             ->send();
+    }
+
+    public function saveContact()
+    {
+        $contact = new Contact();
+        $contact->email = $this->email;
+        $contact->phone_number = $this->phone_number;
+        $contact->name = $this->name;
+        $contact->subject = $this->subject;
+        $contact->body = $this->body;
+        $contact->status = Contact::STATUS_NEW;
+        return $contact->save();
     }
 }

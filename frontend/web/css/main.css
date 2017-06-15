@@ -757,6 +757,108 @@ footer .container > * + * {
     margin-top: 1em;
 }
 
+/**
+ * FORM
+ */
+form.primary .form-group + .form-group {
+    margin-top: 1rem;
+}
+form.primary .form-group:before,
+form.primary .form-group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+form.primary input:not([type=checkbox]):not([type=radio]):not([type=file]),
+form.primary select,
+form.primary textarea {
+    width: 100%;
+    border: 1px solid #d7d7d7;
+    min-height: 2.5rem;
+    padding: 0 0.5rem;
+    line-height: inherit;
+    font: inherit;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+form.primary textarea {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    resize: none;
+}
+form.primary label {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    color: #333;
+    opacity: 0.5;
+    padding: 0.5rem;
+    pointer-events: none;
+    top: 0;
+    transition: 0.3s;
+}
+form.primary .form-group label:before {
+    content: "";
+    color: #FF2D33;
+    line-height: 1.5rem;
+}
+form.primary .form-group.required label:before {
+    content: "*\00A0";
+}
+form.primary .form-group input,
+form.primary .form-group select,
+form.primary .form-group textarea {
+    transition: margin 0.3s;
+}
+form.primary .form-group input:not([value=""]),
+form.primary .form-group select:not([value=""]),
+form.primary .form-group textarea:not([value=""]) {
+    margin-top: 1.8rem;
+}
+form.primary .form-group input:not([value=""]) + label,
+form.primary .form-group input:not([value=""]) + * + label,
+form.primary .form-group select:not([value=""]) + label,
+form.primary .form-group select:not([value=""]) + * + label,
+form.primary .form-group textarea:not([value=""]) + label,
+form.primary .form-group textarea:not([value=""]) + * + label {
+    padding: 0;
+    opacity: 1;
+    font-weight: bold;
+}
+form.primary button[type=submit] {
+    float: right;
+    background: #60c055;
+    line-height: 1.5em;
+    padding: 0.5em 1em;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: 0.3s;
+}
+form.primary button[type=submit]:hover {
+    background: #40b033;
+}
+form.primary .help-block {
+    font-size: 0.9em;
+    text-align: justify;
+}
+form.primary .form-group.has-error .help-block {
+    color: #f28040;
+    margin: 0.5rem 0;
+}
+form.primary .form-group.has-error input:not([type=checkbox]):not([type=radio]):not([type=file]),
+form.primary .form-group.has-error select,
+form.primary .form-group.has-error textarea {
+    border-color: #f28040;
+}
+form.primary .form-group.has-success input:not([type=checkbox]):not([type=radio]):not([type=file]),
+form.primary .form-group.has-success select,
+form.primary .form-group.has-success textarea {
+    border-color: #40cc88;
+}
+
 @media screen and (max-width: 860px)
 {
     .main-content,

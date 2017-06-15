@@ -115,12 +115,17 @@ class SiteController extends BaseController
      */
     public function actionContact()
     {
+        // @TODO: Enable jQuery and yii
+        Yii::$app->assetManager->bundles = [];
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+//            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+            // @TODO: Saves contact instead of sending email
+            if ($model->saveContact()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for contacting us. We will respond to you as soon as possible.'));
             } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'There was an error sending your message.'));
             }
 
             return $this->refresh();

@@ -48,3 +48,17 @@ function loadingFinish() {
         window.loading.finish();
     }
 }
+
+/**
+ * Primary form
+ */
+!function (inputs) {
+    [].forEach.call(inputs, function (input) {
+        input.setAttribute("value", input.value);
+        ['keyup', 'keydown', 'change', 'propertychange', 'click', 'input', 'paste'].forEach(function (event) {
+            input.addEventListener(event, function () {
+                this.setAttribute("value", this.value);
+            });
+        });
+    });
+}(document.querySelectorAll("form.primary input, form.primary textarea, form.primary select"));

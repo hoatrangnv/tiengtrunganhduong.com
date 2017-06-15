@@ -17,12 +17,25 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    '{0,number} comments' => '{0,number} bình luận',
-    '{0,number} views' => '{0,number} xem',
+    'Address' => 'Địa chỉ',
+    'Body' => 'Nội dung',
+    'Contact' => 'Liên hệ',
+    'Email' => 'Email',
+    'Phone number' => 'Số điện thoại',
+    'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.'
+        => 'Mọi thông tin liên hệ vui lòng điền theo mẫu dưới đây và gửi về hòm thư của chúng tôi. Chúng tôi sẽ phản hồi lại  muộn nhất sau 12h . Xin chân thành cảm ơn!',
+    'Name' => 'Họ tên',
+    'Subject' => 'Chủ đề',
+    'Thank you for contacting us. We will respond to you as soon as possible.' => 'Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ trả lời sớm nhất có thể.',
+    'There was an error sending your message.' => 'Đã có lỗi khi gửi tin nhắn của bạn.',
+    'Verification Code' => 'Mã xác thực',
     'Courses and tuition fees' => '@@Khóa học và học phí@@',
     'Documents' => '@@Tài liệu@@',
     'News' => '@@Tin tức@@',
     'Chat with us' => 'Chat với chúng tôi',
     'Home page' => 'Trang chủ',
     'Related articles' => 'Bài viết liên quan',
+    'Submit' => 'Gửi đi',
+    '{0,number} comments' => '{0,number} bình luận',
+    '{0,number} views' => '{0,number} xem',
 ];

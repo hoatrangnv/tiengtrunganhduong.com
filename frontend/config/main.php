@@ -46,6 +46,8 @@ return [
                 // Home page
                 ['pattern' => '', 'route' => 'site/index'],
                 ['pattern' => '/', 'route' => 'site/index'],
+                // Contact
+                ['pattern' => 'lien-he.htm', 'route' => 'site/contact'],
                 // Sitemap
                 ['pattern' => 'sitemap.xml', 'route' => 'sitemap/index'],
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
@@ -85,5 +87,9 @@ return [
         ];
 
         Yii::$app->urlManager->addRules($urlConfig, true);
+
     },
+    'on afterRequest' => function ($event) {
+
+    }
 ];
