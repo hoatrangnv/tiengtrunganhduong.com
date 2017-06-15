@@ -116,7 +116,20 @@ class SiteController extends BaseController
     public function actionContact()
     {
         // @TODO: Enable jQuery and yii
-        Yii::$app->assetManager->bundles = [];
+        Yii::$app->assetManager->bundles = [
+            \yii\bootstrap\BootstrapAsset::className() => [
+                'css' => [],
+            ],
+//            \yii\web\YiiAsset::className() => [
+//                'js' => [],
+//            ],
+//            \yii\web\JqueryAsset::className() => [
+//                'js' => [],
+//            ],
+//            \yii\bootstrap\BootstrapPluginAsset::className() => [
+//                'js' => [],
+//            ],
+        ];
 
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
