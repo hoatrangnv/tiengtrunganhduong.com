@@ -19,7 +19,7 @@ $this->registerLinkTag([
 <?php
 $i = 0;
 foreach (array_filter(ArticleCategory::indexData(), function ($category) {
-    return !$category->parent_id;
+    return !$category->parent_id && 1 == $category->featured;
 }) as $category) {
     $i++;
 ?>
