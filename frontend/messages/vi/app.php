@@ -23,7 +23,7 @@ return [
     'Email' => 'Email',
     'Phone number' => 'Số điện thoại',
     'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.'
-        => 'Mọi thông tin liên hệ vui lòng điền theo mẫu dưới đây và gửi về hòm thư của chúng tôi. Chúng tôi sẽ phản hồi lại  muộn nhất sau 12h . Xin chân thành cảm ơn!',
+        => 'Mọi thông tin liên hệ vui lòng điền theo mẫu dưới đây và gửi đi. Chúng tôi sẽ phản hồi lại  muộn nhất sau 12h . Xin chân thành cảm ơn!',
     'Name' => 'Họ tên',
     'Subject' => 'Chủ đề',
     'Thank you for contacting us. We will respond to you as soon as possible.' => 'Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ trả lời sớm nhất có thể.',
