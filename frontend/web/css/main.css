@@ -1195,6 +1195,7 @@ footer .container > * + * {
     {
         content: "|\00A0";
         display: inline-block;
+        opacity: 0.5;
     }
     .nav-bar .search-box
     {
