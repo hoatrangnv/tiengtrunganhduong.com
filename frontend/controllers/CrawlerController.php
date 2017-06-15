@@ -26,7 +26,7 @@ class CrawlerController extends BaseController
         if ($crawler) {
 //            if ($crawler->target_model_type == Crawler::TARGET_MODEL_TYPE__ARTICLE && $crawler->target_model_slug) {
                 if ($article = Article::findOneBySlug($crawler->target_model_slug)) {
-                    return $this->redirect($article->getUrl, 301);
+                    return $this->redirect($article->getUrl(), 301);
                 }
 //            }
             return $crawler->content;
