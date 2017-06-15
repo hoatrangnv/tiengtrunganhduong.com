@@ -22,7 +22,7 @@ class CrawlerController extends BaseController
          * @var Crawler $crawler
          */
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
-        $crawler = Crawler::find()->where(['url' => 'http://tiengtrunganhduong.com' . $alias])->one();
+        $crawler = Crawler::find()->where(['url' => 'http://tiengtrunganhduong.com/' . $alias])->one();
         if ($crawler) {
 //            if ($crawler->target_model_type == Crawler::TARGET_MODEL_TYPE__ARTICLE && $crawler->target_model_slug) {
                 if ($article = Article::findOneBySlug($crawler->target_model_slug)) {
