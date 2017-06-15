@@ -94,7 +94,7 @@ class BaseController extends Controller
                 $data1["{$model_type}_{$model->id}"] = [
                     'label' => $model->name,
                     'url' => $model->getUrl(),
-                    'parentKey' => !property_exists($model, 'parent_id') ? null : ($model->parent_id) ? "{$model_type}_{$model->parent_id}" : null,
+                    'parentKey' => $model_type == 'article' ? null : ($model->parent_id) ? "{$model_type}_{$model->parent_id}" : null,
                 ];
             }
         }
