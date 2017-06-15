@@ -20,17 +20,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <br>
     <?php $form = ActiveForm::begin(['id' => 'contact-form', 'options' => ['class' => 'primary']]); ?>
 
-        <?= $form->field($model, 'name', ['template' => '{input}{label}'])->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'name', ['template' => '{input}{label}{error}{hint}'])->textInput() ?>
 
-        <?= $form->field($model, 'email', ['template' => '{input}{label}']) ?>
+        <?= $form->field($model, 'email', ['template' => '{input}{label}{error}{hint}']) ?>
 
-        <?= $form->field($model, 'phone_number', ['template' => '{input}{label}']) ?>
+        <?= $form->field($model, 'phone_number', ['template' => '{input}{label}{error}{hint}']) ?>
 
-        <?= $form->field($model, 'subject', ['template' => '{input}{label}']) ?>
+        <?= $form->field($model, 'subject', ['template' => '{input}{label}{error}{hint}']) ?>
 
-        <?= $form->field($model, 'body', ['template' => '{input}{label}'])->textarea(['rows' => 6]) ?>
+        <?= $form->field($model, 'body', ['template' => '{input}{label}{error}{hint}'])->textarea(['rows' => 6]) ?>
 
-        <?= $form->field($model, 'verifyCode', ['template' => '{input}{label}'])->widget(Captcha::className(), [
+        <?= $form->field($model, 'verifyCode', ['template' => '{input}{label}{error}{hint}'])->widget(Captcha::className(), [
             'template' => '{input}{image}',
         ]) ?>
 
