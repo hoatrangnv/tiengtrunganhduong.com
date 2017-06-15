@@ -92,6 +92,5 @@ return [
 
     },
     'on afterRequest' => function ($event) {
-
     }
 ];

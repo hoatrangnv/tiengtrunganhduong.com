@@ -22,7 +22,6 @@ class CrawlerController extends BaseController
          * @var Crawler $crawler
          */
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
-        var_dump($alias);die;
         $crawler = Crawler::find()->where(['url' => 'http://tiengtrunganhduong.com' . $alias])->one();
         if ($crawler) {
 //            if ($crawler->target_model_type == Crawler::TARGET_MODEL_TYPE__ARTICLE && $crawler->target_model_slug) {
@@ -31,6 +30,8 @@ class CrawlerController extends BaseController
                 }
 //            }
             return $crawler->content;
+        } else {
+            return 'Khong tim thay crawler';
         }
         throw new NotFoundHttpException();
     }
