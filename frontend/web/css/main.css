@@ -182,7 +182,7 @@ article div + div
     clear: both;
     color: #fff;
     z-index: 100;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 .nav-bar .menu
 {
@@ -195,7 +195,7 @@ article div + div
 }
 .nav-bar .menu ul li a
 {
-    padding: 0.8rem 0.4rem;
+    padding: 0.8rem 0.2rem;
     text-transform: uppercase;
     font-weight: bold;
     line-height: 1rem;
@@ -237,7 +237,7 @@ article div + div
     text-transform: none;
     width: 100%;
     display: block;
-    /*font-size: 0.9em;*/
+    font-size: 0.9em;
 }
 .nav-bar .menu li ul li.active > a,
 .nav-bar .menu li ul li a:hover

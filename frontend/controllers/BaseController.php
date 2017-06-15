@@ -91,12 +91,12 @@ class BaseController extends Controller
                 $model_type = 'article';
             }
             if (1 == $model->shown_on_menu) {
-                $data1["{$model_type}_{$model->id}"] = [
+                $data1["{$model_type}__{$model->id}"] = [
                     'label' => $model->name,
                     'url' => $model->getUrl(),
                     'parentKey' => !$model->hasAttribute('parent_id')
                         ? null
-                        : ($model->parent_id ? "{$model_type}_{$model->parent_id}" : null),
+                        : ($model->parent_id ? "{$model_type}__{$model->parent_id}" : null),
                 ];
             }
         }
