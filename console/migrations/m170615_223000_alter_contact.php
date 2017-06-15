@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m170615_220000_alter_contact extends Migration
+class m170615_223000_alter_contact extends Migration
 {
     public function up()
     {
@@ -15,8 +15,12 @@ class m170615_220000_alter_contact extends Migration
         $table = '{{%contact}}';
 
         if ($this->db->schema->getTableSchema($table, true) !== null) {
-            $this->addColumn($table, 'creator_id', $this->integer());
-            $this->addForeignKey('contact_ibfk_2', $table, 'creator_id', 'user', 'id', 'SET NULL', 'CASCADE');
+            try {
+                $this->addColumn($table, 'creator_id', $this->integer());
+                $this->addForeignKey('contact_ibfk_2', $table, 'creator_id', 'user', 'id', 'SET NULL', 'CASCADE');
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
         }
     }
 
