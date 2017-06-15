@@ -10,9 +10,9 @@ namespace frontend\controllers;
 
 use common\models\UrlParam;
 use frontend\models\Article;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Yii;
 use frontend\models\Crawler;
+use yii\web\NotFoundHttpException;
 
 class CrawlerController extends BaseController
 {
@@ -29,7 +29,7 @@ class CrawlerController extends BaseController
                     return $this->redirect($article->getUrl, 301);
                 }
             }
-            echo $crawler->content;
+            return $crawler->content;
         }
         throw new NotFoundHttpException();
     }
