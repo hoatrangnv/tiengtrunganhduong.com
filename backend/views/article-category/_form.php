@@ -122,9 +122,11 @@ $imageDropDownListOptions = [
 
             <?php echo $form->field($model, 'active')->checkbox() ?>
 
-            <?php echo $form->field($model, 'visible')->checkbox() ?>
+            <?php //echo $form->field($model, 'visible')->checkbox() ?>
 
             <?php echo $form->field($model, 'featured')->checkbox() ?>
+
+            <?php echo $form->field($model, 'shown_on_menu')->checkbox() ?>
 
             <?php echo $form->field($model, 'long_description')->textarea(['rows' => 6]) ?>
         </div>

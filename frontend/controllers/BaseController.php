@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Article;
 use frontend\models\ArticleCategory;
 use Yii;
 use yii\web\Controller;
@@ -69,13 +70,31 @@ class BaseController extends Controller
 //                ];
 //            }
 //        }
+        $models = array_merge(
+            array_filter(ArticleCategory::indexData(), function ($item) {
+                return 1 == $item->shown_on_menu;
+            }),
+            Article::find()->where(['shown_on_menu' => 1])->allPublished()
+        );
+        usort($models, function ($a, $b) {
+//            if (!property_exists($a, 'sort_order') || !property_exists($b, 'sort_order')) {
+//                return 0;
+//            }
+            return $a->sort_order - $b->sort_order;
+        });
         $data1 = [];
-        foreach (ArticleCategory::indexData() as $category) {
-            if ($category->featured == 1) {
-                $data1[$category->id] = [
-                    'label' => $category->name,
-                    'url' => $category->getUrl(),
-                    'parentKey' => $category->parent_id
+        foreach ($models as $model) {
+            $model_type = '';
+            if ($model instanceof ArticleCategory) {
+                $model_type = 'category';
+            } else if ($model instanceof Article) {
+                $model_type = 'article';
+            }
+            if ($model->shown_on_menu == 1) {
+                $data1["{$model_type}_{$model->id}"] = [
+                    'label' => $model->name,
+                    'url' => $model->getUrl(),
+                    'parentKey' => !$model->parent_id ? null : "{$model_type}_{$model->parent_id}",
                 ];
             }
         }

@@ -18,7 +18,7 @@ class ArticleCategorySearch extends ArticleCategory
     public function rules()
     {
         return [
-            [['id', 'creator_id', 'updater_id', 'image_id', 'parent_id', 'active', 'visible', 'featured', 'type', 'status', 'sort_order', 'create_time', 'update_time'], 'integer'],
+            [['id', 'creator_id', 'updater_id', 'image_id', 'parent_id', 'active', 'visible', 'featured', 'shown_on_menu', 'type', 'status', 'sort_order', 'create_time', 'update_time'], 'integer'],
             [['slug', 'name', 'meta_title', 'meta_description', 'meta_keywords', 'description', 'long_description'], 'safe'],
         ];
     }
@@ -67,6 +67,7 @@ class ArticleCategorySearch extends ArticleCategory
             'active' => $this->active,
             'visible' => $this->visible,
             'featured' => $this->featured,
+            'shown_on_menu' => $this->shown_on_menu,
             'type' => $this->type,
             'status' => $this->status,
             'sort_order' => $this->sort_order,

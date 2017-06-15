@@ -59,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
              'active',
              'visible',
              'featured',
+             'shown_on_menu',
             // 'type',
             // 'status',
              'sort_order',

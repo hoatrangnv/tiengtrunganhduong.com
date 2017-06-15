@@ -29,6 +29,7 @@ use yii\validators\DateValidator;
  * @property integer $active
  * @property integer $visible
  * @property integer $featured
+ * @property integer $shown_on_menu
  * @property integer $type
  * @property integer $status
  * @property integer $sort_order
@@ -126,7 +127,8 @@ class Article extends \common\models\MyActiveRecord
     public function rules()
     {
         return [
-            [[/*'creator_id', 'updater_id',*/ 'category_id', 'image_id', 'active', 'visible', 'featured',
+            [[/*'creator_id', 'updater_id',*/ 'category_id', 'image_id',
+                'active', 'visible', 'featured', 'shown_on_menu',
                 'status', 'type', 'sort_order', /*'create_time', 'update_time',*/
                 'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['slug', 'name', 'content'], 'required'],
@@ -163,6 +165,7 @@ class Article extends \common\models\MyActiveRecord
             'active' => 'Active',
             'visible' => 'Visible',
             'featured' => 'Featured',
+            'shown_on_menu' => 'Shown On Menu',
             'status' => 'Status',
             'type' => 'Type',
             'sort_order' => 'Sort Order',

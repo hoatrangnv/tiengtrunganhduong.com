@@ -67,7 +67,6 @@ $this->params['breadcrumbs'][] = $this->title;
 //                }
 //            ],
             // 'sub_content:ntext',
-            // 'visible',
             // 'hot',
             // 'status',
             // 'type',
@@ -89,6 +88,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return '<span class="label label-default">inactive</span>';
                 }
             ],
+
+            'shown_on_menu',
 
             [
                 'class' => ActionColumn::className(),

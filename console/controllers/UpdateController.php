@@ -12,12 +12,13 @@ namespace console\controllers;
 use backend\models\Image;
 use frontend\models\ArticleCategory;
 use yii\console\Controller;
+use yii\helpers\VarDumper;
 
 class UpdateController extends Controller
 {
     public function actionArticleCategories()
     {
-        foreach (ArticleCategory::find()->where(['parent_id' => null])->all() as $category) {
+        foreach (ArticleCategory::find()->all() as $category) {
 //            if ($category->type == ArticleCategory::TYPE_SERVICE) {
 //                $category->parent_id = 41;
 //                if ($category->save()) {
@@ -26,13 +27,19 @@ class UpdateController extends Controller
 //                    var_dump($category->getErrors());
 //                }
 //            }
-            if ($category->featured == 1) {
-                foreach ($category->findChildren() as $child) {
-                    $child->featured = 1;
-                    if ($child->save()) {
-                        echo $child->name . "\n";
-                    }
-                }
+//            if ($category->featured == 1) {
+//                foreach ($category->findChildren() as $child) {
+//                    $child->featured = 1;
+//                    if ($child->save()) {
+//                        echo $child->name . "\n";
+//                    }
+//                }
+//            }
+            $category->shown_on_menu = $category->featured;
+            if ($category->save()) {
+                echo $category->name . "\n";
+            } else {
+                echo VarDumper::dumpAsString($category->errors) . "\n";
             }
         }
     }
@@ -64,4 +71,5 @@ class UpdateController extends Controller
         }
         echo "\nTotal: $total; Success: $successes\n";
     }
+
 }
