@@ -55,7 +55,7 @@ return [
                 // Article
                 // see: on beforeRequest
                 // Crawler
-                ['pattern' => '<' . UrlParam::ALIAS . ':(.*)>', 'route' => 'crawler/view'],
+                ['pattern' => '<' . UrlParam::ALIAS . ':(.*/)>', 'route' => 'crawler/view'],
             ],
         ],
         'assetManager' => [
