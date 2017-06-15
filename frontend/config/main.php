@@ -54,6 +54,8 @@ return [
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
                 // see: on beforeRequest
+                // Crawler
+                ['pattern' => '<' . UrlParam::ALIAS . ':(.*)>', 'route' => 'crawler/view'],
             ],
         ],
         'assetManager' => [

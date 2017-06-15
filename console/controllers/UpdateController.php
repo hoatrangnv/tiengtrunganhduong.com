@@ -144,7 +144,7 @@ class UpdateController extends Controller
                     echo "There is no h1 or content was found\n";
                     continue;
                 }
-                $crawler->target_model_type = 1;
+                $crawler->target_model_type = Crawler::TARGET_MODEL_TYPE__ARTICLE;
                 $crawler->target_model_slug = $slug;
                 if ($crawler->save()) {
                     $article_type_num++;

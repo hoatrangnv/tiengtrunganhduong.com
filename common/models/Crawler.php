@@ -19,6 +19,9 @@ use Yii;
  */
 class Crawler extends \common\models\MyActiveRecord
 {
+    const TARGET_MODEL_TYPE__ARTICLE = 1;
+    const TARGET_MODEL_TYPE__ARTICLE_CATEGORY = 2;
+
     /**
      * @inheritdoc
      */
