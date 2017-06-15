@@ -471,7 +471,6 @@ article div + div
     max-height: calc(3 * 1.4em);
 }
 
-
 /**
  * ICON
  */
@@ -859,6 +858,13 @@ form.primary .form-group.has-success textarea {
     border-color: #40cc88;
 }
 
+/**
+ * SLIDER
+ */
+.slider {
+    margin-top: -1rem;
+}
+
 @media screen and (max-width: 860px)
 {
     .main-content,
@@ -1146,13 +1152,6 @@ form.primary .form-group.has-success textarea {
     }
     .grid-view.sm-g8 > ul > li {
         width: calc(100% / 8 - 1em);
-    }
-
-    /**
-     * SLIDER
-     */
-    .slider {
-        margin-top: -1rem;
     }
 
 }
