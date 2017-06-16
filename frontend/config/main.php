@@ -54,8 +54,7 @@ return [
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
-                ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
-                ['pattern' => '<' . UrlParam::ALIAS . '>/search.htm', 'route' => 'article/tag'],
+                ['pattern' => '<' . UrlParam::KEYWORD . ':(.*(|[\/]).*)>/<' . UrlParam::ALIAS . ':(tags|search)>.htm', 'route' => 'article/search'],
                 // see: on beforeRequest
                 // Crawler
                 ['pattern' => '<' . UrlParam::ALIAS . ':(.*[\/].*)>', 'route' => 'crawler/view'],

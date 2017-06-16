@@ -16,5 +16,5 @@ class UrlParam
     const CATEGORY_SLUG = 'category_slug';
     const ALIAS = 'alias';
     const PAGE = 'page';
-    const ACTION = 'action';
+    const KEYWORD = 'keyword';
 }

@@ -6,7 +6,7 @@ use frontend\models\Image;
 /**
  * @var string $title
  * @var bool $hasMore
- * @var string $categorySlug
+ * @var string $slug
  * @var \frontend\models\Article[] $models
  *
  */
@@ -36,7 +36,7 @@ use frontend\models\Image;
                 if (!data.hasMore) {
                     button.parentNode.removeChild(button);
                 }
-                setObjectOrientation();
+                setObjectOrientations();
                 ellipsisTexts();
 //                formatNumbers();
             }
@@ -44,6 +44,6 @@ use frontend\models\Image;
         xhttp.open("POST", "<?= Url::to(['article/ajax-get-items'], true) ?>");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("<?= Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken
-        . ('&' . UrlParam::SLUG . "=$categorySlug") . ('&' . UrlParam::ACTION . '=category') ?>");
+        . ('&' . UrlParam::SLUG . "=$slug") . ('&' . UrlParam::ALIAS . '=category') ?>");
     }
 </script>

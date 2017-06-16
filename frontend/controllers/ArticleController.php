@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\models\MyActiveQuery;
 use common\models\UrlParam;
 use frontend\models\ArticleCategory;
 use Yii;
@@ -48,47 +49,26 @@ class ArticleController extends BaseController
         $models = $this->findModels($category->getAllArticles());
         return $this->render('index', [
             'title' => $category->name,
-            'categorySlug' => $category->slug,
+            'slug' => $category->slug,
             'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
     }
 
-    public function actionTag()
+    public function actionSearch()
     {
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
-        if (!$alias) {
+        $_keyword = Yii::$app->request->get(UrlParam::KEYWORD);
+        if (!$alias || !$_keyword) {
             throw new NotFoundHttpException();
         }
-        $title = str_replace('-', ' ', $alias);
-        $pattern = str_replace(
-            [
-                'a',
-                'd',
-                'e',
-                'i',
-                'o',
-                'u',
-                'y',
-            ],
-            [
-                '(a|á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ)',
-                '(d|đ)',
-                '(e|é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ)',
-                '(i|í|ì|ỉ|ĩ|ị)',
-                '(o|ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ)',
-                '(u|ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự)',
-                '(y|ý|ỳ|ỷ|ỹ|ỵ)',
-            ],
-            strtolower($title)
-        );
-        $query = Article::find()
-            ->where(['REGEXP', 'CAST(`name` AS BINARY)', $pattern]);
+        $keyword = str_replace('-', ' ', $_keyword);
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
+        $query = $this->searchByKeyword($keyword);
         $models = $this->findModels($query);
-        return $this->render('tag', [
-            'title' => 'Tag: ' . $title,
-            'tagAlias' => $alias,
+        return $this->render('search', [
+            'title' => strtoupper($alias) . ': ' . $keyword,
+            'keyword' => $keyword,
             'models' => $models,
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
@@ -100,7 +80,7 @@ class ArticleController extends BaseController
         if (!Yii::$app->request->isPost) {
             throw new BadRequestHttpException();
         }
-        $action = Yii::$app->request->getBodyParam(UrlParam::ACTION);
+        $action = Yii::$app->request->getBodyParam(UrlParam::ALIAS);
         switch ($action) {
             case 'category':
                 $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
@@ -112,35 +92,9 @@ class ArticleController extends BaseController
                     ? $category->getAllArticles()
                     : Article::find()->where('0=1');
                 break;
-            case 'tag':
-                $alias = Yii::$app->request->getBodyParam(UrlParam::ALIAS);
-                if (!$alias) {
-                    throw new NotFoundHttpException();
-                }
-                $alias = str_replace('-', ' ', $alias);
-                $pattern = str_replace(
-                    [
-                        'a',
-                        'd',
-                        'e',
-                        'i',
-                        'o',
-                        'u',
-                        'y',
-                    ],
-                    [
-                        '(a|á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ)',
-                        '(d|đ)',
-                        '(e|é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ)',
-                        '(i|í|ì|ỉ|ĩ|ị)',
-                        '(o|ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ)',
-                        '(u|ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự)',
-                        '(y|ý|ỳ|ỷ|ỹ|ỵ)',
-                    ],
-                    strtolower($alias)
-                );
-                $query = Article::find()
-                    ->where(['REGEXP', 'CAST(`name` AS BINARY)', $pattern]);
+            case 'search':
+                $keyword = Yii::$app->request->getBodyParam(UrlParam::KEYWORD);
+                $query = $this->searchByKeyword($keyword);
                 break;
             default:
                 $query = Article::find();
@@ -184,10 +138,10 @@ class ArticleController extends BaseController
     }
 
     /**
-     * @param Query $query
+     * @param MyActiveQuery $query
      * @return Article[]
      */
-    public function findModels(Query $query)
+    public function findModels(MyActiveQuery $query)
     {
         $page = Yii::$app->session->get(self::SESSION_PAGE_KEY);
         return $query
@@ -195,5 +149,35 @@ class ArticleController extends BaseController
             ->offset(($page - 1) * static::ITEMS_PER_PAGE)
             ->orderBy('publish_time desc')
             ->allPublished();
+    }
+
+    /**
+     * @param $keyword
+     * @return MyActiveQuery
+     */
+    public function searchByKeyword($keyword)
+    {
+        $pattern = str_replace(
+            [
+                'a',
+                'd',
+                'e',
+                'i',
+                'o',
+                'u',
+                'y',
+            ],
+            [
+                '(a|á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ)',
+                '(d|đ)',
+                '(e|é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ)',
+                '(i|í|ì|ỉ|ĩ|ị)',
+                '(o|ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ)',
+                '(u|ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự)',
+                '(y|ý|ỳ|ỷ|ỹ|ỵ)',
+            ],
+            strtolower($keyword)
+        );
+        return Article::find()->where(['REGEXP', 'CAST(`name` AS BINARY)', $pattern]);
     }
 }
