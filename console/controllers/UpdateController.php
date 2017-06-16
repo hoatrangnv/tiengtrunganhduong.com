@@ -106,6 +106,7 @@ class UpdateController extends Controller
         $crawlers = Crawler::find()
             ->where(['!=', 'content', ''])
             ->andWhere(['not like', 'url', 'http://m.tiengtrunganhduong.com%'])
+            ->andWhere(['!=', 'target_model_type', Crawler::TARGET_MODEL_TYPE__ARTICLE])
             ->offset($this->offset)
             ->limit($this->limit)
             ->all();
@@ -124,7 +125,7 @@ class UpdateController extends Controller
                 continue;
             }
 
-            $slug = substr($last_slug, 0, -4);
+            $slug = strtolower(substr($last_slug, 0, -4));
             echo "Slug: $slug\n";
 
             try {
@@ -138,13 +139,13 @@ class UpdateController extends Controller
                     'removeStyles' => false,
                     'preserveLineBreaks' => true,
                 ]);
-                $h1 = $dom->find('h1.nameOtherNew', 0);
-                $content = $dom->find('div.contentNewTop', 0);
+                $h1 = $dom->find('.nameNew, .nameNewTop', 0);
+                $content = $dom->find('.timeNew, .timeNewTop', 0);
                 if (!$h1 || !$content) {
-                    echo "There is no h1 or content was found\n";
+                    echo "There is no .nameNew(Top) or .timeNew(Top) or content was found\n";
                     continue;
                 }
-                $crawler->target_model_type = Crawler::TARGET_MODEL_TYPE__ARTICLE;
+                $crawler->target_model_type = Crawler::TARGET_MODEL_TYPE__ARTICLE_CATEGORY;
                 $crawler->target_model_slug = $slug;
                 if ($crawler->save()) {
                     $article_type_num++;
@@ -161,7 +162,7 @@ class UpdateController extends Controller
             }
         }
         echo "\n==============================\n";
-        echo "Articles: $article_type_num / $total\n";
+        echo "Article Categories: $article_type_num / $total\n";
         echo "Errors:\n";
         var_dump($errors);
         echo "\n";
