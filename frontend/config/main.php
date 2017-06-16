@@ -43,16 +43,17 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                // Home page
+                // Site
                 ['pattern' => '', 'route' => 'site/index'],
                 ['pattern' => '/', 'route' => 'site/index'],
-                // Contact
+                ['pattern' => 'site/captcha', 'route' => 'site/captcha'],
                 ['pattern' => 'lien-he.htm', 'route' => 'site/contact'],
                 // Sitemap
                 ['pattern' => 'sitemap.xml', 'route' => 'sitemap/index'],
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
+                ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
                 // see: on beforeRequest
                 // Crawler
                 ['pattern' => '<' . UrlParam::ALIAS . ':(.*[\/].*)>', 'route' => 'crawler/view'],
