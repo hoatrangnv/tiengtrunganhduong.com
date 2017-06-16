@@ -178,6 +178,6 @@ class ArticleController extends BaseController
             ],
             strtolower($keyword)
         );
-        return Article::find()->where(['REGEXP', 'CAST(`name` AS BINARY)', $pattern]);
+        return Article::find()->where(['REGEXP', 'CAST(`meta_keywords` AS BINARY)', $pattern]);
     }
 }

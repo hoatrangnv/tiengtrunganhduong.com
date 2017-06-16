@@ -16,6 +16,7 @@ $this->registerMetaTag([
     'name' => 'viewport',
     'content' => 'width=device-width, initial-scale=1'
 ]);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

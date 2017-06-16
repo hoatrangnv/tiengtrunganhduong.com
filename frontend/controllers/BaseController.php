@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 use frontend\models\Article;
 use frontend\models\ArticleCategory;
+use frontend\models\SeoInfo;
 use Yii;
 use yii\web\Controller;
 use vanquyet\menu\Menu;
@@ -20,6 +21,14 @@ class BaseController extends Controller
 {
     public $menu;
     public $screen;
+    public $meta = [
+        'description' => '',
+        'keywords' => '',
+        'robots' => 'index, follow',
+        'geo.region' => 'VN-HN',
+        'geo.placename' => 'Hà Nội',
+        'geo.position' => '21.033953;105.785002',
+    ];
 
     public function beforeAction($action)
     {
@@ -83,6 +92,11 @@ class BaseController extends Controller
 
         $this->menu = new Menu();
         $this->menu->init(['d0' => $data0, 'd1' => $data1, 'd2' => $data2]);
+
+        // @TODO: Find Seo Info
+        if ($seo = SeoInfo::findOneByRequestInfo()) {
+
+        }
 
         return parent::beforeAction($action);
     }

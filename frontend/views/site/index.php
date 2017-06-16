@@ -5,15 +5,15 @@ use yii\helpers\Url;
 use frontend\models\ArticleCategory;
 
 /* @var $this yii\web\View */
-$this->title = 'Web development tips & code snippets';
-$this->registerMetaTag([
-    'name' => 'description',
-    'content' => 'Web development tips & code snippets with HTML, CSS, JavaScript, PHP.'
-]);
-$this->registerLinkTag([
-    'rel' => 'canonical',
-    'href' => Url::home(true)
-]);
+//$this->title = 'Web development tips & code snippets';
+//$this->registerMetaTag([
+//    'name' => 'description',
+//    'content' => 'Web development tips & code snippets with HTML, CSS, JavaScript, PHP.'
+//]);
+//$this->registerLinkTag([
+//    'rel' => 'canonical',
+//    'href' => Url::home(true)
+//]);
 ?>
 
 <?php
