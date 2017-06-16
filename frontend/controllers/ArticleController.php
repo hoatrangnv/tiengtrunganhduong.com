@@ -69,7 +69,7 @@ class ArticleController extends BaseController
         return $this->render('search', [
             'title' => strtoupper($alias) . ': ' . $keyword,
             'keyword' => $keyword,
-            'models' => $models,
+            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
     }
