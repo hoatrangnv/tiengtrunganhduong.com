@@ -43,10 +43,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                // Home page
+                // Site
                 ['pattern' => '', 'route' => 'site/index'],
                 ['pattern' => '/', 'route' => 'site/index'],
-                // Contact
+                ['pattern' => 'site/captcha', 'route' => 'site/captcha'],
                 ['pattern' => 'lien-he.htm', 'route' => 'site/contact'],
                 // Sitemap
                 ['pattern' => 'sitemap.xml', 'route' => 'sitemap/index'],
