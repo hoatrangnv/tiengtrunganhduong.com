@@ -104,9 +104,10 @@ class UpdateController extends Controller
          * @var Crawler[] $crawlers
          */
         $crawlers = Crawler::find()
-            ->where(['!=', 'content', ''])
-            ->andWhere(['is', 'target_model_type', null])
+//            ->where(['!=', 'content', ''])
             ->andWhere(['not like', 'url', 'http://m.tiengtrunganhduong.com%'])
+            ->andWhere(['=', 'target_model_type', Crawler::TARGET_MODEL_TYPE__ARTICLE_CATEGORY])
+            ->andWhere(['or', ['=', 'target_model_slug', 'search'], ['=', 'target_model_slug', 'tags']])
             ->offset($this->offset)
             ->limit($this->limit)
             ->all();
@@ -130,27 +131,30 @@ class UpdateController extends Controller
             echo "Slug: $slug\n";
 
             try {
-                $dom = new Dom();
-                $dom->loadStr($crawler->content, [
-                    'whitespaceTextNode' => true,
-                    'strict' => false,
-                    'enforceEncoding' => null,
-                    'cleanupInput' => false,
-                    'removeScripts' => false,
-                    'removeStyles' => false,
-                    'preserveLineBreaks' => true,
-                ]);
-                $h1 = $dom->find('.nameNew, .nameNewTop, .descNew, .descNewTop', 0);
-                $content = $dom->find('.timeNew, .timeNewTop', 0);
-                if (!$h1 || !$content) {
-                    echo "There is no .nameNew(Top) or .timeNew(Top) or content was found\n";
-                    continue;
-                }
-                $crawler->target_model_type = Crawler::TARGET_MODEL_TYPE__ARTICLE_CATEGORY;
-                $crawler->target_model_slug = $slug;
+//                $dom = new Dom();
+//                $dom->loadStr($crawler->content, [
+//                    'whitespaceTextNode' => true,
+//                    'strict' => false,
+//                    'enforceEncoding' => null,
+//                    'cleanupInput' => false,
+//                    'removeScripts' => false,
+//                    'removeStyles' => false,
+//                    'preserveLineBreaks' => true,
+//                ]);
+//                $h1 = $dom->find('.nameNew, .nameNewTop, .descNew, .descNewTop', 0);
+//                $content = $dom->find('.timeNew, .timeNewTop', 0);
+//                if (!$h1 || !$content) {
+//                    echo "There is no .nameNew(Top) or .timeNew(Top) or content was found\n";
+//                    continue;
+//                }
+                $crawler->target_model_type = null;
+                $crawler->target_model_slug = null;
+//                $crawler->target_model_type = Crawler::TARGET_MODEL_TYPE__ARTICLE_CATEGORY;
+//                $crawler->target_model_slug = $slug;
+//
                 if ($crawler->save()) {
                     $article_type_num++;
-                    echo $this->stdout("Save crawler of Article slug = $slug", Console::FG_GREEN);
+                    echo $this->stdout("Save crawler of Category Article slug = $slug", Console::FG_GREEN);
                     echo "\n";
                 } else {
                     echo $crawler->getErrors() . "\n";
