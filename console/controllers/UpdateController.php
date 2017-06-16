@@ -105,14 +105,15 @@ class UpdateController extends Controller
          */
         $crawlers = Crawler::find()
             ->where(['!=', 'content', ''])
+            ->andWhere(['is', 'target_model_type', null])
             ->andWhere(['not like', 'url', 'http://m.tiengtrunganhduong.com%'])
-            ->andWhere(['!=', 'target_model_type', Crawler::TARGET_MODEL_TYPE__ARTICLE])
             ->offset($this->offset)
             ->limit($this->limit)
             ->all();
         $total = count($crawlers);
         $article_type_num = 0;
         $errors = [];
+//        if (false)
         foreach ($crawlers as $i => $crawler) {
 
             echo "\n------------[ $i ]------------/$total\n";
@@ -139,7 +140,7 @@ class UpdateController extends Controller
                     'removeStyles' => false,
                     'preserveLineBreaks' => true,
                 ]);
-                $h1 = $dom->find('.nameNew, .nameNewTop', 0);
+                $h1 = $dom->find('.nameNew, .nameNewTop, .descNew, .descNewTop', 0);
                 $content = $dom->find('.timeNew, .timeNewTop', 0);
                 if (!$h1 || !$content) {
                     echo "There is no .nameNew(Top) or .timeNew(Top) or content was found\n";
