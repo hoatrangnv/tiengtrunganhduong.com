@@ -36,14 +36,14 @@ use frontend\models\Image;
                 if (!data.hasMore) {
                     button.parentNode.removeChild(button);
                 }
-//                setObjectOrientation();
-//                ellipsisTexts();
+                setObjectOrientation();
+                ellipsisTexts();
 //                formatNumbers();
             }
         };
         xhttp.open("POST", "<?= Url::to(['article/ajax-get-items'], true) ?>");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("<?= Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken
-        . (isset($categorySlug) ? '&' . UrlParam::CATEGORY_SLUG . "=$categorySlug" : '') ?>");
+        . ('&' . UrlParam::SLUG . "=$categorySlug") . ('&' . UrlParam::ACTION . '=category') ?>");
     }
 </script>

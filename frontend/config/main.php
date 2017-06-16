@@ -54,6 +54,8 @@ return [
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
+                ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
+                ['pattern' => '<' . UrlParam::ALIAS . '>/search.htm', 'route' => 'article/tag'],
                 // see: on beforeRequest
                 // Crawler
                 ['pattern' => '<' . UrlParam::ALIAS . ':(.*[\/].*)>', 'route' => 'crawler/view'],
@@ -81,7 +83,6 @@ return [
     'on beforeRequest' => function ($event) {
         // Article URL config
         $urlConfig =  [
-            ['pattern' => '<' . UrlParam::ALIAS . '>/tags.htm', 'route' => 'article/tag'],
             ['pattern' => '<' . UrlParam::SLUG . ':('
                 . implode('|', \yii\helpers\ArrayHelper::getColumn(
                     \frontend\models\ArticleCategory::indexData(), 'slug'))

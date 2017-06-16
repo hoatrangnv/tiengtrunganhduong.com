@@ -57,7 +57,41 @@ class ArticleController extends BaseController
     public function actionTag()
     {
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
-        return $this->render('tag', []);
+        if (!$alias) {
+            throw new NotFoundHttpException();
+        }
+        $title = str_replace('-', ' ', $alias);
+        $pattern = str_replace(
+            [
+                'a',
+                'd',
+                'e',
+                'i',
+                'o',
+                'u',
+                'y',
+            ],
+            [
+                '(a|á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ)',
+                '(d|đ)',
+                '(e|é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ)',
+                '(i|í|ì|ỉ|ĩ|ị)',
+                '(o|ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ)',
+                '(u|ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự)',
+                '(y|ý|ỳ|ỷ|ỹ|ỵ)',
+            ],
+            strtolower($title)
+        );
+        $query = Article::find()
+            ->where(['REGEXP', 'CAST(`name` AS BINARY)', $pattern]);
+        Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
+        $models = $this->findModels($query);
+        return $this->render('tag', [
+            'title' => 'Tag: ' . $title,
+            'tagAlias' => $alias,
+            'models' => $models,
+            'hasMore' => isset($models[static::ITEMS_PER_PAGE])
+        ]);
     }
 
     public function actionAjaxGetItems()
@@ -66,9 +100,51 @@ class ArticleController extends BaseController
         if (!Yii::$app->request->isPost) {
             throw new BadRequestHttpException();
         }
-        $cat_slug = Yii::$app->request->getBodyParam(UrlParam::CATEGORY_SLUG);
-        $category = ArticleCategory::findOneBySlug($cat_slug);
-        $query = $category ? $category->getAllArticles() : Article::find();
+        $action = Yii::$app->request->getBodyParam(UrlParam::ACTION);
+        switch ($action) {
+            case 'category':
+                $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
+                if (!$slug) {
+                    throw new NotFoundHttpException();
+                }
+                $category = ArticleCategory::findOneBySlug($slug);
+                $query = $category
+                    ? $category->getAllArticles()
+                    : Article::find()->where('0=1');
+                break;
+            case 'tag':
+                $alias = Yii::$app->request->getBodyParam(UrlParam::ALIAS);
+                if (!$alias) {
+                    throw new NotFoundHttpException();
+                }
+                $alias = str_replace('-', ' ', $alias);
+                $pattern = str_replace(
+                    [
+                        'a',
+                        'd',
+                        'e',
+                        'i',
+                        'o',
+                        'u',
+                        'y',
+                    ],
+                    [
+                        '(a|á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ)',
+                        '(d|đ)',
+                        '(e|é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ)',
+                        '(i|í|ì|ỉ|ĩ|ị)',
+                        '(o|ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ)',
+                        '(u|ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự)',
+                        '(y|ý|ỳ|ỷ|ỹ|ỵ)',
+                    ],
+                    strtolower($alias)
+                );
+                $query = Article::find()
+                    ->where(['REGEXP', 'CAST(`name` AS BINARY)', $pattern]);
+                break;
+            default:
+                $query = Article::find();
+        }
 
         $page = Yii::$app->session->get(self::SESSION_PAGE_KEY);
         Yii::$app->session->set(self::SESSION_PAGE_KEY, $page + 1);

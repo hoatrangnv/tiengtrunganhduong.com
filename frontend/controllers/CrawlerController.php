@@ -35,8 +35,6 @@ class CrawlerController extends BaseController
                 }
             }
             return $crawler->content;
-        } else {
-            return 'Khong tim thay crawler';
         }
         throw new NotFoundHttpException();
     }
