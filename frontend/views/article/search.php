@@ -16,7 +16,12 @@ use frontend\models\Image;
  * @var \frontend\models\Article[] $models
  *
  */
-
+$this->title = $title;
+$this->params['breadcrumbs'][] = $this->title;
+$this->registerMetaTag([
+    'name' => 'robots',
+    'content' => 'noindex, nofollow'
+]);
 ?>
 <div class="news-list">
     <h2 class="title"><?= $title ?></h2>
