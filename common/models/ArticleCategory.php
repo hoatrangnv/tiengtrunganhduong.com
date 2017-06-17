@@ -47,33 +47,6 @@ class ArticleCategory extends \common\models\MyActiveRecord
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'creator_id',
-                'updatedByAttribute' => 'updater_id',
-            ],
-            [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'create_time',
-                'updatedAtAttribute' => 'update_time',
-                'value' => time(),
-            ],
-//            [
-//                'class' => MySluggableBehavior::className(),
-//                'attribute' => 'name',
-//                'slugAttribute' => 'slug',
-//                'immutable' => false,
-//                'ensureUnique' => true,
-//            ],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'article_category';

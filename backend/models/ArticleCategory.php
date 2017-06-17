@@ -10,6 +10,8 @@ namespace backend\models;
 
 
 use yii\helpers\ArrayHelper;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * Class ArticleCategory
@@ -102,4 +104,30 @@ class ArticleCategory extends \common\models\ArticleCategory
         return $this->hasMany(ArticleCategory::className(), ['parent_id' => 'id']);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'creator_id',
+                'updatedByAttribute' => 'updater_id',
+            ],
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'create_time',
+                'updatedAtAttribute' => 'update_time',
+                'value' => time(),
+            ],
+//            [
+//                'class' => MySluggableBehavior::className(),
+//                'attribute' => 'name',
+//                'slugAttribute' => 'slug',
+//                'immutable' => false,
+//                'ensureUnique' => true,
+//            ],
+        ];
+    }
 }
