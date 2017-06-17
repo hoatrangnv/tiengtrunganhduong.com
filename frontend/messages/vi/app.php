@@ -9,7 +9,7 @@
  * Each array element represents the translation (value) of a message (key).
  * If the value is empty, the message is considered as not translated.
  * Messages that no longer need translation will have their translations
- * enclosed between a pair of '@@' marks.
+ * enclosed between a pair of '' marks.
  *
  * Message string can be used with plural forms format. Check i18n section
  * of the guide for details.
@@ -29,9 +29,9 @@ return [
     'Thank you for contacting us. We will respond to you as soon as possible.' => 'Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ trả lời sớm nhất có thể.',
     'There was an error sending your message.' => 'Đã có lỗi khi gửi tin nhắn của bạn.',
     'Verification Code' => 'Mã xác thực',
-    'Courses and tuition fees' => '@@Khóa học và học phí@@',
-    'Documents' => '@@Tài liệu@@',
-    'News' => '@@Tin tức@@',
+    'Courses and tuition fees' => 'Khóa học và học phí',
+    'Documents' => 'Tài liệu',
+    'News' => 'Tin tức',
     'Chat with us' => 'Chat với chúng tôi',
     'Home page' => 'Trang chủ',
     'Related articles' => 'Bài viết liên quan',

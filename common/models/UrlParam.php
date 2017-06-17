@@ -15,6 +15,8 @@ class UrlParam
     const PARENT_SLUG = 'parent_slug';
     const CATEGORY_SLUG = 'category_slug';
     const ALIAS = 'alias';
+    const TYPE = 'type';
+    const ACTION_ID = 'action_id';
     const PAGE = 'page';
     const KEYWORD = 'keyword';
 }

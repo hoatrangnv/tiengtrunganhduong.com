@@ -54,7 +54,9 @@ return [
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
-                ['pattern' => '<' . UrlParam::KEYWORD . ':(.*(|[\/]).*)>/<' . UrlParam::ALIAS . ':(tags|search)>.htm', 'route' => 'article/search'],
+                ['pattern' => 'tin-tuc.htm', 'route' => 'article/index'],
+                ['pattern' => '<' . UrlParam::ALIAS . ':(.*(|[\/]).*)>/tags.htm', 'route' => 'article/tags'],
+                ['pattern' => '<' . UrlParam::ALIAS . ':(.*(|[\/]).*)>/search.htm', 'route' => 'article/search'],
                 // see: on beforeRequest
                 // Crawler
                 ['pattern' => '<' . UrlParam::ALIAS . ':(.*[\/].*)>', 'route' => 'crawler/view'],

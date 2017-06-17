@@ -41,6 +41,17 @@ class ArticleController extends BaseController
         ]);
     }
 
+    public function actionIndex()
+    {
+        Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
+        $models = $this->findModels(Article::find());
+        return $this->render('index', [
+            'title' => Yii::t('app', 'News'),
+            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
+            'hasMore' => isset($models[static::ITEMS_PER_PAGE])
+        ]);
+    }
+
     public function actionCategory()
     {
         $slug = Yii::$app->request->get(UrlParam::SLUG);
@@ -58,16 +69,35 @@ class ArticleController extends BaseController
     public function actionSearch()
     {
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
-        $_keyword = Yii::$app->request->get(UrlParam::KEYWORD);
-        if (!$alias || !$_keyword) {
+        if (!$alias) {
             throw new NotFoundHttpException();
         }
-        $keyword = str_replace('-', ' ', $_keyword);
+        $kwd_arr = explode('/', $alias);
+        $keyword = str_replace('-', ' ', $kwd_arr[0]);
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
-        $query = $this->searchByKeyword($keyword);
+        $query = $this->searchByKeyword($keyword, 'name');
         $models = $this->findModels($query);
-        return $this->render('search', [
-            'title' => strtoupper($alias) . ': ' . $keyword,
+        return $this->render('index', [
+            'title' => 'Kết quả tìm kiếm: ' . $keyword,
+            'keyword' => $keyword,
+            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
+            'hasMore' => isset($models[static::ITEMS_PER_PAGE])
+        ]);
+    }
+
+    public function actionTags()
+    {
+        $alias = Yii::$app->request->get(UrlParam::ALIAS);
+        if (!$alias) {
+            throw new NotFoundHttpException();
+        }
+        $kwd_arr = explode('/', $alias);
+        $keyword = str_replace('-', ' ', $kwd_arr[0]);
+        Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
+        $query = $this->searchByKeyword($keyword, 'meta_keywords');
+        $models = $this->findModels($query);
+        return $this->render('index', [
+            'title' => 'Tags: ' . $keyword,
             'keyword' => $keyword,
             'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
@@ -80,13 +110,13 @@ class ArticleController extends BaseController
         if (!Yii::$app->request->isPost) {
             throw new BadRequestHttpException();
         }
-        $action = Yii::$app->request->getBodyParam(UrlParam::ALIAS);
-        switch ($action) {
+        $action_id = Yii::$app->request->getBodyParam(UrlParam::ACTION_ID);
+        switch ($action_id) {
+            case 'index':
+                $query = Article::find();
+                break;
             case 'category':
                 $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
-                if (!$slug) {
-                    throw new NotFoundHttpException();
-                }
                 $category = ArticleCategory::findOneBySlug($slug);
                 $query = $category
                     ? $category->getAllArticles()
@@ -94,10 +124,14 @@ class ArticleController extends BaseController
                 break;
             case 'search':
                 $keyword = Yii::$app->request->getBodyParam(UrlParam::KEYWORD);
-                $query = $this->searchByKeyword($keyword);
+                $query = $this->searchByKeyword($keyword, 'name');
+                break;
+            case 'tags':
+                $keyword = Yii::$app->request->getBodyParam(UrlParam::KEYWORD);
+                $query = $this->searchByKeyword($keyword, 'meta_keywords');
                 break;
             default:
-                $query = Article::find();
+                throw new NotFoundHttpException();
         }
 
         $page = Yii::$app->session->get(self::SESSION_PAGE_KEY);
@@ -155,7 +189,7 @@ class ArticleController extends BaseController
      * @param $keyword
      * @return MyActiveQuery
      */
-    public function searchByKeyword($keyword)
+    public function searchByKeyword($keyword, $field = 'name')
     {
         $pattern = str_replace(
             [
@@ -178,6 +212,6 @@ class ArticleController extends BaseController
             ],
             strtolower($keyword)
         );
-        return Article::find()->where(['REGEXP', 'CAST(`meta_keywords` AS BINARY)', $pattern]);
+        return Article::find()->where(['REGEXP', "CAST(`$field` AS BINARY)", $pattern]);
     }
 }

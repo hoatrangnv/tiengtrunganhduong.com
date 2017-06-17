@@ -21,14 +21,6 @@ class BaseController extends Controller
 {
     public $menu;
     public $screen;
-    public $meta = [
-        'description' => '',
-        'keywords' => '',
-        'robots' => 'index, follow',
-        'geo.region' => 'VN-HN',
-        'geo.placename' => 'Hà Nội',
-        'geo.position' => '21.033953;105.785002',
-    ];
 
     public function beforeAction($action)
     {

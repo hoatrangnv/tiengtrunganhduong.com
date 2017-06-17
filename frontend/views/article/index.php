@@ -7,10 +7,11 @@ use frontend\models\Image;
  * @var string $title
  * @var bool $hasMore
  * @var string $slug
+ * @var string $keyword
  * @var \frontend\models\Article[] $models
  *
  */
-
+$action_id = Yii::$app->controller->action->id;
 ?>
 <div class="news-list">
     <h2 class="title"><?= $title ?></h2>
@@ -43,7 +44,18 @@ use frontend\models\Image;
         };
         xhttp.open("POST", "<?= Url::to(['article/ajax-get-items'], true) ?>");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("<?= Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken
-        . ('&' . UrlParam::SLUG . "=$slug") . ('&' . UrlParam::ALIAS . '=category') ?>");
+        xhttp.send("<?=
+            (Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken)
+            . ('&' . UrlParam::ACTION_ID . '=' . $action_id)
+            . (
+                $action_id == 'category'
+                ? ('&' . UrlParam::SLUG . "=$slug")
+                : (
+                    $action_id == 'search' || $action_id == 'tags'
+                    ? ('&' . UrlParam::KEYWORD . "=$keyword")
+                    : ''
+                )
+            )
+            ?>");
     }
 </script>
