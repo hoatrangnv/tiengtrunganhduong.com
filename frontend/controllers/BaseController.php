@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\models\UrlParam;
 use frontend\models\Article;
 use frontend\models\ArticleCategory;
 use frontend\models\SeoInfo;
@@ -19,8 +20,14 @@ use Detection\MobileDetect;
 
 class BaseController extends Controller
 {
+    /** @var Menu $menu */
     public $menu;
+    /** @var string $screen */
     public $screen;
+    /** @var SeoInfo $seoInfo */
+    public $seoInfo;
+    /** @var string $canonicalLink */
+    public $canonicalLink;
 
     public function beforeAction($action)
     {
@@ -40,7 +47,7 @@ class BaseController extends Controller
         // @TODO: Initializes menu
         $data0 = [];
         $data0['home_page'] = [
-            'label' => Yii::t('app', 'Home page'),
+            'label' => Yii::t('app', 'Homepage'),
             'url' => Url::home(true),
             'parentKey' => null
         ];
@@ -86,9 +93,14 @@ class BaseController extends Controller
         $this->menu->init(['d0' => $data0, 'd1' => $data1, 'd2' => $data2]);
 
         // @TODO: Find Seo Info
-        if ($seo = SeoInfo::findOneByRequestInfo()) {
-
+        if (in_array(Yii::$app->requestedRoute, array_keys(SeoInfo::getRoutes()))) {
+            $this->seoInfo = SeoInfo::findOneByRequestInfo();
         }
+        if (!$this->seoInfo) {
+            $this->seoInfo = new SeoInfo();
+        }
+
+        $this->canonicalLink = Url::current([], true);
 
         return parent::beforeAction($action);
     }

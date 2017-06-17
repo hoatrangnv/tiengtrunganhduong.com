@@ -12,21 +12,21 @@ use common\widgets\Alert;
 use frontend\models\SiteParam;
 
 AppAsset::register($this);
-$this->registerMetaTag([
-    'name' => 'viewport',
-    'content' => 'width=device-width, initial-scale=1'
-]);
-
+/** @var \frontend\models\SeoInfo $seoInfo */
+$seoInfo = $this->context->seoInfo;
+$this->title = $seoInfo->name;
+$seoInfo->registerMetaTags($this);
+$seoInfo->registerLinkTags($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
 <meta charset="<?= Yii::$app->charset ?>">
+<title><?= Html::encode($this->title) ?></title>
 <?php $this->head() ?>
 <?= Html::csrfMetaTags() ?>
-<title><?= Html::encode($this->title) ?></title>
-<!--<style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>-->
+<style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>
 </head>
 <body>
 <?php $this->beginBody() ?>

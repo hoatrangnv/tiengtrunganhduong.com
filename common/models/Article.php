@@ -40,6 +40,8 @@ use yii\validators\DateValidator;
  * @property integer $like_count
  * @property integer $comment_count
  * @property integer $share_count
+ * @property integer $doindex
+ * @property integer $dofollow
  *
  */
 class Article extends \common\models\MyActiveRecord
@@ -130,7 +132,8 @@ class Article extends \common\models\MyActiveRecord
             [[/*'creator_id', 'updater_id',*/ 'category_id', 'image_id',
                 'active', 'visible', 'featured', 'shown_on_menu',
                 'status', 'type', 'sort_order', /*'create_time', 'update_time',*/
-                'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
+                'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count',
+                'doindex', 'dofollow',], 'integer'],
             [['slug', 'name', 'content'], 'required'],
             [['content', 'sub_content'], 'string'],
             [['slug', 'name', 'meta_title'], 'string', 'max' => 255],
@@ -176,6 +179,8 @@ class Article extends \common\models\MyActiveRecord
             'like_count' => 'Like Count',
             'comment_count' => 'Comment Count',
             'share_count' => 'Share Count',
+            'doindex' => 'Doindex',
+            'dofollow' => 'Dofollow',
         ];
     }
 

@@ -33,7 +33,7 @@ return [
     'Documents' => 'Tài liệu',
     'News' => 'Tin tức',
     'Chat with us' => 'Chat với chúng tôi',
-    'Home page' => 'Trang chủ',
+    'Homepage' => 'Trang chủ',
     'Related articles' => 'Bài viết liên quan',
     'Submit' => 'Gửi đi',
     '{0,number} comments' => '{0,number} bình luận',

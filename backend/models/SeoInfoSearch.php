@@ -18,7 +18,7 @@ class SeoInfoSearch extends SeoInfo
     public function rules()
     {
         return [
-            [['id', 'creator_id', 'updater_id', 'image_id', 'active', 'type', 'status', 'sort_order', 'create_time', 'update_time'], 'integer'],
+            [['id', 'creator_id', 'updater_id', 'image_id', 'active', 'type', 'status', 'sort_order', 'create_time', 'update_time', 'doindex', 'dofollow'], 'integer'],
             [['url', 'route', 'name', 'meta_title', 'meta_keywords', 'meta_description', 'description', 'long_description', 'content'], 'safe'],
         ];
     }

@@ -28,6 +28,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $sort_order
  * @property integer $create_time
  * @property integer $update_time
+ * @property integer $doindex
+ * @property integer $dofollow
  *
  * @property User $creator
  * @property User $updater
@@ -35,6 +37,17 @@ use yii\behaviors\TimestampBehavior;
  */
 class SeoInfo extends MyActiveRecord
 {
+    public static function getRoutes()
+    {
+        return [
+            'site/index' => Yii::t('app', 'Homepage'),
+            'site/contact' => Yii::t('app', 'Contact'),
+            'article/index' => Yii::t('app', 'News'),
+            'article/tags' => Yii::t('app', 'News Tags'),
+            'article/search' => Yii::t('app', 'News Search'),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -70,7 +83,7 @@ class SeoInfo extends MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'image_id', 'active', 'type', 'status', 'sort_order',
-                /*'create_time', 'update_time'*/], 'integer'],
+                /*'create_time', 'update_time',*/ 'doindex', 'dofollow'], 'integer'],
             [['name'], 'required'],
             [['long_description', 'content'], 'string'],
             [['url', 'meta_keywords', 'meta_description', 'description'], 'string', 'max' => 511],
@@ -106,6 +119,8 @@ class SeoInfo extends MyActiveRecord
             'sort_order' => 'Sort Order',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
+            'doindex' => 'Doindex',
+            'dofollow' => 'Dofollow',
         ];
     }
 

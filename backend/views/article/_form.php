@@ -121,30 +121,44 @@ $imageDropDownListOptions = [
 
             <?php echo $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
         </div>
+    </div>
+    <div class="row">
 
-
-        <div class="col-md-12">
+        <div class="col-md-6">
             <?php echo $form->field($model, 'active')->checkbox() ?>
 
-            <?php //echo $form->field($model, 'visible')->checkbox() ?>
+            <?php echo $form->field($model, 'visible')->checkbox() ?>
 
             <?php echo $form->field($model, 'featured')->checkbox() ?>
 
+        </div>
+        <div class="col-md-6">
+            <?php echo $form->field($model, 'doindex')->checkbox() ?>
+
+            <?php echo $form->field($model, 'dofollow')->checkbox() ?>
+
             <?php echo $form->field($model, 'shown_on_menu')->checkbox() ?>
 
-            <?php echo $form->field($model, 'content')->textarea(['maxlength' => true, 'rows' => 20]) ?>
-
-            <div class="form-group">
-                <label class="btn btn-default">
-                    <input type="radio" name="submit-and" value="stay-here">
-                    <span>Submit and stay here</span>
-                </label>
-            </div>
-
-            <div class="form-group">
-                <?php echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            </div>
         </div>
+        <div class="col-md-12">
+            <?php echo $form->field($model, 'content')->textarea(['rows' => 20]) ?>
+
+        </div>
+    </div>
+    <?php
+    if (!$model->isNewRecord) {
+        ?>
+        <div class="form-group">
+            <label class="btn btn-default">
+                <input type="radio" name="submit-and" value="stay-here">
+                <span>Submit then back here</span>
+            </label>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="form-group">
+        <?php echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -118,17 +118,25 @@ $imageDropDownListOptions = [
 
     <div class="row">
 
-        <div class="col-md-12">
-
+        <div class="col-md-6">
             <?php echo $form->field($model, 'active')->checkbox() ?>
 
-            <?php //echo $form->field($model, 'visible')->checkbox() ?>
+            <?php echo $form->field($model, 'visible')->checkbox() ?>
 
             <?php echo $form->field($model, 'featured')->checkbox() ?>
 
+        </div>
+        <div class="col-md-6">
+            <?php echo $form->field($model, 'doindex')->checkbox() ?>
+
+            <?php echo $form->field($model, 'dofollow')->checkbox() ?>
+
             <?php echo $form->field($model, 'shown_on_menu')->checkbox() ?>
 
-            <?php echo $form->field($model, 'long_description')->textarea(['rows' => 6]) ?>
+        </div>
+        <div class="col-md-12">
+            <?php echo $form->field($model, 'long_description')->textarea(['rows' => 20]) ?>
+
         </div>
     </div>
 

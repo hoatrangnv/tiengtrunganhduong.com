@@ -38,6 +38,7 @@ class ArticleController extends BaseController
         } else {
             $relatedItems = [];
         }
+        $this->seoInfo->parseValues($model->attributes);
         return $this->render('view', [
             'model' => $model,
             'relatedItems' => $relatedItems
@@ -67,6 +68,8 @@ class ArticleController extends BaseController
         $category = $this->findCategory($slug);
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $models = $this->findModels($category->getAllArticles());
+        $this->canonicalLink = $category->getUrl();
+        $this->seoInfo->parseValues($category->attributes);
         return $this->render('index', [
             'title' => $category->name,
             'slug' => $category->slug,
@@ -97,6 +100,23 @@ class ArticleController extends BaseController
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
     }
+
+//    public function actionSearch2()
+//    {
+//        $keyword = Yii::$app->request->get(UrlParam::KEYWORD);
+//        if (!$keyword) {
+//            throw new NotFoundHttpException();
+//        }
+//        Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
+//        $query = $this->searchByKeyword($keyword, 'name');
+//        $models = $this->findModels($query);
+//        return $this->render('index', [
+//            'title' => 'Kết quả tìm kiếm: ' . $keyword,
+//            'keyword' => $keyword,
+//            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
+//            'hasMore' => isset($models[static::ITEMS_PER_PAGE])
+//        ]);
+//    }
 
     /**
      * @return string
@@ -144,6 +164,7 @@ class ArticleController extends BaseController
                     : Article::find()->where('0=1');
                 break;
             case 'search':
+            case 'search2':
                 $keyword = Yii::$app->request->getBodyParam(UrlParam::KEYWORD);
                 $query = $this->searchByKeyword($keyword, 'name');
                 break;

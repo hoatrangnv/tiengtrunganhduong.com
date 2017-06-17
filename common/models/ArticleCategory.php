@@ -32,6 +32,8 @@ use common\behaviors\MySluggableBehavior;
  * @property integer $sort_order
  * @property integer $create_time
  * @property integer $update_time
+ * @property integer $doindex
+ * @property integer $dofollow
  *
  */
 class ArticleCategory extends \common\models\MyActiveRecord
@@ -84,7 +86,8 @@ class ArticleCategory extends \common\models\MyActiveRecord
         return [
             [[/*'creator_id', 'updater_id',*/ 'image_id', 'parent_id',
                 'active', 'visible', 'featured', 'shown_on_menu',
-                'type', 'status', 'sort_order', /*'create_time', 'update_time'*/], 'integer'],
+                'type', 'status', 'sort_order', /*'create_time', 'update_time',*/
+                'doindex', 'dofollow',], 'integer'],
             [['slug', 'name'], 'required'],
             [['long_description'], 'string'],
             [['slug', 'name', 'meta_title'], 'string', 'max' => 255],
@@ -124,7 +127,8 @@ class ArticleCategory extends \common\models\MyActiveRecord
             'sort_order' => 'Sort Order',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
-            'parent.name' => 'Parent Name',
+            'doindex' => 'Doindex',
+            'dofollow' => 'Dofollow',
         ];
     }
 
