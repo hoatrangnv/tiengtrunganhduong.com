@@ -1,10 +1,7 @@
 <?php
 return [
-//    'adminEmail' => 'admin@example.com',
-//    'supportEmail' => 'support@example.com',
-//    'adminEmail' => 'admin@traxanhthainguyen.com',
-    'adminEmail' => 'quyettvq@gmail.com',
-    'supportEmail' => 'hotro@traxanhthainguyen.com',
+    'supportEmail' => 'tiengtrunganhduong@gmail.com',
+    'adminEmail' => 'bigbigbee@gmail.com',
     'user.passwordResetTokenExpire' => 3600,
 //    'mdm.admin.configs' => [
 //        'userTable' => '{{%user}}',
