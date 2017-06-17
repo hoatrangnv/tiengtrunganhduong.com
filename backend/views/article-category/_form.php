@@ -113,6 +113,8 @@ $imageDropDownListOptions = [
             <?php echo $form->field($model, 'meta_keywords')->textarea(['maxlength' => true]) ?>
 
             <?php echo $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
+
+            <?php echo $form->field($model, 'menu_label')->textarea(['maxlength' => true]) ?>
         </div>
     </div>
 

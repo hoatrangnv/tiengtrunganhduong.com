@@ -34,6 +34,7 @@ use common\behaviors\MySluggableBehavior;
  * @property integer $update_time
  * @property integer $doindex
  * @property integer $dofollow
+ * @property integer $menu_label
  *
  */
 class ArticleCategory extends \common\models\MyActiveRecord
@@ -90,7 +91,7 @@ class ArticleCategory extends \common\models\MyActiveRecord
                 'doindex', 'dofollow',], 'integer'],
             [['slug', 'name'], 'required'],
             [['long_description'], 'string'],
-            [['slug', 'name', 'meta_title'], 'string', 'max' => 255],
+            [['slug', 'name', 'meta_title', 'menu_label'], 'string', 'max' => 255],
             [['meta_description', 'meta_keywords', 'description'], 'string', 'max' => 511],
             [['slug'], 'unique'],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
@@ -129,6 +130,7 @@ class ArticleCategory extends \common\models\MyActiveRecord
             'update_time' => 'Update Time',
             'doindex' => 'Doindex',
             'dofollow' => 'Dofollow',
+            'menu_label' => 'Menu Label',
         ];
     }
 

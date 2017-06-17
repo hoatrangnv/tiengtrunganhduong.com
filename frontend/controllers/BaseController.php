@@ -73,7 +73,7 @@ class BaseController extends Controller
             }
             if (1 == $model->shown_on_menu) {
                 $data1["{$model_type}__{$model->id}"] = [
-                    'label' => $model->name,
+                    'label' => $model->menu_label ? $model->menu_label : $model->name,
                     'url' => $model->getUrl(),
                     'parentKey' => !$model->hasAttribute('parent_id')
                         ? null

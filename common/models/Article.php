@@ -42,6 +42,7 @@ use yii\validators\DateValidator;
  * @property integer $share_count
  * @property integer $doindex
  * @property integer $dofollow
+ * @property string $menu_label
  *
  */
 class Article extends \common\models\MyActiveRecord
@@ -136,7 +137,7 @@ class Article extends \common\models\MyActiveRecord
                 'doindex', 'dofollow',], 'integer'],
             [['slug', 'name', 'content'], 'required'],
             [['content', 'sub_content'], 'string'],
-            [['slug', 'name', 'meta_title'], 'string', 'max' => 255],
+            [['slug', 'name', 'meta_title', 'menu_label'], 'string', 'max' => 255],
             [['meta_keywords', 'meta_description', 'description'], 'string', 'max' => 511],
             [['slug'], 'unique'],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
@@ -181,6 +182,7 @@ class Article extends \common\models\MyActiveRecord
             'share_count' => 'Share Count',
             'doindex' => 'Doindex',
             'dofollow' => 'Dofollow',
+            'menu_label' => 'Menu Label',
         ];
     }
 

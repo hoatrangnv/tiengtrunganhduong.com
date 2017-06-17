@@ -50,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_time:datetime',
             'doindex',
             'dofollow',
+            'menu_label',
         ],
     ]) ?>
 

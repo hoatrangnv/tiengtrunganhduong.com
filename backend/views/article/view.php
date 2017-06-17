@@ -60,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'share_count',
             'doindex',
             'dofollow',
+            'menu_label',
         ],
     ]) ?>
 
