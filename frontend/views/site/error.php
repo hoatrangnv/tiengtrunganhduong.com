@@ -25,7 +25,8 @@ $this->title = $name;
         Please contact us if you think this is a server error. Thank you.
     </p>
     <p>
-        <?= Yii::$app->requestedRoute ?>
+        <code><?= Yii::$app->requestedRoute ?></code>
+        <code><?= print_r(Yii::$app->requestedParams) ?></code>
     </p>
 
 </div>
