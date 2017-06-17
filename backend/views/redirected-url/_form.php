@@ -12,7 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'from_urls')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'type')->dropDownList(\backend\models\RedirectedUrl::getTypes()) ?>
+
+    <?= $form->field($model, 'from_url')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'to_url')->textInput(['maxlength' => true]) ?>
 

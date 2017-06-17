@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'updater_id') ?>
 
-    <?= $form->field($model, 'from_urls') ?>
+    <?= $form->field($model, 'from_url') ?>
 
     <?= $form->field($model, 'to_url') ?>
 

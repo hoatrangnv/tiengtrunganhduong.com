@@ -12,7 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $id
  * @property integer $creator_id
  * @property integer $updater_id
- * @property string $from_urls
+ * @property string $from_url
  * @property string $to_url
  * @property integer $active
  * @property integer $type
@@ -26,9 +26,21 @@ use yii\behaviors\TimestampBehavior;
  */
 class RedirectedUrl extends MyActiveRecord
 {
-    public function getUrl($params = [])
+    const TYPE_EQUALS = 1;
+    const TYPE_CONTAINS = 2;
+    const TYPE_STARTS_WITH = 3;
+    const TYPE_ENDS_WITH = 4;
+    const TYPE_REGEXP = 5;
+
+    public static function getTypes()
     {
-        // TODO: Implement getUrl() method.
+        return [
+            self::TYPE_EQUALS => Yii::t('app', 'Requested URL equals'),
+            self::TYPE_CONTAINS => Yii::t('app', 'Requested URL contains'),
+            self::TYPE_STARTS_WITH => Yii::t('app', 'Requested URL starts with'),
+            self::TYPE_ENDS_WITH => Yii::t('app', 'Requested URL ends with'),
+            self::TYPE_REGEXP => Yii::t('app', 'Requested URL regexp-matches'),
+        ];
     }
 
     /**
@@ -67,9 +79,8 @@ class RedirectedUrl extends MyActiveRecord
         return [
             [[/*'creator_id', 'updater_id',*/ 'active', 'type', 'status', 'sort_order',
                 /*'create_time', 'update_time'*/], 'integer'],
-            [['from_urls', 'to_url'], 'required'],
-            [['from_urls'], 'string'],
-            [['to_url'], 'string', 'max' => 255],
+            [['from_url', 'to_url'], 'required'],
+            [['from_url', 'to_url'], 'string', 'max' => 255],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];
@@ -84,7 +95,7 @@ class RedirectedUrl extends MyActiveRecord
             'id' => 'ID',
             'creator_id' => 'Creator ID',
             'updater_id' => 'Updater ID',
-            'from_urls' => 'From Urls',
+            'from_url' => 'From Url',
             'to_url' => 'To Url',
             'active' => 'Active',
             'type' => 'Type',

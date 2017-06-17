@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'from_urls:ntext',
+            'from_url:ntext',
             'to_url:url',
              'active',
             // 'type',

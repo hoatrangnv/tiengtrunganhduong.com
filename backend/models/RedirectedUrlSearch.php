@@ -19,7 +19,7 @@ class RedirectedUrlSearch extends RedirectedUrl
     {
         return [
             [['id', 'creator_id', 'updater_id', 'active', 'type', 'status', 'sort_order', 'create_time', 'update_time'], 'integer'],
-            [['from_urls', 'to_url'], 'safe'],
+            [['from_url', 'to_url'], 'safe'],
         ];
     }
 
@@ -70,7 +70,7 @@ class RedirectedUrlSearch extends RedirectedUrl
             'update_time' => $this->update_time,
         ]);
 
-        $query->andFilterWhere(['like', 'from_urls', $this->from_urls])
+        $query->andFilterWhere(['like', 'from_url', $this->from_url])
             ->andFilterWhere(['like', 'to_url', $this->to_url]);
 
         return $dataProvider;
