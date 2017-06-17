@@ -114,7 +114,7 @@ $imageDropDownListOptions = [
 
             <?php echo $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
-            <?php echo $form->field($model, 'menu_label')->textarea(['maxlength' => true]) ?>
+            <?php echo $form->field($model, 'menu_label')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 
