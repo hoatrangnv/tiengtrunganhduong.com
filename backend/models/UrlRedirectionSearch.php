@@ -5,12 +5,11 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\RedirectedUrl;
 
 /**
- * RedirectedUrlSearch represents the model behind the search form about `backend\models\RedirectedUrl`.
+ * UrlRedirectionSearch represents the model behind the search form about `backend\models\UrlRedirection`.
  */
-class RedirectedUrlSearch extends RedirectedUrl
+class UrlRedirectionSearch extends UrlRedirection
 {
     /**
      * @inheritdoc
@@ -41,7 +40,7 @@ class RedirectedUrlSearch extends RedirectedUrl
      */
     public function search($params)
     {
-        $query = RedirectedUrl::find();
+        $query = UrlRedirection::find();
 
         // add conditions that should always apply here
 

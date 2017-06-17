@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\RedirectedUrl */
+/* @var $model backend\models\UrlRedirection */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Redirected Urls', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Url Redirections', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="redirected-url-view">
+<div class="url-redirection-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

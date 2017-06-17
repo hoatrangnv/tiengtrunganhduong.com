@@ -11,9 +11,9 @@ namespace frontend\models;
 use Yii;
 use yii\web\NotFoundHttpException;
 
-class RedirectedUrl extends \common\models\RedirectedUrl
+class UrlRedirection extends \common\models\UrlRedirection
 {
-    public static function findOneAndRedirect($from_url = null, $throw_exception = true)
+    public static function findOneAndRedirect($from_url = null)
     {
         if (!$from_url) {
             $from_url = Yii::$app->request->url;
@@ -49,6 +49,7 @@ class RedirectedUrl extends \common\models\RedirectedUrl
             ->addParams([':from_url' => $from_url])
             ->orderBy('sort_order ASC')
             ->oneActive();
+
 
         if ($model) {
             $to_url = $model->to_url;

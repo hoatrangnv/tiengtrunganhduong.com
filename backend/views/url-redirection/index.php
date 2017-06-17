@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\RedirectedUrlSearch */
+/* @var $searchModel backend\models\UrlRedirectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Redirected Urls';
+$this->title = 'Url Redirections';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="redirected-url-index">
+<div class="url-redirection-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Redirected Url', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Url Redirection', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

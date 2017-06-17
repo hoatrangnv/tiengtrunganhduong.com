@@ -77,11 +77,11 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/site-param/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/site-param/view'], 'visible' => false],
                 ]],
-                ['label' => 'Redirected Url', 'items' => [
-                    ['label' => 'Index', 'url' => ['/redirected-url/index']],
-                    ['label' => 'Create', 'url' => ['/redirected-url/create']],
-                    ['label' => 'Update', 'url' => ['/redirected-url/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/redirected-url/view'], 'visible' => false],
+                ['label' => 'Url Redirection', 'items' => [
+                    ['label' => 'Index', 'url' => ['/url-redirection/index']],
+                    ['label' => 'Create', 'url' => ['/url-redirection/create']],
+                    ['label' => 'Update', 'url' => ['/url-redirection/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/url-redirection/view'], 'visible' => false],
                 ]],
                 ['label' => 'SEO Info', 'items' => [
                     ['label' => 'Index', 'url' => ['/seo-info/index']],

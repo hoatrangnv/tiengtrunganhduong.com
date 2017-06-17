@@ -4,15 +4,15 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\RedirectedUrl */
+/* @var $model backend\models\UrlRedirection */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="redirected-url-form">
+<div class="url-redirection-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'type')->dropDownList(\backend\models\RedirectedUrl::getTypes()) ?>
+    <?= $form->field($model, 'type')->dropDownList(\backend\models\UrlRedirection::getTypes()) ?>
 
     <?= $form->field($model, 'from_url')->textInput(['maxlength' => true]) ?>
 

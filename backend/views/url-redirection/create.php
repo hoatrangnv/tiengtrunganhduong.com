@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\RedirectedUrl */
+/* @var $model backend\models\UrlRedirection */
 
-$this->title = 'Create Redirected Url';
-$this->params['breadcrumbs'][] = ['label' => 'Redirected Urls', 'url' => ['index']];
+$this->title = 'Create Url Redirection';
+$this->params['breadcrumbs'][] = ['label' => 'Url Redirections', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="redirected-url-create">
+<div class="url-redirection-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

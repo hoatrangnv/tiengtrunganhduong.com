@@ -11,7 +11,7 @@ namespace backend\models;
 
 use yii\helpers\Json;
 
-class RedirectedUrl extends \common\models\RedirectedUrl
+class UrlRedirection extends \common\models\UrlRedirection
 {
 //    public function beforeSave($insert)
 //    {

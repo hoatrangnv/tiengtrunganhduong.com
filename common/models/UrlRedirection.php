@@ -7,7 +7,7 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "redirected_url".
+ * This is the model class for table "url_redirection".
  *
  * @property integer $id
  * @property integer $creator_id
@@ -24,7 +24,7 @@ use yii\behaviors\TimestampBehavior;
  * @property User $creator
  * @property User $updater
  */
-class RedirectedUrl extends MyActiveRecord
+class UrlRedirection extends MyActiveRecord
 {
     const TYPE_EQUALS = 1;
     const TYPE_CONTAINS = 2;
@@ -68,7 +68,7 @@ class RedirectedUrl extends MyActiveRecord
      */
     public static function tableName()
     {
-        return 'redirected_url';
+        return 'url_redirection';
     }
 
     /**

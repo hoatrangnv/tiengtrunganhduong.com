@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\RedirectedUrl;
-use backend\models\RedirectedUrlSearch;
+use backend\models\UrlRedirection;
+use backend\models\UrlRedirectionSearch;
 use backend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * RedirectedUrlController implements the CRUD actions for RedirectedUrl model.
+ * UrlRedirectionController implements the CRUD actions for UrlRedirection model.
  */
-class RedirectedUrlController extends BaseController
+class UrlRedirectionController extends BaseController
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class RedirectedUrlController extends BaseController
     }
 
     /**
-     * Lists all RedirectedUrl models.
+     * Lists all UrlRedirection models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RedirectedUrlSearch();
+        $searchModel = new UrlRedirectionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class RedirectedUrlController extends BaseController
     }
 
     /**
-     * Displays a single RedirectedUrl model.
+     * Displays a single UrlRedirection model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class RedirectedUrlController extends BaseController
     }
 
     /**
-     * Creates a new RedirectedUrl model.
+     * Creates a new UrlRedirection model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new RedirectedUrl();
+        $model = new UrlRedirection();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class RedirectedUrlController extends BaseController
     }
 
     /**
-     * Updates an existing RedirectedUrl model.
+     * Updates an existing UrlRedirection model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class RedirectedUrlController extends BaseController
     }
 
     /**
-     * Deletes an existing RedirectedUrl model.
+     * Deletes an existing UrlRedirection model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class RedirectedUrlController extends BaseController
     }
 
     /**
-     * Finds the RedirectedUrl model based on its primary key value.
+     * Finds the UrlRedirection model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return RedirectedUrl the loaded model
+     * @return UrlRedirection the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = RedirectedUrl::findOne($id)) !== null) {
+        if (($model = UrlRedirection::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

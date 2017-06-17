@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\RedirectedUrlSearch */
+/* @var $model backend\models\UrlRedirectionSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="redirected-url-search">
+<div class="url-redirection-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
