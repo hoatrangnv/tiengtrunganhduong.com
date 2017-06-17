@@ -26,7 +26,7 @@ $this->title = $name;
     </p>
     <p>
         <code><?= Yii::$app->requestedRoute ?></code>
-        <code><?= print_r(Yii::$app->requestedParams) ?></code>
+        <code><?= print_r(Yii::$app->request->get()) ?></code>
     </p>
 
 </div>
