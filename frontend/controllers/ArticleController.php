@@ -22,6 +22,9 @@ class ArticleController extends BaseController
     const ITEMS_PER_PAGE = 20;
     const SESSION_PAGE_KEY = 'Article.page';
 
+    /**
+     * @return string
+     */
     public function actionView()
     {
         $model = $this->findModel(Yii::$app->request->get(UrlParam::SLUG));
@@ -41,6 +44,9 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionIndex()
     {
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
@@ -52,6 +58,9 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionCategory()
     {
         $slug = Yii::$app->request->get(UrlParam::SLUG);
@@ -66,6 +75,10 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionSearch()
     {
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
@@ -85,6 +98,10 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionTags()
     {
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
@@ -104,6 +121,10 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @return string
+     * @throws BadRequestHttpException
+     */
     public function actionAjaxGetItems()
     {
         $this->layout = false;
@@ -131,7 +152,7 @@ class ArticleController extends BaseController
                 $query = $this->searchByKeyword($keyword, 'meta_keywords');
                 break;
             default:
-                throw new NotFoundHttpException();
+                throw new BadRequestHttpException();
         }
 
         $page = Yii::$app->session->get(self::SESSION_PAGE_KEY);
