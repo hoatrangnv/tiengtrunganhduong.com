@@ -58,6 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'like_count',
             'comment_count',
             'share_count',
+            'doindex',
+            'dofollow',
         ],
     ]) ?>
 

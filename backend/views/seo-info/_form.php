@@ -101,7 +101,7 @@ $imageDropDownListOptions = [
     <div class="col-md-6">
         <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'meta_keywords')->textarea(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'meta_description')->textarea(['maxlength' => true]) ?>
 

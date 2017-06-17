@@ -47,6 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'sort_order',
             'create_time:datetime',
             'update_time:datetime',
+            'doindex',
+            'dofollow',
         ],
     ]) ?>
 
