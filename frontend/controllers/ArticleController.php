@@ -258,8 +258,19 @@ class ArticleController extends BaseController
         return Article::find()->where(['REGEXP', "CAST(`$field` AS BINARY)", $pattern]);
     }
 
-    public function actionAjaxUpdateCounters()
+    public function actionAjaxUpdateCounter()
     {
-
+        $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
+        $name = Yii::$app->request->getBodyParam(UrlParam::NAME);
+        $value = (int) Yii::$app->request->getBodyParam(UrlParam::VALUE, 1);
+        if (!in_array($name, ['view_count', 'comment_count', 'like_count', 'share_count'])) {
+            throw new BadRequestHttpException();
+        }
+        $model = $this->findModel($slug);
+        $model->updateCounters([$name => $value]);
+        if ($model->save()) {
+            return true;
+        }
+        return false;
     }
 }

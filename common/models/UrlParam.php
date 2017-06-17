@@ -19,4 +19,6 @@ class UrlParam
     const ACTION_ID = 'action_id';
     const PAGE = 'page';
     const KEYWORD = 'keyword';
+    const NAME = 'name';
+    const VALUE = 'value';
 }

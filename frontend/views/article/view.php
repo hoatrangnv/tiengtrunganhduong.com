@@ -4,6 +4,7 @@
 use yii\helpers\Url;
 use frontend\models\Article;
 use frontend\models\Image;
+use common\models\UrlParam;
 
 /**
  * @var Article $model
@@ -42,3 +43,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </div>
 </article>
+<script>
+    setTimeout(updateCounter, 3000);
+    function updateCounter() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                console.log(xhttp.response);
+            }
+        };
+        xhttp.open("POST", "<?= Url::to(['article/ajax-get-items'], true) ?>");
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("<?=
+            (Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken)
+            . ('&' . UrlParam::SLUG . '=' . $model->slug)
+            . ('&' . UrlParam::NAME . '=view_count')
+            . ('&' . UrlParam::VALUE . '=1')
+            ?>");
+    }
+</script>
