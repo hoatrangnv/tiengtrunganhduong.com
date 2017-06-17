@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
 
 class RedirectedUrl extends \common\models\RedirectedUrl
 {
-    public static function findOneAndRedirect($from_url = null)
+    public static function findOneAndRedirect($from_url = null, $throw_exception = true)
     {
         if (!$from_url) {
             $from_url = Yii::$app->request->url;

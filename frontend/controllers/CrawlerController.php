@@ -23,6 +23,11 @@ class CrawlerController extends BaseController
         /**
          * @var Crawler $crawler
          */
+        try {
+            RedirectedUrl::findOneAndRedirect();
+        } catch (\Exception $e) {
+
+        }
         $alias = Yii::$app->request->get(UrlParam::ALIAS);
         $crawler = Crawler::find()->where(['url' => 'http://tiengtrunganhduong.com/' . $alias])->one();
         if ($crawler) {
@@ -37,6 +42,6 @@ class CrawlerController extends BaseController
             }
             return $crawler->content;
         }
-        return RedirectedUrl::findOneAndRedirect();
+        throw new NotFoundHttpException();
     }
 }
