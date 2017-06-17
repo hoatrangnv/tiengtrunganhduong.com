@@ -263,7 +263,6 @@ class ArticleController extends BaseController
         $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
         $name = Yii::$app->request->getBodyParam(UrlParam::NAME);
         $value = (int) Yii::$app->request->getBodyParam(UrlParam::VALUE, 1);
-        return ($slug);
         if (!in_array($name, ['view_count', 'comment_count', 'like_count', 'share_count'])) {
             throw new BadRequestHttpException();
         }
