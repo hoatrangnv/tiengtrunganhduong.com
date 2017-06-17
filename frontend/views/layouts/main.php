@@ -22,10 +22,10 @@ $seoInfo->registerLinkTags($this);
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-<meta charset="<?= Yii::$app->charset ?>">
 <title><?= Html::encode($this->title) ?></title>
+<meta charset="<?= Yii::$app->charset ?>">
 <?php $this->head() ?>
-<?= Html::csrfMetaTags() ?>
+<?php echo Html::csrfMetaTags() ?>
 <style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>
 </head>
 <body>
