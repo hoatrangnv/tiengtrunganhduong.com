@@ -12,37 +12,7 @@ use frontend\models\Image;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
-//$this->registerMetaTag([
-//    'name' => 'description',
-//    'content' => $model->meta_description
-//]);
-//$this->registerLinkTag([
-//    'rel' => 'canonical',
-//    'href' => $model->getUrl()
-//]);
-//$prev = Article::find()
-//    ->where(['<', 'publish_time', $model->publish_time])
-//    ->orderBy('publish_time desc')
-//    ->limit(1)->onePublished();
-//$next = Article::find()
-//    ->where(['>', 'publish_time', $model->publish_time])
-//    ->orderBy('publish_time asc')
-//    ->limit(1)->onePublished();
-//
-//if ($prev) {
-//    $this->registerLinkTag([
-//        'rel' => 'prev',
-//        'href' => $prev->getUrl()
-//    ]);
-//}
-//if ($next) {
-//    $this->registerLinkTag([
-//        'rel' => 'next',
-//        'href' => $next->getUrl()
-//    ]);
-//}
 ?>
-
 <h1 class="news-title"><?= $model->name ?></h1>
 <article>
     <div class="news-info">

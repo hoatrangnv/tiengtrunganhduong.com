@@ -12,9 +12,12 @@ use frontend\models\Image;
  *
  */
 $action_id = Yii::$app->controller->action->id;
+
+$this->title = $title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-list">
-    <h2 class="title"><?= $title ?></h2>
+    <h1 class="title"><?= $title ?></h1>
     <div class="content aspect-ratio __5x3">
         <?= $this->render('items', [
             'models' => $models,
