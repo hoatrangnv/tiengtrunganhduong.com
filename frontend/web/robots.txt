@@ -1,3 +1,5 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /site
+Disallow: /article
 Disallow: /backend
