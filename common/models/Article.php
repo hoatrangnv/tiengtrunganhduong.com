@@ -55,70 +55,6 @@ class Article extends \common\models\MyActiveRecord
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'creator_id',
-                'updatedByAttribute' => 'updater_id',
-            ],
-            [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'create_time',
-                'updatedAtAttribute' => 'update_time',
-                'value' => time(),
-            ],
-//            [
-//                'class' => MySluggableBehavior::className(),
-//                'attribute' => 'name',
-//                'slugAttribute' => 'slug',
-//                'immutable' => false,
-//                'ensureUnique' => true,
-//            ],
-        ];
-    }
-
-    public $publish_time_timestamp;
-
-    const TIMESTAMP_FORMAT = 'Y-m-d H:i:s';
-
-    public function __construct(array $config = [])
-    {
-        // Init publish time for new record
-        if ($this->isNewRecord) {
-            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->getDefaultPublishTime());
-        }
-        parent::__construct($config);
-    }
-
-    public function afterFind()
-    {
-        // Init publish time for record found
-        $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
-        parent::afterFind();
-    }
-
-    public function beforeSave($insert)
-    {
-        if (!$this->publish_time_timestamp) {
-            $this->publish_time = $this->getDefaultPublishTime();
-            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
-        } else {
-            $this->publish_time = strtotime($this->publish_time_timestamp);
-        }
-        return parent::beforeSave($insert);
-    }
-
-    public function getDefaultPublishTime()
-    {
-        // Round up ten minute (600s)
-        return 600 * ceil(time() / 600);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'article';
@@ -143,7 +79,6 @@ class Article extends \common\models\MyActiveRecord
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
-            ['publish_time_timestamp', 'date', 'format' => 'php:' . self::TIMESTAMP_FORMAT],
         ];
     }
 
