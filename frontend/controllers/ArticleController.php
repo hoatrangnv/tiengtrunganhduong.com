@@ -257,4 +257,9 @@ class ArticleController extends BaseController
         );
         return Article::find()->where(['REGEXP', "CAST(`$field` AS BINARY)", $pattern]);
     }
+
+    public function actionAjaxUpdateCounters()
+    {
+
+    }
 }
