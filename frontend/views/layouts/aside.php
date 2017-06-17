@@ -18,7 +18,7 @@ $articles_1 = Article::find()
     ->orderBy('view_count desc')
     ->limit(3)
     ->indexBy('id')
-    ->allActive();
+    ->allPublished();
 $not_ids = array_keys($articles_1);
 
 $articles_2 = Article::find()
