@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use common\models\UrlParam;
 use frontend\models\Article;
 use frontend\models\ArticleCategory;
+use frontend\models\RedirectedUrl;
 use Yii;
 use frontend\models\Crawler;
 use yii\web\NotFoundHttpException;
@@ -36,6 +37,6 @@ class CrawlerController extends BaseController
             }
             return $crawler->content;
         }
-        throw new NotFoundHttpException();
+        return RedirectedUrl::findOneAndRedirect();
     }
 }

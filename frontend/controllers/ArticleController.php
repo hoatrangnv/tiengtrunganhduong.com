@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use common\models\MyActiveQuery;
 use common\models\UrlParam;
 use frontend\models\ArticleCategory;
+use frontend\models\RedirectedUrl;
 use Yii;
 use frontend\models\Article;
 use yii\db\Query;
@@ -195,7 +196,7 @@ class ArticleController extends BaseController
     public function findModel($slug)
     {
         if (!$model = Article::findOneBySlug($slug)) {
-            throw new NotFoundHttpException();
+            RedirectedUrl::findOneAndRedirect();
         }
         return $model;
     }
@@ -208,7 +209,7 @@ class ArticleController extends BaseController
     public function findCategory($slug)
     {
         if (!$category = ArticleCategory::findOneBySlug($slug)) {
-            throw new NotFoundHttpException();
+            RedirectedUrl::findOneAndRedirect();
         }
         return $category;
     }
