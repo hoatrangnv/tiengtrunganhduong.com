@@ -279,6 +279,10 @@ article div + div
     box-sizing: content-box;
     -webkit-box-sizing: content-box;
 }
+/** Turn off google ads in search result */
+.gsc-adBlock {
+    display: none !important;
+}
 
 .main-content
 {
