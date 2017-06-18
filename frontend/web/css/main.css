@@ -392,6 +392,13 @@ article div + div
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
+.news-block .title *
+{
+    vertical-align: middle;
+}
+.news-block .title a:hover span {
+    text-decoration: underline;
+}
 .news-block .item {
     display: block;
 }
