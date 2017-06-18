@@ -1177,6 +1177,9 @@ form.primary .form-group.has-success textarea {
     {
         width: 100%;
     }
+    .news-item .info .info-item.comments {
+        display: none;
+    }
 
     /**
      * GRID VIEW
