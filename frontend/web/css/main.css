@@ -514,16 +514,29 @@ article div + div
 /**
  * RELATED NEWS
  */
+.related-news {
+    margin-top: 1rem;
+}
+.related-news .title {
+    color: #FF2D33;
+    font-size: 1.4em;
+    margin-bottom: 0.75rem;
+    border-bottom: 2px solid #FF2D33;
+    padding: 0.1em 0;
+}
 .related-news .news-item {
     vertical-align: top;
     border: none;
-    margin-top: 0;
+    padding: 0.75rem 0;
 }
-.related-news .news-item .info {
+.related-news .news-item .name {
+    max-height: calc(2 * 1.4em);
+}
+.related-news .news-item .info .info-item.comments {
     display: none;
 }
 .related-news .news-item .desc {
-    max-height: calc(3 * 1.4em);
+    display: none;
 }
 
 /**

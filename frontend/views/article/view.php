@@ -34,15 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('//layouts/likeShare') ?>
     <?= $this->render('//layouts/fbComment') ?>
 </article>
-<article class="related-news">
-    <h3><?= Yii::t('app', 'Related articles') ?></h3>
+<div class="related-news">
+    <h3 class="title"><?= Yii::t('app', 'Related articles') ?></h3>
     <div class="content aspect-ratio __5x3">
         <?= $this->render('items', [
             'models' => $relatedItems,
             'imagesSize' => '100x60'
         ]) ?>
     </div>
-</article>
+</div>
 <script>
     setTimeout(updateCounter, 3000);
     function updateCounter() {

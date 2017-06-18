@@ -15,6 +15,7 @@ ellipsisTexts();
 function ellipsisTexts() {
     web.ellipsisTexts(document.querySelectorAll(".grid-view > ul > li .name"));
     web.ellipsisTexts(document.querySelectorAll(".grid-view > ul > li .desc"));
+    web.ellipsisTexts(document.querySelectorAll(".news-item .name"));
     web.ellipsisTexts(document.querySelectorAll(".news-item .desc"));
 }
 
