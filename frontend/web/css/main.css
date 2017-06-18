@@ -58,7 +58,6 @@ button
     color: #888;
     background: #f6f6f6;
     padding: 0.5rem;
-    font-style: italic;
     font-size: 0.93em;
 }
 .breadcrumb li
@@ -75,8 +74,8 @@ button
 }
 .breadcrumb li:not(:first-child):before
 {
-    content: "\00BB\00A0";
-    /*content: "/\00A0";*/
+    /*content: "\00BB\00A0";*/
+    content: "/\00A0";
     display: inline;
 }
 
