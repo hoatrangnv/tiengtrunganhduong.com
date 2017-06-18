@@ -1181,6 +1181,13 @@ form.primary .form-group.has-success textarea {
         width: calc(100% / 8 - 1em);
     }
 
+    /**
+     * HELPERS
+     */
+    .sm-non-padding {
+        padding: 0 !important;
+    }
+
 }
 
 @media screen and (min-width: 641px)

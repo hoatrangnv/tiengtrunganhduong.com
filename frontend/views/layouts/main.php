@@ -35,18 +35,18 @@ $seoInfo->registerLinkTags($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <div class="container clr">
+    <div class="container sm-non-padding clr">
         <div class="img-wrap">
             <img src="<?= Yii::getAlias('@web/img/desktop_logo_banner.png') ?>" alt="<?= Yii::$app->name ?>">
         </div>
     </div>
-    <div class="container clr">
+    <div class="container sm-non-padding clr">
         <?= $this->render('navBar') ?>
     </div>
     <?php
     if (in_array(Yii::$app->requestedRoute, ['site/index'])) {
         ?>
-        <div class="container clr">
+        <div class="container sm-non-padding clr">
             <?= $this->render('slider') ?>
         </div>
         <?php
