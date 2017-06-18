@@ -931,6 +931,24 @@ form.primary .form-group.has-success textarea {
     border-color: #40cc88;
 }
 
+/**
+ * SEE MORE
+ */
+.see-more {
+    display: block;
+    padding: 0.5em 1em;
+    margin: 1em auto 0;
+    border: 1px solid #eee;
+    background: #fafafa;
+    color: #888;
+    width: 100%;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.see-more:hover {
+    color: #FF2D33;
+}
+
 @media screen and (max-width: 860px)
 {
     .main-content,
@@ -1335,23 +1353,6 @@ form.primary .form-group.has-success textarea {
         margin-left: 1rem;
     }
 
-    /**
-     * SEE MORE
-     */
-    .see-more {
-        display: block;
-        padding: 0.5em 1em;
-        margin: 1em auto 0;
-        border: 1px solid #eee;
-        background: #fafafa;
-        color: #888;
-        width: 100%;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
-    .see-more:hover {
-        color: #FF2D33;
-    }
 }
 
 @media screen and (min-width: 861px)
