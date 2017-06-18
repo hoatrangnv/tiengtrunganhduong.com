@@ -62,7 +62,7 @@ $articles_4 = Article::find()
                             '<div class="image">' .
                                 '<div class="item-view">' .
                                     '<div class="img-wrap">' .
-                                        $item->img(Image::SIZE_4) .
+                                        $item->img('135x81') .
                                     '</div>' .
                                 '</div>' .
                             '</div>' .
