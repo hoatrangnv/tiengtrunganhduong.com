@@ -17,7 +17,7 @@ foreach (array_filter(ArticleCategory::indexData(true), function ($category) {
 ?>
 <div class="news-block aspect-ratio __5x3">
     <h3 class="title">
-        <i class="icon <?= $i % 3 == 0 ? 'chinese-lantern' : ($i % 2 == 0 ? 'chinese-fan' : 'chinese-knot') ?>-icon"></i>
+        <i class="icon <?= $i % 3 == 0 ? 'chinese-fan' : ($i % 2 == 0 ? 'chinese-knot' : 'chinese-lantern') ?>-icon"></i>
         <?= $category->a() ?>
     </h3>
     <div class="content">
