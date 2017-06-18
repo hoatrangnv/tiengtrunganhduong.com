@@ -237,7 +237,6 @@ article div + div
     text-transform: none;
     width: 100%;
     display: block;
-    font-size: 0.93em;
 }
 .nav-bar .menu li ul li.active > a,
 .nav-bar .menu li ul li a:hover
@@ -926,7 +925,6 @@ form.primary .form-group.has-success textarea {
         right: 0;
         z-index: 10;
         background: #fafafa;
-        /*border-radius: 3px;*/
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         display: none;
     }
@@ -938,6 +936,10 @@ form.primary .form-group.has-success textarea {
     {
         padding: 0 1rem;
         color: #333;
+    }
+    .nav-bar .menu li ul li a
+    {
+        background: #eee;
     }
     .nav-bar .menu ul li a,
     .nav-bar .menu > .menu-toggle,
@@ -1009,10 +1011,6 @@ form.primary .form-group.has-success textarea {
     {
         display: block;
     }
-    /*.nav-bar .search-form*/
-    /*{*/
-        /*width: 100%;*/
-    /*}*/
 
     /**
      * GRID VIEW
