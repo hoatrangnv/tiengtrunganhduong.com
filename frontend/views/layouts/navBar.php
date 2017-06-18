@@ -82,3 +82,8 @@ $menu = $this->context->menu;
 <div class="search-toolbar clr" id="search-toolbar">
     <gcse:search></gcse:search>
 </div>
+<style>
+    .gsc-adBlock {
+        display: none !important;
+    }
+</style>
