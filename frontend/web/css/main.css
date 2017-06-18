@@ -486,8 +486,6 @@ article div + div
  */
 .news-list .title {
     font-size: 1.8em;
-    text-transform: uppercase;
-    color: #ff2d33;
 }
 
 /**
@@ -512,6 +510,10 @@ article div + div
 .news-content {
     margin-top: 1.5em;
 }
+
+/**
+ * RELATED NEWS
+ */
 .related-news .news-item {
     vertical-align: top;
     border: none;
