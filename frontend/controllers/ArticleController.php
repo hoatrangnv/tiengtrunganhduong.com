@@ -36,9 +36,11 @@ class ArticleController extends BaseController
                 ->orderBy('publish_time desc')
                 ->limit(12)
                 ->allPublished();
-            foreach ($this->menu->data as $item) {
-                if (strpos($item->key, "category__$category->id") !== false) {
-                    $this->menu->activeItemKey = $item->key;
+            if (!$model->shown_on_menu) {
+                foreach ($this->menu->data as $item) {
+                    if (strpos($item->key, "category__$category->id") !== false) {
+                        $this->menu->activeItemKey = $item->key;
+                    }
                 }
             }
         } else {
