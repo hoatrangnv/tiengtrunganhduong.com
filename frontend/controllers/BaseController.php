@@ -52,7 +52,7 @@ class BaseController extends Controller
             'parentKey' => null
         ];
         $models = array_merge(
-            array_filter(ArticleCategory::indexData(), function ($item) {
+            array_filter(ArticleCategory::indexData(true), function ($item) {
                 return 1 == $item->shown_on_menu;
             }),
             Article::find()->where(['shown_on_menu' => 1])->allPublished()

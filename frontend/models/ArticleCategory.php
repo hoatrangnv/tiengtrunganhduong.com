@@ -34,21 +34,29 @@ class ArticleCategory extends \common\models\ArticleCategory
     private static $_indexData;
 
     /**
+     * @param bool $visibleOnly
      * @return self[]
      */
-    public static function indexData()
+    public static function indexData($visibleOnly = false)
     {
         if (self::$_indexData == null) {
             self::$_indexData = self::find()
-                ->where(['visible' => 1, 'active' => 1])
                 ->orderBy('sort_order asc')
                 ->indexBy('id')
-                ->all();
+                ->allActive();
         }
 
+        if ($visibleOnly) {
+            return array_filter(self::$_indexData, function ($item) {
+                return 1 == $item->visible;
+            });
+        }
         return self::$_indexData;
     }
 
+    /**
+     * @return \common\models\MyActiveQuery
+     */
     public function getAllArticles()
     {
         $query = Article::find();

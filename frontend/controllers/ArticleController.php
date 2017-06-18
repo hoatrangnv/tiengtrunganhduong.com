@@ -165,7 +165,7 @@ class ArticleController extends BaseController
                     : Article::find()->where('0=1');
                 break;
             case 'search':
-            case 'search2':
+//            case 'search2':
                 $keyword = Yii::$app->request->getBodyParam(UrlParam::KEYWORD);
                 $query = $this->searchByKeyword($keyword, 'name');
                 break;

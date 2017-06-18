@@ -41,6 +41,11 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
     /**
      * @var string
      */
+    public $visibleAttribute = 'visible';
+
+    /**
+     * @var string
+     */
     public $publishTimeAttribute = 'publish_time';
 
     /**
@@ -60,6 +65,8 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
 
         parent::__construct($modelClass, $config);
     }
+
+    /** ACTIVE */
 
     /**
      * @return $this
@@ -97,6 +104,46 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
         return $this->active()->count($q, $db);
     }
 
+    /** VISIBLE */
+
+    /**
+     * @return $this
+     */
+    public function visible()
+    {
+        return $this->active()->andWhere([$this->visibleAttribute => true]);
+    }
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|null|string|\yii\db\ActiveRecord
+     */
+    public function oneVisible($db = null)
+    {
+        return $this->visible()->one($db);
+    }
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|\yii\db\ActiveRecord[]
+     */
+    public function allVisible($db = null)
+    {
+        return $this->visible()->all($db);
+    }
+
+    /**
+     * @param string $q
+     * @param null $db
+     * @return bool|int|mixed|string
+     */
+    public function countVisible($q = '*', $db = null)
+    {
+        return $this->visible()->count($q, $db);
+    }
+
+    /** PUBLISHED */
+
     /**
      * @param null $wrong_number
      * @return $this
@@ -109,7 +156,7 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
 
         $time = (int) round(time() / $wrong_number) * $wrong_number;
         
-        return $this->active()->andWhere(['<=', $this->publishTimeAttribute, $time]);
+        return $this->visible()->andWhere(['<=', $this->publishTimeAttribute, $time]);
     }
 
     /**
@@ -139,6 +186,8 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
     {
         return $this->published()->count($q, $db);
     }
+
+    /** CACHING */
 
     /**
      * @param null $db
