@@ -43,7 +43,10 @@ return [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'rules' => [
+                ['pattern' => '', 'route' => 'site/index'],
+                ['pattern' => '/', 'route' => 'site/index'],
+            ],
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'

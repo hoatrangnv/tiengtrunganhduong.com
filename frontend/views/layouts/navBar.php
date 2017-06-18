@@ -9,18 +9,25 @@ use yii\helpers\Url;
 //use vanquyet\menu\Menu;
 
 //var_dump($this->context->menu->getRootItems());
-
+/**
+ * @var $menu vanquyet\menu\Menu
+ */
 $menu = $this->context->menu;
 ?>
-<nav class="nav-bar">
+<nav class="nav-bar clr">
     <div class="menu clr">
-        <button class="menu-toggle" onclick="this.classList.toggle('active')">
+        <button type="button" class="menu-toggle" onclick="this.classList.toggle('active')">
             <i class="icon menu-icon"></i>
             <span class="menu-title"><?= ($m = $menu->getActiveItem()) ? $m->label : 'Danh mục' ?></span>
         </button>
         <ul>
             <?php
             foreach ($menu->getRootItems() as $item) {
+                /**
+                 * @var $item \vanquyet\menu\MenuItem
+                 * @var $children \vanquyet\menu\MenuItem[]
+                 * @var $grandchildren \vanquyet\menu\MenuItem[]
+                 */
                 $children = $item->getChildren();
                 ?>
                 <li<?= $item->isActive() ? ' class="active"' : '' ?>>
@@ -29,7 +36,7 @@ $menu = $this->context->menu;
                         echo $item->a();
                     } else {
                         ?>
-                        <button class="menu-toggle<?= $item->isActive() ? ' active' : '' ?>" onclick="this.classList.toggle('active')"></button>
+                        <button type="button" class="menu-toggle<?= $item->isActive() ? ' active' : '' ?>" onclick="this.classList.toggle('active')"></button>
                         <?= $item->a() ?>
                         <ul>
                             <?php
@@ -67,5 +74,11 @@ $menu = $this->context->menu;
             }
             ?>
         </ul>
+        <button type="button" class="search-toggle" onclick="document.getElementById('search-toolbar').classList.toggle('active')">
+            <i class="icon magnifier-icon"></i>
+        </button>
     </div>
 </nav>
+<div class="search-toolbar clr" id="search-toolbar">
+    <gcse:search></gcse:search>
+</div>
