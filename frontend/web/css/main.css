@@ -382,6 +382,12 @@ article div + div
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+.news-block .item {
+    display: block;
+}
+.news-block .item:hover .name {
+    color: #FF2D33;
+}
 .news-block .item:first-child .name
 {
     margin-top: 0.5em;
@@ -401,6 +407,7 @@ article div + div
  */
 .news-item
 {
+    display: block;
     padding: 1rem 0;
     border-bottom: 1px solid #eee;
 }
@@ -418,6 +425,9 @@ article div + div
 {
     font-weight: bold;
     font-size: 1.1em;
+}
+.news-item:hover .name {
+    color: #FF2D33;
 }
 .news-item .info {
     color: #aaa;
@@ -577,11 +587,14 @@ i.icon {
 .grid-view > ul > li .name {
     display: block;
     font-size: 1em;
-    transition: 0.3s;
+    /*transition: 0.3s;*/
     /*text-align: justify;*/
     max-height: calc(2 * 1.4em);
     /*font-weight: normal;*/
     margin-top: 0.5em;
+}
+.grid-view > ul > li:hover .name {
+    color: #FF2D33;
 }
 .grid-view > ul > li .desc {
     line-height: 1.4em;

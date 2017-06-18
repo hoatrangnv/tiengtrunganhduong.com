@@ -15,22 +15,20 @@ if (!isset($imagesSize)) {
 }
 
 foreach ($models as $item) {
-?><div class="news-item clr">
-    <div class="image">
+    echo $item->a('<div class="image">
         <div class="item-view">
-            <div class="img-wrap">
-                <?= $item->img($imagesSize) ?>
-            </div>
+            <div class="img-wrap">' .
+                $item->img($imagesSize) .
+            '</div>
         </div>
     </div>
-    <div class="name">
-        <?= $item->a() ?>
-    </div>
-    <div class="info">
-        <?= $this->render('info', ['model' => $item]) ?>
-    </div>
-    <div class="desc">
-        <?= $item->desc() ?>
-    </div>
-</div><?php
+    <div class="name">' .
+        "<span>$item->name</span>" .
+    '</div>
+    <div class="info">' .
+        $this->render('info', ['model' => $item]) .
+    '</div>
+    <div class="desc">' .
+        $item->desc() .
+    '</div>', ['class' => 'news-item clr']);
 }

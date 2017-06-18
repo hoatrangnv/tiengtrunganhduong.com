@@ -67,7 +67,7 @@ $articles_4 = Article::find()
                                 '</div>' .
                             '</div>' .
                             '<h3 class="name">' .
-                                $item->name .
+                                "<span>$item->name</span>" .
                             '</h3>'
                         ) ?>
                     </li><?php
