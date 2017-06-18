@@ -4,21 +4,13 @@ use frontend\models\Article;
 use yii\helpers\Url;
 use frontend\models\ArticleCategory;
 
-/* @var $this yii\web\View */
-//$this->title = 'Web development tips & code snippets';
-//$this->registerMetaTag([
-//    'name' => 'description',
-//    'content' => 'Web development tips & code snippets with HTML, CSS, JavaScript, PHP.'
-//]);
-//$this->registerLinkTag([
-//    'rel' => 'canonical',
-//    'href' => Url::home(true)
-//]);
-?>
-
-<?php
+/**
+/* @var $this yii\web\View
+ * @var $category ArticleCategory
+ * @var $article Article
+ */
 $i = 0;
-foreach (array_filter(ArticleCategory::indexData(), function ($category) {
+foreach (array_filter(ArticleCategory::indexData(true), function ($category) {
     return !$category->parent_id && 1 == $category->featured;
 }) as $category) {
     $i++;
@@ -27,23 +19,25 @@ foreach (array_filter(ArticleCategory::indexData(), function ($category) {
     <h3 class="title"><?= $category->a() ?></h3>
     <div class="content">
         <?php
+        $j = 0;
         foreach ($category->getAllArticles()->orderBy('publish_time desc')
                      ->limit($this->context->screen == 'small' ? 5 : ($i % 3 == 0 ? 6 : 3))
-                     ->allPublished() as $j => $item) {
+                     ->allPublished() as $article) {
+            $j++;
             ?>
             <div class="item clr">
                 <div class="image">
                     <div class="item-view">
                         <div class="img-wrap">
-                            <?= $item->img() ?>
+                            <?= $article->img(1 == $j ? '320x200' : '50x30') ?>
                         </div>
                     </div>
                 </div>
                 <div class="name">
-                    <?= $item->a() ?>
+                    <?= $article->a() ?>
                 </div>
                 <div class="desc">
-                    <?= $item->desc() ?>
+                    <?= $article->desc() ?>
                 </div>
             </div>
             <?php

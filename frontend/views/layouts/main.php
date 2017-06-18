@@ -1,7 +1,5 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -11,8 +9,13 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use frontend\models\SiteParam;
 
+/**
+ * @var $this \yii\web\View
+ * @var $content string
+ * @var \frontend\models\SeoInfo $seoInfo
+ */
+
 AppAsset::register($this);
-/** @var \frontend\models\SeoInfo $seoInfo */
 $seoInfo = $this->context->seoInfo;
 $this->title = $seoInfo->name;
 $seoInfo->registerMetaTags($this);
