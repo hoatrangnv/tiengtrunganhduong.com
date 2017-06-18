@@ -84,12 +84,24 @@
         <div data-u="loading" style="position:absolute;top:0px;left:0px;background:url('<?= Yii::getAlias('@web/libs/jssor/img/loading.gif') ?>') no-repeat 50% 50%;background-color:rgba(0, 0, 0, 0.7);"></div>
         <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:900px;height:300px;overflow:hidden;">
             <?php
+            /**
+             * @var $item \frontend\models\Banner
+             */
+            switch ($this->context->screen) {
+                case 'small':
+                    $size = '350x115';
+                    break;
+                case 'medium':
+                    $size = '750x250';
+                    break;
+                default:
+                    $size = '900x300';
+            }
             foreach (\frontend\models\Banner::find()->orderBy('sort_order asc')->allActive() as $item) {
-    //            echo $item->a($item->img(null, ['data-u' => 'image', 'title' => $item->name]), ['title' => $item->name, 'style' => 'display: block']);
                 ?>
             <div>
                 <?= $item->a(
-                    '<div class="img-wrap">' . $item->img(null, ['data-u' => 'image', 'title' => $item->name]) . '</div>',
+                    '<div class="img-wrap">' . $item->img($size, ['data-u' => 'image', 'title' => $item->name]) . '</div>',
                     ['title' => $item->name, 'style' => 'display: block', 'class' => 'item-view aspect-ratio __3x1']
                 ); ?>
             </div>
