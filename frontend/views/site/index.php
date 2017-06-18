@@ -24,19 +24,24 @@ foreach (array_filter(ArticleCategory::indexData(true), function ($category) {
                      ->limit($this->context->screen == 'small' ? 5 : ($i % 3 == 0 ? 6 : 3))
                      ->allPublished() as $article) {
             $j++;
-            $article->a('<div class="image">
+
+            ?>
+            <div class="item clr">
+                <div class="image">
                     <div class="item-view">
-                        <div class="img-wrap">' .
-                            $article->img(1 == $j ? '320x200' : '50x30') .
-                        '</div>
+                        <div class="img-wrap">
+                            <?= $article->img(1 == $j ? '320x200' : '50x30') ?>
+                        </div>
                     </div>
                 </div>
-                <div class="name">' .
-                    $article->name .
-                '</div>
-                <div class="desc">' .
-                    $article->desc() .
-                '</div>', ['class' => 'item clr']);
+                <div class="name">
+                    <?= $article->a() ?>
+                </div>
+                <div class="desc">
+                    <?= $article->desc() ?>
+                </div>
+            </div>
+            <?php
         }
         ?>
     </div>
