@@ -74,7 +74,11 @@ $menu = $this->context->menu;
             }
             ?>
         </ul>
-        <button type="button" class="search-toggle" onclick="document.getElementById('search-toolbar').classList.toggle('active')">
+        <button type="button" class="search-toggle"
+                onclick="
+                    document.getElementById('search-toolbar').classList.toggle('active');
+                    document.querySelector('.gsc-search-box-tools .gsc-search-box input.gsc-input').focus();
+                ">
             <i class="icon magnifier-icon"></i>
         </button>
     </div>
