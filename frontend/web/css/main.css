@@ -520,14 +520,13 @@ article div + div
 .related-news .title {
     color: #FF2D33;
     font-size: 1.4em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     border-bottom: 2px solid #FF2D33;
     padding: 0.1em 0;
 }
 .related-news .news-item {
     vertical-align: top;
     border: none;
-    padding: 0.75rem 0;
 }
 .related-news .news-item .name {
     max-height: calc(2 * 1.4em);
