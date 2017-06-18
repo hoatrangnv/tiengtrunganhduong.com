@@ -284,6 +284,9 @@ article div + div
     display: none !important;
 }
 
+/**
+ * PAGE MAIN COLUMNS
+ */
 .main-content
 {
     width: calc(70% - 0.75rem);
