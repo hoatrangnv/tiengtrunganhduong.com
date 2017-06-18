@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="content aspect-ratio __5x3">
         <?= $this->render('items', [
             'models' => $models,
-            'imageSize' => $this->context->screen == 'small' ? '100x60' : '200x120',
+            'imagesSize' => $this->context->screen == 'small' ? '100x60' : '200x120',
         ]) ?>
     </div>
     <?php
