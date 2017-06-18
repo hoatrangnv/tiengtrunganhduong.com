@@ -44,16 +44,16 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'string_data',
              'mime_type',
              'active:boolean',
-            [
-                'attribute' => 'active',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    if ($model->active) {
-                        return '<span class="label label-success">active</span>';
-                    }
-                    return '<span class="label label-default">inactive</span>';
-                }
-            ],
+//            [
+//                'attribute' => 'active',
+//                'format' => 'raw',
+//                'value' => function ($model) {
+//                    if ($model->active) {
+//                        return '<span class="label label-success">active</span>';
+//                    }
+//                    return '<span class="label label-default">inactive</span>';
+//                }
+//            ],
             // 'status',
             // 'sort_order',
             // 'create_time:datetime',
