@@ -791,6 +791,9 @@ i.icon {
 .social-networks a {
     display: inline-block;
 }
+.social-networks a + a {
+    margin-left: 0.25em;
+}
 .social-networks a .icon {
     width: 2.5em;
     height: 2.5em;
