@@ -87,7 +87,7 @@ class SitemapController extends Controller
             ->orderBy('publish_time desc')
             ->offset(($page - 1) * self::ITEMS_PER_PAGE)
             ->limit(self::ITEMS_PER_PAGE)
-            ->allPublished();
+            ->allActive();
 
         if (empty($articles)) {
             throw new NotFoundHttpException();
