@@ -38,6 +38,7 @@ if (!isset($url)) {
         float: left !important;
     }
     .social-share-item {
+        margin-top: 0.3em;
         display: inline-block;
     }
 </style>

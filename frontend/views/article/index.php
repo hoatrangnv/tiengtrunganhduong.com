@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-list">
     <h1 class="title"><?= $title ?></h1>
+    <?= $this->render('//layouts/likeShare') ?>
     <div class="content aspect-ratio __5x3">
         <?= $this->render('items', [
             'models' => $models,

@@ -46,16 +46,19 @@ $seoInfo->registerLinkTags($this);
     <?php
     if (in_array(Yii::$app->requestedRoute, ['site/index'])) {
         ?>
+        <div class="clr"></div>
         <div class="container sm-non-padding clr">
             <?= $this->render('slider') ?>
         </div>
         <?php
     }
     ?>
-    <div class="container clr">
+    <div class="container sm-non-padding clr">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+    </div>
+    <div class="container clr">
         <?= Alert::widget() ?>
         <div class="main-content left">
             <?= $content ?>
