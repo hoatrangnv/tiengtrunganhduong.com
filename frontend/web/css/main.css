@@ -891,13 +891,6 @@ form.primary .form-group.has-success textarea {
     border-color: #40cc88;
 }
 
-/**
- * SLIDER
- */
-.slider {
-    margin-top: -1rem;
-}
-
 @media screen and (max-width: 860px)
 {
     .main-content,
@@ -1192,6 +1185,13 @@ form.primary .form-group.has-success textarea {
 
 @media screen and (min-width: 641px)
 {
+    /**
+     * SLIDER
+     */
+    .slider {
+        margin-top: -1rem;
+    }
+
     /**
      * NEWS BLOCK
      */
