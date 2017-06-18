@@ -76,6 +76,11 @@ class SeoInfo extends \common\models\SeoInfo
             'content' => Url::home(true)
         ]);
         $view->registerMetaTag([
+            'name' => 'DC.language',
+            'scheme' => 'UTF-8',
+            'content' => 'vi'
+        ]);
+        $view->registerMetaTag([
             'name' => 'DC.Coverage',
             'content' => 'Việt Nam'
         ]);
@@ -87,6 +92,19 @@ class SeoInfo extends \common\models\SeoInfo
             'name' => 'COPYRIGHT',
             'content' => Yii::$app->name
         ]);
+        $view->registerMetaTag([
+            'name' => 'REVISIT-AFTER',
+            'content' => '1 DAYS'
+        ]);
+        $view->registerMetaTag([
+            'name' => 'viewport',
+            'content' => 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no'
+        ]);
+        $view->registerMetaTag([
+            'name' => 'google-site-verification',
+            'content' => '5OXlM25RjDEojQoFvlP8bm8y3DOdhq-Svq6aiYVCsGY'
+        ]);
+        /** Facebook Meta */
         $view->registerMetaTag([
             'property' => 'og:type',
             'content' => 'website'
@@ -114,14 +132,6 @@ class SeoInfo extends \common\models\SeoInfo
         $view->registerMetaTag([
             'property' => 'og:site_name',
             'content' => Yii::$app->name
-        ]);
-        $view->registerMetaTag([
-            'property' => 'REVISIT-AFTER',
-            'content' => '1 DAYS'
-        ]);
-        $view->registerMetaTag([
-            'name' => 'viewport',
-            'content' => 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no'
         ]);
     }
 

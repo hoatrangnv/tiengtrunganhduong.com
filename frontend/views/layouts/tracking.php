@@ -30,15 +30,17 @@ Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
+<style>
+    .google_conversion_frame {
+        position: absolute;
+        height: 0;
+        margin: 0;
+        padding: 0;
+    }
+</style>
 <noscript>
-    <div style="display:inline;">
-        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/981760178/?value=0&amp;guid=ON&amp;script=0"/>
-    </div>
+    <img height="1" width="1" alt="google ads double click" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/981760178/?value=0&guid=ON&script=0"/>
 </noscript>
-
-<meta name="google-site-verification" content="5OXlM25RjDEojQoFvlP8bm8y3DOdhq-Svq6aiYVCsGY" />
-
-<meta name="DC.language" scheme="UTF-8" content="vi">
 
 <!-- Facebook Pixel Code -->
 <script>
@@ -50,7 +52,6 @@ Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng
 
     fbq('init', '299656173576600');
     fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none"
-               src="https://www.facebook.com/tr?id=299656173576600&ev=PageView&noscript=1"
+<noscript><img height="1" width="1" alt="facebook pixel code" src="https://www.facebook.com/tr?id=299656173576600&ev=PageView&noscript=1"
     /></noscript>
 <!-- End Facebook Pixel Code -->
