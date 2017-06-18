@@ -31,9 +31,9 @@ Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 <style>
-    .google_conversion_frame {
-        position: absolute;
-        height: 0;
+    iframe[name="google_conversion_frame"] {
+        position: absolute !important;
+        height: 0 !important;
         margin: 0;
         padding: 0;
     }
