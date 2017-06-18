@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php
     if ($hasMore) {
-        echo '<button type="button" class="see-more" onclick="seeMore(this.previousElementSibling, this)">Xem thêm</button>';
+        echo '<button type="button" class="see-more"'
+                . ' onclick="seeMore(this.previousElementSibling, this)">Xem thêm</button>';
     }
     ?>
 </div>

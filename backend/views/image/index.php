@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             [
                 'attribute' => 'IMG',
                 'format' => 'raw',
@@ -38,12 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
 //            'path',
             // 'file_name',
-            // 'file_basename',
+             'file_basename',
             // 'file_extension',
             // 'resize_labels',
             // 'string_data',
-            // 'mime_type',
-//             'active:boolean',
+             'mime_type',
+             'active:boolean',
             [
                 'attribute' => 'active',
                 'format' => 'raw',
@@ -56,10 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'status',
             // 'sort_order',
-            // 'views',
-            // 'likes',
-            // 'comments',
-            // 'shares',
             // 'create_time:datetime',
             // 'update_time:datetime',
 
