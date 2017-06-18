@@ -241,8 +241,7 @@ article div + div
 .nav-bar .menu li ul li.active > a,
 .nav-bar .menu li ul li a:hover
 {
-    background: #fafafa;
-    color: #1666A5;
+    color: #FF2D33;
 }
 .nav-bar .menu li li ul
 {
