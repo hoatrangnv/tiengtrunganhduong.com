@@ -214,7 +214,7 @@ article div + div
 .nav-bar .menu li ul
 {
     position: absolute;
-    background: #fff;
+    /*background: #fff;*/
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
     color: #333;
     display: none;
@@ -237,11 +237,12 @@ article div + div
     text-transform: none;
     width: 100%;
     display: block;
+    background: #fafafa;
 }
 .nav-bar .menu li ul li.active > a,
 .nav-bar .menu li ul li a:hover
 {
-    background: #eee;
+    background: #fff;
     color: #FF2D33;
 }
 .nav-bar .menu li li ul
@@ -917,7 +918,7 @@ form.primary .form-group.has-success textarea {
         left: 0;
         right: 0;
         z-index: 10;
-        background: #fafafa;
+        background: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         display: none;
     }
@@ -930,10 +931,10 @@ form.primary .form-group.has-success textarea {
         padding: 0 1rem;
         color: #333;
     }
-    .nav-bar .menu li ul li a
-    {
-        background: #eee;
-    }
+    /*.nav-bar .menu li ul li a*/
+    /*{*/
+        /*background: #eee;*/
+    /*}*/
     .nav-bar .menu ul li a,
     .nav-bar .menu > .menu-toggle,
     .nav-bar li .menu-toggle:after
