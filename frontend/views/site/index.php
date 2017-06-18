@@ -16,7 +16,10 @@ foreach (array_filter(ArticleCategory::indexData(true), function ($category) {
     $i++;
 ?>
 <div class="news-block aspect-ratio __5x3">
-    <h3 class="title"><?= $category->a("<i class=\"icon brush-icon\"></i> <span>$category->name</span> ") ?></h3>
+    <h3 class="title">
+        <i class="icon brush-icon"></i>
+        <?= $category->a() ?>
+    </h3>
     <div class="content">
         <?php
         $j = 0;

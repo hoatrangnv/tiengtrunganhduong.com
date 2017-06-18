@@ -396,7 +396,8 @@ article div + div
 {
     vertical-align: middle;
 }
-.news-block .title a:hover span {
+.news-block .title a:hover
+{
     text-decoration: underline;
 }
 .news-block .item {
