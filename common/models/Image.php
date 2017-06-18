@@ -51,18 +51,19 @@ class Image extends \common\models\MyActiveRecord
     const SIZE_1 = 1;
     const SIZE_2 = 2;
     const SIZE_3 = 3;
-    const SIZE_4 = 3;
-    const SIZE_5 = 4;
-    const SIZE_6 = 5;
-    const SIZE_7 = 6;
-    const SIZE_8 = 7;
-    const SIZE_9 = 8;
-    const SIZE_10 = 9;
-    const SIZE_11 = 10;
-    const SIZE_12 = 11;
-    const SIZE_13 = 12;
-    const SIZE_14 = 13;
-    const SIZE_15 = 14;
+    const SIZE_4 = 4;
+    const SIZE_5 = 5;
+    const SIZE_6 = 6;
+    const SIZE_7 = 7;
+    const SIZE_8 = 8;
+    const SIZE_9 = 9;
+    const SIZE_10 = 10;
+    const SIZE_11 = 11;
+    const SIZE_12 = 12;
+    const SIZE_13 = 13;
+    const SIZE_14 = 14;
+    const SIZE_15 = 15;
+    const SIZE_16 = 16;
 
     public static function getSizes()
     {
@@ -79,9 +80,10 @@ class Image extends \common\models\MyActiveRecord
             self::SIZE_10 => '500x500',
             self::SIZE_11 => '600x600',
             self::SIZE_12 => '800x800',
-            self::SIZE_13 => '1000x1000',
-            self::SIZE_14 => '1200x1200',
-            self::SIZE_15 => '1400x1400',
+            self::SIZE_13 => '900x900',
+            self::SIZE_14 => '1000x1000',
+            self::SIZE_15 => '1200x1200',
+            self::SIZE_16 => '1400x1400',
         ];
     }
 
