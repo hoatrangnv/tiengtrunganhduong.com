@@ -380,6 +380,9 @@ article div + div
 /**
  * NEWS BLOCK
  */
+.news-block {
+    margin-bottom: 1rem;
+}
 .news-block .title
 {
     padding: 0.5rem;
@@ -388,12 +391,6 @@ article div + div
     text-transform: uppercase;
     font-weight: bold;
     margin-bottom: 0.5rem;
-}
-.news-block:nth-child(3n)
-{
-    width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
 }
 .news-block .item {
     display: block;
@@ -1121,7 +1118,6 @@ form.primary .form-group.has-success textarea {
     {
         margin-top: 0.25em;
     }
-
     .news-block .item:not(:first-child) .desc
     {
         display: none;
@@ -1233,6 +1229,12 @@ form.primary .form-group.has-success textarea {
     .news-block:not(:nth-child(3n)) .item .desc
     {
         display: none;
+    }
+    .news-block:nth-child(3n)
+    {
+        width: 100%;
+        /*margin-top: 1rem;*/
+        /*margin-bottom: 1rem;*/
     }
     .news-block:nth-child(3n) .item
     {
