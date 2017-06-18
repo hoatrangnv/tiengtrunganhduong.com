@@ -46,7 +46,6 @@ $seoInfo->registerLinkTags($this);
     <?php
     if (in_array(Yii::$app->requestedRoute, ['site/index'])) {
         ?>
-        <div class="clr"></div>
         <div class="container sm-non-padding clr">
             <?= $this->render('slider') ?>
         </div>
