@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="content aspect-ratio __5x3">
         <?= $this->render('items', [
             'models' => $relatedItems,
-            'imagesSize' => Image::SIZE_3
+            'imagesSize' => '100x60'
         ]) ?>
     </div>
 </article>
