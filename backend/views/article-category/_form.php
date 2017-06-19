@@ -56,9 +56,10 @@ function _(data, params) {
 JS;
 
 // render your widget
+$image = $model->image;
 $imageDropDownListOptions = [
-    'name' => '',
-    'value' => '',
+    'name' => $image ? $image->name : '',
+    'value' => $image ? $image->id : '',
     'initValueText' => '',
     'options' => ['placeholder' => Yii::t('app', 'Search for a image ...')],
     'pluginOptions' => [
