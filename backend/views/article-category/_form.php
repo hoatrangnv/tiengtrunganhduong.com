@@ -60,7 +60,7 @@ $image = $model->image;
 $imageDropDownListOptions = [
     'name' => $image ? $image->name : '',
     'value' => $image ? $image->id : '',
-    'initValueText' => '',
+    'initValueText' => $image ? $image->name : '',
     'options' => ['placeholder' => Yii::t('app', 'Search for a image ...')],
     'pluginOptions' => [
         'allowClear' => true,
