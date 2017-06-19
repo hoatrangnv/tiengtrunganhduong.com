@@ -98,6 +98,12 @@ article div + div
 {
     margin-top: 0.5em;
 }
+article a {
+    color: #06c;
+}
+article a:hover {
+    text-decoration: underline;
+}
 
 .list-view li
 {
