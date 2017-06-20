@@ -39,7 +39,7 @@ class UrlRedirection extends MyActiveRecord
             self::TYPE_CONTAINS => Yii::t('app', 'Contains'),
             self::TYPE_STARTS_WITH => Yii::t('app', 'Starts with'),
             self::TYPE_ENDS_WITH => Yii::t('app', 'Ends with'),
-            self::TYPE_REGEXP => Yii::t('app', 'RegExp'),
+            self::TYPE_REGEXP => Yii::t('app', 'Regular Expression'),
         ];
     }
 
