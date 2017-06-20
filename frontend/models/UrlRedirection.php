@@ -80,7 +80,7 @@ class UrlRedirection extends \common\models\UrlRedirection
             return Yii::$app->response->redirect($to_url, 301);
         }
 
-        throw new NotFoundHttpException();
+        return false;
     }
 
 }
