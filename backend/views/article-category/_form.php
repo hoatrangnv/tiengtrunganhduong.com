@@ -14,6 +14,13 @@ use yii\helpers\Url;
 ?>
 
 <?php
+// @TODO: Default value for some boolean attributes
+if ($model->isNewRecord) {
+    foreach (['doindex', 'dofollow', 'active', 'visible'] as $attribute) {
+        $model->$attribute = true;
+    }
+}
+
 $formatJs = <<< JS
 var formatRepo = function (repo) {
     if (repo.loading) {

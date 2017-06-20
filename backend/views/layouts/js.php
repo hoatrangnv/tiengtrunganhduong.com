@@ -63,3 +63,57 @@ function ckeditor(id) {
     });
 }
 </script>
+<script>
+    window.addEventListener("load", autoGenerateValues);
+    function autoGenerateValues() {
+        var events = ["change"];
+        !function (slug, name, meta_title, desc, meta_desc) {
+            events.forEach(function (event) {
+                if (name && slug) {
+                    name.addEventListener(event, function () {
+                        slug.value || (slug.value = vi_slugify(name.value));
+                    });
+                }
+                if (name && meta_title) {
+                    name.addEventListener(event, function () {
+                        meta_title.value || (meta_title.value = name.value);
+                    });
+                }
+                if (desc && meta_desc) {
+                    desc.addEventListener(event, function () {
+                        meta_desc.value || (meta_desc.value = desc.value);
+                    });
+                }
+            });
+        }(
+            document.querySelector("[name$='[slug]']"),
+            document.querySelector("[name$='[name]']"),
+            document.querySelector("[name$='[meta_title]']"),
+            document.querySelector("[name$='[description]']"),
+            document.querySelector("[name$='[meta_description]']")
+        );
+    }
+    function slugify(text)
+    {
+        return text.toString().toLowerCase()
+            .replace(/(\w)\'/g, '$1')           // Special case for apostrophes
+            .replace(/[^a-z0-9_\-]+/g, '-')     // Replace all non-word chars with -
+            .replace(/\-\-+/g, '-')             // Replace multiple - with single -
+            .replace(/^-+/, '')                 // Trim - from start of text
+            .replace(/-+$/, '');                // Trim - from end of text
+    }
+    function lowercase_vi_filter(text)
+    {
+        return text.toString().toLowerCase()
+            .replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
+            .replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e")
+            .replace(/ì|í|ị|ỉ|ĩ/g, "i")
+            .replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
+            .replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
+            .replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
+            .replace(/đ/g, "d");
+    }
+    function vi_slugify(text) {
+        return slugify(lowercase_vi_filter(text));
+    }
+</script>
