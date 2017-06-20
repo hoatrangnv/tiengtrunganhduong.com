@@ -237,7 +237,8 @@ class ArticleController extends BaseController
 
     /**
      * @param $keyword
-     * @return MyActiveQuery
+     * @param string $field
+     * @return $this
      */
     public function searchByKeyword($keyword, $field = 'name')
     {

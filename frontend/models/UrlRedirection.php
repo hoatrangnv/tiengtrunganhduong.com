@@ -28,7 +28,7 @@ class UrlRedirection extends \common\models\UrlRedirection
                 [
                     'AND',
                     ['=', 'type', self::TYPE_EQUALS],
-                    ['=', 'from_url', ':from_url']
+                    ":from_url LIKE `from_url`",
                 ],
                 [
                     'AND',
