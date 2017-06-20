@@ -2,7 +2,7 @@
 return [
     'adminEmail' => 'quyettvq@gmail.com',
     'myActiveQuery' => [
-        'enableCache' => false,
+        'enableCache' => true,
         'publishTimeWrongNumber' => 60
     ]
 ];
