@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $searchModel,
                     'type',
                     UrlRedirection::getTypes(),
-                    ['class'=>'form-control', 'prompt' => Yii::t('app', 'Select one ...')]
+                    ['class'=>'form-control']
                 )
             ],
             // 'status',
