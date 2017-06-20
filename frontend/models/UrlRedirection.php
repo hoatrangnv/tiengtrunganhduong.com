@@ -64,7 +64,34 @@ class UrlRedirection extends \common\models\UrlRedirection
                 try {
                     preg_match($item->from_url, $from_url, $matches);
                     if (isset($matches[0])) {
-                        $to_url = preg_replace($item->from_url, $item->to_url, $from_url);
+                        $pattern = $item->from_url;
+                        $replacement = $item->to_url;
+                        $transform = null;
+                        switch (true) {
+                            case '\lowercase' === substr($replacement, -10):
+                                $replacement = substr($replacement, 0, -10);
+                                $transform = 'lowercase';
+                                break;
+                            case '\uppercase' === substr($replacement, -10):
+                                $replacement = substr($replacement, 0, -10);
+                                $transform = 'uppercase';
+                                break;
+                            default:
+                        }
+
+                        $to_url = preg_replace($pattern, $replacement, $from_url);
+
+                        switch ($transform) {
+                            case 'lowercase':
+                                $to_url = strtolower($to_url);
+                                break;
+                            case 'uppercase':
+                                $to_url = strtoupper($to_url);
+                                break;
+                            default:
+
+                        }
+
                         break;
                     }
                 } catch (\Exception $e) {
