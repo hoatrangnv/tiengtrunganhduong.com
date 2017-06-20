@@ -35,11 +35,11 @@ class UrlRedirection extends MyActiveRecord
     public static function getTypes()
     {
         return [
-            self::TYPE_EQUALS => Yii::t('app', 'Requested URL equals'),
-            self::TYPE_CONTAINS => Yii::t('app', 'Requested URL contains'),
-            self::TYPE_STARTS_WITH => Yii::t('app', 'Requested URL starts with'),
-            self::TYPE_ENDS_WITH => Yii::t('app', 'Requested URL ends with'),
-            self::TYPE_REGEXP => Yii::t('app', 'Requested URL regexp-matches'),
+            self::TYPE_EQUALS => Yii::t('app', 'Equals'),
+            self::TYPE_CONTAINS => Yii::t('app', 'Contains'),
+            self::TYPE_STARTS_WITH => Yii::t('app', 'Starts with'),
+            self::TYPE_ENDS_WITH => Yii::t('app', 'Ends with'),
+            self::TYPE_REGEXP => Yii::t('app', 'RegExp'),
         ];
     }
 
