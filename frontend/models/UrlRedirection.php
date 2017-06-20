@@ -68,12 +68,12 @@ class UrlRedirection extends \common\models\UrlRedirection
                         $replacement = $item->to_url;
                         $transform = null;
                         switch (true) {
-                            case '\lowercase' === substr($replacement, -10):
-                                $replacement = substr($replacement, 0, -10);
+                            case '~\lowercase' === substr($replacement, -11):
+                                $replacement = substr($replacement, 0, -11);
                                 $transform = 'lowercase';
                                 break;
-                            case '\uppercase' === substr($replacement, -10):
-                                $replacement = substr($replacement, 0, -10);
+                            case '~\uppercase' === substr($replacement, -11):
+                                $replacement = substr($replacement, 0, -11);
                                 $transform = 'uppercase';
                                 break;
                             default:
