@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter' => Html::activeDropDownList(
                     $searchModel,
-                    'category_id',
+                    'type',
                     UrlRedirection::getTypes(),
                     ['class'=>'form-control', 'prompt' => Yii::t('app', 'Select one ...')]
                 )
