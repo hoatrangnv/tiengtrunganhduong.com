@@ -80,7 +80,7 @@ class ArticleCategory extends \common\models\ArticleCategory
     {
         $data = static::indexData();
         foreach ($data as $item) {
-            if ($item->slug == $slug) {
+            if ($item->slug == strtolower($slug)) {
                 return $item;
             }
         }

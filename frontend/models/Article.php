@@ -52,7 +52,7 @@ class Article extends CommonArticle
 
     public static function findOneBySlug($slug)
     {
-        if ($model = Article::find()->where(['slug' => $slug])->oneActive()) {
+        if ($model = Article::find()->where(['slug' => strtolower($slug)])->oneActive()) {
             return $model;
         }
         return null;

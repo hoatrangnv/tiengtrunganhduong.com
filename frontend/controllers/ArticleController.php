@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 use common\models\MyActiveQuery;
+use common\models\MyActiveRecord;
 use common\models\UrlParam;
 use frontend\models\ArticleCategory;
 use frontend\models\UrlRedirection;
@@ -238,7 +239,7 @@ class ArticleController extends BaseController
     /**
      * @param $keyword
      * @param string $field
-     * @return $this
+     * @return MyActiveQuery
      */
     public function searchByKeyword($keyword, $field = 'name')
     {
