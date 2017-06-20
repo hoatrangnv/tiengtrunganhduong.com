@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'id',
             'from_url',
             'to_url',
-            'active:boolean',
             [
                 'attribute' => 'type',
                 'format' => 'raw',
@@ -44,7 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 )
             ],
             // 'status',
-             'sort_order',
+            'sort_order',
+            'active:boolean',
             // 'create_time:datetime',
             // 'update_time:datetime',
 
