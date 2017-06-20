@@ -26,8 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'from_url',
-            'to_url',
             [
                 'attribute' => 'type',
                 'format' => 'raw',
@@ -42,6 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class'=>'form-control', 'prompt' => '']
                 )
             ],
+            'from_url',
+            'to_url',
             // 'status',
             'sort_order',
             'active:boolean',
