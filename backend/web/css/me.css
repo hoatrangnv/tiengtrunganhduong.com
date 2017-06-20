@@ -22,6 +22,14 @@
 }
 
 /**
+ * Form
+ */
+form .form-group.required label:first-of-type:after {
+    content: " (*)";
+    color: #F66;
+}
+
+/**
  * Table
  */
 .table-wrap {

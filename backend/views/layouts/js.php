@@ -66,9 +66,8 @@ function ckeditor(id) {
 <script>
     window.addEventListener("load", autoGenerateValues);
     function autoGenerateValues() {
-        var events = ["change"];
         !function (slug, name, meta_title, desc, meta_desc) {
-            events.forEach(function (event) {
+            ["change"].forEach(function (event) {
                 if (name && slug) {
                     name.addEventListener(event, function () {
                         slug.value || (slug.value = vi_slugify(name.value));
@@ -82,6 +81,20 @@ function ckeditor(id) {
                 if (desc && meta_desc) {
                     desc.addEventListener(event, function () {
                         meta_desc.value || (meta_desc.value = desc.value);
+                    });
+                }
+            });
+            [].forEach.call(document.querySelectorAll("form input[type='text'], form textarea"), function (elem) {
+                if (elem) {
+                    var counter = document.createElement("sup");
+                    elem.parentNode.insertBefore(counter, elem);
+                    ["keyup", "keydown", "change", "propertychange", "click", "input", "paste"].forEach(function (event) {
+                        elem.addEventListener(event, function () {
+                            counter.innerHTML = elem.value.length + "/"
+                                + vi_slugify(elem.value).split("-")
+                                    .filter(function (item) {return !!item;}).length;
+
+                        });
                     });
                 }
             });
