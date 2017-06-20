@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use backend\models\UrlRedirection;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UrlRedirectionSearch */
@@ -25,12 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'from_url:ntext',
-            'to_url:url',
-             'active',
-            // 'type',
+            'from_url',
+            'to_url',
+            'active:boolean',
+            [
+                'attribute' => 'type',
+                'format' => 'raw',
+                'value' => function (UrlRedirection $model) {
+                    $types = UrlRedirection::getTypes();
+                    return isset($types[$model->type]) ? $types[$model->type] : $model->type;
+                },
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'category_id',
+                    UrlRedirection::getTypes(),
+                    ['class'=>'form-control', 'prompt' => Yii::t('app', 'Select one ...')]
+                )
+            ],
             // 'status',
-            // 'sort_order',
+             'sort_order',
             // 'create_time:datetime',
             // 'update_time:datetime',
 

@@ -47,7 +47,7 @@ class UrlRedirection extends \common\models\UrlRedirection
                 ],
             ])
             ->addParams([':from_url' => $from_url])
-            ->orderBy('sort_order ASC')
+            ->orderBy('sort_order ASC, id ASC')
             ->oneActive();
 
 
@@ -57,7 +57,7 @@ class UrlRedirection extends \common\models\UrlRedirection
             /** @var self[] $models */
             $models = self::find()
                 ->where(['type' => self::TYPE_REGEXP])
-                ->orderBy('sort_order ASC')
+                ->orderBy('sort_order ASC, id ASC')
                 ->allActive();
 
             foreach ($models as $item) {
