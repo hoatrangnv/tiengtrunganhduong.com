@@ -204,9 +204,7 @@ class ArticleController extends BaseController
     public function findModel($slug)
     {
         if (!$model = Article::findOneBySlug($slug)) {
-            if (!UrlRedirection::findOneAndRedirect()) {
-                throw new NotFoundHttpException();
-            }
+            UrlRedirection::findOneAndRedirect();
         }
         return $model;
     }
@@ -219,9 +217,7 @@ class ArticleController extends BaseController
     public function findCategory($slug)
     {
         if (!$category = ArticleCategory::findOneBySlug($slug)) {
-            if (!UrlRedirection::findOneAndRedirect()) {
-                throw new NotFoundHttpException();
-            }
+            UrlRedirection::findOneAndRedirect();
         }
         return $category;
     }
