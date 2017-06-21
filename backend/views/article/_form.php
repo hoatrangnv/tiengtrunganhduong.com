@@ -74,7 +74,6 @@ if ($model->isNewRecord) {
             <?php echo $form->field($model, 'publish_time_timestamp')->textInput(['type' => 'datetime']) ?>
 
 
-            <?php echo $form->field($model, 'sort_order')->textInput() ?>
         </div>
         <div class="col-md-6">
             <?php echo $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
@@ -86,6 +85,8 @@ if ($model->isNewRecord) {
             <?php echo $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
             <?php echo $form->field($model, 'menu_label')->textInput(['maxlength' => true]) ?>
+
+            <?php echo $form->field($model, 'sort_order')->textInput() ?>
         </div>
     </div>
     <div class="row">
