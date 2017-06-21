@@ -515,6 +515,9 @@ article a:hover {
 .news-content {
     margin-top: 1.5em;
 }
+.news-content ul {
+    padding-left: 1em;
+}
 
 /**
  * RELATED NEWS
