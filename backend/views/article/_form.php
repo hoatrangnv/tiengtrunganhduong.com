@@ -29,6 +29,10 @@ if ($model->isNewRecord) {
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
 <style>
+    #image-file-input,
+    #image-preview-wrapper {
+        margin-bottom: 1rem;
+    }
     #image-preview-wrapper img {
         display: block;
         width: 100%;
@@ -49,8 +53,13 @@ if ($model->isNewRecord) {
             <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
             <?php
-            $image_uploader = '<div id="image-preview-wrapper">' . $model->img() . '</div>' .
-                '<input type="file" id="image-file-input" name="image_file" accept="image/*">';
+            $image_uploader = '<div class="clearfix">' .
+                '<div id="image-preview-wrapper">'
+                . $model->img() .
+                (($image = $model->image) ? "<div>{$image->width}x{$image->height}; {$image->aspect_ratio}</div>" : '') .
+                '</div>' .
+                '<input type="file" id="image-file-input" name="image_file" accept="image/*">' .
+                '</div>';
 
             echo $form->field($model, 'image_id', [
                 'template' => "{label}$image_uploader{input}{error}{hint}"])->dropDownList(
@@ -218,20 +227,23 @@ img_select.select2({
             if (this.status == 200) {
                 var resp = JSON.parse(this.response);
                 console.log('Server got:', resp);
-                img_preview.innerHTML = '';
                 if (resp.success) {
                     var image = new Image();
                     image.src = resp.image.source;
+                    var info = document.createElement("div");
+                    info.innerHTML =resp. image.width + "x" + resp.image.height + "; " + resp.image.aspect_ratio;
+                    img_preview.innerHTML = '';
                     img_preview.appendChild(image);
+                    img_preview.appendChild(info);
                     img_select.empty()
                         .append('<option value="' + resp.image.id + '">' + resp.image.name + '</option>')
                         .val(resp.image.id).trigger("change");
 
                 } else {
-                    img_preview.innerHTML = "Error: " + JSON.stringify(resp.errors);
+                    img_preview.innerHTML = '<div class="text-danger">Errors: ' + JSON.stringify(resp.errors) + '</div>';
                 }
             } else {
-                img_preview.innerHTML = "Upload failed! Please try again.";
+                img_preview.innerHTML = '<div class="text-danger">Upload failed! Please try again</div>';
             }
         };
         xhr.send(fd);
@@ -247,14 +259,21 @@ img_select.select2({
         xhr.open('POST', '<?= Url::to(['image/find-one-by-id'], true) ?>', true);
         xhr.onload = function() {
             if (this.status == 200) {
+                img_preview.innerHTML = '';
                 var resp = JSON.parse(this.response);
                 console.log('Server got:', resp);
                 if (!!resp) {
                     var image = new Image();
                     image.src = resp.source;
-                    img_preview.innerHTML = '';
                     img_preview.appendChild(image);
+                    var info = document.createElement("div");
+                    info.innerHTML = resp.width + "x" + resp.height + "; " + resp.aspect_ratio;
+                    img_preview.appendChild(info);
+                } else {
+                    img_preview.innerHTML = '<div class="text-danger">Cannot find this image on server</div>';
                 }
+            } else {
+                img_preview.innerHTML = '<div class="text-danger">Failed to request image!</div>';
             }
         };
         xhr.send(fd);
