@@ -218,16 +218,20 @@ img_select.select2({
             if (this.status == 200) {
                 var resp = JSON.parse(this.response);
                 console.log('Server got:', resp);
+                img_preview.innerHTML = '';
                 if (resp.success) {
                     var image = new Image();
                     image.src = resp.image.source;
-                    img_preview.innerHTML = '';
                     img_preview.appendChild(image);
                     img_select.empty()
                         .append('<option value="' + resp.image.id + '">' + resp.image.name + '</option>')
                         .val(resp.image.id).trigger("change");
 
+                } else {
+                    img_preview.innerHTML = "Error: " + JSON.stringify(resp.errors);
                 }
+            } else {
+                img_preview.innerHTML = "Upload failed! Please try again.";
             }
         };
         xhr.send(fd);
