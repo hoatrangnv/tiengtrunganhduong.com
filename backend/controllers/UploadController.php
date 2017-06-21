@@ -34,7 +34,6 @@ class UploadController extends BaseController
 
     public function actionFile()
     {
-        set_time_limit(600);
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
@@ -120,5 +119,24 @@ class UploadController extends BaseController
             window.parent.CKEDITOR.tools.callFunction(<?php echo json_encode($funcNum); ?>, <?php echo json_encode($fileUrl); ?>, <?php echo json_encode($errorMessage); ?>);
         </script>
         <?php
+    }
+
+    public function actionAjaxImage()
+    {
+        $file = UploadedFile::getInstanceByName('image_file');
+        $image = new Image();
+        $image->active = 1;
+        if ($image->saveFileAndModel($file)) {
+            return json_encode(['success' => true, 'image' => [
+                'id' => $image->id,
+                'name' => $image->name,
+                'width' => $image->width,
+                'height' => $image->height,
+                'aspect_ratio' => $image->aspect_ratio,
+                'source' => $image->getSource()
+            ]]);
+        } else {
+            return json_encode(['success' => false, 'errors' => $image->getErrors()]);
+        }
     }
 }

@@ -68,7 +68,7 @@ $imageDropDownListOptions = [
     'name' => $image ? $image->name : '',
     'value' => $image ? $image->id : '',
     'initValueText' => $image ? $image->name : '',
-    'options' => ['placeholder' => Yii::t('app', 'Search for a image ...')],
+    'options' => ['placeholder' => Yii::t('app', 'Search for an image ...')],
     'pluginOptions' => [
         'allowClear' => true,
         'minimumInputLength' => 1,

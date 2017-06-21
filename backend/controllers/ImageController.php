@@ -296,6 +296,23 @@ class ImageController extends BaseController
         return json_encode($result);
     }
 
+    public function actionFindOneById()
+    {
+        $id = Yii::$app->request->getBodyParam('id');
+        $image = Image::findOne($id);
+        if ($image) {
+            return json_encode([
+                'id' => $image->id,
+                'name' => $image->name,
+                'width' => $image->width,
+                'height' => $image->height,
+                'aspect_ratio' => $image->aspect_ratio,
+                'source' => $image->getSource(),
+            ]);
+        }
+        return null;
+    }
+
     /**
      * Finds the Image model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\select2\Select2;
 use backend\models\Image;
 use yii\web\JsExpression;
 use yii\helpers\Url;
@@ -25,72 +24,17 @@ if ($model->isNewRecord) {
     }
 }
 
-$formatJs = <<< JS
-var formatRepo = function (repo) {
-    if (repo.loading) {
-        return repo.text;
-    }
-    var markup =
-'<div class="row">' + 
-    '<div class="col-sm-5">' +
-        '<img src="' + repo.source + '" class="img-rounded" style="width:50px" />' +
-        '<b style="margin-left:5px">' + repo.name + '</b>' + 
-    '</div>' +
-    '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + repo.width + 'x' + repo.height + '</div>' +
-    '<div class="col-sm-3"><i class="fa fa-star"></i> ' + repo.aspect_ratio + '</div>' +
-'</div>';
-    // if (repo.description) {
-    //   markup += '<h5>' + repo.description + '</h5>';
-    // }
-    return '<div style="overflow:hidden;">' + markup + '</div>';
-};
-var formatRepoSelection = function (repo) {
-    return repo.name || repo.text;
-}
-JS;
-
-// Register the formatting script
-$this->registerJs($formatJs, View::POS_HEAD);
-
-// script to parse the results into the format expected by Select2
-$resultsJs = <<< JS
-function _(data, params) {
-    console.log(data, params);
-    params.page = params.page || 1;
-    return {
-        results: data.items,
-        pagination: {
-            more: (params.page * 30) < data.total_count
-        }
-    };
-}
-JS;
-
-// render your widget
-$image = $model->image;
-$imageDropDownListOptions = [
-    'name' => $image ? $image->name : '',
-    'value' => $image ? $image->id : '',
-    'initValueText' => $image ? $image->name : '',
-    'options' => ['placeholder' => Yii::t('app', 'Search for a image ...')],
-    'pluginOptions' => [
-        'allowClear' => true,
-        'minimumInputLength' => 1,
-        'ajax' => [
-            'url' => \yii\helpers\Url::to(['image/search']),
-            'dataType' => 'json',
-            'delay' => 250,
-            'data' => new JsExpression('function(params) { return {q: params.term, page: params.page}; }'),
-            'processResults' => new JsExpression($resultsJs),
-            'cache' => true
-        ],
-        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-        'templateResult' => new JsExpression('formatRepo'),
-        'templateSelection' => new JsExpression('formatRepoSelection'),
-    ],
-];
 ?>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    #image-preview-wrapper img {
+        display: block;
+        width: 100%;
+        max-width: 200px;
+    }
+</style>
 <div class="article-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -104,9 +48,13 @@ $imageDropDownListOptions = [
 
             <?php echo $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-            <?php echo $form->field($model, 'image_id')->widget(
-                Select2::className(),
-                $imageDropDownListOptions)
+            <?php
+            $image_uploader = '<div id="image-preview-wrapper">' . $model->img() . '</div>' .
+                '<input type="file" id="image-file-input" name="image_file" accept="image/*">';
+
+            echo $form->field($model, 'image_id', [
+                'template' => "{label}$image_uploader{input}{error}{hint}"])->dropDownList(
+                    $model->image ? [$model->image->id => $model->image->name] : []);
             ?>
 
             <?php echo $form->field($model, 'category_id')->dropDownList(
@@ -193,4 +141,126 @@ $imageDropDownListOptions = [
     <?php
     }
     ?>
+
 </script>
+<script>
+<?php
+$this->beginBlock('image_file_uploader');
+?>
+var img_select = $("#<?= Html::getInputId($model, 'image_id') ?>");
+var formatRepo = function (repo) {
+    if (repo.loading) {
+        return repo.text;
+    }
+    var markup =
+        '<div class="row">' +
+        '<div class="col-sm-5">' +
+        '<img src="' + repo.source + '" class="img-rounded" style="width:50px" />' +
+        '<b style="margin-left:5px">' + repo.name + '</b>' +
+        '</div>' +
+        '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + repo.width + 'x' + repo.height + '</div>' +
+        '<div class="col-sm-3"><i class="fa fa-star"></i> ' + repo.aspect_ratio + '</div>' +
+        '</div>';
+    return '<div style="overflow:hidden;">' + markup + '</div>';
+};
+var formatRepoSelection = function (repo) {
+    return repo.name || repo.text;
+};
+img_select.select2({
+    ajax: {
+        url: "<?= Url::to(['image/search']) ?>",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+            return {
+                q: params.term, // search term
+                page: params.page
+            };
+        },
+        processResults: function (data, params) {
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            params.page = params.page || 1;
+
+            return {
+                results: data.items,
+                pagination: {
+                    more: (params.page * 30) < data.total_count
+                }
+            };
+        },
+        cache: true
+    },
+    escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    minimumInputLength: 1,
+    templateResult: formatRepo, // omitted for brevity, see the source of this page
+    templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+});
+
+    var img_preview = document.getElementById("image-preview-wrapper");
+    var img_input = document.getElementById("image-file-input");
+    img_input.addEventListener("change", function (event) {
+        var file = this.files[0];
+        var fd = new FormData();
+        fd.append(img_input.name, file);
+        fd.append('<?= Yii::$app->request->csrfParam ?>', '<?= Yii::$app->request->csrfToken ?>');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= Url::to(['upload/ajax-image'], true) ?>', true);
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                var percentComplete = (event.loaded / event.total) * 100;
+                img_preview.innerHTML = percentComplete + '% uploaded';
+            }
+        };
+        xhr.onload = function() {
+            if (this.status == 200) {
+                var resp = JSON.parse(this.response);
+                console.log('Server got:', resp);
+                if (resp.success) {
+                    var image = new Image();
+                    image.src = resp.image.source;
+                    img_preview.innerHTML = '';
+                    img_preview.appendChild(image);
+                    img_select.empty()
+                        .append('<option value="' + resp.image.id + '">' + resp.image.name + '</option>')
+                        .val(resp.image.id).trigger("change");
+
+                }
+            }
+        };
+        xhr.send(fd);
+
+    });
+    // On change
+    img_select.on("change", function (event) {
+        var id = img_select.val();
+        var fd = new FormData();
+        fd.append('id', id);
+        fd.append('<?= Yii::$app->request->csrfParam ?>', '<?= Yii::$app->request->csrfToken ?>');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= Url::to(['image/find-one-by-id'], true) ?>', true);
+        xhr.onload = function() {
+            if (this.status == 200) {
+                var resp = JSON.parse(this.response);
+                console.log('Server got:', resp);
+                if (!!resp) {
+                    var image = new Image();
+                    image.src = resp.source;
+                    img_preview.innerHTML = '';
+                    img_preview.appendChild(image);
+                }
+            }
+        };
+        xhr.send(fd);
+    });
+<?php
+$this->endBlock();
+    $this->registerJs($this->blocks['image_file_uploader'], View::POS_READY, 'image_file_uploader');
+    $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', [
+        'depends' => \yii\web\JqueryAsset::className()
+    ]);
+?>
+</script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>-->
