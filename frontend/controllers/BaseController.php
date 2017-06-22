@@ -103,10 +103,6 @@ class BaseController extends Controller
 
         $this->canonicalLink = Url::current([], true);
 
-        echo '<!--';
-        var_dump(MyActiveQuery::$enableCache);
-        echo '-->';
-
         return parent::beforeAction($action);
     }
 }
