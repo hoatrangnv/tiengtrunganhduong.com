@@ -349,10 +349,10 @@ $this->endBlock();
             widget.classList.add("active");
         });
         document.addEventListener("click", function (event) {
-            if (event.target !== datetimeInput
-                && event.target !== widget
-                && !checkIsContains(widget, event.target)
-                && checkIsContains(document, event.target)
+            if (event.target !== datetimeInput &&
+                event.target !== widget &&
+                !checkIsContains(widget, event.target) &&
+                checkIsContains(document, event.target)
             ) {
                 widget.classList.remove("active");
             }
