@@ -16,37 +16,37 @@ use yii\db\ActiveQueryInterface;
  *
  * @author Quyet Tran <quyettvq at gmail.com>
  */
-class MyActiveQuery extends ActiveQuery
+class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
 {
     /**
      * @var bool
      */
-    public static $enableCache = true;
+    public $enableCache = true;
 
     /**
      * @var int
      */
-    public static $cacheDuration = 3600;
+    public $cacheDuration = 3600;
 
     /**
      * @var int
      */
-    public static $publishTimeWrongNumber = 300;
+    public $publishTimeWrongNumber = 300;
 
     /**
      * @var string
      */
-    public static $activeAttribute = 'active';
+    public $activeAttribute = 'active';
 
     /**
      * @var string
      */
-    public static $visibleAttribute = 'visible';
+    public $visibleAttribute = 'visible';
 
     /**
      * @var string
      */
-    public static $publishTimeAttribute = 'publish_time';
+    public $publishTimeAttribute = 'publish_time';
 
     /**
      * MyActiveQuery constructor.
@@ -57,11 +57,8 @@ class MyActiveQuery extends ActiveQuery
     {
         if (isset(Yii::$app->params['myActiveQuery'])) {
             foreach (Yii::$app->params['myActiveQuery'] as $key => $value) {
-//                if ($this->hasProperty($key)) {
-//                    $config[$key] = $value;
-//                }
-                if (self::hasProperty($key)) {
-                    self::$$key = $value;
+                if ($this->hasProperty($key)) {
+                    $config[$key] = $value;
                 }
             }
         }
@@ -94,7 +91,7 @@ class MyActiveQuery extends ActiveQuery
      */
     public function active()
     {
-        return $this->is(self::$activeAttribute);
+        return $this->is($this->activeAttribute);
     }
 
     /**
@@ -132,7 +129,7 @@ class MyActiveQuery extends ActiveQuery
      */
     public function visible()
     {
-        return $this->active()->is(self::$visibleAttribute);
+        return $this->active()->is($this->visibleAttribute);
     }
 
     /**
@@ -172,12 +169,12 @@ class MyActiveQuery extends ActiveQuery
     public function published($wrong_number = null)
     {
         if ($wrong_number === null) {
-            $wrong_number = self::$publishTimeWrongNumber;
+            $wrong_number = $this->publishTimeWrongNumber;
         }
 
         $time = (int) round(time() / $wrong_number) * $wrong_number;
         
-        return $this->visible()->andWhere(['<=', self::$publishTimeAttribute, $time]);
+        return $this->visible()->andWhere(['<=', $this->publishTimeAttribute, $time]);
     }
 
     /**
@@ -217,12 +214,12 @@ class MyActiveQuery extends ActiveQuery
     public function unpublished($wrong_number = null)
     {
         if ($wrong_number === null) {
-            $wrong_number = self::$publishTimeWrongNumber;
+            $wrong_number = $this->publishTimeWrongNumber;
         }
 
         $time = (int) round(time() / $wrong_number) * $wrong_number;
 
-        return $this->visible()->andWhere(['>', self::$publishTimeAttribute, $time]);
+        return $this->visible()->andWhere(['>', $this->publishTimeAttribute, $time]);
     }
 
     /**
@@ -263,13 +260,13 @@ class MyActiveQuery extends ActiveQuery
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, $db);
-        if (self::$enableCache) {
+        if ($this->enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enableCache || $result === false) {
+        if (!$this->enableCache || $result === false) {
             $result = parent::all($db);
-            if (self::$enableCache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
+            if ($this->enableCache) {
+                Yii::$app->cache->set($cache_key, $result, $this->cacheDuration);
             }
         }
         return $result;
@@ -283,16 +280,16 @@ class MyActiveQuery extends ActiveQuery
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, $db);
-        if (self::$enableCache) {
+        if ($this->enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enableCache || $result === false) {
+        if (!$this->enableCache || $result === false) {
             $result = parent::one($db);
             if ($result === false) {
                 $result = 'F';
             }
-            if (self::$enableCache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
+            if ($this->enableCache) {
+                Yii::$app->cache->set($cache_key, $result, $this->cacheDuration);
             }
         }
         if ($result === 'F') {
@@ -310,13 +307,13 @@ class MyActiveQuery extends ActiveQuery
     {
         $result = false;
         $cache_key = $this->getCacheKey(__METHOD__, [$db, $q]);
-        if (self::$enableCache) {
+        if ($this->enableCache) {
             $result = Yii::$app->cache->get($cache_key);
         }
-        if (!self::$enableCache || (is_bool($result) && !$result)) {
+        if (!$this->enableCache || (is_bool($result) && !$result)) {
             $result = parent::count($q, $db);
-            if (self::$enableCache) {
-                Yii::$app->cache->set($cache_key, $result, self::$cacheDuration);
+            if ($this->enableCache) {
+                Yii::$app->cache->set($cache_key, $result, $this->cacheDuration);
             }
         }
         return $result;
