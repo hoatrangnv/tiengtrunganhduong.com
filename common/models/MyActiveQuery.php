@@ -16,7 +16,7 @@ use yii\db\ActiveQueryInterface;
  *
  * @author Quyet Tran <quyettvq at gmail.com>
  */
-class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
+class MyActiveQuery extends ActiveQuery
 {
     /**
      * @var bool
