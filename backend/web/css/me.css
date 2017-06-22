@@ -28,6 +28,7 @@
 .site-index .body-content li img {
     max-width: 30px;
     max-height: 30px;
+    overflow: hidden;
 }
 
 /**
