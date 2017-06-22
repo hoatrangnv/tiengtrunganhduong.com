@@ -21,41 +21,41 @@ $this->title = Yii::$app->name;
 
         <div class="row">
             <div class="col-lg-4">
-                <h2>Inactive Articles (<?= Article::find()->where(['active' => 0])->count() ?>)</h2>
+                <h2>Inactive Articles (<?= Article::find()->isNot('active')->count() ?>)</h2>
 
                 <ul>
                     <?php
-                    foreach (Article::find()->where(['active' => 0])->orderBy('publish_time desc')->limit(20)->all() as $item) {
+                    foreach (Article::find()->isNot('active')->orderBy('publish_time desc')->limit(20)->all() as $item) {
                         echo "<li>{$item->a()}</li>";
                     }
                     ?>
                 </ul>
 
-                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 0]) ?>">Articles &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 0]) ?>">View all &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Active Articles (<?= Article::find()->where(['active' => 1])->count() ?>)</h2>
+                <h2>Active Articles (<?= Article::find()->countActive() ?>)</h2>
 
                 <ul>
                     <?php
-                    foreach (Article::find()->where(['active' => 1])->orderBy('publish_time desc')->limit(20)->all() as $item) {
+                    foreach (Article::find()->orderBy('publish_time desc')->limit(20)->allActive() as $item) {
                         echo "<li>{$item->a()}</li>";
                     }
                     ?>
                 </ul>
 
-                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">Articles &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">View all &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Active Images (<?= Image::find()->where(['active' => 1])->count() ?>)</h2>
+                <h2>Active Images (<?= Image::find()->countActive() ?>)</h2>
 
                 <ul id="motivatebox">
                     <?php
-                    foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(20)->all() as $item) {
+                    foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(18)->all() as $item) {
                         echo
                             "<li>"
                             . $item->a(
-                                $item->img('50x50', ['style' => 'max-width:50px;max-height:50px'])
+                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px'])
                                 . "{$item->name}"
                               )
                             . "</li>";
@@ -63,7 +63,7 @@ $this->title = Yii::$app->name;
                     ?>
                 </ul>
 
-                <p><a class="btn btn-default" href="<?= Url::to(['image/index']) ?>">Images &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['image/index']) ?>">View all &raquo;</a></p>
             </div>
         </div>
 

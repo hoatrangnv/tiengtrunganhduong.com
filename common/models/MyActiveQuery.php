@@ -66,6 +66,24 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
         parent::__construct($modelClass, $config);
     }
 
+    /**
+     * @param $attribute
+     * @return $this
+     */
+    public function is($attribute)
+    {
+        return $this->andWhere([$attribute => 1]);
+    }
+
+    /**
+     * @param $attribute
+     * @return $this
+     */
+    public function isNot($attribute)
+    {
+        return $this->andWhere([$attribute => 0]);
+    }
+
     /** ACTIVE */
 
     /**
@@ -73,7 +91,7 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
      */
     public function active()
     {
-        return $this->andWhere([$this->activeAttribute => true]);
+        return $this->is($this->activeAttribute);
     }
 
     /**
@@ -111,7 +129,7 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
      */
     public function visible()
     {
-        return $this->active()->andWhere([$this->visibleAttribute => true]);
+        return $this->active()->is($this->visibleAttribute);
     }
 
     /**
