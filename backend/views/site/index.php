@@ -28,7 +28,7 @@ $this->title = Yii::$app->name;
                     foreach (Article::find()->isNot('active')->orderBy('publish_time desc')->limit(20)->all() as $item) {
                         echo "<li style='margin-top: 0.1em'>"
                             . $item->a(
-                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
+                                $item->img('30x30') . " $item->name"
                             )
                             . "</li>";
                     }
@@ -45,7 +45,7 @@ $this->title = Yii::$app->name;
                     foreach (Article::find()->orderBy('publish_time desc')->limit(20)->allActive() as $item) {
                         echo "<li style='margin-top: 0.1em'>"
                             . $item->a(
-                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
+                                $item->img('30x30') . " $item->name"
                             )
                             . "</li>";
                     }
@@ -62,7 +62,7 @@ $this->title = Yii::$app->name;
                     foreach (Image::find()->orderBy('id desc')->limit(20)->allActive() as $item) {
                         echo "<li style='margin-top: 0.1em'>"
                             . $item->a(
-                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
+                                $item->img('30x30') . " $item->name"
                               )
                             . "</li>";
                     }

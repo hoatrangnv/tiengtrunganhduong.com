@@ -22,6 +22,15 @@
 }
 
 /**
+ * Site index
+ */
+
+.site-index .body-content li img {
+    max-width: 30px;
+    max-height: 30px;
+}
+
+/**
  * Form
  */
 form .form-group.required label:first-of-type:after {
