@@ -26,7 +26,11 @@ $this->title = Yii::$app->name;
                 <ul>
                     <?php
                     foreach (Article::find()->isNot('active')->orderBy('publish_time desc')->limit(20)->all() as $item) {
-                        echo "<li>{$item->a()}</li>";
+                        echo "<li style='margin-top: 0.1em'>"
+                            . $item->a(
+                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
+                            )
+                            . "</li>";
                     }
                     ?>
                 </ul>
@@ -39,7 +43,11 @@ $this->title = Yii::$app->name;
                 <ul>
                     <?php
                     foreach (Article::find()->orderBy('publish_time desc')->limit(20)->allActive() as $item) {
-                        echo "<li>{$item->a()}</li>";
+                        echo "<li style='margin-top: 0.1em'>"
+                            . $item->a(
+                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
+                            )
+                            . "</li>";
                     }
                     ?>
                 </ul>
@@ -51,9 +59,8 @@ $this->title = Yii::$app->name;
 
                 <ul id="motivatebox">
                     <?php
-                    foreach (Image::find()->orderBy('id desc')->limit(19)->allActive() as $item) {
-                        echo
-                            "<li style='margin-top: 0.1em'>"
+                    foreach (Image::find()->orderBy('id desc')->limit(20)->allActive() as $item) {
+                        echo "<li style='margin-top: 0.1em'>"
                             . $item->a(
                                 $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
                               )
