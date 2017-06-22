@@ -310,7 +310,9 @@ $this->endBlock();
             {
                 "weekdays": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
                 "months": ["Giêng", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "Tám", "Chín", "Mười", "Mười Một", "Mười Hai"],
-                "onChange": function (current) {},
+                "onChange": function (current) {
+                    exportValue();
+                },
                 "classNamePrefix": "datetimePicker__"
             }
         );
