@@ -315,7 +315,7 @@ $this->endBlock();
                 "classNamePrefix": "datetimePicker__"
             }
         );
-        datetimeInput.widget = datetimeInput.picker.widget(
+        var widget = datetimeInput.picker.widget(
             {
                 "yearMonthBlock": {
                     "items": ["yearCell", "monthCell"]
@@ -329,7 +329,7 @@ $this->endBlock();
                 "controlBlock": {
                     "items": ["set2nowCell", "resetCell", "submitCell"],
                     "onSubmit": function (current) {
-                        datetimeInput.widget.classList.remove("active");
+                        widget.classList.remove("active");
                     }
                 },
                 "items": ["yearMonthBlock", "dateBlock", "timeBlock", "controlBlock"]
@@ -343,14 +343,20 @@ $this->endBlock();
                 exportValue();
             }
         });
-        datetimeInput.parentNode.insertBefore(datetimeInput.widget, datetimeInput.nextElementSiblings);
+        datetimeInput.parentNode.insertBefore(widget, datetimeInput.nextElementSiblings);
         datetimeInput.addEventListener("focusin", function () {
             datetimeInput.picker.current.time = (new Date(datetimeInput.value)).getTime();
-            datetimeInput.widget.classList.add("active");
+            widget.classList.add("active");
         });
-//        datetimeInput.addEventListener("focusout", function () {
-//            datetimeInput.widget.classList.remove("active");
-//        });
+        document.addEventListener("click", function (event) {
+            if (event.target !== datetimeInput
+                && event.target !== widget
+                && !checkIsContains(widget, event.target)
+                && checkIsContains(document, event.target)
+            ) {
+                widget.classList.remove("active");
+            }
+        });
         function exportValue() {
             var current = datetimeInput.picker.current;
             datetimeInput.value = "Y-m-d H:i:s"
@@ -364,6 +370,15 @@ $this->endBlock();
         }
         function pad(number) {
             return number < 10 ? "0" + number : "" + number;
+        }
+        function checkIsContains(root, elem) {
+            if (root.contains(elem)) {
+                return true;
+            } else {
+                return [].some.call(root.children, function (child) {
+                    return checkIsContains(child, elem);
+                });
+            }
         }
     }(document.getElementById("<?= Html::getInputId($model, 'publish_time_timestamp') ?>"));
 </script>
