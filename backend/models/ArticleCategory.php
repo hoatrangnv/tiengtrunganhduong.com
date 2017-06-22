@@ -8,7 +8,7 @@
 
 namespace backend\models;
 
-
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -35,25 +35,31 @@ class ArticleCategory extends \common\models\ArticleCategory
     {
         /**
          * @param self[] $categories
+         * @param bool $isRoot
          * @return array
          */
-        $arrange = function ($categories) use (&$arrange) {
+        $arrange = function ($categories, $isRoot = true) use (&$arrange) {
             $result = [];
             foreach ($categories as $category) {
                 $children = $category->getArticleCategories()->all();
                 if (!empty($children)) {
                     $result[$category->name] = [
-                        " $category->id " => $category->name,
-                        '__________' => $arrange($children),
+                        "$category->id" => $category->name,
+                        '__________' => $arrange($children, false),
+                        '' => '',
                     ];
                 } else {
-                    $result[" $category->id "] = $category->name;
+                    if ($isRoot) {
+                        $result['No Children']["$category->id"] = $category->name;
+                    } else {
+                        $result["$category->id"] = $category->name;
+                    }
                 }
             }
             return $result;
         };
 
-        $result = array_merge([[0 => '(Không có)']], $arrange(self::find()->where(['parent_id' => null])->all()));
+        $result = array_merge($arrange(self::find()->where(['parent_id' => null])->all()), [0 => Yii::t('yii', '(not set)')]);
         return $result;
     }
 
