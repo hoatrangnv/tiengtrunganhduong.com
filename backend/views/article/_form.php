@@ -118,7 +118,7 @@ if ($model->isNewRecord) {
         <div class="form-group">
             <label class="btn btn-default">
                 <input type="radio" name="submit-and" value="stay-here">
-                <span>Submit then back here</span>
+                <span>Submit and back here</span>
             </label>
         </div>
         <?php
