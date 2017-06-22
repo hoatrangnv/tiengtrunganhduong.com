@@ -51,7 +51,7 @@ $this->title = Yii::$app->name;
 
                 <ul id="motivatebox">
                     <?php
-                    foreach (Image::find()->orderBy('id desc')->limit(20)->allActive() as $item) {
+                    foreach (Image::find()->orderBy('id desc')->limit(19)->allActive() as $item) {
                         echo
                             "<li style='margin-top: 0.1em'>"
                             . $item->a(
