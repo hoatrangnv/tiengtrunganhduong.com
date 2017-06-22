@@ -283,7 +283,7 @@ class ArticleController extends BaseController
         }
         $table = Article::tableName();
         $query = Yii::$app->db
-            ->createCommand("UPDATE `$table` SET `$field` = (CAST(`$field` AS UNSIGNED) + :value) WHERE `slug` = :slug")
+            ->createCommand("UPDATE `$table` SET `$field` = (IFNULL(`$field`, 0) + :value) WHERE `slug` = :slug")
             ->bindValues([':value' => $value, ':slug' => $slug])
             ->execute();
         return !!$query;
