@@ -35,9 +35,9 @@ class SimCheckerController extends Controller
             $dom = null;
             return $result;
         };
-        $viettel_url = 'https://shop.viettel.vn/ajax/tim-kiem-sim?from_money=50000&to_money=22000000&total_point=&total_node=&number=08%2A&n%5B0%5D=4&_=1498007495124&page=';
+        $viettel_url = 'https://shop.viettel.vn/ajax/tim-kiem-sim?from_money=50000&to_money=22000000&total_point=&total_node=&number=09%2A&length%5B0%5D=10&_=1498007495126&page=';
         $numbers = [];
-        for ($page = 0; $page < 100; $page++) {
+        for ($page = 0; $page < 21; $page++) {
             $numbers = array_merge($numbers, $getNumbers($viettel_url . $page));
         }
 //        $file = fopen(\Yii::getAlias('@console/runtime/viettel.txt') . date('_Ymd_His'), 'w');
@@ -109,7 +109,7 @@ class SimCheckerController extends Controller
                 $pos = strpos($kl->innerHTML, '/ 10');
                 if ($pos !== false) {
                     $score = (float) substr($kl->innerHTML, $pos - 6, 5);
-                    echo $score . "\n";
+                    echo $number . ': ' . $score . "\n";
                     $number_list[] = [$number, $score];
                 }
             }

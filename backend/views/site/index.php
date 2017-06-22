@@ -54,7 +54,6 @@ $this->title = Yii::$app->name;
                     foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(20)->all() as $item) {
                         echo
                             "<li>"
-                            . "<span class=\"bg-success motivate\">Image({$item->id})</span>"
                             . $item->a(
                                 $item->img('50x50', ['style' => 'max-width:50px;max-height:50px'])
                                 . "{$item->name}"

@@ -58,36 +58,53 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/article-category/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/article-category/view'], 'visible' => false],
                 ]],
-                ['label' => 'Image', 'items' => [
-                    ['label' => 'Index', 'url' => ['/image/index']],
-                    ['label' => 'Create', 'url' => ['/image/create']],
-                    ['label' => 'Upload Multiple', 'url' => ['/upload/images']],
-                    ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
-                ]],
                 ['label' => 'Banner', 'items' => [
                     ['label' => 'Index', 'url' => ['/banner/index']],
                     ['label' => 'Create', 'url' => ['/banner/create']],
                     ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/banner/view'], 'visible' => false],
                 ]],
-                ['label' => 'Site Param', 'items' => [
-                    ['label' => 'Index', 'url' => ['/site-param/index']],
-                    ['label' => 'Create', 'url' => ['/site-param/create']],
-                    ['label' => 'Update', 'url' => ['/site-param/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/site-param/view'], 'visible' => false],
+                ['label' => 'Image', 'items' => [
+                    ['label' => 'Index', 'url' => ['/image/index']],
+                    ['label' => 'Create', 'url' => ['/image/create']],
+                    ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
+                    ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
                 ]],
-                ['label' => 'Url Redirection', 'items' => [
-                    ['label' => 'Index', 'url' => ['/url-redirection/index']],
-                    ['label' => 'Create', 'url' => ['/url-redirection/create']],
-                    ['label' => 'Update', 'url' => ['/url-redirection/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/url-redirection/view'], 'visible' => false],
-                ]],
-                ['label' => 'SEO Info', 'items' => [
-                    ['label' => 'Index', 'url' => ['/seo-info/index']],
-                    ['label' => 'Create', 'url' => ['/seo-info/create']],
+//                ['label' => 'Site Param', 'items' => [
+//                    ['label' => 'Index', 'url' => ['/site-param/index']],
+//                    ['label' => 'Create', 'url' => ['/site-param/create']],
+//                    ['label' => 'Update', 'url' => ['/site-param/update'], 'visible' => false],
+//                    ['label' => 'View', 'url' => ['/site-param/view'], 'visible' => false],
+//                ]],
+//                ['label' => 'Url Redirection', 'items' => [
+//                    ['label' => 'Index', 'url' => ['/url-redirection/index']],
+//                    ['label' => 'Create', 'url' => ['/url-redirection/create']],
+//                    ['label' => 'Update', 'url' => ['/url-redirection/update'], 'visible' => false],
+//                    ['label' => 'View', 'url' => ['/url-redirection/view'], 'visible' => false],
+//                ]],
+
+//                ['label' => 'SEO Info', 'items' => [
+//                    ['label' => 'Index', 'url' => ['/seo-info/index']],
+//                    ['label' => 'Create', 'url' => ['/seo-info/create']],
+//                    ['label' => 'Update', 'url' => ['/seo-info/update'], 'visible' => false],
+//                    ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
+//                ]],
+                ['label' => 'More...', 'items' => [
+                    ['label' => 'SEO Info', 'url' => ['/seo-info/index']],
+                    ['label' => 'Create', 'url' => ['/seo-info/create'], 'visible' => false],
                     ['label' => 'Update', 'url' => ['/seo-info/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
+
+                    ['label' => 'URL Redirection', 'url' => ['/url-redirection/index']],
+                    ['label' => 'Create', 'url' => ['/url-redirection/create'], 'visible' => false],
+                    ['label' => 'Update', 'url' => ['/url-redirection/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/url-redirection/view'], 'visible' => false],
+
+                    ['label' => 'Site Param', 'url' => ['/site-param/index']],
+                    ['label' => 'Create', 'url' => ['/site-param/create'], 'visible' => false],
+                    ['label' => 'Update', 'url' => ['/site-param/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/site-param/view'], 'visible' => false],
                 ]],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
