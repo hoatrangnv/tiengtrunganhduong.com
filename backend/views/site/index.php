@@ -55,7 +55,7 @@ $this->title = Yii::$app->name;
                         echo
                             "<li style='margin-top: 0.1em'>"
                             . $item->a(
-                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . "{$item->name}"
+                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . " $item->name"
                               )
                             . "</li>";
                     }
