@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\models\MyActiveQuery;
 use common\models\UrlParam;
 use frontend\models\Article;
 use frontend\models\ArticleCategory;
@@ -101,6 +102,10 @@ class BaseController extends Controller
         }
 
         $this->canonicalLink = Url::current([], true);
+
+        echo '<!--';
+        var_dump(MyActiveQuery::$enableCache);
+        echo '-->';
 
         return parent::beforeAction($action);
     }
