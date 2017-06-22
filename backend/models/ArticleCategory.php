@@ -59,7 +59,10 @@ class ArticleCategory extends \common\models\ArticleCategory
             return $result;
         };
 
-        $result = array_merge($arrange(self::find()->where(['parent_id' => null])->all()), [0 => Yii::t('yii', '(not set)')]);
+        $result = array_merge(
+            [0 => Yii::t('yii', '(not set)'),
+            $arrange(self::find()->where(['parent_id' => null])->all())]
+        );
         return $result;
     }
 
