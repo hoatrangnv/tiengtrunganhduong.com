@@ -51,12 +51,12 @@ $this->title = Yii::$app->name;
 
                 <ul id="motivatebox">
                     <?php
-                    foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(18)->all() as $item) {
+                    foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(20)->all() as $item) {
                         echo
                             "<li>"
                             . $item->a(
-                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px'])
-                                . "{$item->name}"
+                                $item->img('30x30', ['style' => 'max-width:30px;max-height:30px']) . "{$item->name}",
+                                ['style' => 'margin-top: 0.1em']
                               )
                             . "</li>";
                     }
