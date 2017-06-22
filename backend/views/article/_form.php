@@ -71,8 +71,8 @@ if ($model->isNewRecord) {
                 ['prompt' => Yii::t('app', 'Select one ...')])
             ?>
 
-            <?php echo $form->field($model, 'publish_time_timestamp')->textInput(['type' => 'datetime']) ?>
-
+            <?php echo $form->field($model, 'publish_time_timestamp')->textInput(['type' => 'datetime']);
+            ?>
 
         </div>
         <div class="col-md-6">
@@ -151,7 +151,6 @@ if ($model->isNewRecord) {
     <?php
     }
     ?>
-
 </script>
 <script>
 <?php
@@ -287,4 +286,84 @@ $this->endBlock();
     ]);
 ?>
 </script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>-->
+<script src="<?= Yii::getAlias('@web/libs/datetimepicker/datetimepicker.js') ?>"></script>
+<link href="<?= Yii::getAlias('@web/libs/datetimepicker/datetimepicker.css') ?>" rel="stylesheet">
+<style>
+    .datetimePicker__widget {
+        display: none;
+        position: absolute;
+        z-index: 999;
+        background: #fff;
+    }
+    .datetimePicker__widget.active,
+    .datetimePicker__widget:hover {
+        display: table;
+    }
+</style>
+<script>
+    !function (datetimeInput) {
+        if (!datetimeInput) {
+            throw Error();
+        }
+        datetimeInput.picker = new DatetimePicker(
+            new Date(datetimeInput.value),
+            {
+                "weekdays": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+                "months": ["Giêng", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "Tám", "Chín", "Mười", "Mười Một", "Mười Hai"],
+                "onChange": function (current) {},
+                "classNamePrefix": "datetimePicker__"
+            }
+        );
+        datetimeInput.widget = datetimeInput.picker.widget(
+            {
+                "yearMonthBlock": {
+                    "items": ["yearCell", "monthCell"]
+                },
+                "dateBlock": {
+                    "onClick": function (current) {}
+                },
+                "timeBlock": {
+                    "items": ["hoursCell", "minutesCell", "secondsCell"]
+                },
+                "controlBlock": {
+                    "items": ["set2nowCell", "resetCell", "submitCell"],
+                    "onSubmit": function (current) {
+                        exportValue();
+                    }
+                },
+                "items": ["yearMonthBlock", "dateBlock", "timeBlock", "controlBlock"]
+            }
+        );
+        datetimeInput.addEventListener("input", function () {
+            var current = datetimeInput.picker.current;
+            var time = (new Date(datetimeInput.value)).getTime();
+            if (!isNaN(time)) {
+                datetimeInput.picker.current.time = time;
+            } else {
+                exportValue();
+            }
+        });
+        datetimeInput.parentNode.insertBefore(datetimeInput.widget, datetimeInput.nextElementSiblings);
+        datetimeInput.addEventListener("focusin", function () {
+            datetimeInput.picker.current.time = (new Date(datetimeInput.value)).getTime();
+            datetimeInput.widget.classList.add("active");
+        });
+        datetimeInput.addEventListener("focusout", function () {
+            datetimeInput.widget.classList.remove("active");
+        });
+        function exportValue() {
+            var current = datetimeInput.picker.current;
+            datetimeInput.value = "Y-m-d H:i:s"
+                .replace(/Y/g, current.year)
+                .replace(/m/g, pad(current.month + 1))
+                .replace(/d/g, pad(current.date))
+                .replace(/H/g, pad(current.hours))
+                .replace(/i/g, pad(current.minutes))
+                .replace(/s/g, pad(current.seconds))
+            ;
+        }
+        function pad(number) {
+            return number < 10 ? "0" + number : "" + number;
+        }
+    }(document.getElementById("<?= Html::getInputId($model, 'publish_time_timestamp') ?>"));
+</script>
