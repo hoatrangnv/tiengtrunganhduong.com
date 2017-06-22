@@ -21,4 +21,5 @@ class UrlParam
     const KEYWORD = 'keyword';
     const NAME = 'name';
     const VALUE = 'value';
+    const FIELD = 'field';
 }

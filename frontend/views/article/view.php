@@ -56,9 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("<?=
             (Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken)
-            . ('&' . UrlParam::SLUG . '=' . $model->slug)
-            . ('&' . UrlParam::NAME . '=view_count')
+            . ('&' . UrlParam::FIELD . '=view_count')
             . ('&' . UrlParam::VALUE . '=1')
+            . ('&' . UrlParam::SLUG . '=' . $model->slug)
             ?>");
     }
 </script>

@@ -275,17 +275,17 @@ class ArticleController extends BaseController
 
     public function actionAjaxUpdateCounter()
     {
-        $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
-        $name = Yii::$app->request->getBodyParam(UrlParam::NAME);
+        $field = Yii::$app->request->getBodyParam(UrlParam::FIELD);
         $value = (int) Yii::$app->request->getBodyParam(UrlParam::VALUE, 1);
-        if (!in_array($name, ['view_count', 'comment_count', 'like_count', 'share_count'])) {
+        $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
+        if (!in_array($field, ['view_count', 'comment_count', 'like_count', 'share_count'])) {
             throw new BadRequestHttpException();
         }
-        $model = $this->findModel($slug);
-        $model->updateCounters([$name => $value]);
-        if ($model->save()) {
-            return true;
-        }
-        return false;
+        $table = Article::tableName();
+        $query = Yii::$app->db
+            ->createCommand("UPDATE `$table` SET `$field` = (CAST(`$field` AS UNSIGNED) + :value) WHERE `slug` = :slug")
+            ->bindValues([':value' => $value, ':slug' => $slug])
+            ->execute();
+        return !!$query;
     }
 }
