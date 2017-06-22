@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use backend\models\SeoInfo;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SeoInfoSearch */
@@ -24,23 +25,36 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'creator_id',
-            'updater_id',
-            'image_id',
-            'url:url',
-            // 'route',
-            // 'name',
+//            'id',
+//            'creator_id',
+//            'updater_id',
+            [
+                'attribute' => 'image_id',
+                'format' => 'raw',
+                'value' => function (SeoInfo $model) {
+                    return $model->img('100x100');
+                }
+            ],
+//            'url:url',
+            [
+                'attribute' => 'route',
+                'format' => 'raw',
+                'value' => function (SeoInfo $model) {
+                    $routes = SeoInfo::getRoutes();
+                    return $model->route . (isset($routes[$model->route]) ? ' (' . $routes[$model->route] . ')' : '');
+                }
+            ],
+             'name',
             // 'meta_title',
             // 'meta_keywords',
             // 'meta_description',
             // 'description',
             // 'long_description:ntext',
             // 'content:ntext',
-            // 'active',
             // 'type',
             // 'status',
-            // 'sort_order',
+             'sort_order',
+             'active:boolean',
             // 'create_time:datetime',
             // 'update_time:datetime',
 
