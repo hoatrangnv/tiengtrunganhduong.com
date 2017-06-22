@@ -12,6 +12,12 @@ use backend\models\Article;
  */
 class ArticleSearch extends Article
 {
+    public $publish_time__operator = '=';
+
+    public $create_time__operator = '=';
+
+    public $update_time__operator = '=';
+
     /**
      * @inheritdoc
      */
@@ -20,6 +26,7 @@ class ArticleSearch extends Article
         return [
             [['id', 'creator_id', 'updater_id', 'image_id', 'category_id', 'active', 'visible', 'featured', 'shown_on_menu', 'type', 'status', 'sort_order', 'create_time', 'update_time', 'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count', 'doindex', 'dofollow',], 'integer'],
             [['slug', 'name', 'meta_title', 'meta_description', 'meta_keywords', 'description', 'content', 'sub_content', 'menu_label'], 'safe'],
+            [['publish_time__operator', 'create_time__operator', 'update_time__operator'], 'string'],
         ];
     }
 
@@ -76,16 +83,31 @@ class ArticleSearch extends Article
             'type' => $this->type,
             'status' => $this->status,
             'sort_order' => $this->sort_order,
-            'create_time' => $this->create_time,
-            'update_time' => $this->update_time,
-            'publish_time' => $this->publish_time,
             'view_count' => $this->view_count,
             'like_count' => $this->like_count,
             'comment_count' => $this->comment_count,
             'share_count' => $this->share_count,
         ]);
 
-        $query->andFilterWhere(['like', 'slug', $this->slug])
+        $query
+            ->andFilterWhere([
+                $this->create_time__operator,
+                'create_time',
+                '0' === $this->create_time ? time() : $this->create_time
+            ])
+            ->andFilterWhere([
+                $this->update_time__operator,
+                'update_time',
+                '0' === $this->update_time ? time() : $this->update_time
+            ])
+            ->andFilterWhere([
+                $this->publish_time__operator,
+                'publish_time',
+                '0' === $this->publish_time ? time() : $this->publish_time
+            ]);
+
+        $query
+            ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description])
@@ -95,7 +117,7 @@ class ArticleSearch extends Article
             ->andFilterWhere(['like', 'sub_content', $this->sub_content])
             ->andFilterWhere(['like', 'menu_label', $this->menu_label]);
 
-        if (-1 == $this->category_id) {
+        if ('0' === $this->category_id) {
             $query->andWhere(['category_id' => null]);
         } else {
             $query->andFilterWhere(['category_id' => $this->category_id]);

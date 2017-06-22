@@ -41,19 +41,20 @@ class ArticleCategory extends \common\models\ArticleCategory
             $result = [];
             foreach ($categories as $category) {
                 $children = $category->getArticleCategories()->all();
-                if ($children) {
+                if (!empty($children)) {
                     $result[$category->name] = [
-                        $category->id => $category->name,
+                        " $category->id " => $category->name,
                         '__________' => $arrange($children),
                     ];
                 } else {
-                    $result[$category->name] = [$category->id => $category->name];
+                    $result[" $category->id "] = $category->name;
                 }
             }
             return $result;
         };
 
-        return array_merge([[-1 => '(Không có)']], $arrange(self::find()->where(['parent_id' => null])->all()));
+        $result = array_merge([[0 => '(Không có)']], $arrange(self::find()->where(['parent_id' => null])->all()));
+        return $result;
     }
 
     /**

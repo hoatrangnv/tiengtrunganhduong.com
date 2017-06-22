@@ -205,6 +205,51 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
         return $this->published()->count($q, $db);
     }
 
+    /** UNPUBLISHED */
+
+    /**
+     * @param null $wrong_number
+     * @return $this
+     */
+    public function unpublished($wrong_number = null)
+    {
+        if ($wrong_number === null) {
+            $wrong_number = $this->publishTimeWrongNumber;
+        }
+
+        $time = (int) round(time() / $wrong_number) * $wrong_number;
+
+        return $this->visible()->andWhere(['>', $this->publishTimeAttribute, $time]);
+    }
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|null|string|\yii\db\ActiveRecord
+     */
+    public function oneUnpublished($db = null)
+    {
+        return $this->unpublished()->one($db);
+    }
+
+    /**
+     * @param null $db
+     * @return array|bool|mixed|\yii\db\ActiveRecord[]
+     */
+    public function allUnpublished($db = null)
+    {
+        return $this->unpublished()->all($db);
+    }
+
+    /**
+     * @param string $q
+     * @param null $db
+     * @return bool|int|mixed|string
+     */
+    public function countUnpublished($q = '*', $db = null)
+    {
+        return $this->unpublished()->count($q, $db);
+    }
+
     /** CACHING */
 
     /**

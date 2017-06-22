@@ -21,11 +21,11 @@ $this->title = Yii::$app->name;
 
         <div class="row">
             <div class="col-lg-4">
-                <h2>Inactive Articles (<?= Article::find()->isNot('active')->count() ?>)</h2>
+                <h2>Unpublished Articles (<?= Article::find()->countUnpublished() ?>)</h2>
 
                 <ul>
                     <?php
-                    foreach (Article::find()->isNot('active')->orderBy('publish_time desc')->limit(20)->all() as $item) {
+                    foreach (Article::find()->orderBy('publish_time desc')->limit(20)->allUnpublished() as $item) {
                         echo "<li style='margin-top: 0.1em'>"
                             . $item->a(
                                 $item->img('30x30') . " $item->name"
@@ -35,14 +35,20 @@ $this->title = Yii::$app->name;
                     ?>
                 </ul>
 
-                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 0]) ?>">View all &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to([
+                    'article/index',
+                        'ArticleSearch[active]' => 1,
+                        'ArticleSearch[visible]' => 1,
+                        'ArticleSearch[publish_time]' => 0,
+                        'ArticleSearch[publish_time__operator]' => '>',
+                    ]) ?>">View all &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Active Articles (<?= Article::find()->countActive() ?>)</h2>
+                <h2>Published Articles (<?= Article::find()->countPublished() ?>)</h2>
 
                 <ul>
                     <?php
-                    foreach (Article::find()->orderBy('publish_time desc')->limit(20)->allActive() as $item) {
+                    foreach (Article::find()->orderBy('publish_time desc')->limit(20)->allPublished() as $item) {
                         echo "<li style='margin-top: 0.1em'>"
                             . $item->a(
                                 $item->img('30x30') . " $item->name"
@@ -52,7 +58,13 @@ $this->title = Yii::$app->name;
                     ?>
                 </ul>
 
-                <p><a class="btn btn-default" href="<?= Url::to(['article/index', 'ArticleSearch[active]' => 1]) ?>">View all &raquo;</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to([
+                        'article/index',
+                        'ArticleSearch[active]' => 1,
+                        'ArticleSearch[visible]' => 1,
+                        'ArticleSearch[publish_time]' => 0,
+                        'ArticleSearch[publish_time__operator]' => '<=',
+                    ]) ?>">View all &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Active Images (<?= Image::find()->countActive() ?>)</h2>
