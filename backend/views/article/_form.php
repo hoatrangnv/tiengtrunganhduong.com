@@ -295,8 +295,7 @@ $this->endBlock();
         z-index: 999;
         background: #fff;
     }
-    .datetimePicker__widget.active,
-    .datetimePicker__widget:hover {
+    .datetimePicker__widget.active {
         display: table;
     }
 </style>
@@ -330,14 +329,13 @@ $this->endBlock();
                 "controlBlock": {
                     "items": ["set2nowCell", "resetCell", "submitCell"],
                     "onSubmit": function (current) {
-                        exportValue();
+                        datetimeInput.widget.classList.remove("active");
                     }
                 },
                 "items": ["yearMonthBlock", "dateBlock", "timeBlock", "controlBlock"]
             }
         );
         datetimeInput.addEventListener("input", function () {
-            var current = datetimeInput.picker.current;
             var time = (new Date(datetimeInput.value)).getTime();
             if (!isNaN(time)) {
                 datetimeInput.picker.current.time = time;
@@ -350,9 +348,9 @@ $this->endBlock();
             datetimeInput.picker.current.time = (new Date(datetimeInput.value)).getTime();
             datetimeInput.widget.classList.add("active");
         });
-        datetimeInput.addEventListener("focusout", function () {
-            datetimeInput.widget.classList.remove("active");
-        });
+//        datetimeInput.addEventListener("focusout", function () {
+//            datetimeInput.widget.classList.remove("active");
+//        });
         function exportValue() {
             var current = datetimeInput.picker.current;
             datetimeInput.value = "Y-m-d H:i:s"
