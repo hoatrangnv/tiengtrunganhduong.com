@@ -50,7 +50,7 @@ class ArticleCategory extends \common\models\ArticleCategory
                     ];
                 } else {
                     if ($isRoot) {
-                        $result['No Children']["$category->id"] = $category->name;
+                        $result['(No Children)']["$category->id"] = $category->name;
                     } else {
                         $result["$category->id"] = $category->name;
                     }
