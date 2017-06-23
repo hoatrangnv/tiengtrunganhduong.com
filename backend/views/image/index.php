@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'resize_labels',
             // 'string_data',
              'mime_type',
-             'active:boolean',
 //            [
 //                'attribute' => 'active',
 //                'format' => 'raw',
@@ -55,9 +54,10 @@ $this->params['breadcrumbs'][] = $this->title;
 //                }
 //            ],
             // 'status',
-            // 'sort_order',
-            // 'create_time:datetime',
-            // 'update_time:datetime',
+             'aspect_ratio',
+             'create_time:datetime',
+             'update_time:datetime',
+             'active:boolean',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
