@@ -352,7 +352,7 @@ $this->endBlock();
             if (event.target !== datetimeInput &&
                 event.target !== widget &&
                 !checkIsContains(widget, event.target) &&
-                checkIsContains(document, event.target)
+                checkIsContains(document.body, event.target)
             ) {
                 widget.classList.remove("active");
             }

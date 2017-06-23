@@ -104,7 +104,9 @@ class UrlRedirection extends \common\models\UrlRedirection
         }
 
         if ($to_url) {
-            return Yii::$app->response->redirect($to_url, 301);
+            header("Location: $to_url", true, 301);
+            exit();
+//            return Yii::$app->response->redirect($to_url, 301);
         }
         throw new NotFoundHttpException();
     }
