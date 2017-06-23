@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'from_url',
             'to_url',
-            // 'status',
+            'response_code',
             'sort_order',
             'active:boolean',
             // 'create_time:datetime',

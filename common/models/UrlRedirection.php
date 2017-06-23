@@ -20,6 +20,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $sort_order
  * @property integer $create_time
  * @property integer $update_time
+ * @property integer $response_code
  *
  * @property User $creator
  * @property User $updater
@@ -32,6 +33,9 @@ class UrlRedirection extends MyActiveRecord
     const TYPE_ENDS_WITH = 4;
     const TYPE_REGEXP = 5;
 
+    /**
+     * @return array
+     */
     public static function getTypes()
     {
         return [
@@ -40,6 +44,22 @@ class UrlRedirection extends MyActiveRecord
             self::TYPE_STARTS_WITH => Yii::t('app', 'URL starts with'),
             self::TYPE_ENDS_WITH => Yii::t('app', 'URL ends with'),
             self::TYPE_REGEXP => Yii::t('app', 'Regular Expression'),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getResponseCodes()
+    {
+        return [
+            301 => '301 Moved Permanently',
+            302 => '302 Found',
+            300 => '300 Multiple Choice',
+            303 => '303 See Other',
+            304 => '304 Not Modified',
+            307 => '307 Temporary Redirect',
+            308 => '308 Permanent Redirect',
         ];
     }
 
@@ -78,7 +98,7 @@ class UrlRedirection extends MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'active', 'type', 'status', 'sort_order',
-                /*'create_time', 'update_time'*/], 'integer'],
+                /*'create_time', 'update_time',*/ 'response_code'], 'integer'],
             [['from_url', 'to_url'], 'required'],
             [['from_url', 'to_url'], 'string', 'max' => 255],
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
@@ -103,6 +123,7 @@ class UrlRedirection extends MyActiveRecord
             'sort_order' => 'Sort Order',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
+            'response_code' => 'Response Code',
         ];
     }
 

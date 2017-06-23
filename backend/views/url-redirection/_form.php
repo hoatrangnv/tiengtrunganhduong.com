@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\UrlRedirection;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\UrlRedirection */
@@ -12,11 +13,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'type')->dropDownList(\backend\models\UrlRedirection::getTypes()) ?>
+    <?= $form->field($model, 'type')->dropDownList(UrlRedirection::getTypes()) ?>
 
     <?= $form->field($model, 'from_url')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'to_url')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'response_code')->dropDownList(UrlRedirection::getResponseCodes()) ?>
 
     <?= $form->field($model, 'active')->checkbox() ?>
 

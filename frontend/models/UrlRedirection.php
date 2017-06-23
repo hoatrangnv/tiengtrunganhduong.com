@@ -20,6 +20,7 @@ class UrlRedirection extends \common\models\UrlRedirection
         }
 
         $to_url = null;
+        $response_code = 301;
 
         /** @var self $model */
         $model = self::find()
@@ -50,9 +51,11 @@ class UrlRedirection extends \common\models\UrlRedirection
             ->orderBy('sort_order ASC, id ASC')
             ->oneActive();
 
-
         if ($model) {
             $to_url = $model->to_url;
+            if (in_array($model->response_code, array_keys(self::getResponseCodes()))) {
+                $response_code = $model->response_code;
+            }
         } else {
             /** @var self[] $models */
             $models = self::find()
@@ -60,12 +63,12 @@ class UrlRedirection extends \common\models\UrlRedirection
                 ->orderBy('sort_order ASC, id ASC')
                 ->allActive();
 
-            foreach ($models as $item) {
+            foreach ($models as $model) {
                 try {
-                    preg_match($item->from_url, $from_url, $matches);
+                    preg_match($model->from_url, $from_url, $matches);
                     if (isset($matches[0])) {
-                        $pattern = $item->from_url;
-                        $replacement = $item->to_url;
+                        $pattern = $model->from_url;
+                        $replacement = $model->to_url;
                         $transform = null;
                         switch (true) {
                             case '~\lowercase' === substr($replacement, -11):
@@ -92,6 +95,10 @@ class UrlRedirection extends \common\models\UrlRedirection
 
                         }
 
+                        if (in_array($model->response_code, array_keys(self::getResponseCodes()))) {
+                            $response_code = $model->response_code;
+                        }
+
                         break;
                     }
                 } catch (\Exception $e) {
@@ -104,9 +111,8 @@ class UrlRedirection extends \common\models\UrlRedirection
         }
 
         if ($to_url) {
-            header("Location: $to_url", true, 301);
+            header("Location: $to_url", true, $response_code);
             exit();
-//            return Yii::$app->response->redirect($to_url, 301);
         }
         throw new NotFoundHttpException();
     }
