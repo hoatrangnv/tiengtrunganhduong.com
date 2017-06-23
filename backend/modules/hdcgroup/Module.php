@@ -22,3 +22,4 @@ class Module extends \yii\base\Module
         // custom initialization code goes here
     }
 }
+
