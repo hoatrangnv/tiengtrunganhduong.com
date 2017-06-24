@@ -6,7 +6,7 @@
  * Time: 12:30 AM
  */
 
-namespace app\modules\models;
+namespace app\modules\image\models;
 
 use Imagine\Image\ImageInterface;
 use Yii;
@@ -25,9 +25,9 @@ use Imagine\Image\ManipulatorInterface;
 class Image extends BaseImage
 {
     public $image_file;
-    public $image_resize_labels;
     public $image_crop;
     public $image_name_to_basename;
+    public $input_resize_keys;
 
     public $image_source;
     public $image_source_content; // Save image source content after validate
@@ -47,19 +47,19 @@ class Image extends BaseImage
             ['image_source', 'url'],
             [['image_source'], 'imageSource', 'skipOnEmpty' => true,
                 'params' => [
-                'mimeTypes' => Image::getValidMimeTypes(),
-                'extensions' => Image::getValidExtensions(),
-                'maxSize' => Image::getMaxSize(),
+                'mimeTypes' => Image::getValidImageMimeTypes(),
+                'extensions' => Image::getValidImageExtensions(),
+                'maxSize' => Image::getMaxImageSize(),
             ]],
             [['image_file'], 'file', 'skipOnEmpty' => true,
-                'mimeTypes' => Image::getValidMimeTypes(),
-                'extensions' => Image::getValidExtensions(),
-                'maxSize' => Image::getMaxSize(),
+                'mimeTypes' => Image::getValidImageMimeTypes(),
+                'extensions' => Image::getValidImageExtensions(),
+                'maxSize' => Image::getMaxImageSize(),
                 'maxFiles' => 1,
             ],
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
-            [['image_resize_labels'], 'each', 'rule' => ['string']],
+            [['input_resize_keys'], 'each', 'rule' => ['string']],
         ]);
     }
 
@@ -116,8 +116,6 @@ class Image extends BaseImage
                 $this->image_source_extension = 'gif';
                 break;
             default:
-//                $parse_url = parse_url($this->image_source);
-//                $path_info = pathinfo($parse_url['path']);
                 if (isset($path_info['extension'])) {
                     $this->image_source_extension = $path_info['extension'];
                 }
@@ -187,8 +185,7 @@ class Image extends BaseImage
     public function saveFileAndModel(UploadedFile $file = null)
     {
         if ($this->validate(['image_file', 'image_source'])) {
-            $resize_labels = [];
-            $this->arrayIfy('image_resize_labels');
+            $this->arrayIfy('input_resize_keys');
 
             if ($file === null) {
                 if (!$file = $this->getImageSourceAsUploadedFile()) {
@@ -215,7 +212,7 @@ class Image extends BaseImage
 
                 // @TODO: Save original image
                 $this->generatePath();
-                $origin_destination = $this->getLocation(Image::SIZE_ORIGIN_LABEL);
+                $origin_destination = $this->getLocation(Image::ORIGIN_LABEL);
                 if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
                     // @TODO: Save cropped and compressed images
                     $destination = $this->getLocation();
@@ -235,23 +232,27 @@ class Image extends BaseImage
                             $this->addError($this->image_source ? 'image_source' : 'image_file',
                                 Yii::t('app', $e->getMessage()));
                         }
-                        foreach ($this->image_resize_labels as $size_label) {
-                            if ($dimension = Image::getSizeByResizeLabel($size_label)) {
+
+                        $resize_labels = [];
+                        foreach ($this->input_resize_keys as $input_resize_key) {
+                            if ($input_dims = Image::imageDimensionsIfy($input_resize_key)) {
                                 if ($this->image_crop) {
                                     $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                        ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
-                                        ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                        ->thumbnail(new Box($input_dims[0], $input_dims[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                        ->crop(new Point(0, 0), new Box($input_dims[0], $input_dims[1]));
                                 } else {
                                     $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                        ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                        ->thumbnail(new Box($input_dims[0], $input_dims[1]));
                                 }
-                                $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                if ($thumb->save($this->getLocation($suffix), ['quality' => $this->quality])) {
-                                    $resize_labels[$size_label] = $suffix;
+                                // Output
+                                $dims = [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()];
+                                $resize_key = Image::getImageResizeKey($dims);
+                                $resize_label = Image::getImageResizeLabel($dims);
+                                if ($thumb->save($this->getLocation($resize_label), ['quality' => $this->quality])) {
+                                    $resize_labels[$resize_key] = $resize_label;
                                 }
                             }
                         }
-
                         $this->resize_labels = json_encode($resize_labels);
 
                         if ($this->save()) {
@@ -278,8 +279,7 @@ class Image extends BaseImage
     public function updateFileAndModel(UploadedFile $file = null)
     {
         if ($this->validate()) {
-            $resize_labels = [];
-            $this->arrayIfy('image_resize_labels');
+            $this->arrayIfy('input_resize_keys');
 
             if ($file === null) {
                 if (!$file = $this->getImageSourceAsUploadedFile()) {
@@ -309,8 +309,8 @@ class Image extends BaseImage
             if ($this->validate()) {
                 $this->generatePath();
                 if ($this->validate(['path'])) {
-                    $old_origin_destination = $this->getOldLocation(Image::SIZE_ORIGIN_LABEL);
-                    $origin_destination = $this->getLocation(Image::SIZE_ORIGIN_LABEL);
+                    $old_origin_destination = $this->getOldLocation(Image::ORIGIN_LABEL);
+                    $origin_destination = $this->getLocation(Image::ORIGIN_LABEL);
                     $destination = $this->getLocation();
 
                     if (is_file($old_origin_destination)) {
@@ -325,7 +325,7 @@ class Image extends BaseImage
 
                     if ($file) {
                         $new_image_saved = MyFileHelper::moveImage($file->tempName,
-                            $this->getLocation(Image::SIZE_ORIGIN_LABEL), true);
+                            $this->getLocation(Image::ORIGIN_LABEL), true);
 
                     }
 
@@ -357,23 +357,26 @@ class Image extends BaseImage
                                     Yii::t('app', $e->getMessage()));
                             }
 
-                            foreach ($this->image_resize_labels as $size_label) {
-                                if ($dimension = Image::getSizeByResizeLabel($size_label)) {
+                            $resize_labels = [];
+                            foreach ($this->input_resize_keys as $input_resize_key) {
+                                if ($input_dims = Image::imageDimensionsIfy($input_resize_key)) {
                                     if ($this->image_crop) {
                                         $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                            ->thumbnail(new Box($dimension[0], $dimension[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
-                                            ->crop(new Point(0, 0), new Box($dimension[0], $dimension[1]));
+                                            ->thumbnail(new Box($input_dims[0], $input_dims[1]), ManipulatorInterface::THUMBNAIL_OUTBOUND)
+                                            ->crop(new Point(0, 0), new Box($input_dims[0], $input_dims[1]));
                                     } else {
                                         $thumb = ImagineImage::getImagine()->open($origin_destination)
-                                            ->thumbnail(new Box($dimension[0], $dimension[1]));
+                                            ->thumbnail(new Box($input_dims[0], $input_dims[1]));
                                     }
-                                    $suffix = Image::getResizeLabelBySize([$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()]);
-                                    if ($thumb->save($this->getLocation($suffix), ['quality' => $this->quality])) {
-                                        $resize_labels[$size_label] = $suffix;
+                                    // Output
+                                    $dims = [$thumb->getSize()->getWidth(), $thumb->getSize()->getHeight()];
+                                    $resize_key = Image::getImageResizeKey($dims);
+                                    $resize_label = Image::getImageResizeLabel($dims);
+                                    if ($thumb->save($this->getLocation($resize_label), ['quality' => $this->quality])) {
+                                        $resize_labels[$resize_key] = $resize_label;
                                     }
                                 }
                             }
-
                             $this->resize_labels = json_encode($resize_labels);
                         }
 
@@ -415,7 +418,7 @@ class Image extends BaseImage
         $array_str = $this->$attribute;
         if (!is_array($array_str)) {
             if (is_string($array_str)) {
-                $this->$attribute = implode(',', $array_str);
+                $this->$attribute = explode(',', $array_str);
             } else {
                 $this->$attribute = [];
             }

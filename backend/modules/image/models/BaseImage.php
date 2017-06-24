@@ -6,7 +6,7 @@
  * Time: 12:04 PM
  */
 
-namespace app\modules\models;
+namespace app\modules\image\models;
 
 use Yii;
 use yii\db\ActiveRecord;
@@ -42,11 +42,13 @@ use yii\helpers\Html;
 class BaseImage extends ActiveRecord
 {
 
-    const LABEL_DEFAULT = '';
+    const DEFAULT_LABEL = '';
 
-    const LABEL_ORIGIN = '-origin';
+    const ORIGIN_LABEL = '-origin';
 
-    const LABEL_RESIZE = '-{w}x{h}';
+    const RESIZE_LABEL__TEMPLATE = '-{w}x{h}';
+
+    const RESIZE_KEY__TEMPLATE = '{w}x{h}';
 
     public static function getMaxImageSize()
     {
@@ -56,26 +58,59 @@ class BaseImage extends ActiveRecord
     public static function getValidImageExtensions()
     {
         return [
-            'png', 'jpg', 'jpeg', 'gif', 'svg',
-            'PNG', 'JPG', 'JPEG', 'GIF', 'SVG'
+            'png', 'jpg', 'jpeg', 'gif',
+            'PNG', 'JPG', 'JPEG', 'GIF',
         ];
     }
 
     public static function getValidImageMimeTypes()
     {
-        return ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml'];
+        return ['image/png', 'image/jpeg', 'image/gif',];
+    }
+
+    public static function getImageResizeKey($input)
+    {
+
+        $template = self::RESIZE_KEY__TEMPLATE;
+        $dimensions = static::imageDimensionsIfy($input);
+        if (!empty($dimensions)) {
+            return preg_replace(['/{w}/', '/{h}/'], [$dimensions[0], $dimensions[1]], $template);
+        }
+        return '';
     }
 
     public static function getImageResizeLabel($input)
     {
+        $template = self::RESIZE_LABEL__TEMPLATE;
         $dimensions = static::imageDimensionsIfy($input);
         if (!empty($dimensions)) {
-            foreach ($dimensions as &$item) {
-                $item = abs((int) $item);
-            }
-            return preg_replace(['/{w}/', '/{h}/'], [$dimensions[0], $dimensions[1]], self::LABEL_RESIZE);
+            return preg_replace(['/{w}/', '/{h}/'], [$dimensions[0], $dimensions[1]], $template);
         }
         return '';
+    }
+
+    public static function getImageLabelByMinSize($min_size, array $image_sizes = [])
+    {
+        $min_dims = self::imageDimensionsIfy($min_size);
+        $final_label = self::DEFAULT_LABEL;
+        if (!empty($min_dims)) {
+            $final_dims = [INF, INF];
+            foreach ($image_sizes as $image_size) {
+                $image_dims = self::imageDimensionsIfy($image_size);
+                if (!empty($image_dims)) {
+                    if (
+                        $image_dims[0] >= $min_dims[0] &&
+                        $image_dims[0] <= $final_dims[0] &&
+                        $image_dims[1] >= $min_dims[1] &&
+                        $image_dims[1] <= $final_dims[1]
+                    ) {
+                        $final_dims = $image_dims;
+                        $final_label = self::getImageResizeLabel($image_dims);
+                    }
+                }
+            }
+        }
+        return $final_label;
     }
 
     /**
@@ -107,30 +142,6 @@ class BaseImage extends ActiveRecord
         return $dims;
     }
 
-    public static function getImageLabelByMinSize($min_size, array $image_sizes = [])
-    {
-        $min_dims = self::imageDimensionsIfy($min_size);
-        $final_label = self::LABEL_DEFAULT;
-        if (!empty($min_dims)) {
-            $final_dims = [INF, INF];
-            foreach ($image_sizes as $image_size) {
-                $image_dims = self::imageDimensionsIfy($image_size);
-                if (!empty($image_dims)) {
-                    if (
-                        $image_dims[0] >= $min_dims[0] &&
-                        $image_dims[0] <= $final_dims[0] &&
-                        $image_dims[1] >= $min_dims[1] &&
-                        $image_dims[1] <= $final_dims[1]
-                    ) {
-                        $final_dims = $image_dims;
-                        $final_label = self::getImageResizeLabel($image_dims);
-                    }
-                }
-            }
-        }
-        return $final_label;
-    }
-
     public function getDirectory()
     {
         return Yii::getAlias("@images/$this->path");
@@ -156,17 +167,17 @@ class BaseImage extends ActiveRecord
         }
     }
 
-    public function getSource($label = self::LABEL_DEFAULT)
+    public function getSource($label = self::DEFAULT_LABEL)
     {
         return Yii::getAlias("@imagesUrl/{$this->path}$this->file_basename{$label}.$this->file_extension");
     }
 
-    public function getLocation($label = self::LABEL_DEFAULT)
+    public function getLocation($label = self::DEFAULT_LABEL)
     {
         return Yii::getAlias("@images/{$this->path}$this->file_basename{$label}.$this->file_extension");
     }
 
-    public function getOldLocation($label = self::LABEL_DEFAULT)
+    public function getOldLocation($label = self::DEFAULT_LABEL)
     {
         return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_basename')}$label.{$this->getOldAttribute('file_extension')}");
     }
@@ -227,11 +238,11 @@ class BaseImage extends ActiveRecord
         if (is_null($this->_imgSources)) {
             $this->_imgSources = [];
 
-            $this->_imgSources[Image::LABEL_DEFAULT] = $this->getSource();
+            $this->_imgSources[Image::DEFAULT_LABEL] = $this->getSource();
 
             if (is_array($resize_labels = json_decode($this->resize_labels, true))) {
-                foreach ($resize_labels as $label) {
-                    $this->_imgSources[$label] = $this->getSource($label);
+                foreach ($resize_labels as $key => $label) {
+                    $this->_imgSources[$key] = $this->getSource($label);
                 }
             }
         }
@@ -239,15 +250,16 @@ class BaseImage extends ActiveRecord
         // Query string
         $queryStr = '';
         if (!empty($options)) {
-            $queryStr = '?';
             $i = 0;
             foreach ($options as $key => $value) {
                 $i++;
                 if ($i > 1) {
                     $queryStr .= '&';
+                } else {
+                    $queryStr = '?';
                 }
-                if ($key == 'appendTimestamp' && !!$value) {
-                    $queryStr .= "$key=$this->_timestamp";
+                if ($key == '$timestamp' && !!$value) {
+                    $queryStr .= "timestamp=$this->_timestamp";
                 } else if (
                     (is_string($key) || is_numeric($key)) &&
                     (is_string($value) || is_numeric($value))

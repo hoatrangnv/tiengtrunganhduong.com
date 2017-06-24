@@ -56,9 +56,9 @@ return [
         ]
     ],
     'modules' => [
-//        'image' => [
-//            'class' => 'app\modules\image\Module',
-//        ],
+            'image' => [
+                'class' => 'app\modules\image\Module',
+            ],
 //        'article' => [
 //            'class' => 'app\modules\article\Module',
 //        ],
