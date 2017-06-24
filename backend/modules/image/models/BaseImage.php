@@ -240,10 +240,8 @@ class BaseImage extends ActiveRecord
 
             $this->_imgSources[Image::DEFAULT_LABEL] = $this->getSource();
 
-            if (is_array($resize_labels = json_decode($this->resize_labels, true))) {
-                foreach ($resize_labels as $key => $label) {
-                    $this->_imgSources[$key] = $this->getSource($label);
-                }
+            foreach ($this->getResizeLabels() as $key => $label) {
+                $this->_imgSources[$label] = $this->getSource($label);
             }
         }
 

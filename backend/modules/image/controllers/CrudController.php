@@ -76,6 +76,8 @@ class CrudController extends Controller
 
         }
 
+        $model->input_resize_keys = [];
+
         return $this->render('create', [
             'model' => $model,
         ]);

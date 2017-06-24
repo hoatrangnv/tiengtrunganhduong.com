@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'IMG',
                 'format' => 'raw',
                 'value' => function (Image $model) {
-                    return $model->img('100x100');
+                    return $model->img('10x10');
                 }
             ],
 //            'creator_id',

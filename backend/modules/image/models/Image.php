@@ -325,7 +325,7 @@ class Image extends BaseImage
 
                     if ($file) {
                         $new_image_saved = MyFileHelper::moveImage($file->tempName,
-                            $this->getLocation(Image::ORIGIN_LABEL), true);
+                            $this->getLocation(Image::LABEL_ORIGIN), true);
 
                     }
 
