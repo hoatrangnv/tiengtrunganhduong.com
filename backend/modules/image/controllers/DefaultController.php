@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\hdcgroup\controllers;
+namespace app\modules\image\controllers;
 
 use yii\web\Controller;
 
 /**
- * Default controller for the `hdcgroup` module
+ * Default controller for the `image` module
  */
 class DefaultController extends Controller
 {

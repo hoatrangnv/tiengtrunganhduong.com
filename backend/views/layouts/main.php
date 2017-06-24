@@ -11,6 +11,7 @@ use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use mdm\admin\components\MenuHelper;
 use mdm\admin\components\Helper;
+use backend\models\Contact;
 
 AppAsset::register($this);
 ?>
@@ -38,6 +39,7 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = array();
+    $newContacts = Contact::find()->where(['status' => Contact::STATUS_NEW])->count();
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/admin/user/login']];
     } else {
@@ -90,6 +92,10 @@ AppAsset::register($this);
 //                    ['label' => 'Update', 'url' => ['/seo-info/update'], 'visible' => false],
 //                    ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
 //                ]],
+                [
+                    'label' => 'Contact' . ($newContacts > 0 ? " <span class='label label-danger'>$newContacts</span>" : ''),
+                    'url' => ['/contact/index']
+                ],
                 ['label' => 'More...', 'items' => [
                     ['label' => 'SEO Info', 'url' => ['/seo-info/index']],
                     ['label' => 'Create', 'url' => ['/seo-info/create'], 'visible' => false],
@@ -157,6 +163,7 @@ AppAsset::register($this);
         );
     }
     echo Nav::widget([
+        'encodeLabels' => false,
         'options' => ['class' => 'navbar-nav navbar-right'],
         'activateParents' => true,
         'items' => $menuItems,

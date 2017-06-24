@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\hdcgroup;
+namespace app\modules\image;
 
 /**
- * hdcgroup module definition class
+ * image module definition class
  */
 class Module extends \yii\base\Module
 {
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'app\modules\hdcgroup\controllers';
+    public $controllerNamespace = 'app\modules\image\controllers';
 
     /**
      * @inheritdoc
@@ -20,6 +20,6 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+        echo 'hehe';
     }
 }
-
