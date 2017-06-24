@@ -56,7 +56,7 @@ class ArticleSearch extends Article
             'query' => $query,
             'sort'=> [
                 'defaultOrder' => [
-                    'publish_time' => SORT_DESC,
+                    'id' => SORT_DESC,
                 ]
             ],
         ]);

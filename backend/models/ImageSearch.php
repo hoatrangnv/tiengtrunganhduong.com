@@ -49,7 +49,7 @@ class ImageSearch extends Image
             'query' => $query,
             'sort'=> [
                 'defaultOrder' => [
-                    'create_time' => SORT_DESC,
+                    'id' => SORT_DESC,
                 ]
             ],
         ]);
