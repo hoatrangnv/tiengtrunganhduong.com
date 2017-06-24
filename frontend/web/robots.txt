@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /site
-Disallow: /article
 Disallow: /backend
 Disallow: */tags.htm
 Disallow: */search.htm

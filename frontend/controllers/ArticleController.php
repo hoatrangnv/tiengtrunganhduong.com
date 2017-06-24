@@ -156,6 +156,9 @@ class ArticleController extends BaseController
      */
     public function actionAjaxGetItems()
     {
+        if (!Yii::$app->request->isPost) {
+            return '';
+        }
         $this->layout = false;
         if (!Yii::$app->request->isPost) {
             throw new BadRequestHttpException();
@@ -275,6 +278,9 @@ class ArticleController extends BaseController
 
     public function actionAjaxUpdateCounter()
     {
+        if (!Yii::$app->request->isPost) {
+            return '';
+        }
         $field = Yii::$app->request->getBodyParam(UrlParam::FIELD);
         $value = (int) Yii::$app->request->getBodyParam(UrlParam::VALUE, 1);
         $slug = Yii::$app->request->getBodyParam(UrlParam::SLUG);
