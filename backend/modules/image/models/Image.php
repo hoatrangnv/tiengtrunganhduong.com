@@ -14,13 +14,13 @@ use yii\helpers\Url;
 use yii\helpers\FileHelper;
 use yii\validators\FileValidator;
 use yii\web\UploadedFile;
-use common\helpers\MyStringHelper;
 use yii\helpers\Inflector;
 use yii\imagine\Image as ImagineImage;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
-use common\helpers\MyFileHelper;
 use Imagine\Image\ManipulatorInterface;
+use common\helpers\MyStringHelper;
+use common\helpers\MyFileHelper;
 
 class Image extends BaseImage
 {
@@ -325,7 +325,7 @@ class Image extends BaseImage
 
                     if ($file) {
                         $new_image_saved = MyFileHelper::moveImage($file->tempName,
-                            $this->getLocation(Image::LABEL_ORIGIN), true);
+                            $this->getLocation(Image::ORIGIN_LABEL), true);
 
                     }
 

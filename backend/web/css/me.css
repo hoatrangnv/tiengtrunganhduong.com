@@ -17,13 +17,16 @@
     word-wrap: break-word;
 }
 
-.navbar {
-    /*font-size: 12px;*/
+.form-group .hint-block {
+    display: none;
 }
 
-/**
- * Site index
- */
+.form-group :focus + .hint-block,
+.form-group :focus + * + .hint-block,
+.form-group :focus + * + * + .hint-block {
+    display: block;
+}
+
 
 .site-index .body-content li img {
     max-width: 30px;

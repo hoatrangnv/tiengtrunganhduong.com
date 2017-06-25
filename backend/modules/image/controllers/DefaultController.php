@@ -11,9 +11,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * Crud controller for the `image` module
+ * Default controller for the `image` module
  */
-class CrudController extends Controller
+class DefaultController extends Controller
 {
     /**
      * @inheritdoc

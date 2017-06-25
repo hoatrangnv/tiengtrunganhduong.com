@@ -12,15 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'subject')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'subject')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?php //echo $form->field($model, 'type')->textInput() ?>
+    <?= $form->field($model, 'body')->textarea(['rows' => 6, 'readonly' => true]) ?>
 
     <?= $form->field($model, 'status')->dropDownList(
         \backend\models\Contact::getStatuses(),

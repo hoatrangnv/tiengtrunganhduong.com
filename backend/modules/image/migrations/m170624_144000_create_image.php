@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m170624_144000_create_user extends Migration
+class m170624_144000_create_image extends Migration
 {
 
     public function up()
@@ -55,6 +55,13 @@ class m170624_144000_create_user extends Migration
                 'create_time' => $this->integer(),
                 'update_time' => $this->integer(),
             ], $tableOptions);
+
+            // Foreign key with `user` table
+            $userTable = 'user';
+            if ($this->db->schema->getTableSchema($userTable, true) !== null) {
+                $this->addForeignKey('image_ibfk_1', $table, 'creator_id', $userTable, 'id', 'SET NULL', 'CASCADE');
+                $this->addForeignKey('image_ibfk_2', $table, 'updater_id', $userTable, 'id', 'SET NULL', 'CASCADE');
+            }
         }
     }
 

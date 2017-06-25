@@ -56,12 +56,6 @@ return [
         ]
     ],
     'modules' => [
-            'image' => [
-                'class' => 'app\modules\image\Module',
-            ],
-//        'article' => [
-//            'class' => 'app\modules\article\Module',
-//        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => '@app/views/layouts/main.php',

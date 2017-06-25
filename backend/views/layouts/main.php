@@ -60,12 +60,6 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/article-category/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/article-category/view'], 'visible' => false],
                 ]],
-                ['label' => 'Banner', 'items' => [
-                    ['label' => 'Index', 'url' => ['/banner/index']],
-                    ['label' => 'Create', 'url' => ['/banner/create']],
-                    ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/banner/view'], 'visible' => false],
-                ]],
                 ['label' => 'Image', 'items' => [
                     ['label' => 'Index', 'url' => ['/image/index']],
                     ['label' => 'Create', 'url' => ['/image/create']],
@@ -92,11 +86,12 @@ AppAsset::register($this);
 //                    ['label' => 'Update', 'url' => ['/seo-info/update'], 'visible' => false],
 //                    ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
 //                ]],
-                [
-                    'label' => 'Contact' . ($newContacts > 0 ? " <span class='label label-danger'>$newContacts</span>" : ''),
-                    'url' => ['/contact/index']
-                ],
                 ['label' => 'More...', 'items' => [
+                    ['label' => 'Banner', 'url' => ['/banner/index']],
+                    ['label' => 'Create', 'url' => ['/banner/create'], 'visible' => false],
+                    ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/banner/view'], 'visible' => false],
+
                     ['label' => 'SEO Info', 'url' => ['/seo-info/index']],
                     ['label' => 'Create', 'url' => ['/seo-info/create'], 'visible' => false],
                     ['label' => 'Update', 'url' => ['/seo-info/update'], 'visible' => false],
@@ -112,6 +107,10 @@ AppAsset::register($this);
                     ['label' => 'Update', 'url' => ['/site-param/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/site-param/view'], 'visible' => false],
                 ]],
+                [
+                    'label' => 'Contact' . ($newContacts > 0 ? " <span class='label label-danger'>$newContacts</span>" : ''),
+                    'url' => ['/contact/index']
+                ],
                 ['label' => 'Admin', 'items' => [
                     ['label' => '+User', 'url' => ['/admin/user/signup']],
                     ['label' => 'Users', 'url' => ['/admin/user/index']],

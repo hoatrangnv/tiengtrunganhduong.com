@@ -7,17 +7,24 @@ use kartik\select2\Select2;
 use app\modules\image\models\Image;
 use yii\helpers\Url;
 
+$module = \app\modules\image\Module::getInstance();
+
 /**
  * @var $this View
  * @var $model Image
  * @var $form ActiveForm
  */
+
+if ($model->isNewRecord) {
+    $model->active = true;
+    $model->quality = 60;
+}
 ?>
 <style>
     #image-preview-wrapper img {
         display: block;
         max-width: 100%;
-        max-height: 200px;
+        max-height: 158px;
         width: auto;
         height: auto;
     }
@@ -26,66 +33,50 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <div id="image-preview-wrapper">
-        <?= $model->img() ?>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div id="image-preview-wrapper">
+                    <?= $model->img() ?>
+                </div>
+            </div>
+
+            <?= $form->field($model, 'image_file')->fileInput(['accept' => Image::getValidImageExtensions()]) ?>
+
+            <?= $form->field($model, 'image_source', [
+                'template' => '<span class="label label-info">OR</span> {label}{input}{error}{hint}'
+            ])->textInput(['placeholder' => Yii::t('app', 'If Image Source is filled in, Image File will be ignored')]) ?>
+
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'file_basename')->textInput(['maxlength' => true]) ?>
+
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'input_resize_keys')->dropDownList(
+                array_merge(
+                    ['' => Yii::t('app', 'Default')],
+                    $model->input_resize_keys,
+                    array_combine($module->params['input_resize_keys'], $module->params['input_resize_keys'])
+                ),
+                [
+                    'multiple' => 'multiple',
+                    'size' => 10,
+                ]
+            ) ?>
+
+            <?= $form->field($model, 'image_crop')->checkbox() ?>
+
+            <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
+
+            <?= $form->field($model, 'quality')->textInput() ?>
+
+            <?= $form->field($model, 'sort_order')->textInput() ?>
+        </div>
+
     </div>
 
-    <?= $form->field($model, 'image_file')->fileInput(['accept' => Image::getValidImageExtensions()]) ?>
-
-    <div class="label label-info">OR:</div>
-    <?= $form->field($model, 'image_source')->textInput() ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'file_basename')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'file_extension')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'input_resize_keys')->widget(Select2::className(), [
-        'data' => array_merge([
-            '50x50' => '50x50',
-            '100x100' => '100x100',
-            '150x150' => '150x150',
-            '200x200' => '200x200',
-            '250x250' => '250x250',
-            '300x300' => '300x300',
-            '350x350' => '350x350',
-            '400x400' => '400x400',
-        ], $model->input_resize_keys),
-        'options' => [
-            'multiple' => true,
-            'placeholder' => 'Select...'
-        ],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <?= $form->field($model, 'input_resize_keys')->dropDownList(array_merge([
-        '' => '',
-        '50x50' => '50x50',
-        '100x100' => '100x100',
-        '150x150' => '150x150',
-        '200x200' => '200x200',
-        '250x250' => '250x250',
-        '300x300' => '300x300',
-        '350x350' => '350x350',
-        '400x400' => '400x400',
-    ], $model->input_resize_keys), [
-        'multiple' => 'multiple',
-        'size' => '10',
-    ]) ?>
-
-    <?= $form->field($model, 'sort_order')->textInput() ?>
-
     <?= $form->field($model, 'active')->checkbox() ?>
-
-    <?= $form->field($model, 'quality')->textInput() ?>
-
-    <?= $form->field($model, 'image_crop')->checkbox() ?>
-
-    <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -98,6 +89,7 @@ use yii\helpers\Url;
     var img_preview = document.getElementById("image-preview-wrapper");
     var img_input = document.getElementById("<?= Html::getInputId($model, 'image_file') ?>");
     var img_source = document.getElementById("<?= Html::getInputId($model, 'image_source') ?>");
+    var img_source_loaded = false;
     var last_img_src = img_preview.querySelector("img") ? img_preview.querySelector("img").src : "";
     img_preview.empty = function () {
         while(img_preview.firstChild) {
@@ -108,26 +100,36 @@ use yii\helpers\Url;
         var image = new Image();
         if (img_source.value) {
             image.src = img_source.value;
+
+
+            var msg = document.createElement("span");
+            msg.className = "text-info";
+            msg.innerHTML = "Loading...";
+            img_preview.appendChild(msg);
             image.addEventListener("load", function () {
                 img_preview.empty();
                 img_preview.appendChild(image);
+                img_source_loaded = true;
             });
             image.addEventListener("error", function (event) {
-                image.src = last_img_src;
-                var msg = document.createElement("span");
+                img_preview.empty();
                 msg.className = "text-danger";
                 msg.innerHTML = "Cannot load image source.";
-                img_preview.empty();
-                img_preview.appendChild(image);
                 img_preview.appendChild(msg);
+                img_source_loaded = false;
             });
         } else {
             image.src = last_img_src;
             img_preview.empty();
             img_preview.appendChild(image);
+            img_source_loaded = false;
         }
     });
     img_input.addEventListener("change", function (event) {
+        if (img_source_loaded) {
+            event.preventDefault();
+            return false;
+        }
         var reader = new FileReader();
         var file = this.files[0];
         // @TODO: Read image file as URL

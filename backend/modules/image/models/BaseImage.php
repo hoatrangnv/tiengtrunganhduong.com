@@ -361,7 +361,7 @@ class BaseImage extends ActiveRecord
 //            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
 //            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
             [['quality'], 'integer', 'min' => 1, 'max' => 100],
-            [['quality'], 'default', 'value' => 60],
+            [['quality'], 'default', 'value' => 100],
         ];
     }
 
