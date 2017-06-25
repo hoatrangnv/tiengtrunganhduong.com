@@ -53,6 +53,7 @@ return [
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Article
+                ['pattern' => 'test/search-articles', 'route' => 'test/search-articles'],
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
                 ['pattern' => 'article/ajax-update-counter', 'route' => 'article/ajax-update-counter'],
                 ['pattern' => 'tin-tuc.htm', 'route' => 'article/index'],
