@@ -8,19 +8,17 @@
 
 namespace app\modules\image\models;
 
-use Imagine\Image\ImageInterface;
 use Yii;
-use yii\helpers\Url;
-use yii\helpers\FileHelper;
 use yii\validators\FileValidator;
 use yii\web\UploadedFile;
-use yii\helpers\Inflector;
 use yii\imagine\Image as ImagineImage;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Image\ManipulatorInterface;
-use common\helpers\MyStringHelper;
-use common\helpers\MyFileHelper;
+use Imagine\Image\ImageInterface;
+use app\modules\helpers\Inflector;
+use app\modules\helpers\StringHelper;
+use app\modules\helpers\FileHelper;
 
 class Image extends BaseImage
 {
@@ -158,7 +156,11 @@ class Image extends BaseImage
     {
         if ($this->image_source && $this->validate(['image_source'])) {
             if ($this->image_source_mime_type) {
-                $temp_name = Yii::getAlias("@images/$this->image_source_basename.$this->image_source_extension");
+                $temp_dir = Yii::getAlias('@app/runtime/images');
+                if (!file_exists($temp_dir)) {
+                    FileHelper::createDirectory($temp_dir);
+                }
+                $temp_name = "$temp_dir/$this->image_source_basename.$this->image_source_extension";
                 if (file_put_contents($temp_name, $this->image_source_content)) {
                     $file = new UploadedFile();
                     $file->name = "$this->image_source_basename.$this->image_source_extension";
@@ -201,8 +203,8 @@ class Image extends BaseImage
                 }
 
                 if ($this->image_name_to_basename) {
-                    $this->file_basename = Inflector::slug(MyStringHelper::stripUnicode($this->name));
-                } else {
+                    $this->file_basename = Inflector::slug($this->name);
+                } else if (!$this->file_basename) {
                     $this->file_basename = $file->baseName;
                 }
 
@@ -213,7 +215,7 @@ class Image extends BaseImage
                 // @TODO: Save original image
                 $this->generatePath();
                 $origin_destination = $this->getLocation(Image::ORIGIN_LABEL);
-                if (MyFileHelper::moveImage($file->tempName, $origin_destination, true)) {
+                if (FileHelper::moveImage($file->tempName, $origin_destination, true)) {
                     // @TODO: Save cropped and compressed images
                     $destination = $this->getLocation();
                     $thumb0 = ImagineImage::getImagine()->open($origin_destination);
@@ -303,7 +305,7 @@ class Image extends BaseImage
             }
 
             if ($this->image_name_to_basename) {
-                $this->file_basename = Inflector::slug(MyStringHelper::stripUnicode($this->name));
+                $this->file_basename = Inflector::slug($this->name);
             }
 
             if ($this->validate()) {
@@ -324,7 +326,7 @@ class Image extends BaseImage
                     }
 
                     if ($file) {
-                        $new_image_saved = MyFileHelper::moveImage($file->tempName,
+                        $new_image_saved = FileHelper::moveImage($file->tempName,
                             $this->getLocation(Image::ORIGIN_LABEL), true);
 
                     }
@@ -382,7 +384,7 @@ class Image extends BaseImage
 
                         $dir = $this->getDirectory();
                         $old_dir = $this->getOldDirectory();
-                        if ($dir != $old_dir && MyFileHelper::isEmptyDirectory($old_dir)) {
+                        if ($dir != $old_dir && FileHelper::isEmptyDirectory($old_dir)) {
                             FileHelper::removeDirectory($old_dir);
                         }
 
