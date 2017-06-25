@@ -169,17 +169,35 @@ class BaseImage extends ActiveRecord
 
     public function getSource($label = self::DEFAULT_LABEL)
     {
-        return Yii::getAlias("@imagesUrl/{$this->path}$this->file_basename{$label}.$this->file_extension");
+        $path = $this->path;
+        $basename = $this->file_basename;
+        $extension = $this->file_extension;
+        if ($path && $basename && $extension) {
+            return Yii::getAlias("@imagesUrl/{$path}$basename{$label}.$extension");
+        }
+        return '';
     }
 
     public function getLocation($label = self::DEFAULT_LABEL)
     {
-        return Yii::getAlias("@images/{$this->path}$this->file_basename{$label}.$this->file_extension");
+        $path = $this->path;
+        $basename = $this->file_basename;
+        $extension = $this->file_extension;
+        if ($path && $basename && $extension) {
+            return Yii::getAlias("@images/{$path}$basename{$label}.$extension");
+        }
+        return '';
     }
 
     public function getOldLocation($label = self::DEFAULT_LABEL)
     {
-        return Yii::getAlias("@images/{$this->getOldAttribute('path')}{$this->getOldAttribute('file_basename')}$label.{$this->getOldAttribute('file_extension')}");
+        $path = $this->getOldAttribute('path');
+        $basename = $this->getOldAttribute('file_basename');
+        $extension = $this->getOldAttribute('file_extension');
+        if ($path && $basename && $extension) {
+            return Yii::getAlias("@images/{$path}$basename{$label}.$extension");
+        }
+        return '';
     }
 
     public function getResizeLabels()
@@ -201,12 +219,12 @@ class BaseImage extends ActiveRecord
     }
 
     /**
-     * @var
+     * @var array $_imgSources
      */
     private $_imgSources;
 
     /**
-     * @var
+     * @var integer $_timestamp
      */
     private $_timestamp;
 
@@ -222,7 +240,7 @@ class BaseImage extends ActiveRecord
      * @param array $options
      * @return mixed
      */
-    public function getImgName($size = null, $options = [])
+    public function getImgFileName($size = null, $options = [])
     {
         return pathinfo($this->getImgSrc($size, $options), PATHINFO_BASENAME);
     }
@@ -238,10 +256,12 @@ class BaseImage extends ActiveRecord
         if (is_null($this->_imgSources)) {
             $this->_imgSources = [];
 
-            $this->_imgSources[Image::DEFAULT_LABEL] = $this->getSource();
+            if ($source = $this->getSource()) {
+                $this->_imgSources[Image::DEFAULT_LABEL] = $source;
 
-            foreach ($this->getResizeLabels() as $key => $label) {
-                $this->_imgSources[$label] = $this->getSource($label);
+                foreach ($this->getResizeLabels() as $key => $label) {
+                    $this->_imgSources[$label] = $this->getSource($label);
+                }
             }
         }
 
@@ -286,7 +306,10 @@ class BaseImage extends ActiveRecord
     public function img($size = null, array $options = [], array $srcOptions = [])
     {
         $src = $this->getImgSrc($size, $srcOptions);
-        return Html::img($src, $options);
+        if ($src) {
+            return Html::img($src, $options);
+        }
+        return '';
     }
 
     /**

@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'file_extension',
             // 'resize_labels',
             // 'string_data',
-             'mime_type',
+//             'mime_type',
 //            [
 //                'attribute' => 'active',
 //                'format' => 'raw',
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ],
             // 'status',
              'aspect_ratio',
-             'create_time:datetime',
+//             'create_time:datetime',
              'update_time:datetime',
              'active:boolean',
 
