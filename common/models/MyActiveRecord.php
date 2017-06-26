@@ -123,7 +123,7 @@ abstract class MyActiveRecord extends ActiveRecord
             $query->multiple = true;
             return $query;
         }
-        throw new MethodNotFoundException('Method getChildren not found.', self::className(), null);
+        throw new MethodNotFoundException('Method getChildren was not found.', self::className(), null);
     }
 
     /**

@@ -9,18 +9,31 @@
 namespace frontend\controllers;
 
 
+use common\models\MyActiveQuery;
 use frontend\models\Article;
+use frontend\models\ArticleCategory;
 use yii\web\Controller;
 
 class TestController extends Controller
 {
-    public function actionSearchArticles($q, $page = 1)
+    public function actionSearchModels($q, $page = 1, $type = null)
     {
         /**
-         * @var Article[] $articles
+         * @var MyActiveQuery $query
+         * @var Article[]|ArticleCategory[] $models
          */
 
-        $articles = Article::find()
+        switch ($type) {
+            case 'ArticleCategory':
+                $query = ArticleCategory::find();
+                break;
+            case 'Article':
+            default:
+                $query = Article::find();
+                break;
+        }
+
+        $models = $query
             ->where(['like', 'name', $q])
             ->offset($page - 1)
             ->limit(30)
@@ -29,15 +42,17 @@ class TestController extends Controller
 
         $result = [
             'items' => [],
-            'total_count' => Article::find()
+            'total_count' => $query
                 ->where(['like', 'name', $q])
                 ->countActive()
         ];
 
-        foreach ($articles as $article) {
+        foreach ($models as $model) {
             $result['items'][] = [
-                'id' => $article->getUrl(),
-                'name' => $article->name,
+                'id' => $model->id,
+                'name' => $model->name,
+                'url' => $model->getUrl(),
+                'image_src' => $model->image ? $model->image->getImgSrc('50x50') : ''
             ];
         }
 
