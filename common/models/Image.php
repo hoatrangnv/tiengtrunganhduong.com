@@ -308,11 +308,16 @@ class Image extends \common\models\MyActiveRecord
 //            $timestamp = '';
 //        }
 
-        if (empty($options)) {
-            $queryStr = '';
-        } else {
-            $queryStr = '?';
+        $queryStr = '';
+        if (!empty($options)) {
+            $i = 0;
             foreach ($options as $key => $value) {
+                $i++;
+                if ($i == 1) {
+                    $queryStr .= '?';
+                } else {
+                    $queryStr .= '&';
+                }
                 if ((is_string($key) || is_numeric($key))
                     && (is_string($value) || is_numeric($value))
                 ) {

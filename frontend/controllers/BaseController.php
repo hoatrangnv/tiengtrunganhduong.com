@@ -29,9 +29,25 @@ class BaseController extends Controller
     public $seoInfo;
     /** @var string $canonicalLink */
     public $canonicalLink;
+    /** @var string $ampLink */
+    public $ampLink;
 
     public function beforeAction($action)
     {
+        Yii::$app->params['amp'] = ('amp' === Yii::$app->request->get(UrlParam::AMP));
+
+        // @TODO: AMP
+        if (!Yii::$app->params['amp'] && in_array(Yii::$app->requestedRoute, ['site/index', 'article/index', 'article/view', 'article/category'])) {
+            $params = array_merge([Yii::$app->requestedRoute, UrlParam::AMP => 'amp'], Yii::$app->request->get());
+            $this->ampLink = Url::to($params, true);
+        }
+
+        if (Yii::$app->params['amp']) {
+            $this->layout = 'main';
+            $this->viewPath = Yii::getAlias('@frontend/views/amp/') . $this->id;
+            Yii::$app->layoutPath = Yii::getAlias('@frontend/views/amp/layouts');
+        }
+
         // @TODO: Determines screen size
         $detect = new MobileDetect;
         switch (true) {

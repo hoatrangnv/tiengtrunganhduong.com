@@ -11,6 +11,7 @@ namespace frontend\models;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use common\models\UrlParam;
+use Yii;
 
 /**
  * Class ArticleCategory
@@ -28,7 +29,28 @@ class ArticleCategory extends \common\models\ArticleCategory
 {
     public function getUrl($params = [])
     {
+        if (Yii::$app->params['amp']) {
+            $params[UrlParam::AMP] = 'amp';
+        }
         return Url::to(array_merge(['article/category', UrlParam::SLUG => $this->slug], $params), true);
+    }
+
+    public function img($size = null, array $options = [], array $srcOptions = [])
+    {
+        if (Yii::$app->params['amp']) {
+            if (!isset($options['width'])) {
+                $options['width'] = 300;
+            }
+            if (!isset($options['height'])) {
+                $options['height'] = 200;
+            }
+            $options['layout'] = 'responsive';
+        }
+        $tag = parent::img($size, $options, $srcOptions);
+        if (Yii::$app->params['amp']) {
+            $tag = str_replace('<img', '<amp-img', $tag);
+        }
+        return $tag;
     }
 
     private static $_indexData;

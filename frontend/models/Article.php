@@ -8,10 +8,11 @@
 
 namespace frontend\models;
 
-
 use common\models\Article as CommonArticle;
 use common\models\UrlParam;
 use yii\helpers\Url;
+use Yii;
+use Lullabot\AMP\AMP;
 
 /**
  * Class Article
@@ -27,7 +28,45 @@ class Article extends CommonArticle
 {
     public function getUrl($params = [])
     {
+        if (Yii::$app->params['amp']) {
+            $params[UrlParam::AMP] = 'amp';
+        }
         return Url::to(array_merge(['article/view', UrlParam::SLUG => $this->slug], $params), true);
+    }
+
+    public function img($size = null, array $options = [], array $srcOptions = [])
+    {
+        if (Yii::$app->params['amp']) {
+            if (!isset($options['width'])) {
+                $options['width'] = 300;
+            }
+            if (!isset($options['height'])) {
+                $options['height'] = 200;
+            }
+            $options['layout'] = 'responsive';
+        }
+        $tag = parent::img($size, $options, $srcOptions);
+        if (Yii::$app->params['amp']) {
+            $tag = str_replace('<img', '<amp-img', $tag);
+        }
+        return $tag;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmpContent() {
+        $cacheKey = __METHOD__ . "@$this->id";
+        $cache = Yii::$app->cache->get($cacheKey);
+        if ($cache == false || Yii::$app->params["enableCache"] == false) {
+            $amp = new AMP;
+            $amp->loadHtml($this->content, ['img_max_fixed_layout_width' => 320]);
+            $result = $amp->convertToAmpHtml();
+            Yii::$app->cache->set($cacheKey, $result, Yii::$app->params['cacheDuration']);
+        } else {
+            $result = $cache;
+        }
+        return $result;
     }
 
     public function desc()

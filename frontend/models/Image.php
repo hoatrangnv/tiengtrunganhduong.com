@@ -7,8 +7,27 @@
  */
 
 namespace frontend\models;
+
 use \common\models\Image as CommonImage;
+use Yii;
+
 class Image extends CommonImage
 {
-
+    public function img($size = null, array $options = [], array $srcOptions = [])
+    {
+        if (Yii::$app->params['amp']) {
+            if (!isset($options['width'])) {
+                $options['width'] = 300;
+            }
+            if (!isset($options['height'])) {
+                $options['height'] = 200;
+            }
+            $options['layout'] = 'responsive';
+        }
+        $tag = parent::img($size, $options, $srcOptions);
+        if (Yii::$app->params['amp']) {
+            $tag = str_replace('<img', '<amp-img', $tag);
+        }
+        return $tag;
+    }
 }

@@ -22,4 +22,5 @@ class UrlParam
     const NAME = 'name';
     const VALUE = 'value';
     const FIELD = 'field';
+    const AMP = 'amp';
 }
