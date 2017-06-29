@@ -96,7 +96,7 @@ class SitemapController extends Controller
         $urls = [];
 
         foreach ($articles as $article) {
-            $url = ['loc' => $article->getUrl()];
+            $url = ['loc' => $article->getUrl([], true)];
             $image = $article->getImage()->oneActive();
             if ($image) {
                 $url['image'] = [

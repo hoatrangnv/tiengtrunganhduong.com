@@ -24,12 +24,36 @@ class ArticleController extends BaseController
     const ITEMS_PER_PAGE = 20;
     const SESSION_PAGE_KEY = 'Article.page';
 
+    public function cmpUrls8RedirectIfNot($mod_url)
+    {
+        // @TODO: Check whether Requested Url is same as Model Url or not.
+        $req_url = Yii::$app->request->absoluteUrl;
+        $parsed_url = parse_url($req_url);
+        $req_path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+        $req_query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
+        $req_fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+        $parsed_url = parse_url($mod_url);
+        $mod_path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+        if ($req_path !== $mod_path) {
+
+            // @TODO: If not, redirect to Model Url.
+            $to_url = "$mod_url$req_query$req_fragment";
+            header("Location: $to_url", true, 301);
+            exit();
+        }
+    }
+
     /**
      * @return string
      */
     public function actionView()
     {
         $model = $this->findModel(Yii::$app->request->get(UrlParam::SLUG));
+
+        // @TODO: Check whether Requested Url is same as Model Url or not.
+        // @TODO: If not, redirect to Model Url.
+        $this->cmpUrls8RedirectIfNot($model->getUrl([], true));
+
         if ($category = $model->category) {
             $relatedItems = $category
                 ->getArticles()
@@ -75,6 +99,11 @@ class ArticleController extends BaseController
     {
         $slug = Yii::$app->request->get(UrlParam::SLUG);
         $category = $this->findCategory($slug);
+
+        // @TODO: Check whether Requested Url is same as Category Url or not.
+        // @TODO: If not, redirect to Category Url.
+        $this->cmpUrls8RedirectIfNot($category->getUrl([], true));
+
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $models = $this->findModels($category->getAllArticles());
         $this->canonicalLink = $category->getUrl();

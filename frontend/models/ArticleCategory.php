@@ -27,12 +27,12 @@ use Yii;
 
 class ArticleCategory extends \common\models\ArticleCategory
 {
-    public function getUrl($params = [])
+    public function getUrl($params = [], $schema = true)
     {
         if (Yii::$app->params['amp']) {
             $params[UrlParam::AMP] = 'amp';
         }
-        return Url::to(array_merge(['article/category', UrlParam::SLUG => $this->slug], $params), true);
+        return Url::to(array_merge(['article/category', UrlParam::SLUG => $this->slug], $params), $schema);
     }
 
     public function img($size = null, array $options = [], array $srcOptions = [])
