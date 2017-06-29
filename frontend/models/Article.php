@@ -25,9 +25,9 @@ use yii\helpers\Url;
 
 class Article extends CommonArticle
 {
-    public function getUrl($params = [])
+    public function getUrl($params = [], $schema = true)
     {
-        return Url::to(array_merge(['article/view', UrlParam::SLUG => $this->slug], $params), true);
+        return Url::to(array_merge(['article/view', UrlParam::SLUG => $this->slug], $params), $schema);
     }
 
     public function desc()

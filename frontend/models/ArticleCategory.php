@@ -26,9 +26,9 @@ use common\models\UrlParam;
 
 class ArticleCategory extends \common\models\ArticleCategory
 {
-    public function getUrl($params = [])
+    public function getUrl($params = [], $schema = true)
     {
-        return Url::to(array_merge(['article/category', UrlParam::SLUG => $this->slug], $params), true);
+        return Url::to(array_merge(['article/category', UrlParam::SLUG => $this->slug], $params), $schema);
     }
 
     private static $_indexData;
