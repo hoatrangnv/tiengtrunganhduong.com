@@ -81,7 +81,7 @@ class UploadController extends BaseController
 
     public function actionCkeditorImage()
     {
-        $module = Yii::$app->modules['image2'];
+        $module = Yii::$app->getModule('image2');
 
         $funcNum = (string) Yii::$app->request->get('CKEditorFuncNum');
         $funcNum = preg_replace('/[^0-9]/', '', $funcNum);
@@ -90,6 +90,7 @@ class UploadController extends BaseController
         $file = UploadedFile::getInstanceByName('upload');
         $image = new Image();
         $image->active = 1;
+        $image->quality = 60;
         $image->input_resize_keys = $module->params['input_resize_keys'];
         if ($image->saveFileAndModel($file)) {
             $errorMessage = '';
@@ -120,10 +121,11 @@ class UploadController extends BaseController
 
     public function actionAjaxImage()
     {
-        $module = Yii::$app->modules['image2'];
+        $module = Yii::$app->getModule('image2');
         $file = UploadedFile::getInstanceByName('image_file');
         $image = new Image();
         $image->active = 1;
+        $image->quality = 60;
         $image->input_resize_keys = $module->params['input_resize_keys'];
         if ($image->saveFileAndModel($file)) {
             return json_encode(['success' => true, 'image' => [
