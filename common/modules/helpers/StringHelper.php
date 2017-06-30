@@ -6,7 +6,7 @@
  * Time: 1:28 PM
  */
 
-namespace app\modules\helpers;
+namespace common\modules\helpers;
 
 
 class StringHelper extends \yii\helpers\StringHelper

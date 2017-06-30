@@ -6,7 +6,7 @@
  * Time: 9:10 AM
  */
 
-namespace app\modules\helpers;
+namespace common\modules\helpers;
 
 
 class FileHelper extends \yii\helpers\FileHelper

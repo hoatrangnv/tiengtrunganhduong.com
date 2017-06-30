@@ -65,7 +65,7 @@ AppAsset::register($this);
                     ['label' => 'Create', 'url' => ['/image2/default/create']],
                     ['label' => 'Update', 'url' => ['/image2/default/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/image2/default/view'], 'visible' => false],
-                    ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
+//                    ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
                 ]],
 //                ['label' => 'Site Param', 'items' => [
 //                    ['label' => 'Index', 'url' => ['/site-param/index']],

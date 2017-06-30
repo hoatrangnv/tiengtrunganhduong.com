@@ -6,7 +6,7 @@
  * Time: 11:05 PM
  */
 
-namespace app\modules\helpers;
+namespace common\modules\helpers;
 
 class Inflector extends \yii\helpers\Inflector
 {

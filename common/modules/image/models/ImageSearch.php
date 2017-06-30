@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\image\models;
+namespace common\modules\image\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * ImageSearch represents the model behind the search form about `app\modules\image\models\Image`.
+ * ImageSearch represents the model behind the search form about `common\modules\image\models\Image`.
  */
 class ImageSearch extends Image
 {

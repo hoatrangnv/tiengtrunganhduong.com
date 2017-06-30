@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image_id',
                 'format' => 'raw',
                 'value' => function (Article $model) {
-                    return $model->img(Image::SIZE_2);
+                    return $model->img('50x50');
                 }
             ],
             'name',

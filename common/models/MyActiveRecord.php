@@ -68,14 +68,14 @@ abstract class MyActiveRecord extends ActiveRecord
         }
 
         if ($this instanceof Image) {
-            return $this->getImgTag($size, $options, $srcOptions);
+            return $this->img($size, $options, $srcOptions);
         }
 
         /**
          * @var Image $image
          */
         if (method_exists($this, 'getImage') && $image = $this->getImage()->oneActive()) {
-            return $image->getImgTag($size, $options, $srcOptions);
+            return $image->img($size, $options, $srcOptions);
         }
 
         return '';

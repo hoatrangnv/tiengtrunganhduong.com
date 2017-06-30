@@ -81,11 +81,7 @@ class UploadController extends BaseController
 
     public function actionCkeditorImage()
     {
-//        if (Yii::$app->request->get('responseType') === 'json'
-//            || Yii::$app->response->format !== Response::FORMAT_JSON
-//        ) {
-//            return;
-//        }
+        $module = Yii::$app->modules['image2'];
 
         $funcNum = (string) Yii::$app->request->get('CKEditorFuncNum');
         $funcNum = preg_replace('/[^0-9]/', '', $funcNum);
@@ -94,17 +90,7 @@ class UploadController extends BaseController
         $file = UploadedFile::getInstanceByName('upload');
         $image = new Image();
         $image->active = 1;
-        $image->image_resize_labels = [
-            Image::SIZE_1,
-            Image::SIZE_2,
-            Image::SIZE_3,
-            Image::SIZE_4,
-            Image::SIZE_5,
-            Image::SIZE_6,
-            Image::SIZE_7,
-            Image::SIZE_8,
-            Image::SIZE_9,
-        ];
+        $image->input_resize_keys = $module->params['input_resize_keys'];
         if ($image->saveFileAndModel($file)) {
             $errorMessage = '';
             $fileUrl = $image->getSource() . '?id=' . $image->id;
@@ -134,20 +120,11 @@ class UploadController extends BaseController
 
     public function actionAjaxImage()
     {
+        $module = Yii::$app->modules['image2'];
         $file = UploadedFile::getInstanceByName('image_file');
         $image = new Image();
         $image->active = 1;
-        $image->image_resize_labels = [
-            Image::SIZE_1,
-            Image::SIZE_2,
-            Image::SIZE_3,
-            Image::SIZE_4,
-            Image::SIZE_5,
-            Image::SIZE_6,
-            Image::SIZE_7,
-            Image::SIZE_8,
-            Image::SIZE_9,
-        ];
+        $image->input_resize_keys = $module->params['input_resize_keys'];
         if ($image->saveFileAndModel($file)) {
             return json_encode(['success' => true, 'image' => [
                 'id' => $image->id,

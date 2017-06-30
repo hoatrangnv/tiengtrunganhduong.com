@@ -6,7 +6,7 @@
  * Time: 12:04 PM
  */
 
-namespace app\modules\image\controllers;
+namespace common\modules\image\controllers;
 
 
 use yii\web\Controller;

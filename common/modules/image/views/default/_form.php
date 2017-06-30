@@ -4,10 +4,10 @@ use yii\web\View;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
-use app\modules\image\models\Image;
+use common\modules\image\models\Image;
 use yii\helpers\Url;
 
-$module = \app\modules\image\Module::getInstance();
+$module = \common\modules\image\Module::getInstance();
 
 /**
  * @var $this View

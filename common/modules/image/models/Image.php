@@ -6,7 +6,7 @@
  * Time: 12:30 AM
  */
 
-namespace app\modules\image\models;
+namespace common\modules\image\models;
 
 use Yii;
 use yii\validators\FileValidator;
@@ -16,9 +16,9 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Image\ManipulatorInterface;
 use Imagine\Image\ImageInterface;
-use app\modules\helpers\Inflector;
-use app\modules\helpers\StringHelper;
-use app\modules\helpers\FileHelper;
+use common\modules\helpers\Inflector;
+use common\modules\helpers\StringHelper;
+use common\modules\helpers\FileHelper;
 
 class Image extends BaseImage
 {

@@ -3,7 +3,7 @@ use yii\helpers\Url;
 use \yii\helpers\Html;
 /* @var $this yii\web\View */
 use backend\models\Article;
-use app\modules\image\models\Image;
+use backend\models\Image;
 $this->title = Yii::$app->name;
 ?>
 <div class="site-index">

@@ -28,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'IMG',
                 'format' => 'raw',
-                'value' => function (\backend\models\Image $model) {
-                    return $model->img(\backend\models\Image::SIZE_2);
+                'value' => function (\common\models\Image $model) {
+                    return $model->img('50x50');
 
                 }
             ],

@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image_id',
                 'format' => 'raw',
                 'value' => function (\backend\models\ArticleCategory $model) {
-                    return $model->img(\backend\models\Image::SIZE_2, ['style' => 'max-width: 100px']);
+                    return $model->img('50x50');
                 }
             ],
             'name',

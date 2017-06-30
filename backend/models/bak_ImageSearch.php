@@ -10,7 +10,7 @@ use backend\models\Image;
 /**
  * ImageSearch represents the model behind the search form about `backend\models\Image`.
  */
-class ImageSearch extends Image
+class bak_ImageSearch extends Image
 {
     /**
      * @inheritdoc

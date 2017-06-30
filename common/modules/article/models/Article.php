@@ -7,7 +7,7 @@
  * Time: 12:03 PM
  */
 
-namespace app\modules\models;
+namespace common\modules\models;
 
 
 class Article

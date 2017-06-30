@@ -40,20 +40,19 @@ class UploadForm extends Model
     {
         return [
             [['image_files'], 'file', 'skipOnEmpty' => false,
-                'mimeTypes' => Image::getValidMimeTypes(),
-                'extensions' => Image::getValidExtensions(),
-                'maxSize' => Image::getMaxSize(),
+                'mimeTypes' => Image::getValidImageMimeTypes(),
+                'extensions' => Image::getValidImageExtensions(),
+                'maxSize' => Image::getMaxImageSize(),
                 'maxFiles' => 20,
             ],
             [['image_quality'], 'integer', 'min' => 1, 'max' => 100],
             [['image_quality'], 'default', 'value' => 50],
             [['image_crop', 'image_name_to_basename'], 'boolean'],
             [['image_crop', 'image_name_to_basename'], 'default', 'value' => false],
-            [['image_resize_labels'], 'each', 'rule' => ['in', 'range' => array_keys(Image::getSizes())]],
             ['image_name', 'string', 'max' => 128],
             ['image_file_basename', 'string', 'max' => 128],
             ['image_file_extension', 'string', 'max' => 32],
-            ['image_file_extension', 'in', 'range' => Image::getValidExtensions()],
+            ['image_file_extension', 'in', 'range' => Image::getValidImageExtensions()],
 
             ['file', 'file'],
         ];

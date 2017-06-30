@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\image\controllers;
+namespace common\modules\image\controllers;
 
-use app\modules\image\models\Image;
-use app\modules\image\models\ImageSearch;
+use common\modules\image\models\Image;
+use common\modules\image\models\ImageSearch;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\VarDumper;

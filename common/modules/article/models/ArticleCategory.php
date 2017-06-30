@@ -6,10 +6,10 @@
  * Time: 12:05 PM
  */
 
-namespace app\modules\models;
+namespace common\modules\models;
 
 
-class ArticleRelation
+class ArticleCategory
 {
 
 }

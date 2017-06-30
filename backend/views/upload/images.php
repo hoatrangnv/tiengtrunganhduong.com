@@ -7,6 +7,8 @@ use yii\helpers\Html;
 $this->title = 'Upload Images';
 $this->params['breadcrumbs'][] = 'Upload';
 $this->params['breadcrumbs'][] = 'Images';
+
+$module = Yii::$app->modules['image2'];
 ?>
 
 <div class="upload-images">
@@ -14,10 +16,10 @@ $this->params['breadcrumbs'][] = 'Images';
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-    <?= $form->field($model, 'image_files[]')->fileInput(['multiple' => true, 'accept' => Image::getValidExtensions()]) ?>
-    <?= $form->field($model, 'image_resize_labels')->dropDownList(Image::getSizes(), [
+    <?= $form->field($model, 'image_files[]')->fileInput(['multiple' => true, 'accept' => Image::getValidImageExtensions()]) ?>
+    <?= $form->field($model, 'image_resize_labels')->dropDownList($module->params['input_resize_keys'], [
         'multiple' => 'multiple',
-        'style' => 'height:' . (18 * count(Image::getSizes())) . 'px;max-height:600px'
+        'style' => 'height:' . (18 * count($module->params['input_resize_keys'])) . 'px;max-height:600px'
     ]) ?>
     <?= $form->field($model, 'image_crop')->checkbox() ?>
     <?= $form->field($model, 'image_quality')->textInput() ?>

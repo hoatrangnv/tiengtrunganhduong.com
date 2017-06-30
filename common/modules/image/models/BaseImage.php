@@ -6,7 +6,7 @@
  * Time: 12:04 PM
  */
 
-namespace app\modules\image\models;
+namespace common\modules\image\models;
 
 use Yii;
 use yii\db\ActiveRecord;

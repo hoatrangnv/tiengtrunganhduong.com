@@ -1,18 +1,19 @@
 <?php
 
-namespace app\modules\article;
+namespace common\modules\image;
+
 
 use Yii;
 
 /**
- * article module definition class
+ * image module definition class
  */
 class Module extends \yii\base\Module
 {
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'app\modules\article\controllers';
+    public $controllerNamespace = 'common\modules\image\controllers';
 
     /**
      * @inheritdoc

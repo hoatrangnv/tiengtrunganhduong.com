@@ -57,7 +57,7 @@ return [
     ],
     'modules' => [
         'image2' => [
-            'class' => 'app\modules\image\Module',
+            'class' => 'common\modules\image\Module',
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',

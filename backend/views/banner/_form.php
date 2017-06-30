@@ -13,7 +13,7 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'image_id')->widget(Select2::classname(), [
+    <?= $form->field($model, 'image_id')->widget(Select2::className(), [
         'data' => \backend\models\Image::listAsId2Name(),
         'options' => [
             'multiple' => false,

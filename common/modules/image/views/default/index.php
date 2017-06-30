@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use \app\modules\image\models\Image;
+use \common\modules\image\models\Image;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\image\models\ImageSearch */
+/* @var $searchModel common\modules\image\models\ImageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Images';
