@@ -188,7 +188,11 @@ class UpdateController extends Controller
                 $new_resize_labels[str_replace('-', '', $resize_label)] = $resize_label;
             }
             $item->resize_labels = json_encode($new_resize_labels);
-            echo $item->resize_labels . "\n";
+            if ($item->save()) {
+                echo $item->resize_labels . "\n";
+            } else {
+                VarDumper::dumpAsString($item->errors) . "\n";
+            }
         }
     }
 }
