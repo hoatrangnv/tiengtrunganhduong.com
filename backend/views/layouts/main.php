@@ -61,11 +61,11 @@ AppAsset::register($this);
                     ['label' => 'View', 'url' => ['/article-category/view'], 'visible' => false],
                 ]],
                 ['label' => 'Image', 'items' => [
-                    ['label' => 'Index', 'url' => ['/image/index']],
-                    ['label' => 'Create', 'url' => ['/image/create']],
+                    ['label' => 'Index', 'url' => ['/image2/default/index']],
+                    ['label' => 'Create', 'url' => ['/image2/default/create']],
+                    ['label' => 'Update', 'url' => ['/image2/default/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/image2/default/view'], 'visible' => false],
                     ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
-                    ['label' => 'Update', 'url' => ['/image/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/image/view'], 'visible' => false],
                 ]],
 //                ['label' => 'Site Param', 'items' => [
 //                    ['label' => 'Index', 'url' => ['/site-param/index']],

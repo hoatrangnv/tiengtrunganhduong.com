@@ -1,8 +1,9 @@
 <?php
 use yii\helpers\Url;
+use \yii\helpers\Html;
 /* @var $this yii\web\View */
 use backend\models\Article;
-use backend\models\Image;
+use app\modules\image\models\Image;
 $this->title = Yii::$app->name;
 ?>
 <div class="site-index">
@@ -61,22 +62,20 @@ $this->title = Yii::$app->name;
                     ]) ?>">View all &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Active Images (<?= Image::find()->countActive() ?>)</h2>
+                <h2>Active Images (<?= Image::find()->where(['active' => 1])->count() ?>)</h2>
 
                 <ul id="motivatebox">
                     <?php
-                    foreach (Image::find()->orderBy('id desc')->limit(20)->allActive() as $item) {
+                    foreach (Image::find()->where(['active' => 1])->orderBy('id desc')->limit(20)->all() as $item) {
                         echo "<li style='margin-top: 0.1em'>"
-                            . $item->a(
-                                $item->img('30x30') . " $item->name"
-                              )
+                            . Html::a($item->img('30x30') . " $item->name", ['image2/default/update', 'id' => $item->id])
                             . "</li>";
                     }
                     ?>
                 </ul>
 
                 <p><a class="btn btn-default" href="<?= Url::to([
-                        'image/index',
+                        'image2/default/index',
                         'ImageSearch[active]' => 1
                     ]) ?>">View all &raquo;</a></p>
             </div>
