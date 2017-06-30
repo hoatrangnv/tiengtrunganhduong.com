@@ -179,7 +179,7 @@ class UpdateController extends Controller
          * @var Image $item
          */
         foreach (Image::find()->all() as $item) {
-            $resize_labels = json_decode($item->resize_labels);
+            $resize_labels = json_decode($item->resize_labels, true);
             if (!is_array($resize_labels)) {
                 continue;
             }
