@@ -81,4 +81,23 @@ class Image extends \common\modules\image\models\Image
             },
         ];
     }
+
+    /**
+     * @param $methodName
+     * @param $arguments
+     * @return mixed
+     * @throws \Exception
+     */
+    public function callTemplateMethod($methodName, $arguments)
+    {
+        if (method_exists($this, 'templateMethods')) {
+            $methods = $this->templateMethods();
+        } else {
+            throw new \Exception("There is not any template method in \"" . get_class($this) . "\"");
+        }
+        if (!isset($methods[$methodName])) {
+            throw new \Exception("Template method \"$methodName\" does not exist in \"" . get_class($this) . "\"");
+        }
+        return call_user_func_array($methods[$methodName], $arguments);
+    }
 }
