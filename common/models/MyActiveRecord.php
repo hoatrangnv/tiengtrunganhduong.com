@@ -186,12 +186,10 @@ abstract class MyActiveRecord extends ActiveRecord
                         return Image::find()->where(['id' => $id])->oneActive();
                     },
                 ],
+                'enableDebugMode' => false,
             ]);
-            if (empty(QueryTemplate::$errors)) {
-                $this->$attribute = $html;
-            } else {
-                $this->templateLogMessage .= VarDumper::dumpAsString(QueryTemplate::$errors) . "\n";
-            }
+            $this->$attribute = $html;
+            $this->templateLogMessage .= VarDumper::dumpAsString(QueryTemplate::$errors) . "\n";
         }
 
         $this->templateLastMethod = __METHOD__;
