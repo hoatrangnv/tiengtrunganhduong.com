@@ -53,7 +53,7 @@ class ArticleCategory extends \common\models\ArticleCategory
         return $tag;
     }
 
-    private static $_indexData;
+    private static $_indexData = null;
 
     /**
      * @param bool $visibleOnly
@@ -61,7 +61,7 @@ class ArticleCategory extends \common\models\ArticleCategory
      */
     public static function indexData($visibleOnly = false)
     {
-        if (self::$_indexData == null) {
+        if (self::$_indexData === null) {
             self::$_indexData = self::find()
                 ->orderBy('sort_order asc')
                 ->indexBy('id')
