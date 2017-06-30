@@ -191,7 +191,7 @@ class UpdateController extends Controller
             if ($item->save()) {
                 echo $item->resize_labels . "\n";
             } else {
-                VarDumper::dumpAsString($item->errors) . "\n";
+                echo VarDumper::dumpAsString($item->errors) . "\n";
             }
         }
     }
