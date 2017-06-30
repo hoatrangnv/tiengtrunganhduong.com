@@ -172,4 +172,23 @@ class UpdateController extends Controller
         var_dump($errors);
         echo "\n";
     }
+
+    public function actionImageResize()
+    {
+        /**
+         * @var Image $item
+         */
+        foreach (Image::find()->all() as $item) {
+            $resize_labels = json_decode($item->resize_labels);
+            if (!is_array($resize_labels)) {
+                continue;
+            }
+            $new_resize_labels = [];
+            foreach ($resize_labels as $resize_label) {
+                $new_resize_labels[str_replace('-', '', $resize_label)] = $resize_label;
+            }
+            $item->resize_labels = json_encode($new_resize_labels);
+            echo $item->resize_labels . "\n";
+        }
+    }
 }
