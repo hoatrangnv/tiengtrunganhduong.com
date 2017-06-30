@@ -69,7 +69,7 @@ class Image extends \common\modules\image\models\Image
             'imgTag' => function ($size = null, $options = [], $srcOptions = []) {
                 if (Yii::$app->controller && in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])
                 ) {
-                    $srcOptions = array_merge($srcOptions, ['id' => $this->id]);
+                    $srcOptions = array_merge($srcOptions, ['image_id' => $this->id]);
                 }
                 return $this->img($size, $options, $srcOptions);
             },

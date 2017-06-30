@@ -182,9 +182,6 @@ abstract class MyActiveRecord extends ActiveRecord
             $html = QueryTemplate::widget([
                 'content' => $this->$attribute,
                 'queries' => [
-                    'Article' => function ($id) {
-                        return Article::find()->where(['id' => $id])->onePublished();
-                    },
                     'Image' => function ($id) {
                         return Image::find()->where(['id' => $id])->oneActive();
                     },
@@ -245,15 +242,15 @@ abstract class MyActiveRecord extends ActiveRecord
                     }
                     $src = $imgTag->getAttribute('src');
                     $id = null;
-                    if (strpos($src, '?id=') === false && strpos($src, '&id=') === false) {
+                    if (strpos($src, '?image_id=') === false && strpos($src, '&image_id=') === false) {
                         $i++;
                         continue;
                     }
                     $parts = parse_url($src);
                     if (isset($parts['query'])) {
                         parse_str($parts['query'], $query);
-                        if (isset($query['id'])) {
-                            $id = $query['id'];
+                        if (isset($query['image_id'])) {
+                            $id = $query['image_id'];
                         }
                     }
                     if (!$id) {

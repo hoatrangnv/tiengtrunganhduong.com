@@ -94,7 +94,7 @@ class UploadController extends BaseController
         $image->input_resize_keys = $module->params['input_resize_keys'];
         if ($image->saveFileAndModel($file)) {
             $errorMessage = '';
-            $fileUrl = $image->getSource() . '?id=' . $image->id;
+            $fileUrl = $image->getSource() . '?image_id=' . $image->id;
         } else {
             $errorMessage = Yii::t('app', "Image was not uploaded") . ': ';
             foreach ($image->getErrors() as $attr => $errors) {
