@@ -34,7 +34,7 @@ $seoInfo->registerLinkTags($this);
       {
         "@context": "http://schema.org",
         "@type": "NewsArticle",
-        "headline": "<?= $seoInfo->meta_title ?>",
+        "headline": "<?= $seoInfo->name ?>",
         "datePublished": "<?= date('Y-m-dTH:i:sZ', $seoInfo->create_time) ?>",
         "image": [
           "<?= $seoInfo->image ? $seoInfo->image->getSource() : '' ?>"
@@ -43,8 +43,22 @@ $seoInfo->registerLinkTags($this);
     </script>
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
     <style amp-custom>
-        <?php echo $this->renderFile(\Yii::getAlias('@webroot/css/amp.css'))?>
+        <?= $this->renderFile(\Yii::getAlias('@webroot/css/amp.css'))?>
     </style>
+
+    <!-- More AMP components -->
+    <?php
+    if (isset(Yii::$app->params['has-amp-iframe']) && Yii::$app->params['has-amp-iframe']) {
+        ?>
+        <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+        <?php
+    }
+    if (isset(Yii::$app->params['has-amp-youtube']) && Yii::$app->params['has-amp-youtube']) {
+        ?>
+        <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
+        <?php
+    }
+    ?>
 </head>
 <body>
     <?php $this->beginBody() ?>
@@ -82,7 +96,7 @@ $seoInfo->registerLinkTags($this);
         </div>
     </div>
     <?php require_once 'footer.php' ?>
-    <?php //require_once 'tracking.php' ?>
+    <?php require_once 'tracking.php' ?>
     <?php $this->endBody() ?>
 </body>
 </html>

@@ -25,7 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="news-content fit-content content-popup-images">
         <?php
         $model->templateToHtml(['content']);
-        echo preg_replace("/<img (.*)>/", "", $model->getAmpContent());
+        $content = preg_replace("/<img (.*)>/", "", $model->getAmpContent());
+        echo $content;
+//        if (strpos($content, 'amp-youtube') !== false) {
+//            Yii::$app->params['has-amp-youtube'] = true;
+//        }
+        if (strpos($content, 'iframe') !== false) {
+            Yii::$app->params['has-amp-iframe'] = true;
+        }
+
         ?>
     </div>
 </article>
