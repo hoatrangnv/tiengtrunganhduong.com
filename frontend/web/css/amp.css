@@ -980,7 +980,7 @@ form.primary .form-group.has-success textarea {
     padding: 0.5em;
     color: #FF2D33;
 }
-#sidebar ul li .child-text {
+#sidebar ul li.child {
     font-size: 0.86em;
     padding-left: 0.5em;
     color: #333;

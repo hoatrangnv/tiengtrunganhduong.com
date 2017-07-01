@@ -21,27 +21,18 @@ $menu = $this->context->menu;
             /**
              * @var $item \vanquyet\menu\MenuItem
              * @var $children \vanquyet\menu\MenuItem[]
-             * @var $grandchildren \vanquyet\menu\MenuItem[]
              */
-            $children = $item->getChildren();
-            if (empty($children)) {
+            ?>
+            <li<?= $item->isActive() ? ' class="active"' : '' ?>>
+                <?= $item->a() ?>
+            </li>
+            <?php
+            foreach ($item->getChildren() as $child) {
                 ?>
-                <li<?= $item->isActive() ? ' class="active"' : '' ?>>
-                    <?php
-                    echo $item->a();
-                    ?>
+                <li class="<?= $child->isActive() ? 'active child' : 'child' ?>">
+                    <?= $child->a() ?>
                 </li>
                 <?php
-            } else {
-                foreach ($children as $child) {
-                    ?>
-                    <li<?= $child->isActive() ? ' class="active"' : '' ?>>
-                        <span class="child-text">
-                            <?= $child->a() ?>
-                        </span>
-                    </li>
-                    <?php
-                }
             }
         }
         ?>
