@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $menu vanquyet\menu\Menu
+ */
+$menu = $this->context->menu;
+?>
 <amp-sidebar id="sidebar"
              layout="nodisplay"
              side="right">
