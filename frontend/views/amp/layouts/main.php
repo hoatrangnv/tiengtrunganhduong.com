@@ -64,6 +64,7 @@ $seoInfo->registerLinkTags($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
+    <?= $this->render('ampSidebar') ?>
     <div class="wrap">
         <div class="container sm-non-padding clr">
             <div class="img-wrap">
