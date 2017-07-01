@@ -982,7 +982,7 @@ form.primary .form-group.has-success textarea {
 }
 #sidebar ul li.child {
     font-size: 0.86em;
-    padding-left: 1em;
+    padding-left: 1rem;
     color: #333;
 }
 #sidebar ul li.active {
