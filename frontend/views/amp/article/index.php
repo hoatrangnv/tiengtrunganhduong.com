@@ -11,8 +11,6 @@ use frontend\models\Image;
  * @var \frontend\models\Article[] $models
  *
  */
-$action_id = Yii::$app->controller->action->id;
-
 $this->title = $title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
