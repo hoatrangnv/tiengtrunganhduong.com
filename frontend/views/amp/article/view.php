@@ -27,10 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
         $model->templateToHtml(['content']);
         $content = preg_replace("/<img (.*)>/", "", $model->getAmpContent());
         echo $content;
-//        if (strpos($content, 'amp-youtube') !== false) {
-//            Yii::$app->params['has-amp-youtube'] = true;
-//        }
-        if (strpos($content, 'iframe') !== false) {
+        if (strpos($content, '<amp-youtube') !== false) {
+            Yii::$app->params['has-amp-youtube'] = true;
+        }
+        if (strpos($content, '<amp-iframe') !== false) {
             Yii::$app->params['has-amp-iframe'] = true;
         }
 
