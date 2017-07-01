@@ -37,9 +37,22 @@ class BaseController extends Controller
         Yii::$app->params['amp'] = ('amp' === Yii::$app->request->get(UrlParam::AMP));
 
         // @TODO: AMP
-        if (!Yii::$app->params['amp'] && in_array(Yii::$app->requestedRoute, ['site/index', 'article/index', 'article/view', 'article/category'])) {
-            $params = array_merge([Yii::$app->requestedRoute, UrlParam::AMP => 'amp'], Yii::$app->request->get());
-            $this->ampLink = Url::to($params, true);
+        if (in_array(Yii::$app->requestedRoute, ['site/index', 'article/index', 'article/view', 'article/category'])) {
+            if (!Yii::$app->params['amp']) {
+                $arrUrl = array_merge([Yii::$app->requestedRoute, UrlParam::AMP => 'amp'], Yii::$app->request->get());
+                $this->ampLink = Url::to($arrUrl, true);
+            } else {
+                $reqParams = Yii::$app->request->get();
+                if (isset($reqParams[UrlParam::AMP])) {
+                    unset($reqParams[UrlParam::AMP]);
+                }
+                $arrUrl = array_merge([Yii::$app->requestedRoute], $reqParams);
+                $this->canonicalLink = Url::to($arrUrl, true);
+            }
+        }
+
+        if (!$this->canonicalLink) {
+            $this->canonicalLink = Url::current([], true);
         }
 
         if (Yii::$app->params['amp']) {
@@ -116,8 +129,6 @@ class BaseController extends Controller
         if (!$this->seoInfo) {
             $this->seoInfo = new SeoInfo();
         }
-
-        $this->canonicalLink = Url::current([], true);
 
         return parent::beforeAction($action);
     }

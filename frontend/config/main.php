@@ -44,6 +44,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 // Site
+                ['pattern' => '<' . UrlParam::AMP . ':amp>.htm', 'route' => 'site/index'],
                 ['pattern' => '', 'route' => 'site/index'],
                 ['pattern' => '/', 'route' => 'site/index'],
                 ['pattern' => 'site/captcha', 'route' => 'site/captcha'],
@@ -55,6 +56,7 @@ return [
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
                 ['pattern' => 'article/ajax-update-counter', 'route' => 'article/ajax-update-counter'],
+                ['pattern' => 'tin-tuc.<' . UrlParam::AMP . ':amp>.htm', 'route' => 'article/index'],
                 ['pattern' => 'tin-tuc.htm', 'route' => 'article/index'],
                 ['pattern' => '<' . UrlParam::ALIAS . ':(.*(|[\/]).*)>/tags.htm', 'route' => 'article/tags'],
                 ['pattern' => '<' . UrlParam::ALIAS . ':(.*(|[\/]).*)>/search.htm', 'route' => 'article/search'],
@@ -84,11 +86,12 @@ return [
     'params' => $params,
     'on beforeRequest' => function ($event) {
         // Article URL config
+        $catSlugs = implode('|', \yii\helpers\ArrayHelper::getColumn(\frontend\models\ArticleCategory::indexData(), 'slug'));
         $urlConfig =  [
-            ['pattern' => '<' . UrlParam::SLUG . ':('
-                . implode('|', \yii\helpers\ArrayHelper::getColumn(
-                    \frontend\models\ArticleCategory::indexData(), 'slug'))
-                . ')>.htm', 'route' => 'article/category'],
+            ['pattern' => '<' . UrlParam::SLUG . ':(' . $catSlugs . ')>.<' . UrlParam::AMP . ':amp>.htm', 'route' => 'article/category'],
+            ['pattern' => '<' . UrlParam::SLUG . ':(' . $catSlugs . ')>.htm', 'route' => 'article/category'],
+
+            ['pattern' => '<' . UrlParam::SLUG . '>.<' . UrlParam::AMP . ':amp>.htm', 'route' => 'article/view'],
             ['pattern' => '<' . UrlParam::SLUG . '>.htm', 'route' => 'article/view'],
         ];
 

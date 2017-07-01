@@ -106,7 +106,6 @@ class ArticleController extends BaseController
 
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $models = $this->findModels($category->getAllArticles());
-        $this->canonicalLink = $category->getUrl();
         $this->seoInfo->parseValues($category->attributes);
         return $this->render('index', [
             'title' => $category->name,

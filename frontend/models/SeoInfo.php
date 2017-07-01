@@ -75,11 +75,11 @@ class SeoInfo extends \common\models\SeoInfo
             'name' => 'DC.Source',
             'content' => Url::home(true)
         ]);
-        $view->registerMetaTag([
-            'name' => 'DC.language',
-            'scheme' => 'UTF-8',
-            'content' => 'vi'
-        ]);
+//        $view->registerMetaTag([
+//            'name' => 'DC.language',
+//            'scheme' => 'UTF-8',
+//            'content' => 'vi'
+//        ]);
         $view->registerMetaTag([
             'name' => 'DC.Coverage',
             'content' => 'Việt Nam'
@@ -92,10 +92,10 @@ class SeoInfo extends \common\models\SeoInfo
             'name' => 'COPYRIGHT',
             'content' => Yii::$app->name
         ]);
-        $view->registerMetaTag([
-            'name' => 'REVISIT-AFTER',
-            'content' => '1 DAYS'
-        ]);
+//        $view->registerMetaTag([
+//            'name' => 'REVISIT-AFTER',
+//            'content' => '1 DAYS'
+//        ]);
         $view->registerMetaTag([
             'name' => 'viewport',
             'content' => 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no'
@@ -158,5 +158,11 @@ class SeoInfo extends \common\models\SeoInfo
             'rel' => 'shortcut icon',
             'href' => Yii::getAlias('@web/favicon.ico')
         ]);
+        if ($context->ampLink) {
+            $view->registerLinkTag([
+                'rel' => 'amphtml',
+                'href' => $context->ampLink
+            ]);
+        }
     }
 }

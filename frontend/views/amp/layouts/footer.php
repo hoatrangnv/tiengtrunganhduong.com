@@ -22,10 +22,10 @@ use frontend\models\SiteParam;
             <div>Hotline: <?= ($item = SiteParam::findOneByName(SiteParam::PHONE_NUMBER)) ? $item->value : '' ?></div>
         </div>
         <div class="social-networks">
-            <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank" rel="nofollow"><i class="icon facebook-icon"></i></a>
-            <a title="twitter" href="<?= ($item = SiteParam::findOneByName(SiteParam::TWITTER_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank" rel="nofollow"><i class="icon twitter-icon" ></i></a>
-            <a title="google plus" href="<?= ($item = SiteParam::findOneByName(SiteParam::GOOGLE_PLUS_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank" rel="nofollow"><i class="icon google-plus-icon"></i></a>
-            <a title="youtube" href="<?= ($item = SiteParam::findOneByName(SiteParam::YOUTUBE_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank" rel="nofollow"><i class="icon youtube-icon"></i></a>
+            <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : '#' ?>" target="_blank" rel="nofollow"><i class="icon facebook-icon"></i></a>
+            <a title="twitter" href="<?= ($item = SiteParam::findOneByName(SiteParam::TWITTER_URL)) ? $item->value : '#' ?>" target="_blank" rel="nofollow"><i class="icon twitter-icon" ></i></a>
+            <a title="google plus" href="<?= ($item = SiteParam::findOneByName(SiteParam::GOOGLE_PLUS_URL)) ? $item->value : '#' ?>" target="_blank" rel="nofollow"><i class="icon google-plus-icon"></i></a>
+            <a title="youtube" href="<?= ($item = SiteParam::findOneByName(SiteParam::YOUTUBE_URL)) ? $item->value : '#' ?>" target="_blank" rel="nofollow"><i class="icon youtube-icon"></i></a>
         </div>
         <div>
             <a href="http://www.dmca.com/Protection/Status.aspx?ID=5a851896-94bd-4f2e-89fd-79369a67a3a0" title="DMCA.com Protection Status" class="dmca-badge">

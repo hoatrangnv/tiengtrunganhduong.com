@@ -16,7 +16,7 @@ $menu = $this->context->menu;
 ?>
 <nav class="nav-bar clr">
     <div class="menu clr">
-        <button type="button" class="menu-toggle" onclick="this.classList.toggle('active')">
+        <button type="button" class="menu-toggle">
             <i class="icon menu-icon"></i>
             <span class="menu-title"><?= ($m = $menu->getActiveItem()) ? $m->label : 'Danh mục' ?></span>
         </button>
@@ -36,7 +36,7 @@ $menu = $this->context->menu;
                         echo $item->a();
                     } else {
                         ?>
-                        <button type="button" class="menu-toggle<?= $item->isActive() ? ' active' : '' ?>" onclick="this.classList.toggle('active')"></button>
+                        <button type="button" class="menu-toggle<?= $item->isActive() ? ' active' : '' ?>"></button>
                         <?= $item->a() ?>
                         <ul>
                             <?php
@@ -49,7 +49,7 @@ $menu = $this->context->menu;
                                         echo $child->a();
                                     } else {
                                         ?>
-                                        <button class="menu-toggle" onclick="this.classList.toggle('active')"></button>
+                                        <button class="menu-toggle"></button>
                                         <?= $child->a() ?>
                                         <ul>
                                             <?php
@@ -74,15 +74,8 @@ $menu = $this->context->menu;
             }
             ?>
         </ul>
-        <button type="button" class="search-toggle"
-                onclick="
-                    document.getElementById('search-toolbar').classList.toggle('active');
-                    document.querySelector('.gsc-search-box-tools .gsc-search-box input.gsc-input').focus();
-                ">
+        <button type="button" class="search-toggle">
             <i class="icon magnifier-icon"></i>
         </button>
     </div>
 </nav>
-<div class="search-toolbar clr" id="search-toolbar">
-    <gcse:search></gcse:search>
-</div>
