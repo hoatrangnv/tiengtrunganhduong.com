@@ -47,6 +47,8 @@ $seoInfo->registerLinkTags($this);
     </style>
 
     <!-- More AMP components -->
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
     <?php
     if (isset(Yii::$app->params['has-amp-iframe']) && Yii::$app->params['has-amp-iframe']) {
         ?>

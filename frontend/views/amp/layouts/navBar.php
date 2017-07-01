@@ -9,36 +9,6 @@ use yii\helpers\Url;
  */
 $menu = $this->context->menu;
 ?>
-<style amp-custom>
-    #sidebar {
-        padding: 1rem;
-        background: #fff;
-    }
-    #sidebar .amp-close-image {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-    #sidebar ul {
-        list-style: none;
-    }
-    #sidebar ul li {
-        padding: 0.5em;
-        color: #FF2D33;
-    }
-    #sidebar ul li .child-text {
-        font-size: 0.86em;
-        padding-left: 0.5em;
-        color: #333;
-    }
-    #sidebar ul li.active {
-        background: #cef;
-    }
-    #sidebar ul li:hover {
-        text-decoration: underline;
-    }
-</style>
-<script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
 <nav class="nav-bar clr">
     <div class="menu clr">
         <button type="button" class="menu-toggle" on="tap:sidebar.toggle">
