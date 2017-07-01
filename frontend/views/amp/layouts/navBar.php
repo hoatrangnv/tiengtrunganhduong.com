@@ -26,7 +26,7 @@ $menu = $this->context->menu;
         padding: 0.5em;
         color: #FF2D33;
     }
-    #sidebar ul li amp-fit-text {
+    #sidebar ul li .child-text {
         font-size: 0.86em;
         padding-left: 0.5em;
         color: #333;
@@ -82,29 +82,9 @@ $menu = $this->context->menu;
                 foreach ($children as $child) {
                     ?>
                     <li<?= $child->isActive() ? ' class="active"' : '' ?>>
-                        <amp-fit-text width="220"
-                                      height="20"
-                                      layout="responsive"
-                                      max-font-size="24">
-                        <?php
-                        $grandchildren = $child->getChildren();
-                        if (empty($grandchildren)) {
-                            echo $child->a();
-                        } else {
-                            ?>
-                            <button class="menu-toggle"></button>
+                        <span class="child-text">
                             <?= $child->a() ?>
-                            <ul>
-                                <?php
-                                foreach ($grandchildren as $grandchild) {
-                                    echo ($grandchild->isActive() ? '<li class="active">' : '<li>') . "{$grandchild->a()}</li>";
-                                }
-                                ?>
-                            </ul>
-                            <?php
-                        }
-                        ?>
-                        </amp-fit-text>
+                        </span>
                     </li>
                     <?php
                 }
