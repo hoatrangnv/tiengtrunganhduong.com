@@ -47,9 +47,9 @@ $seoInfo->registerLinkTags($this);
                 "name": "<?= Yii::$app->name ?>",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "<?= \yii\helpers\Url::home(true) ?>/img/logo.png",
-                    "width": 130,
-                    "height": 130
+                    "url": "<?= \yii\helpers\Url::home(true) ?>/img/logo_banner.png",
+                    "width": 445,
+                    "height": 60
                 }
             },
             "headline": "<?= $seoInfo->name ?>",
@@ -87,7 +87,7 @@ $seoInfo->registerLinkTags($this);
     <div class="wrap">
         <div class="container sm-non-padding clr">
             <div class="img-wrap">
-                <amp-img src="<?= Yii::getAlias('@web/img/desktop_logo_banner.png') ?>" width="375" height="50" layout="responsive" alt="<?= Yii::$app->name ?>"></amp-img>
+                <amp-img src="<?= Yii::getAlias('@web/img/logo_banner.png') ?>" width="375" height="50" layout="responsive" alt="<?= Yii::$app->name ?>"></amp-img>
             </div>
         </div>
         <div class="container sm-non-padding clr">
