@@ -44,7 +44,13 @@ $seoInfo->registerLinkTags($this);
             },
             "publisher": {
                 "@type": "Organization",
-                "name": "<?= Yii::$app->name ?>"
+                "name": "<?= Yii::$app->name ?>",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "<?= Yii::getAlias('@web/img/logo.png') ?>",
+                    "width": 130,
+                    "height": 130
+                }
             },
             "headline": "<?= $seoInfo->name ?>",
             "datePublished": "<?= date('Y-m-dTH:i:sZ', $seoInfo->create_time) ?>",
