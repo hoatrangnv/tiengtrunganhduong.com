@@ -80,7 +80,13 @@ $seoInfo->registerLinkTags($this);
         <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
         <?php
     }
+    if (isset(Yii::$app->params['has-amp-audio']) && Yii::$app->params['has-amp-audio']) {
+        ?>
+        <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>
+        <?php
+    }
     ?>
+
 </head>
 <body>
     <?php $this->beginBody() ?>

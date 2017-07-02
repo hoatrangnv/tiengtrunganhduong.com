@@ -33,6 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
         if (strpos($content, '<amp-iframe') !== false) {
             Yii::$app->params['has-amp-iframe'] = true;
         }
+        if (strpos($content, '<amp-audio') !== false) {
+            Yii::$app->params['has-amp-audio'] = true;
+        }
 
         ?>
     </div>
