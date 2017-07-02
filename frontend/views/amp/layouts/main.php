@@ -31,15 +31,28 @@ $seoInfo->registerLinkTags($this);
     <?= Html::csrfMetaTags() ?>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script type="application/ld+json">
-      {
-        "@context": "http://schema.org",
-        "@type": "NewsArticle",
-        "headline": "<?= $seoInfo->name ?>",
-        "datePublished": "<?= date('Y-m-dTH:i:sZ', $seoInfo->create_time) ?>",
-        "image": [
-          "<?= $seoInfo->image ? $seoInfo->image->getSource() : '' ?>"
-        ]
-      }
+        {
+            "@context": "http://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "<?= $this->context->linkCanonical ?>"
+            },
+            "author": {
+                "@type": "Organization",
+                "name": "<?= Yii::$app->name ?>"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "<?= Yii::$app->name ?>"
+            }
+            "headline": "<?= $seoInfo->name ?>",
+            "datePublished": "<?= date('Y-m-dTH:i:sZ', $seoInfo->create_time) ?>",
+            "dateModified": "<?= date('Y-m-dTH:i:sZ', $seoInfo->update_time) ?>",
+            "image": [
+                "<?= $seoInfo->image ? $seoInfo->image->getSource() : '' ?>"
+            ]
+        }
     </script>
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
     <style amp-custom>
