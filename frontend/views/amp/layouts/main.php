@@ -36,7 +36,7 @@ $seoInfo->registerLinkTags($this);
             "@type": "NewsArticle",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "<?= $this->context->linkCanonical ?>"
+                "@id": "<?= $this->context->canonicalLink ?>"
             },
             "author": {
                 "@type": "Organization",
