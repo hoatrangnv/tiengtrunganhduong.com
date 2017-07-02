@@ -7,5 +7,5 @@ return [
 //        'userTable' => '{{%user}}',
 //        'defaultUserStatus' => 0,
 //    ]
-    'fb_app_id' => '496869490437318',
+    'fb_app_id' => '1793387650973425',
 ];
