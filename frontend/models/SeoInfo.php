@@ -165,4 +165,15 @@ class SeoInfo extends \common\models\SeoInfo
             ]);
         }
     }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        return false;
+    }
+
+    public function update($runValidation = true, $attributeNames = null)
+    {
+        return false;
+    }
+
 }
