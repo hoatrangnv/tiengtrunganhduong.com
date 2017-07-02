@@ -45,7 +45,7 @@ $seoInfo->registerLinkTags($this);
             "publisher": {
                 "@type": "Organization",
                 "name": "<?= Yii::$app->name ?>"
-            }
+            },
             "headline": "<?= $seoInfo->name ?>",
             "datePublished": "<?= date('Y-m-dTH:i:sZ', $seoInfo->create_time) ?>",
             "dateModified": "<?= date('Y-m-dTH:i:sZ', $seoInfo->update_time) ?>",
