@@ -106,6 +106,10 @@ class SeoInfo extends \common\models\SeoInfo
         ]);
         /** Facebook Meta */
         $view->registerMetaTag([
+            'property' => 'fb:app_id',
+            'content' => Yii::$app->params['fb_app_id']
+        ]);
+        $view->registerMetaTag([
             'property' => 'og:type',
             'content' => 'website'
         ]);
