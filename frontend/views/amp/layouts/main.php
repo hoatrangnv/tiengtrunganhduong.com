@@ -57,7 +57,7 @@ $seoInfo->registerLinkTags($this);
             "datePublished": "<?= date('Y-m-dTH:i:sZ', $seoInfo->create_time) ?>",
             "dateModified": "<?= date('Y-m-dTH:i:sZ', $seoInfo->update_time) ?>",
             "image": [
-                "<?= ($image_src = $seoInfo->image ? $seoInfo->image->getSource() : '') ? $image_src : Url::home(true) . 'img/default.png' ?>"
+                "<?= ($image_src = $seoInfo->image ? $seoInfo->image->getSource() : '') ? $image_src : Url::home(true) . 'img/default.jpg' ?>"
             ]
         }
     </script>
