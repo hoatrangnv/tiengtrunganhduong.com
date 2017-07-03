@@ -55,7 +55,9 @@ CREATE TABLE `quiz_answer` (
   `sort_order` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
   `content` varchar(511) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `question_id` (`question_id`),
+  CONSTRAINT `quiz_answer_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `quiz_question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `quiz_answer` */
@@ -98,11 +100,16 @@ DROP TABLE IF EXISTS `quiz_figure`;
 CREATE TABLE `quiz_figure` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` int(11) NOT NULL,
+  `condition_id` int(11) DEFAULT NULL,
   `style_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `position` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `quiz_id` (`quiz_id`),
+  KEY `condition_id` (`condition_id`),
+  CONSTRAINT `quiz_figure_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quiz_figure_ibfk_2` FOREIGN KEY (`condition_id`) REFERENCES `quiz_condition` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `quiz_figure` */
@@ -119,10 +126,26 @@ CREATE TABLE `quiz_question` (
   `content` varchar(511) COLLATE utf8_unicode_ci NOT NULL,
   `multiple_choice` tinyint(1) DEFAULT NULL,
   `required` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `quiz_id` (`quiz_id`),
+  CONSTRAINT `quiz_question_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `quiz_question` */
+
+/*Table structure for table `quiz_random` */
+
+DROP TABLE IF EXISTS `quiz_random`;
+
+CREATE TABLE `quiz_random` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `quiz_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `quiz_random` */
 
 /*Table structure for table `quiz_result` */
 
@@ -137,7 +160,9 @@ CREATE TABLE `quiz_result` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(511) COLLATE utf8_unicode_ci DEFAULT NULL,
   `content` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `quiz_id` (`quiz_id`),
+  CONSTRAINT `quiz_result_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `quiz_result` */
@@ -151,7 +176,11 @@ CREATE TABLE `quiz_result_selection` (
   `answer_id` int(11) NOT NULL,
   `result_id` int(11) NOT NULL,
   `votes` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `answer_id` (`answer_id`),
+  KEY `result_id` (`result_id`),
+  CONSTRAINT `quiz_result_selection_ibfk_1` FOREIGN KEY (`answer_id`) REFERENCES `quiz_answer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quiz_result_selection_ibfk_2` FOREIGN KEY (`result_id`) REFERENCES `quiz_result` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `quiz_result_selection` */
