@@ -982,6 +982,13 @@ form.primary .form-group.has-success textarea {
     {
         padding: 0 0.5rem;
     }
+    .nav-bar .menu-title
+    {
+        max-width: 500px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
     .nav-bar .menu li
     {
         float: none;
@@ -1166,6 +1173,13 @@ form.primary .form-group.has-success textarea {
 
 @media screen and (max-width: 640px)
 {
+    /**
+     * NAV BAR
+     */
+    .nav-bar .menu-title
+    {
+        max-width: 200px;
+    }
     /**
      * NEWS BLOCK
      */
