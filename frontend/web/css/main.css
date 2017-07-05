@@ -323,6 +323,7 @@ article a:hover {
     width: 90% !important;
     top: 5% !important;
     left: 5% !important;
+    z-index: 99999999 !important;
 }
 
 /**
