@@ -6,8 +6,8 @@
 <canvas zoom="75">
 <tables>
 <table name="quiz_answer" view="colnames">
-<left>1096</left>
-<top>487</top>
+<left>1158</left>
+<top>414</top>
 <width>182</width>
 <height>201</height>
 <sql_create_table>CREATE TABLE `quiz_answer` (
@@ -43,8 +43,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz_filter" view="colnames">
-<left>821</left>
-<top>1187</top>
+<left>751</left>
+<top>1229</top>
 <width>185</width>
 <height>155</height>
 <sql_create_table>CREATE TABLE `quiz_filter` (
@@ -79,8 +79,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz_random_param" view="colnames">
-<left>1345</left>
-<top>700</top>
+<left>1409</left>
+<top>732</top>
 <width>250</width>
 <height>122</height>
 <sql_create_table>CREATE TABLE `quiz_random_param` (
@@ -93,8 +93,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz_result" view="colnames">
-<left>874</left>
-<top>605</top>
+<left>850</left>
+<top>588</top>
 <width>190</width>
 <height>194</height>
 <sql_create_table>CREATE TABLE `quiz_result` (
@@ -116,8 +116,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz_result_selection" view="colnames">
-<left>584</left>
-<top>509</top>
+<left>572</left>
+<top>379</top>
 <width>227</width>
 <height>139</height>
 <sql_create_table>CREATE TABLE `quiz_result_selection` (
@@ -136,7 +136,7 @@
 <left>922</left>
 <top>1533</top>
 <width>152</width>
-<height>230</height>
+<height>342</height>
 <sql_create_table>CREATE TABLE `quiz_style` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` int(11) DEFAULT NULL,
@@ -171,8 +171,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz_question" view="colnames">
-<left>1373</left>
-<top>508</top>
+<left>1520</left>
+<top>486</top>
 <width>199</width>
 <height>185</height>
 <sql_create_table>CREATE TABLE `quiz_question` (
@@ -191,10 +191,10 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz" view="colnames">
-<left>1109</left>
-<top>783</top>
+<left>1111</left>
+<top>855</top>
 <width>141</width>
-<height>230</height>
+<height>268</height>
 <sql_create_table>CREATE TABLE `quiz` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -220,8 +220,8 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="quiz_random_value" view="colnames">
-<left>1658</left>
-<top>737</top>
+<left>1712</left>
+<top>740</top>
 <width>217</width>
 <height>130</height>
 <sql_create_table>CREATE TABLE `quiz_random_value` (
@@ -244,8 +244,8 @@
   `style_id` int(11) NOT NULL,
   `style_index` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `caption_id` (`caption_id`,`style_id`),
   KEY `style_id` (`style_id`),
+  KEY `caption_id` (`caption_id`),
   CONSTRAINT `quiz_caption_to_style_ibfk_1` FOREIGN KEY (`caption_id`) REFERENCES `quiz_caption` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `quiz_caption_to_style_ibfk_2` FOREIGN KEY (`style_id`) REFERENCES `quiz_style` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
@@ -261,8 +261,8 @@
   `style_id` int(11) NOT NULL,
   `style_index` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `figure_id` (`figure_id`,`style_id`),
   KEY `style_id` (`style_id`),
+  KEY `figure_id` (`figure_id`),
   CONSTRAINT `quiz_figure_to_stype_ibfk_1` FOREIGN KEY (`figure_id`) REFERENCES `quiz_figure` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `quiz_figure_to_stype_ibfk_2` FOREIGN KEY (`style_id`) REFERENCES `quiz_style` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
