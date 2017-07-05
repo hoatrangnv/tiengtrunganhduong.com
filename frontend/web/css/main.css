@@ -325,6 +325,9 @@ article a:hover {
     left: 5% !important;
     z-index: 99999999 !important;
 }
+.gsc-modal-background-image {
+    z-index: 10000000 !important;
+}
 
 /**
  * PAGE COLUMNS
