@@ -288,6 +288,9 @@ abstract class MyActiveRecord extends ActiveRecord
                 $bodies = $doc->getElementsByTagName('body');
                 if (isset($bodies[0])) {
                     $this->$attribute = self::DOMinnerHTML($bodies[0]);
+                } else {
+                    $this->templateLogMessage .= "Body tag was not found\n";
+                    return false;
                 }
             } catch (\Exception $e) {
                 $this->templateLogMessage .= $e->getMessage() . "\n";
