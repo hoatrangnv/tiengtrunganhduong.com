@@ -70,10 +70,10 @@ DROP TABLE IF EXISTS `quiz_caption`;
 
 CREATE TABLE `quiz_caption` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(11) NOT NULL,
-  `style_id` int(11) NOT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
   `filter_id` int(11) DEFAULT NULL,
   `content` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `quiz_id` (`quiz_id`),
   KEY `condition_id` (`filter_id`),
@@ -83,18 +83,36 @@ CREATE TABLE `quiz_caption` (
 
 /*Data for the table `quiz_caption` */
 
+/*Table structure for table `quiz_caption_to_style` */
+
+DROP TABLE IF EXISTS `quiz_caption_to_style`;
+
+CREATE TABLE `quiz_caption_to_style` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `caption_id` int(11) NOT NULL,
+  `style_id` int(11) NOT NULL,
+  `style_index` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `caption_id` (`caption_id`,`style_id`),
+  KEY `style_id` (`style_id`),
+  CONSTRAINT `quiz_caption_to_style_ibfk_1` FOREIGN KEY (`caption_id`) REFERENCES `quiz_caption` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quiz_caption_to_style_ibfk_2` FOREIGN KEY (`style_id`) REFERENCES `quiz_style` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `quiz_caption_to_style` */
+
 /*Table structure for table `quiz_figure` */
 
 DROP TABLE IF EXISTS `quiz_figure`;
 
 CREATE TABLE `quiz_figure` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(11) NOT NULL,
-  `style_id` int(11) NOT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
   `filter_id` int(11) DEFAULT NULL,
-  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `nth_of_type` int(11) DEFAULT NULL,
+  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `type_index` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `quiz_id` (`quiz_id`),
   KEY `condition_id` (`filter_id`),
@@ -104,13 +122,31 @@ CREATE TABLE `quiz_figure` (
 
 /*Data for the table `quiz_figure` */
 
+/*Table structure for table `quiz_figure_to_stype` */
+
+DROP TABLE IF EXISTS `quiz_figure_to_stype`;
+
+CREATE TABLE `quiz_figure_to_stype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `figure_id` int(11) NOT NULL,
+  `style_id` int(11) NOT NULL,
+  `style_index` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `figure_id` (`figure_id`,`style_id`),
+  KEY `style_id` (`style_id`),
+  CONSTRAINT `quiz_figure_to_stype_ibfk_1` FOREIGN KEY (`figure_id`) REFERENCES `quiz_figure` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quiz_figure_to_stype_ibfk_2` FOREIGN KEY (`style_id`) REFERENCES `quiz_style` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `quiz_figure_to_stype` */
+
 /*Table structure for table `quiz_filter` */
 
 DROP TABLE IF EXISTS `quiz_filter`;
 
 CREATE TABLE `quiz_filter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(11) NOT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
   `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `condition` varchar(511) COLLATE utf8_unicode_ci NOT NULL,
@@ -148,7 +184,7 @@ DROP TABLE IF EXISTS `quiz_random_param`;
 
 CREATE TABLE `quiz_random_param` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(11) NOT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `quiz_id` (`quiz_id`),
@@ -180,11 +216,13 @@ CREATE TABLE `quiz_result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` int(11) NOT NULL,
   `image_id` int(11) DEFAULT NULL,
+  `audio_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL,
   `filter_id` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(511) COLLATE utf8_unicode_ci DEFAULT NULL,
   `details` text COLLATE utf8_unicode_ci,
+  `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `quiz_id` (`quiz_id`),
   KEY `condition_id` (`filter_id`),
@@ -229,6 +267,24 @@ CREATE TABLE `quiz_result_to_caption` (
 
 /*Data for the table `quiz_result_to_caption` */
 
+/*Table structure for table `quiz_result_to_caption_to_style` */
+
+DROP TABLE IF EXISTS `quiz_result_to_caption_to_style`;
+
+CREATE TABLE `quiz_result_to_caption_to_style` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `result_to_caption_id` int(11) NOT NULL,
+  `style_id` int(11) NOT NULL,
+  `style_index` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `result_to_caption_id` (`result_to_caption_id`),
+  KEY `style_id` (`style_id`),
+  CONSTRAINT `quiz_result_to_caption_to_style_ibfk_1` FOREIGN KEY (`result_to_caption_id`) REFERENCES `quiz_result_to_caption` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quiz_result_to_caption_to_style_ibfk_2` FOREIGN KEY (`style_id`) REFERENCES `quiz_style` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `quiz_result_to_caption_to_style` */
+
 /*Table structure for table `quiz_result_to_figure` */
 
 DROP TABLE IF EXISTS `quiz_result_to_figure`;
@@ -246,13 +302,31 @@ CREATE TABLE `quiz_result_to_figure` (
 
 /*Data for the table `quiz_result_to_figure` */
 
+/*Table structure for table `quiz_result_to_figure_to_style` */
+
+DROP TABLE IF EXISTS `quiz_result_to_figure_to_style`;
+
+CREATE TABLE `quiz_result_to_figure_to_style` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `result_to_figure_id` int(11) NOT NULL,
+  `style_id` int(11) NOT NULL,
+  `style_index` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `result_to_figure_id` (`result_to_figure_id`),
+  KEY `style_id` (`style_id`),
+  CONSTRAINT `quiz_result_to_figure_to_style_ibfk_1` FOREIGN KEY (`result_to_figure_id`) REFERENCES `quiz_result_to_figure` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quiz_result_to_figure_to_style_ibfk_2` FOREIGN KEY (`style_id`) REFERENCES `quiz_style` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `quiz_result_to_figure_to_style` */
+
 /*Table structure for table `quiz_style` */
 
 DROP TABLE IF EXISTS `quiz_style`;
 
 CREATE TABLE `quiz_style` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(11) NOT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `top` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `left` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
