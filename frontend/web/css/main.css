@@ -323,7 +323,7 @@ article a:hover {
     width: 90% !important;
     top: 5% !important;
     left: 5% !important;
-    z-index: 99999999 !important;
+    z-index: 10000001 !important;
 }
 .gsc-modal-background-image {
     z-index: 10000000 !important;
