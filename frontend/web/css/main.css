@@ -317,6 +317,8 @@ article a:hover {
 }
 .gsc-results-wrapper-overlay {
     box-sizing: border-box;
+    padding-left: 1% !important;
+    padding-right: 1% !important;
     height: 90% !important;
     width: 90% !important;
     top: 5% !important;
