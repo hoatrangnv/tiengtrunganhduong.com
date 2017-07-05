@@ -310,6 +310,18 @@ article a:hover {
     display: none !important;
 }
 
+/** Search result */
+.search-box .gsc-selected-option-container {
+    min-width: 100px;
+    width: 100px !important;
+}
+.search-box .gsc-results-wrapper-overlay {
+    height: 96% !important;
+    width: 96% !important;
+    top: 2% !important;
+    left: 2% !important;
+}
+
 /**
  * PAGE COLUMNS
  */
