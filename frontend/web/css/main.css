@@ -311,15 +311,16 @@ article a:hover {
 }
 
 /** Search result */
-.search-box .gsc-selected-option-container {
+.gsc-selected-option-container {
     min-width: 100px;
     width: 100px !important;
 }
-.search-box .gsc-results-wrapper-overlay {
-    height: 96% !important;
-    width: 96% !important;
-    top: 2% !important;
-    left: 2% !important;
+.gsc-results-wrapper-overlay {
+    box-sizing: border-box;
+    height: 90% !important;
+    width: 90% !important;
+    top: 5% !important;
+    left: 5% !important;
 }
 
 /**
