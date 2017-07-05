@@ -227,9 +227,8 @@ abstract class MyActiveRecord extends ActiveRecord
 
             try {
                 $doc->loadHTML(
-//                    $html,
-                    mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'),
-                    LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+                    mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8')
+//                    , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
                 );
                 $imgTags = $doc->getElementsByTagName('img');
                 $i = 0;
@@ -284,7 +283,12 @@ abstract class MyActiveRecord extends ActiveRecord
 
                     $imgTag->parentNode->replaceChild($node, $imgTag);
                 }
-                $this->$attribute = $doc->saveHTML();
+//                $this->$attribute = $doc->saveHTML();
+                $doc->saveHTML();
+                $bodies = $doc->getElementsByTagName('body');
+                if (isset($bodies[0])) {
+                    $this->$attribute = self::DOMinnerHTML($bodies[0]);
+                }
             } catch (\Exception $e) {
                 $this->templateLogMessage .= $e->getMessage() . "\n";
                 return false;
@@ -344,5 +348,18 @@ abstract class MyActiveRecord extends ActiveRecord
                 .= ($success ? 'success' : 'failure')
                 . ': template to html | ' . __METHOD__ . "\n\n";
         }
+    }
+
+    public static function DOMinnerHTML(\DOMNode $element)
+    {
+        $innerHTML = "";
+        $children  = $element->childNodes;
+
+        foreach ($children as $child)
+        {
+            $innerHTML .= $element->ownerDocument->saveHTML($child);
+        }
+
+        return $innerHTML;
     }
 }
