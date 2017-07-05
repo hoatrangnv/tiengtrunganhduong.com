@@ -79,6 +79,7 @@ $menu = $this->context->menu;
                     document.getElementById('search-toolbar').classList.toggle('active');
                     document.querySelector('.gsc-search-box-tools .gsc-search-box input.gsc-input').focus();
                 ">
+            <span>TÌM KIẾM</span>
             <i class="icon magnifier-icon"></i>
         </button>
     </div>

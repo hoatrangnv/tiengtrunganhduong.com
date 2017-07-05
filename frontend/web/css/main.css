@@ -276,13 +276,20 @@ article a:hover {
     right: 0;
     top: 0;
     bottom: 0;
-    width: 2.5em;
+    min-width: 2.5em;
     height: 2.5em;
+    /*line-height: 2.5em;*/
     padding: 0.5em;
 }
 .nav-bar .search-toggle i {
-    width: 100%;
-    height: 100%;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0.25em;
+}
+.nav-bar .search-toggle * {
+    vertical-align: middle;
+    color: #fff;
+    font-weight: bold;
 }
 
 /**
@@ -563,8 +570,8 @@ i.icon {
     vertical-align: middle;
 }
 .menu-icon {
-    width: 1.4em;
-    height: 1em;
+    width: 1.54em;
+    height: 1.1em;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox='0 0 7 5'><rect x='0' y='0' width='7' height='1' fill='white'%2F><rect x='0' y='2' width='7' height='1' fill='white'%2F><rect x='0' y='4' width='7' height='1' fill='white'%2F><%2Fsvg>");
 }
 .calendar-icon {
@@ -1004,12 +1011,12 @@ form.primary .form-group.has-success textarea {
     .nav-bar .menu > .menu-toggle,
     .nav-bar li .menu-toggle:after
     {
-        line-height: 2.5rem;
-        height: 2.5rem;
+        line-height: 3rem;
+        height: 3rem;
     }
     .nav-bar li .menu-toggle:after
     {
-        width: 2.5rem;
+        width: 3rem;
     }
     .nav-bar .menu ul li:hover > a,
     .nav-bar .menu ul li.active > a
