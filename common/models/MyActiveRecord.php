@@ -277,7 +277,7 @@ abstract class MyActiveRecord extends ActiveRecord
 
                     $node = $doc->createTextNode(
                         QueryTemplate::__FUNC_OPEN
-                        . " Image($id)" . QueryTemplate::__OBJECT_OPERATOR . "imgTag($size_str, $opts_str) "
+                        . "Image($id)" . QueryTemplate::__OBJECT_OPERATOR . "imgTag($size_str, $opts_str)"
                         . QueryTemplate::__FUNC_CLOSE
                     );
 
