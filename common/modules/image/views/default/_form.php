@@ -72,7 +72,7 @@ if ($model->isNewRecord) {
                     function addInputResizeKey() {
                         var input = document.getElementById("input-resize-key");
                         var select = document.getElementById("<?= Html::getInputId($model, 'input_resize_keys') ?>");
-                        var input_resize_key = input.value.replace(/()(\d+)x(\d+)()/, "$2x$3");
+                        var input_resize_key = input.value.replace(/(\D*)(\d+)x(\d+)(\D*)/, "$2x$3");
                         input.value = "";
                         if (input_resize_key && !select.querySelector("option[value='" + input_resize_key + "']")) {
                             var option = document.createElement("option");
