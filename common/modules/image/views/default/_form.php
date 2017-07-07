@@ -74,6 +74,7 @@ if ($model->isNewRecord) {
                         var select = document.getElementById("<?= Html::getInputId($model, 'input_resize_keys') ?>");
                         var matches = input.value.match(/(\D*)(\d+)x(\d+)(\D*)/);
                         var value;
+                        console.log(matches);
                         if (matches && matches[0] && matches[0][2] && matches[0][3]) {
                             value = matches[0][2] + "x" + matches[0][3];
                         }
@@ -82,7 +83,6 @@ if ($model->isNewRecord) {
                             option.value = value;
                             option.innerHTML = value;
                             select.appendChild(option);
-                            select.scrollTo(0, select.scrollHeight);
                         }
                         input.value = "";
                     }
