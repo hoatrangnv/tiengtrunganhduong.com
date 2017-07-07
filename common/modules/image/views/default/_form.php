@@ -72,7 +72,7 @@ if ($model->isNewRecord) {
                     function addInputResizeKey() {
                         var input = document.getElementById("input-resize-key");
                         var select = document.getElementById("<?= Html::getInputId($model, 'input_resize_keys') ?>");
-                        var matches = input.value.match(/(\D*)(\d+)x(\d+)(\D*)/g);
+                        var matches = input.value.match(/(\D*)(\d+)x(\d+)(\D*)/);
                         var value;
                         if (matches && matches[0] && matches[0][2] && matches[0][3]) {
                             value = matches[0][2] + "x" + matches[0][3];
