@@ -66,7 +66,7 @@ if ($model->isNewRecord) {
             ) ?>
 
             <div class="form-group">
-                <input type="text" id="input-resize-key">
+                <input type="text" id="input-resize-key" class="disable-counter">
                 <button type="button" onclick="addInputResizeKey()">Thêm size</button>
                 <script>
                     function addInputResizeKey() {
