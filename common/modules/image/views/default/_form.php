@@ -79,8 +79,8 @@ if ($model->isNewRecord) {
                         }
                         if (value && !select.querySelector("option[value='" + value + "']")) {
                             var option = document.createElement("option");
-                            option.value = input_resize_key;
-                            option.innerHTML = input_resize_key;
+                            option.value = value;
+                            option.innerHTML = value;
                             select.appendChild(option);
                             select.scrollTo(0, select.scrollHeight);
                         }
