@@ -65,6 +65,26 @@ if ($model->isNewRecord) {
                 ]
             ) ?>
 
+            <div class="form-group">
+                <input type="text" id="input-resize-key">
+                <button type="button" onclick="addInputResizeKey()">Thêm size</button>
+                <script>
+                    function addInputResizeKey() {
+                        var input = document.getElementById("input-resize-key");
+                        var select = document.getElementById("<?= Html::getInputId($model, 'input_resize_keys') ?>");
+                        var input_resize_key = input.value.replace(/(\d+)x(\d+)/, "$1x$2");
+                        input.value = "";
+                        if (input_resize_key) {
+                            var option = document.createElement("option");
+                            option.value = input_resize_key;
+                            option.innerHTML = input_resize_key;
+                            select.appendChild(option);
+                            select.scrollTo(0, select.scrollHeight);
+                        }
+                    }
+                </script>
+            </div>
+
             <?= $form->field($model, 'image_crop')->checkbox() ?>
 
             <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
