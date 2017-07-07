@@ -91,6 +91,7 @@ class UploadController extends BaseController
         $image = new Image();
         $image->active = 1;
         $image->quality = 60;
+        $image->image_name_to_basename = true;
         $image->input_resize_keys = $module->params['input_resize_keys'];
         if ($image->saveFileAndModel($file)) {
             $errorMessage = '';
