@@ -72,15 +72,19 @@ if ($model->isNewRecord) {
                     function addInputResizeKey() {
                         var input = document.getElementById("input-resize-key");
                         var select = document.getElementById("<?= Html::getInputId($model, 'input_resize_keys') ?>");
-                        var input_resize_key = input.value.replace(/(\D*)(\d+)x(\d+)(\D*)/, "$2x$3");
-                        input.value = "";
-                        if (input_resize_key && !select.querySelector("option[value='" + input_resize_key + "']")) {
+                        var matches = input.value.match(/(\D*)(\d+)x(\d+)(\D*)/g);
+                        var value;
+                        if (matches[0] && matches[0][2] && matches[0][3]) {
+                            value = matches[0][2] + "x" + matches[0][3];
+                        }
+                        if (value && !select.querySelector("option[value='" + value + "']")) {
                             var option = document.createElement("option");
                             option.value = input_resize_key;
                             option.innerHTML = input_resize_key;
                             select.appendChild(option);
                             select.scrollTo(0, select.scrollHeight);
                         }
+                        input.value = "";
                     }
                 </script>
             </div>
