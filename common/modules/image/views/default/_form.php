@@ -75,8 +75,8 @@ if ($model->isNewRecord) {
                         var matches = input.value.match(/(\D*)(\d+)x(\d+)(\D*)/);
                         var value;
                         console.log(matches);
-                        if (matches && matches[0] && matches[0][2] && matches[0][3]) {
-                            value = matches[0][2] + "x" + matches[0][3];
+                        if (matches && matches[2] && matches[3]) {
+                            value = matches[2] + "x" + matches[3];
                         }
                         if (value && !select.querySelector("option[value='" + value + "']")) {
                             var option = document.createElement("option");
