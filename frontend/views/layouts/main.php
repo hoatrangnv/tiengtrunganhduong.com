@@ -37,7 +37,7 @@ $seoInfo->registerLinkTags($this);
 <div class="wrap">
     <div class="container sm-non-padding clr">
         <div class="img-wrap">
-            <img src="<?= Yii::getAlias('@web/img/logo_banner.png') ?>" alt="<?= Yii::$app->name ?>">
+            <img src="<?= Yii::getAlias('@web/img/banner.png') ?>" alt="<?= Yii::$app->name ?>">
         </div>
     </div>
     <div class="container sm-non-padding clr">
