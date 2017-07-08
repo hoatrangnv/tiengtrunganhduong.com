@@ -94,7 +94,7 @@ $seoInfo->registerLinkTags($this);
     <div class="wrap">
         <div class="container sm-non-padding clr">
             <div class="img-wrap">
-                <amp-img src="<?= Yii::getAlias('@web/img/logo_banner.png') ?>" width="375" height="50" layout="responsive" alt="<?= Yii::$app->name ?>"></amp-img>
+                <amp-img src="<?= Yii::getAlias('@web/img/banner.png') ?>" width="375" height="50" layout="responsive" alt="<?= Yii::$app->name ?>"></amp-img>
             </div>
         </div>
         <div class="container sm-non-padding clr">
@@ -129,4 +129,4 @@ $seoInfo->registerLinkTags($this);
     <?php $this->endBody() ?>
 </body>
 </html>
-<?php //$this->endPage() ?>
+<?php $this->endPage() ?>

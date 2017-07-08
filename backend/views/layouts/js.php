@@ -85,7 +85,7 @@ function ckeditor(id) {
                 }
             });
             [].forEach.call(document.querySelectorAll("form input[type='text'], form textarea"), function (elem) {
-                if (elem) {
+                if (elem && !elem.classList.contains("disable-counter")) {
                     var counter = document.createElement("sup");
                     elem.parentNode.insertBefore(counter, elem);
                     ["keyup", "keydown", "change", "propertychange", "click", "input", "paste"].forEach(function (event) {

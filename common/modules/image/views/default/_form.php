@@ -65,6 +65,30 @@ if ($model->isNewRecord) {
                 ]
             ) ?>
 
+            <div class="form-group">
+                <input type="text" id="input-resize-key" class="disable-counter">
+                <button type="button" onclick="addInputResizeKey()">ADD</button>
+                <script>
+                    function addInputResizeKey() {
+                        var input = document.getElementById("input-resize-key");
+                        var select = document.getElementById("<?= Html::getInputId($model, 'input_resize_keys') ?>");
+                        var matches = input.value.match(/(\D*)(\d+)x(\d+)(\D*)/);
+                        var value;
+                        console.log(matches);
+                        if (matches && matches[2] && matches[3]) {
+                            value = matches[2] + "x" + matches[3];
+                        }
+                        if (value && !select.querySelector("option[value='" + value + "']")) {
+                            var option = document.createElement("option");
+                            option.value = value;
+                            option.innerHTML = value;
+                            select.appendChild(option);
+                        }
+                        input.value = "";
+                    }
+                </script>
+            </div>
+
             <?= $form->field($model, 'image_crop')->checkbox() ?>
 
             <?= $form->field($model, 'image_name_to_basename')->checkbox() ?>
