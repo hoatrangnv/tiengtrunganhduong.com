@@ -54,7 +54,7 @@ $seoInfo->registerLinkTags($this);
                 "name": "<?= Yii::$app->name ?>",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "<?= Url::home(true) ?>img/logo_banner.png",
+                    "url": "<?= Url::home(true) ?>img/banner.png",
                     "width": 445,
                     "height": 60
                 }
