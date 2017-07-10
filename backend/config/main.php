@@ -59,6 +59,9 @@ return [
         'image2' => [
             'class' => 'common\modules\image\Module',
         ],
+        'my-gii' => [
+            'class' => 'common\modules\gii\Module',
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => '@app/views/layouts/main.php',
