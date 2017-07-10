@@ -9,9 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property integer $quiz_id
- * @property integer $filter_id
+ * @property integer $character_filter_id
  *
- * @property QuizFilter $filter
+ * @property QuizFilter $characterFilter
  * @property Quiz $quiz
  */
 class QuizToCharacterFilter extends \yii\db\ActiveRecord
@@ -30,9 +30,9 @@ class QuizToCharacterFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quiz_id', 'filter_id'], 'required'],
-            [['quiz_id', 'filter_id'], 'integer'],
-            [['filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['filter_id' => 'id']],
+            [['quiz_id', 'character_filter_id'], 'required'],
+            [['quiz_id', 'character_filter_id'], 'integer'],
+            [['character_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['character_filter_id' => 'id']],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
         ];
     }
@@ -45,16 +45,16 @@ class QuizToCharacterFilter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'quiz_id' => 'Quiz ID',
-            'filter_id' => 'Filter ID',
+            'character_filter_id' => 'Character Filter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFilter()
+    public function getCharacterFilter()
     {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'filter_id']);
+        return $this->hasOne(QuizFilter::className(), ['id' => 'character_filter_id']);
     }
 
     /**

@@ -9,10 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property integer $input_id
- * @property integer $filter_id
+ * @property integer $input_option_filter_id
  *
- * @property QuizFilter $filter
  * @property QuizInput $input
+ * @property QuizFilter $inputOptionFilter
  */
 class QuizInputToInputOptionFilter extends \yii\db\ActiveRecord
 {
@@ -30,10 +30,10 @@ class QuizInputToInputOptionFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['input_id', 'filter_id'], 'required'],
-            [['input_id', 'filter_id'], 'integer'],
-            [['filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['filter_id' => 'id']],
+            [['input_id', 'input_option_filter_id'], 'required'],
+            [['input_id', 'input_option_filter_id'], 'integer'],
             [['input_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInput::className(), 'targetAttribute' => ['input_id' => 'id']],
+            [['input_option_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['input_option_filter_id' => 'id']],
         ];
     }
 
@@ -45,16 +45,8 @@ class QuizInputToInputOptionFilter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'input_id' => 'Input ID',
-            'filter_id' => 'Filter ID',
+            'input_option_filter_id' => 'Input Option Filter ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFilter()
-    {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'filter_id']);
     }
 
     /**
@@ -63,5 +55,13 @@ class QuizInputToInputOptionFilter extends \yii\db\ActiveRecord
     public function getInput()
     {
         return $this->hasOne(QuizInput::className(), ['id' => 'input_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getInputOptionFilter()
+    {
+        return $this->hasOne(QuizFilter::className(), ['id' => 'input_option_filter_id']);
     }
 }

@@ -9,9 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property integer $quiz_id
- * @property integer $filter_id
+ * @property integer $input_group_filter_id
  *
- * @property QuizFilter $filter
+ * @property QuizFilter $inputGroupFilter
  * @property Quiz $quiz
  */
 class QuizToInputGroupFilter extends \yii\db\ActiveRecord
@@ -30,9 +30,9 @@ class QuizToInputGroupFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quiz_id', 'filter_id'], 'required'],
-            [['quiz_id', 'filter_id'], 'integer'],
-            [['filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['filter_id' => 'id']],
+            [['quiz_id', 'input_group_filter_id'], 'required'],
+            [['quiz_id', 'input_group_filter_id'], 'integer'],
+            [['input_group_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['input_group_filter_id' => 'id']],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
         ];
     }
@@ -45,16 +45,16 @@ class QuizToInputGroupFilter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'quiz_id' => 'Quiz ID',
-            'filter_id' => 'Filter ID',
+            'input_group_filter_id' => 'Input Group Filter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFilter()
+    public function getInputGroupFilter()
     {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'filter_id']);
+        return $this->hasOne(QuizFilter::className(), ['id' => 'input_group_filter_id']);
     }
 
     /**

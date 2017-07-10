@@ -21,10 +21,11 @@ class m170709_175250_create_quiz_to_character_filter_table extends Migration
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
+
         $this->createTable('quiz_to_character_filter', [
             'id' => $this->primaryKey(),
             'quiz_id' => $this->integer()->notNull(),
-            'filter_id' => $this->integer()->notNull(),
+            'character_filter_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // creates index for column `quiz_id`
@@ -44,18 +45,18 @@ class m170709_175250_create_quiz_to_character_filter_table extends Migration
             'CASCADE'
         );
 
-        // creates index for column `filter_id`
+        // creates index for column `character_filter_id`
         $this->createIndex(
-            'idx-quiz_to_character_filter-filter_id',
+            'idx-quiz_to_character_filter-character_filter_id',
             'quiz_to_character_filter',
-            'filter_id'
+            'character_filter_id'
         );
 
         // add foreign key for table `quiz_filter`
         $this->addForeignKey(
-            'fk-quiz_to_character_filter-filter_id',
+            'fk-quiz_to_character_filter-character_filter_id',
             'quiz_to_character_filter',
-            'filter_id',
+            'character_filter_id',
             'quiz_filter',
             'id',
             'CASCADE'
@@ -81,13 +82,13 @@ class m170709_175250_create_quiz_to_character_filter_table extends Migration
 
         // drops foreign key for table `quiz_filter`
         $this->dropForeignKey(
-            'fk-quiz_to_character_filter-filter_id',
+            'fk-quiz_to_character_filter-character_filter_id',
             'quiz_to_character_filter'
         );
 
-        // drops index for column `filter_id`
+        // drops index for column `character_filter_id`
         $this->dropIndex(
-            'idx-quiz_to_character_filter-filter_id',
+            'idx-quiz_to_character_filter-character_filter_id',
             'quiz_to_character_filter'
         );
 

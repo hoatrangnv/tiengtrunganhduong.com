@@ -9,10 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property integer $result_id
- * @property integer $filter_id
+ * @property integer $shape_filter_id
  *
- * @property QuizFilter $filter
  * @property QuizResult $result
+ * @property QuizFilter $shapeFilter
  */
 class QuizResultToShapeFilter extends \yii\db\ActiveRecord
 {
@@ -30,10 +30,10 @@ class QuizResultToShapeFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['result_id', 'filter_id'], 'required'],
-            [['result_id', 'filter_id'], 'integer'],
-            [['filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['filter_id' => 'id']],
+            [['result_id', 'shape_filter_id'], 'required'],
+            [['result_id', 'shape_filter_id'], 'integer'],
             [['result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['result_id' => 'id']],
+            [['shape_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['shape_filter_id' => 'id']],
         ];
     }
 
@@ -45,16 +45,8 @@ class QuizResultToShapeFilter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'result_id' => 'Result ID',
-            'filter_id' => 'Filter ID',
+            'shape_filter_id' => 'Shape Filter ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFilter()
-    {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'filter_id']);
     }
 
     /**
@@ -63,5 +55,13 @@ class QuizResultToShapeFilter extends \yii\db\ActiveRecord
     public function getResult()
     {
         return $this->hasOne(QuizResult::className(), ['id' => 'result_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShapeFilter()
+    {
+        return $this->hasOne(QuizFilter::className(), ['id' => 'shape_filter_id']);
     }
 }

@@ -89,7 +89,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getInputGroupToInputFilters()
     {
-        return $this->hasMany(QuizInputGroupToInputFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizInputGroupToInputFilter::className(), ['input_filter_id' => 'id']);
     }
 
     /**
@@ -97,7 +97,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getInputToInputOptionFilters()
     {
-        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['input_option_filter_id' => 'id']);
     }
 
     /**
@@ -105,7 +105,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getResultToCharacterMediumFilters()
     {
-        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['character_medium_filter_id' => 'id']);
     }
 
     /**
@@ -113,7 +113,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getResultToShapeFilters()
     {
-        return $this->hasMany(QuizResultToShapeFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizResultToShapeFilter::className(), ['shape_filter_id' => 'id']);
     }
 
     /**
@@ -121,7 +121,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizToCharacterFilters()
     {
-        return $this->hasMany(QuizToCharacterFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizToCharacterFilter::className(), ['character_filter_id' => 'id']);
     }
 
     /**
@@ -129,7 +129,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizToInputGroupFilters()
     {
-        return $this->hasMany(QuizToInputGroupFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizToInputGroupFilter::className(), ['input_group_filter_id' => 'id']);
     }
 
     /**
@@ -137,6 +137,6 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizToResultFilters()
     {
-        return $this->hasMany(QuizToResultFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizToResultFilter::className(), ['result_filter_id' => 'id']);
     }
 }
