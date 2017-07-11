@@ -32,6 +32,7 @@ return [
         ],
     ],
     'aliases' => [
+        '@quiz' => '@common/modules/quiz',
         '@mdm/admin' => '@backend/mdm.admin',
         '@frontendUrl' => 'http://tiengtrunganhduong.com',
         '@backendUrl' => 'http://admin.tiengtrunganhduong.com',

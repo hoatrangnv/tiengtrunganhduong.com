@@ -56,6 +56,9 @@ return [
         ]
     ],
     'modules' => [
+        'quiz' => [
+            'class' => 'common\modules\quiz\Module',
+        ],
         'image2' => [
             'class' => 'common\modules\image\Module',
         ],

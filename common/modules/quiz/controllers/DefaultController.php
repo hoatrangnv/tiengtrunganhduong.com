@@ -9,6 +9,8 @@ use yii\web\Controller;
  */
 class DefaultController extends Controller
 {
+    public $layout = '@quiz/views/layouts/main';
+
     /**
      * Renders the index view for the module
      * @return string
@@ -16,5 +18,10 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionCreate()
+    {
+        return $this->render('create');
     }
 }
