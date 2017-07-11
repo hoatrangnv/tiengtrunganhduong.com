@@ -20,7 +20,7 @@ class QuizCreatorAsset extends AssetBundle
     ];
 
     public $js = [
-        ['js/quiz-creator.js', 'type' => 'text/babel'],
+        ['js/quiz-creator.jsx', 'type' => 'text/babel'],
     ];
 
     public $depends = [

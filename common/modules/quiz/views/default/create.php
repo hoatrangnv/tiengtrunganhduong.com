@@ -13,4 +13,5 @@
 
 \common\modules\quiz\QuizCreatorAsset::register($this);
 ?>
+
 <div id="root"></div>

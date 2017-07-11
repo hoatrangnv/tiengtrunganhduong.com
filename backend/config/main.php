@@ -52,7 +52,9 @@ return [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
         ],
         'assetManager' => [
+            'class' => 'yii\web\AssetManager',
             'appendTimestamp' => true,
+            'forceCopy' => true,
         ]
     ],
     'modules' => [

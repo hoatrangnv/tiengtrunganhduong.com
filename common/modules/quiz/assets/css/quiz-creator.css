@@ -1,45 +1,49 @@
-ol, ul {
-    padding-left: 30px;
+* {
+    position: relative;
 }
-
-.board-row:after {
-    clear: both;
-    content: "";
-    display: table;
-}
-
-.status {
-    margin-bottom: 10px;
-}
-
-.square {
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
+.tab-list {
     padding: 0;
-    text-align: center;
-    width: 34px;
 }
-
-.square:focus {
-    outline: none;
+.tab-list:after {
+    content: "";
+    display: block;
+    height: 1px;
+    background: #ccc;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
 }
-
-.kbd-navigation .square:focus {
-    background: #ddd;
+.tab-list li {
+    display: inline-block;
+    border: solid #ccc;
+    border-width: 1px 1px 0;
+    padding: 0.5em 0.5em;
+    border-radius: 5px 5px 0 0;
+    z-index: 0;
+    background: #eee;
+    cursor: pointer;
 }
-
-.game {
-    display: flex;
-    flex-direction: row;
+.tab-list li + li {
+    margin: 0 -1px;
 }
-
-.game-info {
-    margin-left: 20px;
+.tab-list li.active {
+    z-index: 2;
+    background: #fff;
+    border-color: #ec9;
+    padding-top: 0.6em;
+}
+.tab-list li .move-button {
+    visibility: hidden;
+    border: 1px solid #ddd;
+    background: #fff;
+    height: 1.6em;
+    width: 1.6em;
+    font-size: 0.8em;
+}
+.tab-list li .text {
+    margin: 0 0.5em;
+}
+.tab-list li:hover .move-button {
+    visibility: visible;
 }
