@@ -23,9 +23,27 @@ class m170709_174944_create_quiz_sorter_table extends Migration
         $this->createTable('quiz_sorter', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'rule' => $this->text(),
+            'rule_fn_args' => $this->text()->notNull(),
+            'rule_fn_id' => $this->integer()->notNull(),
             'quiz_id' => $this->integer(),
         ], $tableOptions);
+
+        // creates index for column `rule_fn_id`
+        $this->createIndex(
+            'idx-quiz_sorter-rule_fn_id',
+            'quiz_sorter',
+            'rule_fn_id'
+        );
+
+        // add foreign key for table `quiz_fn`
+        $this->addForeignKey(
+            'fk-quiz_sorter-rule_fn_id',
+            'quiz_sorter',
+            'rule_fn_id',
+            'quiz_fn',
+            'id',
+            'CASCADE'
+        );
 
         // creates index for column `quiz_id`
         $this->createIndex(
@@ -50,6 +68,18 @@ class m170709_174944_create_quiz_sorter_table extends Migration
      */
     public function down()
     {
+        // drops foreign key for table `quiz_fn`
+        $this->dropForeignKey(
+            'fk-quiz_sorter-rule_fn_id',
+            'quiz_sorter'
+        );
+
+        // drops index for column `rule_fn_id`
+        $this->dropIndex(
+            'idx-quiz_sorter-rule_fn_id',
+            'quiz_sorter'
+        );
+
         // drops foreign key for table `quiz`
         $this->dropForeignKey(
             'fk-quiz_sorter-quiz_id',

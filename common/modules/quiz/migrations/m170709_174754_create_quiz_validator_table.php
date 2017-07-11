@@ -23,9 +23,27 @@ class m170709_174754_create_quiz_validator_table extends Migration
         $this->createTable('quiz_validator', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'validation' => $this->text()->notNull(),
+            'validation_fn_args' => $this->text()->notNull(),
+            'validation_fn_id' => $this->integer()->notNull(),
             'quiz_id' => $this->integer(),
         ], $tableOptions);
+
+        // creates index for column `validation_fn_id`
+        $this->createIndex(
+            'idx-quiz_validator-validation_fn_id',
+            'quiz_validator',
+            'validation_fn_id'
+        );
+
+        // add foreign key for table `quiz_fn`
+        $this->addForeignKey(
+            'fk-quiz_validator-validation_fn_id',
+            'quiz_validator',
+            'validation_fn_id',
+            'quiz_fn',
+            'id',
+            'CASCADE'
+        );
 
         // creates index for column `quiz_id`
         $this->createIndex(
@@ -50,6 +68,18 @@ class m170709_174754_create_quiz_validator_table extends Migration
      */
     public function down()
     {
+        // drops foreign key for table `quiz_fn`
+        $this->dropForeignKey(
+            'fk-quiz_validator-validation_fn_id',
+            'quiz_validator'
+        );
+
+        // drops index for column `validation_fn_id`
+        $this->dropIndex(
+            'idx-quiz_validator-validation_fn_id',
+            'quiz_validator'
+        );
+
         // drops foreign key for table `quiz`
         $this->dropForeignKey(
             'fk-quiz_validator-quiz_id',

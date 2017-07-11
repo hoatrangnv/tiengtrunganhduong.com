@@ -1,9 +1,10 @@
 php yii migrate/create create_quiz_category_table --fields="name:string:notNull:unique,slug:string:notNull:unique,description:string(511),meta_title:string,meta_description:string(511),meta_keywords:string(511),sort_order:integer,active:integer,visible:integer,doindex:integer,dofollow:integer,featured:integer,create_time:integer:notNull,update_time:integer:notNull,creator_id:integer:notNull:foreignKey(user),updater_id:integer:notNull:foreignKey(user),image_id:integer:foreignKey,parent_id:integer:foreignKey(quiz_category)"
 php yii migrate/create create_quiz_table --fields="name:string:notNull:unique,slug:string:notNull:unique,description:string(511),meta_title:string,meta_description:string(511),meta_keywords:string(511),sort_order:integer,active:integer,visible:integer,doindex:integer,dofollow:integer,featured:integer,create_time:integer:notNull,update_time:integer:notNull,publish_time:integer:notNull,creator_id:integer:notNull:foreignKey(user),updater_id:integer:notNull:foreignKey(user),image_id:integer:foreignKey,category_id:integer:foreignKey(quiz_category)"
+php yii migrate/create create_quiz_fn_table --fields="name:string:notNull,params:string:notNull,body:text:notNull"
 php yii migrate/create create_quiz_result_table --fields="name:string:notNull,title:string,description:string(511),content:text,priority:integer,canvas_width:integer,canvas_height:integer,quiz_id:integer:notNull:foreignKey"
-php yii migrate/create create_quiz_validator_table --fields="name:string:notNull,validation:text:notNull,quiz_id:integer:foreignKey"
-php yii migrate/create create_quiz_filter_table --fields="name:string:notNull,condition:text:notNull,quiz_id:integer:foreignKey"
-php yii migrate/create create_quiz_param_table --fields="name:string:notNull,var_name:string:notNull,value:text:notNull,global_exec_order:integer:notNull,quiz_id:integer:foreignKey"
+php yii migrate/create create_quiz_validator_table --fields="name:string:notNull,validation_fn_args:text:notNull,validation_fn_id:integer:notNull:foreignKey(quiz_fn),quiz_id:integer:foreignKey"
+php yii migrate/create create_quiz_filter_table --fields="name:string:notNull,condition_fn_args:text:notNull,condition_fn_id:integer:notNull:foreignKey(quiz_fn),quiz_id:integer:foreignKey"
+php yii migrate/create create_quiz_param_table --fields="name:string:notNull,var_name:string:notNull,value_fn_args:text:notNull,value_fn_id:integer:notNull:foreignKey(quiz_fn),global_exec_order:integer:notNull,quiz_id:integer:foreignKey"
 php yii migrate/create create_quiz_character_table --fields="name:string:notNull,var_name:string:notNull,type:string:notNull,index:integer:notNull,global_exec_order:integer:notNull,quiz_id:integer:foreignKey"
 php yii migrate/create create_quiz_character_medium_table --fields="name:string:notNull,var_name:string:notNull,type:string:notNull,index:integer:notNull,global_exec_order:integer:notNull,quiz_id:integer:foreignKey,character_id:integer:notNull:foreignKey(quiz_character)"
 php yii migrate/create create_quiz_input_group_table --fields="name:string:notNull,title:string,global_exec_order:integer:notNull,quiz_id:integer:notNull:foreignKey"
@@ -11,7 +12,7 @@ php yii migrate/create create_quiz_input_table --fields="var_name:string:notNull
 php yii migrate/create create_quiz_input_option_table --fields="value:string:notNull,content:text,score:integer,interpretation:text,row:integer,column:integer,input_id:integer:notNull:foreignKey(quiz_input)"
 php yii migrate/create create_quiz_shape_table --fields="name:string:notNull,text:string,image_id:integer:foreignKey,quiz_id:integer:foreignKey"
 php yii migrate/create create_quiz_style_table --fields="name:string:notNull,z_index:integer,opacity:integer,top:string,left:string,width:string,height:string,max_width:string,max_height:string,padding:string,background_color:string,border_color:string,border_width:string,border_radius:string,font:string,line_height:string,text_color:string,text_align:string,text_stroke_color:string,text_stroke_width:string,quiz_id:integer:foreignKey"
-php yii migrate/create create_quiz_sorter_table --fields="name:string:notNull,rule:text,quiz_id:integer:foreignKey"
+php yii migrate/create create_quiz_sorter_table --fields="name:string:notNull,rule_fn_args:text:notNull,rule_fn_id:integer:notNull:foreignKey(quiz_fn),quiz_id:integer:foreignKey"
 
 php yii migrate/create create_quiz_input_option_to_result_poll_table --fields="votes:integer:notNull,result_id:integer:notNull:foreignKey(quiz_result),input_option_id:integer:notNull:foreignKey(quiz_input_option)"
 php yii migrate/create create_quiz_shape_to_style_table --fields="style_order:integer,shape_id:integer:notNull:foreignKey(quiz_shape),style_id:integer:notNull:foreignKey(quiz_style)"
@@ -33,4 +34,5 @@ php yii migrate/create create_quiz_input_group_to_input_filter_table --fields="i
 php yii migrate/create create_quiz_input_to_input_option_filter_table --fields="input_id:integer:notNull:foreignKey(quiz_input),input_option_filter_id:integer:notNull:foreignKey(quiz_filter)"
 php yii migrate/create create_quiz_character_to_filter_table --fields="character_id:integer:notNull:foreignKey(quiz_character),filter_id:integer:notNull:foreignKey(quiz_filter)"
 php yii migrate/create create_quiz_character_medium_to_filter_table --fields="character_medium_id:integer:notNull:foreignKey(quiz_character_medium),filter_id:integer:notNull:foreignKey(quiz_filter)"
+
 
