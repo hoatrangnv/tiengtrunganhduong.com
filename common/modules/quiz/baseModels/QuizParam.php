@@ -10,11 +10,13 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $var_name
- * @property string $value
+ * @property string $value_fn_args
+ * @property integer $value_fn_id
  * @property integer $global_exec_order
  * @property integer $quiz_id
  *
  * @property Quiz $quiz
+ * @property QuizFn $valueFn
  */
 class QuizParam extends \yii\db\ActiveRecord
 {
@@ -32,11 +34,12 @@ class QuizParam extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'var_name', 'value', 'global_exec_order'], 'required'],
-            [['value'], 'string'],
-            [['global_exec_order', 'quiz_id'], 'integer'],
+            [['name', 'var_name', 'value_fn_args', 'value_fn_id', 'global_exec_order'], 'required'],
+            [['value_fn_args'], 'string'],
+            [['value_fn_id', 'global_exec_order', 'quiz_id'], 'integer'],
             [['name', 'var_name'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['value_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['value_fn_id' => 'id']],
         ];
     }
 
@@ -49,7 +52,8 @@ class QuizParam extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'var_name' => 'Var Name',
-            'value' => 'Value',
+            'value_fn_args' => 'Value Fn Args',
+            'value_fn_id' => 'Value Fn ID',
             'global_exec_order' => 'Global Exec Order',
             'quiz_id' => 'Quiz ID',
         ];
@@ -61,5 +65,13 @@ class QuizParam extends \yii\db\ActiveRecord
     public function getQuiz()
     {
         return $this->hasOne(Quiz::className(), ['id' => 'quiz_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getValueFn()
+    {
+        return $this->hasOne(QuizFn::className(), ['id' => 'value_fn_id']);
     }
 }

@@ -9,11 +9,13 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $condition
+ * @property string $condition_fn_args
+ * @property integer $condition_fn_id
  * @property integer $quiz_id
  *
  * @property QuizCharacterMediumToFilter[] $characterMediumToFilters
  * @property QuizCharacterToFilter[] $characterToFilters
+ * @property QuizFn $conditionFn
  * @property Quiz $quiz
  * @property QuizInputGroupToInputFilter[] $inputGroupToInputFilters
  * @property QuizInputToInputOptionFilter[] $inputToInputOptionFilters
@@ -39,10 +41,11 @@ class QuizFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'condition'], 'required'],
-            [['condition'], 'string'],
-            [['quiz_id'], 'integer'],
+            [['name', 'condition_fn_args', 'condition_fn_id'], 'required'],
+            [['condition_fn_args'], 'string'],
+            [['condition_fn_id', 'quiz_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['condition_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['condition_fn_id' => 'id']],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
         ];
     }
@@ -55,7 +58,8 @@ class QuizFilter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'condition' => 'Condition',
+            'condition_fn_args' => 'Condition Fn Args',
+            'condition_fn_id' => 'Condition Fn ID',
             'quiz_id' => 'Quiz ID',
         ];
     }
@@ -74,6 +78,14 @@ class QuizFilter extends \yii\db\ActiveRecord
     public function getCharacterToFilters()
     {
         return $this->hasMany(QuizCharacterToFilter::className(), ['filter_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConditionFn()
+    {
+        return $this->hasOne(QuizFn::className(), ['id' => 'condition_fn_id']);
     }
 
     /**

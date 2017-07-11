@@ -20,7 +20,7 @@ class m170709_174724_create_quiz_fn_table extends Migration
         $this->createTable('quiz_fn', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'params' => $this->string()->notNull(),
+            'parameters' => $this->string()->notNull(),
             'body' => $this->text()->notNull(),
         ], $tableOptions);
     }

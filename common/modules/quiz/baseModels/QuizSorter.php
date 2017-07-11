@@ -9,12 +9,14 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $rule
+ * @property string $rule_fn_args
+ * @property integer $rule_fn_id
  * @property integer $quiz_id
  *
  * @property QuizCharacterMediumToSorter[] $characterMediumToSorters
  * @property QuizCharacterToSorter[] $characterToSorters
  * @property Quiz $quiz
+ * @property QuizFn $ruleFn
  */
 class QuizSorter extends \yii\db\ActiveRecord
 {
@@ -32,11 +34,12 @@ class QuizSorter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['rule'], 'string'],
-            [['quiz_id'], 'integer'],
+            [['name', 'rule_fn_args', 'rule_fn_id'], 'required'],
+            [['rule_fn_args'], 'string'],
+            [['rule_fn_id', 'quiz_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['rule_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['rule_fn_id' => 'id']],
         ];
     }
 
@@ -48,7 +51,8 @@ class QuizSorter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'rule' => 'Rule',
+            'rule_fn_args' => 'Rule Fn Args',
+            'rule_fn_id' => 'Rule Fn ID',
             'quiz_id' => 'Quiz ID',
         ];
     }
@@ -75,5 +79,13 @@ class QuizSorter extends \yii\db\ActiveRecord
     public function getQuiz()
     {
         return $this->hasOne(Quiz::className(), ['id' => 'quiz_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRuleFn()
+    {
+        return $this->hasOne(QuizFn::className(), ['id' => 'rule_fn_id']);
     }
 }
