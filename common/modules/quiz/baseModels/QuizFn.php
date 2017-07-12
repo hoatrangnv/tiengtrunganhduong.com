@@ -12,10 +12,10 @@ use Yii;
  * @property string $parameters
  * @property string $body
  *
- * @property QuizFilter[] $quizFilters
- * @property QuizParam[] $quizParams
- * @property QuizSorter[] $quizSorters
- * @property QuizValidator[] $quizValidators
+ * @property QuizFilter[] $filters
+ * @property QuizParam[] $params
+ * @property QuizSorter[] $sorters
+ * @property QuizValidator[] $validators
  */
 class QuizFn extends \yii\db\ActiveRecord
 {
@@ -55,7 +55,7 @@ class QuizFn extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizFilters()
+    public function getFilters()
     {
         return $this->hasMany(QuizFilter::className(), ['condition_fn_id' => 'id']);
     }
@@ -63,7 +63,7 @@ class QuizFn extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizParams()
+    public function getParams()
     {
         return $this->hasMany(QuizParam::className(), ['value_fn_id' => 'id']);
     }
@@ -71,7 +71,7 @@ class QuizFn extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizSorters()
+    public function getSorters()
     {
         return $this->hasMany(QuizSorter::className(), ['rule_fn_id' => 'id']);
     }
@@ -79,7 +79,7 @@ class QuizFn extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizValidators()
+    public function getValidators()
     {
         return $this->hasMany(QuizValidator::className(), ['validation_fn_id' => 'id']);
     }
