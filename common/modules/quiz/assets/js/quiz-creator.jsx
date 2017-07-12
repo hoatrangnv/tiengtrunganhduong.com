@@ -5,6 +5,9 @@
 class Quiz extends React.Component {
     constructor(props) {
         super(props);
+        this.addItem = this.addItem.bind(this);
+        this.activateItem = this.activateItem.bind(this);
+        this.changeOrder = this.changeOrder.bind(this);
         this.state = {
             items: [
                 {
@@ -40,7 +43,8 @@ class Quiz extends React.Component {
                                 return errorMsg;
                             }
                         }
-                    ]
+                    ],
+                    fixed: true
                 },
                 {
                     id: Math.random(),
@@ -60,13 +64,54 @@ class Quiz extends React.Component {
                                 return "";
                             }
                         }
-                    ]
+                    ],
+                    fixed: true
                 }
             ]
         };
     }
 
+    addItem(event) {
+        this.state.items.forEach((item) => {
+            item.active = false;
+        });
+
+        var itemName = prompt("Please enter item name", "Tab " + (this.state.items.length + 1));
+        if (itemName) {
+            var newItem = {
+                id: Math.random(),
+                name: itemName,
+                active: true,
+                inputs: [],
+                validate: function (value) {
+                    return "";
+                },
+                fixed: false
+            };
+            this.setState((prevState) => ({
+                items: prevState.items.concat(newItem)
+            }));
+            DOMRender();
+        }
+    }
+
+    activateItem(id) {
+        this.state.items.forEach((item) => {
+            item.active = (id === item.id);
+        });
+        DOMRender();
+    }
+
+    changeOrder(curIndex, newIndex) {
+        var newItems = this.state.items.filter((item, index) => {return (index !== curIndex)});
+        newItems.splice(newIndex, 0, this.state.items[curIndex]);
+        this.setState(() => ({
+            items: newItems
+        }));
+    }
+
     render() {
+        console.log(this.state.items);
         var activeItem = this.state.items.find((item) => (item.active));
         var formInputs = [];
         if (activeItem) {
@@ -74,7 +119,12 @@ class Quiz extends React.Component {
         }
         return (
             <div>
-                <TabBar items={this.state.items} />
+                <TabBar
+                    items={this.state.items}
+                    addItem={this.addItem}
+                    activateItem={this.activateItem}
+                    changeOrder={this.changeOrder}
+                />
                 <Form inputs={formInputs} />
             </div>
         );
@@ -82,37 +132,59 @@ class Quiz extends React.Component {
 }
 
 class TabBar extends React.Component {
-    render() {
-        return (
-            <ul className="tab-list">
-                {
-                    this.props.items.map((item, index, items) => (
-                        <Tab key={item.id} index={index} items={items} />
-                    ))
-                }
-            </ul>
-        );
-    }
-}
-
-class Tab extends React.Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleDragOver = this.handleDragOver.bind(this);
+        this.handleDragStart = this.handleDragStart.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleDrop = this.handleDrop.bind(this);
+        this.state = {
+            dragStartIndex: null,
+            dropIndex: null
+        };
     }
 
-    handleClick(event) {
-        this.props.items.forEach((item) => {
-            item.active = false;
-        });
-        this.props.items[this.props.index].active = true;
+    handleDragStart(event) {
+        this.state.dragStartIndex = parseInt(event.target.getAttribute("data-index"));
+    }
+
+    handleDragEnd(event) {
+
+    }
+
+    handleDragOver(event) {
+        event.preventDefault();
+        console.log(event.target.getAttribute("data-index"));
+    }
+
+    handleDrop(event) {
+        this.state.dropIndex = parseInt(event.target.getAttribute("data-index"));
+        this.props.changeOrder(this.state.dragStartIndex, this.state.dropIndex);
         DOMRender();
     }
 
     render() {
-        var item = this.props.items[this.props.index];
         return (
-            <li className={item.active ? "active" : ""} onClick={this.handleClick}>{item.name}</li>
+            <ul id="tab-bar" className="tab-bar">
+                {
+                    this.props.items.map((item, index) => (
+                        <li
+                            key={item.id}
+                            className={item.active ? "active" : ""}
+                            onClick={() => { this.props.activateItem(item.id); }}
+                            draggable={true}
+                            onDragOver={this.handleDragOver}
+                            onDragStart={this.handleDragStart}
+                            onDragEnd={this.handleDragEnd}
+                            onDrop={this.handleDrop}
+                            {...{"data-index": index}}
+                        >
+                            {item.name}
+                        </li>
+                    ))
+                }
+                <li onClick={this.props.addItem}>Add #{this.props.items.length + 1}</li>
+            </ul>
         );
     }
 }

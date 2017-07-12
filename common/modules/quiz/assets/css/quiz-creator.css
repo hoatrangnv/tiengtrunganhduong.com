@@ -1,10 +1,10 @@
 * {
     position: relative;
 }
-.tab-list {
+.tab-bar {
     padding: 0;
 }
-.tab-list:after {
+.tab-bar:after {
     content: "";
     display: block;
     height: 1px;
@@ -14,7 +14,7 @@
     position: absolute;
     bottom: 0;
 }
-.tab-list li {
+.tab-bar li {
     display: inline-block;
     border: solid #ccc;
     border-width: 1px 1px 0;
@@ -24,16 +24,16 @@
     background: #eee;
     cursor: pointer;
 }
-.tab-list li + li {
+.tab-bar li + li {
     margin: 0 -1px;
 }
-.tab-list li.active {
+.tab-bar li.active {
     z-index: 2;
     background: #fff;
     border-color: #ec9;
     padding-top: 0.6em;
 }
-.tab-list li .move-button {
+.tab-bar li .move-button {
     visibility: hidden;
     border: 1px solid #ddd;
     background: #fff;
@@ -41,9 +41,24 @@
     width: 1.6em;
     font-size: 0.8em;
 }
-.tab-list li .text {
+.tab-bar li .text {
     margin: 0 0.5em;
 }
-.tab-list li:hover .move-button {
+.tab-bar li:hover .move-button {
     visibility: visible;
+}
+.tab-bar li {
+    white-space: nowrap;
+}
+.tab-bar li span {
+    display: inline-block;
+    vertical-align: middle;
+}
+.tab-bar li .empty-slot {
+    width: 0.5em;
+    height: 1em;
+    border: 1px solid #0ce;
+}
+.tab-bar li .empty-slot.active {
+    display: inline-block;
 }
