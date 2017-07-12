@@ -5,17 +5,28 @@
 class TodoApp extends React.Component {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.addItem = this.addItem.bind(this);
         this.state = {items: [
             {
                 text: "Quiz Info",
                 id: Date.now(),
                 order: 1,
-                active: true
+                active: true,
+                form: {
+                    name: "Quiz Info",
+                    fields: [
+                        {
+                            name: "name",
+                            type: "text"
+                        },
+                        {
+                            name: "description",
+                            type: "text"
+                        }
+                    ]
+                }
             }
-        ], text: ''};
+        ], text: ""};
     }
 
     render() {
@@ -27,32 +38,11 @@ class TodoApp extends React.Component {
             <div>
                 <h3>TODO</h3>
                 <TodoList items={this.state.items} addItem={this.addItem} />
-                {/*<form onSubmit={this.handleSubmit}>
-                    <input onChange={this.handleChange} value={this.state.text} />
-                    <button>{'Add #' + (this.state.items.length + 1)}</button>
-                </form>*/}
+                <Form fields={this.state.items.find(function (item) {
+                    return item.active;
+                }).form.fields} />
             </div>
         );
-    }
-
-    handleChange(e) {
-        this.setState({text: e.target.value});
-    }
-
-    handleSubmit(e) {
-        // e.preventDefault();
-        // this.state.items.forEach(function (item) {
-        //     item.active = false;
-        // });
-        // var newItem = {
-        //     text: this.state.text,
-        //     id: Date.now(),
-        //     active: true
-        // };
-        // this.setState((prevState) => ({
-        //     items: prevState.items.concat(newItem),
-        //     text: ''
-        // }));
     }
 
     addItem() {
@@ -63,12 +53,28 @@ class TodoApp extends React.Component {
             text: "Step " + (this.state.items.length + 1),
             id: Date.now(),
             order: this.state.items.length + 1,
-            active: true
+            active: true,
+            form: {
+                name: "",
+                fields: []
+            }
         };
         this.setState((prevState) => ({
             items: prevState.items.concat(newItem),
-            text: ''
+            text: ""
         }));
+    }
+}
+
+class Form extends React.Component {
+    render() {
+        return (
+            <form>{
+                this.props.fields.map((item, index, items) => {
+                    return (<input name={item.name} type={item.type} />);
+                })
+            }</form>
+        );
     }
 }
 
@@ -112,7 +118,7 @@ class TodoList extends React.Component {
                         this.props.addItem();
                         DOMRender();
                     }}
-                ><i>+[{this.props.items.length + 1}]</i></li>
+                ><i>add#{this.props.items.length + 1}</i></li>
             </ul>
         );
     }
