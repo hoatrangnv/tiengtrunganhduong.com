@@ -280,6 +280,7 @@ article a:hover {
     height: 2.5em;
     /*line-height: 2.5em;*/
     padding: 0.5em;
+    cursor: pointer;
 }
 .nav-bar .search-toggle i {
     width: 1.5em;
