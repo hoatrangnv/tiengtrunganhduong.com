@@ -1,8 +1,18 @@
 * {
     position: relative;
 }
+.page-left {
+    float: left;
+    width: calc(75% - 1rem);
+}
+.page-right {
+    float: right;
+    width: calc(25% - 1rem);
+}
 .tab-bar {
     padding: 0;
+    white-space: nowrap;
+    overflow-x: hidden;
 }
 .tab-bar:after {
     content: "";
@@ -14,11 +24,7 @@
     position: absolute;
     bottom: 0;
 }
-.tab-bar li + li {
-    /*margin-left: 2px;*/
-}
-.tab
-{
+.tab {
     display: inline-block;
     border: solid #fff;
     border-width: 1px 1px 0;
@@ -27,15 +33,12 @@
     background: #eee;
     cursor: pointer;
     box-sizing: border-box;
+    text-align: center;
 }
-.tab.active
-{
+.tab.active {
     z-index: 2;
     background: #fff;
     border-color: #eb8;
-}
-.tab {
-    text-align: center;
 }
 .tab .holder {
     display: block;
@@ -45,6 +48,7 @@
     right: 1px;
     line-height: 0.75em;
     background: #ddd;
+    cursor: e-resize;
 }
 .tab.active .holder {
     background: #fed;
@@ -57,5 +61,8 @@
     color: #333;
     font-size: 1em;
     font-weight: normal;
+}
+.tab-ctrl button + button {
+    margin-left: 1em;
 }
 

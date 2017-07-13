@@ -8,17 +8,18 @@ class Quiz extends React.Component {
     constructor(props) {
         super(props);
         this.addItem = this.addItem.bind(this);
+        this.removeItem = this.removeItem.bind(this);
         this.activateItem = this.activateItem.bind(this);
-        this.changeOrder = this.changeOrder.bind(this);
+        this.reorderItems = this.reorderItems.bind(this);
         this.state = {
             items: [
                 {
-                    id: Math.random(),
+                    id: uniqueId(),
                     name: "Meta",
                     active: true,
                     inputs: [
                         {
-                            id: Math.random(),
+                            id: uniqueId(),
                             type: "text",
                             name: "name",
                             label: "Quiz Name",
@@ -32,7 +33,7 @@ class Quiz extends React.Component {
                             }
                         },
                         {
-                            id: Math.random(),
+                            id: uniqueId(),
                             type: "textArea",
                             name: "description",
                             label: "Description About Quiz",
@@ -49,18 +50,18 @@ class Quiz extends React.Component {
                     fixed: true
                 },
                 {
-                    id: Math.random(),
+                    id: uniqueId(),
                     active: false,
                     name: "Results",
                     inputs: [
                         {
-                            id: Math.random(),
+                            id: uniqueId(),
                             type: "selectBox",
                             name: "canvasSize",
                             label: "Canvas Size",
                             options: [
-                                {id: Math.random(), value: "720x377", text: "720x377"},
-                                {id: Math.random(), value: "360x292", text: "360x292"}
+                                {id: uniqueId(), value: "720x377", text: "720x377"},
+                                {id: uniqueId(), value: "360x292", text: "360x292"}
                             ],
                             validate: function (value) {
                                 return "";
@@ -73,15 +74,15 @@ class Quiz extends React.Component {
         };
     }
 
-    addItem(event) {
+    addItem() {
         this.state.items.forEach((item) => {
             item.active = false;
         });
 
-        var itemName = prompt("Please enter item name", "Tab " + (this.state.items.length + 1));
+        var itemName = "Tab " + (this.state.items.length + 1);
         if (itemName) {
             var newItem = {
-                id: Math.random(),
+                id: uniqueId(),
                 name: itemName,
                 active: true,
                 inputs: [],
@@ -97,6 +98,14 @@ class Quiz extends React.Component {
         }
     }
 
+    removeItem() {
+        const items = this.state.items;
+        var index = items.indexOf(items.find((item) => item.active));
+        items.splice(index, 1);
+
+        this.setState({items : items})
+    }
+
     activateItem(id) {
         this.state.items.forEach((item) => {
             item.active = (id === item.id);
@@ -104,32 +113,91 @@ class Quiz extends React.Component {
         DOMRender();
     }
 
-    changeOrder({oldIndex, newIndex}) {
+    reorderItems({oldIndex, newIndex}) {
         this.setState({
             items: arrayMove(this.state.items, oldIndex, newIndex)
         });
     }
 
     render() {
-        var activeItem = this.state.items.find((item) => (item.active));
+        var activeItem = this.state.items.find(item => item.active);
         var formInputs = [];
         if (activeItem) {
             formInputs = activeItem.inputs;
         }
         return (
             <div>
-                <TabBar
-                    items={this.state.items}
-                    activateItem={this.activateItem}
-                    changeOrder={this.changeOrder}
-                />
-                <Form inputs={formInputs} />
+                <div className="page-left">
+                    <TabBar
+                        items={this.state.items}
+                        activateItem={this.activateItem}
+                        reorderItems={this.reorderItems}
+                    />
+                    <Form inputs={formInputs} />
+                </div>
+                <div className="page-right">
+                    <TabCtrl
+                        items={this.state.items}
+                        addItem={this.addItem}
+                        removeItem={this.removeItem}
+                        activateItem={this.activateItem}
+                    />
+                </div>
+            </div>
+        );
+    }
+}
+
+class TabCtrl extends React.Component {
+    render() {
+        return (
+            <div className="tab-ctrl" style={{zIndex:10}}>
+                <button className="btn btn-sm btn-success" onClick={this.props.addItem}>Add tab</button>
+                <button className="btn btn-sm btn-danger" onClick={this.props.removeItem}>Remove tab</button>
+                <button
+                    className="btn btn-sm btn-info"
+                    onClick={() => {
+                            var id;
+                            this.props.items.forEach((item, index, items) => {
+                                if (item.active && items[index + 1]) {
+                                    id = items[index + 1].id;
+                                }
+                            });
+                            id && this.props.activateItem(id);
+                        }
+                    }
+                >Activate next tab</button>
+                <button
+                    className="btn btn-sm btn-info"
+                    onClick={() => {
+                            var id;
+                            this.props.items.forEach((item, index, items) => {
+                                if (item.active && items[index - 1]) {
+                                    id = items[index - 1].id;
+                                }
+                            });
+                            id && this.props.activateItem(id);
+                        }
+                    }
+                >Activate prev tab</button>
             </div>
         );
     }
 }
 
 class TabBar extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidUpdate() {
+        var tabBar = document.querySelector("#tab-bar");
+        var activeItem = tabBar.querySelector("li.active");
+        var tabBarRect = tabBar.getBoundingClientRect();
+        var activeItemRect = activeItem.getBoundingClientRect();
+        tabBar.scrollLeft = (activeItemRect.left - tabBarRect.left) - (tabBar.clientWidth - activeItem.offsetWidth) / 2;
+    }
+
     render() {
         const SortableItem = SortableElement(
             ({item, activate}) =>
@@ -144,13 +212,13 @@ class TabBar extends React.Component {
 
         const SortableList = SortableContainer(
             ({items, activateItem}) =>
-                <ul className="tab-bar">
+                <ul className="tab-bar" id="tab-bar">
                     {items.map((item, index) =>
                         <SortableItem
                             key={item.id}
                             index={index}
                             item={item}
-                            activate={() => {activateItem(item.id)}}
+                            activate={() => activateItem(item.id)}
                         />
                     )}
                 </ul>
@@ -158,14 +226,12 @@ class TabBar extends React.Component {
 
         return (
             <SortableList
-                helperClass="SortableHelper"
                 axis="x"
+                helperClass="SortableHelper"
                 items={this.props.items}
                 activateItem={this.props.activateItem}
-                onSortEnd={this.props.changeOrder}
-                shouldCancelStart={(event) => {
-                    return ("holder" !== event.target.className);
-                }}
+                onSortEnd={this.props.reorderItems}
+                shouldCancelStart={(event) => "holder" !== event.target.className}
             />
         )
     }
@@ -234,133 +300,11 @@ class FormInput extends React.Component {
 }
 
 DOMRender();
+
 function DOMRender() {
     ReactDOM.render(<Quiz />, document.getElementById("root"));
 }
 
-// class TodoApp extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.addItem = this.addItem.bind(this);
-//         this.state = {items: [
-//             {
-//                 text: "Quiz Info",
-//                 id: Date.now(),
-//                 order: 1,
-//                 active: true,
-//                 form: {
-//                     name: "Quiz Info",
-//                     fields: [
-//                         {
-//                             name: "name",
-//                             type: "text"
-//                         },
-//                         {
-//                             name: "description",
-//                             type: "text"
-//                         }
-//                     ]
-//                 }
-//             }
-//         ]};
-//     }
-//
-//     render() {
-//         this.state.items.sort(function (a, b) {
-//             return a.order - b.order;
-//         });
-//         console.log(this.state.items);
-//         return (
-//             <div>
-//                 <h3>TODO</h3>
-//                 <TodoList items={this.state.items} addItem={this.addItem} />
-//                 <Form fields={this.state.items.find(function (item) {
-//                     return item.active;
-//                 }).form.fields} />
-//             </div>
-//         );
-//     }
-//
-//     addItem() {
-//         this.state.items.forEach(function (item) {
-//             item.active = false;
-//         });
-//         var newItem = {
-//             text: "Step " + (this.state.items.length + 1),
-//             id: Date.now(),
-//             order: this.state.items.length + 1,
-//             active: true,
-//             form: {
-//                 name: "",
-//                 fields: []
-//             }
-//         };
-//         this.setState((prevState) => ({
-//             items: prevState.items.concat(newItem)
-//         }));
-//     }
-// }
-//
-// class Form extends React.Component {
-//     render() {
-//         return (
-//             <form>{
-//                 this.props.fields.map((item, index, items) => {
-//                     return (<input name={item.name} type={item.type} />);
-//                 })
-//             }</form>
-//         );
-//     }
-// }
-//
-// class TodoList extends React.Component {
-//     render() {
-//         return (
-//             <ul className="tab-list">
-//                 {this.props.items.map((item, index, items) => (
-//                     <li
-//                         key={item.id}
-//                         className={item.active ? "active" : ""}
-//                         onClick={(e) => {
-//                             if (e.target.className != "move-button") {
-//                                 items.forEach(function (item) {
-//                                     item.active = false;
-//                                 });
-//                                 item.active = true;
-//                                 DOMRender();
-//                             }
-//                         }}
-//                     >
-//                         <button className="move-button left-move" onClick={() => {
-//                             if (items[index - 1]) {
-//                                 item.order --;
-//                                 items[index - 1].order ++;
-//                                 DOMRender();
-//                             }
-//                         }}>&lt;</button>
-//                         <span className="text">{item.text}</span>
-//                         <button className="move-button right-move" onClick={() => {
-//                             if (items[index + 1]) {
-//                                 item.order ++;
-//                                 items[index + 1].order --;
-//                                 DOMRender();
-//                             }
-//                         }}>&gt;</button>
-//                     </li>
-//                 ))}
-//                 <li
-//                     onClick={() => {
-//                         this.props.addItem();
-//                         DOMRender();
-//                     }}
-//                 ><i>add#{this.props.items.length + 1}</i></li>
-//             </ul>
-//         );
-//     }
-// }
-//
-// DOMRender();
-// function DOMRender() {
-//     ReactDOM.render(<TodoApp />, document.getElementById("root"));
-// }
-//
+function uniqueId() {
+    return Math.floor((Math.random() * 1000000000) + 1);
+}
