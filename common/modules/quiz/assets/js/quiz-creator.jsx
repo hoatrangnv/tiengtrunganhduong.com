@@ -102,12 +102,18 @@ class Quiz extends React.Component {
         DOMRender();
     }
 
-    changeOrder(curIndex, newIndex) {
-        var newItems = this.state.items.filter((item, index) => {return (index !== curIndex)});
-        newItems.splice(newIndex, 0, this.state.items[curIndex]);
-        this.setState(() => ({
-            items: newItems
-        }));
+    // changeOrder(curIndex, newIndex) {
+    //     var newItems = this.state.items.filter((item, index) => {return (index !== curIndex)});
+    //     newItems.splice(newIndex, 0, this.state.items[curIndex]);
+    //     this.setState(() => ({
+    //         items: newItems
+    //     }));
+    // }
+
+    changeOrder({oldIndex, newIndex}) {
+        this.setState({
+            items: arrayMove(this.state.items, oldIndex, newIndex)
+        });
     }
 
     render() {
@@ -131,60 +137,43 @@ class Quiz extends React.Component {
 }
 
 var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
-const SortableItem = SortableElement(({item}) => <li
-    className={"SortableItem" + (item.active ? " active" : "")}
-    onClick={item.activate}
->{item.name}</li>);
 
-const SortableList = SortableContainer(({items}) => {
-    return (
+const SortableItem = SortableElement(
+    ({item, activate}) =>
+        <li
+            className={"tab" + (item.active ? " active" : "")}
+            onClick={activate}
+        >
+            <span className="holder">{}</span>
+            <span className="label">{item.name}</span>
+        </li>
+);
+
+const SortableList = SortableContainer(
+    ({items, activateItem}) =>
         <ul className="tab-bar">
             {items.map((item, index) =>
-                <SortableItem key={item.id} activateItem={this.props.activateItem(item.id)} index={index} item={item} />
+                <SortableItem key={item.id} index={index} item={item} activate={() => {activateItem(item.id)}} />
             )}
         </ul>
-    );
-});
+);
 
 class TabBar extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: this.props.items
-        }
-    }
-    onSortEnd({oldIndex, newIndex}) {
-        this.setState({
-            items: arrayMove(this.state.items, oldIndex, newIndex)
-        });
-    }
     render() {
         return (
-            <SortableList items={this.state.items} axis="x" activateItem={this.props.activateItem} onSortEnd={this.onSortEnd.bind(this)} helperClass="SortableHelper" />
+            <SortableList
+                helperClass="SortableHelper"
+                axis="x"
+                items={this.props.items}
+                activateItem={this.props.activateItem}
+                onSortEnd={this.props.changeOrder}
+                shouldCancelStart={(event) => {
+                    return ("holder" !== event.target.className);
+                }}
+            />
         )
     }
-    // var slots = [<li key={Math.random()} {...{"data-index": 0}}>{}</li>];
-    // this.props.items.forEach((item, index) => {
-    //     slots.push(
-    //         <li
-    //             key={item.id}
-    //             className={item.active ? "active" : ""}
-    //             onClick={() => { this.props.activateItem(item.id); }}
-    //             {...{"data-index": index}}
-    //         >
-    //             <div {...{"data-index": index}}>{item.name}</div>
-    //         </li>
-    //     );
-    //     slots.push(<li key={Math.random()} {...{"data-index": index + 1}}>{}</li>);
-    // });
-    //
-    // return (
-    //     <ul className="tab-bar">
-    //         {slots}
-    //         <li onClick={this.props.addItem}>Add #{this.props.items.length + 1}</li>
-    //     </ul>
-    // );
 }
 
 class Form extends React.Component {
