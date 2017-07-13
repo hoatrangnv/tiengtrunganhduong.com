@@ -9,7 +9,7 @@
     float: right;
     width: calc(25% - 1rem);
 }
-.tab-bar {
+.tab-bar ul {
     padding: 0;
     white-space: nowrap;
     overflow-x: hidden;

@@ -194,7 +194,7 @@ class TabBar extends React.Component {
     }
 
     componentDidUpdate() {
-        var tabBar = document.querySelector("#tab-bar");
+        var tabBar = document.querySelector("#tab-bar ul");
         var activeItem = tabBar.querySelector("li.active");
 
         if (activeItem) {
@@ -226,7 +226,7 @@ class TabBar extends React.Component {
 
         const SortableList = SortableContainer(
             ({items, activateItem}) =>
-                <ul className="tab-bar" id="tab-bar">
+                <ul>
                     {items.map((item, index) =>
                         <SortableItem
                             key={item.id}
@@ -239,14 +239,16 @@ class TabBar extends React.Component {
         );
 
         return (
-            <SortableList
-                axis="x"
-                helperClass="SortableHelper"
-                items={this.props.items}
-                activateItem={this.props.activateItem}
-                onSortEnd={this.props.reorderItems}
-                shouldCancelStart={(event) => "holder" !== event.target.className}
-            />
+            <div className="tab-bar" id="tab-bar">
+                <SortableList
+                    axis="x"
+                    helperClass="SortableHelper"
+                    items={this.props.items}
+                    activateItem={this.props.activateItem}
+                    onSortEnd={this.props.reorderItems}
+                    shouldCancelStart={(event) => "holder" !== event.target.className}
+                />
+            </div>
         )
     }
 }
