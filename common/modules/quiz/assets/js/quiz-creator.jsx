@@ -2,6 +2,8 @@
  * Created by User on 7/11/2017.
  */
 
+var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
+
 class Quiz extends React.Component {
     constructor(props) {
         super(props);
@@ -102,14 +104,6 @@ class Quiz extends React.Component {
         DOMRender();
     }
 
-    // changeOrder(curIndex, newIndex) {
-    //     var newItems = this.state.items.filter((item, index) => {return (index !== curIndex)});
-    //     newItems.splice(newIndex, 0, this.state.items[curIndex]);
-    //     this.setState(() => ({
-    //         items: newItems
-    //     }));
-    // }
-
     changeOrder({oldIndex, newIndex}) {
         this.setState({
             items: arrayMove(this.state.items, oldIndex, newIndex)
@@ -126,7 +120,6 @@ class Quiz extends React.Component {
             <div>
                 <TabBar
                     items={this.state.items}
-                    addItem={this.addItem}
                     activateItem={this.activateItem}
                     changeOrder={this.changeOrder}
                 />
@@ -136,31 +129,33 @@ class Quiz extends React.Component {
     }
 }
 
-var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
-
-const SortableItem = SortableElement(
-    ({item, activate}) =>
-        <li
-            className={"tab" + (item.active ? " active" : "")}
-            onClick={activate}
-        >
-            <span className="holder">{}</span>
-            <span className="label">{item.name}</span>
-        </li>
-);
-
-const SortableList = SortableContainer(
-    ({items, activateItem}) =>
-        <ul className="tab-bar">
-            {items.map((item, index) =>
-                <SortableItem key={item.id} index={index} item={item} activate={() => {activateItem(item.id)}} />
-            )}
-        </ul>
-);
-
 class TabBar extends React.Component {
-
     render() {
+        const SortableItem = SortableElement(
+            ({item, activate}) =>
+                <li
+                    className={"tab" + (item.active ? " active" : "")}
+                    onClick={activate}
+                >
+                    <span className="holder">{}</span>
+                    <span className="label">{item.name}</span>
+                </li>
+        );
+
+        const SortableList = SortableContainer(
+            ({items, activateItem}) =>
+                <ul className="tab-bar">
+                    {items.map((item, index) =>
+                        <SortableItem
+                            key={item.id}
+                            index={index}
+                            item={item}
+                            activate={() => {activateItem(item.id)}}
+                        />
+                    )}
+                </ul>
+        );
+
         return (
             <SortableList
                 helperClass="SortableHelper"
