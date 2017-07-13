@@ -188,14 +188,28 @@ class TabCtrl extends React.Component {
 class TabBar extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            lastScrollLeft: 0
+        };
     }
 
     componentDidUpdate() {
         var tabBar = document.querySelector("#tab-bar");
         var activeItem = tabBar.querySelector("li.active");
-        var tabBarRect = tabBar.getBoundingClientRect();
-        var activeItemRect = activeItem.getBoundingClientRect();
-        tabBar.scrollLeft = (activeItemRect.left - tabBarRect.left) - (tabBar.clientWidth - activeItem.offsetWidth) / 2;
+
+        if (activeItem) {
+            var tabBarRect = tabBar.getBoundingClientRect();
+            var activeItemRect = activeItem.getBoundingClientRect();
+            tabBar.scrollLeft = (activeItemRect.left - tabBarRect.left) - (tabBar.clientWidth - activeItem.offsetWidth) / 2;
+        } else {
+            tabBar.scrollLeft = this.state.lastScrollLeft;
+        }
+
+        if (tabBar.scrollLeft !== this.state.lastScrollLeft) {
+            this.setState({
+                lastScrollLeft: tabBar.scrollLeft
+            });
+        }
     }
 
     render() {
