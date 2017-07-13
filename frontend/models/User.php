@@ -17,14 +17,6 @@ class User extends \common\models\User implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function getUrl($options = [])
-    {
-        // TODO: Implement getUrl() method.
-    }
-
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return static::findOne([

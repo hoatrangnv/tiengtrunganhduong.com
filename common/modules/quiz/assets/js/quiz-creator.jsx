@@ -111,7 +111,6 @@ class Quiz extends React.Component {
     }
 
     render() {
-        console.log(this.state.items);
         var activeItem = this.state.items.find((item) => (item.active));
         var formInputs = [];
         if (activeItem) {
@@ -131,62 +130,61 @@ class Quiz extends React.Component {
     }
 }
 
+var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
+const SortableItem = SortableElement(({item}) => <li
+    className={"SortableItem" + (item.active ? " active" : "")}
+    onClick={item.activate}
+>{item.name}</li>);
+
+const SortableList = SortableContainer(({items}) => {
+    return (
+        <ul className="tab-bar">
+            {items.map((item, index) =>
+                <SortableItem key={item.id} activateItem={this.props.activateItem(item.id)} index={index} item={item} />
+            )}
+        </ul>
+    );
+});
+
 class TabBar extends React.Component {
+
     constructor(props) {
         super(props);
-        this.handleDragOver = this.handleDragOver.bind(this);
-        this.handleDragStart = this.handleDragStart.bind(this);
-        this.handleDragEnd = this.handleDragEnd.bind(this);
-        this.handleDrop = this.handleDrop.bind(this);
         this.state = {
-            dragStartIndex: null,
-            dropIndex: null
-        };
+            items: this.props.items
+        }
     }
-
-    handleDragStart(event) {
-        this.state.dragStartIndex = parseInt(event.target.getAttribute("data-index"));
+    onSortEnd({oldIndex, newIndex}) {
+        this.setState({
+            items: arrayMove(this.state.items, oldIndex, newIndex)
+        });
     }
-
-    handleDragEnd(event) {
-
-    }
-
-    handleDragOver(event) {
-        event.preventDefault();
-        console.log(event.target.getAttribute("data-index"));
-    }
-
-    handleDrop(event) {
-        this.state.dropIndex = parseInt(event.target.getAttribute("data-index"));
-        this.props.changeOrder(this.state.dragStartIndex, this.state.dropIndex);
-        DOMRender();
-    }
-
     render() {
         return (
-            <ul id="tab-bar" className="tab-bar">
-                {
-                    this.props.items.map((item, index) => (
-                        <li
-                            key={item.id}
-                            className={item.active ? "active" : ""}
-                            onClick={() => { this.props.activateItem(item.id); }}
-                            draggable={true}
-                            onDragOver={this.handleDragOver}
-                            onDragStart={this.handleDragStart}
-                            onDragEnd={this.handleDragEnd}
-                            onDrop={this.handleDrop}
-                            {...{"data-index": index}}
-                        >
-                            {item.name}
-                        </li>
-                    ))
-                }
-                <li onClick={this.props.addItem}>Add #{this.props.items.length + 1}</li>
-            </ul>
-        );
+            <SortableList items={this.state.items} axis="x" activateItem={this.props.activateItem} onSortEnd={this.onSortEnd.bind(this)} helperClass="SortableHelper" />
+        )
     }
+    // var slots = [<li key={Math.random()} {...{"data-index": 0}}>{}</li>];
+    // this.props.items.forEach((item, index) => {
+    //     slots.push(
+    //         <li
+    //             key={item.id}
+    //             className={item.active ? "active" : ""}
+    //             onClick={() => { this.props.activateItem(item.id); }}
+    //             {...{"data-index": index}}
+    //         >
+    //             <div {...{"data-index": index}}>{item.name}</div>
+    //         </li>
+    //     );
+    //     slots.push(<li key={Math.random()} {...{"data-index": index + 1}}>{}</li>);
+    // });
+    //
+    // return (
+    //     <ul className="tab-bar">
+    //         {slots}
+    //         <li onClick={this.props.addItem}>Add #{this.props.items.length + 1}</li>
+    //     </ul>
+    // );
 }
 
 class Form extends React.Component {

@@ -20,7 +20,9 @@ class QuizCreatorAsset extends AssetBundle
     ];
 
     public $js = [
+        'js/react-sortable-hoc.js',
         ['js/quiz-creator.jsx', 'type' => 'text/babel'],
+        'js/interact.js',
     ];
 
     public $depends = [

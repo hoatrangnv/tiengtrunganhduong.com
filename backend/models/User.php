@@ -6,13 +6,6 @@ use yii\base\NotSupportedException;
 
 class User extends \common\models\User implements IdentityInterface
 {
-    /**
-     * @inheritdoc
-     */
-    public function getUrl($options = [])
-    {
-        // TODO: Implement getUrl() method.
-    }
 
     public $reset_password;
 

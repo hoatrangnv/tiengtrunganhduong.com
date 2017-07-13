@@ -14,18 +14,14 @@
     position: absolute;
     bottom: 0;
 }
-.tab-bar li {
+.tab-bar li, .SortableItem {
     display: inline-block;
     border: solid #ccc;
     border-width: 1px 1px 0;
     padding: 0.5em 0.5em;
-    border-radius: 5px 5px 0 0;
     z-index: 0;
     background: #eee;
     cursor: pointer;
-}
-.tab-bar li + li {
-    margin: 0 -1px;
 }
 .tab-bar li.active {
     z-index: 2;
@@ -33,32 +29,4 @@
     border-color: #ec9;
     padding-top: 0.6em;
 }
-.tab-bar li .move-button {
-    visibility: hidden;
-    border: 1px solid #ddd;
-    background: #fff;
-    height: 1.6em;
-    width: 1.6em;
-    font-size: 0.8em;
-}
-.tab-bar li .text {
-    margin: 0 0.5em;
-}
-.tab-bar li:hover .move-button {
-    visibility: visible;
-}
-.tab-bar li {
-    white-space: nowrap;
-}
-.tab-bar li span {
-    display: inline-block;
-    vertical-align: middle;
-}
-.tab-bar li .empty-slot {
-    width: 0.5em;
-    height: 1em;
-    border: 1px solid #0ce;
-}
-.tab-bar li .empty-slot.active {
-    display: inline-block;
-}
+
