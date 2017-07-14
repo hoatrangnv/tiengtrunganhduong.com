@@ -92,18 +92,107 @@ class QuizEditor extends React.Component {
                 id: uniqueId(),
                 name: "Character",
                 type: "Character",
-                inputConfigs: []
+                inputConfigs: [
+                    {
+                        type: "text",
+                        name: "name",
+                        label: "Name",
+                        validate: function (value) {
+                            return "";
+                        }
+                    },
+                    {
+                        type: "text",
+                        name: "var_name",
+                        label: "Var Name",
+                        validate: function (value) {
+                            return "";
+                        }
+                    },
+                    {
+                        type: "selectBox",
+                        name: "type",
+                        label: "Type",
+                        validate: function (value) {
+                            return "";
+                        },
+                        options: [
+                            {id: uniqueId(), value: "player", text: "Player"},
+                            {id: uniqueId(), value: "player_friend", text: "Player's Friend"}
+                        ]
+                    },
+                    {
+                        type: "number",
+                        name: "index",
+                        label: "Index",
+                        validate: function (value) {
+                            return "";
+                        }
+                    }
+                ]
             },
             {
                 id: uniqueId(),
                 name: "Character Medium",
-                type: "Character Medium",
-                inputConfigs: []
+                type: "CharacterMedium",
+                inputConfigs: [
+                    {
+                        type: "text",
+                        name: "name",
+                        label: "Name",
+                        validate: function (value) {
+                            return "";
+                        }
+                    },
+                    {
+                        type: "text",
+                        name: "var_name",
+                        label: "Var Name",
+                        validate: function (value) {
+                            return "";
+                        }
+                    },
+                    {
+                        type: "selectBox",
+                        name: "type",
+                        label: "Type",
+                        validate: function (value) {
+                            return "";
+                        },
+                        options: [
+                            {id: uniqueId(), value: "avatar", text: "Avatar"},
+                            {id: uniqueId(), value: "photo", text: "Photo"}
+                        ]
+                    },
+                    {
+                        type: "number",
+                        name: "index",
+                        label: "Index",
+                        validate: function (value) {
+                            return "";
+                        }
+                    },
+                    {
+                        type: "selectBox",
+                        name: "character_id",
+                        label: "Character",
+                        validate: function (value) {
+                            return "";
+                        },
+                        options: () => {
+                            return this.state.items
+                                .filter((item) => (item.type === "Character"))
+                                .map((item) => ({id: uniqueId(), value: item.id, text: item.name}))
+                        }
+                    }
+                ]
             },
             {
                 id: uniqueId(),
                 name: "Input Group",
-                inputConfigs: []
+                type: "InputGroup",
+                inputConfigs: [
+                ]
             },
             {
                 id: uniqueId(),
@@ -125,7 +214,7 @@ class QuizEditor extends React.Component {
                     },
                     {
                         type: "selectBox",
-                        name: "canvasSize",
+                        name: "canvas_size",
                         label: "Canvas Size",
                         options: [
                             {id: uniqueId(), value: "720x377", text: "720x377"},
@@ -427,9 +516,10 @@ class FormInput extends React.Component {
             case "selectBox":
                 input = <select name={name} value={value} onChange={this.handleChange} onBlur={this.handleChange}>
                     {
-                        this.props.options.map((option) => (
-                            <option key={option.id} value={option.value}>{option.text}</option>
-                        ))
+                        ("function" === typeof this.props.options ? this.props.options() : this.props.options)
+                            .map((option) => (
+                                <option key={option.id} value={option.value}>{option.text}</option>
+                            ))
                     }
                 </select>;
                 break;
