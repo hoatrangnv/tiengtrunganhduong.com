@@ -68,7 +68,8 @@ class QuizEditor extends React.Component {
         };
 
         this.addableItems = [
-            new QuizItem({
+            {
+                id: uniqueId(),
                 name: "Param",
                 type: "Param",
                 inputConfigs: [
@@ -86,22 +87,26 @@ class QuizEditor extends React.Component {
                         }
                     }
                 ]
-            }),
-            new QuizItem({
+            },
+            {
+                id: uniqueId(),
                 name: "Character",
                 type: "Character",
                 inputConfigs: []
-            }),
-            new QuizItem({
+            },
+            {
+                id: uniqueId(),
                 name: "Character Medium",
                 type: "Character Medium",
                 inputConfigs: []
-            }),
-            new QuizItem({
+            },
+            {
+                id: uniqueId(),
                 name: "Input Group",
                 inputConfigs: []
-            }),
-            new QuizItem({
+            },
+            {
+                id: uniqueId(),
                 name: "Result",
                 type: "Result",
                 inputConfigs: [
@@ -131,11 +136,12 @@ class QuizEditor extends React.Component {
                         }
                     }
                 ]
-            })
+            }
         ];
     }
 
-    addItem(newItem) {
+    addItem(itemConfig) {
+        var newItem = new QuizItem(itemConfig);
         this.setState((prevState) => ({
             items: prevState.items.concat(newItem),
             activeItemId: newItem.id
@@ -148,11 +154,13 @@ class QuizEditor extends React.Component {
         var index = items.indexOf(items.find((item) => (
             this.state.activeItemId === item.id && this.addableItems.find((itemConf) => (itemConf.type === item.type))
         )));
-        items.splice(index, 1);
-        this.setState({
-            items : items,
-            activeItemId: null
-        })
+        if (index > -1) {
+            items.splice(index, 1);
+            this.setState({
+                items : items,
+                activeItemId: null
+            });
+        }
     }
 
     activateItem(id) {
