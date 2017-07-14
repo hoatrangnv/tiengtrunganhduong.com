@@ -67,166 +67,6 @@ class QuizEditor extends React.Component {
             activeItemId: quizItem.id
         };
 
-        this.addableItems = [
-            {
-                id: uniqueId(),
-                name: "Param",
-                type: "Param",
-                inputConfigs: [
-                    {
-                        type: "text",
-                        name: "name",
-                        label: "Name",
-                        validate: function (value) {
-                            var isOkay = "string" === typeof value && "" !== value.trim();
-                            var errorMsg = "";
-                            if (!isOkay) {
-                                errorMsg = "Name cannot be empty";
-                            }
-                            return errorMsg;
-                        }
-                    }
-                ]
-            },
-            {
-                id: uniqueId(),
-                name: "Character",
-                type: "Character",
-                inputConfigs: [
-                    {
-                        type: "text",
-                        name: "name",
-                        label: "Name",
-                        validate: function (value) {
-                            return "";
-                        }
-                    },
-                    {
-                        type: "text",
-                        name: "var_name",
-                        label: "Var Name",
-                        validate: function (value) {
-                            return "";
-                        }
-                    },
-                    {
-                        type: "selectBox",
-                        name: "type",
-                        label: "Type",
-                        validate: function (value) {
-                            return "";
-                        },
-                        options: [
-                            {id: uniqueId(), value: "player", text: "Player"},
-                            {id: uniqueId(), value: "player_friend", text: "Player's Friend"}
-                        ]
-                    },
-                    {
-                        type: "number",
-                        name: "index",
-                        label: "Index",
-                        validate: function (value) {
-                            return "";
-                        }
-                    }
-                ]
-            },
-            {
-                id: uniqueId(),
-                name: "Character Medium",
-                type: "CharacterMedium",
-                inputConfigs: [
-                    {
-                        type: "text",
-                        name: "name",
-                        label: "Name",
-                        validate: function (value) {
-                            return "";
-                        }
-                    },
-                    {
-                        type: "text",
-                        name: "var_name",
-                        label: "Var Name",
-                        validate: function (value) {
-                            return "";
-                        }
-                    },
-                    {
-                        type: "selectBox",
-                        name: "type",
-                        label: "Type",
-                        validate: function (value) {
-                            return "";
-                        },
-                        options: [
-                            {id: uniqueId(), value: "avatar", text: "Avatar"},
-                            {id: uniqueId(), value: "photo", text: "Photo"}
-                        ]
-                    },
-                    {
-                        type: "number",
-                        name: "index",
-                        label: "Index",
-                        validate: function (value) {
-                            return "";
-                        }
-                    },
-                    {
-                        type: "selectBox",
-                        name: "character_id",
-                        label: "Character",
-                        validate: function (value) {
-                            return "";
-                        },
-                        options: () => {
-                            return this.state.items
-                                .filter((item) => (item.type === "Character"))
-                                .map((item) => ({id: uniqueId(), value: item.id, text: item.name}))
-                        }
-                    }
-                ]
-            },
-            {
-                id: uniqueId(),
-                name: "Input Group",
-                type: "InputGroup",
-                inputConfigs: [
-                ]
-            },
-            {
-                id: uniqueId(),
-                name: "Result",
-                type: "Result",
-                inputConfigs: [
-                    {
-                        type: "text",
-                        name: "name",
-                        label: "Name",
-                        validate: function (value) {
-                            var isOkay = "string" === typeof value && "" !== value.trim();
-                            var errorMsg = "";
-                            if (!isOkay) {
-                                errorMsg = "Name cannot be empty";
-                            }
-                            return errorMsg;
-                        }
-                    },
-                    {
-                        type: "selectBox",
-                        name: "canvas_size",
-                        label: "Canvas Size",
-                        options: [
-                            {id: uniqueId(), value: "720x377", text: "720x377"},
-                            {id: uniqueId(), value: "360x292", text: "360x292"}
-                        ],
-                        validate: function (value) {
-                            return "";
-                        }
-                    }
-                ]
-            }
-        ];
     }
 
     addItem(itemConfig) {
@@ -241,7 +81,7 @@ class QuizEditor extends React.Component {
     removeItem() {
         var items = this.state.items;
         var index = items.indexOf(items.find((item) => (
-            this.state.activeItemId === item.id && this.addableItems.find((itemConf) => (itemConf.type === item.type))
+            this.state.activeItemId === item.id && this.props.addableItems.find((itemConf) => (itemConf.type === item.type))
         )));
         if (index > -1) {
             items.splice(index, 1);
@@ -268,11 +108,8 @@ class QuizEditor extends React.Component {
     }
 
     render() {
+        // console.log(this.state.items);
         var activeItem = this.state.items.find(item => item.id === this.state.activeItemId);
-        var formInputs = [];
-        if (activeItem) {
-            formInputs = activeItem.inputs;
-        }
         return (
             <div>
                 <div className="page-left">
@@ -282,12 +119,33 @@ class QuizEditor extends React.Component {
                         activateItem={this.activateItem}
                         activeItemId={this.state.activeItemId}
                     />
-                    {activeItem.form}
+                    {
+                        !activeItem ? "" :
+                            <Form
+                                inputs={activeItem.inputs}
+                                onChange={(inputs) => {
+                                    console.log(inputs);
+                                    if (inputs["name"]) {
+                                        activeItem.name = activeItem.type + ": " + inputs["name"];
+                                    } else {
+                                        activeItem.name = activeItem.type;
+                                    }
+
+                                    // Reset state
+                                    activeItem.inputs.forEach((input) => {
+                                        input.value = inputs[input.name];
+                                    });
+
+                                    // Re-render
+                                    DOMRender();
+                                }}
+                            />
+                    }
                 </div>
                 <div className="page-right">
                     <TabCtrl
                         items={this.state.items}
-                        addableItems={this.addableItems}
+                        addableItems={this.props.addableItems}
                         addItem={this.addItem}
                         removeItem={this.removeItem}
                         activateItem={this.activateItem}
@@ -426,17 +284,20 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        var inputs = {};
-        this.props.inputs.forEach((input) => {
-            inputs[input.name] = null
-        });
         this.state = {
-            inputs: inputs
-        }
+            inputs: this.props.inputs.reduce((result, item) => {
+                result[item.name] = item.value;
+                return result;
+            }, {})
+        };
     }
 
     handleChange(name, value) {
-        var inputs = this.state.inputs;
+        // Refresh state inputs
+        var inputs = this.props.inputs.reduce((result, item) => {
+            result[item.name] = item.value;
+            return result;
+        }, {});
         inputs[name] = value;
         this.setState({inputs: inputs});
         this.props.onChange(inputs);
@@ -494,10 +355,10 @@ class FormInput extends React.Component {
         var input;
         switch (type) {
             case "textArea":
-                input = <textArea name={name} value={value} onChange={this.handleChange} onBlur={this.handleChange} />;
+                input = <textArea name={name} value={value} onChange={this.handleChange} />;
                 break;
             case "selectBox":
-                input = <select name={name} value={value} onChange={this.handleChange} onBlur={this.handleChange}>
+                input = <select name={name} value={value} onChange={this.handleChange}>
                     {
                         ("function" === typeof this.props.options ? this.props.options() : this.props.options)
                             .map((option) => (
@@ -507,7 +368,7 @@ class FormInput extends React.Component {
                 </select>;
                 break;
             default:
-                input = <input type={type} name={name} value={value} onChange={this.handleChange} onBlur={this.handleChange} />;
+                input = <input type={type} name={name} value={value} onChange={this.handleChange} />;
         }
         return (
             <div>
@@ -519,44 +380,199 @@ class FormInput extends React.Component {
     }
 }
 
-// class TextInput extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.handleChange = this.handleChange.bind(this);
-//         this.state = {
-//             value: "",
-//             errorMsg: ""
-//         };
-//     }
-//
-//     handleChange(event) {
-//         this.state.value = event.target.value;
-//         this.state.errorMsg = this.props.validate(this.state.value);
-//         if ("" !== this.state.errorMsg) {
-//             DOMRender();
-//         }
-//     }
-//
-//     render() {
-//         return (
-//             <div className="input-div">
-//                 <label>{this.props.label}</label>
-//                 <input
-//                     type="text"
-//                     name={this.props.name}
-//                     onChange={this.handleChange}
-//                 />
-//             </div>
-//         );
-//     }
-// }
-
 DOMRender();
 
+
 function DOMRender() {
-    ReactDOM.render(<QuizEditor />, document.getElementById("root"));
+    const addableItems = [
+        {
+            id: uniqueId(),
+            name: "Param",
+            type: "Param",
+            inputConfigs: [
+                {
+                    type: "text",
+                    name: "name",
+                    label: "Name",
+                    validate: function (value) {
+                        var isOkay = "string" === typeof value && "" !== value.trim();
+                        var errorMsg = "";
+                        if (!isOkay) {
+                            errorMsg = "Name cannot be empty";
+                        }
+                        return errorMsg;
+                    }
+                }
+            ]
+        },
+        {
+            id: uniqueId(),
+            name: "Character",
+            type: "Character",
+            inputConfigs: [
+                {
+                    type: "text",
+                    name: "name",
+                    label: "Name",
+                    validate: function (value) {
+                        return "";
+                    }
+                },
+                {
+                    type: "text",
+                    name: "var_name",
+                    label: "Var Name",
+                    validate: function (value) {
+                        return "";
+                    }
+                },
+                {
+                    type: "selectBox",
+                    name: "type",
+                    label: "Type",
+                    validate: function (value) {
+                        return "";
+                    },
+                    options: [
+                        {id: uniqueId(), value: "player", text: "Player"},
+                        {id: uniqueId(), value: "player_friend", text: "Player's Friend"}
+                    ]
+                },
+                {
+                    type: "number",
+                    name: "index",
+                    label: "Index",
+                    validate: function (value) {
+                        return "";
+                    }
+                }
+            ]
+        },
+        {
+            id: uniqueId(),
+            name: "Character Medium",
+            type: "CharacterMedium",
+            inputConfigs: [
+                {
+                    type: "text",
+                    name: "name",
+                    label: "Name",
+                    validate: function (value) {
+                        return "";
+                    }
+                },
+                {
+                    type: "text",
+                    name: "var_name",
+                    label: "Var Name",
+                    validate: function (value) {
+                        return "";
+                    }
+                },
+                {
+                    type: "selectBox",
+                    name: "type",
+                    label: "Type",
+                    validate: function (value) {
+                        return "";
+                    },
+                    options: [
+                        {id: uniqueId(), value: "avatar", text: "Avatar"},
+                        {id: uniqueId(), value: "photo", text: "Photo"}
+                    ]
+                },
+                {
+                    type: "number",
+                    name: "index",
+                    label: "Index",
+                    validate: function (value) {
+                        return "";
+                    }
+                },
+                {
+                    type: "selectBox",
+                    name: "character_id",
+                    label: "Character",
+                    validate: function (value) {
+                        return "";
+                    },
+                    options: () => {
+                        return this.state.items
+                            .filter((item) => (item.type === "Character"))
+                            .map((item) => ({id: uniqueId(), value: item.id, text: item.name}))
+                    }
+                }
+            ]
+        },
+        {
+            id: uniqueId(),
+            name: "Input Group",
+            type: "InputGroup",
+            inputConfigs: [
+            ]
+        },
+        {
+            id: uniqueId(),
+            name: "Result",
+            type: "Result",
+            inputConfigs: [
+                {
+                    type: "text",
+                    name: "name",
+                    label: "Name",
+                    validate: function (value) {
+                        var isOkay = "string" === typeof value && "" !== value.trim();
+                        var errorMsg = "";
+                        if (!isOkay) {
+                            errorMsg = "Name cannot be empty";
+                        }
+                        return errorMsg;
+                    }
+                },
+                {
+                    type: "selectBox",
+                    name: "canvas_size",
+                    label: "Canvas Size",
+                    options: [
+                        {id: uniqueId(), value: "720x377", text: "720x377"},
+                        {id: uniqueId(), value: "360x292", text: "360x292"}
+                    ],
+                    validate: function (value) {
+                        return "";
+                    }
+                }
+            ]
+        },
+        {
+            id: uniqueId(),
+            name: "Filter",
+            type: "Filter",
+            inputConfigs: [],
+        },
+        {
+            id: uniqueId(),
+            name: "Sorter",
+            type: "Sorter",
+            inputConfigs: [],
+        },
+        {
+            id: uniqueId(),
+            name: "Style",
+            type: "Style",
+            inputConfigs: [],
+        },
+        {
+            id: uniqueId(),
+            name: "Validator",
+            type: "Validator",
+            inputConfigs: [],
+        },
+
+    ];
+    ReactDOM.render(<QuizEditor addableItems={addableItems} />, document.getElementById("root"));
 }
 
+
 function uniqueId() {
-    return Math.floor(1 + (9999 * Math.random()));
+    return Math.floor(1 + (999999999 * Math.random()));
 }
