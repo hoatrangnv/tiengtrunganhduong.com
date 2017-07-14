@@ -28,26 +28,8 @@ class m170709_174841_create_quiz_character_medium_table extends Migration
             'type' => $this->string()->notNull(),
             'index' => $this->integer()->notNull(),
             'global_exec_order' => $this->integer()->notNull(),
-            'quiz_id' => $this->integer(),
             'character_id' => $this->integer()->notNull(),
         ], $tableOptions);
-
-        // creates index for column `quiz_id`
-        $this->createIndex(
-            'idx-quiz_character_medium-quiz_id',
-            'quiz_character_medium',
-            'quiz_id'
-        );
-
-        // add foreign key for table `quiz`
-        $this->addForeignKey(
-            'fk-quiz_character_medium-quiz_id',
-            'quiz_character_medium',
-            'quiz_id',
-            'quiz',
-            'id',
-            'CASCADE'
-        );
 
         // creates index for column `character_id`
         $this->createIndex(
@@ -72,18 +54,6 @@ class m170709_174841_create_quiz_character_medium_table extends Migration
      */
     public function down()
     {
-        // drops foreign key for table `quiz`
-        $this->dropForeignKey(
-            'fk-quiz_character_medium-quiz_id',
-            'quiz_character_medium'
-        );
-
-        // drops index for column `quiz_id`
-        $this->dropIndex(
-            'idx-quiz_character_medium-quiz_id',
-            'quiz_character_medium'
-        );
-
         // drops foreign key for table `quiz_character`
         $this->dropForeignKey(
             'fk-quiz_character_medium-character_id',

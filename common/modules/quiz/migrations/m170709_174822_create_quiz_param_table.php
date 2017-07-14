@@ -27,7 +27,7 @@ class m170709_174822_create_quiz_param_table extends Migration
             'value_fn_args' => $this->text()->notNull(),
             'value_fn_id' => $this->integer()->notNull(),
             'global_exec_order' => $this->integer()->notNull(),
-            'quiz_id' => $this->integer(),
+            'quiz_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // creates index for column `value_fn_id`

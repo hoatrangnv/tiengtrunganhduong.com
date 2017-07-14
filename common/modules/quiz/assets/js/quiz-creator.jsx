@@ -152,23 +152,10 @@ class TabCtrl extends React.Component {
     render() {
         return (
             <div className="tab-ctrl" style={{zIndex:10}}>
-                <button className="btn btn-sm btn-success" onClick={this.props.addItem}>Add tab</button>
-                <button className="btn btn-sm btn-danger" onClick={this.props.removeItem}>Remove tab</button>
+                <button className="btn btn-success" onClick={this.props.addItem}>+</button>
+                <button className="btn btn-danger" onClick={this.props.removeItem}>&minus;</button>
                 <button
-                    className="btn btn-sm btn-info"
-                    onClick={() => {
-                            var id;
-                            this.props.items.forEach((item, index, items) => {
-                                if (item.active && items[index + 1]) {
-                                    id = items[index + 1].id;
-                                }
-                            });
-                            id && this.props.activateItem(id);
-                        }
-                    }
-                >Activate next tab</button>
-                <button
-                    className="btn btn-sm btn-info"
+                    className="btn btn-info"
                     onClick={() => {
                             var id;
                             this.props.items.forEach((item, index, items) => {
@@ -179,7 +166,20 @@ class TabCtrl extends React.Component {
                             id && this.props.activateItem(id);
                         }
                     }
-                >Activate prev tab</button>
+                >&lt;</button>
+                <button
+                    className="btn btn-info"
+                    onClick={() => {
+                            var id;
+                            this.props.items.forEach((item, index, items) => {
+                                if (item.active && items[index + 1]) {
+                                    id = items[index + 1].id;
+                                }
+                            });
+                            id && this.props.activateItem(id);
+                        }
+                    }
+                >&gt;</button>
             </div>
         );
     }

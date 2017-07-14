@@ -27,7 +27,7 @@ class m170709_174831_create_quiz_character_table extends Migration
             'type' => $this->string()->notNull(),
             'index' => $this->integer()->notNull(),
             'global_exec_order' => $this->integer()->notNull(),
-            'quiz_id' => $this->integer(),
+            'quiz_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // creates index for column `quiz_id`

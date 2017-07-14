@@ -33,7 +33,6 @@ use Yii;
  * @property Image $image
  * @property User $updater
  * @property QuizCharacter[] $characters
- * @property QuizCharacterMedium[] $characterMedia
  * @property QuizFilter[] $filters
  * @property QuizInputGroup[] $inputGroups
  * @property QuizParam[] $params
@@ -142,14 +141,6 @@ class Quiz extends \yii\db\ActiveRecord
     public function getCharacters()
     {
         return $this->hasMany(QuizCharacter::className(), ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCharacterMedia()
-    {
-        return $this->hasMany(QuizCharacterMedium::className(), ['quiz_id' => 'id']);
     }
 
     /**

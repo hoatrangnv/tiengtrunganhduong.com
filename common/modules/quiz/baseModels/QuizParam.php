@@ -34,7 +34,7 @@ class QuizParam extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'var_name', 'value_fn_args', 'value_fn_id', 'global_exec_order'], 'required'],
+            [['name', 'var_name', 'value_fn_args', 'value_fn_id', 'global_exec_order', 'quiz_id'], 'required'],
             [['value_fn_args'], 'string'],
             [['value_fn_id', 'global_exec_order', 'quiz_id'], 'integer'],
             [['name', 'var_name'], 'string', 'max' => 255],

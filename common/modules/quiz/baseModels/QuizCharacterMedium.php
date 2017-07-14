@@ -13,11 +13,9 @@ use Yii;
  * @property string $type
  * @property integer $index
  * @property integer $global_exec_order
- * @property integer $quiz_id
  * @property integer $character_id
  *
  * @property QuizCharacter $character
- * @property Quiz $quiz
  * @property QuizCharacterMediumToFilter[] $characterMediumToFilters
  * @property QuizCharacterMediumToSorter[] $characterMediumToSorters
  * @property QuizCharacterMediumToStyle[] $characterMediumToStyles
@@ -40,10 +38,9 @@ class QuizCharacterMedium extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'var_name', 'type', 'index', 'global_exec_order', 'character_id'], 'required'],
-            [['index', 'global_exec_order', 'quiz_id', 'character_id'], 'integer'],
+            [['index', 'global_exec_order', 'character_id'], 'integer'],
             [['name', 'var_name', 'type'], 'string', 'max' => 255],
             [['character_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacter::className(), 'targetAttribute' => ['character_id' => 'id']],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
         ];
     }
 
@@ -59,7 +56,6 @@ class QuizCharacterMedium extends \yii\db\ActiveRecord
             'type' => 'Type',
             'index' => 'Index',
             'global_exec_order' => 'Global Exec Order',
-            'quiz_id' => 'Quiz ID',
             'character_id' => 'Character ID',
         ];
     }
@@ -70,14 +66,6 @@ class QuizCharacterMedium extends \yii\db\ActiveRecord
     public function getCharacter()
     {
         return $this->hasOne(QuizCharacter::className(), ['id' => 'character_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuiz()
-    {
-        return $this->hasOne(Quiz::className(), ['id' => 'quiz_id']);
     }
 
     /**

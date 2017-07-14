@@ -34,7 +34,7 @@ class QuizShape extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'quiz_id'], 'required'],
             [['image_id', 'quiz_id'], 'integer'],
             [['name', 'text'], 'string', 'max' => 255],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],

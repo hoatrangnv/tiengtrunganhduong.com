@@ -26,7 +26,7 @@ class m170709_174924_create_quiz_shape_table extends Migration
             'name' => $this->string()->notNull(),
             'text' => $this->string(),
             'image_id' => $this->integer(),
-            'quiz_id' => $this->integer(),
+            'quiz_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // creates index for column `image_id`
