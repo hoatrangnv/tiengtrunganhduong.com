@@ -1,5 +1,5 @@
 /**
- * Created by User on 7/11/2017.
+ * Created by @vanquyet on 7/11/2017.
  */
 
 var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
@@ -282,24 +282,7 @@ class QuizEditor extends React.Component {
                         activateItem={this.activateItem}
                         activeItemId={this.state.activeItemId}
                     />
-                    <Form
-                        inputs={formInputs}
-                        onChange={(inputs) => {
-                            if (inputs["name"]) {
-                                activeItem.name = activeItem.type + ": " + inputs["name"];
-                            } else {
-                                activeItem.name = activeItem.type;
-                            }
-
-                            // Reset state
-                            formInputs.forEach((formInput) => {
-                                formInput.value = inputs[formInput.name];
-                            });
-
-                            // Re-render
-                            DOMRender();
-                        }}
-                    />
+                    {activeItem.form}
                 </div>
                 <div className="page-right">
                     <TabCtrl
