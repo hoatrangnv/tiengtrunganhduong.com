@@ -28,54 +28,51 @@ class QuizEditor extends React.Component {
         this.removeItem = this.removeItem.bind(this);
         this.activateItem = this.activateItem.bind(this);
         this.reorderItems = this.reorderItems.bind(this);
-        this.state = {
-            items: [
+        var quizItem = new QuizItem({
+            name: "Quiz",
+            type: "Quiz",
+            inputConfigs: [
                 {
-                    id: uniqueId(),
-                    name: "Quiz",
-                    type: "Quiz",
-                    active: true,
-                    inputs: [
-                        {
-                            id: uniqueId(),
-                            type: "text",
-                            name: "name",
-                            label: "Quiz Name",
-                            validate: function (value) {
-                                var isOkay = "string" === typeof value && "" !== value.trim();
-                                var errorMsg = "";
-                                if (!isOkay) {
-                                    errorMsg = "Quiz Name cannot be empty";
-                                }
-                                return errorMsg;
-                            }
-                        },
-                        {
-                            id: uniqueId(),
-                            type: "textArea",
-                            name: "description",
-                            label: "Description About Quiz",
-                            validate: function (value) {
-                                var isOkay = "string" === typeof value && "" !== value.trim();
-                                var errorMsg = "";
-                                if (!isOkay) {
-                                    errorMsg = "Quiz Description cannot be empty";
-                                }
-                                return errorMsg;
-                            }
+                    type: "text",
+                    name: "name",
+                    label: "Quiz Name",
+                    validate: function (value) {
+                        var isOkay = "string" === typeof value && "" !== value.trim();
+                        var errorMsg = "";
+                        if (!isOkay) {
+                            errorMsg = "Quiz Name cannot be empty";
                         }
-                    ]
+                        return errorMsg;
+                    }
+                },
+                {
+                    type: "textArea",
+                    name: "description",
+                    label: "Description About Quiz",
+                    validate: function (value) {
+                        var isOkay = "string" === typeof value && "" !== value.trim();
+                        var errorMsg = "";
+                        if (!isOkay) {
+                            errorMsg = "Quiz Description cannot be empty";
+                        }
+                        return errorMsg;
+                    }
                 }
             ]
+        });
+        this.state = {
+            items: [
+                quizItem
+            ],
+            activeItemId: quizItem.id
         };
+
         this.addableItems = [
-            {
-                id: 1,
+            new QuizItem({
                 name: "Param",
                 type: "Param",
                 inputConfigs: [
                     {
-                        id: uniqueId(),
                         type: "text",
                         name: "name",
                         label: "Name",
@@ -89,31 +86,26 @@ class QuizEditor extends React.Component {
                         }
                     }
                 ]
-            },
-            {
-                id: 2,
+            }),
+            new QuizItem({
                 name: "Character",
                 type: "Character",
                 inputConfigs: []
-            },
-            {
-                id: 3,
+            }),
+            new QuizItem({
                 name: "Character Medium",
                 type: "Character Medium",
-                inputs: []
-            },
-            {
-                id: 4,
+                inputConfigs: []
+            }),
+            new QuizItem({
                 name: "Input Group",
                 inputConfigs: []
-            },
-            {
-                id: 5,
+            }),
+            new QuizItem({
                 name: "Result",
                 type: "Result",
                 inputConfigs: [
                     {
-                        id: uniqueId(),
                         type: "text",
                         name: "name",
                         label: "Name",
@@ -127,7 +119,6 @@ class QuizEditor extends React.Component {
                         }
                     },
                     {
-                        id: uniqueId(),
                         type: "selectBox",
                         name: "canvasSize",
                         label: "Canvas Size",
@@ -140,44 +131,47 @@ class QuizEditor extends React.Component {
                         }
                     }
                 ]
-            }
+            })
         ];
     }
 
-    addItem(itemConfig) {
-        this.state.items.forEach((item) => {
-            item.active = false;
-        });
-        itemConfig.active = true;
-        var newItem = new QuizItem(itemConfig);
+    addItem(newItem) {
         this.setState((prevState) => ({
-            items: prevState.items.concat(newItem)
+            items: prevState.items.concat(newItem),
+            activeItemId: newItem.id
         }));
         DOMRender();
     }
 
     removeItem() {
-        const items = this.state.items;
-        var index = items.indexOf(items.find((item) => item.active));
+        var items = this.state.items;
+        var index = items.indexOf(items.find((item) => (
+            this.state.activeItemId === item.id && this.addableItems.find((itemConf) => (itemConf.type === item.type))
+        )));
         items.splice(index, 1);
-        this.setState({items : items})
+        this.setState({
+            items : items,
+            activeItemId: null
+        })
     }
 
     activateItem(id) {
-        this.state.items.forEach((item) => {
-            item.active = (id === item.id);
-        });
+        this.setState((prevState) => ({
+            items: prevState.items,
+            activeItemId: id
+        }));
         DOMRender();
     }
 
     reorderItems({oldIndex, newIndex}) {
-        this.setState({
-            items: arrayMove(this.state.items, oldIndex, newIndex)
-        });
+        this.setState((prevState) => ({
+            items: arrayMove(prevState.items, oldIndex, newIndex),
+            activeItemId: prevState.activeItemId
+        }));
     }
 
     render() {
-        var activeItem = this.state.items.find(item => item.active);
+        var activeItem = this.state.items.find(item => item.id === this.state.activeItemId);
         var formInputs = [];
         if (activeItem) {
             formInputs = activeItem.inputs;
@@ -187,8 +181,9 @@ class QuizEditor extends React.Component {
                 <div className="page-left">
                     <TabBar
                         items={this.state.items}
-                        activateItem={this.activateItem}
                         reorderItems={this.reorderItems}
+                        activateItem={this.activateItem}
+                        activeItemId={this.state.activeItemId}
                     />
                     <Form
                         inputs={formInputs}
@@ -216,6 +211,7 @@ class QuizEditor extends React.Component {
                         addItem={this.addItem}
                         removeItem={this.removeItem}
                         activateItem={this.activateItem}
+                        activeItemId={this.state.activeItemId}
                     />
                 </div>
             </div>
@@ -237,7 +233,7 @@ class TabCtrl extends React.Component {
     activatePrevItem() {
         var id;
         this.props.items.forEach((item, index, items) => {
-            if (item.active && items[index - 1]) {
+            if (this.props.activeItemId === item.id && items[index - 1]) {
                 id = items[index - 1].id;
             }
         });
@@ -247,7 +243,7 @@ class TabCtrl extends React.Component {
     activateNextItem() {
         var id;
         this.props.items.forEach((item, index, items) => {
-            if (item.active && items[index + 1]) {
+            if (this.props.activeItemId === item.id && items[index + 1]) {
                 id = items[index + 1].id;
             }
         });
@@ -308,25 +304,25 @@ class TabBar extends React.Component {
 
     render() {
         const SortableItem = SortableElement(
-            ({item, activate}) =>
-                <li
-                    className={"tab" + (item.active ? " active" : "")}
-                    onClick={activate}
+            ({item}) => {
+                return <li
+                    className={"tab" + (this.props.activeItemId === item.id ? " active" : "")}
+                    onClick={() => this.props.activateItem(item.id)}
                 >
                     <span className="holder">{}</span>
                     <span className="label">{item.name}</span>
                 </li>
+            }
         );
 
         const SortableList = SortableContainer(
-            ({items, activateItem}) =>
+            ({items}) =>
                 <ul>
                     {items.map((item, index) =>
                         <SortableItem
                             key={item.id}
                             index={index}
                             item={item}
-                            activate={() => activateItem(item.id)}
                         />
                     )}
                 </ul>
@@ -338,7 +334,6 @@ class TabBar extends React.Component {
                     axis="x"
                     helperClass="SortableHelper"
                     items={this.props.items}
-                    activateItem={this.props.activateItem}
                     onSortEnd={this.props.reorderItems}
                     shouldCancelStart={(event) => "holder" !== event.target.className}
                 />
@@ -394,7 +389,9 @@ class FormInput extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            value: this.props.value,
+            // use `(this.props.value || "")` instead of `this.props.value`
+            // to avoid error "change uncontrolled input"
+            value: (this.props.value || ""),
             errorMsg: ""
         };
     }
@@ -405,7 +402,7 @@ class FormInput extends React.Component {
         if ("" === this.state.errorMsg) {
             this.state.value = value;
         } else {
-            this.state.value = null;
+            this.state.value = "";
         }
         this.props.onChange(this.state.value);
     }
