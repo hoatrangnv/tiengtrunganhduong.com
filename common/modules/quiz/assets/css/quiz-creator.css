@@ -77,7 +77,7 @@
 .tab-ctrl button + button {
     margin-left: 0.25em;
 }
-.item-configs-menu {
+.tab-bar ul.item-configs-menu {
     padding: 0.5em;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
     background: #fff;
@@ -88,6 +88,17 @@
     z-index: 10;
     text-align: left;
 }
-.item-configs-menu li {
+.tab-bar ul.item-configs-menu li {
     list-style: none;
 }
+.tab-bar-overlap {
+    z-index: 10;
+}
+.tab-bar-overlap + div .tab-bar-overlap {
+    z-index: 9;
+}
+.tab-bar-overlap + div .tab-bar-overlap + div .tab-bar-overlap {
+    z-index: 8;
+}
+
+

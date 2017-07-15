@@ -5,77 +5,81 @@ class QuizModel extends React.Component {
         super(props);
         this.state = {
             name: this.props.type + "",
-            attrs: this.props.attrConfigs.map((config) => <QuizModelAttr
-                key={uniqueId()}
-                type={config.type}
-                name={config.name}
-                label={config.label}
-                rules={config.rules}
-            />),
+            // attrsData: this.props.attrConfigs.map((config) => ({name: config.name, value: "", errorMsg: "", config: config})),
+            attrsData: this.props.attrsData || this.props.attrConfigs.map((config) => ({name: config.name, value: "", errorMsg: "", config: config})),
             childrenData: this.props.childrenData,
-            activeChildKey: this.props.activeChildKey
+            activeChildId: this.props.activeChildId
         };
-        this.id = this.props.id;
         this.addChild = this.addChild.bind(this);
         this.removeChild = this.removeChild.bind(this);
         this.activateChild = this.activateChild.bind(this);
         this.reorderChildren = this.reorderChildren.bind(this);
         this.updateChildrenData = this.updateChildrenData.bind(this);
+        this.updateAttr = this.updateAttr.bind(this);
+    }
+
+    updateAttr(name, value, errorMsg) {
+        var attrsData = this.state.attrsData;
+        attrsData.forEach((attrData) => {
+            if (name === attrData.name) {
+                attrData.value = value;
+                attrData.errorMsg = errorMsg;
+            }
+        });
+        this.setState((prevState) => ({
+            name: prevState.name,
+            attrsData: attrsData,
+            childrenData: prevState.childrenData,
+            activeChildId: prevState.activeChildId
+        }));
     }
 
     addChild(props) {
-        // var newChild = (() => <QuizModel
-        //     key={uniqueId()}
-        //     type={config.type}
-        //     attrConfigs={config.attrConfigs}
-        //     childConfigs={config.childConfigs}
-        // />)();
-        // var newChild = new QuizModel(config);
         var newChildData = {
             id: uniqueId(),
-            key: uniqueId(),
             type: props.type,
             attrConfigs: props.attrConfigs,
             childConfigs: props.childConfigs,
             childrenData: [],
-            attrsData: [],
-            activeChildKey: undefined
+            attrsData: props.attrConfigs.map((config) => ({name: config.name, value: "", errorMsg: "", config: config})),
+            activeChildId: undefined
         };
         if (this.props.updateChildrenData) {
-            this.props.updateChildrenData(this.id, props);
+            this.props.updateChildrenData(this.props.id, props);
         } else {
             this.setState((prevState) => ({
                 name: prevState.name,
-                attrs: prevState.attrs,
+                attrsData: prevState.attrsData,
                 childrenData: prevState.childrenData.concat(newChildData),
-                activeChildKey: newChildData.key
+                activeChildId: newChildData.id
             }));
         }
 
     }
 
-    updateChildrenData(key, props) {
-        console.log(key, props);
+    updateChildrenData(id, props) {
         if (this.props.updateChildrenData) {
-            this.props.updateChildrenData(key, props);
+            this.props.updateChildrenData(id, props);
         } else {
             var update = function (childrenData) {
-                var updated = false;
+                var newChildId = null;
                 childrenData.forEach((childData) => {
-                    if (key === childData.id) {
-                        updated = true;
-                        childData.childrenData.push({
-                            id: uniqueId(),
+                    if (id === childData.id) {
+                        newChildId = uniqueId();
+                        var newChildData = {
+                            id: newChildId,
                             type: props.type,
                             attrConfigs: props.attrConfigs,
                             childConfigs: props.childConfigs,
                             childrenData: [],
-                            attrsData: [],
-                            activeChildKey: undefined
-                        });
+                            attrsData: props.attrConfigs.map((config) => ({name: config.name, value: "", errorMsg: "", config: config})),
+                            activeChildId: undefined
+                        };
+                        childData.childrenData.push(newChildData);
+                        childData.activeChildId = newChildId;
                     }
                 });
-                if (!updated) {
+                if (!newChildId) {
                     childrenData.forEach((childData) => {
                         update(childData.childrenData);
                     });
@@ -85,62 +89,82 @@ class QuizModel extends React.Component {
             var childrenData = update(this.state.childrenData);
             this.setState((prevState) => ({
                 name: prevState.name,
-                attrs: prevState.attrs,
+                attrsData: prevState.attrsData,
                 childrenData: childrenData,
-                activeChildKey: prevState.activeChildKey
+                activeChildId: prevState.activeChildId
             }));
         }
     }
 
     removeChild() {
-        var children = this.state.children;
-        var index = children.indexOf(children.find((child) => this.state.activeChildKey === child.key));
+        var childrenData = this.state.childrenData;
+        var index = childrenData.indexOf(childrenData.find((childData) => this.state.activeChildId === childData.id));
         if (index > -1) {
-            children.splice(index, 1);
+            childrenData.splice(index, 1);
             this.setState((prevState) => ({
-                attrs: prevState.attrs,
-                children : children,
-                activeChildKey: null
+                name: prevState.name,
+                attrsData: prevState.attrsData,
+                childrenData: childrenData,
+                activeChildId: prevState.activeChildId
             }));
         }
     }
 
-    activateChild(key) {
+    activateChild(id) {
         this.setState((prevState) => ({
-            attrs: prevState.attrs,
-            children: prevState.children,
-            activeChildKey: key
+            name: prevState.name,
+            attrsData: prevState.attrsData,
+            childrenData: prevState.childrenData,
+            activeChildId: id
         }));
     }
 
     reorderChildren({oldIndex, newIndex}) {
         this.setState((prevState) => ({
-            attrs: prevState.attrs,
-            children: arrayMove(prevState.children, oldIndex, newIndex),
-            activeChildKey: prevState.activeChildKey
+            name: prevState.name,
+            attrsData: prevState.attrsData,
+            childrenData: arrayMove(prevState.childrenData, oldIndex, newIndex),
+            activeChildId: prevState.activeChildId
         }));
     }
 
     render() {
-        var activeChildData = this.state.childrenData.find(childData => childData.key === this.state.activeChildKey);
+        var activeChildData = this.state.childrenData.find(childData => childData.id === this.state.activeChildId);
         console.log("This Type", this.props.type);
         console.log("Children Data", this.state.childrenData);
         return (
-            <div id={this.key} className="panel panel-default clearfix">
+            <div id={this.props.id} className="panel panel-default clearfix">
                 <div className="panel-body clearfix">
                     <div style={{width:"200px"}} className="pull-left">
-                        {this.state.attrs}
+                        {
+                            this.state.attrsData.map((attrData) => (
+                                <QuizModelAttr
+                                    id={uniqueId()}
+                                    key={uniqueId()}
+                                    name={attrData.name}
+                                    type={attrData.config.type}
+                                    label={attrData.config.label}
+                                    rules={attrData.config.rules}
+                                    options={attrData.config.options}
+                                    value={attrData.value}
+                                    errorMsg={attrData.errorMsg}
+                                    onChange={(value, errorMsg) => {this.updateAttr(attrData.name, value, errorMsg)}}
+                                />
+                            ))
+                        }
                     </div>
                     <div style={{width:"calc(100% - 200px - 10px)"}} className="pull-right">
                         {
                             !this.props.childConfigs ? "" :
-                                <div className="clearfix">
+                                <div className="tab-bar-overlap clearfix">
                                     <TabBar
+                                        id={uniqueId()}
                                         items={this.state.childrenData}
                                         reorderItems={this.reorderChildren}
                                         activateItem={this.activateChild}
-                                        activeItemId={this.state.activeChildKey}
+                                        activeItemId={this.state.activeChildId}
                                         addItem={this.addChild}
+                                        removeItem={this.removeChild}
                                         itemConfigs={this.props.childConfigs}
                                     />
                                 </div>
@@ -155,7 +179,8 @@ class QuizModel extends React.Component {
                                         attrConfigs={activeChildData.attrConfigs}
                                         childConfigs={activeChildData.childConfigs}
                                         childrenData={activeChildData.childrenData}
-                                        activeChildKey={activeChildData.activeChildKey}
+                                        attrsData={activeChildData.attrsData}
+                                        activeChildId={activeChildData.activeChildId}
                                         updateChildrenData={this.updateChildrenData}
                                     />
                                 </div>
@@ -171,6 +196,7 @@ class QuizModelAttr extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.submit = this.submit.bind(this);
         this.state = {
             // use `(this.props.value || "")` instead of `this.props.value`
             // to avoid error "change uncontrolled input"
@@ -181,13 +207,15 @@ class QuizModelAttr extends React.Component {
 
     handleChange(event) {
         var value = event.target.value;
-        // this.state.errorMsg = this.props.validate(value);
-        if ("" === this.state.errorMsg) {
-            this.state.value = value;
-        } else {
-            this.state.value = "";
-        }
-        this.props.onChange(this.state.value);
+        var errorMsg = "";
+        this.setState({
+            value: value,
+            errorMsg: errorMsg
+        });
+    }
+
+    submit(event) {
+        this.props.onChange(this.state.value, this.state.errorMsg);
     }
 
     render() {
@@ -203,13 +231,19 @@ class QuizModelAttr extends React.Component {
                 input = <select name={name} value={value} onChange={this.handleChange}>
                     {
                         this.props.options.map((option) => (
-                            <option key={option.key} value={option.value}>{option.text}</option>
+                            <option key={uniqueId()} value={option.value}>{option.text}</option>
                         ))
                     }
                 </select>;
                 break;
             default:
-                input = <input type={type} name={name} value={value} onChange={this.handleChange} />;
+                input = <input
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={this.handleChange}
+                    onBlur={this.submit}
+                />;
         }
         return (
             <div>
@@ -224,14 +258,13 @@ class QuizModelAttr extends React.Component {
 class TabBar extends React.Component {
     constructor(props) {
         super(props);
-        this.key = uniqueId();
         this.state = {
             lastScrollLeft: 0
         };
     }
 
     componentDidUpdate() {
-        var tabBar = document.querySelector("#" + this.key + " ul");
+        var tabBar = document.querySelector("#" + this.props.id + " ul");
         var activeItem = tabBar.querySelector("li.active");
 
         if (activeItem) {
@@ -253,9 +286,9 @@ class TabBar extends React.Component {
         const SortableItem = SortableElement(
             ({item}) => {
                 return <li
-                    key={item.key}
-                    className={"tab" + (this.props.activeItemId === item.key ? " active" : "")}
-                    onClick={() => this.props.activateItem(item.key)}
+                    key={item.id}
+                    className={"tab" + (this.props.activeItemId === item.id ? " active" : "")}
+                    onClick={() => this.props.activateItem(item.id)}
                 >
                     <span className="holder">{}</span>
                     <span className="label">{item.type}</span>
@@ -268,7 +301,7 @@ class TabBar extends React.Component {
                 <ul>
                     {items.map((item, index) =>
                         <SortableItem
-                            key={item.key}
+                            key={item.id}
                             index={index}
                             item={item}
                         />
@@ -277,7 +310,7 @@ class TabBar extends React.Component {
         );
 
         return (
-            <div id={this.key} className="tab-bar">
+            <div id={this.props.id} className="tab-bar">
                 <div style={{width:"calc(100% - 140px)"}} className="pull-left">
                     <SortableList
                         axis="x"
@@ -289,12 +322,13 @@ class TabBar extends React.Component {
                 </div>
                 <div style={{width:"140px"}} className="pull-right">
                     <TabCtrl
+                        id={uniqueId()}
                         items={this.props.items}
                         itemConfigs={this.props.itemConfigs}
                         addItem={this.props.addItem}
                         removeItem={this.props.removeItem}
                         activateItem={this.props.activateItem}
-                        activeItemId={this.props.activeItemKey}
+                        activeItemId={this.props.activeItemId}
                     />
                 </div>
             </div>
@@ -305,7 +339,6 @@ class TabBar extends React.Component {
 class TabCtrl extends React.Component {
     constructor(props) {
         super(props);
-        this.key = uniqueId();
         this.state = {
             showItemConfigsMenu: false
         };
@@ -315,23 +348,23 @@ class TabCtrl extends React.Component {
     }
 
     activatePrevItem() {
-        var key;
+        var id;
         this.props.items.forEach((item, index, items) => {
-            if (this.props.activeItemId === item.key && items[index - 1]) {
-                key = items[index - 1].key;
+            if (this.props.activeItemId === item.id && items[index - 1]) {
+                id = items[index - 1].id;
             }
         });
-        key && this.props.activateItem(key);
+        id && this.props.activateItem(id);
     }
 
     activateNextItem() {
-        var key;
+        var id;
         this.props.items.forEach((item, index, items) => {
-            if (this.props.activeItemId === item.key && items[index + 1]) {
-                key = items[index + 1].key;
+            if (this.props.activeItemId === item.id && items[index + 1]) {
+                id = items[index + 1].id;
             }
         });
-        key && this.props.activateItem(key);
+        id && this.props.activateItem(id);
     }
 
     toggleItemConfigsMenu() {
@@ -345,7 +378,7 @@ class TabCtrl extends React.Component {
             (item) => <li key={uniqueId()} onClick={() => this.props.addItem(item)}>{item.type}</li>
         );
         return (
-            <div id={this.key} className="tab-ctrl">
+            <div id={this.props.id} className="tab-ctrl">
                 <button className="btn btn-sm btn-success" onClick={this.toggleItemConfigsMenu}>
                     <b>+</b>
                     {this.state.showItemConfigsMenu ? <ul className="item-configs-menu">{itemConfigs}</ul> : ""}
