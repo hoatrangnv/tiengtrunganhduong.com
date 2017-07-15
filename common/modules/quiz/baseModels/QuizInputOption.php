@@ -19,7 +19,7 @@ use Yii;
  * @property QuizInput $input
  * @property QuizInputOptionToResultPoll[] $inputOptionToResultPolls
  */
-class QuizInputOption extends \yii\db\ActiveRecord
+class QuizInputOption extends QuizBase
 {
     /**
      * @inheritdoc

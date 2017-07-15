@@ -34,7 +34,7 @@ use Yii;
  * @property QuizCategory[] $categories
  * @property User $updater
  */
-class QuizCategory extends \yii\db\ActiveRecord
+class QuizCategory extends QuizBase
 {
     /**
      * @inheritdoc

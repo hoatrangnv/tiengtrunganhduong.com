@@ -18,7 +18,7 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizShapeToStyle[] $shapeToStyles
  */
-class QuizShape extends \yii\db\ActiveRecord
+class QuizShape extends QuizBase
 {
     /**
      * @inheritdoc

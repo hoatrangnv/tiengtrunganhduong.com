@@ -25,7 +25,7 @@ use Yii;
  * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
  * @property QuizToResultFilter[] $quizToResultFilters
  */
-class QuizFilter extends \yii\db\ActiveRecord
+class QuizFilter extends QuizBase
 {
     /**
      * @inheritdoc

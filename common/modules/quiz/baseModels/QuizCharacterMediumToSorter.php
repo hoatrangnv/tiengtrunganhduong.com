@@ -15,7 +15,7 @@ use Yii;
  * @property QuizCharacterMedium $characterMedium
  * @property QuizSorter $sorter
  */
-class QuizCharacterMediumToSorter extends \yii\db\ActiveRecord
+class QuizCharacterMediumToSorter extends QuizBase
 {
     /**
      * @inheritdoc

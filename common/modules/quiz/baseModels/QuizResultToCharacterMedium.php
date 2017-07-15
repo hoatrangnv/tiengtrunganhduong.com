@@ -15,7 +15,7 @@ use Yii;
  * @property QuizResult $result
  * @property QuizResultToCharacterMediumToStyle[] $resultToCharacterMediumToStyles
  */
-class QuizResultToCharacterMedium extends \yii\db\ActiveRecord
+class QuizResultToCharacterMedium extends QuizBase
 {
     /**
      * @inheritdoc

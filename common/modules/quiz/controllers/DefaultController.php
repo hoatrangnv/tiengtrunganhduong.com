@@ -2,6 +2,19 @@
 
 namespace common\modules\quiz\controllers;
 
+use common\modules\quiz\models\Quiz;
+use common\modules\quiz\models\QuizCharacter;
+use common\modules\quiz\models\QuizCharacterMedium;
+use common\modules\quiz\models\QuizFilter;
+use common\modules\quiz\models\QuizInput;
+use common\modules\quiz\models\QuizInputGroup;
+use common\modules\quiz\models\QuizInputOption;
+use common\modules\quiz\models\QuizParam;
+use common\modules\quiz\models\QuizResult;
+use common\modules\quiz\models\QuizShape;
+use common\modules\quiz\models\QuizSorter;
+use common\modules\quiz\models\QuizStyle;
+use common\modules\quiz\models\QuizValidator;
 use yii\web\Controller;
 
 /**
@@ -17,11 +30,38 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        var_dump(QuizCharacter::getTableSchema()->columns);
         return $this->render('index');
     }
 
     public function actionCreate()
     {
-        return $this->render('create');
+        $inputGroupConfig = QuizInputGroup::modelConfig();
+        $inputConfig = QuizInput::modelConfig();
+        $inputConfig['childConfig'] = QuizInputOption::modelConfig();
+        $inputGroupConfig['childConfig'] = $inputConfig;
+
+        $modelConfigs = [
+            QuizCharacter::modelConfig(),
+            QuizCharacterMedium::modelConfig(),
+            QuizShape::modelConfig(),
+            QuizResult::modelConfig(),
+            QuizStyle::modelConfig(),
+            QuizParam::modelConfig(),
+            QuizFilter::modelConfig(),
+            QuizSorter::modelConfig(),
+            QuizValidator::modelConfig(),
+            $inputGroupConfig,
+        ];
+
+        return $this->render('create', [
+            'modelConfigs' => $modelConfigs
+        ]);
+    }
+
+    public function actionAjaxCreate()
+    {
+        $items = \Yii::$app->request->post('items');
+        var_dump($items);
     }
 }

@@ -18,7 +18,7 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizFn $valueFn
  */
-class QuizParam extends \yii\db\ActiveRecord
+class QuizParam extends QuizBase
 {
     /**
      * @inheritdoc

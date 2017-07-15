@@ -17,7 +17,7 @@ use Yii;
  * @property QuizSorter[] $sorters
  * @property QuizValidator[] $validators
  */
-class QuizFn extends \yii\db\ActiveRecord
+class QuizFn extends QuizBase
 {
     /**
      * @inheritdoc

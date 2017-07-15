@@ -24,7 +24,7 @@ use Yii;
  * @property QuizResultToShape[] $resultToShapes
  * @property QuizResultToShapeFilter[] $resultToShapeFilters
  */
-class QuizResult extends \yii\db\ActiveRecord
+class QuizResult extends QuizBase
 {
     /**
      * @inheritdoc

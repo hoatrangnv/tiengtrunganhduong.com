@@ -20,7 +20,7 @@ use Yii;
  * @property QuizCharacterToFilter[] $characterToFilters
  * @property QuizCharacterToSorter[] $characterToSorters
  */
-class QuizCharacter extends \yii\db\ActiveRecord
+class QuizCharacter extends QuizBase
 {
     /**
      * @inheritdoc

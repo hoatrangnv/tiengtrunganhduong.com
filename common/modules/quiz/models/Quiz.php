@@ -27,4 +27,5 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
             ],
         ];
     }
+
 }
