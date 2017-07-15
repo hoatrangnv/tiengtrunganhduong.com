@@ -12,28 +12,32 @@
 .tab-bar ul {
     padding: 0;
     white-space: nowrap;
-    overflow-x: hidden;
+    overflow: hidden;
+}
+.tab-bar {
+    background: #f2f2f2;
 }
 .tab-bar:after {
-    content: "";
-    display: block;
-    height: 1px;
-    background: #ccc;
-    width: 100%;
-    z-index: 1;
-    position: absolute;
-    bottom: 0;
+    /*content: "";*/
+    /*display: block;*/
+    /*height: 1px;*/
+    /*background: #ccc;*/
+    /*width: 100%;*/
+    /*z-index: 1;*/
+    /*position: absolute;*/
+    /*bottom: 0;*/
 }
 .tab {
     display: inline-block;
     border: solid #fff;
     border-width: 1px 1px 0;
-    padding: 1em 0.75em 0.25em;
+    padding: 0.85em 0.5em 0.1em;
     z-index: 0;
     background: #eee;
     cursor: pointer;
     box-sizing: border-box;
     text-align: center;
+    font-size: 0.9em;
 }
 .tab.active {
     z-index: 2;
@@ -62,10 +66,18 @@
     font-size: 1em;
     font-weight: normal;
 }
-.tab-ctrl button + button {
-    margin-left: 1em;
+.tab-ctrl {
+    z-index: 1;
+    text-align: right;
 }
-.addable-items-menu {
+.tab-ctrl button {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.tab-ctrl button + button {
+    margin-left: 0.25em;
+}
+.item-configs-menu {
     padding: 0.5em;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
     background: #fff;
@@ -73,9 +85,9 @@
     color: #333;
     left: 0;
     top: 100%;
-    z-index: 1;
+    z-index: 10;
     text-align: left;
 }
-.addable-items-menu li {
+.item-configs-menu li {
     list-style: none;
 }

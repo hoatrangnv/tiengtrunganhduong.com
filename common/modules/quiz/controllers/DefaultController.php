@@ -38,8 +38,8 @@ class DefaultController extends Controller
     {
         $inputGroupConfig = QuizInputGroup::modelConfig();
         $inputConfig = QuizInput::modelConfig();
-        $inputConfig['childConfig'] = QuizInputOption::modelConfig();
-        $inputGroupConfig['childConfig'] = $inputConfig;
+        $inputConfig['childConfigs'] = [QuizInputOption::modelConfig()];
+        $inputGroupConfig['childConfigs'] = [$inputConfig];
 
         $modelConfigs = [
             QuizCharacter::modelConfig(),
@@ -54,8 +54,12 @@ class DefaultController extends Controller
             $inputGroupConfig,
         ];
 
+        $quizConfig = Quiz::modelConfig();
+
         return $this->render('create', [
-            'modelConfigs' => $modelConfigs
+            'type' => $quizConfig['type'],
+            'attrConfigs' => $quizConfig['attrConfigs'],
+            'childConfigs' => $modelConfigs
         ]);
     }
 

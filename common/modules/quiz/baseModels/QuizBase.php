@@ -43,8 +43,7 @@ class QuizBase extends ActiveRecord
         }
         return [
             'type' => join('', array_slice(explode('\\', self::className()), -1)),
-            'name' => join('', array_slice(explode('\\', self::className()), -1)),
-            'inputConfigs' => $inputConfigs,
+            'attrConfigs' => $inputConfigs,
         ];
     }
 }
