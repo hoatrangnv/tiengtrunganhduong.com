@@ -41,9 +41,12 @@ class DefaultController extends Controller
         $inputConfig['childConfigs'] = [QuizInputOption::modelConfig()];
         $inputGroupConfig['childConfigs'] = [$inputConfig];
 
+        $characterConfig = QuizCharacter::modelConfig();
+        $characterConfig['childConfigs'] = [QuizCharacterMedium::modelConfig()];
+
         $modelConfigs = [
-            QuizCharacter::modelConfig(),
-            QuizCharacterMedium::modelConfig(),
+            $characterConfig,
+            $inputGroupConfig,
             QuizShape::modelConfig(),
             QuizResult::modelConfig(),
             QuizStyle::modelConfig(),
@@ -51,7 +54,6 @@ class DefaultController extends Controller
             QuizFilter::modelConfig(),
             QuizSorter::modelConfig(),
             QuizValidator::modelConfig(),
-            $inputGroupConfig,
         ];
 
         $quizConfig = Quiz::modelConfig();

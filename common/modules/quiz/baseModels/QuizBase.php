@@ -10,6 +10,7 @@ namespace common\modules\quiz\baseModels;
 
 
 use yii\db\ActiveRecord;
+use yii\helpers\Inflector;
 
 class QuizBase extends ActiveRecord
 {
@@ -34,7 +35,7 @@ class QuizBase extends ActiveRecord
             $inputConfig = [
                 'type' => $column->type == 'integer' ? 'number' : 'text',
                 'name' => $column->name,
-                'label' => $column->name,
+                'label' => Inflector::humanize($column->name),
                 'rules' => [
                     'required' => !$column->allowNull,
                 ]

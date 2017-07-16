@@ -101,4 +101,19 @@
     z-index: 8;
 }
 
-
+.input-wrapper {
+    width: 100%;
+    font-size: 12px;
+}
+.input-wrapper input,
+.input-wrapper textarea,
+.input-wrapper select,
+.input-wrapper label
+{
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+.input-wrapper + .input-wrapper {
+    margin-top: 0.5em;
+}

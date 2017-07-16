@@ -142,7 +142,7 @@ class QuizModel extends React.Component {
                     </div>
                 }
                 <div className="panel-body clearfix">
-                    <div style={{width:"200px"}} className="pull-left">
+                    <div style={activeChildData ? {width:"200px"} : {width:"calc(50% - 5px)"}} className="pull-left">
                         {
                             this.state.attrsData.map((attrData) => (
                                 <QuizModelAttr
@@ -160,7 +160,7 @@ class QuizModel extends React.Component {
                             ))
                         }
                     </div>
-                    <div style={{width:"calc(100% - 200px - 10px)"}} className="pull-right">
+                    <div style={activeChildData ? {width:"calc(100% - 200px - 10px)"} : {width:"calc(50% - 5px)"}} className="pull-right">
                         {
                             !this.props.childConfigs ? "" :
                                 <div className="tab-bar-overlap clearfix">
@@ -177,7 +177,7 @@ class QuizModel extends React.Component {
                                 </div>
                         }
                         {
-                            !activeChildData ? "" :
+                            activeChildData &&
                                 <div className="clearfix">
                                     <QuizModel
                                         id={activeChildData.id}
@@ -253,10 +253,10 @@ class QuizModelAttr extends React.Component {
                 />;
         }
         return (
-            <div>
+            <div className="input-wrapper">
                 <label>{this.props.label}</label>
-                <div>{input}</div>
-                <div>{this.state.errorMsg}</div>
+                {input}
+                <div className="error-msg">{this.state.errorMsg}</div>
             </div>
         );
     }
