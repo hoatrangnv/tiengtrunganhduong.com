@@ -9,10 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property integer $quiz_id
- * @property integer $input_group_filter_id
+ * @property integer $quiz_input_group_filter_id
  *
- * @property QuizFilter $inputGroupFilter
  * @property Quiz $quiz
+ * @property QuizFilter $quizInputGroupFilter
  */
 class QuizToInputGroupFilter extends QuizBase
 {
@@ -30,10 +30,10 @@ class QuizToInputGroupFilter extends QuizBase
     public function rules()
     {
         return [
-            [['quiz_id', 'input_group_filter_id'], 'required'],
-            [['quiz_id', 'input_group_filter_id'], 'integer'],
-            [['input_group_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['input_group_filter_id' => 'id']],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['quiz_id', 'quiz_input_group_filter_id'], 'required'],
+            [['quiz_id', 'quiz_input_group_filter_id'], 'integer'],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
+            [['quiz_input_group_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['quiz_input_group_filter_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -45,16 +45,8 @@ class QuizToInputGroupFilter extends QuizBase
         return [
             'id' => 'ID',
             'quiz_id' => 'Quiz ID',
-            'input_group_filter_id' => 'Input Group Filter ID',
+            'quiz_input_group_filter_id' => 'Quiz Input Group Filter ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getInputGroupFilter()
-    {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'input_group_filter_id']);
     }
 
     /**
@@ -63,5 +55,13 @@ class QuizToInputGroupFilter extends QuizBase
     public function getQuiz()
     {
         return $this->hasOne(Quiz::className(), ['id' => 'quiz_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizInputGroupFilter()
+    {
+        return $this->hasOne(QuizFilter::className(), ['id' => 'quiz_input_group_filter_id']);
     }
 }

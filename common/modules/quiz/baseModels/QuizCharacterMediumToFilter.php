@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "quiz_character_medium_to_filter".
  *
  * @property integer $id
- * @property integer $character_medium_id
- * @property integer $filter_id
+ * @property integer $quiz_character_medium_id
+ * @property integer $quiz_filter_id
  *
- * @property QuizCharacterMedium $characterMedium
- * @property QuizFilter $filter
+ * @property QuizCharacterMedium $quizCharacterMedium
+ * @property QuizFilter $quizFilter
  */
-class QuizCharacterMediumToFilter extends \yii\db\ActiveRecord
+class QuizCharacterMediumToFilter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -30,10 +30,10 @@ class QuizCharacterMediumToFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['character_medium_id', 'filter_id'], 'required'],
-            [['character_medium_id', 'filter_id'], 'integer'],
-            [['character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['character_medium_id' => 'id']],
-            [['filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['filter_id' => 'id']],
+            [['quiz_character_medium_id', 'quiz_filter_id'], 'required'],
+            [['quiz_character_medium_id', 'quiz_filter_id'], 'integer'],
+            [['quiz_character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['quiz_character_medium_id' => 'id'], 'except' => 'test'],
+            [['quiz_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['quiz_filter_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -44,24 +44,24 @@ class QuizCharacterMediumToFilter extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'character_medium_id' => 'Character Medium ID',
-            'filter_id' => 'Filter ID',
+            'quiz_character_medium_id' => 'Quiz Character Medium ID',
+            'quiz_filter_id' => 'Quiz Filter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMedium()
+    public function getQuizCharacterMedium()
     {
-        return $this->hasOne(QuizCharacterMedium::className(), ['id' => 'character_medium_id']);
+        return $this->hasOne(QuizCharacterMedium::className(), ['id' => 'quiz_character_medium_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFilter()
+    public function getQuizFilter()
     {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'filter_id']);
+        return $this->hasOne(QuizFilter::className(), ['id' => 'quiz_filter_id']);
     }
 }

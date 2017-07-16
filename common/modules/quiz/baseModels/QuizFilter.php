@@ -10,12 +10,12 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $condition_fn_args
- * @property integer $condition_fn_id
+ * @property integer $quiz_condition_fn_id
  * @property integer $quiz_id
  *
  * @property QuizCharacterMediumToFilter[] $quizCharacterMediumToFilters
  * @property QuizCharacterToFilter[] $quizCharacterToFilters
- * @property QuizFn $conditionFn
+ * @property QuizFn $quizConditionFn
  * @property Quiz $quiz
  * @property QuizInputGroupToInputFilter[] $quizInputGroupToInputFilters
  * @property QuizInputToInputOptionFilter[] $quizInputToInputOptionFilters
@@ -25,7 +25,7 @@ use Yii;
  * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
  * @property QuizToResultFilter[] $quizToResultFilters
  */
-class QuizFilter extends \yii\db\ActiveRecord
+class QuizFilter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -41,12 +41,12 @@ class QuizFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'condition_fn_args', 'condition_fn_id'], 'required'],
+            [['name', 'condition_fn_args', 'quiz_condition_fn_id'], 'required'],
             [['condition_fn_args'], 'string'],
-            [['condition_fn_id', 'quiz_id'], 'integer'],
+            [['quiz_condition_fn_id', 'quiz_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['condition_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['condition_fn_id' => 'id']],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['quiz_condition_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['quiz_condition_fn_id' => 'id'], 'except' => 'test'],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -59,7 +59,7 @@ class QuizFilter extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'condition_fn_args' => 'Condition Fn Args',
-            'condition_fn_id' => 'Condition Fn ID',
+            'quiz_condition_fn_id' => 'Quiz Condition Fn ID',
             'quiz_id' => 'Quiz ID',
         ];
     }
@@ -69,7 +69,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizCharacterMediumToFilters()
     {
-        return $this->hasMany(QuizCharacterMediumToFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizCharacterMediumToFilter::className(), ['quiz_filter_id' => 'id']);
     }
 
     /**
@@ -77,15 +77,15 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizCharacterToFilters()
     {
-        return $this->hasMany(QuizCharacterToFilter::className(), ['filter_id' => 'id']);
+        return $this->hasMany(QuizCharacterToFilter::className(), ['quiz_filter_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getConditionFn()
+    public function getQuizConditionFn()
     {
-        return $this->hasOne(QuizFn::className(), ['id' => 'condition_fn_id']);
+        return $this->hasOne(QuizFn::className(), ['id' => 'quiz_condition_fn_id']);
     }
 
     /**
@@ -101,7 +101,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizInputGroupToInputFilters()
     {
-        return $this->hasMany(QuizInputGroupToInputFilter::className(), ['input_filter_id' => 'id']);
+        return $this->hasMany(QuizInputGroupToInputFilter::className(), ['quiz_input_filter_id' => 'id']);
     }
 
     /**
@@ -109,7 +109,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizInputToInputOptionFilters()
     {
-        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['input_option_filter_id' => 'id']);
+        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['quiz_input_option_filter_id' => 'id']);
     }
 
     /**
@@ -117,7 +117,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizResultToCharacterMediumFilters()
     {
-        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['character_medium_filter_id' => 'id']);
+        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['quiz_character_medium_filter_id' => 'id']);
     }
 
     /**
@@ -125,7 +125,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizResultToShapeFilters()
     {
-        return $this->hasMany(QuizResultToShapeFilter::className(), ['shape_filter_id' => 'id']);
+        return $this->hasMany(QuizResultToShapeFilter::className(), ['quiz_shape_filter_id' => 'id']);
     }
 
     /**
@@ -133,7 +133,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizToCharacterFilters()
     {
-        return $this->hasMany(QuizToCharacterFilter::className(), ['character_filter_id' => 'id']);
+        return $this->hasMany(QuizToCharacterFilter::className(), ['quiz_character_filter_id' => 'id']);
     }
 
     /**
@@ -141,7 +141,7 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizToInputGroupFilters()
     {
-        return $this->hasMany(QuizToInputGroupFilter::className(), ['input_group_filter_id' => 'id']);
+        return $this->hasMany(QuizToInputGroupFilter::className(), ['quiz_input_group_filter_id' => 'id']);
     }
 
     /**
@@ -149,6 +149,6 @@ class QuizFilter extends \yii\db\ActiveRecord
      */
     public function getQuizToResultFilters()
     {
-        return $this->hasMany(QuizToResultFilter::className(), ['result_filter_id' => 'id']);
+        return $this->hasMany(QuizToResultFilter::className(), ['quiz_result_filter_id' => 'id']);
     }
 }

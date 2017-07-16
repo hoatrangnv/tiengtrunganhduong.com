@@ -30,10 +30,10 @@ use Yii;
  * @property string $text_stroke_width
  * @property integer $quiz_id
  *
- * @property QuizCharacterMediumToStyle[] $characterMediumToStyles
- * @property QuizResultToCharacterMediumToStyle[] $resultToCharacterMediumToStyles
- * @property QuizResultToShapeToStyle[] $resultToShapeToStyles
- * @property QuizShapeToStyle[] $shapeToStyles
+ * @property QuizCharacterMediumToStyle[] $quizCharacterMediumToStyles
+ * @property QuizResultToCharacterMediumToStyle[] $quizResultToCharacterMediumToStyles
+ * @property QuizResultToShapeToStyle[] $quizResultToShapeToStyles
+ * @property QuizShapeToStyle[] $quizShapeToStyles
  * @property Quiz $quiz
  */
 class QuizStyle extends QuizBase
@@ -55,7 +55,7 @@ class QuizStyle extends QuizBase
             [['name'], 'required'],
             [['z_index', 'opacity', 'quiz_id'], 'integer'],
             [['name', 'top', 'left', 'width', 'height', 'max_width', 'max_height', 'padding', 'background_color', 'border_color', 'border_width', 'border_radius', 'font', 'line_height', 'text_color', 'text_align', 'text_stroke_color', 'text_stroke_width'], 'string', 'max' => 255],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -93,33 +93,33 @@ class QuizStyle extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMediumToStyles()
+    public function getQuizCharacterMediumToStyles()
     {
-        return $this->hasMany(QuizCharacterMediumToStyle::className(), ['style_id' => 'id']);
+        return $this->hasMany(QuizCharacterMediumToStyle::className(), ['quiz_style_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToCharacterMediumToStyles()
+    public function getQuizResultToCharacterMediumToStyles()
     {
-        return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['style_id' => 'id']);
+        return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['quiz_style_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShapeToStyles()
+    public function getQuizResultToShapeToStyles()
     {
-        return $this->hasMany(QuizResultToShapeToStyle::className(), ['style_id' => 'id']);
+        return $this->hasMany(QuizResultToShapeToStyle::className(), ['quiz_style_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getShapeToStyles()
+    public function getQuizShapeToStyles()
     {
-        return $this->hasMany(QuizShapeToStyle::className(), ['style_id' => 'id']);
+        return $this->hasMany(QuizShapeToStyle::className(), ['quiz_style_id' => 'id']);
     }
 
     /**

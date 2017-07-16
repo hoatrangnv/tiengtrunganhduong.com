@@ -13,10 +13,10 @@ use Yii;
  * @property integer $image_id
  * @property integer $quiz_id
  *
- * @property QuizResultToShape[] $resultToShapes
+ * @property QuizResultToShape[] $quizResultToShapes
  * @property Image $image
  * @property Quiz $quiz
- * @property QuizShapeToStyle[] $shapeToStyles
+ * @property QuizShapeToStyle[] $quizShapeToStyles
  */
 class QuizShape extends QuizBase
 {
@@ -37,8 +37,8 @@ class QuizShape extends QuizBase
             [['name', 'quiz_id'], 'required'],
             [['image_id', 'quiz_id'], 'integer'],
             [['name', 'text'], 'string', 'max' => 255],
-            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id'], 'except' => 'test'],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -59,9 +59,9 @@ class QuizShape extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShapes()
+    public function getQuizResultToShapes()
     {
-        return $this->hasMany(QuizResultToShape::className(), ['shape_id' => 'id']);
+        return $this->hasMany(QuizResultToShape::className(), ['quiz_shape_id' => 'id']);
     }
 
     /**
@@ -83,8 +83,8 @@ class QuizShape extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getShapeToStyles()
+    public function getQuizShapeToStyles()
     {
-        return $this->hasMany(QuizShapeToStyle::className(), ['shape_id' => 'id']);
+        return $this->hasMany(QuizShapeToStyle::className(), ['quiz_shape_id' => 'id']);
     }
 }

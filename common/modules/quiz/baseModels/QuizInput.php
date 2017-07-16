@@ -14,14 +14,14 @@ use Yii;
  * @property string $hint
  * @property integer $row
  * @property integer $column
- * @property integer $input_group_id
+ * @property integer $quiz_input_group_id
  *
- * @property QuizInputGroup $inputGroup
+ * @property QuizInputGroup $quizInputGroup
  * @property QuizInputOption[] $quizInputOptions
  * @property QuizInputToInputOptionFilter[] $quizInputToInputOptionFilters
  * @property QuizInputToValidator[] $quizInputToValidators
  */
-class QuizInput extends \yii\db\ActiveRecord
+class QuizInput extends QuizBase
 {
     /**
      * @inheritdoc
@@ -37,11 +37,11 @@ class QuizInput extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['var_name', 'type', 'input_group_id'], 'required'],
+            [['var_name', 'type', 'quiz_input_group_id'], 'required'],
             [['question', 'hint'], 'string'],
-            [['row', 'column', 'input_group_id'], 'integer'],
+            [['row', 'column', 'quiz_input_group_id'], 'integer'],
             [['var_name', 'type'], 'string', 'max' => 255],
-            [['input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['input_group_id' => 'id']],
+            [['quiz_input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['quiz_input_group_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -58,16 +58,16 @@ class QuizInput extends \yii\db\ActiveRecord
             'hint' => 'Hint',
             'row' => 'Row',
             'column' => 'Column',
-            'input_group_id' => 'Input Group ID',
+            'quiz_input_group_id' => 'Quiz Input Group ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputGroup()
+    public function getQuizInputGroup()
     {
-        return $this->hasOne(QuizInputGroup::className(), ['id' => 'input_group_id']);
+        return $this->hasOne(QuizInputGroup::className(), ['id' => 'quiz_input_group_id']);
     }
 
     /**
@@ -75,7 +75,7 @@ class QuizInput extends \yii\db\ActiveRecord
      */
     public function getQuizInputOptions()
     {
-        return $this->hasMany(QuizInputOption::className(), ['input_id' => 'id']);
+        return $this->hasMany(QuizInputOption::className(), ['quiz_input_id' => 'id']);
     }
 
     /**
@@ -83,7 +83,7 @@ class QuizInput extends \yii\db\ActiveRecord
      */
     public function getQuizInputToInputOptionFilters()
     {
-        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['input_id' => 'id']);
+        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['quiz_input_id' => 'id']);
     }
 
     /**
@@ -91,6 +91,6 @@ class QuizInput extends \yii\db\ActiveRecord
      */
     public function getQuizInputToValidators()
     {
-        return $this->hasMany(QuizInputToValidator::className(), ['input_id' => 'id']);
+        return $this->hasMany(QuizInputToValidator::className(), ['quiz_input_id' => 'id']);
     }
 }

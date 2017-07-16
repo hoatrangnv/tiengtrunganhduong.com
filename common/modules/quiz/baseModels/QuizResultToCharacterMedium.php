@@ -8,14 +8,14 @@ use Yii;
  * This is the model class for table "quiz_result_to_character_medium".
  *
  * @property integer $id
- * @property integer $result_id
- * @property integer $character_medium_id
+ * @property integer $quiz_result_id
+ * @property integer $quiz_character_medium_id
  *
- * @property QuizCharacterMedium $characterMedium
- * @property QuizResult $result
+ * @property QuizCharacterMedium $quizCharacterMedium
+ * @property QuizResult $quizResult
  * @property QuizResultToCharacterMediumToStyle[] $quizResultToCharacterMediumToStyles
  */
-class QuizResultToCharacterMedium extends \yii\db\ActiveRecord
+class QuizResultToCharacterMedium extends QuizBase
 {
     /**
      * @inheritdoc
@@ -31,10 +31,10 @@ class QuizResultToCharacterMedium extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['result_id', 'character_medium_id'], 'required'],
-            [['result_id', 'character_medium_id'], 'integer'],
-            [['character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['character_medium_id' => 'id']],
-            [['result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['result_id' => 'id']],
+            [['quiz_result_id', 'quiz_character_medium_id'], 'required'],
+            [['quiz_result_id', 'quiz_character_medium_id'], 'integer'],
+            [['quiz_character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['quiz_character_medium_id' => 'id'], 'except' => 'test'],
+            [['quiz_result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['quiz_result_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -45,25 +45,25 @@ class QuizResultToCharacterMedium extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'result_id' => 'Result ID',
-            'character_medium_id' => 'Character Medium ID',
+            'quiz_result_id' => 'Quiz Result ID',
+            'quiz_character_medium_id' => 'Quiz Character Medium ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMedium()
+    public function getQuizCharacterMedium()
     {
-        return $this->hasOne(QuizCharacterMedium::className(), ['id' => 'character_medium_id']);
+        return $this->hasOne(QuizCharacterMedium::className(), ['id' => 'quiz_character_medium_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResult()
+    public function getQuizResult()
     {
-        return $this->hasOne(QuizResult::className(), ['id' => 'result_id']);
+        return $this->hasOne(QuizResult::className(), ['id' => 'quiz_result_id']);
     }
 
     /**
@@ -71,6 +71,6 @@ class QuizResultToCharacterMedium extends \yii\db\ActiveRecord
      */
     public function getQuizResultToCharacterMediumToStyles()
     {
-        return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['result_to_character_medium_id' => 'id']);
+        return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['quiz_result_to_character_medium_id' => 'id']);
     }
 }

@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "quiz_character_to_filter".
  *
  * @property integer $id
- * @property integer $character_id
- * @property integer $filter_id
+ * @property integer $quiz_character_id
+ * @property integer $quiz_filter_id
  *
- * @property QuizCharacter $character
- * @property QuizFilter $filter
+ * @property QuizCharacter $quizCharacter
+ * @property QuizFilter $quizFilter
  */
-class QuizCharacterToFilter extends \yii\db\ActiveRecord
+class QuizCharacterToFilter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -30,10 +30,10 @@ class QuizCharacterToFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['character_id', 'filter_id'], 'required'],
-            [['character_id', 'filter_id'], 'integer'],
-            [['character_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacter::className(), 'targetAttribute' => ['character_id' => 'id']],
-            [['filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['filter_id' => 'id']],
+            [['quiz_character_id', 'quiz_filter_id'], 'required'],
+            [['quiz_character_id', 'quiz_filter_id'], 'integer'],
+            [['quiz_character_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacter::className(), 'targetAttribute' => ['quiz_character_id' => 'id'], 'except' => 'test'],
+            [['quiz_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['quiz_filter_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -44,24 +44,24 @@ class QuizCharacterToFilter extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'character_id' => 'Character ID',
-            'filter_id' => 'Filter ID',
+            'quiz_character_id' => 'Quiz Character ID',
+            'quiz_filter_id' => 'Quiz Filter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacter()
+    public function getQuizCharacter()
     {
-        return $this->hasOne(QuizCharacter::className(), ['id' => 'character_id']);
+        return $this->hasOne(QuizCharacter::className(), ['id' => 'quiz_character_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFilter()
+    public function getQuizFilter()
     {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'filter_id']);
+        return $this->hasOne(QuizFilter::className(), ['id' => 'quiz_filter_id']);
     }
 }

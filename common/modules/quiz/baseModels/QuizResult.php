@@ -24,7 +24,7 @@ use Yii;
  * @property QuizResultToShape[] $quizResultToShapes
  * @property QuizResultToShapeFilter[] $quizResultToShapeFilters
  */
-class QuizResult extends \yii\db\ActiveRecord
+class QuizResult extends QuizBase
 {
     /**
      * @inheritdoc
@@ -45,7 +45,7 @@ class QuizResult extends \yii\db\ActiveRecord
             [['priority', 'canvas_width', 'canvas_height', 'quiz_id'], 'integer'],
             [['name', 'title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 511],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -72,7 +72,7 @@ class QuizResult extends \yii\db\ActiveRecord
      */
     public function getQuizInputOptionToResultPolls()
     {
-        return $this->hasMany(QuizInputOptionToResultPoll::className(), ['result_id' => 'id']);
+        return $this->hasMany(QuizInputOptionToResultPoll::className(), ['quiz_result_id' => 'id']);
     }
 
     /**
@@ -88,7 +88,7 @@ class QuizResult extends \yii\db\ActiveRecord
      */
     public function getQuizResultToCharacterMedia()
     {
-        return $this->hasMany(QuizResultToCharacterMedium::className(), ['result_id' => 'id']);
+        return $this->hasMany(QuizResultToCharacterMedium::className(), ['quiz_result_id' => 'id']);
     }
 
     /**
@@ -96,7 +96,7 @@ class QuizResult extends \yii\db\ActiveRecord
      */
     public function getQuizResultToCharacterMediumFilters()
     {
-        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['result_id' => 'id']);
+        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['quiz_result_id' => 'id']);
     }
 
     /**
@@ -104,7 +104,7 @@ class QuizResult extends \yii\db\ActiveRecord
      */
     public function getQuizResultToShapes()
     {
-        return $this->hasMany(QuizResultToShape::className(), ['result_id' => 'id']);
+        return $this->hasMany(QuizResultToShape::className(), ['quiz_result_id' => 'id']);
     }
 
     /**
@@ -112,6 +112,6 @@ class QuizResult extends \yii\db\ActiveRecord
      */
     public function getQuizResultToShapeFilters()
     {
-        return $this->hasMany(QuizResultToShapeFilter::className(), ['result_id' => 'id']);
+        return $this->hasMany(QuizResultToShapeFilter::className(), ['quiz_result_id' => 'id']);
     }
 }

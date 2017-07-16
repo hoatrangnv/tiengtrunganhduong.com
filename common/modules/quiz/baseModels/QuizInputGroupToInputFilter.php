@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "quiz_input_group_to_input_filter".
  *
  * @property integer $id
- * @property integer $input_group_id
- * @property integer $input_filter_id
+ * @property integer $quiz_input_group_id
+ * @property integer $quiz_input_filter_id
  *
- * @property QuizFilter $inputFilter
- * @property QuizInputGroup $inputGroup
+ * @property QuizFilter $quizInputFilter
+ * @property QuizInputGroup $quizInputGroup
  */
-class QuizInputGroupToInputFilter extends \yii\db\ActiveRecord
+class QuizInputGroupToInputFilter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -30,10 +30,10 @@ class QuizInputGroupToInputFilter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['input_group_id', 'input_filter_id'], 'required'],
-            [['input_group_id', 'input_filter_id'], 'integer'],
-            [['input_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['input_filter_id' => 'id']],
-            [['input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['input_group_id' => 'id']],
+            [['quiz_input_group_id', 'quiz_input_filter_id'], 'required'],
+            [['quiz_input_group_id', 'quiz_input_filter_id'], 'integer'],
+            [['quiz_input_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['quiz_input_filter_id' => 'id'], 'except' => 'test'],
+            [['quiz_input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['quiz_input_group_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -44,24 +44,24 @@ class QuizInputGroupToInputFilter extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'input_group_id' => 'Input Group ID',
-            'input_filter_id' => 'Input Filter ID',
+            'quiz_input_group_id' => 'Quiz Input Group ID',
+            'quiz_input_filter_id' => 'Quiz Input Filter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputFilter()
+    public function getQuizInputFilter()
     {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'input_filter_id']);
+        return $this->hasOne(QuizFilter::className(), ['id' => 'quiz_input_filter_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputGroup()
+    public function getQuizInputGroup()
     {
-        return $this->hasOne(QuizInputGroup::className(), ['id' => 'input_group_id']);
+        return $this->hasOne(QuizInputGroup::className(), ['id' => 'quiz_input_group_id']);
     }
 }

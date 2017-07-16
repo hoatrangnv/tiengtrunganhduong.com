@@ -26,11 +26,11 @@ use Yii;
  * @property integer $creator_id
  * @property integer $updater_id
  * @property integer $image_id
- * @property integer $category_id
+ * @property integer $quiz_category_id
  *
- * @property QuizCategory $category
  * @property User $creator
  * @property Image $image
+ * @property QuizCategory $quizCategory
  * @property User $updater
  * @property QuizCharacter[] $quizCharacters
  * @property QuizFilter[] $quizFilters
@@ -45,7 +45,7 @@ use Yii;
  * @property QuizToResultFilter[] $quizToResultFilters
  * @property QuizValidator[] $quizValidators
  */
-class Quiz extends \yii\db\ActiveRecord
+class Quiz extends QuizBase
 {
     /**
      * @inheritdoc
@@ -62,14 +62,14 @@ class Quiz extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'slug', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id'], 'required'],
-            [['sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'category_id'], 'integer'],
+            [['sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id'], 'integer'],
             [['name', 'slug', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
+            [['quiz_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['quiz_category_id' => 'id']],
             [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];
     }
@@ -99,16 +99,8 @@ class Quiz extends \yii\db\ActiveRecord
             'creator_id' => 'Creator ID',
             'updater_id' => 'Updater ID',
             'image_id' => 'Image ID',
-            'category_id' => 'Category ID',
+            'quiz_category_id' => 'Quiz Category ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(QuizCategory::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -125,6 +117,14 @@ class Quiz extends \yii\db\ActiveRecord
     public function getImage()
     {
         return $this->hasOne(Image::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizCategory()
+    {
+        return $this->hasOne(QuizCategory::className(), ['id' => 'quiz_category_id']);
     }
 
     /**

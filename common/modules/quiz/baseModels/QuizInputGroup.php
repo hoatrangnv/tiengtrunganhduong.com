@@ -17,7 +17,7 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizInputGroupToInputFilter[] $quizInputGroupToInputFilters
  */
-class QuizInputGroup extends \yii\db\ActiveRecord
+class QuizInputGroup extends QuizBase
 {
     /**
      * @inheritdoc
@@ -36,7 +36,7 @@ class QuizInputGroup extends \yii\db\ActiveRecord
             [['name', 'global_exec_order', 'quiz_id'], 'required'],
             [['global_exec_order', 'quiz_id'], 'integer'],
             [['name', 'title'], 'string', 'max' => 255],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -59,7 +59,7 @@ class QuizInputGroup extends \yii\db\ActiveRecord
      */
     public function getQuizInputs()
     {
-        return $this->hasMany(QuizInput::className(), ['input_group_id' => 'id']);
+        return $this->hasMany(QuizInput::className(), ['quiz_input_group_id' => 'id']);
     }
 
     /**
@@ -75,6 +75,6 @@ class QuizInputGroup extends \yii\db\ActiveRecord
      */
     public function getQuizInputGroupToInputFilters()
     {
-        return $this->hasMany(QuizInputGroupToInputFilter::className(), ['input_group_id' => 'id']);
+        return $this->hasMany(QuizInputGroupToInputFilter::className(), ['quiz_input_group_id' => 'id']);
     }
 }

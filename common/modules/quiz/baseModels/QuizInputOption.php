@@ -14,12 +14,12 @@ use Yii;
  * @property string $interpretation
  * @property integer $row
  * @property integer $column
- * @property integer $input_id
+ * @property integer $quiz_input_id
  *
- * @property QuizInput $input
+ * @property QuizInput $quizInput
  * @property QuizInputOptionToResultPoll[] $quizInputOptionToResultPolls
  */
-class QuizInputOption extends \yii\db\ActiveRecord
+class QuizInputOption extends QuizBase
 {
     /**
      * @inheritdoc
@@ -35,11 +35,11 @@ class QuizInputOption extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value', 'input_id'], 'required'],
+            [['value', 'quiz_input_id'], 'required'],
             [['content', 'interpretation'], 'string'],
-            [['score', 'row', 'column', 'input_id'], 'integer'],
+            [['score', 'row', 'column', 'quiz_input_id'], 'integer'],
             [['value'], 'string', 'max' => 255],
-            [['input_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInput::className(), 'targetAttribute' => ['input_id' => 'id']],
+            [['quiz_input_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInput::className(), 'targetAttribute' => ['quiz_input_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -56,16 +56,16 @@ class QuizInputOption extends \yii\db\ActiveRecord
             'interpretation' => 'Interpretation',
             'row' => 'Row',
             'column' => 'Column',
-            'input_id' => 'Input ID',
+            'quiz_input_id' => 'Quiz Input ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInput()
+    public function getQuizInput()
     {
-        return $this->hasOne(QuizInput::className(), ['id' => 'input_id']);
+        return $this->hasOne(QuizInput::className(), ['id' => 'quiz_input_id']);
     }
 
     /**
@@ -73,6 +73,6 @@ class QuizInputOption extends \yii\db\ActiveRecord
      */
     public function getQuizInputOptionToResultPolls()
     {
-        return $this->hasMany(QuizInputOptionToResultPoll::className(), ['input_option_id' => 'id']);
+        return $this->hasMany(QuizInputOptionToResultPoll::className(), ['quiz_input_option_id' => 'id']);
     }
 }

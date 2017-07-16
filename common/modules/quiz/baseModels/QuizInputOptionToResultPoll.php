@@ -9,13 +9,13 @@ use Yii;
  *
  * @property integer $id
  * @property integer $votes
- * @property integer $result_id
- * @property integer $input_option_id
+ * @property integer $quiz_result_id
+ * @property integer $quiz_input_option_id
  *
- * @property QuizInputOption $inputOption
- * @property QuizResult $result
+ * @property QuizInputOption $quizInputOption
+ * @property QuizResult $quizResult
  */
-class QuizInputOptionToResultPoll extends \yii\db\ActiveRecord
+class QuizInputOptionToResultPoll extends QuizBase
 {
     /**
      * @inheritdoc
@@ -31,10 +31,10 @@ class QuizInputOptionToResultPoll extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['votes', 'result_id', 'input_option_id'], 'required'],
-            [['votes', 'result_id', 'input_option_id'], 'integer'],
-            [['input_option_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputOption::className(), 'targetAttribute' => ['input_option_id' => 'id']],
-            [['result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['result_id' => 'id']],
+            [['votes', 'quiz_result_id', 'quiz_input_option_id'], 'required'],
+            [['votes', 'quiz_result_id', 'quiz_input_option_id'], 'integer'],
+            [['quiz_input_option_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputOption::className(), 'targetAttribute' => ['quiz_input_option_id' => 'id'], 'except' => 'test'],
+            [['quiz_result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['quiz_result_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -46,24 +46,24 @@ class QuizInputOptionToResultPoll extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'votes' => 'Votes',
-            'result_id' => 'Result ID',
-            'input_option_id' => 'Input Option ID',
+            'quiz_result_id' => 'Quiz Result ID',
+            'quiz_input_option_id' => 'Quiz Input Option ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputOption()
+    public function getQuizInputOption()
     {
-        return $this->hasOne(QuizInputOption::className(), ['id' => 'input_option_id']);
+        return $this->hasOne(QuizInputOption::className(), ['id' => 'quiz_input_option_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResult()
+    public function getQuizResult()
     {
-        return $this->hasOne(QuizResult::className(), ['id' => 'result_id']);
+        return $this->hasOne(QuizResult::className(), ['id' => 'quiz_result_id']);
     }
 }

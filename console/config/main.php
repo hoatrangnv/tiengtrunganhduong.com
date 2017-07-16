@@ -12,6 +12,17 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
     'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'templateFile' => '@console/views/migration.php',
+            'generatorTemplateFiles' => [
+                'create_table' => '@console/views/createTableMigration.php',
+                'drop_table' => '@console/views/dropTableMigration.php',
+                'add_column' => '@console/views/addColumnMigration.php',
+                'drop_column' => '@console/views/dropColumnMigration.php',
+                'create_junction' => '@console/views/createTableMigration.php',
+            ]
+        ],
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',

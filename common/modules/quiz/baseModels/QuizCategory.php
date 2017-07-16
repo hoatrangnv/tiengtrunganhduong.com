@@ -34,7 +34,7 @@ use Yii;
  * @property QuizCategory[] $quizCategories
  * @property User $updater
  */
-class QuizCategory extends \yii\db\ActiveRecord
+class QuizCategory extends QuizBase
 {
     /**
      * @inheritdoc
@@ -56,10 +56,10 @@ class QuizCategory extends \yii\db\ActiveRecord
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],
-            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
-            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['parent_id' => 'id']],
-            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
+            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id'], 'except' => 'test'],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id'], 'except' => 'test'],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['parent_id' => 'id'], 'except' => 'test'],
+            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -96,7 +96,7 @@ class QuizCategory extends \yii\db\ActiveRecord
      */
     public function getQuizzes()
     {
-        return $this->hasMany(Quiz::className(), ['category_id' => 'id']);
+        return $this->hasMany(Quiz::className(), ['quiz_category_id' => 'id']);
     }
 
     /**

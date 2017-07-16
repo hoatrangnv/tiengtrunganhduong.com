@@ -9,9 +9,10 @@
 /**
  * @var string $type
  * @var array $attrConfigs
+ * @var array $attrsData
  * @var array $childConfigs
+ * @var array $childrenData
  */
-
 \common\modules\quiz\QuizCreatorAsset::register($this);
 ?>
 
@@ -45,9 +46,11 @@
             submit={submit}
             type={<?= json_encode($type) ?>}
             attrConfigs={<?= json_encode($attrConfigs) ?>}
+            attrsData={<?= json_encode($attrsData) ?>}
             childConfigs={<?= json_encode($childConfigs) ?>}
-            childrenData={[]}
+            childrenData={<?= json_encode($childrenData) ?>}
         />,
         document.getElementById("root")
     );
+    console.log(<?= json_encode($childrenData) ?>);
 </script>

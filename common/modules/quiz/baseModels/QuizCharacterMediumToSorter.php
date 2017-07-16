@@ -9,13 +9,13 @@ use Yii;
  *
  * @property integer $id
  * @property integer $sorter_order
- * @property integer $character_medium_id
- * @property integer $sorter_id
+ * @property integer $quiz_character_medium_id
+ * @property integer $quiz_sorter_id
  *
- * @property QuizCharacterMedium $characterMedium
- * @property QuizSorter $sorter
+ * @property QuizCharacterMedium $quizCharacterMedium
+ * @property QuizSorter $quizSorter
  */
-class QuizCharacterMediumToSorter extends \yii\db\ActiveRecord
+class QuizCharacterMediumToSorter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -31,10 +31,10 @@ class QuizCharacterMediumToSorter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sorter_order', 'character_medium_id', 'sorter_id'], 'integer'],
-            [['character_medium_id', 'sorter_id'], 'required'],
-            [['character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['character_medium_id' => 'id']],
-            [['sorter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizSorter::className(), 'targetAttribute' => ['sorter_id' => 'id']],
+            [['sorter_order', 'quiz_character_medium_id', 'quiz_sorter_id'], 'integer'],
+            [['quiz_character_medium_id', 'quiz_sorter_id'], 'required'],
+            [['quiz_character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['quiz_character_medium_id' => 'id'], 'except' => 'test'],
+            [['quiz_sorter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizSorter::className(), 'targetAttribute' => ['quiz_sorter_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -46,24 +46,24 @@ class QuizCharacterMediumToSorter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'sorter_order' => 'Sorter Order',
-            'character_medium_id' => 'Character Medium ID',
-            'sorter_id' => 'Sorter ID',
+            'quiz_character_medium_id' => 'Quiz Character Medium ID',
+            'quiz_sorter_id' => 'Quiz Sorter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMedium()
+    public function getQuizCharacterMedium()
     {
-        return $this->hasOne(QuizCharacterMedium::className(), ['id' => 'character_medium_id']);
+        return $this->hasOne(QuizCharacterMedium::className(), ['id' => 'quiz_character_medium_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSorter()
+    public function getQuizSorter()
     {
-        return $this->hasOne(QuizSorter::className(), ['id' => 'sorter_id']);
+        return $this->hasOne(QuizSorter::className(), ['id' => 'quiz_sorter_id']);
     }
 }

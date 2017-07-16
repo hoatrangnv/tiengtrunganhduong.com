@@ -9,7 +9,11 @@
 namespace common\modules\quiz\baseModels;
 
 
+use common\modules\gii\generators\model\Generator;
+use common\modules\quiz\models\QuizFn;
 use yii\db\ActiveRecord;
+use yii\db\Schema;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
 class QuizBase extends ActiveRecord
@@ -20,9 +24,10 @@ class QuizBase extends ActiveRecord
     public static function modelConfig()
     {
         $inputConfigs = [];
-        foreach (self::getTableSchema()->columns as $column) {
+        $table = self::getTableSchema();
+        foreach ($table->columns as $column) {
             if (in_array($column->name, [
-                'id',
+//                'id',
                 'quiz_id',
                 'create_time',
                 'update_time',
@@ -32,9 +37,34 @@ class QuizBase extends ActiveRecord
             ])) {
                 continue;
             }
+
+            $type = 'text';
+            $options = [];
+            if (substr($column->name, -3) === '_id') {
+                $type = 'selectBox';
+                if (substr($column->name, -6) === '_fn_id') {
+                    $options = ArrayHelper::map(QuizFn::find()->all(), 'id', 'name');
+                }
+            } else {
+                switch ($column->type) {
+                    case Schema::TYPE_CHAR:
+                    case Schema::TYPE_STRING:
+                        $type = 'text';
+                        break;
+                    case Schema::TYPE_TEXT:
+                        $type = 'textArea';
+                        break;
+                    case Schema::TYPE_INTEGER:
+                    case Schema::TYPE_FLOAT:
+                    case Schema::TYPE_DOUBLE:
+                        $type = 'number';
+                        break;
+                }
+            }
             $inputConfig = [
-                'type' => $column->type == 'integer' ? 'number' : 'text',
+                'type' => $type,
                 'name' => $column->name,
+                'options' => $options,
                 'label' => Inflector::humanize($column->name),
                 'rules' => [
                     'required' => !$column->allowNull,

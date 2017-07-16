@@ -9,11 +9,11 @@ use Yii;
  *
  * @property integer $id
  * @property integer $style_order
- * @property integer $result_to_shape_id
- * @property integer $style_id
+ * @property integer $quiz_result_to_shape_id
+ * @property integer $quiz_style_id
  *
- * @property QuizResultToShape $resultToShape
- * @property QuizStyle $style
+ * @property QuizResultToShape $quizResultToShape
+ * @property QuizStyle $quizStyle
  */
 class QuizResultToShapeToStyle extends QuizBase
 {
@@ -31,10 +31,10 @@ class QuizResultToShapeToStyle extends QuizBase
     public function rules()
     {
         return [
-            [['style_order', 'result_to_shape_id', 'style_id'], 'integer'],
-            [['result_to_shape_id', 'style_id'], 'required'],
-            [['result_to_shape_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResultToShape::className(), 'targetAttribute' => ['result_to_shape_id' => 'id']],
-            [['style_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizStyle::className(), 'targetAttribute' => ['style_id' => 'id']],
+            [['style_order', 'quiz_result_to_shape_id', 'quiz_style_id'], 'integer'],
+            [['quiz_result_to_shape_id', 'quiz_style_id'], 'required'],
+            [['quiz_result_to_shape_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResultToShape::className(), 'targetAttribute' => ['quiz_result_to_shape_id' => 'id'], 'except' => 'test'],
+            [['quiz_style_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizStyle::className(), 'targetAttribute' => ['quiz_style_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -46,24 +46,24 @@ class QuizResultToShapeToStyle extends QuizBase
         return [
             'id' => 'ID',
             'style_order' => 'Style Order',
-            'result_to_shape_id' => 'Result To Shape ID',
-            'style_id' => 'Style ID',
+            'quiz_result_to_shape_id' => 'Quiz Result To Shape ID',
+            'quiz_style_id' => 'Quiz Style ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShape()
+    public function getQuizResultToShape()
     {
-        return $this->hasOne(QuizResultToShape::className(), ['id' => 'result_to_shape_id']);
+        return $this->hasOne(QuizResultToShape::className(), ['id' => 'quiz_result_to_shape_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStyle()
+    public function getQuizStyle()
     {
-        return $this->hasOne(QuizStyle::className(), ['id' => 'style_id']);
+        return $this->hasOne(QuizStyle::className(), ['id' => 'quiz_style_id']);
     }
 }

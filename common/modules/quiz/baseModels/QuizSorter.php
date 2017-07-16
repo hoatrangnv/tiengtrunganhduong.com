@@ -10,13 +10,13 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $rule_fn_args
- * @property integer $rule_fn_id
+ * @property integer $quiz_rule_fn_id
  * @property integer $quiz_id
  *
- * @property QuizCharacterMediumToSorter[] $characterMediumToSorters
- * @property QuizCharacterToSorter[] $characterToSorters
+ * @property QuizCharacterMediumToSorter[] $quizCharacterMediumToSorters
+ * @property QuizCharacterToSorter[] $quizCharacterToSorters
  * @property Quiz $quiz
- * @property QuizFn $ruleFn
+ * @property QuizFn $quizRuleFn
  */
 class QuizSorter extends QuizBase
 {
@@ -34,12 +34,12 @@ class QuizSorter extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'rule_fn_args', 'rule_fn_id'], 'required'],
+            [['name', 'rule_fn_args', 'quiz_rule_fn_id'], 'required'],
             [['rule_fn_args'], 'string'],
-            [['rule_fn_id', 'quiz_id'], 'integer'],
+            [['quiz_rule_fn_id', 'quiz_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
-            [['rule_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['rule_fn_id' => 'id']],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
+            [['quiz_rule_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['quiz_rule_fn_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -52,7 +52,7 @@ class QuizSorter extends QuizBase
             'id' => 'ID',
             'name' => 'Name',
             'rule_fn_args' => 'Rule Fn Args',
-            'rule_fn_id' => 'Rule Fn ID',
+            'quiz_rule_fn_id' => 'Quiz Rule Fn ID',
             'quiz_id' => 'Quiz ID',
         ];
     }
@@ -60,17 +60,17 @@ class QuizSorter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMediumToSorters()
+    public function getQuizCharacterMediumToSorters()
     {
-        return $this->hasMany(QuizCharacterMediumToSorter::className(), ['sorter_id' => 'id']);
+        return $this->hasMany(QuizCharacterMediumToSorter::className(), ['quiz_sorter_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterToSorters()
+    public function getQuizCharacterToSorters()
     {
-        return $this->hasMany(QuizCharacterToSorter::className(), ['sorter_id' => 'id']);
+        return $this->hasMany(QuizCharacterToSorter::className(), ['quiz_sorter_id' => 'id']);
     }
 
     /**
@@ -84,8 +84,8 @@ class QuizSorter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRuleFn()
+    public function getQuizRuleFn()
     {
-        return $this->hasOne(QuizFn::className(), ['id' => 'rule_fn_id']);
+        return $this->hasOne(QuizFn::className(), ['id' => 'quiz_rule_fn_id']);
     }
 }

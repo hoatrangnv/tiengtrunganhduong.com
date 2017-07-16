@@ -11,12 +11,12 @@ use Yii;
  * @property string $name
  * @property string $var_name
  * @property string $value_fn_args
- * @property integer $value_fn_id
+ * @property integer $quiz_value_fn_id
  * @property integer $global_exec_order
  * @property integer $quiz_id
  *
  * @property Quiz $quiz
- * @property QuizFn $valueFn
+ * @property QuizFn $quizValueFn
  */
 class QuizParam extends QuizBase
 {
@@ -34,12 +34,12 @@ class QuizParam extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'var_name', 'value_fn_args', 'value_fn_id', 'global_exec_order', 'quiz_id'], 'required'],
+            [['name', 'var_name', 'value_fn_args', 'quiz_value_fn_id', 'global_exec_order', 'quiz_id'], 'required'],
             [['value_fn_args'], 'string'],
-            [['value_fn_id', 'global_exec_order', 'quiz_id'], 'integer'],
+            [['quiz_value_fn_id', 'global_exec_order', 'quiz_id'], 'integer'],
             [['name', 'var_name'], 'string', 'max' => 255],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
-            [['value_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['value_fn_id' => 'id']],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
+            [['quiz_value_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['quiz_value_fn_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -53,7 +53,7 @@ class QuizParam extends QuizBase
             'name' => 'Name',
             'var_name' => 'Var Name',
             'value_fn_args' => 'Value Fn Args',
-            'value_fn_id' => 'Value Fn ID',
+            'quiz_value_fn_id' => 'Quiz Value Fn ID',
             'global_exec_order' => 'Global Exec Order',
             'quiz_id' => 'Quiz ID',
         ];
@@ -70,8 +70,8 @@ class QuizParam extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getValueFn()
+    public function getQuizValueFn()
     {
-        return $this->hasOne(QuizFn::className(), ['id' => 'value_fn_id']);
+        return $this->hasOne(QuizFn::className(), ['id' => 'quiz_value_fn_id']);
     }
 }

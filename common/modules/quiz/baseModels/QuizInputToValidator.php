@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "quiz_input_to_validator".
  *
  * @property integer $id
- * @property integer $input_id
- * @property integer $validator_id
+ * @property integer $quiz_input_id
+ * @property integer $quiz_validator_id
  *
- * @property QuizInput $input
+ * @property QuizInput $quizInput
  * @property QuizValidator $quizValidator
  */
 class QuizInputToValidator extends QuizBase
@@ -30,10 +30,10 @@ class QuizInputToValidator extends QuizBase
     public function rules()
     {
         return [
-            [['input_id', 'validator_id'], 'required'],
-            [['input_id', 'validator_id'], 'integer'],
-            [['input_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInput::className(), 'targetAttribute' => ['input_id' => 'id']],
-            [['validator_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizValidator::className(), 'targetAttribute' => ['validator_id' => 'id']],
+            [['quiz_input_id', 'quiz_validator_id'], 'required'],
+            [['quiz_input_id', 'quiz_validator_id'], 'integer'],
+            [['quiz_input_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInput::className(), 'targetAttribute' => ['quiz_input_id' => 'id'], 'except' => 'test'],
+            [['quiz_validator_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizValidator::className(), 'targetAttribute' => ['quiz_validator_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -44,17 +44,17 @@ class QuizInputToValidator extends QuizBase
     {
         return [
             'id' => 'ID',
-            'input_id' => 'Input ID',
-            'validator_id' => 'Validator ID',
+            'quiz_input_id' => 'Quiz Input ID',
+            'quiz_validator_id' => 'Quiz Validator ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInput()
+    public function getQuizInput()
     {
-        return $this->hasOne(QuizInput::className(), ['id' => 'input_id']);
+        return $this->hasOne(QuizInput::className(), ['id' => 'quiz_input_id']);
     }
 
     /**
@@ -62,6 +62,6 @@ class QuizInputToValidator extends QuizBase
      */
     public function getQuizValidator()
     {
-        return $this->hasOne(QuizValidator::className(), ['id' => 'validator_id']);
+        return $this->hasOne(QuizValidator::className(), ['id' => 'quiz_validator_id']);
     }
 }

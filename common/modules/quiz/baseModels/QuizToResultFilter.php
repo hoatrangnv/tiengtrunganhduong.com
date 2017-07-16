@@ -9,10 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property integer $quiz_id
- * @property integer $result_filter_id
+ * @property integer $quiz_result_filter_id
  *
  * @property Quiz $quiz
- * @property QuizFilter $resultFilter
+ * @property QuizFilter $quizResultFilter
  */
 class QuizToResultFilter extends QuizBase
 {
@@ -30,10 +30,10 @@ class QuizToResultFilter extends QuizBase
     public function rules()
     {
         return [
-            [['quiz_id', 'result_filter_id'], 'required'],
-            [['quiz_id', 'result_filter_id'], 'integer'],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
-            [['result_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['result_filter_id' => 'id']],
+            [['quiz_id', 'quiz_result_filter_id'], 'required'],
+            [['quiz_id', 'quiz_result_filter_id'], 'integer'],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
+            [['quiz_result_filter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFilter::className(), 'targetAttribute' => ['quiz_result_filter_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -45,7 +45,7 @@ class QuizToResultFilter extends QuizBase
         return [
             'id' => 'ID',
             'quiz_id' => 'Quiz ID',
-            'result_filter_id' => 'Result Filter ID',
+            'quiz_result_filter_id' => 'Quiz Result Filter ID',
         ];
     }
 
@@ -60,8 +60,8 @@ class QuizToResultFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultFilter()
+    public function getQuizResultFilter()
     {
-        return $this->hasOne(QuizFilter::className(), ['id' => 'result_filter_id']);
+        return $this->hasOne(QuizFilter::className(), ['id' => 'quiz_result_filter_id']);
     }
 }

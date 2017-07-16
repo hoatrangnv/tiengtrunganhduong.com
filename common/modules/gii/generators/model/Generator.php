@@ -356,7 +356,7 @@ class Generator extends \common\modules\gii\Generator
                 $targetAttributes[] = "'$key' => '$value'";
             }
             $targetAttributes = implode(', ', $targetAttributes);
-            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::className(), 'targetAttribute' => [$targetAttributes]]";
+            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::className(), 'targetAttribute' => [$targetAttributes], 'except' => 'test']";
         }
 
         return $rules;
@@ -629,24 +629,24 @@ class Generator extends \common\modules\gii\Generator
         if (!empty($key) && substr_compare($key, 'id', -2, 2, true) === 0 && strcasecmp($key, 'id')) {
             $key = rtrim(substr($key, 0, -2), '_');
         }
-        // Edited by @vanquyet
-
-        // ===================
-            if (
-                substr($key, 0, 4) == 'Quiz'
-                && substr($key, 4, 1) != strtolower(substr($key, 4, 1))
-                && (
-                    substr($key, 0, 6) != 'QuizTo'
-                    || (
-                        substr($key, 0, 6) == 'QuizTo'
-                        && substr($key, 7, 1) != strtolower(substr($key, 7, 1))
-                    )
-                )
-            ) {
-                $key = substr($key, 4);
-            }
-
-        // ===================
+//        // Edited by @vanquyet
+//
+//        // ===================
+//            if (
+//                substr($key, 0, 4) == 'Quiz'
+//                && substr($key, 4, 1) != strtolower(substr($key, 4, 1))
+//                && (
+//                    substr($key, 0, 6) != 'QuizTo'
+//                    || (
+//                        substr($key, 0, 6) == 'QuizTo'
+//                        && substr($key, 7, 1) != strtolower(substr($key, 7, 1))
+//                    )
+//                )
+//            ) {
+//                $key = substr($key, 4);
+//            }
+//
+//        // ===================
         if ($multiple) {
             $key = Inflector::pluralize($key);
         }

@@ -9,13 +9,13 @@ use Yii;
  *
  * @property integer $id
  * @property integer $sorter_order
- * @property integer $character_id
- * @property integer $sorter_id
+ * @property integer $quiz_character_id
+ * @property integer $quiz_sorter_id
  *
- * @property QuizCharacter $character
- * @property QuizSorter $sorter
+ * @property QuizCharacter $quizCharacter
+ * @property QuizSorter $quizSorter
  */
-class QuizCharacterToSorter extends \yii\db\ActiveRecord
+class QuizCharacterToSorter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -31,10 +31,10 @@ class QuizCharacterToSorter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sorter_order', 'character_id', 'sorter_id'], 'integer'],
-            [['character_id', 'sorter_id'], 'required'],
-            [['character_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacter::className(), 'targetAttribute' => ['character_id' => 'id']],
-            [['sorter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizSorter::className(), 'targetAttribute' => ['sorter_id' => 'id']],
+            [['sorter_order', 'quiz_character_id', 'quiz_sorter_id'], 'integer'],
+            [['quiz_character_id', 'quiz_sorter_id'], 'required'],
+            [['quiz_character_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacter::className(), 'targetAttribute' => ['quiz_character_id' => 'id'], 'except' => 'test'],
+            [['quiz_sorter_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizSorter::className(), 'targetAttribute' => ['quiz_sorter_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -46,24 +46,24 @@ class QuizCharacterToSorter extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'sorter_order' => 'Sorter Order',
-            'character_id' => 'Character ID',
-            'sorter_id' => 'Sorter ID',
+            'quiz_character_id' => 'Quiz Character ID',
+            'quiz_sorter_id' => 'Quiz Sorter ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacter()
+    public function getQuizCharacter()
     {
-        return $this->hasOne(QuizCharacter::className(), ['id' => 'character_id']);
+        return $this->hasOne(QuizCharacter::className(), ['id' => 'quiz_character_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSorter()
+    public function getQuizSorter()
     {
-        return $this->hasOne(QuizSorter::className(), ['id' => 'sorter_id']);
+        return $this->hasOne(QuizSorter::className(), ['id' => 'quiz_sorter_id']);
     }
 }

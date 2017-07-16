@@ -20,7 +20,7 @@ use Yii;
  * @property QuizCharacterToFilter[] $quizCharacterToFilters
  * @property QuizCharacterToSorter[] $quizCharacterToSorters
  */
-class QuizCharacter extends \yii\db\ActiveRecord
+class QuizCharacter extends QuizBase
 {
     /**
      * @inheritdoc
@@ -39,7 +39,7 @@ class QuizCharacter extends \yii\db\ActiveRecord
             [['name', 'var_name', 'type', 'index', 'global_exec_order', 'quiz_id'], 'required'],
             [['index', 'global_exec_order', 'quiz_id'], 'integer'],
             [['name', 'var_name', 'type'], 'string', 'max' => 255],
-            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
+            [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -72,7 +72,7 @@ class QuizCharacter extends \yii\db\ActiveRecord
      */
     public function getQuizCharacterMedia()
     {
-        return $this->hasMany(QuizCharacterMedium::className(), ['character_id' => 'id']);
+        return $this->hasMany(QuizCharacterMedium::className(), ['quiz_character_id' => 'id']);
     }
 
     /**
@@ -80,7 +80,7 @@ class QuizCharacter extends \yii\db\ActiveRecord
      */
     public function getQuizCharacterToFilters()
     {
-        return $this->hasMany(QuizCharacterToFilter::className(), ['character_id' => 'id']);
+        return $this->hasMany(QuizCharacterToFilter::className(), ['quiz_character_id' => 'id']);
     }
 
     /**
@@ -88,6 +88,6 @@ class QuizCharacter extends \yii\db\ActiveRecord
      */
     public function getQuizCharacterToSorters()
     {
-        return $this->hasMany(QuizCharacterToSorter::className(), ['character_id' => 'id']);
+        return $this->hasMany(QuizCharacterToSorter::className(), ['quiz_character_id' => 'id']);
     }
 }
