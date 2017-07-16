@@ -43,7 +43,7 @@ use Yii;
  * @property QuizToCharacterFilter[] $quizToCharacterFilters
  * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
  * @property QuizToResultFilter[] $quizToResultFilters
- * @property QuizValidator[] $validators
+ * @property QuizValidator[] $quizValidators
  */
 class Quiz extends QuizBase
 {
@@ -226,7 +226,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getValidators()
+    public function getQuizValidators()
     {
         return $this->hasMany(QuizValidator::className(), ['quiz_id' => 'id']);
     }

@@ -12,7 +12,7 @@ use Yii;
  * @property integer $validator_id
  *
  * @property QuizInput $input
- * @property QuizValidator $validator
+ * @property QuizValidator $quizValidator
  */
 class QuizInputToValidator extends QuizBase
 {
@@ -60,7 +60,7 @@ class QuizInputToValidator extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getValidator()
+    public function getQuizValidator()
     {
         return $this->hasOne(QuizValidator::className(), ['id' => 'validator_id']);
     }

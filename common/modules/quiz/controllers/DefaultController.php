@@ -65,7 +65,69 @@ class DefaultController extends Controller
 
     public function actionAjaxCreate()
     {
-        $items = \Yii::$app->request->post('items');
-        var_dump($items);
+        $parseAttrs = function ($attrsData) {
+            $attrs = [];
+            foreach ($attrsData as $attrData) {
+                $attrs[$attrData['name']] = $attrData['value'];
+            }
+            return $attrs;
+        };
+        $state = json_decode(\Yii::$app->request->post('state'), true);
+        $attrs = $parseAttrs($state['attrsData']);
+        $quiz = new Quiz();
+        $quiz->setAttributes($attrs);
+        $errors = [];
+        if (!$quiz->validate()) {
+            $errors['Quiz'] = $quiz->errors;
+        }
+        $loadModels = function ($data) use ($parseAttrs, &$loadModels, &$errors) {
+            foreach ($data as $childData) {
+                $model = null;
+                switch ($childData['type']) {
+                    case 'QuizResult':
+                        $model = new QuizResult();
+                        break;
+                    case 'QuizCharacter':
+                        $model = new QuizCharacter();
+                        break;
+                    case 'QuizCharacterMedium':
+                        $model = new QuizCharacterMedium();
+                        break;
+                    case 'QuizInputGroup':
+                        $model = new QuizInputGroup();
+                        break;
+                    case 'QuizInput':
+                        $model = new QuizInput();
+                        break;
+                    case 'QuizInputOption':
+                        $model = new QuizInputOption();
+                        break;
+                    case 'QuizShape':
+                        $model = new QuizShape();
+                        break;
+                    case 'QuizFilter':
+                        $model = new QuizFilter();
+                        break;
+                    case 'QuizSorter':
+                        $model = new QuizSorter();
+                        break;
+                    case 'QuizStyle':
+                        $model = new QuizStyle();
+                        break;
+                    case 'QuizValidator':
+                        $model = new QuizValidator();
+                        break;
+                }
+                if ($model) {
+                    $model->setAttributes($parseAttrs($childData['attrsData']));
+                    if (!$model->validate()) {
+                        $errors["{$childData['type']}#{$childData['id']}"] = $model->errors;
+                    }
+                }
+                $loadModels($childData['childrenData']);
+            }
+        };
+        $loadModels($state['childrenData']);
+        echo json_encode($errors);
     }
 }

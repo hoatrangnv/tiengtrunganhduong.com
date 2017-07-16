@@ -130,10 +130,17 @@ class QuizModel extends React.Component {
 
     render() {
         var activeChildData = this.state.childrenData.find(childData => childData.id === this.state.activeChildId);
-        console.log("This Type", this.props.type);
-        console.log("Children Data", this.state.childrenData);
         return (
             <div id={this.props.id} className="panel panel-default clearfix">
+                {
+                    this.props.submit &&
+                    <div className="panel-heading clearfix">
+                        <button
+                            className="btn btn-sm btn-primary"
+                            onClick={() => this.props.submit(this.state)}
+                        >Submit</button>
+                    </div>
+                }
                 <div className="panel-body clearfix">
                     <div style={{width:"200px"}} className="pull-left">
                         {
@@ -390,105 +397,6 @@ class TabCtrl extends React.Component {
         );
     }
 }
-
-// class Form extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.handleChange = this.handleChange.bind(this);
-//         this.state = {
-//             inputs: this.props.inputs.reduce((result, item) => {
-//                 result[item.name] = item.value;
-//                 return result;
-//             }, {})
-//         };
-//     }
-//
-//     handleChange(name, value) {
-//         // Refresh state inputs
-//         var inputs = this.props.inputs.reduce((result, item) => {
-//             result[item.name] = item.value;
-//             return result;
-//         }, {});
-//         inputs[name] = value;
-//         this.setState({inputs: inputs});
-//         this.props.onChange(inputs);
-//     }
-//
-//     render() {
-//         return (
-//             <form>
-//                 {
-//                     this.props.inputs.map((item) => (
-//                         <FormInput
-//                             key={item.key}
-//                             type={item.type}
-//                             name={item.name}
-//                             label={item.label}
-//                             options={item.options}
-//                             validate={item.validate}
-//                             value={item.value}
-//                             onChange={(value) => {this.handleChange(item.name, value)}}
-//                         />
-//                     ))
-//                 }
-//             </form>
-//         );
-//     }
-// }
-
-// class FormInput extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.handleChange = this.handleChange.bind(this);
-//         this.state = {
-//             // use `(this.props.value || "")` instead of `this.props.value`
-//             // to avoid error "change uncontrolled input"
-//             value: (this.props.value || ""),
-//             errorMsg: ""
-//         };
-//     }
-//
-//     handleChange(event) {
-//         var value = event.target.value;
-//         // this.state.errorMsg = this.props.validate(value);
-//         if ("" === this.state.errorMsg) {
-//             this.state.value = value;
-//         } else {
-//             this.state.value = "";
-//         }
-//         this.props.onChange(this.state.value);
-//     }
-//
-//     render() {
-//         var type = this.props.type;
-//         var name = this.props.name;
-//         var value = this.state.value;
-//         var input;
-//         switch (type) {
-//             case "textArea":
-//                 input = <textArea name={name} value={value} onChange={this.handleChange} />;
-//                 break;
-//             case "selectBox":
-//                 input = <select name={name} value={value} onChange={this.handleChange}>
-//                     {
-//                         this.props.options.map((option) => (
-//                                 <option key={option.key} value={option.value}>{option.text}</option>
-//                             ))
-//                     }
-//                 </select>;
-//                 break;
-//             default:
-//                 input = <input type={type} name={name} value={value} onChange={this.handleChange} />;
-//         }
-//         return (
-//             <div>
-//                 <label>{this.props.label}</label>
-//                 <div>{input}</div>
-//                 <div>{this.state.errorMsg}</div>
-//             </div>
-//         );
-//     }
-// }
 
 function uniqueId() {
     return "__" + Math.floor(1 + (999999999 * Math.random()));
