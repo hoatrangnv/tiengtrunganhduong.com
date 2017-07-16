@@ -16,11 +16,11 @@ use Yii;
  * @property integer $quiz_id
  *
  * @property Quiz $quiz
- * @property QuizCharacterMedium[] $characterMedia
- * @property QuizCharacterToFilter[] $characterToFilters
- * @property QuizCharacterToSorter[] $characterToSorters
+ * @property QuizCharacterMedium[] $quizCharacterMedia
+ * @property QuizCharacterToFilter[] $quizCharacterToFilters
+ * @property QuizCharacterToSorter[] $quizCharacterToSorters
  */
-class QuizCharacter extends QuizBase
+class QuizCharacter extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -70,7 +70,7 @@ class QuizCharacter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMedia()
+    public function getQuizCharacterMedia()
     {
         return $this->hasMany(QuizCharacterMedium::className(), ['character_id' => 'id']);
     }
@@ -78,7 +78,7 @@ class QuizCharacter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterToFilters()
+    public function getQuizCharacterToFilters()
     {
         return $this->hasMany(QuizCharacterToFilter::className(), ['character_id' => 'id']);
     }
@@ -86,7 +86,7 @@ class QuizCharacter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterToSorters()
+    public function getQuizCharacterToSorters()
     {
         return $this->hasMany(QuizCharacterToSorter::className(), ['character_id' => 'id']);
     }

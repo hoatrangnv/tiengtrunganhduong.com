@@ -14,7 +14,7 @@ use Yii;
  * @property QuizInput $input
  * @property QuizFilter $inputOptionFilter
  */
-class QuizInputToInputOptionFilter extends QuizBase
+class QuizInputToInputOptionFilter extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc

@@ -13,9 +13,9 @@ use Yii;
  *
  * @property QuizResult $result
  * @property QuizShape $shape
- * @property QuizResultToShapeToStyle[] $resultToShapeToStyles
+ * @property QuizResultToShapeToStyle[] $quizResultToShapeToStyles
  */
-class QuizResultToShape extends QuizBase
+class QuizResultToShape extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -69,7 +69,7 @@ class QuizResultToShape extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShapeToStyles()
+    public function getQuizResultToShapeToStyles()
     {
         return $this->hasMany(QuizResultToShapeToStyle::className(), ['result_to_shape_id' => 'id']);
     }

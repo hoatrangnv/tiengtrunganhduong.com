@@ -16,12 +16,12 @@ use Yii;
  * @property integer $character_id
  *
  * @property QuizCharacter $character
- * @property QuizCharacterMediumToFilter[] $characterMediumToFilters
- * @property QuizCharacterMediumToSorter[] $characterMediumToSorters
- * @property QuizCharacterMediumToStyle[] $characterMediumToStyles
- * @property QuizResultToCharacterMedium[] $resultToCharacterMedia
+ * @property QuizCharacterMediumToFilter[] $quizCharacterMediumToFilters
+ * @property QuizCharacterMediumToSorter[] $quizCharacterMediumToSorters
+ * @property QuizCharacterMediumToStyle[] $quizCharacterMediumToStyles
+ * @property QuizResultToCharacterMedium[] $quizResultToCharacterMedia
  */
-class QuizCharacterMedium extends QuizBase
+class QuizCharacterMedium extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -71,7 +71,7 @@ class QuizCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMediumToFilters()
+    public function getQuizCharacterMediumToFilters()
     {
         return $this->hasMany(QuizCharacterMediumToFilter::className(), ['character_medium_id' => 'id']);
     }
@@ -79,7 +79,7 @@ class QuizCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMediumToSorters()
+    public function getQuizCharacterMediumToSorters()
     {
         return $this->hasMany(QuizCharacterMediumToSorter::className(), ['character_medium_id' => 'id']);
     }
@@ -87,7 +87,7 @@ class QuizCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMediumToStyles()
+    public function getQuizCharacterMediumToStyles()
     {
         return $this->hasMany(QuizCharacterMediumToStyle::className(), ['character_medium_id' => 'id']);
     }
@@ -95,7 +95,7 @@ class QuizCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToCharacterMedia()
+    public function getQuizResultToCharacterMedia()
     {
         return $this->hasMany(QuizResultToCharacterMedium::className(), ['character_medium_id' => 'id']);
     }

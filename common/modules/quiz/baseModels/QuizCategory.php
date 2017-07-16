@@ -31,10 +31,10 @@ use Yii;
  * @property User $creator
  * @property Image $image
  * @property QuizCategory $parent
- * @property QuizCategory[] $categories
+ * @property QuizCategory[] $quizCategories
  * @property User $updater
  */
-class QuizCategory extends QuizBase
+class QuizCategory extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -126,7 +126,7 @@ class QuizCategory extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategories()
+    public function getQuizCategories()
     {
         return $this->hasMany(QuizCategory::className(), ['parent_id' => 'id']);
     }

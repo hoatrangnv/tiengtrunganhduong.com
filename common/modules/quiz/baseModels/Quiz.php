@@ -32,20 +32,20 @@ use Yii;
  * @property User $creator
  * @property Image $image
  * @property User $updater
- * @property QuizCharacter[] $characters
- * @property QuizFilter[] $filters
- * @property QuizInputGroup[] $inputGroups
- * @property QuizParam[] $params
- * @property QuizResult[] $results
- * @property QuizShape[] $shapes
- * @property QuizSorter[] $sorters
- * @property QuizStyle[] $styles
+ * @property QuizCharacter[] $quizCharacters
+ * @property QuizFilter[] $quizFilters
+ * @property QuizInputGroup[] $quizInputGroups
+ * @property QuizParam[] $quizParams
+ * @property QuizResult[] $quizResults
+ * @property QuizShape[] $quizShapes
+ * @property QuizSorter[] $quizSorters
+ * @property QuizStyle[] $quizStyles
  * @property QuizToCharacterFilter[] $quizToCharacterFilters
  * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
  * @property QuizToResultFilter[] $quizToResultFilters
  * @property QuizValidator[] $quizValidators
  */
-class Quiz extends QuizBase
+class Quiz extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -138,7 +138,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacters()
+    public function getQuizCharacters()
     {
         return $this->hasMany(QuizCharacter::className(), ['quiz_id' => 'id']);
     }
@@ -146,7 +146,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFilters()
+    public function getQuizFilters()
     {
         return $this->hasMany(QuizFilter::className(), ['quiz_id' => 'id']);
     }
@@ -154,7 +154,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputGroups()
+    public function getQuizInputGroups()
     {
         return $this->hasMany(QuizInputGroup::className(), ['quiz_id' => 'id']);
     }
@@ -162,7 +162,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getParams()
+    public function getQuizParams()
     {
         return $this->hasMany(QuizParam::className(), ['quiz_id' => 'id']);
     }
@@ -170,7 +170,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResults()
+    public function getQuizResults()
     {
         return $this->hasMany(QuizResult::className(), ['quiz_id' => 'id']);
     }
@@ -178,7 +178,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getShapes()
+    public function getQuizShapes()
     {
         return $this->hasMany(QuizShape::className(), ['quiz_id' => 'id']);
     }
@@ -186,7 +186,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSorters()
+    public function getQuizSorters()
     {
         return $this->hasMany(QuizSorter::className(), ['quiz_id' => 'id']);
     }
@@ -194,7 +194,7 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStyles()
+    public function getQuizStyles()
     {
         return $this->hasMany(QuizStyle::className(), ['quiz_id' => 'id']);
     }

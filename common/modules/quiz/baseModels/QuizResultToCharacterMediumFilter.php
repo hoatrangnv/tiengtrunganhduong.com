@@ -14,7 +14,7 @@ use Yii;
  * @property QuizResult $result
  * @property QuizFilter $characterMediumFilter
  */
-class QuizResultToCharacterMediumFilter extends QuizBase
+class QuizResultToCharacterMediumFilter extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc

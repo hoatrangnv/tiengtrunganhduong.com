@@ -17,14 +17,14 @@ use Yii;
  * @property integer $canvas_height
  * @property integer $quiz_id
  *
- * @property QuizInputOptionToResultPoll[] $inputOptionToResultPolls
+ * @property QuizInputOptionToResultPoll[] $quizInputOptionToResultPolls
  * @property Quiz $quiz
- * @property QuizResultToCharacterMedium[] $resultToCharacterMedia
- * @property QuizResultToCharacterMediumFilter[] $resultToCharacterMediumFilters
- * @property QuizResultToShape[] $resultToShapes
- * @property QuizResultToShapeFilter[] $resultToShapeFilters
+ * @property QuizResultToCharacterMedium[] $quizResultToCharacterMedia
+ * @property QuizResultToCharacterMediumFilter[] $quizResultToCharacterMediumFilters
+ * @property QuizResultToShape[] $quizResultToShapes
+ * @property QuizResultToShapeFilter[] $quizResultToShapeFilters
  */
-class QuizResult extends QuizBase
+class QuizResult extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -70,7 +70,7 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputOptionToResultPolls()
+    public function getQuizInputOptionToResultPolls()
     {
         return $this->hasMany(QuizInputOptionToResultPoll::className(), ['result_id' => 'id']);
     }
@@ -86,7 +86,7 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToCharacterMedia()
+    public function getQuizResultToCharacterMedia()
     {
         return $this->hasMany(QuizResultToCharacterMedium::className(), ['result_id' => 'id']);
     }
@@ -94,7 +94,7 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToCharacterMediumFilters()
+    public function getQuizResultToCharacterMediumFilters()
     {
         return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['result_id' => 'id']);
     }
@@ -102,7 +102,7 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShapes()
+    public function getQuizResultToShapes()
     {
         return $this->hasMany(QuizResultToShape::className(), ['result_id' => 'id']);
     }
@@ -110,7 +110,7 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShapeFilters()
+    public function getQuizResultToShapeFilters()
     {
         return $this->hasMany(QuizResultToShapeFilter::className(), ['result_id' => 'id']);
     }

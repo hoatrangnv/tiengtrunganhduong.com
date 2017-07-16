@@ -13,9 +13,9 @@ use Yii;
  *
  * @property QuizCharacterMedium $characterMedium
  * @property QuizResult $result
- * @property QuizResultToCharacterMediumToStyle[] $resultToCharacterMediumToStyles
+ * @property QuizResultToCharacterMediumToStyle[] $quizResultToCharacterMediumToStyles
  */
-class QuizResultToCharacterMedium extends QuizBase
+class QuizResultToCharacterMedium extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -69,7 +69,7 @@ class QuizResultToCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToCharacterMediumToStyles()
+    public function getQuizResultToCharacterMediumToStyles()
     {
         return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['result_to_character_medium_id' => 'id']);
     }

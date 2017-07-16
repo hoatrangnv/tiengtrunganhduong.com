@@ -13,19 +13,19 @@ use Yii;
  * @property integer $condition_fn_id
  * @property integer $quiz_id
  *
- * @property QuizCharacterMediumToFilter[] $characterMediumToFilters
- * @property QuizCharacterToFilter[] $characterToFilters
+ * @property QuizCharacterMediumToFilter[] $quizCharacterMediumToFilters
+ * @property QuizCharacterToFilter[] $quizCharacterToFilters
  * @property QuizFn $conditionFn
  * @property Quiz $quiz
- * @property QuizInputGroupToInputFilter[] $inputGroupToInputFilters
- * @property QuizInputToInputOptionFilter[] $inputToInputOptionFilters
- * @property QuizResultToCharacterMediumFilter[] $resultToCharacterMediumFilters
- * @property QuizResultToShapeFilter[] $resultToShapeFilters
+ * @property QuizInputGroupToInputFilter[] $quizInputGroupToInputFilters
+ * @property QuizInputToInputOptionFilter[] $quizInputToInputOptionFilters
+ * @property QuizResultToCharacterMediumFilter[] $quizResultToCharacterMediumFilters
+ * @property QuizResultToShapeFilter[] $quizResultToShapeFilters
  * @property QuizToCharacterFilter[] $quizToCharacterFilters
  * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
  * @property QuizToResultFilter[] $quizToResultFilters
  */
-class QuizFilter extends QuizBase
+class QuizFilter extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -67,7 +67,7 @@ class QuizFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterMediumToFilters()
+    public function getQuizCharacterMediumToFilters()
     {
         return $this->hasMany(QuizCharacterMediumToFilter::className(), ['filter_id' => 'id']);
     }
@@ -75,7 +75,7 @@ class QuizFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCharacterToFilters()
+    public function getQuizCharacterToFilters()
     {
         return $this->hasMany(QuizCharacterToFilter::className(), ['filter_id' => 'id']);
     }
@@ -99,7 +99,7 @@ class QuizFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputGroupToInputFilters()
+    public function getQuizInputGroupToInputFilters()
     {
         return $this->hasMany(QuizInputGroupToInputFilter::className(), ['input_filter_id' => 'id']);
     }
@@ -107,7 +107,7 @@ class QuizFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputToInputOptionFilters()
+    public function getQuizInputToInputOptionFilters()
     {
         return $this->hasMany(QuizInputToInputOptionFilter::className(), ['input_option_filter_id' => 'id']);
     }
@@ -115,7 +115,7 @@ class QuizFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToCharacterMediumFilters()
+    public function getQuizResultToCharacterMediumFilters()
     {
         return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['character_medium_filter_id' => 'id']);
     }
@@ -123,7 +123,7 @@ class QuizFilter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getResultToShapeFilters()
+    public function getQuizResultToShapeFilters()
     {
         return $this->hasMany(QuizResultToShapeFilter::className(), ['shape_filter_id' => 'id']);
     }

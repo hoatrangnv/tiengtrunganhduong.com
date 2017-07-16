@@ -17,9 +17,9 @@ use Yii;
  * @property integer $input_id
  *
  * @property QuizInput $input
- * @property QuizInputOptionToResultPoll[] $inputOptionToResultPolls
+ * @property QuizInputOptionToResultPoll[] $quizInputOptionToResultPolls
  */
-class QuizInputOption extends QuizBase
+class QuizInputOption extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -71,7 +71,7 @@ class QuizInputOption extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputOptionToResultPolls()
+    public function getQuizInputOptionToResultPolls()
     {
         return $this->hasMany(QuizInputOptionToResultPoll::className(), ['input_option_id' => 'id']);
     }

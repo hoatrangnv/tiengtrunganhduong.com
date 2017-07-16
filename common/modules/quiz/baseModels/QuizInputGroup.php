@@ -13,11 +13,11 @@ use Yii;
  * @property integer $global_exec_order
  * @property integer $quiz_id
  *
- * @property QuizInput[] $inputs
+ * @property QuizInput[] $quizInputs
  * @property Quiz $quiz
- * @property QuizInputGroupToInputFilter[] $inputGroupToInputFilters
+ * @property QuizInputGroupToInputFilter[] $quizInputGroupToInputFilters
  */
-class QuizInputGroup extends QuizBase
+class QuizInputGroup extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -57,7 +57,7 @@ class QuizInputGroup extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputs()
+    public function getQuizInputs()
     {
         return $this->hasMany(QuizInput::className(), ['input_group_id' => 'id']);
     }
@@ -73,7 +73,7 @@ class QuizInputGroup extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInputGroupToInputFilters()
+    public function getQuizInputGroupToInputFilters()
     {
         return $this->hasMany(QuizInputGroupToInputFilter::className(), ['input_group_id' => 'id']);
     }

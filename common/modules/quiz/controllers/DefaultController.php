@@ -65,6 +65,11 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function actionUpdate()
+    {
+
+    }
+
     public function actionAjaxCreate()
     {
         $parseAttrs = function ($attrsData) {
@@ -82,9 +87,14 @@ class DefaultController extends Controller
         if (!$quiz->validate()) {
             $errors['Quiz'] = $quiz->errors;
         }
-        $loadModels = function ($data) use ($parseAttrs, &$loadModels, &$errors) {
+        $testingId = function () {
+            return rand(0, 999999999);
+        };
+        $global_exec_order = 0;
+        $loadModels = function ($data, $parent_id, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
             foreach ($data as $childData) {
                 $model = null;
+                $attrs = $parseAttrs($childData['attrsData']);
                 switch ($childData['type']) {
                     case 'QuizResult':
                         $model = new QuizResult();
@@ -121,15 +131,33 @@ class DefaultController extends Controller
                         break;
                 }
                 if ($model) {
-                    $model->setAttributes($parseAttrs($childData['attrsData']));
+                    if ($test) {
+                        $model->scenario = 'test';
+                    }
+                    $global_exec_order++;
+                    $attrs['global_exec_order'] = $global_exec_order;
+                    $attrs['quiz_id']
+                        = $attrs['character_id']
+                        = $attrs['input_group_id']
+                        = $attrs['input_id']
+                        = $parent_id;
+                    $model->setAttributes($attrs);
                     if (!$model->validate()) {
+                        $global_exec_order--;
                         $errors["{$childData['type']}#{$childData['id']}"] = $model->errors;
                     }
+                    if ($test || $model->save()) {
+                        $loadModels($childData['childrenData'], $test ? $testingId() : $model->id, $test);
+                    }
                 }
-                $loadModels($childData['childrenData']);
             }
         };
-        $loadModels($state['childrenData']);
+        $loadModels($state['childrenData'], $testingId(), true);
+        if (empty($errors)) {
+            if ($quiz->save()) {
+                $loadModels($state['childrenData'], $quiz->id, false);
+            }
+        }
         echo json_encode($errors);
     }
 }
