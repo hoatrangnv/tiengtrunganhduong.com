@@ -7,15 +7,13 @@ use Yii;
 /**
  * This is the model class for table "quiz_result_to_shape".
  *
- * @property integer $id
  * @property integer $quiz_result_id
  * @property integer $quiz_shape_id
  *
  * @property QuizResult $quizResult
  * @property QuizShape $quizShape
- * @property QuizResultToShapeToStyle[] $quizResultToShapeToStyles
  */
-class QuizResultToShape extends QuizBase
+class QuizResultToShape extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -44,7 +42,6 @@ class QuizResultToShape extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'quiz_result_id' => 'Quiz Result ID',
             'quiz_shape_id' => 'Quiz Shape ID',
         ];
@@ -64,13 +61,5 @@ class QuizResultToShape extends QuizBase
     public function getQuizShape()
     {
         return $this->hasOne(QuizShape::className(), ['id' => 'quiz_shape_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizResultToShapeToStyles()
-    {
-        return $this->hasMany(QuizResultToShapeToStyle::className(), ['quiz_result_to_shape_id' => 'id']);
     }
 }

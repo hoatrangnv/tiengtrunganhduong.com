@@ -19,9 +19,11 @@ use Yii;
  * @property QuizInputGroup $quizInputGroup
  * @property QuizInputOption[] $quizInputOptions
  * @property QuizInputToInputOptionFilter[] $quizInputToInputOptionFilters
+ * @property QuizFilter[] $quizInputOptionFilters
  * @property QuizInputToValidator[] $quizInputToValidators
+ * @property QuizValidator[] $quizValidators
  */
-class QuizInput extends QuizBase
+class QuizInput extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -89,8 +91,24 @@ class QuizInput extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizInputOptionFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_input_option_filter_id'])->viaTable('quiz_input_to_input_option_filter', ['quiz_input_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizInputToValidators()
     {
         return $this->hasMany(QuizInputToValidator::className(), ['quiz_input_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizValidators()
+    {
+        return $this->hasMany(QuizValidator::className(), ['id' => 'quiz_validator_id'])->viaTable('quiz_input_to_validator', ['quiz_input_id' => 'id']);
     }
 }

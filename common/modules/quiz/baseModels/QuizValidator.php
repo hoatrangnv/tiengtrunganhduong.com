@@ -14,10 +14,11 @@ use Yii;
  * @property integer $quiz_id
  *
  * @property QuizInputToValidator[] $quizInputToValidators
+ * @property QuizInput[] $quizInputs
  * @property Quiz $quiz
  * @property QuizFn $quizValidationFn
  */
-class QuizValidator extends QuizBase
+class QuizValidator extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -62,6 +63,14 @@ class QuizValidator extends QuizBase
     public function getQuizInputToValidators()
     {
         return $this->hasMany(QuizInputToValidator::className(), ['quiz_validator_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizInputs()
+    {
+        return $this->hasMany(QuizInput::className(), ['id' => 'quiz_input_id'])->viaTable('quiz_input_to_validator', ['quiz_validator_id' => 'id']);
     }
 
     /**

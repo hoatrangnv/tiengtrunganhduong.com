@@ -7,14 +7,13 @@ use Yii;
 /**
  * This is the model class for table "quiz_result_to_shape_filter".
  *
- * @property integer $id
  * @property integer $quiz_result_id
  * @property integer $quiz_shape_filter_id
  *
  * @property QuizResult $quizResult
  * @property QuizFilter $quizShapeFilter
  */
-class QuizResultToShapeFilter extends QuizBase
+class QuizResultToShapeFilter extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -43,7 +42,6 @@ class QuizResultToShapeFilter extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'quiz_result_id' => 'Quiz Result ID',
             'quiz_shape_filter_id' => 'Quiz Shape Filter ID',
         ];

@@ -16,8 +16,9 @@ use Yii;
  * @property QuizInput[] $quizInputs
  * @property Quiz $quiz
  * @property QuizInputGroupToInputFilter[] $quizInputGroupToInputFilters
+ * @property QuizFilter[] $quizInputFilters
  */
-class QuizInputGroup extends QuizBase
+class QuizInputGroup extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -76,5 +77,13 @@ class QuizInputGroup extends QuizBase
     public function getQuizInputGroupToInputFilters()
     {
         return $this->hasMany(QuizInputGroupToInputFilter::className(), ['quiz_input_group_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizInputFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_input_filter_id'])->viaTable('quiz_input_group_to_input_filter', ['quiz_input_group_id' => 'id']);
     }
 }

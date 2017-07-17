@@ -16,7 +16,7 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
-class QuizBase extends ActiveRecord
+class BaseQuiz extends ActiveRecord
 {
     /**
      * @return array

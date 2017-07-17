@@ -7,14 +7,13 @@ use Yii;
 /**
  * This is the model class for table "quiz_input_to_validator".
  *
- * @property integer $id
  * @property integer $quiz_input_id
  * @property integer $quiz_validator_id
  *
  * @property QuizInput $quizInput
  * @property QuizValidator $quizValidator
  */
-class QuizInputToValidator extends QuizBase
+class QuizInputToValidator extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -43,7 +42,6 @@ class QuizInputToValidator extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'quiz_input_id' => 'Quiz Input ID',
             'quiz_validator_id' => 'Quiz Validator ID',
         ];

@@ -18,9 +18,11 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizCharacterMedium[] $quizCharacterMedia
  * @property QuizCharacterToFilter[] $quizCharacterToFilters
+ * @property QuizFilter[] $quizFilters
  * @property QuizCharacterToSorter[] $quizCharacterToSorters
+ * @property QuizSorter[] $quizSorters
  */
-class QuizCharacter extends QuizBase
+class QuizCharacter extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -86,8 +88,24 @@ class QuizCharacter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_filter_id'])->viaTable('quiz_character_to_filter', ['quiz_character_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizCharacterToSorters()
     {
         return $this->hasMany(QuizCharacterToSorter::className(), ['quiz_character_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizSorters()
+    {
+        return $this->hasMany(QuizSorter::className(), ['id' => 'quiz_sorter_id'])->viaTable('quiz_character_to_sorter', ['quiz_character_id' => 'id']);
     }
 }

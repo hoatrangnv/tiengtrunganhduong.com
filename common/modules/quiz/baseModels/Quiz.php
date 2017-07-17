@@ -41,11 +41,14 @@ use Yii;
  * @property QuizSorter[] $quizSorters
  * @property QuizStyle[] $quizStyles
  * @property QuizToCharacterFilter[] $quizToCharacterFilters
+ * @property QuizFilter[] $quizCharacterFilters
  * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
+ * @property QuizFilter[] $quizInputGroupFilters
  * @property QuizToResultFilter[] $quizToResultFilters
+ * @property QuizFilter[] $quizResultFilters
  * @property QuizValidator[] $quizValidators
  */
-class Quiz extends QuizBase
+class Quiz extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -67,10 +70,10 @@ class Quiz extends QuizBase
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],
-            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
-            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
-            [['quiz_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['quiz_category_id' => 'id']],
-            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
+            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id'], 'except' => 'test'],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id'], 'except' => 'test'],
+            [['quiz_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['quiz_category_id' => 'id'], 'except' => 'test'],
+            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -210,6 +213,14 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizCharacterFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_character_filter_id'])->viaTable('quiz_to_character_filter', ['quiz_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizToInputGroupFilters()
     {
         return $this->hasMany(QuizToInputGroupFilter::className(), ['quiz_id' => 'id']);
@@ -218,9 +229,25 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizInputGroupFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_input_group_filter_id'])->viaTable('quiz_to_input_group_filter', ['quiz_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizToResultFilters()
     {
         return $this->hasMany(QuizToResultFilter::className(), ['quiz_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizResultFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_result_filter_id'])->viaTable('quiz_to_result_filter', ['quiz_id' => 'id']);
     }
 
     /**

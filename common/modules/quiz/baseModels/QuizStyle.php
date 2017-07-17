@@ -31,12 +31,12 @@ use Yii;
  * @property integer $quiz_id
  *
  * @property QuizCharacterMediumToStyle[] $quizCharacterMediumToStyles
- * @property QuizResultToCharacterMediumToStyle[] $quizResultToCharacterMediumToStyles
- * @property QuizResultToShapeToStyle[] $quizResultToShapeToStyles
+ * @property QuizCharacterMedium[] $quizCharacterMedia
  * @property QuizShapeToStyle[] $quizShapeToStyles
+ * @property QuizShape[] $quizShapes
  * @property Quiz $quiz
  */
-class QuizStyle extends QuizBase
+class QuizStyle extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -101,17 +101,9 @@ class QuizStyle extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizResultToCharacterMediumToStyles()
+    public function getQuizCharacterMedia()
     {
-        return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['quiz_style_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizResultToShapeToStyles()
-    {
-        return $this->hasMany(QuizResultToShapeToStyle::className(), ['quiz_style_id' => 'id']);
+        return $this->hasMany(QuizCharacterMedium::className(), ['id' => 'quiz_character_medium_id'])->viaTable('quiz_character_medium_to_style', ['quiz_style_id' => 'id']);
     }
 
     /**
@@ -120,6 +112,14 @@ class QuizStyle extends QuizBase
     public function getQuizShapeToStyles()
     {
         return $this->hasMany(QuizShapeToStyle::className(), ['quiz_style_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizShapes()
+    {
+        return $this->hasMany(QuizShape::className(), ['id' => 'quiz_shape_id'])->viaTable('quiz_shape_to_style', ['quiz_style_id' => 'id']);
     }
 
     /**

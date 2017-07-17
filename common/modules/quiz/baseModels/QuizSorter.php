@@ -14,11 +14,13 @@ use Yii;
  * @property integer $quiz_id
  *
  * @property QuizCharacterMediumToSorter[] $quizCharacterMediumToSorters
+ * @property QuizCharacterMedium[] $quizCharacterMedia
  * @property QuizCharacterToSorter[] $quizCharacterToSorters
+ * @property QuizCharacter[] $quizCharacters
  * @property Quiz $quiz
  * @property QuizFn $quizRuleFn
  */
-class QuizSorter extends QuizBase
+class QuizSorter extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -68,9 +70,25 @@ class QuizSorter extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizCharacterMedia()
+    {
+        return $this->hasMany(QuizCharacterMedium::className(), ['id' => 'quiz_character_medium_id'])->viaTable('quiz_character_medium_to_sorter', ['quiz_sorter_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizCharacterToSorters()
     {
         return $this->hasMany(QuizCharacterToSorter::className(), ['quiz_sorter_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizCharacters()
+    {
+        return $this->hasMany(QuizCharacter::className(), ['id' => 'quiz_character_id'])->viaTable('quiz_character_to_sorter', ['quiz_sorter_id' => 'id']);
     }
 
     /**

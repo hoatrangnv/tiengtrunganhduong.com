@@ -7,14 +7,13 @@ use Yii;
 /**
  * This is the model class for table "quiz_character_to_filter".
  *
- * @property integer $id
  * @property integer $quiz_character_id
  * @property integer $quiz_filter_id
  *
  * @property QuizCharacter $quizCharacter
  * @property QuizFilter $quizFilter
  */
-class QuizCharacterToFilter extends QuizBase
+class QuizCharacterToFilter extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -43,7 +42,6 @@ class QuizCharacterToFilter extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'quiz_character_id' => 'Quiz Character ID',
             'quiz_filter_id' => 'Quiz Filter ID',
         ];

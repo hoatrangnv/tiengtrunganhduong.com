@@ -17,9 +17,10 @@ use Yii;
  * @property integer $quiz_input_id
  *
  * @property QuizInput $quizInput
- * @property QuizInputOptionToResultPoll[] $quizInputOptionToResultPolls
+ * @property QuizInputOptionToVotedResult[] $quizInputOptionToVotedResults
+ * @property QuizResult[] $quizVotedResults
  */
-class QuizInputOption extends QuizBase
+class QuizInputOption extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -71,8 +72,16 @@ class QuizInputOption extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizInputOptionToResultPolls()
+    public function getQuizInputOptionToVotedResults()
     {
-        return $this->hasMany(QuizInputOptionToResultPoll::className(), ['quiz_input_option_id' => 'id']);
+        return $this->hasMany(QuizInputOptionToVotedResult::className(), ['quiz_input_option_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizVotedResults()
+    {
+        return $this->hasMany(QuizResult::className(), ['id' => 'quiz_voted_result_id'])->viaTable('quiz_input_option_to_voted_result', ['quiz_input_option_id' => 'id']);
     }
 }

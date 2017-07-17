@@ -7,15 +7,13 @@ use Yii;
 /**
  * This is the model class for table "quiz_result_to_character_medium".
  *
- * @property integer $id
  * @property integer $quiz_result_id
  * @property integer $quiz_character_medium_id
  *
  * @property QuizCharacterMedium $quizCharacterMedium
  * @property QuizResult $quizResult
- * @property QuizResultToCharacterMediumToStyle[] $quizResultToCharacterMediumToStyles
  */
-class QuizResultToCharacterMedium extends QuizBase
+class QuizResultToCharacterMedium extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -44,7 +42,6 @@ class QuizResultToCharacterMedium extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'quiz_result_id' => 'Quiz Result ID',
             'quiz_character_medium_id' => 'Quiz Character Medium ID',
         ];
@@ -64,13 +61,5 @@ class QuizResultToCharacterMedium extends QuizBase
     public function getQuizResult()
     {
         return $this->hasOne(QuizResult::className(), ['id' => 'quiz_result_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizResultToCharacterMediumToStyles()
-    {
-        return $this->hasMany(QuizResultToCharacterMediumToStyle::className(), ['quiz_result_to_character_medium_id' => 'id']);
     }
 }

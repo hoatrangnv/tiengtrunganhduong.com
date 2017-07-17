@@ -7,14 +7,13 @@ use Yii;
 /**
  * This is the model class for table "quiz_input_group_to_input_filter".
  *
- * @property integer $id
  * @property integer $quiz_input_group_id
  * @property integer $quiz_input_filter_id
  *
  * @property QuizFilter $quizInputFilter
  * @property QuizInputGroup $quizInputGroup
  */
-class QuizInputGroupToInputFilter extends QuizBase
+class QuizInputGroupToInputFilter extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -43,7 +42,6 @@ class QuizInputGroupToInputFilter extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'quiz_input_group_id' => 'Quiz Input Group ID',
             'quiz_input_filter_id' => 'Quiz Input Filter ID',
         ];

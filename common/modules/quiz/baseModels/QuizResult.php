@@ -17,14 +17,19 @@ use Yii;
  * @property integer $canvas_height
  * @property integer $quiz_id
  *
- * @property QuizInputOptionToResultPoll[] $quizInputOptionToResultPolls
+ * @property QuizInputOptionToVotedResult[] $quizInputOptionToVotedResults
+ * @property QuizInputOption[] $quizInputOptions
  * @property Quiz $quiz
  * @property QuizResultToCharacterMedium[] $quizResultToCharacterMedia
+ * @property QuizCharacterMedium[] $quizCharacterMedia
  * @property QuizResultToCharacterMediumFilter[] $quizResultToCharacterMediumFilters
+ * @property QuizFilter[] $quizCharacterMediumFilters
  * @property QuizResultToShape[] $quizResultToShapes
+ * @property QuizShape[] $quizShapes
  * @property QuizResultToShapeFilter[] $quizResultToShapeFilters
+ * @property QuizFilter[] $quizShapeFilters
  */
-class QuizResult extends QuizBase
+class QuizResult extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -70,9 +75,17 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizInputOptionToResultPolls()
+    public function getQuizInputOptionToVotedResults()
     {
-        return $this->hasMany(QuizInputOptionToResultPoll::className(), ['quiz_result_id' => 'id']);
+        return $this->hasMany(QuizInputOptionToVotedResult::className(), ['quiz_voted_result_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizInputOptions()
+    {
+        return $this->hasMany(QuizInputOption::className(), ['id' => 'quiz_input_option_id'])->viaTable('quiz_input_option_to_voted_result', ['quiz_voted_result_id' => 'id']);
     }
 
     /**
@@ -94,9 +107,25 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizCharacterMedia()
+    {
+        return $this->hasMany(QuizCharacterMedium::className(), ['id' => 'quiz_character_medium_id'])->viaTable('quiz_result_to_character_medium', ['quiz_result_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizResultToCharacterMediumFilters()
     {
         return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['quiz_result_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizCharacterMediumFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_character_medium_filter_id'])->viaTable('quiz_result_to_character_medium_filter', ['quiz_result_id' => 'id']);
     }
 
     /**
@@ -110,8 +139,24 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizShapes()
+    {
+        return $this->hasMany(QuizShape::className(), ['id' => 'quiz_shape_id'])->viaTable('quiz_result_to_shape', ['quiz_result_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizResultToShapeFilters()
     {
         return $this->hasMany(QuizResultToShapeFilter::className(), ['quiz_result_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizShapeFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_shape_filter_id'])->viaTable('quiz_result_to_shape_filter', ['quiz_result_id' => 'id']);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace common\modules\quiz\controllers;
 
-use common\modules\quiz\baseModels\QuizBase;
+use common\modules\quiz\baseModels\BaseQuiz;
 use common\modules\quiz\models\Quiz;
 use common\modules\quiz\models\QuizCharacter;
 use common\modules\quiz\models\QuizCharacterMedium;
@@ -64,7 +64,8 @@ class DefaultController extends Controller
             'type' => $quizConfig['type'],
             'attrConfigs' => $quizConfig['attrConfigs'],
             'attrsData' => null,
-            'childConfigs' => $modelConfigs
+            'childConfigs' => $modelConfigs,
+            'childrenData' => [],
         ]);
     }
 
@@ -143,13 +144,13 @@ class DefaultController extends Controller
                 return 0;
             });
             /**
-             * @var QuizBase[] $children
+             * @var BaseQuiz[] $children
              */
             foreach ($children as $child) {
                 $childData = [];
                 $childData['id'] = '__' . rand(1, 99999999);
                 /**
-                 * @var $class QuizBase
+                 * @var $class BaseQuiz
                  */
                 $class = get_class($child);
                 $type = $childData['type'] = join('', array_slice(explode('\\', $class), -1));

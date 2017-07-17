@@ -14,11 +14,13 @@ use Yii;
  * @property integer $quiz_id
  *
  * @property QuizResultToShape[] $quizResultToShapes
+ * @property QuizResult[] $quizResults
  * @property Image $image
  * @property Quiz $quiz
  * @property QuizShapeToStyle[] $quizShapeToStyles
+ * @property QuizStyle[] $quizStyles
  */
-class QuizShape extends QuizBase
+class QuizShape extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -67,6 +69,14 @@ class QuizShape extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizResults()
+    {
+        return $this->hasMany(QuizResult::className(), ['id' => 'quiz_result_id'])->viaTable('quiz_result_to_shape', ['quiz_shape_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getImage()
     {
         return $this->hasOne(Image::className(), ['id' => 'image_id']);
@@ -86,5 +96,13 @@ class QuizShape extends QuizBase
     public function getQuizShapeToStyles()
     {
         return $this->hasMany(QuizShapeToStyle::className(), ['quiz_shape_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizStyles()
+    {
+        return $this->hasMany(QuizStyle::className(), ['id' => 'quiz_style_id'])->viaTable('quiz_shape_to_style', ['quiz_shape_id' => 'id']);
     }
 }

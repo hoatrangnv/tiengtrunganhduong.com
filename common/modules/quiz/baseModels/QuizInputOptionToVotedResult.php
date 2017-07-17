@@ -5,24 +5,23 @@ namespace common\modules\quiz\baseModels;
 use Yii;
 
 /**
- * This is the model class for table "quiz_input_option_to_result_poll".
+ * This is the model class for table "quiz_input_option_to_voted_result".
  *
- * @property integer $id
- * @property integer $votes
- * @property integer $quiz_result_id
  * @property integer $quiz_input_option_id
+ * @property integer $quiz_voted_result_id
+ * @property integer $votes
  *
  * @property QuizInputOption $quizInputOption
- * @property QuizResult $quizResult
+ * @property QuizResult $quizVotedResult
  */
-class QuizInputOptionToResultPoll extends QuizBase
+class QuizInputOptionToVotedResult extends BaseQuiz
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'quiz_input_option_to_result_poll';
+        return 'quiz_input_option_to_voted_result';
     }
 
     /**
@@ -31,10 +30,10 @@ class QuizInputOptionToResultPoll extends QuizBase
     public function rules()
     {
         return [
-            [['votes', 'quiz_result_id', 'quiz_input_option_id'], 'required'],
-            [['votes', 'quiz_result_id', 'quiz_input_option_id'], 'integer'],
+            [['quiz_input_option_id', 'quiz_voted_result_id', 'votes'], 'required'],
+            [['quiz_input_option_id', 'quiz_voted_result_id', 'votes'], 'integer'],
             [['quiz_input_option_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputOption::className(), 'targetAttribute' => ['quiz_input_option_id' => 'id'], 'except' => 'test'],
-            [['quiz_result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['quiz_result_id' => 'id'], 'except' => 'test'],
+            [['quiz_voted_result_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizResult::className(), 'targetAttribute' => ['quiz_voted_result_id' => 'id'], 'except' => 'test'],
         ];
     }
 
@@ -44,10 +43,9 @@ class QuizInputOptionToResultPoll extends QuizBase
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'votes' => 'Votes',
-            'quiz_result_id' => 'Quiz Result ID',
             'quiz_input_option_id' => 'Quiz Input Option ID',
+            'quiz_voted_result_id' => 'Quiz Voted Result ID',
+            'votes' => 'Votes',
         ];
     }
 
@@ -62,8 +60,8 @@ class QuizInputOptionToResultPoll extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizResult()
+    public function getQuizVotedResult()
     {
-        return $this->hasOne(QuizResult::className(), ['id' => 'quiz_result_id']);
+        return $this->hasOne(QuizResult::className(), ['id' => 'quiz_voted_result_id']);
     }
 }

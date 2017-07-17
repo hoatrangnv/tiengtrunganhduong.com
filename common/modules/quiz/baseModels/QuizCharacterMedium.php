@@ -17,11 +17,15 @@ use Yii;
  *
  * @property QuizCharacter $quizCharacter
  * @property QuizCharacterMediumToFilter[] $quizCharacterMediumToFilters
+ * @property QuizFilter[] $quizFilters
  * @property QuizCharacterMediumToSorter[] $quizCharacterMediumToSorters
+ * @property QuizSorter[] $quizSorters
  * @property QuizCharacterMediumToStyle[] $quizCharacterMediumToStyles
+ * @property QuizStyle[] $quizStyles
  * @property QuizResultToCharacterMedium[] $quizResultToCharacterMedia
+ * @property QuizResult[] $quizResults
  */
-class QuizCharacterMedium extends QuizBase
+class QuizCharacterMedium extends BaseQuiz
 {
     /**
      * @inheritdoc
@@ -79,9 +83,25 @@ class QuizCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizFilters()
+    {
+        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_filter_id'])->viaTable('quiz_character_medium_to_filter', ['quiz_character_medium_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizCharacterMediumToSorters()
     {
         return $this->hasMany(QuizCharacterMediumToSorter::className(), ['quiz_character_medium_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizSorters()
+    {
+        return $this->hasMany(QuizSorter::className(), ['id' => 'quiz_sorter_id'])->viaTable('quiz_character_medium_to_sorter', ['quiz_character_medium_id' => 'id']);
     }
 
     /**
@@ -95,8 +115,24 @@ class QuizCharacterMedium extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizStyles()
+    {
+        return $this->hasMany(QuizStyle::className(), ['id' => 'quiz_style_id'])->viaTable('quiz_character_medium_to_style', ['quiz_character_medium_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizResultToCharacterMedia()
     {
         return $this->hasMany(QuizResultToCharacterMedium::className(), ['quiz_character_medium_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizResults()
+    {
+        return $this->hasMany(QuizResult::className(), ['id' => 'quiz_result_id'])->viaTable('quiz_result_to_character_medium', ['quiz_character_medium_id' => 'id']);
     }
 }
