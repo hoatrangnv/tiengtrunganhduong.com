@@ -11,20 +11,23 @@ namespace common\modules\quiz;
 
 use yii\web\AssetBundle;
 
-class QuizCreatorAsset extends AssetBundle
+class QuizEditorAsset extends AssetBundle
 {
     public $sourcePath = '@quiz/assets';
 
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 
     public $css = [
-        'css/quiz-editor.css'
+//        'css/react-select.css',
+        'css/quiz-editor.css',
     ];
 
     public $js = [
+//        'js/classnames.js',
+//        'js/react-input-autosize.js',
+//        'js/react-select.js',
         'js/react-sortable-hoc.js',
         ['js/quiz-editor.jsx', 'type' => 'text/babel'],
-        'js/interact.js',
     ];
 
     public $depends = [

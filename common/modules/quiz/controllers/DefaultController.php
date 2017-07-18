@@ -12,11 +12,14 @@ use common\modules\quiz\models\QuizInputGroup;
 use common\modules\quiz\models\QuizInputOption;
 use common\modules\quiz\models\QuizParam;
 use common\modules\quiz\models\QuizResult;
+use common\modules\quiz\models\QuizResultToCharacterMedium;
+use common\modules\quiz\models\QuizResultToShape;
 use common\modules\quiz\models\QuizShape;
 use common\modules\quiz\models\QuizSorter;
 use common\modules\quiz\models\QuizStyle;
 use common\modules\quiz\models\QuizValidator;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -149,25 +152,48 @@ class DefaultController extends Controller
              */
             foreach ($children as $i => $child) {
                 $childData = [];
-                $childData['id'] = '__' . rand(1, 99999999);
-                if (0 == $i) {
-                    $childrenData['activeItemId'] = $childData['id'];
-                }
                 /**
                  * @var $class QuizBase
                  */
                 $class = get_class($child);
                 $type = $childData['type'] = join('', array_slice(explode('\\', $class), -1));
+                $class = "common\modules\quiz\models\\$type";
                 $childAttrs = [];
                 $modelConfig = $class::modelConfig();
                 foreach ($modelConfig['attrs'] as $attr) {
                     $attr['value'] = $child->getAttribute($attr['name']);
                     $attr['errorMsg'] = '';
                     $childAttrs[] = $attr;
+                    if ($attr['name'] == 'id') {
+                        $childData['id'] = '__' . $attr['value'];
+                    }
                 }
                 $childData['attrs'] = $childAttrs;
+                if (0 == $i) {
+                    $childrenData['activeItemId'] = $childData['id'];
+                }
                 $grandChildren = [];
                 switch ($type) {
+                    case 'QuizResult':
+                        /**
+                         * @var $child QuizResult
+                         */
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_character_medium_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return '__' . $id;
+                                    }, ArrayHelper::getColumn($child->quizCharacterMedia, 'id'));
+                                    break;
+                                case 'quiz_shape_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return '__' . $id;
+                                    }, ArrayHelper::getColumn($child->quizShapes, 'id'));
+                                    break;
+
+                            }
+                        }
+                        break;
                     case 'QuizCharacter':
                         /**
                          * @var $child QuizCharacter
@@ -244,30 +270,58 @@ class DefaultController extends Controller
             return rand(0, 999999999);
         };
         $global_exec_order = 0;
+        $junctions = [
+            'QuizResult' => [
+//                [
+//                    '__id' => '',
+//                    'id' => null,
+//                    'junctions' => [
+//                        'quiz_character_medium_ids' => [],
+//                        'quiz_shape_ids' => [],
+//                    ],
+//                ],
+            ],
+            'QuizCharacterMedium' => [
+//                [
+//                    '__id' => '',
+//                    'id' => null
+//                ],
+            ],
+            'QuizShape' => [
+//                [
+//                    '__id' => '',
+//                    'id' => null
+//                ],
+            ],
+        ];
         /**
          * @param $data
          * @param $parent QuizBase
          * @param $test
          */
-        $loadModels = function (&$data, $parent, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
+        $loadModels = function (&$data, $parent, $test)
+            use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order, &$junctions) {
+            // Delete no longer children
             $oldChildren = [];
             if (!$parent->isNewRecord) {
                 if ($parent instanceof Quiz) {
-                    $quiz = $parent;
-                    $quizCharacters = $quiz->quizCharacters;
-                    $quizParams = $quiz->quizParams;
-                    $quizInputGroups = $quiz->quizInputGroups;
-                    $quizResults = $quiz->quizResults;
-                    $quizShapes = $quiz->quizShapes;
-                    $quizStyles = $quiz->quizStyles;
-                    $quizValidators = $quiz->quizValidators;
-                    $quizFilters = $quiz->quizFilters;
-                    $quizSorters = $quiz->quizSorters;
                     $oldChildren = array_merge(
-                        $quizInputGroups, $quizCharacters, $quizParams,
-                        $quizShapes, $quizResults, $quizSorters, $quizValidators,
-                        $quizStyles, $quizFilters
+                        $parent->quizCharacters,
+                        $parent->quizParams,
+                        $parent->quizInputGroups,
+                        $parent->quizResults,
+                        $parent->quizShapes,
+                        $parent->quizStyles,
+                        $parent->quizValidators,
+                        $parent->quizFilters,
+                        $parent->quizSorters
                     );
+                } else if ($parent instanceof QuizCharacter) {
+                    $oldChildren = $parent->quizCharacterMedia;
+                }  else if ($parent instanceof QuizInputGroup) {
+                    $oldChildren = $parent->quizInputs;
+                } else if ($parent instanceof QuizInput) {
+                    $oldChildren = $parent->quizInputOptions;
                 }
             }
             foreach ($data['items'] as $childData) {
@@ -286,13 +340,10 @@ class DefaultController extends Controller
                     'QuizValidator',
                 ])) {
                     $attrs = $parseAttrs($childData['attrs']);
-                    for ($i = 0; $i < count($oldChildren); $i++) {
-                        if (isset($oldChildren[$i])) {
-
-                            $oldChild = $oldChildren[$i];
-                            if ($childData['type'] == join('', array_slice(explode('\\', get_class($oldChild)), -1)) && $attrs['id'] == $oldChild->id) {
-                                unset($oldChildren[$i]);
-                            }
+                    foreach ($oldChildren as $key => $oldChild) {
+                        $oldChildType = join('', array_slice(explode('\\', get_class($oldChild)), -1));
+                        if ($childData['type'] == $oldChildType && $attrs['id'] == $oldChild->id) {
+                            unset($oldChildren[$key]);
                         }
                     }
                 }
@@ -303,6 +354,7 @@ class DefaultController extends Controller
                 }
             }
 
+            // Save children
             foreach ($data['items'] as &$childData) {
                 $model = null;
                 $attrs = $parseAttrs($childData['attrs']);
@@ -331,41 +383,6 @@ class DefaultController extends Controller
                         $model = new $class();
                     }
                 }
-//                switch ($childData['type']) {
-//                    case 'QuizResult':
-//                        $model = new QuizResult();
-//                        break;
-//                    case 'QuizCharacter':
-//                        $model = new QuizCharacter();
-//                        break;
-//                    case 'QuizCharacterMedium':
-//                        $model = new QuizCharacterMedium();
-//                        break;
-//                    case 'QuizInputGroup':
-//                        $model = new QuizInputGroup();
-//                        break;
-//                    case 'QuizInput':
-//                        $model = new QuizInput();
-//                        break;
-//                    case 'QuizInputOption':
-//                        $model = new QuizInputOption();
-//                        break;
-//                    case 'QuizShape':
-//                        $model = new QuizShape();
-//                        break;
-//                    case 'QuizFilter':
-//                        $model = new QuizFilter();
-//                        break;
-//                    case 'QuizSorter':
-//                        $model = new QuizSorter();
-//                        break;
-//                    case 'QuizStyle':
-//                        $model = new QuizStyle();
-//                        break;
-//                    case 'QuizValidator':
-//                        $model = new QuizValidator();
-//                        break;
-//                }
                 if ($model) {
                     if ($test) {
                         $model->scenario = 'test';
@@ -395,16 +412,90 @@ class DefaultController extends Controller
                     if ($test || $model->save()) {
                         $loadModels($childData['childrenData'], $model, $test);
                     }
+
+                    // Junctions
+                    switch ($childData['type']) {
+                        case 'QuizResult':
+                            $quiz_character_medium_ids = [];
+                            $quiz_shape_ids = [];
+                            foreach ($childData['attrs'] as $attr) {
+                                if ($attr['name'] === 'quiz_character_medium_ids') {
+                                    $quiz_character_medium_ids = $attr['value'];
+                                } else if ($attr['name'] === 'quiz_shape_ids') {
+                                    $quiz_shape_ids = $attr['value'];
+                                }
+                            }
+                            $junctions['QuizResult'][] = [
+                                '__id' => $childData['id'],
+                                'id' => $model->id,
+                                'junctions' => [
+                                    'quiz_character_medium_ids' => $quiz_character_medium_ids,
+                                    'quiz_shape_ids' => $quiz_shape_ids,
+                                ]
+                            ];
+                            break;
+                        case 'QuizCharacterMedium':
+                        case 'QuizShape':
+                            $junctions[$childData['type']][] = [
+                                '__id' => $childData['id'],
+                                'id' => $model->id,
+                            ];
+                            break;
+                        case 'QuizFilter':
+                            break;
+
+
+                    }
                 }
             }
         };
-        if (!$quiz->id) {
+        if ($quiz->isNewRecord) {
             $quiz->id = $testingId();
         }
         $loadModels($state['childrenData'], $quiz, true);
         if (empty($errors)) {
+            if ($quiz->isNewRecord) {
+                $quiz->id = null;
+            }
             if ($quiz->save()) {
                 $loadModels($state['childrenData'], $quiz, false);
+//                VarDumper::dump($junctions, 100, true);die;
+                foreach ($junctions as $type => $junction) {
+                    if ($type === 'QuizResult') {
+                        foreach ($junction as $item) {
+                            foreach ($item['junctions']['quiz_character_medium_ids'] as $character_medium_id) {
+                                foreach ($junctions['QuizCharacterMedium'] as $item2) {
+                                    if ($character_medium_id == $item2['__id']) {
+                                        if (!$jnc = QuizResultToCharacterMedium::findOne([
+                                            'quiz_result_id' => (int) $item['id'],
+                                            'quiz_character_medium_id' => (int) $item2['id'],
+                                        ])) {
+                                            $jnc = new QuizResultToCharacterMedium();
+                                            $jnc->quiz_result_id = (int) $item['id'];
+                                            $jnc->quiz_character_medium_id = (int) $item2['id'];
+                                            $jnc->save();
+                                        }
+                                    }
+                                }
+                            }
+                            foreach ($item['junctions']['quiz_shape_ids'] as $shape_id) {
+                                foreach ($junctions['QuizShape'] as $item2) {
+                                    if ($shape_id == $item2['__id']) {
+                                        if (!$jnc = QuizResultToShape::findOne([
+                                            'quiz_result_id' => (int) $item['id'],
+                                            'quiz_shape_id' => (int) $item2['id'],
+                                        ])) {
+                                            $jnc = new QuizResultToShape();
+                                            $jnc->quiz_result_id = (int) $item['id'];
+                                            $jnc->quiz_shape_id = (int) $item2['id'];
+                                            $jnc->save();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         echo json_encode([

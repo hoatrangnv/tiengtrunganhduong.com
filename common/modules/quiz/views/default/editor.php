@@ -12,7 +12,7 @@
  * @var array $childConfigs
  * @var array $childrenData
  */
-\common\modules\quiz\QuizCreatorAsset::register($this);
+\common\modules\quiz\QuizEditorAsset::register($this);
 ?>
 
 <div id="root"></div>

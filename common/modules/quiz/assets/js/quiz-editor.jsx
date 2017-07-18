@@ -30,6 +30,7 @@ class QuizModel extends React.Component {
         // this.ancestorUpdateGrandchildren = this.ancestorUpdateGrandchildren.bind(this);
         this.updateAttr = this.updateAttr.bind(this);
         this.saveCallback = this.saveCallback.bind(this);
+        this.findModels = this.findModels.bind(this);
     }
 
     updateAttr(name, value, errorMsg) {
@@ -143,70 +144,44 @@ class QuizModel extends React.Component {
     // }
 
     saveCallback(response) {
+        console.log("response");
         console.log(response);
+        this.setState(response.state);
         if (response.success) {
-            window.location.href = response.updateLink;
-        } else {
-            this.setState(response.state);
+            // window.location.href = response.updateLink;
         }
-        // ReactDOM.render(
-        //     <QuizModel
-        //         save={save}
-        //         type={this.props.type}
-        //         attrs={this.state.attrs}
-        //         childConfigs={this.props.childConfigs}
-        //         childrenData={this.state.childrenData}
-        //     />,
-        //     document.getElementById("root")
-        // );
-        // for (let prop in response.errors) {
-        //     if (!response.errors.hasOwnProperty(prop)) {
-        //         continue;
-        //     }
-        //     let [modelType, modelId] = prop.split("#");
-        //     if ("Quiz" === modelType) {
-        //         let attrs = this.state.attrs;
-        //         attrs.forEach((attr) => {
-        //             for (let attrName in response.errors[prop]) {
-        //                 if (!response.errors[prop].hasOwnProperty(attrName)) {
-        //                     continue;
-        //                 }
-        //                 if (attrName === attr.name) {
-        //                     attr.errorMsg = response.errors[prop][attrName];
-        //                 }
-        //             }
-        //         });
-        //         this.setState((prevState) => ({
-        //             name: prevState.name,
-        //             attrs: attrs,
-        //             childrenData: prevState.childrenData
-        //         }));
-        //     } else {
-        //         let children = this.state.childrenData.items;
-        //         let checkItems = (items) => {
-        //             items.forEach((item) => {
-        //                 if (modelType === item.type && modelId === item.id) {
-        //
-        //                 }
-        //             });
-        //         };
-        //     }
-        // }
+    }
+
+    findModels(type) {
+        if (this.props.findModels) {      // Not ancestor
+            return this.props.findModels(type);
+        } else {                          // Ancestor
+            function find(ancestor) {
+                var found = [];
+                ancestor.childrenData.items.forEach((item) => {
+                    if (type === item.type) {
+                        found.push(item);
+                    }
+                    found = found.concat(find(item));
+                });
+                return found;
+            }
+            return find(this.state);
+        }
     }
 
     render() {
-        console.log(this.props.type + " childrenData:", this.state.childrenData);
         var activeChildData = this.state.childrenData.items.find(childData => childData.id === this.state.childrenData.activeItemId);
         return (
             <div id={this.props.id} className="panel panel-default clearfix">
                 {
                     this.props.save &&
-                    <div className="panel-heading clearfix">
-                        <button
-                            className="btn btn-sm btn-primary"
-                            onClick={() => {this.props.save(this.state, this.saveCallback)}}
-                        >Save</button>
-                    </div>
+                        <div className="panel-heading clearfix">
+                            <button
+                                className="btn btn-sm btn-primary"
+                                onClick={() => {this.props.save(this.state, this.saveCallback)}}
+                            >Save</button>
+                        </div>
                 }
                 <div className="panel-body clearfix">
                     <div
@@ -227,6 +202,7 @@ class QuizModel extends React.Component {
                                     value={attr.value}
                                     errorMsg={attr.errorMsg}
                                     onChange={(value, errorMsg) => {this.updateAttr(attr.name, value, errorMsg)}}
+                                    findModels={this.findModels}
                                 />
                             ))
                         }
@@ -263,6 +239,7 @@ class QuizModel extends React.Component {
                                         attrs={activeChildData.attrs}
                                         childConfigs={activeChildData.childConfigs}
                                         childrenData={activeChildData.childrenData}
+                                        findModels={this.findModels}
                                     />
                                 </div>
                         }
@@ -292,15 +269,24 @@ class QuizModelAttr extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            // use `(this.props.value || "")` instead of `this.props.value`
-            // to avoid error "change uncontrolled input"
-            value: (this.props.value || ""),
+            value: this.props.value || "",
             errorMsg: this.props.errorMsg
         };
     }
 
     handleChange(event) {
-        var value = event.target.value;
+        var value;
+        if (event.target.options) {
+            let options = event.target.options;
+            value = [];
+            for (let i = 0, l = options.length; i < l; i++) {
+                if (options[i].selected) {
+                    value.push(options[i].value);
+                }
+            }
+        } else {
+            value = event.target.value;
+        }
         var errorMsg = "";
         this.setState({
             value: value,
@@ -330,6 +316,36 @@ class QuizModelAttr extends React.Component {
                 >
                     {
                         this.props.options.map((option) => (
+                            <option key={uniqueId()} value={option.value}>{option.text}</option>
+                        ))
+                    }
+                </select>;
+                break;
+            case "multipleSelectBox":
+                var options = [];
+                if ("string" === typeof this.props.options) {
+                    if (this.props.options.substr(0, 6) === "@list ") {
+                        let modelType = this.props.options.substr(6);
+                        options = this.props.findModels(modelType).map((model) => {
+                            // let id = model.attrs.find((attr) => (attr.name === "id"));
+                            return {
+                                "value": /*id && id.value ? ("__" + id.value) :*/ model.id,
+                                "text": model.type + "#" + model.id
+                            };
+                        });
+                    }
+                } else if (this.props.options instanceof Array) {
+                    options = this.props.options;
+                }
+                console.log(value);
+                input = <select
+                    name={name}
+                    value={value ? value : []}
+                    onChange={this.handleChange}
+                    multiple="true"
+                >
+                    {
+                        options.map((option) => (
                             <option key={uniqueId()} value={option.value}>{option.text}</option>
                         ))
                     }

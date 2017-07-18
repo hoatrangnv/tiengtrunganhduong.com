@@ -64,10 +64,10 @@ class QuizBase extends ActiveRecord
             $inputConfig = [
                 'type' => $type,
                 'name' => $column->name,
+                'label' => Inflector::humanize($column->name),
                 'value' => '',
                 'errorMsg' => '',
                 'options' => $options,
-                'label' => Inflector::humanize($column->name),
                 'rules' => [
                     'required' => !$column->allowNull,
                 ]
