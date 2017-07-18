@@ -18,7 +18,6 @@
 <div id="root"></div>
 <script type="text/babel">
     function save(state) {
-//        console.log(state);
         var fd = new FormData();
         fd.append("state", JSON.stringify(state));
         fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
@@ -49,5 +48,4 @@
         />,
         document.getElementById("root")
     );
-    console.log(<?= json_encode($childrenData) ?>);
 </script>

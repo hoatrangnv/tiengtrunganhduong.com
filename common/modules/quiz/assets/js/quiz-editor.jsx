@@ -1,6 +1,18 @@
 var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
 
 class QuizModel extends React.Component {
+    /**
+     * @param props
+     * {
+     *   id            string    required
+     *   type          string    required
+     *   attrs         array     required
+     *   childConfigs  array     required
+     *   childrenData  array     required
+     *   activeChildId string    required
+     *   save          function  optional
+     * }
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -13,11 +25,15 @@ class QuizModel extends React.Component {
         this.removeChild = this.removeChild.bind(this);
         this.activateChild = this.activateChild.bind(this);
         this.reorderChildren = this.reorderChildren.bind(this);
-        this.updateChildrenData = this.updateChildrenData.bind(this);
+        this.ancestorUpdateGrandchildren = this.ancestorUpdateGrandchildren.bind(this);
         this.updateAttr = this.updateAttr.bind(this);
     }
 
     updateAttr(name, value, errorMsg) {
+        // Cause `attrs` is an object
+        // you don't need to update state
+        // And you shouldn't update state
+        // DOM updates lead to the input will lose focus
         var attrs = this.state.attrs;
         attrs.forEach((attr) => {
             if (name === attr.name) {
@@ -25,72 +41,29 @@ class QuizModel extends React.Component {
                 attr.errorMsg = errorMsg;
             }
         });
-        this.setState((prevState) => ({
-            name: prevState.name,
-            attrs: attrs,
-            childrenData: prevState.childrenData,
-            activeChildId: prevState.activeChildId
-        }));
     }
 
-    addChild(config) {
+    addChild(childConfig) {
+        var newChildConfig = JSON.parse(JSON.stringify(childConfig));
         var newChildData = {
             id: uniqueId(),
-            type: config.type,
-            attrs: config.attrs,
-            childConfigs: config.childConfigs,
+            type: newChildConfig.type,
+            attrs: newChildConfig.attrs,
+            childConfigs: newChildConfig.childConfigs,
             childrenData: [],
             activeChildId: undefined
         };
-        if (this.props.updateChildrenData) {
-            this.props.updateChildrenData(this.props.id, config);
-        } else {
-            this.setState((prevState) => ({
-                name: prevState.name,
-                attrs: prevState.attrs,
-                childrenData: prevState.childrenData.concat(newChildData),
-                activeChildId: newChildData.id
-            }));
+        var childrenData = this.state.childrenData;
+        childrenData.push(newChildData);
+        if (this.props.ancestorUpdateGrandchildren) {
+            this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
         }
-
-    }
-
-    updateChildrenData(id, config) {
-        if (this.props.updateChildrenData) {
-            this.props.updateChildrenData(id, config);
-        } else {
-            var update = function (childrenData) {
-                var newChildId = null;
-                childrenData.forEach((childData) => {
-                    if (id === childData.id) {
-                        newChildId = uniqueId();
-                        var newChildData = {
-                            id: newChildId,
-                            type: config.type,
-                            attrs: config.attrs,
-                            childConfigs: config.childConfigs,
-                            childrenData: [],
-                            activeChildId: undefined
-                        };
-                        childData.childrenData.push(newChildData);
-                        childData.activeChildId = newChildId;
-                    }
-                });
-                if (!newChildId) {
-                    childrenData.forEach((childData) => {
-                        update(childData.childrenData);
-                    });
-                }
-                return childrenData;
-            };
-            var childrenData = update(this.state.childrenData);
-            this.setState((prevState) => ({
-                name: prevState.name,
-                attrs: prevState.attrs,
-                childrenData: childrenData,
-                activeChildId: prevState.activeChildId
-            }));
-        }
+        this.setState((prevState) => ({
+            name: prevState.name,
+            attrs: prevState.attrs,
+            childrenData: childrenData,
+            activeChildId: newChildData.id
+        }));
     }
 
     removeChild() {
@@ -117,12 +90,45 @@ class QuizModel extends React.Component {
     }
 
     reorderChildren({oldIndex, newIndex}) {
+        var childrenData = this.state.childrenData;
+        childrenData = arrayMove(childrenData, oldIndex, newIndex);
+        if (this.props.ancestorUpdateGrandchildren) {
+            this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
+        }
         this.setState((prevState) => ({
             name: prevState.name,
             attrs: prevState.attrs,
-            childrenData: arrayMove(prevState.childrenData, oldIndex, newIndex),
+            childrenData: childrenData,
             activeChildId: prevState.activeChildId
         }));
+    }
+
+    ancestorUpdateGrandchildren(id, grandchildrenData) {
+        if (this.props.ancestorUpdateGrandchildren) {
+            this.props.ancestorUpdateGrandchildren(id, grandchildrenData);
+        } else {
+            this.setState((prevState) => ({
+                name: prevState.name,
+                attrs: prevState.attrs,
+                childrenData: update(this.state.childrenData),
+                activeChildId: prevState.activeChildId
+            }));
+            function update(childrenData) {
+                var updated = false;
+                childrenData.forEach((childData) => {
+                    if (id === childData.id) {
+                        childData.childrenData = grandchildrenData;
+                        updated = true;
+                    }
+                });
+                if (!updated) {
+                    childrenData.forEach((childData) => {
+                        childData.childrenData = update(childData.childrenData);
+                    });
+                }
+                return childrenData;
+            }
+        }
     }
 
     render() {
@@ -184,7 +190,7 @@ class QuizModel extends React.Component {
                                         childrenData={activeChildData.childrenData}
                                         attrs={activeChildData.attrs}
                                         activeChildId={activeChildData.activeChildId}
-                                        updateChildrenData={this.updateChildrenData}
+                                        ancestorUpdateGrandchildren={this.ancestorUpdateGrandchildren}
                                     />
                                 </div>
                         }
@@ -196,10 +202,23 @@ class QuizModel extends React.Component {
 }
 
 class QuizModelAttr extends React.Component {
+    /**
+     * @param props
+     * {
+     *    id string required
+     *    name string required
+     *    type string required
+     *    label string required
+     *    rules array required
+     *    options array required
+     *    value string|number required
+     *    errorMsg string required
+     *    onChange function required
+     * }
+     */
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.submit = this.submit.bind(this);
         this.state = {
             // use `(this.props.value || "")` instead of `this.props.value`
             // to avoid error "change uncontrolled input"
@@ -215,10 +234,7 @@ class QuizModelAttr extends React.Component {
             value: value,
             errorMsg: errorMsg
         });
-    }
-
-    submit(event) {
-        this.props.onChange(this.state.value, this.state.errorMsg);
+        this.props.onChange(value, errorMsg);
     }
 
     render() {
@@ -232,7 +248,6 @@ class QuizModelAttr extends React.Component {
                     name={name}
                     value={value}
                     onChange={this.handleChange}
-                    onBlur={this.submit}
                 />;
                 break;
             case "selectBox":
@@ -240,7 +255,6 @@ class QuizModelAttr extends React.Component {
                     name={name}
                     value={value}
                     onChange={this.handleChange}
-                    onBlur={this.submit}
                 >
                     {
                         this.props.options.map((option) => (
@@ -255,7 +269,6 @@ class QuizModelAttr extends React.Component {
                     name={name}
                     value={value}
                     onChange={this.handleChange}
-                    onBlur={this.submit}
                 />;
         }
         return (
@@ -388,7 +401,11 @@ class TabCtrl extends React.Component {
 
     render() {
         var itemConfigs = this.props.itemConfigs.map(
-            (item) => <li key={uniqueId()} onClick={() => this.props.addItem(item)}>{item.type}</li>
+            (itemConfig) => <li key={uniqueId()} onClick={
+                () => {
+                    this.props.addItem(itemConfig);
+                }
+            }>{itemConfig.type}</li>
         );
         return (
             <div id={this.props.id} className="tab-ctrl">
