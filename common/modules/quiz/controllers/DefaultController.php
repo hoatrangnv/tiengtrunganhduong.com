@@ -16,6 +16,7 @@ use common\modules\quiz\models\QuizShape;
 use common\modules\quiz\models\QuizSorter;
 use common\modules\quiz\models\QuizStyle;
 use common\modules\quiz\models\QuizValidator;
+use yii\db\ActiveRecord;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -243,7 +244,65 @@ class DefaultController extends Controller
             return rand(0, 999999999);
         };
         $global_exec_order = 0;
-        $loadModels = function (&$data, $parent_id, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
+        /**
+         * @param $data
+         * @param $parent QuizBase
+         * @param $test
+         */
+        $loadModels = function (&$data, $parent, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
+            $oldChildren = [];
+            if (!$parent->isNewRecord) {
+                if ($parent instanceof Quiz) {
+                    $quiz = $parent;
+                    $quizCharacters = $quiz->quizCharacters;
+                    $quizParams = $quiz->quizParams;
+                    $quizInputGroups = $quiz->quizInputGroups;
+                    $quizResults = $quiz->quizResults;
+                    $quizShapes = $quiz->quizShapes;
+                    $quizStyles = $quiz->quizStyles;
+                    $quizValidators = $quiz->quizValidators;
+                    $quizFilters = $quiz->quizFilters;
+                    $quizSorters = $quiz->quizSorters;
+                    $oldChildren = array_merge(
+                        $quizInputGroups, $quizCharacters, $quizParams,
+                        $quizShapes, $quizResults, $quizSorters, $quizValidators,
+                        $quizStyles, $quizFilters
+                    );
+                }
+            }
+            foreach ($data['items'] as $childData) {
+                if (in_array($childData['type'], [
+                    'QuizResult',
+                    'QuizCharacter',
+                    'QuizCharacterMedium',
+                    'QuizParam',
+                    'QuizInputGroup',
+                    'QuizInput',
+                    'QuizInputOption',
+                    'QuizShape',
+                    'QuizFilter',
+                    'QuizSorter',
+                    'QuizStyle',
+                    'QuizValidator',
+                ])) {
+                    $attrs = $parseAttrs($childData['attrs']);
+                    for ($i = 0; $i < count($oldChildren); $i++) {
+                        if (isset($oldChildren[$i])) {
+
+                            $oldChild = $oldChildren[$i];
+                            if ($childData['type'] == join('', array_slice(explode('\\', get_class($oldChild)), -1)) && $attrs['id'] == $oldChild->id) {
+                                unset($oldChildren[$i]);
+                            }
+                        }
+                    }
+                }
+            }
+            if (!$test) {
+                foreach ($oldChildren as $oldChild) {
+                    $oldChild->delete();
+                }
+            }
+
             foreach ($data['items'] as &$childData) {
                 $model = null;
                 $attrs = $parseAttrs($childData['attrs']);
@@ -317,7 +376,7 @@ class DefaultController extends Controller
                         = $attrs['quiz_character_id']
                         = $attrs['quiz_input_group_id']
                         = $attrs['quiz_input_id']
-                        = $parent_id;
+                        = $parent->id;
                     $model->setAttributes($attrs);
                     if (!$model->validate()) {
                         $global_exec_order--;
@@ -330,16 +389,22 @@ class DefaultController extends Controller
                             }
                         }
                     }
+                    if ($test) {
+                        $model->id = $testingId();
+                    }
                     if ($test || $model->save()) {
-                        $loadModels($childData['childrenData'], $test ? $testingId() : $model->id, $test);
+                        $loadModels($childData['childrenData'], $model, $test);
                     }
                 }
             }
         };
-        $loadModels($state['childrenData'], $testingId(), true);
+        if (!$quiz->id) {
+            $quiz->id = $testingId();
+        }
+        $loadModels($state['childrenData'], $quiz, true);
         if (empty($errors)) {
             if ($quiz->save()) {
-                $loadModels($state['childrenData'], $quiz->id, false);
+                $loadModels($state['childrenData'], $quiz, false);
             }
         }
         echo json_encode([
