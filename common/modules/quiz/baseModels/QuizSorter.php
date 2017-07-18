@@ -20,7 +20,7 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizFn $quizRuleFn
  */
-class QuizSorter extends BaseQuiz
+class QuizSorter extends QuizBase
 {
     /**
      * @inheritdoc

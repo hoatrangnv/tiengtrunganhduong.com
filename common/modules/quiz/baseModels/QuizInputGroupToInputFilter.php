@@ -13,7 +13,7 @@ use Yii;
  * @property QuizFilter $quizInputFilter
  * @property QuizInputGroup $quizInputGroup
  */
-class QuizInputGroupToInputFilter extends BaseQuiz
+class QuizInputGroupToInputFilter extends QuizBase
 {
     /**
      * @inheritdoc

@@ -34,7 +34,7 @@ use Yii;
  * @property QuizToResultFilter[] $quizToResultFilters
  * @property Quiz[] $quizzes3
  */
-class QuizFilter extends BaseQuiz
+class QuizFilter extends QuizBase
 {
     /**
      * @inheritdoc

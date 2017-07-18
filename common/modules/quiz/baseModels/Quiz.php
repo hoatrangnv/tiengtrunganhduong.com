@@ -48,7 +48,7 @@ use Yii;
  * @property QuizFilter[] $quizResultFilters
  * @property QuizValidator[] $quizValidators
  */
-class Quiz extends BaseQuiz
+class Quiz extends QuizBase
 {
     /**
      * @inheritdoc

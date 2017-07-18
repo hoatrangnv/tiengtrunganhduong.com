@@ -18,7 +18,7 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizFn $quizValidationFn
  */
-class QuizValidator extends BaseQuiz
+class QuizValidator extends QuizBase
 {
     /**
      * @inheritdoc

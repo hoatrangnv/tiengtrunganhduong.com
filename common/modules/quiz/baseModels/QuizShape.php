@@ -20,7 +20,7 @@ use Yii;
  * @property QuizShapeToStyle[] $quizShapeToStyles
  * @property QuizStyle[] $quizStyles
  */
-class QuizShape extends BaseQuiz
+class QuizShape extends QuizBase
 {
     /**
      * @inheritdoc

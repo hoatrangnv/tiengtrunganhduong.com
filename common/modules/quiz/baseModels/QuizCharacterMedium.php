@@ -25,7 +25,7 @@ use Yii;
  * @property QuizResultToCharacterMedium[] $quizResultToCharacterMedia
  * @property QuizResult[] $quizResults
  */
-class QuizCharacterMedium extends BaseQuiz
+class QuizCharacterMedium extends QuizBase
 {
     /**
      * @inheritdoc

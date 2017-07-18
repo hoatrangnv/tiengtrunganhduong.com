@@ -22,7 +22,7 @@ use Yii;
  * @property QuizCharacterToSorter[] $quizCharacterToSorters
  * @property QuizSorter[] $quizSorters
  */
-class QuizCharacter extends BaseQuiz
+class QuizCharacter extends QuizBase
 {
     /**
      * @inheritdoc

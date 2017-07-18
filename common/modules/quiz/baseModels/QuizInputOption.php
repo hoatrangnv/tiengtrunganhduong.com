@@ -20,7 +20,7 @@ use Yii;
  * @property QuizInputOptionToVotedResult[] $quizInputOptionToVotedResults
  * @property QuizResult[] $quizVotedResults
  */
-class QuizInputOption extends BaseQuiz
+class QuizInputOption extends QuizBase
 {
     /**
      * @inheritdoc

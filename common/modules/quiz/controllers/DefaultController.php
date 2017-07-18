@@ -2,7 +2,7 @@
 
 namespace common\modules\quiz\controllers;
 
-use common\modules\quiz\baseModels\BaseQuiz;
+use common\modules\quiz\baseModels\QuizBase;
 use common\modules\quiz\models\Quiz;
 use common\modules\quiz\models\QuizCharacter;
 use common\modules\quiz\models\QuizCharacterMedium;
@@ -16,6 +16,7 @@ use common\modules\quiz\models\QuizShape;
 use common\modules\quiz\models\QuizSorter;
 use common\modules\quiz\models\QuizStyle;
 use common\modules\quiz\models\QuizValidator;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -60,10 +61,9 @@ class DefaultController extends Controller
 
         $quizConfig = Quiz::modelConfig();
 
-        return $this->render('create', [
+        return $this->render('editor', [
             'type' => $quizConfig['type'],
-            'attrConfigs' => $quizConfig['attrConfigs'],
-            'attrsData' => null,
+            'attrs' => $quizConfig['attrs'],
             'childConfigs' => $modelConfigs,
             'childrenData' => [],
         ]);
@@ -107,13 +107,11 @@ class DefaultController extends Controller
 
         $quizConfig = Quiz::modelConfig();
 
-        $attrsData = [];
-        foreach ($quizConfig['attrConfigs'] as $attrConfig) {
-            $attrData['config'] = $attrConfig;
-            $attrData['name'] = $attrConfig['name'];
-            $attrData['value'] = $quiz->getAttribute($attrConfig['name']);
-            $attrData['errorMsg'] = '';
-            $attrsData[] = $attrData;
+        $attrs = [];
+        foreach ($quizConfig['attrs'] as $attr) {
+            $attr['value'] = $quiz->getAttribute($attr['name']);
+            $attr['errorMsg'] = '';
+            $attrs[] = $attr;
         }
 
         $children = array_merge(
@@ -144,27 +142,24 @@ class DefaultController extends Controller
                 return 0;
             });
             /**
-             * @var BaseQuiz[] $children
+             * @var QuizBase[] $children
              */
             foreach ($children as $child) {
                 $childData = [];
                 $childData['id'] = '__' . rand(1, 99999999);
                 /**
-                 * @var $class BaseQuiz
+                 * @var $class QuizBase
                  */
                 $class = get_class($child);
                 $type = $childData['type'] = join('', array_slice(explode('\\', $class), -1));
-                $childAttrsData = [];
+                $childAttrs = [];
                 $modelConfig = $class::modelConfig();
-                foreach ($modelConfig['attrConfigs'] as $attrConfig) {
-                    $attrData['config'] = $attrConfig;
-                    $attrData['name'] = $attrConfig['name'];
-                    $attrData['value'] = $child->getAttribute($attrConfig['name']);
-                    $attrData['errorMsg'] = '';
-                    $childAttrsData[] = $attrData;
+                foreach ($modelConfig['attrs'] as $attr) {
+                    $attr['value'] = $child->getAttribute($attr['name']);
+                    $attr['errorMsg'] = '';
+                    $childAttrs[] = $attr;
                 }
-                $childData['attrsData'] = $childAttrsData;
-                $childData['attrConfigs'] = $modelConfig['attrConfigs'];
+                $childData['attrs'] = $childAttrs;
                 $grandChildren = [];
                 switch ($type) {
                     case 'QuizCharacter':
@@ -203,27 +198,25 @@ class DefaultController extends Controller
 
         $childrenData = $getChildrenData($children);
 
-        return $this->render('create', [
+        return $this->render('editor', [
             'type' => $quizConfig['type'],
-            'attrConfigs' => $quizConfig['attrConfigs'],
-            'attrsData' => $attrsData,
+            'attrs' => $attrs,
             'childConfigs' => $modelConfigs,
             'childrenData' => $childrenData,
         ]);
     }
 
-    public function actionAjaxCreate()
+    public function actionAjaxSave()
     {
-        $parseAttrs = function ($attrsData) {
-            $attrs = [];
-            foreach ($attrsData as $attrData) {
-                $attrs[$attrData['name']] = $attrData['value'];
+        $parseAttrs = function ($attrs) {
+            $result = [];
+            foreach ($attrs as $attr) {
+                $result[$attr['name']] = $attr['value'];
             }
-            return $attrs;
+            return $result;
         };
         $state = json_decode(\Yii::$app->request->post('state'), true);
-        $attrs = $parseAttrs($state['attrsData']);
-//        echo json_encode($attrs);
+        $attrs = $parseAttrs($state['attrs']);
         if ($attrs['id']) {
             $quiz = Quiz::findOne($attrs['id']);
         } else {
@@ -241,7 +234,7 @@ class DefaultController extends Controller
         $loadModels = function ($data, $parent_id, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
             foreach ($data as $childData) {
                 $model = null;
-                $attrs = $parseAttrs($childData['attrsData']);
+                $attrs = $parseAttrs($childData['attrs']);
                 if (in_array($childData['type'], [
                     'QuizResult',
                     'QuizCharacter',

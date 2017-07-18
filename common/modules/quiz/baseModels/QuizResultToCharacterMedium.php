@@ -13,7 +13,7 @@ use Yii;
  * @property QuizCharacterMedium $quizCharacterMedium
  * @property QuizResult $quizResult
  */
-class QuizResultToCharacterMedium extends BaseQuiz
+class QuizResultToCharacterMedium extends QuizBase
 {
     /**
      * @inheritdoc

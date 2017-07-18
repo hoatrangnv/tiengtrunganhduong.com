@@ -23,7 +23,7 @@ use Yii;
  * @property QuizInputToValidator[] $quizInputToValidators
  * @property QuizValidator[] $quizValidators
  */
-class QuizInput extends BaseQuiz
+class QuizInput extends QuizBase
 {
     /**
      * @inheritdoc

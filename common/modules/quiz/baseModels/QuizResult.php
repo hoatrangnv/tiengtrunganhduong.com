@@ -29,7 +29,7 @@ use Yii;
  * @property QuizResultToShapeFilter[] $quizResultToShapeFilters
  * @property QuizFilter[] $quizShapeFilters
  */
-class QuizResult extends BaseQuiz
+class QuizResult extends QuizBase
 {
     /**
      * @inheritdoc

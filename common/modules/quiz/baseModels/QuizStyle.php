@@ -36,7 +36,7 @@ use Yii;
  * @property QuizShape[] $quizShapes
  * @property Quiz $quiz
  */
-class QuizStyle extends BaseQuiz
+class QuizStyle extends QuizBase
 {
     /**
      * @inheritdoc

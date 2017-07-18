@@ -18,12 +18,12 @@ class QuizCreatorAsset extends AssetBundle
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 
     public $css = [
-        'css/quiz-creator.css'
+        'css/quiz-editor.css'
     ];
 
     public $js = [
         'js/react-sortable-hoc.js',
-        ['js/quiz-model.jsx', 'type' => 'text/babel'],
+        ['js/quiz-editor.jsx', 'type' => 'text/babel'],
         'js/interact.js',
     ];
 

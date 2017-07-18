@@ -16,7 +16,7 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
-class BaseQuiz extends ActiveRecord
+class QuizBase extends ActiveRecord
 {
     /**
      * @return array
@@ -64,6 +64,8 @@ class BaseQuiz extends ActiveRecord
             $inputConfig = [
                 'type' => $type,
                 'name' => $column->name,
+                'value' => '',
+                'errorMsg' => '',
                 'options' => $options,
                 'label' => Inflector::humanize($column->name),
                 'rules' => [
@@ -74,7 +76,7 @@ class BaseQuiz extends ActiveRecord
         }
         return [
             'type' => join('', array_slice(explode('\\', self::className()), -1)),
-            'attrConfigs' => $inputConfigs,
+            'attrs' => $inputConfigs,
         ];
     }
 }

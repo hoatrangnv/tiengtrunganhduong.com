@@ -8,8 +8,7 @@
 
 /**
  * @var string $type
- * @var array $attrConfigs
- * @var array $attrsData
+ * @var array $attrs
  * @var array $childConfigs
  * @var array $childrenData
  */
@@ -18,19 +17,18 @@
 
 <div id="root"></div>
 <script type="text/babel">
-    function submit(state) {
-        console.log(state);
+    function save(state) {
+//        console.log(state);
         var fd = new FormData();
         fd.append("state", JSON.stringify(state));
         fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<?= \yii\helpers\Url::to(['default/ajax-create']) ?>", true);
+        xhr.open("POST", "<?= \yii\helpers\Url::to(['default/ajax-save']) ?>", true);
         xhr.onload = function() {
             if (this.status == 200) {
                 var resp = JSON.parse(this.response);
                 console.log('Server got:', resp);
                 if (resp.success) {
-                    console.log(resp);
                 } else {
                 }
             } else {
@@ -43,10 +41,9 @@
     }
     ReactDOM.render(
         <QuizModel
-            submit={submit}
+            save={save}
             type={<?= json_encode($type) ?>}
-            attrConfigs={<?= json_encode($attrConfigs) ?>}
-            attrsData={<?= json_encode($attrsData) ?>}
+            attrs={<?= json_encode($attrs) ?>}
             childConfigs={<?= json_encode($childConfigs) ?>}
             childrenData={<?= json_encode($childrenData) ?>}
         />,
