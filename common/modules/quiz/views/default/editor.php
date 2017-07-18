@@ -17,7 +17,7 @@
 
 <div id="root"></div>
 <script type="text/babel">
-    function save(state) {
+    function save(state, callback) {
         var fd = new FormData();
         fd.append("state", JSON.stringify(state));
         fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
@@ -25,11 +25,10 @@
         xhr.open("POST", "<?= \yii\helpers\Url::to(['default/ajax-save']) ?>", true);
         xhr.onload = function() {
             if (this.status == 200) {
-                var resp = JSON.parse(this.response);
-                console.log('Server got:', resp);
-                if (resp.success) {
-                } else {
-                }
+                var res = JSON.parse(this.response);
+//                console.log('Server got:', res);
+//                return res;
+                callback(res);
             } else {
             }
         };

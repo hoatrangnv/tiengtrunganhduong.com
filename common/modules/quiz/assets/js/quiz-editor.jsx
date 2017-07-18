@@ -29,6 +29,7 @@ class QuizModel extends React.Component {
         this.reorderChildren = this.reorderChildren.bind(this);
         // this.ancestorUpdateGrandchildren = this.ancestorUpdateGrandchildren.bind(this);
         this.updateAttr = this.updateAttr.bind(this);
+        this.saveCallback = this.saveCallback.bind(this);
     }
 
     updateAttr(name, value, errorMsg) {
@@ -100,7 +101,7 @@ class QuizModel extends React.Component {
         // }
     }
 
-    reorderChildren({oldIndex, newIndex}) {
+    reorderChildren(oldIndex, newIndex) {
         var childrenData = this.state.childrenData;
         childrenData.items = arrayMove(childrenData.items, oldIndex, newIndex);
         this.setState((prevState) => ({
@@ -141,7 +142,60 @@ class QuizModel extends React.Component {
     //     }
     // }
 
+    saveCallback(response) {
+        console.log(response);
+        if (response.success) {
+            window.location.href = response.updateLink;
+        } else {
+            this.setState(response.state);
+        }
+        // ReactDOM.render(
+        //     <QuizModel
+        //         save={save}
+        //         type={this.props.type}
+        //         attrs={this.state.attrs}
+        //         childConfigs={this.props.childConfigs}
+        //         childrenData={this.state.childrenData}
+        //     />,
+        //     document.getElementById("root")
+        // );
+        // for (let prop in response.errors) {
+        //     if (!response.errors.hasOwnProperty(prop)) {
+        //         continue;
+        //     }
+        //     let [modelType, modelId] = prop.split("#");
+        //     if ("Quiz" === modelType) {
+        //         let attrs = this.state.attrs;
+        //         attrs.forEach((attr) => {
+        //             for (let attrName in response.errors[prop]) {
+        //                 if (!response.errors[prop].hasOwnProperty(attrName)) {
+        //                     continue;
+        //                 }
+        //                 if (attrName === attr.name) {
+        //                     attr.errorMsg = response.errors[prop][attrName];
+        //                 }
+        //             }
+        //         });
+        //         this.setState((prevState) => ({
+        //             name: prevState.name,
+        //             attrs: attrs,
+        //             childrenData: prevState.childrenData
+        //         }));
+        //     } else {
+        //         let children = this.state.childrenData.items;
+        //         let checkItems = (items) => {
+        //             items.forEach((item) => {
+        //                 if (modelType === item.type && modelId === item.id) {
+        //
+        //                 }
+        //             });
+        //         };
+        //     }
+        // }
+    }
+
     render() {
+        console.log(this.props.type + " childrenData:", this.state.childrenData);
         var activeChildData = this.state.childrenData.items.find(childData => childData.id === this.state.childrenData.activeItemId);
         return (
             <div id={this.props.id} className="panel panel-default clearfix">
@@ -150,12 +204,15 @@ class QuizModel extends React.Component {
                     <div className="panel-heading clearfix">
                         <button
                             className="btn btn-sm btn-primary"
-                            onClick={() => this.props.save(this.state)}
+                            onClick={() => {this.props.save(this.state, this.saveCallback)}}
                         >Save</button>
                     </div>
                 }
                 <div className="panel-body clearfix">
-                    <div style={activeChildData ? {width:"200px"} : {width:"calc(50% - 5px)"}} className="pull-left">
+                    <div
+                        style={activeChildData ? {width: "200px"} : {width: "50%"}}
+                        className="pull-left slow-motion"
+                    >
                         {
                             this.state.attrs.map((attr) => (
                                 <QuizModelAttr
@@ -174,7 +231,10 @@ class QuizModel extends React.Component {
                             ))
                         }
                     </div>
-                    <div style={activeChildData ? {width:"calc(100% - 200px - 10px)"} : {width:"calc(50% - 5px)"}} className="pull-right">
+                    <div
+                        style={activeChildData ? {width: "calc(100% - 200px - 15px)"} : {width: "calc(50% - 15px)"}}
+                        className="pull-right slow-motion"
+                    >
                         {
                             !this.props.childConfigs ? "" :
                                 <div className="tab-bar-overlap clearfix">
@@ -235,7 +295,7 @@ class QuizModelAttr extends React.Component {
             // use `(this.props.value || "")` instead of `this.props.value`
             // to avoid error "change uncontrolled input"
             value: (this.props.value || ""),
-            errorMsg: ""
+            errorMsg: this.props.errorMsg
         };
     }
 
@@ -296,15 +356,24 @@ class QuizModelAttr extends React.Component {
 class TabBar extends React.Component {
     constructor(props) {
         super(props);
+        this.handleSortEnd = this.handleSortEnd.bind(this);
+        this.scrollToActiveItem = this.scrollToActiveItem.bind(this);
         this.state = {
             lastScrollLeft: 0
         };
     }
 
+    componentDidMount() {
+        this.scrollToActiveItem();
+    }
+
     componentDidUpdate() {
+        this.scrollToActiveItem();
+    }
+
+    scrollToActiveItem() {
         var tabBar = document.querySelector("#" + this.props.id + " ul");
         var activeItem = tabBar.querySelector("li.active");
-
         if (activeItem) {
             var tabBarRect = tabBar.getBoundingClientRect();
             var activeItemRect = activeItem.getBoundingClientRect();
@@ -321,13 +390,16 @@ class TabBar extends React.Component {
         }
     }
 
+    handleSortEnd({oldIndex, newIndex}) {
+        this.props.reorderItems(oldIndex, newIndex);
+    }
+
     render() {
         const SortableItem = SortableElement(
-            ({item}) => {
+            ({item, active, activate}) => {
                 return <li
-                    key={item.id}
-                    className={"tab" + (this.props.activeItemId === item.id ? " active" : "")}
-                    onClick={() => this.props.activateItem(item.id)}
+                    className={"tab" + (active ? " active" : "")}
+                    onClick={activate}
                 >
                     <span className="holder">{}</span>
                     <span className="label">{item.type}</span>
@@ -340,9 +412,12 @@ class TabBar extends React.Component {
                 <ul>
                     {items.map((item, index) =>
                         <SortableItem
-                            key={item.id}
+                            key={uniqueId()}
                             index={index}
+                            // Can be passed to SortableItem:
                             item={item}
+                            active={this.props.activeItemId === item.id}
+                            activate={() => {this.props.activateItem(item.id)}}
                         />
                     )}
                 </ul>
@@ -355,7 +430,7 @@ class TabBar extends React.Component {
                         axis="x"
                         helperClass="SortableHelper"
                         items={this.props.items}
-                        onSortEnd={this.props.reorderItems}
+                        onSortEnd={this.handleSortEnd}
                         shouldCancelStart={(event) => "holder" !== event.target.className}
                     />
                 </div>
@@ -425,12 +500,12 @@ class TabCtrl extends React.Component {
         return (
             <div id={this.props.id} className="tab-ctrl">
                 <button className="btn btn-sm btn-success" onClick={this.toggleItemConfigsMenu}>
-                    <b>+</b>
+                    <span>+</span>
                     {this.state.showItemConfigsMenu ? <ul className="item-configs-menu">{itemConfigs}</ul> : ""}
                 </button>
-                <button className="btn btn-sm btn-danger" onClick={this.props.removeItem}><b>&minus;</b></button>
-                <button className="btn btn-sm btn-info" onClick={this.activatePrevItem}><b>&lt;</b></button>
-                <button className="btn btn-sm btn-info" onClick={this.activateNextItem}><b>&gt;</b></button>
+                <button className="btn btn-sm btn-danger" onClick={this.props.removeItem}><span>&minus;</span></button>
+                <button className="btn btn-sm btn-info" onClick={this.activatePrevItem}><span>&lt;</span></button>
+                <button className="btn btn-sm btn-info" onClick={this.activateNextItem}><span>&gt;</span></button>
             </div>
         );
     }

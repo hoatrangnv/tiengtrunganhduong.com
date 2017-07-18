@@ -16,6 +16,7 @@ use common\modules\quiz\models\QuizShape;
 use common\modules\quiz\models\QuizSorter;
 use common\modules\quiz\models\QuizStyle;
 use common\modules\quiz\models\QuizValidator;
+use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -124,7 +125,7 @@ class DefaultController extends Controller
          * @return array
          */
         $getChildrenData = function (array $children) use (&$getChildrenData) {
-            $childrenData = [];
+            $childrenData = ['items' => [], 'activeItemId' => null];
             usort($children, function ($a, $b) {
                 /**
                  * @var $a QuizCharacter|QuizParam|QuizCharacterMedium|QuizInputGroup|...
@@ -141,12 +142,16 @@ class DefaultController extends Controller
                 }
                 return 0;
             });
+
             /**
              * @var QuizBase[] $children
              */
-            foreach ($children as $child) {
+            foreach ($children as $i => $child) {
                 $childData = [];
                 $childData['id'] = '__' . rand(1, 99999999);
+                if (0 == $i) {
+                    $childrenData['activeItemId'] = $childData['id'];
+                }
                 /**
                  * @var $class QuizBase
                  */
@@ -188,10 +193,10 @@ class DefaultController extends Controller
                 if (!empty($grandChildren)) {
                     $childData['childrenData'] = $getChildrenData($grandChildren);
                 } else {
-                    $childData['childrenData'] = [];
+                    $childData['childrenData'] = ['items' => [], 'activeItemId' => null];
                 }
 
-                $childrenData[] = $childData;
+                $childrenData['items'][] = $childData;
             }
             return $childrenData;
         };
@@ -225,20 +230,28 @@ class DefaultController extends Controller
         $quiz->setAttributes($attrs);
         $errors = [];
         if (!$quiz->validate()) {
-            $errors['Quiz'] = $quiz->errors;
+            $errors['Quiz#'] = $quiz->errors;
+            foreach ($quiz->errors as $attrName => $errors) {
+                foreach ($state['attrs'] as &$attr) {
+                    if ($attrName == $attr['name']) {
+                        $attr['errorMsg'] = implode(", ", $errors);
+                    }
+                }
+            }
         }
         $testingId = function () {
             return rand(0, 999999999);
         };
         $global_exec_order = 0;
-        $loadModels = function ($data, $parent_id, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
-            foreach ($data as $childData) {
+        $loadModels = function (&$data, $parent_id, $test) use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order) {
+            foreach ($data['items'] as &$childData) {
                 $model = null;
                 $attrs = $parseAttrs($childData['attrs']);
                 if (in_array($childData['type'], [
                     'QuizResult',
                     'QuizCharacter',
                     'QuizCharacterMedium',
+                    'QuizParam',
                     'QuizInputGroup',
                     'QuizInput',
                     'QuizInputOption',
@@ -309,6 +322,13 @@ class DefaultController extends Controller
                     if (!$model->validate()) {
                         $global_exec_order--;
                         $errors["{$childData['type']}#{$childData['id']}"] = $model->errors;
+                        foreach ($model->errors as $attrName => $errors) {
+                            foreach ($childData['attrs'] as &$attr) {
+                                if ($attrName == $attr['name']) {
+                                    $attr['errorMsg'] = implode(", ", $errors);
+                                }
+                            }
+                        }
                     }
                     if ($test || $model->save()) {
                         $loadModels($childData['childrenData'], $test ? $testingId() : $model->id, $test);
@@ -322,6 +342,15 @@ class DefaultController extends Controller
                 $loadModels($state['childrenData'], $quiz->id, false);
             }
         }
-        echo json_encode([$quiz->id, $errors]);
+        echo json_encode([
+            'state' => $state,
+            'updateLink' => Url::to(['update', 'id' => $quiz->id]),
+            'success' => empty($errors),
+        ]);
+//    }
+//        echo json_encode([
+//            'id' => $quiz->id,
+//            'errors' => $errors
+//        ]);
     }
 }
