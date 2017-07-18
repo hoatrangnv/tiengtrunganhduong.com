@@ -65,7 +65,7 @@ class DefaultController extends Controller
             'type' => $quizConfig['type'],
             'attrs' => $quizConfig['attrs'],
             'childConfigs' => $modelConfigs,
-            'childrenData' => [],
+            'childrenData' => ['items' => [], 'activeItemId' => null],
         ]);
     }
 

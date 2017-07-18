@@ -4,13 +4,16 @@ class QuizModel extends React.Component {
     /**
      * @param props
      * {
-     *   id            string    required
-     *   type          string    required
-     *   attrs         array     required
-     *   childConfigs  array     required
-     *   childrenData  array     required
-     *   activeChildId string    required
-     *   save          function  optional
+     *   id                    string    required
+     *   type                  string    required
+     *   attrs                 array     required
+     *   childConfigs          array     required
+     *   childrenData          object    required
+     *       {
+     *           items         array     required
+     *           activeItemId  string    required
+     *       }
+     *   save                  function  optional
      * }
      */
     constructor(props) {
@@ -18,14 +21,13 @@ class QuizModel extends React.Component {
         this.state = {
             name: this.props.type + "",
             attrs: this.props.attrs,
-            childrenData: this.props.childrenData,
-            activeChildId: this.props.activeChildId
+            childrenData: this.props.childrenData
         };
         this.addChild = this.addChild.bind(this);
         this.removeChild = this.removeChild.bind(this);
         this.activateChild = this.activateChild.bind(this);
         this.reorderChildren = this.reorderChildren.bind(this);
-        this.ancestorUpdateGrandchildren = this.ancestorUpdateGrandchildren.bind(this);
+        // this.ancestorUpdateGrandchildren = this.ancestorUpdateGrandchildren.bind(this);
         this.updateAttr = this.updateAttr.bind(this);
     }
 
@@ -45,94 +47,102 @@ class QuizModel extends React.Component {
 
     addChild(childConfig) {
         var newChildConfig = JSON.parse(JSON.stringify(childConfig));
+        // var grandchildrenData = {
+        //     items: [],
+        //     activeItemId: null
+        // };
         var newChildData = {
             id: uniqueId(),
             type: newChildConfig.type,
             attrs: newChildConfig.attrs,
             childConfigs: newChildConfig.childConfigs,
-            childrenData: [],
-            activeChildId: undefined
+            childrenData: {
+                items: [],
+                activeItemId: null
+            },
         };
         var childrenData = this.state.childrenData;
-        childrenData.push(newChildData);
-        if (this.props.ancestorUpdateGrandchildren) {
-            this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
-        }
+        childrenData.items.push(newChildData);
+        childrenData.activeItemId = newChildData.id;
         this.setState((prevState) => ({
             name: prevState.name,
             attrs: prevState.attrs,
-            childrenData: childrenData,
-            activeChildId: newChildData.id
+            childrenData: childrenData
         }));
+        // if (this.props.ancestorUpdateGrandchildren) {
+        //     this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
+        // }
     }
 
     removeChild() {
         var childrenData = this.state.childrenData;
-        var index = childrenData.indexOf(childrenData.find((childData) => this.state.activeChildId === childData.id));
+        var index = childrenData.items.indexOf(childrenData.items.find((item) => childrenData.activeItemId === item.id));
         if (index > -1) {
-            childrenData.splice(index, 1);
+            childrenData.items.splice(index, 1);
             this.setState((prevState) => ({
                 name: prevState.name,
                 attrs: prevState.attrs,
-                childrenData: childrenData,
-                activeChildId: prevState.activeChildId
+                childrenData: childrenData
             }));
         }
     }
 
     activateChild(id) {
+        var childrenData = this.state.childrenData;
+        childrenData.activeItemId = id;
         this.setState((prevState) => ({
             name: prevState.name,
             attrs: prevState.attrs,
-            childrenData: prevState.childrenData,
-            activeChildId: id
+            childrenData: childrenData
         }));
+        // if (this.props.ancestorUpdateGrandchildren) {
+        //     this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
+        // }
     }
 
     reorderChildren({oldIndex, newIndex}) {
         var childrenData = this.state.childrenData;
-        childrenData = arrayMove(childrenData, oldIndex, newIndex);
-        if (this.props.ancestorUpdateGrandchildren) {
-            this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
-        }
+        childrenData.items = arrayMove(childrenData.items, oldIndex, newIndex);
         this.setState((prevState) => ({
             name: prevState.name,
             attrs: prevState.attrs,
-            childrenData: childrenData,
-            activeChildId: prevState.activeChildId
+            childrenData: childrenData
         }));
+        // if (this.props.ancestorUpdateGrandchildren) {
+        //     this.props.ancestorUpdateGrandchildren(this.props.id, childrenData);
+        // }
     }
 
-    ancestorUpdateGrandchildren(id, grandchildrenData) {
-        if (this.props.ancestorUpdateGrandchildren) {
-            this.props.ancestorUpdateGrandchildren(id, grandchildrenData);
-        } else {
-            this.setState((prevState) => ({
-                name: prevState.name,
-                attrs: prevState.attrs,
-                childrenData: update(this.state.childrenData),
-                activeChildId: prevState.activeChildId
-            }));
-            function update(childrenData) {
-                var updated = false;
-                childrenData.forEach((childData) => {
-                    if (id === childData.id) {
-                        childData.childrenData = grandchildrenData;
-                        updated = true;
-                    }
-                });
-                if (!updated) {
-                    childrenData.forEach((childData) => {
-                        childData.childrenData = update(childData.childrenData);
-                    });
-                }
-                return childrenData;
-            }
-        }
-    }
+    // ancestorUpdateGrandchildren(id, grandchildrenData) {
+    //     if (this.props.ancestorUpdateGrandchildren) {
+    //         this.props.ancestorUpdateGrandchildren(id, grandchildrenData);
+    //     } else {
+    //         this.setState((prevState) => ({
+    //             name: prevState.name,
+    //             attrs: prevState.attrs,
+    //             childrenData: update(this.state.childrenData),
+    //             activeChildId: prevState.activeChildId
+    //         }));
+    //         function update(childrenData) {
+    //             var updated = false;
+    //             childrenData.items.forEach((item) => {
+    //                 if (id === item.id) {
+    //                     item.childrenData = grandchildrenData;
+    //                     updated = true;
+    //                 }
+    //             });
+    //             if (!updated) {
+    //                 childrenData.items.forEach((childData) => {
+    //                     childData.childrenData = update(childData.childrenData);
+    //                 });
+    //             }
+    //             return childrenData;
+    //         }
+    //     }
+    // }
 
     render() {
-        var activeChildData = this.state.childrenData.find(childData => childData.id === this.state.activeChildId);
+        var activeChildData = this.state.childrenData.items.find(childData => childData.id === this.state.childrenData.activeItemId);
         return (
             <div id={this.props.id} className="panel panel-default clearfix">
                 {
@@ -149,8 +159,9 @@ class QuizModel extends React.Component {
                         {
                             this.state.attrs.map((attr) => (
                                 <QuizModelAttr
-                                    id={uniqueId()}
                                     key={uniqueId()}
+                                    // props:
+                                    id={uniqueId()}
                                     name={attr.name}
                                     type={attr.type}
                                     label={attr.label}
@@ -168,11 +179,13 @@ class QuizModel extends React.Component {
                             !this.props.childConfigs ? "" :
                                 <div className="tab-bar-overlap clearfix">
                                     <TabBar
+                                        key={uniqueId()}
+                                        // props:
                                         id={uniqueId()}
-                                        items={this.state.childrenData}
+                                        items={this.state.childrenData.items}
+                                        activeItemId={this.state.childrenData.activeItemId}
                                         reorderItems={this.reorderChildren}
                                         activateItem={this.activateChild}
-                                        activeItemId={this.state.activeChildId}
                                         addItem={this.addChild}
                                         removeItem={this.removeChild}
                                         itemConfigs={this.props.childConfigs}
@@ -183,14 +196,13 @@ class QuizModel extends React.Component {
                             activeChildData &&
                                 <div className="clearfix">
                                     <QuizModel
+                                        key={uniqueId()}
+                                        // props:
                                         id={activeChildData.id}
-                                        key={activeChildData.id}
                                         type={activeChildData.type}
+                                        attrs={activeChildData.attrs}
                                         childConfigs={activeChildData.childConfigs}
                                         childrenData={activeChildData.childrenData}
-                                        attrs={activeChildData.attrs}
-                                        activeChildId={activeChildData.activeChildId}
-                                        ancestorUpdateGrandchildren={this.ancestorUpdateGrandchildren}
                                     />
                                 </div>
                         }
@@ -296,7 +308,8 @@ class TabBar extends React.Component {
         if (activeItem) {
             var tabBarRect = tabBar.getBoundingClientRect();
             var activeItemRect = activeItem.getBoundingClientRect();
-            tabBar.scrollLeft = (activeItemRect.left - tabBarRect.left) - (tabBar.clientWidth - activeItem.offsetWidth) / 2;
+            tabBar.scrollLeft = (activeItemRect.left - tabBarRect.left)
+                - (tabBar.clientWidth - activeItem.offsetWidth) / 2;
         } else {
             tabBar.scrollLeft = this.state.lastScrollLeft;
         }
@@ -348,6 +361,8 @@ class TabBar extends React.Component {
                 </div>
                 <div style={{width:"140px"}} className="pull-right">
                     <TabCtrl
+                        key={uniqueId()}
+                        // props:
                         id={uniqueId()}
                         items={this.props.items}
                         itemConfigs={this.props.itemConfigs}
