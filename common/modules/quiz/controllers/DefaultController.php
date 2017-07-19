@@ -192,9 +192,20 @@ class DefaultController extends Controller
                                         return "__QuizShape#$id";
                                     }, ArrayHelper::getColumn($child->quizShapes, 'id'));
                                     break;
+                                case 'quiz_character_medium_filter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizFilter#$id";
+                                    }, ArrayHelper::getColumn($child->quizCharacterMediumFilters, 'id'));
+                                    break;
+                                case 'quiz_shape_filter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizFilter#$id";
+                                    }, ArrayHelper::getColumn($child->quizShapeFilters, 'id'));
+                                    break;
 
                             }
                         }
+                        unset($attr);
                         break;
                     case 'QuizCharacter':
                         /**
@@ -231,6 +242,7 @@ class DefaultController extends Controller
 
                             }
                         }
+                        unset($attr);
                 }
 
                 if (!empty($grandChildren)) {
