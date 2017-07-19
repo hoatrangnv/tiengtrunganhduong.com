@@ -6,6 +6,7 @@ use common\modules\quiz\baseModels\QuizBase;
 use common\modules\quiz\models\Quiz;
 use common\modules\quiz\models\QuizCharacter;
 use common\modules\quiz\models\QuizCharacterMedium;
+use common\modules\quiz\models\QuizCharacterMediumToStyle;
 use common\modules\quiz\models\QuizFilter;
 use common\modules\quiz\models\QuizInput;
 use common\modules\quiz\models\QuizInputGroup;
@@ -15,6 +16,7 @@ use common\modules\quiz\models\QuizResult;
 use common\modules\quiz\models\QuizResultToCharacterMedium;
 use common\modules\quiz\models\QuizResultToShape;
 use common\modules\quiz\models\QuizShape;
+use common\modules\quiz\models\QuizShapeToStyle;
 use common\modules\quiz\models\QuizSorter;
 use common\modules\quiz\models\QuizStyle;
 use common\modules\quiz\models\QuizValidator;
@@ -215,6 +217,20 @@ class DefaultController extends Controller
                         $childData['childConfigs'] = [QuizInputOption::modelConfig()];
                         $grandChildren = $child->quizInputOptions;
                         break;
+                    case 'QuizShape':
+                        /**
+                         * @var $child QuizShape
+                         */
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_style_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizStyle#$id";
+                                    }, ArrayHelper::getColumn($child->quizStyles, 'id'));
+                                    break;
+
+                            }
+                        }
                 }
 
                 if (!empty($grandChildren)) {
@@ -271,28 +287,152 @@ class DefaultController extends Controller
         };
         $global_exec_order = 0;
         $junctions = [
+            'Quiz' => [
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_input_group_filter_ids' => [],
+                        'quiz_character_filter_ids' => [],
+                        'quiz_result_filter_ids' => [],
+                    ],
+                ],
+*/
+            ],
             'QuizResult' => [
-//                [
-//                    '__id' => '',
-//                    'id' => null,
-//                    'junctions' => [
-//                        'quiz_character_medium_ids' => [],
-//                        'quiz_shape_ids' => [],
-//                    ],
-//                ],
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_character_medium_ids' => [],
+                        'quiz_shape_ids' => [],
+                        'quiz_character_medium_filter_ids' => [],
+                        'quiz_shape_filter_ids' => [],
+                    ],
+                ],
+*/
+            ],
+            'QuizCharacter' => [
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_filter_ids' => [],
+                        'quiz_sorter_ids' => [],
+                    ],
+                ],
+*/
             ],
             'QuizCharacterMedium' => [
-//                [
-//                    '__id' => '',
-//                    'id' => null
-//                ],
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_style_ids' => [],
+                        'quiz_filter_ids' => [],
+                        'quiz_sorter_ids' => [],
+                    ],
+                ],
+*/
             ],
             'QuizShape' => [
-//                [
-//                    '__id' => '',
-//                    'id' => null
-//                ],
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_style_ids' => [],
+                    ]
+                ],
+*/
             ],
+            'QuizInputGroup' => [
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_input_filter_ids' => [],
+                    ]
+                ],
+*/
+            ],
+            'QuizInput' => [
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_input_option_filter_ids' => [],
+                        'quiz_validator_ids' => [],
+                    ]
+                ],
+*/
+            ],
+            'QuizInputOption' => [
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_voted_result_ids' => [],
+                    ]
+                ],
+*/
+            ],
+
+        ];
+        $addJunction = function ($data, $model, $jnc_names) use (&$junctions) {
+            $ref_ids = [];
+            foreach ($data['attrs'] as $attr) {
+                if (in_array($attr['name'], $jnc_names)) {
+                    $ref_ids[$attr['name']] = $attr['value'];
+                }
+//                            switch ($attr['name']) {
+//                                case 'quiz_character_medium_ids':
+//                                    $quiz_character_medium_ids = $attr['value'];
+//                                    break;
+//                                case 'quiz_shape_ids':
+//                                    $quiz_shape_ids = $attr['value'];
+//                                    break;
+//                                case 'quiz_character_medium_filter_ids':
+//                                    $quiz_character_medium_filter_ids = $attr['value'];
+//                                    break;
+//                                case 'quiz_shape_filter_ids':
+//                                    $quiz_shape_filter_ids = $attr['value'];
+//                                    break;
+//                                default:
+//                            }
+            }
+            $junctions[$data['type']][] = [
+                '__id' => $data['id'],
+                'id' => $model->id,
+                'junctions' => $ref_ids,
+//                                [
+//                                    'quiz_character_medium_ids' => $quiz_character_medium_ids,
+//                                    'quiz_shape_ids' => $quiz_shape_ids,
+//                                    'quiz_character_medium_filter_ids' => $quiz_character_medium_filter_ids,
+//                                    'quiz_shape_filter_ids' => $quiz_shape_filter_ids,
+//                                ]
+            ];
+        };
+        $quiz_component_types = [
+            'QuizResult',
+            'QuizCharacter',
+            'QuizCharacterMedium',
+            'QuizParam',
+            'QuizInputGroup',
+            'QuizInput',
+            'QuizInputOption',
+            'QuizShape',
+            'QuizFilter',
+            'QuizSorter',
+            'QuizStyle',
+            'QuizValidator',
         ];
         /**
          * @param $data
@@ -300,7 +440,8 @@ class DefaultController extends Controller
          * @param $test
          */
         $loadModels = function (&$data, $parent, $test)
-            use ($parseAttrs, $testingId, &$loadModels, &$errors, &$global_exec_order, &$junctions) {
+            use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
+                &$loadModels, &$errors, &$global_exec_order, &$junctions) {
             // Delete no longer children
             $oldChildren = [];
             if (!$parent->isNewRecord) {
@@ -325,20 +466,7 @@ class DefaultController extends Controller
                 }
             }
             foreach ($data['items'] as $childData) {
-                if (in_array($childData['type'], [
-                    'QuizResult',
-                    'QuizCharacter',
-                    'QuizCharacterMedium',
-                    'QuizParam',
-                    'QuizInputGroup',
-                    'QuizInput',
-                    'QuizInputOption',
-                    'QuizShape',
-                    'QuizFilter',
-                    'QuizSorter',
-                    'QuizStyle',
-                    'QuizValidator',
-                ])) {
+                if (in_array($childData['type'], $quiz_component_types)) {
                     $attrs = $parseAttrs($childData['attrs']);
                     foreach ($oldChildren as $key => $oldChild) {
                         $oldChildType = join('', array_slice(explode('\\', get_class($oldChild)), -1));
@@ -358,20 +486,7 @@ class DefaultController extends Controller
             foreach ($data['items'] as &$childData) {
                 $model = null;
                 $attrs = $parseAttrs($childData['attrs']);
-                if (in_array($childData['type'], [
-                    'QuizResult',
-                    'QuizCharacter',
-                    'QuizCharacterMedium',
-                    'QuizParam',
-                    'QuizInputGroup',
-                    'QuizInput',
-                    'QuizInputOption',
-                    'QuizShape',
-                    'QuizFilter',
-                    'QuizSorter',
-                    'QuizStyle',
-                    'QuizValidator',
-                ])) {
+                if (in_array($childData['type'], $quiz_component_types)) {
                     /**
                      * @var $class Quiz|QuizCharacter|QuizCharacterMedium|QuizInputGroup|QuizInput|QuizInputOption
                      * @var $class QuizStyle|QuizShape|QuizSorter|QuizFilter|QuizValidator
@@ -389,6 +504,9 @@ class DefaultController extends Controller
                     }
                     $global_exec_order++;
                     $attrs['global_exec_order'] = $global_exec_order;
+
+                    // Each model can has only one of these attributes:
+                    // quiz_id, quiz_character_id, quiz_input_group_id, quiz_input_id
                     $attrs['quiz_id']
                         = $attrs['quiz_character_id']
                         = $attrs['quiz_input_group_id']
@@ -416,32 +534,84 @@ class DefaultController extends Controller
                     // Junctions
                     switch ($childData['type']) {
                         case 'QuizResult':
-                            $quiz_character_medium_ids = [];
-                            $quiz_shape_ids = [];
-                            foreach ($childData['attrs'] as $attr) {
-                                if ($attr['name'] === 'quiz_character_medium_ids') {
-                                    $quiz_character_medium_ids = $attr['value'];
-                                } else if ($attr['name'] === 'quiz_shape_ids') {
-                                    $quiz_shape_ids = $attr['value'];
-                                }
-                            }
-                            $junctions['QuizResult'][] = [
-                                '__id' => $childData['id'],
-                                'id' => $model->id,
-                                'junctions' => [
-                                    'quiz_character_medium_ids' => $quiz_character_medium_ids,
-                                    'quiz_shape_ids' => $quiz_shape_ids,
-                                ]
-                            ];
+//                            $quiz_character_medium_ids = [];
+//                            $quiz_shape_ids = [];
+//                            $quiz_character_medium_filter_ids = [];
+//                            $quiz_shape_filter_ids = [];
+//                            foreach ($childData['attrs'] as $attr) {
+//                                switch ($attr['name']) {
+//                                    case 'quiz_character_medium_ids':
+//                                        $quiz_character_medium_ids = $attr['value'];
+//                                        break;
+//                                    case 'quiz_shape_ids':
+//                                        $quiz_shape_ids = $attr['value'];
+//                                        break;
+//                                    case 'quiz_character_medium_filter_ids':
+//                                        $quiz_character_medium_filter_ids = $attr['value'];
+//                                        break;
+//                                    case 'quiz_shape_filter_ids':
+//                                        $quiz_shape_filter_ids = $attr['value'];
+//                                        break;
+//                                    default:
+//                                }
+//                            }
+//                            $junctions['QuizResult'][] = [
+//                                '__id' => $childData['id'],
+//                                'id' => $model->id,
+//                                'junctions' => [
+//                                    'quiz_character_medium_ids' => $quiz_character_medium_ids,
+//                                    'quiz_shape_ids' => $quiz_shape_ids,
+//                                    'quiz_character_medium_filter_ids' => $quiz_character_medium_filter_ids,
+//                                    'quiz_shape_filter_ids' => $quiz_shape_filter_ids,
+//                                ]
+//                            ];
+                            $addJunction($childData, $model, [
+                                'quiz_character_medium_ids',
+                                'quiz_shape_ids',
+                                'quiz_character_medium_filter_ids',
+                                'quiz_shape_filter_ids',
+                            ]);
                             break;
                         case 'QuizCharacterMedium':
-                        case 'QuizShape':
-                            $junctions[$childData['type']][] = [
-                                '__id' => $childData['id'],
-                                'id' => $model->id,
-                            ];
+                            $addJunction($childData, $model, [
+                                'quiz_filter_ids',
+                                'quiz_sorter_ids',
+                                'quiz_style_ids',
+                            ]);
                             break;
+                        case 'QuizCharacter':
+                            $addJunction($childData, $model, [
+                                'quiz_filter_ids',
+                                'quiz_sorter_ids',
+                            ]);
+                            break;
+                        case 'QuizShape':
+                            $addJunction($childData, $model, [
+                                'quiz_style_ids',
+                            ]);
+                            break;
+                        case 'QuizInputGroup':
+                            $addJunction($childData, $model, [
+                                'quiz_input_filter_ids',
+                            ]);
+                            break;
+                        case 'QuizInput':
+                            $addJunction($childData, $model, [
+                                'quiz_input_option_filter_ids',
+                                'quiz_validator_ids',
+                            ]);
+                            break;
+                        case 'QuizInputOption':
+                            $addJunction($childData, $model, [
+                                'quiz_voted_result_ids',
+                            ]);
+                            break;
+                        case 'QuizParam':
                         case 'QuizFilter':
+                        case 'QuizStyle':
+                        case 'QuizValidator':
+                        case 'QuizSorter':
+                            $addJunction($childData, $model, []);
                             break;
 
 
@@ -458,41 +628,288 @@ class DefaultController extends Controller
                 $quiz->id = null;
             }
             if ($quiz->save()) {
+                $addJunction(array_merge($state, ['type' => 'Quiz', 'id' => $testingId()]), $quiz, [
+                    'quiz_character_medium_ids',
+                    'quiz_shape_ids',
+                    'quiz_character_medium_filter_ids',
+                    'quiz_shape_filter_ids',
+                ]);
                 $loadModels($state['childrenData'], $quiz, false);
 //                VarDumper::dump($junctions, 100, true);die;
-                foreach ($junctions as $type => $junction) {
-                    if ($type === 'QuizResult') {
-                        foreach ($junction as $item) {
-                            foreach ($item['junctions']['quiz_character_medium_ids'] as $character_medium_id) {
-                                foreach ($junctions['QuizCharacterMedium'] as $item2) {
-                                    if ($character_medium_id == $item2['__id']) {
-                                        if (!$jnc = QuizResultToCharacterMedium::findOne([
-                                            'quiz_result_id' => (int) $item['id'],
-                                            'quiz_character_medium_id' => (int) $item2['id'],
-                                        ])) {
-                                            $jnc = new QuizResultToCharacterMedium();
-                                            $jnc->quiz_result_id = (int) $item['id'];
-                                            $jnc->quiz_character_medium_id = (int) $item2['id'];
-                                            $jnc->save();
-                                        }
+                /**
+                 * @param $item
+                 * @param $jnc_attr
+                 * @param $jnc_type
+                 * @param $class ActiveRecord
+                 * @param $pk1
+                 * @param $pk2
+                 * @param $fields
+                 */
+                $saveJunctions = function ($item, $jnc_attr, $jnc_type, $class, $pk1, $pk2, array $fields = []) use ($junctions) {
+                    $chr_md_ids = [];
+                    if (!isset($item['junctions'][$jnc_attr])) {
+                        return false;
+                    }
+                    foreach ($item['junctions'][$jnc_attr] as $character_medium_id) {
+                        foreach ($junctions[$jnc_type] as $item2) {
+                            if ($character_medium_id == $item2['__id']) {
+                                if (!$jnc = $class::findOne([
+                                    $pk1 => (int) $item['id'],
+                                    $pk2 => (int) $item2['id'],
+                                ])) {
+                                    /**
+                                     * @var $jnc ActiveRecord
+                                     */
+                                    $jnc = new $class();
+                                    $jnc->$pk1 = (int) $item['id'];
+                                    $jnc->$pk2 = (int) $item2['id'];
+                                    foreach ($fields as $attr => $val) {
+                                        $jnc->$attr = $val;
                                     }
+                                    $jnc->save();
                                 }
+                                $chr_md_ids[] = (int) $item2['id'];
                             }
-                            foreach ($item['junctions']['quiz_shape_ids'] as $shape_id) {
-                                foreach ($junctions['QuizShape'] as $item2) {
-                                    if ($shape_id == $item2['__id']) {
-                                        if (!$jnc = QuizResultToShape::findOne([
-                                            'quiz_result_id' => $item['id'],
-                                            'quiz_shape_id' => $item2['id'],
-                                        ])) {
-                                            $jnc = new QuizResultToShape();
-                                            $jnc->quiz_result_id = $item['id'];
-                                            $jnc->quiz_shape_id = $item2['id'];
-                                            $jnc->save();
-                                        }
-                                    }
-                                }
-                            }
+                        }
+                    }
+                    // Remove no longer junctions
+                    foreach (
+                        $class::find()
+                            ->where([$pk1 => (int) $item['id']])
+                            ->andWhere(['not in', $pk2, $chr_md_ids])
+                            ->all() as $no_longer_jnc
+                    ) {
+                        $no_longer_jnc->delete();
+                    }
+                    return true;
+                };
+                $style_order = 0;
+                $sorter_order = 0;
+                foreach ($junctions as $type => $_junctions) {
+                    foreach ($_junctions as $item) {
+                        switch ($type) {
+                            case 'Quiz':
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_character_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizToCharacterFilter',
+                                    'quiz_id',
+                                    'quiz_character_filter_id'
+                                );
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_result_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizToResultFilter',
+                                    'quiz_id',
+                                    'quiz_result_filter_id'
+                                );
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_input_group_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizToInputGroupFilter',
+                                    'quiz_id',
+                                    'quiz_input_group_filter_id'
+                                );
+                                
+                                break;
+                            case 'QuizResult':
+                                // QuizResult - QuizCharacterMedium
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_character_medium_ids',
+                                    'QuizCharacterMedium',
+                                    '\common\modules\quiz\models\QuizResultToCharacterMedium',
+                                    'quiz_result_id',
+                                    'quiz_character_medium_id'
+                                );
+//                                $chr_md_ids = [];
+//                                foreach ($item['junctions']['quiz_character_medium_ids'] as $character_medium_id) {
+//                                    foreach ($junctions['QuizCharacterMedium'] as $item2) {
+//                                        if ($character_medium_id == $item2['__id']) {
+//                                            if (!$jnc = QuizResultToCharacterMedium::findOne([
+//                                                'quiz_result_id' => (int) $item['id'],
+//                                                'quiz_character_medium_id' => (int) $item2['id'],
+//                                            ])) {
+//                                                $jnc = new QuizResultToCharacterMedium();
+//                                                $jnc->quiz_result_id = (int) $item['id'];
+//                                                $jnc->quiz_character_medium_id = (int) $item2['id'];
+//                                                $jnc->save();
+//                                            }
+//                                            $chr_md_ids[] = (int) $item2['id'];
+//                                        }
+//                                    }
+//                                }
+//                                // Remove no longer junctions
+//                                foreach (
+//                                    QuizResultToCharacterMedium::find()
+//                                    ->where(['quiz_result_id' => (int) $item['id']])
+//                                    ->andWhere(['not in', 'quiz_character_medium_id', $chr_md_ids])
+//                                    ->all() as $no_longer_jnc
+//                                ) {
+//                                    $no_longer_jnc->delete();
+//                                }
+
+                                // QuizResult - QuizShape
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_shape_ids',
+                                    'QuizShape',
+                                    '\common\modules\quiz\models\QuizResultToShape',
+                                    'quiz_result_id',
+                                    'quiz_shape_id'
+                                );
+//                                $shape_ids = [];
+//                                foreach ($item['junctions']['quiz_shape_ids'] as $shape_id) {
+//                                    foreach ($junctions['QuizShape'] as $item2) {
+//                                        if ($shape_id == $item2['__id']) {
+//                                            if (!$jnc = QuizResultToShape::findOne([
+//                                                'quiz_result_id' => $item['id'],
+//                                                'quiz_shape_id' => $item2['id'],
+//                                            ])) {
+//                                                $jnc = new QuizResultToShape();
+//                                                $jnc->quiz_result_id = $item['id'];
+//                                                $jnc->quiz_shape_id = $item2['id'];
+//                                                $jnc->save();
+//                                            }
+//                                            $shape_ids[] = $item2['id'];
+//                                        }
+//                                    }
+//                                }
+//                                // Remove no longer junctions
+//                                foreach (
+//                                    QuizResultToShape::find()
+//                                        ->where(['quiz_result_id' => (int) $item['id']])
+//                                        ->andWhere(['not in', 'quiz_shape_id', $shape_ids])
+//                                        ->all() as $no_longer_jnc
+//                                ) {
+//                                    $no_longer_jnc->delete();
+//                                }
+
+                                // QuizResult - QuizCharacterMediumFilter
+
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_character_medium_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizResultToCharacterMediumFilter',
+                                    'quiz_result_id',
+                                    'quiz_character_medium_filter_id'
+                                );
+
+                                // QuizResult - QuizShapeFilter
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_shape_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizResultToShapeFilter',
+                                    'quiz_result_id',
+                                    'quiz_shape_filter_id'
+                                );
+                                break;
+
+                            case 'QuizShape':
+                                // QuizShape - QuizStyle
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_style_ids',
+                                    'QuizStyle',
+                                    '\common\modules\quiz\models\QuizShapeToStyle',
+                                    'quiz_shape_id',
+                                    'quiz_style_id',
+                                    ['style_order' => $style_order++]
+                                );
+                                break;
+
+                            case 'QuizCharacter':
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizCharacterToFilter',
+                                    'quiz_character_id',
+                                    'quiz_filter_id'
+                                );
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_sorter_ids',
+                                    'QuizSorter',
+                                    '\common\modules\quiz\models\QuizCharacterToSorter',
+                                    'quiz_character_id',
+                                    'quiz_sorter_id',
+                                    ['sorter_order' => $sorter_order++]
+                                );
+                                break;
+
+                            case 'QuizCharacterMedium':
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizCharacterMediumToFilter',
+                                    'quiz_character_id',
+                                    'quiz_filter_id'
+                                );
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_sorter_ids',
+                                    'QuizSorter',
+                                    '\common\modules\quiz\models\QuizCharacterMediumToSorter',
+                                    'quiz_character_id',
+                                    'quiz_sorter_id',
+                                    ['sorter_order' => $sorter_order++]
+                                );
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_style_ids',
+                                    'QuizStyle',
+                                    '\common\modules\quiz\models\QuizCharacterMediumToStyle',
+                                    'quiz_character_medium_id',
+                                    'quiz_style_id',
+                                    ['style_order' => $style_order++]
+                                );
+                                break;
+                            case 'QuizInputGroup':
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_input_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizInputGroupToInputFilter',
+                                    'quiz_input_group_id',
+                                    'quiz_input_filter_id'
+                                );
+                                break;
+                            case 'QuizInput':
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_input_option_filter_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizInputToInputOptionFilter',
+                                    'quiz_input_id',
+                                    'quiz_input_option_filter_id'
+                                );
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_validator_ids',
+                                    'QuizFilter',
+                                    '\common\modules\quiz\models\QuizInputToValidator',
+                                    'quiz_input_id',
+                                    'quiz_validator_id'
+                                );
+
+                                break;
+                            case 'QuizInputOption':
+                                $saveJunctions(
+                                    $item,
+                                    'quiz_voted_result_ids',
+                                    'QuizResult',
+                                    '\common\modules\quiz\models\QuizInputOptionToVotedResult',
+                                    'quiz_input_option_id',
+                                    'quiz_voted_result_id'
+                                );
+                                break;
                         }
                     }
                 }

@@ -6,5 +6,20 @@ use Yii;
 
 class QuizInputOption extends \common\modules\quiz\baseModels\QuizInputOption
 {
+    public static function modelConfig()
+    {
+        $modelConfig = parent::modelConfig();
 
+        $modelConfig['attrs'][] = [
+            'type' => 'multipleSelectBox',
+            'name' => 'quiz_voted_result_ids',
+            'label' => 'Quiz voted results',
+            'value' => [],
+            'errorMsg' => '',
+            'options' => '@list QuizResult',
+            'rules' => [],
+        ];
+
+        return $modelConfig;
+    }
 }

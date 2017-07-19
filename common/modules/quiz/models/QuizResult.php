@@ -9,6 +9,7 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
     public static function modelConfig()
     {
         $modelConfig = parent::modelConfig();
+
         $modelConfig['attrs'][] = [
             'type' => 'multipleSelectBox',
             'name' => 'quiz_shape_ids',
@@ -18,6 +19,7 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
             'options' => '@list QuizShape',
             'rules' => [],
         ];
+
         $modelConfig['attrs'][] = [
             'type' => 'multipleSelectBox',
             'name' => 'quiz_character_medium_ids',
@@ -27,22 +29,24 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
             'options' => '@list QuizCharacterMedium',
             'rules' => [],
         ];
+
         $modelConfig['attrs'][] = [
             'type' => 'multipleSelectBox',
             'name' => 'quiz_shape_filter_ids',
             'label' => 'Quiz shape filters',
             'value' => [],
             'errorMsg' => '',
-            'options' => '@list Filter',
+            'options' => '@list QuizFilter',
             'rules' => [],
         ];
+
         $modelConfig['attrs'][] = [
             'type' => 'multipleSelectBox',
             'name' => 'quiz_character_medium_filter_ids',
             'label' => 'Quiz character medium filters',
             'value' => [],
             'errorMsg' => '',
-            'options' => '@list Filter',
+            'options' => '@list QuizFilter',
             'rules' => [],
         ];
 

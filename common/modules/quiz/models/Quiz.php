@@ -42,4 +42,44 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
             [['slug'], 'unique'],
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public static function modelConfig()
+    {
+        $modelConfig = parent::modelConfig();
+
+        $modelConfig['attrs'][] = [
+            'type' => 'multipleSelectBox',
+            'name' => 'quiz_input_group_filter_ids',
+            'label' => 'Quiz input group filters',
+            'value' => [],
+            'errorMsg' => '',
+            'options' => '@list QuizFilter',
+            'rules' => [],
+        ];
+
+        $modelConfig['attrs'][] = [
+            'type' => 'multipleSelectBox',
+            'name' => 'quiz_character_filter_ids',
+            'label' => 'Quiz character filters',
+            'value' => [],
+            'errorMsg' => '',
+            'options' => '@list QuizFilter',
+            'rules' => [],
+        ];
+
+        $modelConfig['attrs'][] = [
+            'type' => 'multipleSelectBox',
+            'name' => 'quiz_result_filter_ids',
+            'label' => 'Quiz result filters',
+            'value' => [],
+            'errorMsg' => '',
+            'options' => '@list QuizFilter',
+            'rules' => [],
+        ];
+
+        return $modelConfig;
+    }
 }

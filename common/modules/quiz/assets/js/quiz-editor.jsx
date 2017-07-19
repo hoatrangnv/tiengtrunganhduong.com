@@ -276,7 +276,7 @@ class QuizModelAttr extends React.Component {
 
     handleChange(event) {
         var value;
-        if (event.target.options) {
+        if (this.props.type === "multipleSelectBox") {
             let options = event.target.options;
             value = [];
             for (let i = 0, l = options.length; i < l; i++) {
@@ -314,6 +314,7 @@ class QuizModelAttr extends React.Component {
                     value={value}
                     onChange={this.handleChange}
                 >
+                    <option key={uniqueId()} value={""}>---</option>
                     {
                         this.props.options.map((option) => (
                             <option key={uniqueId()} value={option.value}>{option.text}</option>

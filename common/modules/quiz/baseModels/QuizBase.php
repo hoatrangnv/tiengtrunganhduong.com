@@ -43,7 +43,12 @@ class QuizBase extends ActiveRecord
             if (substr($column->name, -3) === '_id') {
                 $type = 'selectBox';
                 if (substr($column->name, -6) === '_fn_id') {
-                    $options = ArrayHelper::map(QuizFn::find()->all(), 'id', 'name');
+                    foreach (QuizFn::find()->all() as $fn) {
+                        $options[] = [
+                            'text' => $fn->name,
+                            'value' => $fn->id
+                        ];
+                    }
                 }
             } else {
                 switch ($column->type) {

@@ -6,5 +6,4 @@ use Yii;
 
 class QuizFilter extends \common\modules\quiz\baseModels\QuizFilter
 {
-
 }
