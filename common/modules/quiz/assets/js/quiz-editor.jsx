@@ -327,10 +327,10 @@ class QuizModelAttr extends React.Component {
                     if (this.props.options.substr(0, 6) === "@list ") {
                         let modelType = this.props.options.substr(6);
                         options = this.props.findModels(modelType).map((model) => {
-                            // let id = model.attrs.find((attr) => (attr.name === "id"));
+                            let attrName = model.attrs.find((attr) => (attr.name === "name"));
                             return {
-                                "value": /*id && id.value ? ("__" + id.value) :*/ model.id,
-                                "text": model.type + "#" + model.id
+                                "value": model.id,
+                                "text": model.type + ": " + (attrName ? attrName.value : model.id)
                             };
                         });
                     }

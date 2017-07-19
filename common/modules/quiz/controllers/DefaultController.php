@@ -165,7 +165,7 @@ class DefaultController extends Controller
                     $attr['errorMsg'] = '';
                     $childAttrs[] = $attr;
                     if ($attr['name'] == 'id') {
-                        $childData['id'] = '__' . $attr['value'];
+                        $childData['id'] = "__$type#{$attr['value']}";
                     }
                 }
                 $childData['attrs'] = $childAttrs;
@@ -182,12 +182,12 @@ class DefaultController extends Controller
                             switch ($attr['name']) {
                                 case 'quiz_character_medium_ids':
                                     $attr['value'] = array_map(function ($id) {
-                                        return '__' . $id;
+                                        return "__QuizCharacterMedium#$id";
                                     }, ArrayHelper::getColumn($child->quizCharacterMedia, 'id'));
                                     break;
                                 case 'quiz_shape_ids':
                                     $attr['value'] = array_map(function ($id) {
-                                        return '__' . $id;
+                                        return "__QuizShape#$id";
                                     }, ArrayHelper::getColumn($child->quizShapes, 'id'));
                                     break;
 
@@ -482,12 +482,12 @@ class DefaultController extends Controller
                                 foreach ($junctions['QuizShape'] as $item2) {
                                     if ($shape_id == $item2['__id']) {
                                         if (!$jnc = QuizResultToShape::findOne([
-                                            'quiz_result_id' => (int) $item['id'],
-                                            'quiz_shape_id' => (int) $item2['id'],
+                                            'quiz_result_id' => $item['id'],
+                                            'quiz_shape_id' => $item2['id'],
                                         ])) {
                                             $jnc = new QuizResultToShape();
-                                            $jnc->quiz_result_id = (int) $item['id'];
-                                            $jnc->quiz_shape_id = (int) $item2['id'];
+                                            $jnc->quiz_result_id = $item['id'];
+                                            $jnc->quiz_shape_id = $item2['id'];
                                             $jnc->save();
                                         }
                                     }
