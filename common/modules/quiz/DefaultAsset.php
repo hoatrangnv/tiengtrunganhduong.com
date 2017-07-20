@@ -20,8 +20,8 @@ class DefaultAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/react.js',
-        'js/react-dom.js',
+        'js/react-with-addons.js',
+        'js/react-dom-v15.5.4.js',
         'js/babel-core.min.js',
     ];
 }
