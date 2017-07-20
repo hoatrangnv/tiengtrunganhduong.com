@@ -27,7 +27,7 @@ class QuizBase extends ActiveRecord
         $table = self::getTableSchema();
         foreach ($table->columns as $column) {
             if (in_array($column->name, [
-                'id',
+//                'id',
                 'quiz_id',
                 'character_id',
                 'input_group_id',
@@ -43,7 +43,9 @@ class QuizBase extends ActiveRecord
 
             $type = 'text';
             $options = [];
-            if (substr($column->name, -3) === '_id') {
+            if ($column->name == 'id') {
+                $type = 'hidden';
+            } else if (substr($column->name, -3) === '_id') {
                 $type = 'selectBox';
                 if (substr($column->name, -6) === '_fn_id') {
                     foreach (QuizFn::find()->all() as $fn) {

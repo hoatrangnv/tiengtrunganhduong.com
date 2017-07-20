@@ -385,10 +385,11 @@ class QuizModelAttr extends React.Component {
                 />;
         }
         return (
+            type == "hidden" ? input :
             <div className="form-group">
                 <label>{this.props.label}</label>
                 {input}
-                <div className="error-msg">{this.state.errorMsg}</div>
+                <div className="error-msg text-danger">{this.state.errorMsg}</div>
             </div>
         );
     }
