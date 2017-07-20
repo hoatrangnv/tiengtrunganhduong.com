@@ -144,11 +144,10 @@ class QuizModel extends React.Component {
     // }
 
     saveCallback(response) {
-        console.log("response");
-        console.log(response);
+        console.log("response", response);
         this.setState(response.state);
         if (response.success) {
-            // window.location.href = response.updateLink;
+            window.location.href = response.updateLink;
         }
     }
 
@@ -338,7 +337,7 @@ class QuizModelAttr extends React.Component {
                 } else if (this.props.options instanceof Array) {
                     options = this.props.options;
                 }
-                console.log(value);
+                // console.log(value);
                 input = <select
                     name={name}
                     value={value ? value : []}

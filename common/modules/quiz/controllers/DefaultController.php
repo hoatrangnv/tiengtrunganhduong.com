@@ -130,7 +130,7 @@ class DefaultController extends Controller
          * @param array $children
          * @return array
          */
-        $getChildrenData = function (array $children) use (&$getChildrenData) {
+        $getChildrenData = function (array $children) use (&$getChildrenData, $inputConfig) {
             $childrenData = ['items' => [], 'activeItemId' => null];
             usort($children, function ($a, $b) {
                 /**
@@ -211,22 +211,108 @@ class DefaultController extends Controller
                         /**
                          * @var $child QuizCharacter
                          */
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_filter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizFilter#$id";
+                                    }, ArrayHelper::getColumn($child->quizFilters, 'id'));
+                                    break;
+                                case 'quiz_sorter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizSorter#$id";
+                                    }, ArrayHelper::getColumn($child->quizSorters, 'id'));
+                                    break;
+
+                            }
+                        }
+                        unset($attr);
                         $childData['childConfigs'] = [QuizCharacterMedium::modelConfig()];
                         $grandChildren = $child->quizCharacterMedia;
                         break;
+
+                    case 'QuizCharacterMedium':
+                        /**
+                         * @var $child QuizCharacterMedium
+                         */
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_filter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizFilter#$id";
+                                    }, ArrayHelper::getColumn($child->quizFilters, 'id'));
+                                    break;
+                                case 'quiz_sorter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizSorter#$id";
+                                    }, ArrayHelper::getColumn($child->quizSorters, 'id'));
+                                    break;
+                                case 'quiz_style_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizStyle#$id";
+                                    }, ArrayHelper::getColumn($child->quizStyles, 'id'));
+                                    break;
+
+                            }
+                        }
+                        unset($attr);
+                        break;
+
                     case 'QuizInputGroup':
                         /**
                          * @var $child QuizInputGroup
                          */
-                        $childData['childConfigs'] = [QuizInput::modelConfig()];
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_input_filter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizFilter#$id";
+                                    }, ArrayHelper::getColumn($child->quizInputFilters, 'id'));
+                                    break;
+                            }
+                        }
+                        unset($attr);
+                        $childData['childConfigs'] = [$inputConfig];
                         $grandChildren = $child->quizInputs;
                         break;
                     case 'QuizInput':
                         /**
                          * @var $child QuizInput
                          */
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_input_option_filter_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizFilter#$id";
+                                    }, ArrayHelper::getColumn($child->quizInputOptionFilters, 'id'));
+                                    break;
+                                case 'quiz_validator_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizValidator#$id";
+                                    }, ArrayHelper::getColumn($child->quizValidators, 'id'));
+                                    break;
+
+                            }
+                        }
+                        unset($attr);
                         $childData['childConfigs'] = [QuizInputOption::modelConfig()];
                         $grandChildren = $child->quizInputOptions;
+                        break;
+                    case 'QuizInputOption':
+                        /**
+                         * @var $child QuizInputOption
+                         */
+                        foreach ($childData['attrs'] as &$attr) {
+                            switch ($attr['name']) {
+                                case 'quiz_voted_result_ids':
+                                    $attr['value'] = array_map(function ($id) {
+                                        return "__QuizResult#$id";
+                                    }, ArrayHelper::getColumn($child->quizVotedResults, 'id'));
+                                    break;
+
+                            }
+                        }
+                        unset($attr);
                         break;
                     case 'QuizShape':
                         /**
