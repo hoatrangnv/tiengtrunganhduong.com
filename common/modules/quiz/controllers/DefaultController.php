@@ -243,6 +243,7 @@ class DefaultController extends Controller
                             }
                         }
                         unset($attr);
+                        break;
                 }
 
                 if (!empty($grandChildren)) {
@@ -255,6 +256,28 @@ class DefaultController extends Controller
             }
             return $childrenData;
         };
+
+        foreach ($attrs as &$attr) {
+            switch ($attr['name']) {
+                case 'quiz_input_group_filter_ids':
+                    $attr['value'] = array_map(function ($id)  {
+                        return "__QuizFilter#$id";
+                    }, ArrayHelper::getColumn($quiz->quizInputGroupFilters, 'id'));
+                    break;
+                case 'quiz_character_filter_ids':
+                    $attr['value'] = array_map(function ($id) {
+                        return "__QuizFilter#$id";
+                    }, ArrayHelper::getColumn($quiz->quizCharacterFilters, 'id'));
+                    break;
+                case 'quiz_result_filter_ids':
+                    $attr['value'] = array_map(function ($id) {
+                        return "__QuizFilter#$id";
+                    }, ArrayHelper::getColumn($quiz->quizResultFilters, 'id'));
+                    break;
+            }
+        }
+
+        unset($attr);
 
         $childrenData = $getChildrenData($children);
 
