@@ -23,9 +23,9 @@ class QuizEditorAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/classnames.js',
-        'js/react-input-autosize.js',
-        'js/react-select.js',
+//        'js/classnames.js',
+//        'js/react-input-autosize.js',
+//        'js/react-select.js',
         'js/react-sortable-hoc.js',
         ['js/quiz-editor.jsx', 'type' => 'text/babel'],
     ];
