@@ -23,10 +23,16 @@ class QuizEditorAsset extends AssetBundle
     ];
 
     public $js = [
+//        'js/create-react-class.js',
 //        'js/classnames.js',
 //        'js/react-input-autosize.js',
 //        'js/react-select.js',
+//        'js/common.js',
+//        'js/bundle.js',
+//        'js/app.js',
+        '//cdn.ckeditor.com/4.6.1/standard/ckeditor.js',
         'js/react-sortable-hoc.js',
+        ['js/ckeditor.jsx', 'type' => 'text/babel'],
         ['js/quiz-editor.jsx', 'type' => 'text/babel'],
     ];
 

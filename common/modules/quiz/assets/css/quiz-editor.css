@@ -131,3 +131,31 @@
 .slow-motion {
     transition: all 0.2s;
 }
+.btn-submit,
+.btn-switch {
+    box-sizing: border-box;
+    padding: 0;
+    outline: none !important;
+}
+.btn-submit span,
+.btn-switch span {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+}
+.btn-switch-on span:first-child {
+    background: #f86;
+    color: #fff;
+}
+.btn-switch-on span:last-child {
+    background: #ccc;
+    color: #fff;
+}
+.btn-switch-off span:first-child {
+    background: #ccc;
+    color: #fff;
+}
+.btn-switch-off span:last-child {
+    background: #68f;
+    color: #fff;
+}
+

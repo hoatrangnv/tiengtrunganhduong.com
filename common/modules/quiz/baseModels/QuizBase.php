@@ -27,8 +27,11 @@ class QuizBase extends ActiveRecord
         $table = self::getTableSchema();
         foreach ($table->columns as $column) {
             if (in_array($column->name, [
-//                'id',
+                'id',
                 'quiz_id',
+                'character_id',
+                'input_group_id',
+                'input_id',
                 'create_time',
                 'update_time',
                 'creator_id',

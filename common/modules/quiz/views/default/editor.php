@@ -14,7 +14,6 @@
  */
 \common\modules\quiz\QuizEditorAsset::register($this);
 ?>
-
 <div id="root"></div>
 <script type="text/babel">
     function save(state, callback) {
@@ -44,7 +43,9 @@
             attrs={<?= json_encode($attrs) ?>}
             childConfigs={<?= json_encode($childConfigs) ?>}
             childrenData={<?= json_encode($childrenData) ?>}
+            showAttrsForm={true}
         />,
         document.getElementById("root")
     );
+
 </script>

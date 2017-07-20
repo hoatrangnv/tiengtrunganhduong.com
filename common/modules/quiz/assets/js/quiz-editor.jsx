@@ -1,4 +1,5 @@
 var {SortableContainer, SortableElement, arrayMove} = window.SortableHOC;
+var CKEditor = window.CKEditor;
 
 class QuizModel extends React.Component {
     /**
@@ -27,10 +28,22 @@ class QuizModel extends React.Component {
         this.removeChild = this.removeChild.bind(this);
         this.activateChild = this.activateChild.bind(this);
         this.reorderChildren = this.reorderChildren.bind(this);
-        // this.ancestorUpdateGrandchildren = this.ancestorUpdateGrandchildren.bind(this);
         this.updateAttr = this.updateAttr.bind(this);
         this.saveCallback = this.saveCallback.bind(this);
         this.findModels = this.findModels.bind(this);
+        this.toggleChildrenTree = this.toggleChildrenTree.bind(this);
+    }
+
+    toggleChildrenTree() {
+        this.setState((prevState) => {
+            var childrenData = prevState.childrenData;
+            childrenData.showTree = !childrenData.showTree;
+            return {
+                name: prevState.name,
+                attrs: prevState.attrs,
+                childrenData: prevState.childrenData
+            }
+        });
     }
 
     updateAttr(name, value, errorMsg) {
@@ -60,7 +73,8 @@ class QuizModel extends React.Component {
             childConfigs: newChildConfig.childConfigs,
             childrenData: {
                 items: [],
-                activeItemId: null
+                activeItemId: null,
+                showTree: false
             },
         };
         var childrenData = this.state.childrenData;
@@ -174,75 +188,86 @@ class QuizModel extends React.Component {
         return (
             <div id={this.props.id} className="panel panel-default clearfix">
                 {
-                    this.props.save &&
+                    (this.props.save || this.props.childConfigs) &&
                         <div className="panel-heading clearfix">
-                            <button
-                                className="btn btn-sm btn-primary"
-                                onClick={() => {this.props.save(this.state, this.saveCallback)}}
-                            >Save</button>
+                            {
+                                this.props.save &&
+                                        <button type="button"
+                                            className="btn btn-xs btn-primary btn-submit pull-right"
+                                            onClick={() => {this.props.save(this.state, this.saveCallback)}}
+                                        ><span>Save</span></button>
+                            }
+                            {
+                                this.props.childConfigs &&
+                                    <button type="button"
+                                        className={"btn btn-xs btn-default btn-switch btn-switch-"
+                                                    + (this.state.childrenData.showTree ? "off" : "on")}
+                                        onClick={this.toggleChildrenTree}
+                                    >
+                                        <span>Form</span>
+                                        <span>Tree</span>
+                                    </button>
+                            }
                         </div>
                 }
                 <div className="panel-body clearfix">
-                    <div
-                        style={activeChildData ? {width: "200px"} : {width: "50%"}}
-                        className="pull-left slow-motion"
-                    >
-                        {
-                            this.state.attrs.map((attr) => (
-                                <QuizModelAttr
-                                    key={uniqueId()}
-                                    // props:
-                                    id={uniqueId()}
-                                    name={attr.name}
-                                    type={attr.type}
-                                    label={attr.label}
-                                    rules={attr.rules}
-                                    options={attr.options}
-                                    value={attr.value}
-                                    errorMsg={attr.errorMsg}
-                                    onChange={(value, errorMsg) => {this.updateAttr(attr.name, value, errorMsg)}}
-                                    findModels={this.findModels}
-                                />
-                            ))
-                        }
-                    </div>
-                    <div
-                        style={activeChildData ? {width: "calc(100% - 200px - 15px)"} : {width: "calc(50% - 15px)"}}
-                        className="pull-right slow-motion"
-                    >
-                        {
-                            !this.props.childConfigs ? "" :
-                                <div className="tab-bar-overlap clearfix">
-                                    <TabBar
+                    {
+                        this.state.childrenData.showTree
+                        ? <div>
+                            {
+                                this.props.childConfigs &&
+                                    <div className="tab-bar-overlap clearfix">
+                                        <TabBar
+                                            key={uniqueId()}
+                                            // props:
+                                            id={uniqueId()}
+                                            items={this.state.childrenData.items}
+                                            activeItemId={this.state.childrenData.activeItemId}
+                                            reorderItems={this.reorderChildren}
+                                            activateItem={this.activateChild}
+                                            addItem={this.addChild}
+                                            removeItem={this.removeChild}
+                                            itemConfigs={this.props.childConfigs}
+                                        />
+                                    </div>
+                            }
+                            {
+                                activeChildData &&
+                                    <div className="clearfix">
+                                        <QuizModel
+                                            key={uniqueId()}
+                                            // props:
+                                            id={activeChildData.id}
+                                            type={activeChildData.type}
+                                            attrs={activeChildData.attrs}
+                                            childConfigs={activeChildData.childConfigs}
+                                            childrenData={activeChildData.childrenData}
+                                            findModels={this.findModels}
+                                        />
+                                    </div>
+                            }
+                        </div>
+                        : <div>
+                            {
+                                this.state.attrs.map((attr) => (
+                                    <QuizModelAttr
                                         key={uniqueId()}
                                         // props:
                                         id={uniqueId()}
-                                        items={this.state.childrenData.items}
-                                        activeItemId={this.state.childrenData.activeItemId}
-                                        reorderItems={this.reorderChildren}
-                                        activateItem={this.activateChild}
-                                        addItem={this.addChild}
-                                        removeItem={this.removeChild}
-                                        itemConfigs={this.props.childConfigs}
-                                    />
-                                </div>
-                        }
-                        {
-                            activeChildData &&
-                                <div className="clearfix">
-                                    <QuizModel
-                                        key={uniqueId()}
-                                        // props:
-                                        id={activeChildData.id}
-                                        type={activeChildData.type}
-                                        attrs={activeChildData.attrs}
-                                        childConfigs={activeChildData.childConfigs}
-                                        childrenData={activeChildData.childrenData}
+                                        name={attr.name}
+                                        type={attr.type}
+                                        label={attr.label}
+                                        rules={attr.rules}
+                                        options={attr.options}
+                                        value={attr.value}
+                                        errorMsg={attr.errorMsg}
+                                        onChange={(value, errorMsg) => {this.updateAttr(attr.name, value, errorMsg)}}
                                         findModels={this.findModels}
                                     />
-                                </div>
-                        }
-                    </div>
+                                ))
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         );
@@ -301,14 +326,11 @@ class QuizModelAttr extends React.Component {
         var input;
         switch (type) {
             case "textArea":
-                input = <textArea
-                    name={name}
-                    value={value}
-                    onChange={this.handleChange}
-                />;
+                input = <CKEditor name={name} value={value} onChange={this.handleChange}/>;
                 break;
             case "selectBox":
                 input = <select
+                    className="form-control input-sm"
                     name={name}
                     value={value}
                     onChange={this.handleChange}
@@ -339,6 +361,7 @@ class QuizModelAttr extends React.Component {
                 }
                 // console.log(value);
                 input = <select
+                    className="form-control input-sm"
                     name={name}
                     value={value ? value : []}
                     onChange={this.handleChange}
@@ -354,6 +377,7 @@ class QuizModelAttr extends React.Component {
                 break;
             default:
                 input = <input
+                    className="form-control input-sm"
                     type={type}
                     name={name}
                     value={value}
@@ -361,7 +385,7 @@ class QuizModelAttr extends React.Component {
                 />;
         }
         return (
-            <div className="input-wrapper">
+            <div className="form-group">
                 <label>{this.props.label}</label>
                 {input}
                 <div className="error-msg">{this.state.errorMsg}</div>
@@ -516,13 +540,13 @@ class TabCtrl extends React.Component {
         );
         return (
             <div id={this.props.id} className="tab-ctrl">
-                <button className="btn btn-sm btn-success" onClick={this.toggleItemConfigsMenu}>
+                <button type="button" className="btn btn-sm btn-success" onClick={this.toggleItemConfigsMenu}>
                     <span>+</span>
                     {this.state.showItemConfigsMenu ? <ul className="item-configs-menu">{itemConfigs}</ul> : ""}
                 </button>
-                <button className="btn btn-sm btn-danger" onClick={this.props.removeItem}><span>&minus;</span></button>
-                <button className="btn btn-sm btn-info" onClick={this.activatePrevItem}><span>&lt;</span></button>
-                <button className="btn btn-sm btn-info" onClick={this.activateNextItem}><span>&gt;</span></button>
+                <button type="button" className="btn btn-sm btn-danger" onClick={this.props.removeItem}><span>&minus;</span></button>
+                <button type="button" className="btn btn-sm btn-info" onClick={this.activatePrevItem}><span>&lt;</span></button>
+                <button type="button" className="btn btn-sm btn-info" onClick={this.activateNextItem}><span>&gt;</span></button>
             </div>
         );
     }
