@@ -529,6 +529,10 @@ class DefaultController extends Controller
 //                                default:
 //                            }
             }
+//            if ($data['type'] === 'Quiz') {
+//                var_dump($data['attrs']);
+//                die;
+//            }
             $junctions[$data['type']][] = [
                 '__id' => $data['id'],
                 'id' => $model->id,
@@ -749,11 +753,10 @@ class DefaultController extends Controller
                 $quiz->id = null;
             }
             if ($quiz->save()) {
-                $addJunction(array_merge($state, ['type' => 'Quiz', 'id' => $testingId()]), $quiz, [
-                    'quiz_character_medium_ids',
-                    'quiz_shape_ids',
-                    'quiz_character_medium_filter_ids',
-                    'quiz_shape_filter_ids',
+                $addJunction(array_merge($state, ['type' => 'Quiz', 'id' => '__Quiz#' . $quiz->id]), $quiz, [
+                    'quiz_input_group_filter_ids',
+                    'quiz_character_filter_ids',
+                    'quiz_result_filter_ids',
                 ]);
                 $loadModels($state['childrenData'], $quiz, false);
 //                VarDumper::dump($junctions, 100, true);die;
