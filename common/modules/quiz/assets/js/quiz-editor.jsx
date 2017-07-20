@@ -344,6 +344,7 @@ class QuizModelAttr extends React.Component {
                     onChange={this.handleChange}
                     multiple="true"
                 >
+                    <option key={uniqueId()}>---</option>
                     {
                         options.map((option) => (
                             <option key={uniqueId()} value={option.value}>{option.text}</option>
