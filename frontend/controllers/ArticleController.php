@@ -130,6 +130,9 @@ class ArticleController extends BaseController
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $query = $this->searchByKeyword($keyword, 'name');
         $models = $this->findModels($query);
+        $this->seoInfo->name = $this->seoInfo->meta_title = "Tìm kiếm: $keyword";
+        $this->seoInfo->meta_description = "Các tin tức tìm được với từ khóa: $keyword";
+        $this->seoInfo->meta_keywords = "$keyword";
         return $this->render('index', [
             'title' => 'Kết quả tìm kiếm: ' . $keyword,
             'keyword' => $keyword,
@@ -170,8 +173,11 @@ class ArticleController extends BaseController
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $query = $this->searchByKeyword($keyword, 'meta_keywords');
         $models = $this->findModels($query);
+        $this->seoInfo->name = $this->seoInfo->meta_title = "Tag: $keyword";
+        $this->seoInfo->meta_description = "Các tin tức cùng tag: $keyword";
+        $this->seoInfo->meta_keywords = "$keyword";
         return $this->render('index', [
-            'title' => 'Tags: ' . $keyword,
+            'title' => 'Tag: ' . $keyword,
             'keyword' => $keyword,
             'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
