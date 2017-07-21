@@ -18,7 +18,7 @@ class QuizEditorAsset extends AssetBundle
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 
     public $css = [
-//        'css/react-select.css',
+        'css/react-select.css',
         'css/quiz-editor.css',
     ];
 
@@ -31,9 +31,11 @@ class QuizEditorAsset extends AssetBundle
 //        'js/bundle.js',
 //        'js/app.js',
         '//cdn.ckeditor.com/4.6.1/standard/ckeditor.js',
-        'js/react-sortable-hoc.js',
-        ['js/ckeditor.jsx', 'type' => 'text/babel'],
-        ['js/quiz-editor.jsx', 'type' => 'text/babel'],
+//        'js/react-sortable-hoc.js',
+//        ['js/ckeditor.jsx', 'type' => 'text/babel'],
+//        ['js/quiz-editor.jsx', 'type' => 'text/babel'],
+        'http://localhost:8080/index.js',
+
     ];
 
     public $depends = [

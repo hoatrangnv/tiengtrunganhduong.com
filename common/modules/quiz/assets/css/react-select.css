@@ -204,6 +204,7 @@
 }
 .Select--multi .Select-multi-value-wrapper {
   display: inline-block;
+  width: 100%;
 }
 .Select .Select-aria-only {
   display: inline-block;
