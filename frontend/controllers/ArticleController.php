@@ -130,9 +130,9 @@ class ArticleController extends BaseController
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $query = $this->searchByKeyword($keyword, 'name');
         $models = $this->findModels($query);
-        $this->seoInfo->name = $this->seoInfo->meta_title = "Tìm kiếm: $keyword";
-        $this->seoInfo->meta_description = "Các tin tức tìm được với từ khóa: $keyword";
-        $this->seoInfo->meta_keywords = "$keyword";
+        foreach (['name', 'meta_title', 'meta_keywords', 'meta_description', 'long_description'] as $attr) {
+            $this->seoInfo->$attr = str_replace('{keyword}', $keyword, $this->seoInfo->$attr);
+        }
         return $this->render('index', [
             'title' => 'Kết quả tìm kiếm: ' . $keyword,
             'keyword' => $keyword,
@@ -140,23 +140,6 @@ class ArticleController extends BaseController
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
     }
-
-//    public function actionSearch2()
-//    {
-//        $keyword = Yii::$app->request->get(UrlParam::KEYWORD);
-//        if (!$keyword) {
-//            throw new NotFoundHttpException();
-//        }
-//        Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
-//        $query = $this->searchByKeyword($keyword, 'name');
-//        $models = $this->findModels($query);
-//        return $this->render('index', [
-//            'title' => 'Kết quả tìm kiếm: ' . $keyword,
-//            'keyword' => $keyword,
-//            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
-//            'hasMore' => isset($models[static::ITEMS_PER_PAGE])
-//        ]);
-//    }
 
     /**
      * @return string
@@ -173,9 +156,9 @@ class ArticleController extends BaseController
         Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
         $query = $this->searchByKeyword($keyword, 'meta_keywords');
         $models = $this->findModels($query);
-        $this->seoInfo->name = $this->seoInfo->meta_title = "Tag: $keyword";
-        $this->seoInfo->meta_description = "Các tin tức cùng tag: $keyword";
-        $this->seoInfo->meta_keywords = "$keyword";
+        foreach (['name', 'meta_title', 'meta_keywords', 'meta_description', 'long_description'] as $attr) {
+            $this->seoInfo->$attr = str_replace('{keyword}', $keyword, $this->seoInfo->$attr);
+        }
         return $this->render('index', [
             'title' => 'Tag: ' . $keyword,
             'keyword' => $keyword,
