@@ -1,0 +1,184 @@
+/**
+ * Overwrite
+ */
+.grid-view td {
+    white-space: normal;
+}
+
+.clr:after {
+    content: "";
+    display: table;
+}
+.clr:after {
+    clear: both;
+}
+
+* {
+    word-wrap: break-word;
+}
+
+.form-group .hint-block {
+    display: none;
+}
+
+.form-group :focus + .hint-block,
+.form-group :focus + * + .hint-block,
+.form-group :focus + * + * + .hint-block {
+    display: block;
+}
+
+
+.site-index .body-content li img {
+    max-width: 30px;
+    max-height: 30px;
+    overflow: hidden;
+}
+
+/**
+ * Form
+ */
+form .form-group.required label:first-of-type:after {
+    content: " *";
+    color: #a94442;
+}
+
+/**
+ * Table
+ */
+.table-wrap {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+table {
+    word-wrap: break-word;
+}
+table td img {
+    max-width: 120px;
+}
+
+/**
+ * My Grid View
+ */
+.my-grid-view {
+    line-height: 0;
+    position: relative;
+}
+.my-grid-view * {
+    position: relative;
+}
+.my-grid-view li * {
+    line-height: initial;
+}
+.my-grid-view li > a {
+    display: block;
+}
+.my-grid-view > ul {
+    margin: -0.5em;
+    padding: 0;
+}
+.my-grid-view > ul > li {
+    display: inline-block;
+    line-height: 0;
+    vertical-align: top;
+    overflow: hidden;
+    margin: 0.5em;
+}
+.my-grid-view > ul > li .img-wrap {
+    width: 100%;
+}
+.my-grid-view > ul > li .img-wrap img {
+    display: block;
+    width: 100%;
+}
+
+.my-grid-view.g1 > ul > li {
+    width: calc(100% / 1 - 1em);
+}
+.my-grid-view.g2 > ul > li {
+    width: calc(100% / 2 - 1em);
+}
+.my-grid-view.g3 > ul > li {
+    width: calc(100% / 3 - 1em);
+}
+.my-grid-view.g4 > ul > li {
+    width: calc(100% / 4 - 1em);
+}
+.my-grid-view.g5 > ul > li {
+    width: calc(100% / 5 - 1em);
+}
+.my-grid-view.g6 > ul > li {
+    width: calc(100% / 6 - 1em);
+}
+.my-grid-view.g7 > ul > li {
+    width: calc(100% / 7 - 1em);
+}
+.my-grid-view.g8 > ul > li {
+    width: calc(100% / 8 - 1em);
+}
+
+@media screen and (max-width: 980px) {
+    /*
+     * My Grid View
+     */
+    .my-grid-view > ul > li .desc {
+        font-size: 0.98em;
+    }
+    .my-grid-view.md-g1 > ul > li {
+        width: calc(100% / 1 - 1em);
+    }
+    .my-grid-view.md-g2 > ul > li {
+        width: calc(100% / 2 - 1em);
+    }
+    .my-grid-view.md-g3 > ul > li {
+        width: calc(100% / 3 - 1em);
+    }
+    .my-grid-view.md-g4 > ul > li {
+        width: calc(100% / 4 - 1em);
+    }
+    .my-grid-view.md-g5 > ul > li {
+        width: calc(100% / 5 - 1em);
+    }
+    .my-grid-view.md-g6 > ul > li {
+        width: calc(100% / 6 - 1em);
+    }
+    .my-grid-view.md-g7 > ul > li {
+        width: calc(100% / 7 - 1em);
+    }
+    .my-grid-view.md-g8 > ul > li {
+        width: calc(100% / 8 - 1em);
+    }
+}
+
+@media screen and (max-width: 640px) {
+    /*
+     * My Grid View
+     */
+    .my-grid-view > ul > li .desc {
+        font-size: 0.95em;
+    }
+    .my-grid-view.sm-g1 > ul > li {
+        width: calc(100% / 1 - 1em);
+    }
+    .my-grid-view.sm-g2 > ul > li {
+        width: calc(100% / 2 - 1em);
+    }
+    .my-grid-view.sm-g3 > ul > li {
+        width: calc(100% / 3 - 1em);
+    }
+    .my-grid-view.sm-g4 > ul > li {
+        width: calc(100% / 4 - 1em);
+    }
+    .my-grid-view.sm-g5 > ul > li {
+        width: calc(100% / 5 - 1em);
+    }
+    .my-grid-view.sm-g6 > ul > li {
+        width: calc(100% / 6 - 1em);
+    }
+    .my-grid-view.sm-g7 > ul > li {
+        width: calc(100% / 7 - 1em);
+    }
+    .my-grid-view.sm-g8 > ul > li {
+        width: calc(100% / 8 - 1em);
+    }
+}
