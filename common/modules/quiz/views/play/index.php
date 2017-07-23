@@ -19,21 +19,35 @@
 ?>
 <div id="root"></div>
 <script type="text/babel">
-    ReactDOM.render(
-        <Quiz
-            name="My quiz"
-            introduction="Xin chao"
-            image_src={<?= $quiz->image ? $quiz->image->getSource() : '"http://tiengtrunganhduong.com/images/201707/tu-vung-tieng-trung-chu-de-thu-cung/tu-vung-tieng-trung-chu-de-thu-cung.jpg"' ?>}
-            login={fbLogin}
-            quizInputGroups={<?= json_encode($quizInputGroups) ?>}
-            quizParams={<?= json_encode($quizParams) ?>}
-            quizCharacters={<?= json_encode($quizCharacters) ?>}
-            quizInputGroupFilters={<?= json_encode($quizInputGroupFilters) ?>}
-            quizCharacterFilters={<?= json_encode($quizCharacterFilters) ?>}
-            quizResultFilters={<?= json_encode($quizResultFilters) ?>}
-        />,
-        document.getElementById("root")
-    );
+    "use strict";
+
+    ReactDOM.render(React.createElement(Quiz, {
+        name: "My quiz",
+        introduction: "Xin chao",
+        image_src: "http://tiengtrunganhduong.com/images/201707/tu-vung-tieng-trung-chu-de-thu-cung/tu-vung-tieng-trung-chu-de-thu-cung.jpg",
+        login: fbLogin,
+        quizInputGroups: <?= json_encode($quizInputGroups) ?>,
+        quizParams: <?= json_encode($quizParams) ?>,
+        quizCharacters: <?= json_encode($quizCharacters) ?>,
+        quizInputGroupFilters: <?= json_encode($quizInputGroupFilters) ?>,
+        quizCharacterFilters: <?= json_encode($quizCharacterFilters) ?>,
+        quizResultFilters: <?= json_encode($quizResultFilters) ?>
+    }), document.getElementById("root"));
+//    ReactDOM.render(
+//        <Quiz
+//            name="My quiz"
+//            introduction="Xin chao"
+//            image_src={<?//= $quiz->image ? $quiz->image->getSource() : '"http://tiengtrunganhduong.com/images/201707/tu-vung-tieng-trung-chu-de-thu-cung/tu-vung-tieng-trung-chu-de-thu-cung.jpg"' ?>//}
+//            login={fbLogin}
+//            quizInputGroups={<?//= json_encode($quizInputGroups) ?>//}
+//            quizParams={<?//= json_encode($quizParams) ?>//}
+//            quizCharacters={<?//= json_encode($quizCharacters) ?>//}
+//            quizInputGroupFilters={<?//= json_encode($quizInputGroupFilters) ?>//}
+//            quizCharacterFilters={<?//= json_encode($quizCharacterFilters) ?>//}
+//            quizResultFilters={<?//= json_encode($quizResultFilters) ?>//}
+//        />,
+//        document.getElementById("root")
+//    );
 </script>
 <div id="fb-root"></div>
 <script>
