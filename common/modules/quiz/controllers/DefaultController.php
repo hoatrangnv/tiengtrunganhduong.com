@@ -973,7 +973,7 @@ class DefaultController extends Controller
                                     'quiz_filter_ids',
                                     'QuizFilter',
                                     '\common\modules\quiz\models\QuizCharacterMediumToFilter',
-                                    'quiz_character_id',
+                                    'quiz_character_medium_id',
                                     'quiz_filter_id'
                                 );
                                 $saveJunctions(
@@ -981,7 +981,7 @@ class DefaultController extends Controller
                                     'quiz_sorter_ids',
                                     'QuizSorter',
                                     '\common\modules\quiz\models\QuizCharacterMediumToSorter',
-                                    'quiz_character_id',
+                                    'quiz_character_medium_id',
                                     'quiz_sorter_id',
                                     ['sorter_order' => $sorter_order++]
                                 );

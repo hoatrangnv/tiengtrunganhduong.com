@@ -12,6 +12,9 @@
  * @var $quizCharacters \common\modules\quiz\models\QuizCharacter[]
  * @var $quizInputGroups \common\modules\quiz\models\QuizInputGroup[]
  * @var $quizParams \common\modules\quiz\models\QuizParam[]
+ * @var $quizInputGroupFilters \common\modules\quiz\models\QuizFilter[]
+ * @var $quizCharacterFilters \common\modules\quiz\models\QuizFilter[]
+ * @var $quizResultFilters \common\modules\quiz\models\QuizFilter[]
  */
 ?>
 <div id="root"></div>
@@ -25,6 +28,9 @@
             quizInputGroups={<?= json_encode($quizInputGroups) ?>}
             quizParams={<?= json_encode($quizParams) ?>}
             quizCharacters={<?= json_encode($quizCharacters) ?>}
+            quizInputGroupFilters={<?= json_encode($quizInputGroupFilters) ?>}
+            quizCharacterFilters={<?= json_encode($quizCharacterFilters) ?>}
+            quizResultFilters={<?= json_encode($quizResultFilters) ?>}
         />,
         document.getElementById("root")
     );
@@ -37,6 +43,7 @@
                 console.log('Welcome!  Fetching your information.... ');
                 FB.api('/me', function(response) {
                     console.log('Good to see you, ' + response.name + '.');
+                    response._quiz_character_type = "player";
                     console.log(response);
                     var res = {};
                     res.charactersRealData = [response];

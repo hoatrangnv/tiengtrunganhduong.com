@@ -45,6 +45,8 @@ class QuizBase extends ActiveRecord
             $options = [];
             if ($column->name == 'id') {
                 $type = 'hidden';
+            } else if (substr($column->name, -8) === '_fn_args') {
+                $type = 'text';
             } else if (substr($column->name, -3) === '_id') {
                 $type = 'selectBox';
                 if (substr($column->name, -6) === '_fn_id') {
