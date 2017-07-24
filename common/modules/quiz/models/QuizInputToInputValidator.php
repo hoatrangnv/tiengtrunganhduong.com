@@ -9,7 +9,7 @@
 namespace common\modules\quiz\models;
 
 
-class QuizInputToInputValidator
+class QuizInputToInputValidator extends \common\modules\quiz\baseModels\QuizInputToInputValidator
 {
 
 }

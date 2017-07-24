@@ -9,11 +9,15 @@
 namespace common\modules\quiz\controllers;
 
 
+use common\modules\quiz\models\QuizCharacterDataFilter;
+use common\modules\quiz\models\QuizCharacterDataSorter;
 use common\modules\quiz\models\QuizFilter;
 use common\modules\quiz\models\QuizCharacter;
 use common\modules\quiz\models\QuizInput;
 use common\modules\quiz\models\QuizInputGroup;
 use common\modules\quiz\models\QuizInputOption;
+use common\modules\quiz\models\QuizInputValidator;
+use common\modules\quiz\models\QuizObjectFilter;
 use common\modules\quiz\models\QuizParam;
 use common\modules\quiz\models\QuizSorter;
 use yii\web\Controller;
@@ -28,10 +32,8 @@ class PlayController extends Controller
         $quizCharacters = $quiz->quizCharacters;
         $quizInputGroups = $quiz->quizInputGroups;
         $quizParams = $quiz->quizParams;
-
-        $quizInputGroupFilters = $quiz->quizInputGroupFilters;
-        $quizCharacterFilters = $quiz->quizCharacterFilters;
-        $quizResultFilters = $quiz->quizResultFilters;
+        $quizObjectFilters = $quiz->quizObjectFilters;
+        $quizAlerts = $quiz->quizAlerts;
 
         $_quizInputGroups = array_map(function ($item) {
             /**
@@ -53,6 +55,20 @@ class PlayController extends Controller
                     return $attrs3;
                 }, $quizInputOptions);
                 $attrs2['quizInputOptions'] = $_quizInputOptions;
+
+                $quizInputValidators = $item2->quizInputValidators;
+                $_quizInputValidators = array_map(function ($item3) {
+                    /**
+                     * @var $item3 QuizInputValidator
+                     */
+                    $attrs3 = $item3->attributes;
+                    $quizFn = $item3->quizFn;
+                    $_quizFn = $quizFn->attributes;
+                    $attrs3['quizFn'] = $_quizFn;
+                    return $attrs3;
+                }, $quizInputValidators);
+                $attrs2['quizInputValidators'] = $_quizInputValidators;
+
                 return $attrs2;
             }, $quizInputs);
             $attrs['quizInputs'] = $_quizInputs;
@@ -64,63 +80,61 @@ class PlayController extends Controller
              * @var $item QuizCharacter
              */
             $attrs = $item->attributes;
-            $quizSorters = $item->quizSorters;
+            $quizSorters = $item->quizCharacterDataSorters;
             $_quizSorters = array_map(function ($item2) {
                 /**
-                 * @var $item2 QuizSorter
+                 * @var $item2 QuizCharacterDataSorter
                  */
                 $attrs2 = $item2->attributes;
-                $ruleFn = $item2->quizRuleFn;
-                $_ruleFn = $ruleFn->attributes;
-                $attrs2['ruleFn'] = $_ruleFn;
+                $quizFn = $item2->quizFn;
+                $_quizFn = $quizFn->attributes;
+                $attrs2['quizFn'] = $_quizFn;
                 return $attrs2;
             }, $quizSorters);
-            $quizFilters = $item->quizFilters;
+            $quizFilters = $item->quizCharacterDataFilters;
             $_quizFilters = array_map(function ($item2) {
                 /**
-                 * @var $item2 QuizFilter
+                 * @var $item2 QuizCharacterDataFilter
                  */
                 $attrs2 = $item2->attributes;
-                $conditionFn = $item2->quizConditionFn;
-                $_conditionFn = $conditionFn->attributes;
-                $attrs2['conditionFn'] = $_conditionFn;
+                $quizFn = $item2->quizFn;
+                $_quizFn = $quizFn->attributes;
+                $attrs2['quizFn'] = $_quizFn;
                 return $attrs2;
             }, $quizFilters);
-            $attrs['quizSorters'] = $_quizSorters;
-            $attrs['quizFilters'] = $_quizFilters;
+            $attrs['quizCharacterDataSorters'] = $_quizSorters;
+            $attrs['quizCharacterDataFilters'] = $_quizFilters;
             return $attrs;
         }, $quizCharacters);
-
-        $_quizInputGroupFilters = array_map(function ($item) {
-            /**
-             * @var $item QuizFilter;
-             */
-            $attrs = $item->attributes;
-            $conditionFn = $item->quizConditionFn;
-            $_conditionFn = $conditionFn->attributes;
-            $attrs['conditionFn'] = $_conditionFn;
-            return $attrs;
-        }, $quizInputGroupFilters);
 
         $_quizParams = array_map(function ($item) {
             /**
              * @var $item QuizParam
              */
             $attrs = $item->attributes;
-            $valueFn = $item->quizValueFn;
-            $_valueFn = $valueFn->attributes;
-            $attrs['valueFn'] = $_valueFn;
+            $quizFn = $item->quizFn;
+            $_quizFn = $quizFn->attributes;
+            $attrs['quizFn'] = $_quizFn;
             return $attrs;
         }, $quizParams);
+
+        $_quizObjectFilters = array_map(function ($item) {
+            /**
+             * @var $item QuizObjectFilter;
+             */
+            $attrs = $item->attributes;
+            $quizFn = $item->quizFn;
+            $_quizFn = $quizFn->attributes;
+            $attrs['quizFn'] = $_quizFn;
+            return $attrs;
+        }, $quizObjectFilters);
 
         return $this->render('index', [
             'quiz' => $quiz,
             'quizCharacters' => $_quizCharacters,
             'quizInputGroups' => $_quizInputGroups,
             'quizParams' => $_quizParams,
-            'quizInputGroupFilters' => $_quizInputGroupFilters,
-            'quizCharacterFilters' => [],
-            'quizResultFilters' => [],
+            'quizObjectFilters' => $_quizObjectFilters,
 //            'quizResults' => $quizResults,
         ]);
     }

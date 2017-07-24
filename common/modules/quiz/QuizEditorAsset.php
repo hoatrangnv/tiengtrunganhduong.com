@@ -33,8 +33,8 @@ class QuizEditorAsset extends AssetBundle
         '//cdn.ckeditor.com/4.6.1/standard/ckeditor.js',
 //        'js/react-sortable-hoc.js',
 //        ['js/ckeditor.jsx', 'type' => 'text/babel'],
-        ['js/index.js'],
-//        'http://localhost:8080/index.js',
+//        ['js/index.js'],
+        'http://localhost:8080/index.js',
 
     ];
 
