@@ -4,22 +4,26 @@ namespace common\modules\quiz\controllers;
 
 use common\modules\quiz\baseModels\QuizBase;
 use common\modules\quiz\models\Quiz;
+use common\modules\quiz\models\QuizAlert;
 use common\modules\quiz\models\QuizCharacter;
+use common\modules\quiz\models\QuizCharacterDataFilter;
+use common\modules\quiz\models\QuizCharacterDataSorter;
 use common\modules\quiz\models\QuizCharacterMedium;
+use common\modules\quiz\models\QuizCharacterMediumDataFilter;
+use common\modules\quiz\models\QuizCharacterMediumDataSorter;
 use common\modules\quiz\models\QuizCharacterMediumToStyle;
-use common\modules\quiz\models\QuizFilter;
 use common\modules\quiz\models\QuizInput;
 use common\modules\quiz\models\QuizInputGroup;
 use common\modules\quiz\models\QuizInputOption;
+use common\modules\quiz\models\QuizObjectFilter;
 use common\modules\quiz\models\QuizParam;
 use common\modules\quiz\models\QuizResult;
 use common\modules\quiz\models\QuizResultToCharacterMedium;
 use common\modules\quiz\models\QuizResultToShape;
 use common\modules\quiz\models\QuizShape;
 use common\modules\quiz\models\QuizShapeToStyle;
-use common\modules\quiz\models\QuizSorter;
 use common\modules\quiz\models\QuizStyle;
-use common\modules\quiz\models\QuizValidator;
+use common\modules\quiz\models\QuizInputValidator;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -52,18 +56,27 @@ class DefaultController extends Controller
         $inputGroupConfig['childConfigs'] = [$inputConfig];
 
         $characterConfig = QuizCharacter::modelConfig();
-        $characterConfig['childConfigs'] = [QuizCharacterMedium::modelConfig()];
+        $characterMediumConfig = QuizCharacterMedium::modelConfig();
+        $characterMediumConfig['childConfigs'] = [
+            QuizCharacterMediumDataFilter::modelConfig(),
+            QuizCharacterMediumDataSorter::modelConfig(),
+        ];
+        $characterConfig['childConfigs'] = [
+            $characterMediumConfig,
+            QuizCharacterDataFilter::modelConfig(),
+            QuizCharacterDataSorter::modelConfig(),
+        ];
 
         $modelConfigs = [
             $characterConfig,
             $inputGroupConfig,
+            QuizAlert::modelConfig(),
             QuizShape::modelConfig(),
             QuizResult::modelConfig(),
             QuizStyle::modelConfig(),
             QuizParam::modelConfig(),
-            QuizFilter::modelConfig(),
-            QuizSorter::modelConfig(),
-            QuizValidator::modelConfig(),
+            QuizObjectFilter::modelConfig(),
+            QuizInputValidator::modelConfig(),
         ];
 
         $quizConfig = Quiz::modelConfig();
@@ -88,9 +101,9 @@ class DefaultController extends Controller
         $quizResults = $quiz->quizResults;
         $quizShapes = $quiz->quizShapes;
         $quizStyles = $quiz->quizStyles;
-        $quizValidators = $quiz->quizValidators;
-        $quizFilters = $quiz->quizFilters;
-        $quizSorters = $quiz->quizSorters;
+        $quizInputValidators = $quiz->quizInputValidators;
+        $quizObjectFilters = $quiz->quizObjectFilters;
+        $quizAlerts = $quiz->quizAlerts;
 
         $inputGroupConfig = QuizInputGroup::modelConfig();
         $inputConfig = QuizInput::modelConfig();
@@ -98,18 +111,27 @@ class DefaultController extends Controller
         $inputGroupConfig['childConfigs'] = [$inputConfig];
 
         $characterConfig = QuizCharacter::modelConfig();
-        $characterConfig['childConfigs'] = [QuizCharacterMedium::modelConfig()];
+        $characterMediumConfig = QuizCharacterMedium::modelConfig();
+        $characterMediumConfig['childConfigs'] = [
+            QuizCharacterMediumDataFilter::modelConfig(),
+            QuizCharacterMediumDataSorter::modelConfig(),
+        ];
+        $characterConfig['childConfigs'] = [
+            $characterMediumConfig,
+            QuizCharacterDataFilter::modelConfig(),
+            QuizCharacterDataSorter::modelConfig(),
+        ];
 
         $modelConfigs = [
             $characterConfig,
             $inputGroupConfig,
+            QuizAlert::modelConfig(),
             QuizShape::modelConfig(),
             QuizResult::modelConfig(),
             QuizStyle::modelConfig(),
             QuizParam::modelConfig(),
-            QuizFilter::modelConfig(),
-            QuizSorter::modelConfig(),
-            QuizValidator::modelConfig(),
+            QuizObjectFilter::modelConfig(),
+            QuizInputValidator::modelConfig(),
         ];
 
         $quizConfig = Quiz::modelConfig();
@@ -123,27 +145,27 @@ class DefaultController extends Controller
 
         $children = array_merge(
             $quizInputGroups, $quizCharacters, $quizParams,
-            $quizShapes, $quizResults, $quizSorters, $quizValidators,
-            $quizStyles, $quizFilters
+            $quizShapes, $quizResults, $quizInputValidators,
+            $quizStyles, $quizObjectFilters, $quizAlerts
         );
         /**
          * @param array $children
          * @return array
          */
-        $getChildrenData = function (array $children) use (&$getChildrenData, $inputConfig) {
+        $getChildrenData = function (array $children) use (&$getChildrenData, $inputGroupConfig, $inputConfig, $characterConfig, $characterMediumConfig) {
             $childrenData = ['items' => [], 'activeItemId' => null];
             usort($children, function ($a, $b) {
                 /**
                  * @var $a QuizCharacter|QuizParam|QuizCharacterMedium|QuizInputGroup|...
                  * @var $b QuizCharacter|QuizParam|QuizCharacterMedium|QuizInputGroup|...
                  */
-                if ($a->hasAttribute('global_exec_order') && $b->hasAttribute('global_exec_order')) {
-                    return $a->global_exec_order - $b->global_exec_order;
+                if ($a->hasAttribute('task_order') && $b->hasAttribute('task_order')) {
+                    return $a->task_order - $b->task_order;
                 }
-                if ($a->hasAttribute('global_exec_order')) {
+                if ($a->hasAttribute('task_order')) {
                     return -1;
                 }
-                if ($b->hasAttribute('global_exec_order')) {
+                if ($b->hasAttribute('task_order')) {
                     return 1;
                 }
                 return 0;
@@ -192,16 +214,16 @@ class DefaultController extends Controller
                                         return "__QuizShape#$id";
                                     }, ArrayHelper::getColumn($child->quizShapes, 'id'));
                                     break;
-                                case 'quiz_character_medium_filter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizFilter#$id";
-                                    }, ArrayHelper::getColumn($child->quizCharacterMediumFilters, 'id'));
-                                    break;
-                                case 'quiz_shape_filter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizFilter#$id";
-                                    }, ArrayHelper::getColumn($child->quizShapeFilters, 'id'));
-                                    break;
+//                                case 'quiz_character_medium_filter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizFilter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizCharacterMediumFilters, 'id'));
+//                                    break;
+//                                case 'quiz_shape_filter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizFilter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizShapeFilters, 'id'));
+//                                    break;
 
                             }
                         }
@@ -211,24 +233,28 @@ class DefaultController extends Controller
                         /**
                          * @var $child QuizCharacter
                          */
-                        foreach ($childData['attrs'] as &$attr) {
-                            switch ($attr['name']) {
-                                case 'quiz_filter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizFilter#$id";
-                                    }, ArrayHelper::getColumn($child->quizFilters, 'id'));
-                                    break;
-                                case 'quiz_sorter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizSorter#$id";
-                                    }, ArrayHelper::getColumn($child->quizSorters, 'id'));
-                                    break;
-
-                            }
-                        }
-                        unset($attr);
-                        $childData['childConfigs'] = [QuizCharacterMedium::modelConfig()];
-                        $grandChildren = $child->quizCharacterMedia;
+//                        foreach ($childData['attrs'] as &$attr) {
+//                            switch ($attr['name']) {
+//                                case 'quiz_filter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizFilter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizFilters, 'id'));
+//                                    break;
+//                                case 'quiz_sorter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizSorter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizSorters, 'id'));
+//                                    break;
+//
+//                            }
+//                        }
+//                        unset($attr);
+                        $childData['childConfigs'] = $characterConfig['childConfigs'];
+                        $grandChildren = array_merge(
+                            $child->quizCharacterMedia,
+                            $child->quizCharacterDataFilters,
+                            $child->quizCharacterDataSorters
+                        );
                         break;
 
                     case 'QuizCharacterMedium':
@@ -237,16 +263,16 @@ class DefaultController extends Controller
                          */
                         foreach ($childData['attrs'] as &$attr) {
                             switch ($attr['name']) {
-                                case 'quiz_filter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizFilter#$id";
-                                    }, ArrayHelper::getColumn($child->quizFilters, 'id'));
-                                    break;
-                                case 'quiz_sorter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizSorter#$id";
-                                    }, ArrayHelper::getColumn($child->quizSorters, 'id'));
-                                    break;
+//                                case 'quiz_filter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizFilter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizFilters, 'id'));
+//                                    break;
+//                                case 'quiz_sorter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizSorter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizSorters, 'id'));
+//                                    break;
                                 case 'quiz_style_ids':
                                     $attr['value'] = array_map(function ($id) {
                                         return "__QuizStyle#$id";
@@ -256,23 +282,28 @@ class DefaultController extends Controller
                             }
                         }
                         unset($attr);
+                        $childData['childConfigs'] = $characterMediumConfig['childConfigs'];
+                        $grandChildren = array_merge(
+                            $child->quizCharacterMediumDataFilters,
+                            $child->quizCharacterMediumDataSorters
+                        );
                         break;
 
                     case 'QuizInputGroup':
                         /**
                          * @var $child QuizInputGroup
                          */
-                        foreach ($childData['attrs'] as &$attr) {
-                            switch ($attr['name']) {
-                                case 'quiz_input_filter_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizFilter#$id";
-                                    }, ArrayHelper::getColumn($child->quizInputFilters, 'id'));
-                                    break;
-                            }
-                        }
-                        unset($attr);
-                        $childData['childConfigs'] = [$inputConfig];
+//                        foreach ($childData['attrs'] as &$attr) {
+//                            switch ($attr['name']) {
+//                                case 'quiz_input_filter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizFilter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizInputFilters, 'id'));
+//                                    break;
+//                            }
+//                        }
+//                        unset($attr);
+                        $childData['childConfigs'] = $inputGroupConfig['childConfigs'];
                         $grandChildren = $child->quizInputs;
                         break;
                     case 'QuizInput':
@@ -281,21 +312,21 @@ class DefaultController extends Controller
                          */
                         foreach ($childData['attrs'] as &$attr) {
                             switch ($attr['name']) {
-                                case 'quiz_input_option_filter_ids':
+//                                case 'quiz_input_option_filter_ids':
+//                                    $attr['value'] = array_map(function ($id) {
+//                                        return "__QuizFilter#$id";
+//                                    }, ArrayHelper::getColumn($child->quizInputOptionFilters, 'id'));
+//                                    break;
+                                case 'quiz_input_validator_ids':
                                     $attr['value'] = array_map(function ($id) {
-                                        return "__QuizFilter#$id";
-                                    }, ArrayHelper::getColumn($child->quizInputOptionFilters, 'id'));
-                                    break;
-                                case 'quiz_validator_ids':
-                                    $attr['value'] = array_map(function ($id) {
-                                        return "__QuizValidator#$id";
-                                    }, ArrayHelper::getColumn($child->quizValidators, 'id'));
+                                        return "__QuizInputValidator#$id";
+                                    }, ArrayHelper::getColumn($child->quizInputValidators, 'id'));
                                     break;
 
                             }
                         }
                         unset($attr);
-                        $childData['childConfigs'] = [QuizInputOption::modelConfig()];
+                        $childData['childConfigs'] = $inputConfig['childConfigs'];
                         $grandChildren = $child->quizInputOptions;
                         break;
                     case 'QuizInputOption':
@@ -343,25 +374,25 @@ class DefaultController extends Controller
             return $childrenData;
         };
 
-        foreach ($attrs as &$attr) {
-            switch ($attr['name']) {
-                case 'quiz_input_group_filter_ids':
-                    $attr['value'] = array_map(function ($id)  {
-                        return "__QuizFilter#$id";
-                    }, ArrayHelper::getColumn($quiz->quizInputGroupFilters, 'id'));
-                    break;
-                case 'quiz_character_filter_ids':
-                    $attr['value'] = array_map(function ($id) {
-                        return "__QuizFilter#$id";
-                    }, ArrayHelper::getColumn($quiz->quizCharacterFilters, 'id'));
-                    break;
-                case 'quiz_result_filter_ids':
-                    $attr['value'] = array_map(function ($id) {
-                        return "__QuizFilter#$id";
-                    }, ArrayHelper::getColumn($quiz->quizResultFilters, 'id'));
-                    break;
-            }
-        }
+//        foreach ($attrs as &$attr) {
+//            switch ($attr['name']) {
+//                case 'quiz_input_group_filter_ids':
+//                    $attr['value'] = array_map(function ($id)  {
+//                        return "__QuizFilter#$id";
+//                    }, ArrayHelper::getColumn($quiz->quizInputGroupFilters, 'id'));
+//                    break;
+//                case 'quiz_character_filter_ids':
+//                    $attr['value'] = array_map(function ($id) {
+//                        return "__QuizFilter#$id";
+//                    }, ArrayHelper::getColumn($quiz->quizCharacterFilters, 'id'));
+//                    break;
+//                case 'quiz_result_filter_ids':
+//                    $attr['value'] = array_map(function ($id) {
+//                        return "__QuizFilter#$id";
+//                    }, ArrayHelper::getColumn($quiz->quizResultFilters, 'id'));
+//                    break;
+//            }
+//        }
 
         unset($attr);
 
@@ -406,21 +437,21 @@ class DefaultController extends Controller
         $testingId = function () {
             return rand(0, 999999999);
         };
-        $global_exec_order = 0;
+        $task_order = 0;
         $junctions = [
-            'Quiz' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_input_group_filter_ids' => [],
-                        'quiz_character_filter_ids' => [],
-                        'quiz_result_filter_ids' => [],
-                    ],
-                ],
-*/
-            ],
+//            'Quiz' => [
+///*
+//                [
+//                    '__id' => '',
+//                    'id' => null,
+//                    'junctions' => [
+//                        'quiz_input_group_filter_ids' => [],
+//                        'quiz_character_filter_ids' => [],
+//                        'quiz_object_filter_ids' => [],
+//                    ],
+//                ],
+//*/
+//            ],
             'QuizResult' => [
 /*
                 [
@@ -429,24 +460,24 @@ class DefaultController extends Controller
                     'junctions' => [
                         'quiz_character_medium_ids' => [],
                         'quiz_shape_ids' => [],
-                        'quiz_character_medium_filter_ids' => [],
-                        'quiz_shape_filter_ids' => [],
+//                        'quiz_character_medium_filter_ids' => [],
+//                        'quiz_shape_filter_ids' => [],
                     ],
                 ],
 */
             ],
-            'QuizCharacter' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_filter_ids' => [],
-                        'quiz_sorter_ids' => [],
-                    ],
-                ],
-*/
-            ],
+//            'QuizCharacter' => [
+///*
+//                [
+//                    '__id' => '',
+//                    'id' => null,
+//                    'junctions' => [
+//                        'quiz_filter_ids' => [],
+//                        'quiz_sorter_ids' => [],
+//                    ],
+//                ],
+//*/
+//            ],
             'QuizCharacterMedium' => [
 /*
                 [
@@ -454,8 +485,8 @@ class DefaultController extends Controller
                     'id' => null,
                     'junctions' => [
                         'quiz_style_ids' => [],
-                        'quiz_filter_ids' => [],
-                        'quiz_sorter_ids' => [],
+//                        'quiz_filter_ids' => [],
+//                        'quiz_sorter_ids' => [],
                     ],
                 ],
 */
@@ -471,24 +502,24 @@ class DefaultController extends Controller
                 ],
 */
             ],
-            'QuizInputGroup' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_input_filter_ids' => [],
-                    ]
-                ],
-*/
-            ],
+//            'QuizInputGroup' => [
+///*
+//                [
+//                    '__id' => '',
+//                    'id' => null,
+//                    'junctions' => [
+//                        'quiz_input_filter_ids' => [],
+//                    ]
+//                ],
+//*/
+//            ],
             'QuizInput' => [
 /*
                 [
                     '__id' => '',
                     'id' => null,
                     'junctions' => [
-                        'quiz_input_option_filter_ids' => [],
+//                        'quiz_input_option_filter_ids' => [],
                         'quiz_validator_ids' => [],
                     ]
                 ],
@@ -513,21 +544,6 @@ class DefaultController extends Controller
                 if (in_array($attr['name'], $jnc_names)) {
                     $ref_ids[$attr['name']] = $attr['value'];
                 }
-//                            switch ($attr['name']) {
-//                                case 'quiz_character_medium_ids':
-//                                    $quiz_character_medium_ids = $attr['value'];
-//                                    break;
-//                                case 'quiz_shape_ids':
-//                                    $quiz_shape_ids = $attr['value'];
-//                                    break;
-//                                case 'quiz_character_medium_filter_ids':
-//                                    $quiz_character_medium_filter_ids = $attr['value'];
-//                                    break;
-//                                case 'quiz_shape_filter_ids':
-//                                    $quiz_shape_filter_ids = $attr['value'];
-//                                    break;
-//                                default:
-//                            }
             }
 //            if ($data['type'] === 'Quiz') {
 //                var_dump($data['attrs']);
@@ -537,16 +553,11 @@ class DefaultController extends Controller
                 '__id' => $data['id'],
                 'id' => $model->id,
                 'junctions' => $ref_ids,
-//                                [
-//                                    'quiz_character_medium_ids' => $quiz_character_medium_ids,
-//                                    'quiz_shape_ids' => $quiz_shape_ids,
-//                                    'quiz_character_medium_filter_ids' => $quiz_character_medium_filter_ids,
-//                                    'quiz_shape_filter_ids' => $quiz_shape_filter_ids,
-//                                ]
             ];
         };
         $quiz_component_types = [
             'QuizResult',
+            'QuizAlert',
             'QuizCharacter',
             'QuizCharacterMedium',
             'QuizParam',
@@ -554,10 +565,13 @@ class DefaultController extends Controller
             'QuizInput',
             'QuizInputOption',
             'QuizShape',
-            'QuizFilter',
-            'QuizSorter',
+            'QuizObjectFilter',
+            'QuizCharacterDataFilter',
+            'QuizCharacterDataSorter',
+            'QuizCharacterMediumDataFilter',
+            'QuizCharacterMediumDataSorter',
             'QuizStyle',
-            'QuizValidator',
+            'QuizInputValidator',
         ];
         /**
          * @param $data
@@ -566,7 +580,7 @@ class DefaultController extends Controller
          */
         $loadModels = function (&$data, $parent, $test)
             use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
-                &$loadModels, &$errors, &$global_exec_order, &$junctions) {
+                &$loadModels, &$errors, &$task_order, &$junctions) {
             // Delete no longer children
             $oldChildren = [];
             if (!$parent->isNewRecord) {
@@ -578,12 +592,21 @@ class DefaultController extends Controller
                         $parent->quizResults,
                         $parent->quizShapes,
                         $parent->quizStyles,
-                        $parent->quizValidators,
-                        $parent->quizFilters,
-                        $parent->quizSorters
+                        $parent->quizInputValidators,
+                        $parent->quizObjectFilters,
+                        $parent->quizAlerts
                     );
                 } else if ($parent instanceof QuizCharacter) {
-                    $oldChildren = $parent->quizCharacterMedia;
+                    $oldChildren = array_merge(
+                        $parent->quizCharacterMedia,
+                        $parent->quizCharacterDataFilters,
+                        $parent->quizCharacterDataSorters
+                    );
+                } else if ($parent instanceof QuizCharacterMedium) {
+                    $oldChildren = array_merge(
+                        $parent->quizCharacterMediumDataFilters,
+                        $parent->quizCharacterMediumDataSorters
+                    );
                 }  else if ($parent instanceof QuizInputGroup) {
                     $oldChildren = $parent->quizInputs;
                 } else if ($parent instanceof QuizInput) {
@@ -614,7 +637,8 @@ class DefaultController extends Controller
                 if (in_array($childData['type'], $quiz_component_types)) {
                     /**
                      * @var $class Quiz|QuizCharacter|QuizCharacterMedium|QuizInputGroup|QuizInput|QuizInputOption
-                     * @var $class QuizStyle|QuizShape|QuizSorter|QuizFilter|QuizValidator
+                     * @var $class QuizStyle|QuizShape|QuizCharacterDataSorter|QuizCharacterDataSorter
+                     * @var $class QuizObjectFilter|QuizInputValidator|QuizCharacterMediumDataFilter|QuizCharacterMediumDataSorter
                      */
                     $class = "common\\modules\\quiz\\models\\" . $childData['type'];
                     if ($attrs['id']) {
@@ -627,19 +651,20 @@ class DefaultController extends Controller
                     if ($test) {
                         $model->scenario = 'test';
                     }
-                    $global_exec_order++;
-                    $attrs['global_exec_order'] = $global_exec_order;
+                    $task_order++;
+                    $attrs['task_order'] = $task_order;
 
                     // Each model can has only one of these attributes:
                     // quiz_id, quiz_character_id, quiz_input_group_id, quiz_input_id
                     $attrs['quiz_id']
                         = $attrs['quiz_character_id']
+                        = $attrs['quiz_character_medium_id']
                         = $attrs['quiz_input_group_id']
                         = $attrs['quiz_input_id']
                         = $parent->id;
                     $model->setAttributes($attrs);
                     if (!$model->validate()) {
-                        $global_exec_order--;
+                        $task_order--;
                         $errors["{$childData['type']}#{$childData['id']}"] = $model->errors;
                         foreach ($model->errors as $attrName => $errors) {
                             foreach ($childData['attrs'] as &$attr) {
@@ -659,71 +684,40 @@ class DefaultController extends Controller
                     // Junctions
                     switch ($childData['type']) {
                         case 'QuizResult':
-//                            $quiz_character_medium_ids = [];
-//                            $quiz_shape_ids = [];
-//                            $quiz_character_medium_filter_ids = [];
-//                            $quiz_shape_filter_ids = [];
-//                            foreach ($childData['attrs'] as $attr) {
-//                                switch ($attr['name']) {
-//                                    case 'quiz_character_medium_ids':
-//                                        $quiz_character_medium_ids = $attr['value'];
-//                                        break;
-//                                    case 'quiz_shape_ids':
-//                                        $quiz_shape_ids = $attr['value'];
-//                                        break;
-//                                    case 'quiz_character_medium_filter_ids':
-//                                        $quiz_character_medium_filter_ids = $attr['value'];
-//                                        break;
-//                                    case 'quiz_shape_filter_ids':
-//                                        $quiz_shape_filter_ids = $attr['value'];
-//                                        break;
-//                                    default:
-//                                }
-//                            }
-//                            $junctions['QuizResult'][] = [
-//                                '__id' => $childData['id'],
-//                                'id' => $model->id,
-//                                'junctions' => [
-//                                    'quiz_character_medium_ids' => $quiz_character_medium_ids,
-//                                    'quiz_shape_ids' => $quiz_shape_ids,
-//                                    'quiz_character_medium_filter_ids' => $quiz_character_medium_filter_ids,
-//                                    'quiz_shape_filter_ids' => $quiz_shape_filter_ids,
-//                                ]
-//                            ];
                             $addJunction($childData, $model, [
                                 'quiz_character_medium_ids',
                                 'quiz_shape_ids',
-                                'quiz_character_medium_filter_ids',
-                                'quiz_shape_filter_ids',
+//                                'quiz_character_medium_filter_ids',
+//                                'quiz_shape_filter_ids',
                             ]);
                             break;
-                        case 'QuizCharacterMedium':
-                            $addJunction($childData, $model, [
-                                'quiz_filter_ids',
-                                'quiz_sorter_ids',
-                                'quiz_style_ids',
-                            ]);
-                            break;
-                        case 'QuizCharacter':
-                            $addJunction($childData, $model, [
-                                'quiz_filter_ids',
-                                'quiz_sorter_ids',
-                            ]);
-                            break;
+//                        case 'QuizCharacterMedium':
+//                            $addJunction($childData, $model, [
+//                                'quiz_filter_ids',
+//                                'quiz_sorter_ids',
+//                                'quiz_style_ids',
+//                            ]);
+//                            break;
+//                        case 'QuizCharacter':
+//                            $addJunction($childData, $model, [
+//                                'quiz_filter_ids',
+//                                'quiz_sorter_ids',
+//                            ]);
+//                            break;
                         case 'QuizShape':
                             $addJunction($childData, $model, [
                                 'quiz_style_ids',
                             ]);
                             break;
-                        case 'QuizInputGroup':
-                            $addJunction($childData, $model, [
-                                'quiz_input_filter_ids',
-                            ]);
-                            break;
+//                        case 'QuizInputGroup':
+//                            $addJunction($childData, $model, [
+//                                'quiz_input_filter_ids',
+//                            ]);
+//                            break;
                         case 'QuizInput':
                             $addJunction($childData, $model, [
-                                'quiz_input_option_filter_ids',
-                                'quiz_validator_ids',
+//                                'quiz_input_option_filter_ids',
+                                'quiz_input_validator_ids',
                             ]);
                             break;
                         case 'QuizInputOption':
@@ -732,10 +726,10 @@ class DefaultController extends Controller
                             ]);
                             break;
                         case 'QuizParam':
-                        case 'QuizFilter':
+//                        case 'QuizFilter':
                         case 'QuizStyle':
-                        case 'QuizValidator':
-                        case 'QuizSorter':
+                        case 'QuizInputValidator':
+//                        case 'QuizSorter':
                             $addJunction($childData, $model, []);
                             break;
 
@@ -753,11 +747,11 @@ class DefaultController extends Controller
                 $quiz->id = null;
             }
             if ($quiz->save()) {
-                $addJunction(array_merge($state, ['type' => 'Quiz', 'id' => '__Quiz#' . $quiz->id]), $quiz, [
-                    'quiz_input_group_filter_ids',
-                    'quiz_character_filter_ids',
-                    'quiz_result_filter_ids',
-                ]);
+//                $addJunction(array_merge($state, ['type' => 'Quiz', 'id' => '__Quiz#' . $quiz->id]), $quiz, [
+//                    'quiz_input_group_filter_ids',
+//                    'quiz_character_filter_ids',
+//                    'quiz_result_filter_ids',
+//                ]);
                 $loadModels($state['childrenData'], $quiz, false);
 //                VarDumper::dump($junctions, 100, true);die;
                 /**
@@ -812,33 +806,33 @@ class DefaultController extends Controller
                 foreach ($junctions as $type => $_junctions) {
                     foreach ($_junctions as $item) {
                         switch ($type) {
-                            case 'Quiz':
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_character_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizToCharacterFilter',
-                                    'quiz_id',
-                                    'quiz_character_filter_id'
-                                );
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_result_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizToResultFilter',
-                                    'quiz_id',
-                                    'quiz_result_filter_id'
-                                );
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_input_group_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizToInputGroupFilter',
-                                    'quiz_id',
-                                    'quiz_input_group_filter_id'
-                                );
-                                
-                                break;
+//                            case 'Quiz':
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_character_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizToCharacterFilter',
+//                                    'quiz_id',
+//                                    'quiz_character_filter_id'
+//                                );
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_result_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizToResultFilter',
+//                                    'quiz_id',
+//                                    'quiz_result_filter_id'
+//                                );
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_input_group_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizToInputGroupFilter',
+//                                    'quiz_id',
+//                                    'quiz_input_group_filter_id'
+//                                );
+//
+//                                break;
                             case 'QuizResult':
                                 // QuizResult - QuizCharacterMedium
                                 $saveJunctions(
@@ -914,24 +908,24 @@ class DefaultController extends Controller
 
                                 // QuizResult - QuizCharacterMediumFilter
 
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_character_medium_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizResultToCharacterMediumFilter',
-                                    'quiz_result_id',
-                                    'quiz_character_medium_filter_id'
-                                );
-
-                                // QuizResult - QuizShapeFilter
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_shape_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizResultToShapeFilter',
-                                    'quiz_result_id',
-                                    'quiz_shape_filter_id'
-                                );
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_character_medium_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizResultToCharacterMediumFilter',
+//                                    'quiz_result_id',
+//                                    'quiz_character_medium_filter_id'
+//                                );
+//
+//                                // QuizResult - QuizShapeFilter
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_shape_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizResultToShapeFilter',
+//                                    'quiz_result_id',
+//                                    'quiz_shape_filter_id'
+//                                );
                                 break;
 
                             case 'QuizShape':
@@ -947,44 +941,44 @@ class DefaultController extends Controller
                                 );
                                 break;
 
-                            case 'QuizCharacter':
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizCharacterToFilter',
-                                    'quiz_character_id',
-                                    'quiz_filter_id'
-                                );
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_sorter_ids',
-                                    'QuizSorter',
-                                    '\common\modules\quiz\models\QuizCharacterToSorter',
-                                    'quiz_character_id',
-                                    'quiz_sorter_id',
-                                    ['sorter_order' => $sorter_order++]
-                                );
-                                break;
+//                            case 'QuizCharacter':
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizCharacterToFilter',
+//                                    'quiz_character_id',
+//                                    'quiz_filter_id'
+//                                );
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_sorter_ids',
+//                                    'QuizSorter',
+//                                    '\common\modules\quiz\models\QuizCharacterToSorter',
+//                                    'quiz_character_id',
+//                                    'quiz_sorter_id',
+//                                    ['sorter_order' => $sorter_order++]
+//                                );
+//                                break;
 
                             case 'QuizCharacterMedium':
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizCharacterMediumToFilter',
-                                    'quiz_character_medium_id',
-                                    'quiz_filter_id'
-                                );
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_sorter_ids',
-                                    'QuizSorter',
-                                    '\common\modules\quiz\models\QuizCharacterMediumToSorter',
-                                    'quiz_character_medium_id',
-                                    'quiz_sorter_id',
-                                    ['sorter_order' => $sorter_order++]
-                                );
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizCharacterMediumToFilter',
+//                                    'quiz_character_medium_id',
+//                                    'quiz_filter_id'
+//                                );
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_sorter_ids',
+//                                    'QuizSorter',
+//                                    '\common\modules\quiz\models\QuizCharacterMediumToSorter',
+//                                    'quiz_character_medium_id',
+//                                    'quiz_sorter_id',
+//                                    ['sorter_order' => $sorter_order++]
+//                                );
                                 $saveJunctions(
                                     $item,
                                     'quiz_style_ids',
@@ -995,32 +989,32 @@ class DefaultController extends Controller
                                     ['style_order' => $style_order++]
                                 );
                                 break;
-                            case 'QuizInputGroup':
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_input_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizInputGroupToInputFilter',
-                                    'quiz_input_group_id',
-                                    'quiz_input_filter_id'
-                                );
-                                break;
+//                            case 'QuizInputGroup':
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_input_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizInputGroupToInputFilter',
+//                                    'quiz_input_group_id',
+//                                    'quiz_input_filter_id'
+//                                );
+//                                break;
                             case 'QuizInput':
+//                                $saveJunctions(
+//                                    $item,
+//                                    'quiz_input_option_filter_ids',
+//                                    'QuizFilter',
+//                                    '\common\modules\quiz\models\QuizInputToInputOptionFilter',
+//                                    'quiz_input_id',
+//                                    'quiz_input_option_filter_id'
+//                                );
                                 $saveJunctions(
                                     $item,
-                                    'quiz_input_option_filter_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizInputToInputOptionFilter',
+                                    'quiz_input_validator_ids',
+                                    'QuizInputValidator',
+                                    '\common\modules\quiz\models\QuizInputToInputValidator',
                                     'quiz_input_id',
-                                    'quiz_input_option_filter_id'
-                                );
-                                $saveJunctions(
-                                    $item,
-                                    'quiz_validator_ids',
-                                    'QuizFilter',
-                                    '\common\modules\quiz\models\QuizInputToValidator',
-                                    'quiz_input_id',
-                                    'quiz_validator_id'
+                                    'quiz_input_validator_id'
                                 );
 
                                 break;

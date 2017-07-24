@@ -30,25 +30,25 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
             'rules' => [],
         ];
 
-        $modelConfig['attrs'][] = [
-            'type' => 'multipleSelectBox',
-            'name' => 'quiz_shape_filter_ids',
-            'label' => 'Quiz shape filters',
-            'value' => [],
-            'errorMsg' => '',
-            'options' => '@list QuizFilter',
-            'rules' => [],
-        ];
-
-        $modelConfig['attrs'][] = [
-            'type' => 'multipleSelectBox',
-            'name' => 'quiz_character_medium_filter_ids',
-            'label' => 'Quiz character medium filters',
-            'value' => [],
-            'errorMsg' => '',
-            'options' => '@list QuizFilter',
-            'rules' => [],
-        ];
+//        $modelConfig['attrs'][] = [
+//            'type' => 'multipleSelectBox',
+//            'name' => 'quiz_shape_filter_ids',
+//            'label' => 'Quiz shape filters',
+//            'value' => [],
+//            'errorMsg' => '',
+//            'options' => '@list QuizFilter',
+//            'rules' => [],
+//        ];
+//
+//        $modelConfig['attrs'][] = [
+//            'type' => 'multipleSelectBox',
+//            'name' => 'quiz_character_medium_filter_ids',
+//            'label' => 'Quiz character medium filters',
+//            'value' => [],
+//            'errorMsg' => '',
+//            'options' => '@list QuizFilter',
+//            'rules' => [],
+//        ];
 
         return $modelConfig;
     }
