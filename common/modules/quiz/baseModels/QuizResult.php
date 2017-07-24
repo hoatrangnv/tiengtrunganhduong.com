@@ -22,12 +22,8 @@ use Yii;
  * @property Quiz $quiz
  * @property QuizResultToCharacterMedium[] $quizResultToCharacterMedia
  * @property QuizCharacterMedium[] $quizCharacterMedia
- * @property QuizResultToCharacterMediumFilter[] $quizResultToCharacterMediumFilters
- * @property QuizFilter[] $quizCharacterMediumFilters
  * @property QuizResultToShape[] $quizResultToShapes
  * @property QuizShape[] $quizShapes
- * @property QuizResultToShapeFilter[] $quizResultToShapeFilters
- * @property QuizFilter[] $quizShapeFilters
  */
 class QuizResult extends QuizBase
 {
@@ -115,22 +111,6 @@ class QuizResult extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizResultToCharacterMediumFilters()
-    {
-        return $this->hasMany(QuizResultToCharacterMediumFilter::className(), ['quiz_result_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizCharacterMediumFilters()
-    {
-        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_character_medium_filter_id'])->viaTable('quiz_result_to_character_medium_filter', ['quiz_result_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getQuizResultToShapes()
     {
         return $this->hasMany(QuizResultToShape::className(), ['quiz_result_id' => 'id']);
@@ -142,21 +122,5 @@ class QuizResult extends QuizBase
     public function getQuizShapes()
     {
         return $this->hasMany(QuizShape::className(), ['id' => 'quiz_shape_id'])->viaTable('quiz_result_to_shape', ['quiz_result_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizResultToShapeFilters()
-    {
-        return $this->hasMany(QuizResultToShapeFilter::className(), ['quiz_result_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizShapeFilters()
-    {
-        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_shape_filter_id'])->viaTable('quiz_result_to_shape_filter', ['quiz_result_id' => 'id']);
     }
 }

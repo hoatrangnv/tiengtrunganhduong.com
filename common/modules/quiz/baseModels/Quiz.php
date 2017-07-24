@@ -10,6 +10,8 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $slug
+ * @property string $introduction
+ * @property integer $duration
  * @property string $description
  * @property string $meta_title
  * @property string $meta_description
@@ -32,21 +34,15 @@ use Yii;
  * @property Image $image
  * @property QuizCategory $quizCategory
  * @property User $updater
+ * @property QuizAlert[] $quizAlerts
  * @property QuizCharacter[] $quizCharacters
- * @property QuizFilter[] $quizFilters
  * @property QuizInputGroup[] $quizInputGroups
+ * @property QuizInputValidator[] $quizInputValidators
+ * @property QuizObjectFilter[] $quizObjectFilters
  * @property QuizParam[] $quizParams
  * @property QuizResult[] $quizResults
  * @property QuizShape[] $quizShapes
- * @property QuizSorter[] $quizSorters
  * @property QuizStyle[] $quizStyles
- * @property QuizToCharacterFilter[] $quizToCharacterFilters
- * @property QuizFilter[] $quizCharacterFilters
- * @property QuizToInputGroupFilter[] $quizToInputGroupFilters
- * @property QuizFilter[] $quizInputGroupFilters
- * @property QuizToResultFilter[] $quizToResultFilters
- * @property QuizFilter[] $quizResultFilters
- * @property QuizValidator[] $quizValidators
  */
 class Quiz extends QuizBase
 {
@@ -65,7 +61,8 @@ class Quiz extends QuizBase
     {
         return [
             [['name', 'slug', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id'], 'required'],
-            [['sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id'], 'integer'],
+            [['introduction'], 'string'],
+            [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id'], 'integer'],
             [['name', 'slug', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
@@ -86,6 +83,8 @@ class Quiz extends QuizBase
             'id' => 'ID',
             'name' => 'Name',
             'slug' => 'Slug',
+            'introduction' => 'Introduction',
+            'duration' => 'Duration',
             'description' => 'Description',
             'meta_title' => 'Meta Title',
             'meta_description' => 'Meta Description',
@@ -141,6 +140,14 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getQuizAlerts()
+    {
+        return $this->hasMany(QuizAlert::className(), ['quiz_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuizCharacters()
     {
         return $this->hasMany(QuizCharacter::className(), ['quiz_id' => 'id']);
@@ -149,17 +156,25 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizFilters()
+    public function getQuizInputGroups()
     {
-        return $this->hasMany(QuizFilter::className(), ['quiz_id' => 'id']);
+        return $this->hasMany(QuizInputGroup::className(), ['quiz_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizInputGroups()
+    public function getQuizInputValidators()
     {
-        return $this->hasMany(QuizInputGroup::className(), ['quiz_id' => 'id']);
+        return $this->hasMany(QuizInputValidator::className(), ['quiz_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizObjectFilters()
+    {
+        return $this->hasMany(QuizObjectFilter::className(), ['quiz_id' => 'id']);
     }
 
     /**
@@ -189,72 +204,8 @@ class Quiz extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizSorters()
-    {
-        return $this->hasMany(QuizSorter::className(), ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getQuizStyles()
     {
         return $this->hasMany(QuizStyle::className(), ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizToCharacterFilters()
-    {
-        return $this->hasMany(QuizToCharacterFilter::className(), ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizCharacterFilters()
-    {
-        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_character_filter_id'])->viaTable('quiz_to_character_filter', ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizToInputGroupFilters()
-    {
-        return $this->hasMany(QuizToInputGroupFilter::className(), ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizInputGroupFilters()
-    {
-        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_input_group_filter_id'])->viaTable('quiz_to_input_group_filter', ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizToResultFilters()
-    {
-        return $this->hasMany(QuizToResultFilter::className(), ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizResultFilters()
-    {
-        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_result_filter_id'])->viaTable('quiz_to_result_filter', ['quiz_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizValidators()
-    {
-        return $this->hasMany(QuizValidator::className(), ['quiz_id' => 'id']);
     }
 }

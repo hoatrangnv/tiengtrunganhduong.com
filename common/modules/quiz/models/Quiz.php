@@ -35,7 +35,8 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
     {
         return [
             [['name', 'slug', 'publish_time'], 'required'],
-            [['sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'publish_time', 'image_id', 'quiz_category_id'], 'integer'],
+            [['introduction'], 'string'],
+            [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'publish_time', 'image_id', 'quiz_category_id'], 'integer'],
             [['name', 'slug', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],

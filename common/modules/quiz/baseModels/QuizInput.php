@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "quiz_input".
  *
  * @property integer $id
+ * @property string $name
  * @property string $var_name
  * @property string $type
  * @property string $question
@@ -18,10 +19,8 @@ use Yii;
  *
  * @property QuizInputGroup $quizInputGroup
  * @property QuizInputOption[] $quizInputOptions
- * @property QuizInputToInputOptionFilter[] $quizInputToInputOptionFilters
- * @property QuizFilter[] $quizInputOptionFilters
- * @property QuizInputToValidator[] $quizInputToValidators
- * @property QuizValidator[] $quizValidators
+ * @property QuizInputToInputValidator[] $quizInputToInputValidators
+ * @property QuizInputValidator[] $quizInputValidators
  */
 class QuizInput extends QuizBase
 {
@@ -39,10 +38,10 @@ class QuizInput extends QuizBase
     public function rules()
     {
         return [
-            [['var_name', 'type', 'quiz_input_group_id'], 'required'],
+            [['name', 'var_name', 'type', 'quiz_input_group_id'], 'required'],
             [['question', 'hint'], 'string'],
             [['row', 'column', 'quiz_input_group_id'], 'integer'],
-            [['var_name', 'type'], 'string', 'max' => 255],
+            [['name', 'var_name', 'type'], 'string', 'max' => 255],
             [['quiz_input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['quiz_input_group_id' => 'id'], 'except' => 'test'],
         ];
     }
@@ -54,6 +53,7 @@ class QuizInput extends QuizBase
     {
         return [
             'id' => 'ID',
+            'name' => 'Name',
             'var_name' => 'Var Name',
             'type' => 'Type',
             'question' => 'Question',
@@ -83,32 +83,16 @@ class QuizInput extends QuizBase
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizInputToInputOptionFilters()
+    public function getQuizInputToInputValidators()
     {
-        return $this->hasMany(QuizInputToInputOptionFilter::className(), ['quiz_input_id' => 'id']);
+        return $this->hasMany(QuizInputToInputValidator::className(), ['quiz_input_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuizInputOptionFilters()
+    public function getQuizInputValidators()
     {
-        return $this->hasMany(QuizFilter::className(), ['id' => 'quiz_input_option_filter_id'])->viaTable('quiz_input_to_input_option_filter', ['quiz_input_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizInputToValidators()
-    {
-        return $this->hasMany(QuizInputToValidator::className(), ['quiz_input_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizValidators()
-    {
-        return $this->hasMany(QuizValidator::className(), ['id' => 'quiz_validator_id'])->viaTable('quiz_input_to_validator', ['quiz_input_id' => 'id']);
+        return $this->hasMany(QuizInputValidator::className(), ['id' => 'quiz_input_validator_id'])->viaTable('quiz_input_to_input_validator', ['quiz_input_id' => 'id']);
     }
 }
