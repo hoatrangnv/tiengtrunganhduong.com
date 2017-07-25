@@ -36,8 +36,9 @@
         xhr.send(fd);
 
     }
+
     ReactDOM.render(
-        <QuizModel
+        <QuizEditor
             save={save}
             type={<?= json_encode($type) ?>}
             attrs={<?= json_encode($attrs) ?>}
