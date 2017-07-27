@@ -39,11 +39,13 @@
     ReactDOM.render(
         <QuizEditor
             save={save}
-            type={<?= json_encode($type) ?>}
-            attrs={<?= json_encode($attrs) ?>}
-            childConfigs={<?= json_encode($childConfigs) ?>}
-            childrenData={<?= json_encode($childrenData) ?>}
-            showAttrsForm={true}
+            model={{
+                type: <?= json_encode($type) ?>,
+                attrs: <?= json_encode($attrs) ?>,
+                childConfigs: <?= json_encode($childConfigs) ?>,
+                childrenData: <?= json_encode($childrenData) ?>,
+                showAttrsForm: true
+            }}
         />,
         document.getElementById("root")
     );
