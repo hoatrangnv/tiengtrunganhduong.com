@@ -14,7 +14,6 @@
  */
 \common\modules\quiz\QuizEditorAsset::register($this);
 ?>
-<div id="root"></div>
 <script type="text/babel">
     function save(state, callback) {
         var fd = new FormData();

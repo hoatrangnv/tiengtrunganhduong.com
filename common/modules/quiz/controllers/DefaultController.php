@@ -36,7 +36,8 @@ use yii\web\NotFoundHttpException;
  */
 class DefaultController extends Controller
 {
-    public $layout = '@quiz/views/layouts/main';
+//    public $layout = '@quiz/views/layouts/main';
+    public $layout = '@quiz/views/layouts/antd';
 
     /**
      * Renders the index view for the module
@@ -85,7 +86,7 @@ class DefaultController extends Controller
             'type' => $quizConfig['type'],
             'attrs' => $quizConfig['attrs'],
             'childConfigs' => $modelConfigs,
-            'childrenData' => ['items' => [], 'activeItemId' => null],
+            'childrenData' => ['items' => [], 'activeItemId' => null, 'errorItemIds' => []],
         ]);
     }
 
@@ -153,7 +154,7 @@ class DefaultController extends Controller
          * @return array
          */
         $getChildrenData = function (array $children) use (&$getChildrenData, $inputGroupConfig, $inputConfig, $characterConfig, $characterMediumConfig) {
-            $childrenData = ['items' => [], 'activeItemId' => null];
+            $childrenData = ['items' => [], 'activeItemId' => null, 'errorItemIds' => []];
             usort($children, function ($a, $b) {
                 /**
                  * @var $a QuizCharacter|QuizParam|QuizCharacterMedium|QuizInputGroup|...
@@ -366,7 +367,7 @@ class DefaultController extends Controller
                 if (!empty($grandChildren)) {
                     $childData['childrenData'] = $getChildrenData($grandChildren);
                 } else {
-                    $childData['childrenData'] = ['items' => [], 'activeItemId' => null];
+                    $childData['childrenData'] = ['items' => [], 'activeItemId' => null, 'errorItemIds' => []];
                 }
 
                 $childrenData['items'][] = $childData;

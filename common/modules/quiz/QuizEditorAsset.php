@@ -20,6 +20,7 @@ class QuizEditorAsset extends AssetBundle
     public $css = [
 //        'css/react-select.css',
 //        'css/quiz-editor.css',
+//        'http://localhost:8000/index.css',
     ];
 
     public $js = [
@@ -35,11 +36,13 @@ class QuizEditorAsset extends AssetBundle
 //        ['js/ckeditor.jsx', 'type' => 'text/babel'],
 //        ['js/index.js'],
 
+//        'http://localhost:8000/common.js',
+//        'http://localhost:8000/index.js',
         'http://localhost:3000/static/js/bundle.js',
     ];
 
     public $depends = [
         '\common\modules\quiz\DefaultAsset',
-        'yii\bootstrap\BootstrapAsset',
+//        'yii\bootstrap\BootstrapAsset',
     ];
 }
