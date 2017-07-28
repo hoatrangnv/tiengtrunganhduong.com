@@ -43,8 +43,7 @@
                 type: <?= json_encode($type) ?>,
                 attrs: <?= json_encode($attrs) ?>,
                 childConfigs: <?= json_encode($childConfigs) ?>,
-                childrenData: <?= json_encode($childrenData) ?>,
-                showAttrsForm: true
+                childrenData: <?= json_encode($childrenData) ?>
             }}
         />,
         document.getElementById("root")

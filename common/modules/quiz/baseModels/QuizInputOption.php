@@ -11,9 +11,9 @@ use Yii;
  * @property string $value
  * @property string $content
  * @property integer $score
- * @property string $interpretation
- * @property integer $row
- * @property integer $column
+ * @property integer $correct
+ * @property string $explanation
+ * @property integer $sort_order
  * @property integer $quiz_input_id
  *
  * @property QuizInput $quizInput
@@ -37,8 +37,8 @@ class QuizInputOption extends QuizBase
     {
         return [
             [['value', 'quiz_input_id'], 'required'],
-            [['content', 'interpretation'], 'string'],
-            [['score', 'row', 'column', 'quiz_input_id'], 'integer'],
+            [['content', 'explanation'], 'string'],
+            [['score', 'correct', 'sort_order', 'quiz_input_id'], 'integer'],
             [['value'], 'string', 'max' => 255],
             [['quiz_input_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInput::className(), 'targetAttribute' => ['quiz_input_id' => 'id'], 'except' => 'test'],
         ];
@@ -54,9 +54,9 @@ class QuizInputOption extends QuizBase
             'value' => 'Value',
             'content' => 'Content',
             'score' => 'Score',
-            'interpretation' => 'Interpretation',
-            'row' => 'Row',
-            'column' => 'Column',
+            'correct' => 'Correct',
+            'explanation' => 'Explanation',
+            'sort_order' => 'Sort Order',
             'quiz_input_id' => 'Quiz Input ID',
         ];
     }

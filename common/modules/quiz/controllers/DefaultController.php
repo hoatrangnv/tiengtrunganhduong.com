@@ -169,6 +169,20 @@ class DefaultController extends Controller
                 if ($b->hasAttribute('task_order')) {
                     return 1;
                 }
+                /**
+                 * @var $a QuizInput|QuizInputOption|...
+                 * @var $b QuizInput|QuizInputOption|...
+                 */
+                if ($a->hasAttribute('sort_order') && $b->hasAttribute('sort_order')) {
+                    return $a->sort_order - $b->sort_order;
+                }
+                if ($a->hasAttribute('sort_order')) {
+                    return -1;
+                }
+                if ($b->hasAttribute('sort_order')) {
+                    return 1;
+                }
+                
                 return 0;
             });
 

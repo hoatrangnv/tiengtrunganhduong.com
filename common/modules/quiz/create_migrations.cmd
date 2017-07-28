@@ -4,9 +4,9 @@ php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_result_
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_character_table --fields="name:string:notNull,var_name:string:notNull,type:string:notNull,index:integer:notNull,task_order:integer:notNull,quiz_id:integer:notNull:foreignKey"
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_character_medium_table --fields="name:string:notNull,var_name:string:notNull,type:string:notNull,index:integer:notNull,task_order:integer:notNull,quiz_character_id:integer:notNull:foreignKey(quiz_character)"
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_alert_table --fields="name:string:notNull,title:string,message:text:notNull,type:string:notNull,task_order:integer:notNull,quiz_id:integer:notNull:foreignKey"
-php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_input_group_table --fields="name:string:notNull,title:string,introduction:text,duration:integer,task_order:integer:notNull,quiz_id:integer:notNull:foreignKey"
-php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_input_table --fields="name:string:notNull,var_name:string:notNull,type:string:notNull,question:text,hint:text,row:integer,column:integer,quiz_input_group_id:integer:notNull:foreignKey(quiz_input_group)"
-php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_input_option_table --fields="value:string:notNull,content:text,score:integer,interpretation:text,row:integer,column:integer,quiz_input_id:integer:notNull:foreignKey(quiz_input)"
+php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_input_group_table --fields="name:string:notNull,title:string,introduction:text,duration:integer,task_order:integer:notNull,inputs_per_row:integer,inputs_per_small_row:integer,input_appearance:string,input_answers_showing:string,quiz_id:integer:notNull:foreignKey"
+php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_input_table --fields="name:string:notNull,var_name:string:notNull,type:string:notNull,question:text,answer:text,sort_order:integer,options_per_row:integer,options_per_small_row:integer,quiz_input_group_id:integer:notNull:foreignKey(quiz_input_group)"
+php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_input_option_table --fields="value:string:notNull,content:text,score:integer,correct:smallInteger(1),explanation:text,sort_order:integer,quiz_input_id:integer:notNull:foreignKey(quiz_input)"
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_shape_table --fields="name:string:notNull,text:string,image_id:integer:foreignKey,quiz_id:integer:notNull:foreignKey"
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_quiz_style_table --fields="name:string:notNull,z_index:integer,opacity:integer,top:string,left:string,width:string,height:string,max_width:string,max_height:string,padding:string,background_color:string,border_color:string,border_width:string,border_radius:string,font:string,line_height:string,text_color:string,text_align:string,text_stroke_color:string,text_stroke_width:string,quiz_id:integer:foreignKey"
 
@@ -25,25 +25,4 @@ php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_qui
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_and_quiz_shape_for_quiz_result_and_quiz_shape_tables
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_and_quiz_character_medium_for_quiz_result_and_quiz_character_medium_tables
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_input_and_quiz_input_validator_for_quiz_input_and_quiz_input_validator_tables
-
-
-
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_character_medium_and_quiz_sorter_for_quiz_character_medium_and_quiz_sorter_tables --fields="sorter_order:integer:notNull"
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_character_and_quiz_sorter_for_quiz_character_and_quiz_sorter_tables --fields="sorter_order:integer:notNull"
-
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_to_shape_and_quiz_style_for_quiz_result_to_shape_and_quiz_style_tables --fields="style_order:integer:notNull"
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_to_character_medium_and_quiz_style_for_quiz_result_to_character_medium_and_quiz_style_tables --fields="style_order:integer:notNull"
-
-
-
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_and_quiz_result_filter_for_quiz_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_and_quiz_input_group_filter_for_quiz_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_and_quiz_character_filter_for_quiz_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_and_quiz_character_medium_filter_for_quiz_result_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_and_quiz_shape_filter_for_quiz_result_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_input_group_and_quiz_input_filter_for_quiz_input_group_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_input_and_quiz_input_option_filter_for_quiz_input_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_character_and_quiz_filter_for_quiz_character_and_quiz_filter_tables
-#php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_character_medium_and_quiz_filter_for_quiz_character_medium_and_quiz_filter_tables
-
 

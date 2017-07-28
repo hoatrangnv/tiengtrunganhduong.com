@@ -25,25 +25,33 @@ class QuizBase extends ActiveRecord
     {
         $inputConfigs = [];
         $table = self::getTableSchema();
+        $sortable = false;
         foreach ($table->columns as $column) {
             if (in_array($column->name, [
                 'quiz_id',
-                'character_id',
-                'input_group_id',
-                'input_id',
+                'quiz_character_id',
+                'quiz_input_group_id',
+                'quiz_input_id',
                 'create_time',
                 'update_time',
                 'creator_id',
                 'updater_id',
-                'task_order',
             ])) {
                 continue;
             }
+            if (in_array($column->name, [
+                'task_order',
+                'sort_order',
+            ])) {
+                $sortable = true;
+                continue;
+            }
+
 
             $type = 'text';
             $options = [];
-            if ($column->name == 'id') {
-                $type = 'hidden';
+            if ($column->name == 'id' || $column->name == 'task_order') {
+                $type = 'Hidden';
             } else if (substr($column->name, -8) === '_fn_args') {
                 $type = 'Text';
             } else if (substr($column->name, -5) === '_time') {
@@ -58,7 +66,7 @@ class QuizBase extends ActiveRecord
                         ];
                     }
                 }
-            } else {
+            }  else {
                 switch ($column->type) {
                     case Schema::TYPE_CHAR:
                     case Schema::TYPE_STRING:
@@ -71,6 +79,9 @@ class QuizBase extends ActiveRecord
                     case Schema::TYPE_FLOAT:
                     case Schema::TYPE_DOUBLE:
                         $type = 'Number';
+                        break;
+                    case Schema::TYPE_SMALLINT:
+                        $type = 'Checkbox';
                         break;
                 }
             }
@@ -90,6 +101,7 @@ class QuizBase extends ActiveRecord
         return [
             'type' => join('', array_slice(explode('\\', self::className()), -1)),
             'attrs' => $inputConfigs,
+            'sortable' => $sortable
         ];
     }
 }

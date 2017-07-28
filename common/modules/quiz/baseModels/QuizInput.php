@@ -12,9 +12,10 @@ use Yii;
  * @property string $var_name
  * @property string $type
  * @property string $question
- * @property string $hint
- * @property integer $row
- * @property integer $column
+ * @property string $answer
+ * @property integer $sort_order
+ * @property integer $options_per_row
+ * @property integer $options_per_small_row
  * @property integer $quiz_input_group_id
  *
  * @property QuizInputGroup $quizInputGroup
@@ -39,8 +40,8 @@ class QuizInput extends QuizBase
     {
         return [
             [['name', 'var_name', 'type', 'quiz_input_group_id'], 'required'],
-            [['question', 'hint'], 'string'],
-            [['row', 'column', 'quiz_input_group_id'], 'integer'],
+            [['question', 'answer'], 'string'],
+            [['sort_order', 'options_per_row', 'options_per_small_row', 'quiz_input_group_id'], 'integer'],
             [['name', 'var_name', 'type'], 'string', 'max' => 255],
             [['quiz_input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['quiz_input_group_id' => 'id'], 'except' => 'test'],
         ];
@@ -57,9 +58,10 @@ class QuizInput extends QuizBase
             'var_name' => 'Var Name',
             'type' => 'Type',
             'question' => 'Question',
-            'hint' => 'Hint',
-            'row' => 'Row',
-            'column' => 'Column',
+            'answer' => 'Answer',
+            'sort_order' => 'Sort Order',
+            'options_per_row' => 'Options Per Row',
+            'options_per_small_row' => 'Options Per Small Row',
             'quiz_input_group_id' => 'Quiz Input Group ID',
         ];
     }

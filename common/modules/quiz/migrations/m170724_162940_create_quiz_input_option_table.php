@@ -8,7 +8,7 @@ use yii\db\Migration;
  *
  * - `quiz_input`
  */
-class m170709_174917_create_quiz_input_option_table extends Migration
+class m170724_162940_create_quiz_input_option_table extends Migration
 {
     /**
      * @inheritdoc
@@ -25,24 +25,24 @@ class m170709_174917_create_quiz_input_option_table extends Migration
             'value' => $this->string()->notNull(),
             'content' => $this->text(),
             'score' => $this->integer(),
-            'interpretation' => $this->text(),
-            'row' => $this->integer(),
-            'column' => $this->integer(),
-            'input_id' => $this->integer()->notNull(),
+            'correct' => $this->smallInteger(1),
+            'explanation' => $this->text(),
+            'sort_order' => $this->integer(),
+            'quiz_input_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
-        // creates index for column `input_id`
+        // creates index for column `quiz_input_id`
         $this->createIndex(
-            'idx-quiz_input_option-input_id',
+            'idx-quiz_inp_opt-quiz_inp_id',
             'quiz_input_option',
-            'input_id'
+            'quiz_input_id'
         );
 
         // add foreign key for table `quiz_input`
         $this->addForeignKey(
-            'fk-quiz_input_option-input_id',
+            'fk-quiz_inp_opt-quiz_inp_id',
             'quiz_input_option',
-            'input_id',
+            'quiz_input_id',
             'quiz_input',
             'id',
             'CASCADE'
@@ -56,13 +56,13 @@ class m170709_174917_create_quiz_input_option_table extends Migration
     {
         // drops foreign key for table `quiz_input`
         $this->dropForeignKey(
-            'fk-quiz_input_option-input_id',
+            'fk-quiz_inp_opt-quiz_inp_id',
             'quiz_input_option'
         );
 
-        // drops index for column `input_id`
+        // drops index for column `quiz_input_id`
         $this->dropIndex(
-            'idx-quiz_input_option-input_id',
+            'idx-quiz_inp_opt-quiz_inp_id',
             'quiz_input_option'
         );
 

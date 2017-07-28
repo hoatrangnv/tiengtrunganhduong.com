@@ -8,7 +8,7 @@ use yii\db\Migration;
  *
  * - `quiz_input_group`
  */
-class m170716_111133_create_quiz_input_table extends Migration
+class m170724_162939_create_quiz_input_table extends Migration
 {
     /**
      * @inheritdoc
@@ -22,25 +22,27 @@ class m170716_111133_create_quiz_input_table extends Migration
         }
         $this->createTable('quiz_input', [
             'id' => $this->primaryKey(),
+            'name' => $this->string()->notNull(),
             'var_name' => $this->string()->notNull(),
             'type' => $this->string()->notNull(),
             'question' => $this->text(),
-            'hint' => $this->text(),
-            'row' => $this->integer(),
-            'column' => $this->integer(),
+            'answer' => $this->text(),
+            'sort_order' => $this->integer(),
+            'options_per_row' => $this->integer(),
+            'options_per_small_row' => $this->integer(),
             'quiz_input_group_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // creates index for column `quiz_input_group_id`
         $this->createIndex(
-            'idx-quiz_input-quiz_input_group_id',
+            'idx-quiz_inp-quiz_inp_group_id',
             'quiz_input',
             'quiz_input_group_id'
         );
 
         // add foreign key for table `quiz_input_group`
         $this->addForeignKey(
-            'fk-quiz_input-quiz_input_group_id',
+            'fk-quiz_inp-quiz_inp_group_id',
             'quiz_input',
             'quiz_input_group_id',
             'quiz_input_group',
@@ -56,13 +58,13 @@ class m170716_111133_create_quiz_input_table extends Migration
     {
         // drops foreign key for table `quiz_input_group`
         $this->dropForeignKey(
-            'fk-quiz_input-quiz_input_group_id',
+            'fk-quiz_inp-quiz_inp_group_id',
             'quiz_input'
         );
 
         // drops index for column `quiz_input_group_id`
         $this->dropIndex(
-            'idx-quiz_input-quiz_input_group_id',
+            'idx-quiz_inp-quiz_inp_group_id',
             'quiz_input'
         );
 
