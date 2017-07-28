@@ -27,7 +27,6 @@ class QuizBase extends ActiveRecord
         $table = self::getTableSchema();
         foreach ($table->columns as $column) {
             if (in_array($column->name, [
-//                'id',
                 'quiz_id',
                 'character_id',
                 'input_group_id',
@@ -36,7 +35,7 @@ class QuizBase extends ActiveRecord
                 'update_time',
                 'creator_id',
                 'updater_id',
-                'global_exec_order',
+                'task_order',
             ])) {
                 continue;
             }
@@ -46,15 +45,15 @@ class QuizBase extends ActiveRecord
             if ($column->name == 'id') {
                 $type = 'hidden';
             } else if (substr($column->name, -8) === '_fn_args') {
-                $type = 'text';
+                $type = 'Text';
             } else if (substr($column->name, -5) === '_time') {
-                $type = 'datetime';
+                $type = 'Datetime';
             } else if (substr($column->name, -3) === '_id') {
-                $type = 'selectBox';
+                $type = 'Select';
                 if (substr($column->name, -6) === '_fn_id') {
                     foreach (QuizFn::find()->all() as $fn) {
                         $options[] = [
-                            'text' => $fn->name,
+                            'label' => $fn->name,
                             'value' => $fn->id
                         ];
                     }
@@ -63,15 +62,15 @@ class QuizBase extends ActiveRecord
                 switch ($column->type) {
                     case Schema::TYPE_CHAR:
                     case Schema::TYPE_STRING:
-                        $type = 'text';
+                        $type = 'Text';
                         break;
                     case Schema::TYPE_TEXT:
-                        $type = 'textArea';
+                        $type = 'TextArea';
                         break;
                     case Schema::TYPE_INTEGER:
                     case Schema::TYPE_FLOAT:
                     case Schema::TYPE_DOUBLE:
-                        $type = 'number';
+                        $type = 'Number';
                         break;
                 }
             }

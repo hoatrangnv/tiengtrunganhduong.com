@@ -11,7 +11,7 @@ class QuizCharacterMedium extends \common\modules\quiz\baseModels\QuizCharacterM
         $modelConfig = parent::modelConfig();
 
 //        $modelConfig['attrs'][] = [
-//            'type' => 'multipleSelectBox',
+//            'type' => 'MultipleSelect',
 //            'name' => 'quiz_filter_ids',
 //            'label' => 'Quiz filters',
 //            'value' => [],
@@ -21,7 +21,7 @@ class QuizCharacterMedium extends \common\modules\quiz\baseModels\QuizCharacterM
 //        ];
 //
 //        $modelConfig['attrs'][] = [
-//            'type' => 'multipleSelectBox',
+//            'type' => 'MultipleSelect',
 //            'name' => 'quiz_sorter_ids',
 //            'label' => 'Quiz sorters',
 //            'value' => [],
@@ -31,7 +31,7 @@ class QuizCharacterMedium extends \common\modules\quiz\baseModels\QuizCharacterM
 //        ];
 
         $modelConfig['attrs'][] = [
-            'type' => 'multipleSelectBox',
+            'type' => 'MultipleSelect',
             'name' => 'quiz_style_ids',
             'label' => 'Quiz styles',
             'value' => [],

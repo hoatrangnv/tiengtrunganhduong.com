@@ -11,7 +11,7 @@ class QuizInputGroup extends \common\modules\quiz\baseModels\QuizInputGroup
         $modelConfig = parent::modelConfig();
 
 //        $modelConfig['attrs'][] = [
-//            'type' => 'multipleSelectBox',
+//            'type' => 'MultipleSelect',
 //            'name' => 'quiz_input_filter_ids',
 //            'label' => 'Quiz input filters',
 //            'value' => [],

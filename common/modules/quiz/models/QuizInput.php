@@ -11,7 +11,7 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
         $modelConfig = parent::modelConfig();
 
 //        $modelConfig['attrs'][] = [
-//            'type' => 'multipleSelectBox',
+//            'type' => 'MultipleSelect',
 //            'name' => 'quiz_input_option_filter_ids',
 //            'label' => 'Quiz input option filters',
 //            'value' => [],
@@ -21,7 +21,7 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
 //        ];
 
         $modelConfig['attrs'][] = [
-            'type' => 'multipleSelectBox',
+            'type' => 'MultipleSelect',
             'name' => 'quiz_input_validator_ids',
             'label' => 'Quiz input validators',
             'value' => [],
@@ -29,6 +29,23 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
             'options' => '@list QuizInputValidator',
             'rules' => [],
         ];
+
+        foreach ($modelConfig['attrs'] as &$attr) {
+            $newAttr = $attr;
+            if ($newAttr['name'] === 'type') {
+                $newAttr['type'] = 'Select';
+                $newAttr['options'] = [
+                    'RadioGroup',
+                    'CheckboxGroup',
+                    'Select',
+                    'Text',
+                    'Number',
+                    'Datetime',
+                    'Date',
+                ];
+            }
+            $attr = $newAttr;
+        }
 
         return $modelConfig;
     }

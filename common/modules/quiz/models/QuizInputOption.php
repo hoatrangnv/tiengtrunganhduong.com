@@ -11,7 +11,7 @@ class QuizInputOption extends \common\modules\quiz\baseModels\QuizInputOption
         $modelConfig = parent::modelConfig();
 
         $modelConfig['attrs'][] = [
-            'type' => 'multipleSelectBox',
+            'type' => 'MultipleSelect',
             'name' => 'quiz_voted_result_ids',
             'label' => 'Quiz voted results',
             'value' => [],

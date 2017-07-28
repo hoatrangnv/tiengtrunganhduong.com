@@ -11,7 +11,7 @@ class QuizCharacter extends \common\modules\quiz\baseModels\QuizCharacter
         $modelConfig = parent::modelConfig();
 
 //        $modelConfig['attrs'][] = [
-//            'type' => 'multipleSelectBox',
+//            'type' => 'MultipleSelect',
 //            'name' => 'quiz_filter_ids',
 //            'label' => 'Quiz filters',
 //            'value' => [],
@@ -21,7 +21,7 @@ class QuizCharacter extends \common\modules\quiz\baseModels\QuizCharacter
 //        ];
 //
 //        $modelConfig['attrs'][] = [
-//            'type' => 'multipleSelectBox',
+//            'type' => 'MultipleSelect',
 //            'name' => 'quiz_sorter_ids',
 //            'label' => 'Quiz sorters',
 //            'value' => [],

@@ -11,7 +11,7 @@ class QuizShape extends \common\modules\quiz\baseModels\QuizShape
         $modelConfig = parent::modelConfig();
 
         $modelConfig['attrs'][] = [
-            'type' => 'multipleSelectBox',
+            'type' => 'MultipleSelect',
             'name' => 'quiz_style_ids',
             'label' => 'Quiz styles',
             'value' => [],
