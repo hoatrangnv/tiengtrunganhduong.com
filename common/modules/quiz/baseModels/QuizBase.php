@@ -52,8 +52,8 @@ class QuizBase extends ActiveRecord
             $options = [];
             if ($column->name == 'id' || $column->name == 'task_order') {
                 $type = 'Hidden';
-            } else if (substr($column->name, -8) === '_fn_args') {
-                $type = 'Text';
+            } else if ($column->name === 'arguments') {
+                $type = 'Tags';
             } else if (substr($column->name, -5) === '_time') {
                 $type = 'Datetime';
             } else if (substr($column->name, -3) === '_id') {
