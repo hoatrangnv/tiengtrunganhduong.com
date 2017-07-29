@@ -11,7 +11,7 @@ use yii\db\Migration;
  * - `image`
  * - `quiz_category`
  */
-class m170724_162048_create_quiz_category_table extends Migration
+class m170724_162047_create_quiz_category_table extends Migration
 {
     /**
      * @inheritdoc
@@ -32,11 +32,11 @@ class m170724_162048_create_quiz_category_table extends Migration
             'meta_description' => $this->string(511),
             'meta_keywords' => $this->string(511),
             'sort_order' => $this->integer(),
-            'active' => $this->integer(),
-            'visible' => $this->integer(),
-            'doindex' => $this->integer(),
-            'dofollow' => $this->integer(),
-            'featured' => $this->integer(),
+            'active' => $this->smallInteger(1),
+            'visible' => $this->smallInteger(1),
+            'doindex' => $this->smallInteger(1),
+            'dofollow' => $this->smallInteger(1),
+            'featured' => $this->smallInteger(1),
             'create_time' => $this->integer()->notNull(),
             'update_time' => $this->integer()->notNull(),
             'creator_id' => $this->integer()->notNull(),

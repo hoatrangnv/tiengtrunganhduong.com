@@ -20,6 +20,7 @@ class QuizObjectFilter extends \common\modules\quiz\baseModels\QuizObjectFilter
             if ($newAttr['name'] === 'affected_object_type') {
                 $newAttr['type'] = 'Select';
                 $newAttr['options'] = [
+                    'QuizResult',
                     'QuizAlert',
                     'QuizInputGroup',
                     'QuizCharacter',

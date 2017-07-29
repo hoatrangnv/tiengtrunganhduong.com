@@ -12,6 +12,7 @@ use Yii;
  * @property string $slug
  * @property string $introduction
  * @property integer $duration
+ * @property string $input_answers_showing
  * @property string $description
  * @property string $meta_title
  * @property string $meta_description
@@ -63,7 +64,7 @@ class Quiz extends QuizBase
             [['name', 'slug', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id'], 'required'],
             [['introduction'], 'string'],
             [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id'], 'integer'],
-            [['name', 'slug', 'meta_title'], 'string', 'max' => 255],
+            [['name', 'slug', 'input_answers_showing', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],
@@ -85,6 +86,7 @@ class Quiz extends QuizBase
             'slug' => 'Slug',
             'introduction' => 'Introduction',
             'duration' => 'Duration',
+            'input_answers_showing' => 'Input Answers Showing',
             'description' => 'Description',
             'meta_title' => 'Meta Title',
             'meta_description' => 'Meta Description',

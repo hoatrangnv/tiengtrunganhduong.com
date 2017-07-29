@@ -41,7 +41,7 @@ class QuizResult extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'quiz_id'], 'required'],
+            [['name', 'canvas_width', 'canvas_height', 'quiz_id'], 'required'],
             [['content'], 'string'],
             [['priority', 'canvas_width', 'canvas_height', 'quiz_id'], 'integer'],
             [['name', 'title'], 'string', 'max' => 255],

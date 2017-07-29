@@ -30,6 +30,7 @@ class QuizBase extends ActiveRecord
             if (in_array($column->name, [
                 'quiz_id',
                 'quiz_character_id',
+                'quiz_character_medium_id',
                 'quiz_input_group_id',
                 'quiz_input_id',
                 'create_time',

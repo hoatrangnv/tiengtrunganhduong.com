@@ -8,6 +8,37 @@ use yii\behaviors\TimestampBehavior;
 
 class Quiz extends \common\modules\quiz\baseModels\Quiz
 {
+    public static function modelConfig()
+    {
+        $modelConfig = parent::modelConfig();
+
+        foreach ($modelConfig['attrs'] as &$attr) {
+            $newAttr = $attr;
+            switch ($newAttr['name']) {
+                case 'input_answers_showing':
+                    $newAttr['type'] = 'Select';
+                    $newAttr['options'] = [
+                        [
+                            'value' => 'AfterInputGroup',
+                            'label' => 'Sau mỗi nhóm câu hỏi',
+                        ],
+                        [
+                            'value' => 'AfterResult',
+                            'label' => 'Sau kết quả',
+                        ],
+                        [
+                            'value' => 'Never',
+                            'label' => 'Không bao giờ',
+                        ],
+                    ];
+                    break;
+            }
+            $attr = $newAttr;
+        }
+
+        return $modelConfig;
+    }
+
     /**
      * @inheritdoc
      */

@@ -15,8 +15,7 @@ use Yii;
  * @property integer $task_order
  * @property integer $inputs_per_row
  * @property integer $inputs_per_small_row
- * @property string $input_appearance
- * @property string $input_answers_showing
+ * @property string $inputs_appearance
  * @property integer $quiz_id
  *
  * @property QuizInput[] $quizInputs
@@ -41,7 +40,7 @@ class QuizInputGroup extends QuizBase
             [['name', 'task_order', 'quiz_id'], 'required'],
             [['introduction'], 'string'],
             [['duration', 'task_order', 'inputs_per_row', 'inputs_per_small_row', 'quiz_id'], 'integer'],
-            [['name', 'title', 'input_appearance', 'input_answers_showing'], 'string', 'max' => 255],
+            [['name', 'title', 'inputs_appearance'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
@@ -60,8 +59,7 @@ class QuizInputGroup extends QuizBase
             'task_order' => 'Task Order',
             'inputs_per_row' => 'Inputs Per Row',
             'inputs_per_small_row' => 'Inputs Per Small Row',
-            'input_appearance' => 'Input Appearance',
-            'input_answers_showing' => 'Input Answers Showing',
+            'inputs_appearance' => 'Inputs Appearance',
             'quiz_id' => 'Quiz ID',
         ];
     }

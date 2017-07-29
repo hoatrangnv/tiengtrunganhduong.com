@@ -10,15 +10,25 @@ class QuizInputGroup extends \common\modules\quiz\baseModels\QuizInputGroup
     {
         $modelConfig = parent::modelConfig();
 
-//        $modelConfig['attrs'][] = [
-//            'type' => 'MultipleSelect',
-//            'name' => 'quiz_input_filter_ids',
-//            'label' => 'Quiz input filters',
-//            'value' => [],
-//            'errorMsg' => '',
-//            'options' => '@list QuizFilter',
-//            'rules' => [],
-//        ];
+        foreach ($modelConfig['attrs'] as &$attr) {
+            $newAttr = $attr;
+            switch ($newAttr['name']) {
+                case 'inputs_appearance':
+                    $newAttr['type'] = 'Select';
+                    $newAttr['options'] = [
+                        [
+                            'value' => 'Simultaneously',
+                            'label' => 'Đồng thời',
+                        ],
+                        [
+                            'value' => 'InTurn',
+                            'label' => 'Lần lượt',
+                        ]
+                    ];
+                    break;
+            }
+            $attr = $newAttr;
+        }
 
         return $modelConfig;
     }
