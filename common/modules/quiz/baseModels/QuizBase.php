@@ -25,7 +25,6 @@ class QuizBase extends ActiveRecord
     {
         $inputConfigs = [];
         $table = self::getTableSchema();
-        $sortable = false;
         foreach ($table->columns as $column) {
             if (in_array($column->name, [
                 'quiz_id',
@@ -40,21 +39,20 @@ class QuizBase extends ActiveRecord
             ])) {
                 continue;
             }
-            if (in_array($column->name, [
-                'task_order',
-                'sort_order',
-            ])) {
-                $sortable = true;
-                continue;
-            }
-
 
             $type = 'text';
             $options = [];
-            if ($column->name == 'id' || $column->name == 'task_order') {
-                $type = 'Hidden';
+            if (in_array($column->name, [
+                'id',
+                'task_order',
+                'sort_order',
+            ])) {
+//                $type = 'Hidden';
+                $type = 'None';
             } else if ($column->name === 'arguments') {
                 $type = 'Tags';
+            } else if ($column->name === 'image_id') {
+                $type = 'ImageSelect';
             } else if (substr($column->name, -5) === '_time') {
                 $type = 'Datetime';
             } else if (substr($column->name, -3) === '_id') {
@@ -67,7 +65,7 @@ class QuizBase extends ActiveRecord
                         ];
                     }
                 }
-            }  else {
+            } else {
                 switch ($column->type) {
                     case Schema::TYPE_CHAR:
                     case Schema::TYPE_STRING:
@@ -101,8 +99,7 @@ class QuizBase extends ActiveRecord
         }
         return [
             'type' => join('', array_slice(explode('\\', self::className()), -1)),
-            'attrs' => $inputConfigs,
-            'sortable' => $sortable
+            'attrs' => $inputConfigs
         ];
     }
 }

@@ -13,37 +13,35 @@
  * @var $quizInputGroups \common\modules\quiz\models\QuizInputGroup[]
  * @var $quizParams \common\modules\quiz\models\QuizParam[]
  * @var $quizObjectFilters \common\modules\quiz\models\QuizObjectFilter[]
+ * @var $quizStyles \common\modules\quiz\models\QuizStyle[]
+ * @var $quizShapes \common\modules\quiz\models\QuizShape[]
+ * @var $quizResults \common\modules\quiz\models\QuizResult[]
+ * @var $quizInputValidators \common\modules\quiz\models\QuizInputValidator[]
+ * @var $quizAlerts \common\modules\quiz\models\QuizAlert[]
  */
 ?>
 <div id="root"></div>
 <script type="text/babel">
     "use strict";
 
-    ReactDOM.render(React.createElement(Quiz, {
-        name: "My quiz",
-        introduction: "Xin chao",
-        image_src: "http://tiengtrunganhduong.com/images/201707/tu-vung-tieng-trung-chu-de-thu-cung/tu-vung-tieng-trung-chu-de-thu-cung.jpg",
-        login: fbLogin,
-        quizInputGroups: <?= json_encode($quizInputGroups) ?>,
-        quizParams: <?= json_encode($quizParams) ?>,
-        quizCharacters: <?= json_encode($quizCharacters) ?>,
-        quizObjectFilters: <?= json_encode($quizObjectFilters) ?>,
-    }), document.getElementById("root"));
-//    ReactDOM.render(
-//        <Quiz
-//            name="My quiz"
-//            introduction="Xin chao"
-//            image_src={<?//= $quiz->image ? $quiz->image->getSource() : '"http://tiengtrunganhduong.com/images/201707/tu-vung-tieng-trung-chu-de-thu-cung/tu-vung-tieng-trung-chu-de-thu-cung.jpg"' ?>//}
-//            login={fbLogin}
-//            quizInputGroups={<?//= json_encode($quizInputGroups) ?>//}
-//            quizParams={<?//= json_encode($quizParams) ?>//}
-//            quizCharacters={<?//= json_encode($quizCharacters) ?>//}
-//            quizInputGroupFilters={<?//= json_encode($quizInputGroupFilters) ?>//}
-//            quizCharacterFilters={<?//= json_encode($quizCharacterFilters) ?>//}
-//            quizResultFilters={<?//= json_encode($quizResultFilters) ?>//}
-//        />,
-//        document.getElementById("root")
-//    );
+    ReactDOM.render(
+        <Quiz
+            name={<?= json_encode($quiz->name) ?>}
+            introduction={<?=json_encode($quiz->introduction) ?>}
+            image_src={<?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>}
+            login={fbLogin}
+            quizInputGroups={<?= json_encode($quizInputGroups) ?>}
+            quizParams={<?= json_encode($quizParams) ?>}
+            quizCharacters={<?= json_encode($quizCharacters) ?>}
+            quizObjectFilters={<?= json_encode($quizObjectFilters) ?>}
+            quizResults={<?= json_encode($quizResults) ?>}
+            quizAlerts={<?= json_encode($quizAlerts) ?>}
+            quizShapes={<?= json_encode($quizShapes) ?>}
+            quizInputValidators={<?= json_encode($quizInputValidators) ?>}
+            quizStyles={<?= json_encode($quizStyles) ?>}
+        />,
+        document.getElementById("root")
+    );
 </script>
 <div id="fb-root"></div>
 <script>

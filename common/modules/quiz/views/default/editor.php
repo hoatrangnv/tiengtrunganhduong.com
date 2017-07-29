@@ -45,6 +45,7 @@
                 childConfigs: <?= json_encode($childConfigs) ?>,
                 childrenData: <?= json_encode($childrenData) ?>
             }}
+            imagesAPI="<?= \yii\helpers\Url::to(['image/search'], true) ?>"
         />,
         document.getElementById("root")
     );

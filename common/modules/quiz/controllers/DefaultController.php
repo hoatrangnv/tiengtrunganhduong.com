@@ -2,6 +2,7 @@
 
 namespace common\modules\quiz\controllers;
 
+use common\modules\image\models\Image;
 use common\modules\quiz\baseModels\QuizBase;
 use common\modules\quiz\models\Quiz;
 use common\modules\quiz\models\QuizAlert;
@@ -202,6 +203,21 @@ class DefaultController extends Controller
                 foreach ($modelConfig['attrs'] as $attr) {
                     $attr['value'] = $child->getAttribute($attr['name']);
                     $attr['errorMsg'] = '';
+                    if ($attr['name'] == 'image_id') {
+                        $image = Image::findOne($attr['value']);
+                        if ($image) {
+                            $attr['options'] = [[
+                                'value' => $image->id,
+                                'image' => [
+                                    'name' => $image->name,
+                                    'source' => $image->getSource(),
+                                    'width' => $image->width,
+                                    'height' => $image->height,
+                                    'aspect_ratio' => $image->aspect_ratio,
+                                ]
+                            ]];
+                        }
+                    }
                     $childAttrs[] = $attr;
                     if ($attr['name'] == 'id') {
                         $childData['id'] = "__$type#{$attr['value']}";
@@ -389,7 +405,7 @@ class DefaultController extends Controller
             return $childrenData;
         };
 
-//        foreach ($attrs as &$attr) {
+        foreach ($attrs as &$attr) {
 //            switch ($attr['name']) {
 //                case 'quiz_input_group_filter_ids':
 //                    $attr['value'] = array_map(function ($id)  {
@@ -407,7 +423,22 @@ class DefaultController extends Controller
 //                    }, ArrayHelper::getColumn($quiz->quizResultFilters, 'id'));
 //                    break;
 //            }
-//        }
+            if ($attr['name'] == 'image_id') {
+                $image = Image::findOne($attr['value']);
+                if ($image) {
+                    $attr['options'] = [[
+                        'value' => $image->id,
+                        'image' => [
+                            'name' => $image->name,
+                            'source' => $image->getSource(),
+                            'width' => $image->width,
+                            'height' => $image->height,
+                            'aspect_ratio' => $image->aspect_ratio,
+                        ]
+                    ]];
+                }
+            }
+        }
 
         unset($attr);
 
@@ -426,7 +457,12 @@ class DefaultController extends Controller
         $parseAttrs = function ($attrs) {
             $result = [];
             foreach ($attrs as $attr) {
-                $result[$attr['name']] = $attr['value'];
+                try {
+
+                    $result[$attr['name']] = $attr['value'];
+                } catch (\Exception $e) {
+                    var_dump($attr);
+                }
             }
             return $result;
         };
@@ -453,6 +489,7 @@ class DefaultController extends Controller
             return rand(0, 999999999);
         };
         $task_order = 0;
+        $sort_order = 0;
         $junctions = [
 //            'Quiz' => [
 ///*
@@ -595,7 +632,7 @@ class DefaultController extends Controller
          */
         $loadModels = function (&$data, $parent, $test)
             use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
-                &$loadModels, &$errors, &$task_order, &$junctions) {
+                &$loadModels, &$errors, &$task_order, &$sort_order, &$junctions) {
             // Delete no longer children
             $oldChildren = [];
             if (!$parent->isNewRecord) {
@@ -667,7 +704,9 @@ class DefaultController extends Controller
                         $model->scenario = 'test';
                     }
                     $task_order++;
+                    $sort_order++;
                     $attrs['task_order'] = $task_order;
+                    $attrs['sort_order'] = $sort_order;
 
                     // Each model can has only one of these attributes:
                     // quiz_id, quiz_character_id, quiz_input_group_id, quiz_input_id
@@ -680,6 +719,7 @@ class DefaultController extends Controller
                     $model->setAttributes($attrs);
                     if (!$model->validate()) {
                         $task_order--;
+                        $sort_order--;
                         $errors["{$childData['type']}#{$childData['id']}"] = $model->errors;
                         foreach ($model->errors as $attrName => $errors) {
                             foreach ($childData['attrs'] as &$attr) {

@@ -9,9 +9,9 @@
 namespace common\modules\quiz\controllers;
 
 
+use common\modules\quiz\models\QuizAlert;
 use common\modules\quiz\models\QuizCharacterDataFilter;
 use common\modules\quiz\models\QuizCharacterDataSorter;
-use common\modules\quiz\models\QuizFilter;
 use common\modules\quiz\models\QuizCharacter;
 use common\modules\quiz\models\QuizInput;
 use common\modules\quiz\models\QuizInputGroup;
@@ -19,13 +19,17 @@ use common\modules\quiz\models\QuizInputOption;
 use common\modules\quiz\models\QuizInputValidator;
 use common\modules\quiz\models\QuizObjectFilter;
 use common\modules\quiz\models\QuizParam;
-use common\modules\quiz\models\QuizSorter;
+use common\modules\quiz\models\QuizResult;
+use common\modules\quiz\models\QuizShape;
+use common\modules\quiz\models\QuizStyle;
 use yii\web\Controller;
 use common\modules\quiz\models\Quiz;
 use yii\web\NotFoundHttpException;
 
 class PlayController extends Controller
 {
+    public $layout = '@quiz/views/layouts/antd';
+
     public function actionIndex($id)
     {
         $quiz = $this->findModel($id);
@@ -34,6 +38,10 @@ class PlayController extends Controller
         $quizParams = $quiz->quizParams;
         $quizObjectFilters = $quiz->quizObjectFilters;
         $quizAlerts = $quiz->quizAlerts;
+        $quizResults = $quiz->quizResults;
+        $quizShapes = $quiz->quizShapes;
+        $quizInputValidators = $quiz->quizInputValidators;
+        $quizStyles = $quiz->quizStyles;
 
         $_quizInputGroups = array_map(function ($item) {
             /**
@@ -129,13 +137,71 @@ class PlayController extends Controller
             return $attrs;
         }, $quizObjectFilters);
 
+        $_quizAlerts = array_map(function ($item) {
+            /**
+             * @var $item QuizAlert
+             */
+            $attrs = $item->attributes;
+            return $attrs;
+        }, $quizAlerts);
+
+        $_quizResults = array_map(function ($item) {
+            /**
+             * @var $item QuizResult
+             */
+            $attrs = $item->attributes;
+            $quizCharacterMedia = $item->quizCharacterMedia;
+            $quizShapes = $item->quizShapes;
+            $attrs['quizCharacterMediumIds'] = array_map(function ($item) {
+                return $item->id;
+            }, $quizCharacterMedia);
+            $attrs['quizShapeIds'] = array_map(function ($item) {
+                return $item->id;
+            }, $quizShapes);
+            return $attrs;
+        }, $quizResults);
+
+        $_quizShapes = array_map(function ($item) {
+            /**
+             * @var $item QuizShape
+             */
+            $attrs = $item->attributes;
+            $quizStyles = $item->quizStyles;
+            $attrs['quizStyleIds'] = array_map(function ($item) {
+                return $item->id;
+            }, $quizStyles);
+            return $attrs;
+        }, $quizShapes);
+        $_quizStyles = array_map(function ($item) {
+            /**
+             * @var $item QuizStyle
+             */
+            $attrs = $item->attributes;
+            return $attrs;
+        }, $quizStyles);
+        $_quizInputValidators = array_map(function ($item) {
+            /**
+             * @var $item QuizInputValidator
+             */
+            $attrs = $item->attributes;
+            $quizFn = $item->quizFn;
+            $_quizFn = $quizFn->attributes;
+            $attrs['quizFn'] = $_quizFn;
+            return $attrs;
+        }, $quizInputValidators);
+
+
         return $this->render('index', [
             'quiz' => $quiz,
             'quizCharacters' => $_quizCharacters,
             'quizInputGroups' => $_quizInputGroups,
             'quizParams' => $_quizParams,
             'quizObjectFilters' => $_quizObjectFilters,
-//            'quizResults' => $quizResults,
+            'quizResults' => $_quizResults,
+            'quizAlerts' => $_quizAlerts,
+            'quizShapes' => $_quizShapes,
+            'quizInputValidators' => $_quizInputValidators,
+            'quizStyles' => $_quizStyles,
         ]);
     }
 
