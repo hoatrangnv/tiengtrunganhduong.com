@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'slug',
             [
-                'attribute' => 'category_id',
+                'attribute' => 'parent_id',
                 'format' => 'raw',
                 'value' => function (ArticleCategory $model) {
                     return ($parent = $model->parent) ? $parent->name : $model->parent_id;

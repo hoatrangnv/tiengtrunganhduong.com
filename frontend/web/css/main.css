@@ -150,6 +150,11 @@ article a:hover {
 .fit-content img {
     height: auto !important;
 }
+.table-wrap {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
 
 /**
  * CONTENT POPUP IMAGES
@@ -389,11 +394,13 @@ article a:hover {
 {
     height: 100%;
     width: auto;
+    max-width: none;
 }
 .aspect-ratio .item-view .img-wrap img.portrait,
 .item-view.aspect-ratio .img-wrap img.portrait
 {
     height: auto;
+    max-height: none;
     width: 100%;
 }
 .aspect-ratio .item-view .img-wrap :not(img):first-child,
