@@ -6,5 +6,4 @@ use Yii;
 
 class QuizParam extends \common\modules\quiz\baseModels\QuizParam
 {
-
 }

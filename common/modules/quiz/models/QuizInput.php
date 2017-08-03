@@ -37,6 +37,7 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
                 $newAttr['options'] = [
                     'RadioGroup',
                     'CheckboxGroup',
+                    'Checkbox',
                     'Select',
                     'Text',
                     'Number',
