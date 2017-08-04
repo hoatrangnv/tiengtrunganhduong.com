@@ -219,6 +219,9 @@ class DefaultController extends Controller
                         }
                     } else if ($attr['name'] == 'arguments') {
                         $attr['value'] = json_decode($attr['value']);
+                        if (!is_array($attr['value'])) {
+//                            $attr['value'] = json_decode($attr['value']);
+                        }
                     }
                     $childAttrs[] = $attr;
                     if ($attr['name'] == 'id') {
