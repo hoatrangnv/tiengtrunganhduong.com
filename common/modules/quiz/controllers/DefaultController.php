@@ -217,6 +217,8 @@ class DefaultController extends Controller
                                 ]
                             ]];
                         }
+                    } else if ($attr['name'] == 'arguments') {
+                        $attr['value'] = json_decode($attr['value']);
                     }
                     $childAttrs[] = $attr;
                     if ($attr['name'] == 'id') {
@@ -458,10 +460,13 @@ class DefaultController extends Controller
             $result = [];
             foreach ($attrs as $attr) {
                 try {
-
-                    $result[$attr['name']] = $attr['value'];
+                    if ($attr['name'] == 'arguments') {
+                        $result[$attr['name']] = json_encode($attr['value']);
+                    } else {
+                        $result[$attr['name']] = $attr['value'];
+                    }
                 } catch (\Exception $e) {
-                    var_dump($attr);
+//                    var_dump($attr);
                 }
             }
             return $result;

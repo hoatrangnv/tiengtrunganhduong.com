@@ -27,6 +27,10 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
                             'label' => 'Sau kết quả',
                         ],
                         [
+                            'value' => 'OnSubmit',
+                            'label' => 'Mỗi khi bấm submit câu hỏi hoặc nhóm câu hỏi',
+                        ],
+                        [
                             'value' => 'Never',
                             'label' => 'Không bao giờ',
                         ],
