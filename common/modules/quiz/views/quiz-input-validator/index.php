@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\modules\quiz\searchModels\QuizFn */
+/* @var $searchModel common\modules\quiz\searchModels\QuizInputValidator */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Quiz Fns';
+$this->title = 'Quiz Input Validators';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="quiz-fn-index">
+<div class="quiz-input-validator-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Quiz Fn', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Quiz Input Validator', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'description',
-            'parameters',
-            'body:ntext',
-            // 'guideline:ntext',
+            'arguments',
+            'quiz_fn_id',
+            'quiz_id',
+            // 'error_message',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

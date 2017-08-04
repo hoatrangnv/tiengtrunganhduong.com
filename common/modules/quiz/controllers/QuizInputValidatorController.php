@@ -3,16 +3,16 @@
 namespace common\modules\quiz\controllers;
 
 use Yii;
-use common\modules\quiz\models\QuizFn;
-use common\modules\quiz\searchModels\QuizFn as QuizFnSearch;
+use common\modules\quiz\models\QuizInputValidator;
+use common\modules\quiz\searchModels\QuizInputValidator as QuizInputValidatorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * QuizFnController implements the CRUD actions for QuizFn model.
+ * QuizInputValidatorController implements the CRUD actions for QuizInputValidator model.
  */
-class QuizFnController extends Controller
+class QuizInputValidatorController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class QuizFnController extends Controller
     }
 
     /**
-     * Lists all QuizFn models.
+     * Lists all QuizInputValidator models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new QuizFnSearch();
+        $searchModel = new QuizInputValidatorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class QuizFnController extends Controller
     }
 
     /**
-     * Displays a single QuizFn model.
+     * Displays a single QuizInputValidator model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class QuizFnController extends Controller
     }
 
     /**
-     * Creates a new QuizFn model.
+     * Creates a new QuizInputValidator model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new QuizFn();
+        $model = new QuizInputValidator();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class QuizFnController extends Controller
     }
 
     /**
-     * Updates an existing QuizFn model.
+     * Updates an existing QuizInputValidator model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class QuizFnController extends Controller
     }
 
     /**
-     * Deletes an existing QuizFn model.
+     * Deletes an existing QuizInputValidator model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class QuizFnController extends Controller
     }
 
     /**
-     * Finds the QuizFn model based on its primary key value.
+     * Finds the QuizInputValidator model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return QuizFn the loaded model
+     * @return QuizInputValidator the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = QuizFn::findOne($id)) !== null) {
+        if (($model = QuizInputValidator::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -65,17 +65,20 @@ class PlayController extends Controller
                 $attrs2['quizInputOptions'] = $_quizInputOptions;
 
                 $quizInputValidators = $item2->quizInputValidators;
-                $_quizInputValidators = array_map(function ($item3) {
-                    /**
-                     * @var $item3 QuizInputValidator
-                     */
-                    $attrs3 = $item3->attributes;
-                    $quizFn = $item3->quizFn;
-                    $_quizFn = $quizFn->attributes;
-                    $attrs3['quizFn'] = $_quizFn;
-                    return $attrs3;
+//                $_quizInputValidators = array_map(function ($item3) {
+//                    /**
+//                     * @var $item3 QuizInputValidator
+//                     */
+//                    $attrs3 = $item3->attributes;
+//                    $quizFn = $item3->quizFn;
+//                    $_quizFn = $quizFn->attributes;
+//                    $attrs3['quizFn'] = $_quizFn;
+//                    return $attrs3;
+//                }, $quizInputValidators);
+//                $attrs2['quizInputValidators'] = $_quizInputValidators;
+                $attrs2['quiz_input_validator_ids'] = array_map(function ($item) {
+                    return $item->id;
                 }, $quizInputValidators);
-                $attrs2['quizInputValidators'] = $_quizInputValidators;
 
                 return $attrs2;
             }, $quizInputs);

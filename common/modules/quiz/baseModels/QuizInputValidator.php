@@ -12,6 +12,7 @@ use Yii;
  * @property string $arguments
  * @property integer $quiz_fn_id
  * @property integer $quiz_id
+ * @property string $error_message
  *
  * @property QuizInputToInputValidator[] $quizInputToInputValidators
  * @property QuizInput[] $quizInputs
@@ -36,7 +37,7 @@ class QuizInputValidator extends QuizBase
         return [
             [['name', 'arguments', 'quiz_fn_id'], 'required'],
             [['quiz_fn_id', 'quiz_id'], 'integer'],
-            [['name', 'arguments'], 'string', 'max' => 255],
+            [['name', 'arguments', 'error_message'], 'string', 'max' => 255],
             [['quiz_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['quiz_fn_id' => 'id'], 'except' => 'test'],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
@@ -53,6 +54,7 @@ class QuizInputValidator extends QuizBase
             'arguments' => 'Arguments',
             'quiz_fn_id' => 'Quiz Fn ID',
             'quiz_id' => 'Quiz ID',
+            'error_message' => 'Error Message',
         ];
     }
 

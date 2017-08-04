@@ -594,6 +594,9 @@ class DefaultController extends Controller
 */
             ],
 
+            'QuizInputValidator' => [
+
+            ],
         ];
         $addJunction = function ($data, $model, $jnc_names) use (&$junctions) {
             $ref_ids = [];

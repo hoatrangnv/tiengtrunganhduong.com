@@ -3,6 +3,7 @@
 namespace common\modules\quiz\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class QuizInput extends \common\modules\quiz\baseModels\QuizInput
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace common\modules\quiz\models;
+namespace common\modules\quiz\searchModels;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\modules\quiz\models\QuizFn;
+use common\modules\quiz\models\QuizFn as QuizFnModel;
 
 /**
- * QuizFnSearch represents the model behind the search form about `common\modules\quiz\models\QuizFn`.
+ * QuizFn represents the model behind the search form about `common\modules\quiz\models\QuizFn`.
  */
-class QuizFnSearch extends QuizFn
+class QuizFn extends QuizFnModel
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class QuizFnSearch extends QuizFn
     {
         return [
             [['id'], 'integer'],
-            [['name', 'parameters', 'body'], 'safe'],
+            [['name', 'description', 'parameters', 'body', 'guideline'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class QuizFnSearch extends QuizFn
      */
     public function search($params)
     {
-        $query = QuizFn::find();
+        $query = QuizFnModel::find();
 
         // add conditions that should always apply here
 
@@ -63,8 +63,10 @@ class QuizFnSearch extends QuizFn
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'parameters', $this->parameters])
-            ->andFilterWhere(['like', 'body', $this->body]);
+            ->andFilterWhere(['like', 'body', $this->body])
+            ->andFilterWhere(['like', 'guideline', $this->guideline]);
 
         return $dataProvider;
     }

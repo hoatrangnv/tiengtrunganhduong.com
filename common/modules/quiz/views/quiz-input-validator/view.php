@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\modules\quiz\models\QuizFn */
+/* @var $model common\modules\quiz\models\QuizInputValidator */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Quiz Fns', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Quiz Input Validators', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="quiz-fn-view">
+<div class="quiz-input-validator-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,10 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'description',
-            'parameters',
-            'body:ntext',
-            'guideline:ntext',
+            'arguments',
+            'quiz_fn_id',
+            'quiz_id',
+            'error_message',
         ],
     ]) ?>
 

@@ -26,3 +26,5 @@ php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_qui
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_result_and_quiz_character_medium_for_quiz_result_and_quiz_character_medium_tables
 php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_quiz_input_and_quiz_input_validator_for_quiz_input_and_quiz_input_validator_tables
 
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_error_message_column_to_quiz_input_validator_table --fields="error_message:string"
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_guideline_column_to_quiz_fn_table --fields="guideline:text"
