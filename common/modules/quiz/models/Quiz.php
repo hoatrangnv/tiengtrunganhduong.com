@@ -72,7 +72,7 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
             [['name', 'slug', 'publish_time'], 'required'],
             [['introduction'], 'string'],
             [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'image_id', 'quiz_category_id'], 'integer'],
-            [['name', 'slug', 'meta_title'], 'string', 'max' => 255],
+            [['name', 'slug', 'meta_title', 'input_answers_showing'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],

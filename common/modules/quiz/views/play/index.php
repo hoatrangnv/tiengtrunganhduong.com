@@ -30,6 +30,7 @@
             introduction={<?=json_encode($quiz->introduction) ?>}
             image_src={<?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>}
             login={fbLogin}
+            input_answers_showing={<?= json_encode($quiz->input_answers_showing) ?>}
             quizInputGroups={<?= json_encode($quizInputGroups) ?>}
             quizParams={<?= json_encode($quizParams) ?>}
             quizCharacters={<?= json_encode($quizCharacters) ?>}
