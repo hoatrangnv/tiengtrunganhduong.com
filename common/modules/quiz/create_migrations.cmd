@@ -28,3 +28,4 @@ php yii my-migrate/create --migrationPath="@quiz/migrations" create_junction_qui
 
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_error_message_column_to_quiz_input_validator_table --fields="error_message:string"
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_guideline_column_to_quiz_fn_table --fields="guideline:text"
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_is_open_question_column_to_quiz_input_table --fields="is_open_question:smallInteger(1)"

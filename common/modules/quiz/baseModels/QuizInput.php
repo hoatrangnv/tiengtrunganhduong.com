@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property string $var_name
  * @property string $type
+ * @property integer $is_open_question
  * @property string $question
  * @property string $answer
  * @property integer $sort_order
@@ -40,8 +41,8 @@ class QuizInput extends QuizBase
     {
         return [
             [['name', 'var_name', 'type', 'quiz_input_group_id'], 'required'],
+            [['is_open_question', 'sort_order', 'options_per_row', 'options_per_small_row', 'quiz_input_group_id'], 'integer'],
             [['question', 'answer'], 'string'],
-            [['sort_order', 'options_per_row', 'options_per_small_row', 'quiz_input_group_id'], 'integer'],
             [['name', 'var_name', 'type'], 'string', 'max' => 255],
             [['quiz_input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['quiz_input_group_id' => 'id'], 'except' => 'test'],
         ];
@@ -57,6 +58,7 @@ class QuizInput extends QuizBase
             'name' => 'Name',
             'var_name' => 'Var Name',
             'type' => 'Type',
+            'is_open_question' => 'Is Open Question',
             'question' => 'Question',
             'answer' => 'Answer',
             'sort_order' => 'Sort Order',

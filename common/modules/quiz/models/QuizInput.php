@@ -11,16 +11,6 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
     {
         $modelConfig = parent::modelConfig();
 
-//        $modelConfig['attrs'][] = [
-//            'type' => 'MultipleSelect',
-//            'name' => 'quiz_input_option_filter_ids',
-//            'label' => 'Quiz input option filters',
-//            'value' => [],
-//            'errorMsg' => '',
-//            'options' => '@list QuizFilter',
-//            'rules' => [],
-//        ];
-
         $modelConfig['attrs'][] = [
             'type' => 'MultipleSelect',
             'name' => 'quiz_input_validator_ids',

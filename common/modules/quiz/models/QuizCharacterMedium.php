@@ -10,25 +10,14 @@ class QuizCharacterMedium extends \common\modules\quiz\baseModels\QuizCharacterM
     {
         $modelConfig = parent::modelConfig();
 
-//        $modelConfig['attrs'][] = [
-//            'type' => 'MultipleSelect',
-//            'name' => 'quiz_filter_ids',
-//            'label' => 'Quiz filters',
-//            'value' => [],
-//            'errorMsg' => '',
-//            'options' => '@list QuizFilter',
-//            'rules' => [],
-//        ];
-//
-//        $modelConfig['attrs'][] = [
-//            'type' => 'MultipleSelect',
-//            'name' => 'quiz_sorter_ids',
-//            'label' => 'Quiz sorters',
-//            'value' => [],
-//            'errorMsg' => '',
-//            'options' => '@list QuizSorter',
-//            'rules' => [],
-//        ];
+        foreach ($modelConfig['attrs'] as &$attr) {
+            if ($attr['name'] === 'type') {
+                $attr['type'] = 'RadioGroup';
+                $attr['options'] = [
+                    'Avatar',
+                ];
+            }
+        }
 
         $modelConfig['attrs'][] = [
             'type' => 'MultipleSelect',

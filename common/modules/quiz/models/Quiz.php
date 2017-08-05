@@ -18,17 +18,17 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
                 case 'input_answers_showing':
                     $newAttr['type'] = 'Select';
                     $newAttr['options'] = [
-                        [
-                            'value' => 'AfterInputGroup',
-                            'label' => 'Sau mỗi nhóm câu hỏi',
-                        ],
-                        [
-                            'value' => 'AfterResult',
-                            'label' => 'Sau kết quả',
-                        ],
+//                        [
+//                            'value' => 'AfterInputGroup',
+//                            'label' => 'Sau mỗi nhóm câu hỏi',
+//                        ],
+//                        [
+//                            'value' => 'AfterResult',
+//                            'label' => 'Sau kết quả',
+//                        ],
                         [
                             'value' => 'OnSubmit',
-                            'label' => 'Mỗi khi bấm submit câu hỏi hoặc nhóm câu hỏi',
+                            'label' => 'Mỗi khi bấm submit câu trả lời',
                         ],
                         [
                             'value' => 'Never',

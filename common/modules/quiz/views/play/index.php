@@ -51,9 +51,8 @@
             if (response.authResponse) {
                 console.log('Welcome!  Fetching your information.... ');
                 FB.api('/me', function(response) {
-                    console.log('Good to see you, ' + response.name + '.');
-                    response._quiz_character_type = "player";
-                    console.log(response);
+                    response.quiz_character_type = "Player";
+                    console.log("Login response:", response);
                     var res = {};
                     res.charactersRealData = [response];
                     callback(res);
