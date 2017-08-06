@@ -757,13 +757,13 @@ class DefaultController extends Controller
 //                                'quiz_shape_filter_ids',
                             ]);
                             break;
-//                        case 'QuizCharacterMedium':
-//                            $addJunction($childData, $model, [
+                        case 'QuizCharacterMedium':
+                            $addJunction($childData, $model, [
 //                                'quiz_filter_ids',
 //                                'quiz_sorter_ids',
-//                                'quiz_style_ids',
-//                            ]);
-//                            break;
+                                'quiz_style_ids',
+                            ]);
+                            break;
 //                        case 'QuizCharacter':
 //                            $addJunction($childData, $model, [
 //                                'quiz_filter_ids',

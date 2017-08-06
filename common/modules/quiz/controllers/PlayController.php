@@ -146,8 +146,17 @@ class PlayController extends Controller
                     $attrs3['quizFn'] = $_quizFn;
                     return $attrs3;
                 }, $quizCharacterMediumDataSorters);
+
+                $quizStyles = $item2->quizStyles;
+                $_quizStyleIds = array_map(function ($item3) {
+                    /**
+                     * @var $item3 QuizStyle;
+                     */
+                    return $item3->id;
+                }, $quizStyles);
                 $attrs2['quizCharacterMediumDataFilters'] = $_quizCharacterMediumDataFilters;
                 $attrs2['quizCharacterMediumDataSorters'] = $_quizCharacterMediumDataSorters;
+                $attrs2['quiz_style_ids'] = $_quizStyleIds;
                 return $attrs2;
             }, $quizCharacterMedia);
             $attrs['quizCharacterDataSorters'] = $_quizSorters;

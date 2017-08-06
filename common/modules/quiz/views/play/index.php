@@ -5,6 +5,7 @@
  * Date: 7/23/2017
  * Time: 3:29 AM
  */
+use yii\helpers\Url;
 \common\modules\quiz\QuizEditorAsset::register($this);
 /**
  *
@@ -48,35 +49,60 @@
 <script>
     var userID;
     var accessToken;
-    function requestUserData(userType, mediumTypes, callback) {
+    function requestUserData(userType, media, callback) {
         switch (userType) {
             case "Player":
-                getUserData(userID, accessToken);
+                getUserData(userID, accessToken, function (userData) {
+                    var mediaData = {};
+                    var mediaLoaded = 0;
+                    media.forEach(function (medium) {
+                        switch (medium.type) {
+                            case "Avatar":
+                                mediaData.Avatar = [];
+                                getUserAvatarData(
+                                    userID,
+                                    medium.width,
+                                    medium.height,
+                                    function (mediumData) {
+                                        mediaData.Avatar.push(mediumData);
+                                        mediaLoaded++;
+                                    }
+                                );
+                                break;
+                        }
+                    });
+                    var interval = setInterval(function () {
+                        if (mediaLoaded == media.length) {
+                            clearInterval(interval);
+                            callback(userData, mediaData);
+                        }
+                    }, 10);
+                });
                 break;
             case "PlayerFriend":
                 break;
         }
     }
-    function getUserData(userID, accessToken) {
+    function getUserAvatarData(userID, width, height, callback) {
+        callback({
+            image_src: "<?= Url::to(['/quiz/facebook/get-user-avatar']) ?>" +
+                "?userID=" + userID + "&width=" + width + "&height=" + height
+        });
+    }
+    function getUserData(userID, accessToken, callback) {
         var fd = new FormData();
         fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
         fd.append("userID", userID);
         fd.append("accessToken", accessToken);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<?= \yii\helpers\Url::to(['/quiz/facebook/get-user-data']) ?>", true);
+        xhr.open("POST", "<?= Url::to(['/quiz/facebook/get-user-data']) ?>", true);
         xhr.onload = function() {
             if (this.status == 200) {
                 var response = JSON.parse(this.response);
                 console.log("user data", response);
-//                if (response && !response.error_message) {
-//                    user.logged = true;
-//                    user.id = response.id;
-//                    user.name = response.name;
-//                    user.first_name = response.first_name;
-//                    user.last_name = response.last_name;
-//                    user.gender = response.gender || "female";
-//                    user.image = "";
-//                }
+                if (response && !response.errorMsg) {
+                    callback(response.data);
+                }
             } else {
 
             }

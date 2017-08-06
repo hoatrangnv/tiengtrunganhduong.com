@@ -14,6 +14,8 @@ use Yii;
  * @property integer $index
  * @property integer $task_order
  * @property integer $quiz_character_id
+ * @property integer $width
+ * @property integer $height
  *
  * @property QuizCharacter $quizCharacter
  * @property QuizCharacterMediumDataFilter[] $quizCharacterMediumDataFilters
@@ -40,7 +42,7 @@ class QuizCharacterMedium extends QuizBase
     {
         return [
             [['name', 'var_name', 'type', 'index', 'task_order', 'quiz_character_id'], 'required'],
-            [['index', 'task_order', 'quiz_character_id'], 'integer'],
+            [['index', 'task_order', 'quiz_character_id', 'width', 'height'], 'integer'],
             [['name', 'var_name', 'type'], 'string', 'max' => 255],
             [['quiz_character_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacter::className(), 'targetAttribute' => ['quiz_character_id' => 'id'], 'except' => 'test'],
         ];
@@ -59,6 +61,8 @@ class QuizCharacterMedium extends QuizBase
             'index' => 'Index',
             'task_order' => 'Task Order',
             'quiz_character_id' => 'Quiz Character ID',
+            'width' => 'Width',
+            'height' => 'Height',
         ];
     }
 
