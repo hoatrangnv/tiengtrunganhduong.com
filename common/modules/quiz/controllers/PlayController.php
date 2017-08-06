@@ -13,6 +13,9 @@ use common\modules\quiz\models\QuizAlert;
 use common\modules\quiz\models\QuizCharacterDataFilter;
 use common\modules\quiz\models\QuizCharacterDataSorter;
 use common\modules\quiz\models\QuizCharacter;
+use common\modules\quiz\models\QuizCharacterMedium;
+use common\modules\quiz\models\QuizCharacterMediumDataFilter;
+use common\modules\quiz\models\QuizCharacterMediumDataSorter;
 use common\modules\quiz\models\QuizInput;
 use common\modules\quiz\models\QuizInputGroup;
 use common\modules\quiz\models\QuizInputOption;
@@ -113,8 +116,43 @@ class PlayController extends Controller
                 $attrs2['quizFn'] = $_quizFn;
                 return $attrs2;
             }, $quizFilters);
+            $quizCharacterMedia = $item->quizCharacterMedia;
+            $_quizCharacterMedia = array_map(function ($item2) {
+                /**
+                 * @var $item2 QuizCharacterMedium
+                 */
+                $attrs2 = $item2->attributes;
+
+                $quizCharacterMediumDataFilters = $item2->quizCharacterMediumDataFilters;
+                $_quizCharacterMediumDataFilters = array_map(function ($item3) {
+                    /**
+                     * @var $item3 QuizCharacterMediumDataFilter
+                     */
+                    $attrs3 = $item3->attributes;
+                    $quizFn = $item3->quizFn;
+                    $_quizFn = $quizFn->attributes;
+                    $attrs3['quizFn'] = $_quizFn;
+                    return $attrs3;
+                }, $quizCharacterMediumDataFilters);
+
+                $quizCharacterMediumDataSorters = $item2->quizCharacterMediumDataSorters;
+                $_quizCharacterMediumDataSorters = array_map(function ($item3) {
+                    /**
+                     * @var $item3 QuizCharacterMediumDataSorter
+                     */
+                    $attrs3 = $item3->attributes;
+                    $quizFn = $item3->quizFn;
+                    $_quizFn = $quizFn->attributes;
+                    $attrs3['quizFn'] = $_quizFn;
+                    return $attrs3;
+                }, $quizCharacterMediumDataSorters);
+                $attrs2['quizCharacterMediumDataFilters'] = $_quizCharacterMediumDataFilters;
+                $attrs2['quizCharacterMediumDataSorters'] = $_quizCharacterMediumDataSorters;
+                return $attrs2;
+            }, $quizCharacterMedia);
             $attrs['quizCharacterDataSorters'] = $_quizSorters;
             $attrs['quizCharacterDataFilters'] = $_quizFilters;
+            $attrs['quizCharacterMedia'] = $_quizCharacterMedia;
             return $attrs;
         }, $quizCharacters);
 

@@ -30,6 +30,7 @@
             introduction={<?=json_encode($quiz->introduction) ?>}
             image_src={<?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>}
             login={fbLogin}
+            requestCharacterRealData={requestUserData}
             input_answers_showing={<?= json_encode($quiz->input_answers_showing) ?>}
             quizInputGroups={<?= json_encode($quizInputGroups) ?>}
             quizParams={<?= json_encode($quizParams) ?>}
@@ -45,17 +46,53 @@
     );
 </script>
 <script>
+    var userID;
+    var accessToken;
+    function requestUserData(userType, mediumTypes, callback) {
+        switch (userType) {
+            case "Player":
+                getUserData(userID, accessToken);
+                break;
+            case "PlayerFriend":
+                break;
+        }
+    }
+    function getUserData(userID, accessToken) {
+        var fd = new FormData();
+        fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
+        fd.append("userID", userID);
+        fd.append("accessToken", accessToken);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "<?= \yii\helpers\Url::to(['/quiz/facebook/get-user-data']) ?>", true);
+        xhr.onload = function() {
+            if (this.status == 200) {
+                var response = JSON.parse(this.response);
+                console.log("user data", response);
+//                if (response && !response.error_message) {
+//                    user.logged = true;
+//                    user.id = response.id;
+//                    user.name = response.name;
+//                    user.first_name = response.first_name;
+//                    user.last_name = response.last_name;
+//                    user.gender = response.gender || "female";
+//                    user.image = "";
+//                }
+            } else {
+
+            }
+        };
+        xhr.upload.onprogress = function(event) {
+        };
+        xhr.send(fd);
+    }
     function fbLogin(callback) {
         FB.login(function(response) {
+            console.log("response", response);
             if (response.authResponse) {
                 console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me', function(response) {
-                    response.quiz_character_type = "Player";
-                    console.log("Login response:", response);
-                    var res = {};
-                    res.charactersRealData = [response];
-                    callback(res);
-                });
+                accessToken = response.authResponse.accessToken;
+                userID = response.authResponse.userID;
+                callback();
             } else {
                 console.log('User cancelled login or did not fully authorize.');
             }

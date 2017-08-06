@@ -25,7 +25,8 @@
         "vanquyet/yii2-menu": "dev-master",
         "mobiledetect/mobiledetectlib": "^2.8",
         "paquettg/php-html-parser": "*",
-        "lullabot/amp": "dev-master#49b376e9c8bb5295efdd31378aa22192c60fac46"
+        "lullabot/amp": "dev-master#49b376e9c8bb5295efdd31378aa22192c60fac46",
+        "facebook/graph-sdk": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
