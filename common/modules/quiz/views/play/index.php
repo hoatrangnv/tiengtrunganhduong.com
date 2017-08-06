@@ -44,7 +44,6 @@
         document.getElementById("root")
     );
 </script>
-<div id="fb-root"></div>
 <script>
     function fbLogin(callback) {
         FB.login(function(response) {

@@ -10,6 +10,12 @@ class QuizShape extends \common\modules\quiz\baseModels\QuizShape
     {
         $modelConfig = parent::modelConfig();
 
+        foreach ($modelConfig['attrs'] as &$attr) {
+            if ($attr['name'] == 'text') {
+                $attr['type'] = 'TextArea';
+            }
+        }
+
         $modelConfig['attrs'][] = [
             'type' => 'MultipleSelect',
             'name' => 'quiz_style_ids',

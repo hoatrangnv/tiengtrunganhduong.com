@@ -72,7 +72,7 @@ class QuizBase extends ActiveRecord
                         $type = 'Text';
                         break;
                     case Schema::TYPE_TEXT:
-                        $type = 'TextArea';
+                        $type = 'RichText';
                         break;
                     case Schema::TYPE_INTEGER:
                     case Schema::TYPE_FLOAT:

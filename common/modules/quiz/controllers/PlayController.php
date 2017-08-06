@@ -155,10 +155,10 @@ class PlayController extends Controller
             $attrs = $item->attributes;
             $quizCharacterMedia = $item->quizCharacterMedia;
             $quizShapes = $item->quizShapes;
-            $attrs['quizCharacterMediumIds'] = array_map(function ($item) {
+            $attrs['quiz_character_medium_ids'] = array_map(function ($item) {
                 return $item->id;
             }, $quizCharacterMedia);
-            $attrs['quizShapeIds'] = array_map(function ($item) {
+            $attrs['quiz_shape_ids'] = array_map(function ($item) {
                 return $item->id;
             }, $quizShapes);
             return $attrs;
@@ -170,9 +170,10 @@ class PlayController extends Controller
              */
             $attrs = $item->attributes;
             $quizStyles = $item->quizStyles;
-            $attrs['quizStyleIds'] = array_map(function ($item) {
+            $attrs['quiz_style_ids'] = array_map(function ($item) {
                 return $item->id;
             }, $quizStyles);
+            $attrs['image_src'] = $item->image ? $item->image->getSource() : '';
             return $attrs;
         }, $quizShapes);
         $_quizStyles = array_map(function ($item) {
