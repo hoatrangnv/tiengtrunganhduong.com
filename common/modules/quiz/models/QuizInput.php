@@ -34,6 +34,7 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
                     'Number',
                     'Datetime',
                     'Date',
+                    'WordGuessing',
                 ];
             }
             $attr = $newAttr;

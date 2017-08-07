@@ -30,3 +30,4 @@ php yii my-migrate/create --migrationPath="@quiz/migrations" add_error_message_c
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_guideline_column_to_quiz_fn_table --fields="guideline:text"
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_is_open_question_column_to_quiz_input_table --fields="is_open_question:smallInteger(1)"
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_width_column_height_column_to_quiz_character_medium_table --fields="width:integer,height:integer"
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_type_column_to_quiz_result_table --fields="type:string:notNull"

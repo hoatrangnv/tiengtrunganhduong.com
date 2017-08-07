@@ -10,6 +10,23 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
     {
         $modelConfig = parent::modelConfig();
 
+        foreach ($modelConfig['attrs'] as &$attr) {
+            $newAttr = $attr;
+            if ($newAttr['name'] === 'type') {
+                $newAttr['type'] = 'Select';
+                $newAttr['options'] = [
+                    'Bad',
+                    'Good',
+                    'Excellent',
+                    'Funny',
+                    'Sad',
+                    'Happy',
+                    'Default',
+                ];
+            }
+            $attr = $newAttr;
+        }
+
         $modelConfig['attrs'][] = [
             'type' => 'MultipleSelect',
             'name' => 'quiz_shape_ids',
@@ -29,26 +46,6 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
             'options' => '@list QuizCharacterMedium',
             'rules' => [],
         ];
-
-//        $modelConfig['attrs'][] = [
-//            'type' => 'MultipleSelect',
-//            'name' => 'quiz_shape_filter_ids',
-//            'label' => 'Quiz shape filters',
-//            'value' => [],
-//            'errorMsg' => '',
-//            'options' => '@list QuizFilter',
-//            'rules' => [],
-//        ];
-//
-//        $modelConfig['attrs'][] = [
-//            'type' => 'MultipleSelect',
-//            'name' => 'quiz_character_medium_filter_ids',
-//            'label' => 'Quiz character medium filters',
-//            'value' => [],
-//            'errorMsg' => '',
-//            'options' => '@list QuizFilter',
-//            'rules' => [],
-//        ];
 
         return $modelConfig;
     }

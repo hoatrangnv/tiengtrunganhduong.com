@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $type
  * @property string $title
  * @property string $description
  * @property string $content
@@ -41,10 +42,10 @@ class QuizResult extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'canvas_width', 'canvas_height', 'quiz_id'], 'required'],
+            [['name', 'type', 'canvas_width', 'canvas_height', 'quiz_id'], 'required'],
             [['content'], 'string'],
             [['priority', 'canvas_width', 'canvas_height', 'quiz_id'], 'integer'],
-            [['name', 'title'], 'string', 'max' => 255],
+            [['name', 'type', 'title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 511],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
@@ -58,6 +59,7 @@ class QuizResult extends QuizBase
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'type' => 'Type',
             'title' => 'Title',
             'description' => 'Description',
             'content' => 'Content',
