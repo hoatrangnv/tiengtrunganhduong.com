@@ -51,13 +51,13 @@ class PlayController extends Controller
              * @var $item QuizInputGroup
              */
             $attrs = $item->attributes;
-            $quizInputs = $item->quizInputs;
+            $quizInputs = $item->getQuizInputs()->orderBy('sort_order asc')->all();
             $_quizInputs = array_map(function ($item2) {
                 /**
                  * @var $item2 QuizInput
                  */
                 $attrs2 = $item2->attributes;
-                $quizInputOptions = $item2->quizInputOptions;
+                $quizInputOptions = $item2->getQuizInputOptions()->orderBy('sort_order asc')->all();
                 $_quizInputOptions = array_map(function ($item3) {
                     /**
                      * @var $item3 QuizInputOption
