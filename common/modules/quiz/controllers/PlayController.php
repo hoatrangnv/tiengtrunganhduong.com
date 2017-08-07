@@ -63,6 +63,12 @@ class PlayController extends Controller
                      * @var $item3 QuizInputOption
                      */
                     $attrs3 = $item3->attributes;
+                    $quizInputOptionToVotedResults = $item3->quizInputOptionToVotedResults;
+                    $quiz_results_votes = [];
+                    foreach ($quizInputOptionToVotedResults as $result_votes) {
+                        $quiz_results_votes[$result_votes->quiz_voted_result_id] = $result_votes->votes;
+                    }
+                    $attrs3['quiz_results_votes'] = $quiz_results_votes;
                     return $attrs3;
                 }, $quizInputOptions);
                 $attrs2['quizInputOptions'] = $_quizInputOptions;

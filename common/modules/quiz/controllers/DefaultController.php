@@ -1091,7 +1091,8 @@ class DefaultController extends Controller
                                     'QuizResult',
                                     '\common\modules\quiz\models\QuizInputOptionToVotedResult',
                                     'quiz_input_option_id',
-                                    'quiz_voted_result_id'
+                                    'quiz_voted_result_id',
+                                    ['votes' => 1]
                                 );
                                 break;
                         }
