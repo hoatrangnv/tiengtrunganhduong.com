@@ -50,8 +50,8 @@ class FacebookController extends Controller
 
         $response['data'] = [
             'name' => $user->getName(),
-            'firstName' => $user->getFirstName(),
-            'lastName' => $user->getLastName(),
+            'first_name' => $user->getFirstName(),
+            'last_name' => $user->getLastName(),
             'gender' => $user->getGender(),
             'birthday' => $user->getBirthday(),
         ];

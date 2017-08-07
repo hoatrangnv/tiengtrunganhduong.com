@@ -85,8 +85,16 @@ use yii\helpers\Url;
     }
     function getUserAvatarData(userID, width, height, callback) {
         callback({
-            image_src: "<?= Url::to(['/quiz/facebook/get-user-avatar']) ?>" +
-                "?userID=" + userID + "&width=" + width + "&height=" + height
+            image_src:
+                "<?= Url::to([
+                    '/quiz/facebook/get-user-avatar',
+                    'userID' => '__userID__',
+                    'width' => '__width__',
+                    'height' => '__height__'
+                ]) ?>"
+                    .split("__userID__").join(userID)
+                    .split("__width__").join(width)
+                    .split("__height__").join(height)
         });
     }
     function getUserData(userID, accessToken, callback) {
