@@ -23,8 +23,6 @@ use yii\bootstrap\NavBar;
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-<div id="root"></div>
 <?= $content ?>
 <?php $this->endBody() ?>
 </body>
