@@ -29,7 +29,6 @@ class QuizEditorAsset extends AssetBundle
 //        'js/react-input-autosize.js',
 //        'js/react-select.js',
 //        'js/common.js',
-//        'js/bundle.js',
 //        'js/app.js',
 //        '//cdn.ckeditor.com/4.6.1/standard/ckeditor.js',
 //        'js/react-sortable-hoc.js',
@@ -38,7 +37,8 @@ class QuizEditorAsset extends AssetBundle
 
 //        'http://localhost:8000/common.js',
 //        'http://localhost:8000/index.js',
-        'http://localhost:3000/static/js/bundle.js',
+        'js/bundle.js',
+//        'http://localhost:3000/static/js/bundle.js',
     ];
 
     public $depends = [
