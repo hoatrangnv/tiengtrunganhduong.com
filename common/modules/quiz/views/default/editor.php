@@ -12,16 +12,30 @@
  * @var array $childConfigs
  * @var array $childrenData
  */
+use yii\helpers\Url;
 use \common\modules\quiz\QuizEditorAsset;
 use common\modules\quiz\LocalQuizEditorAsset;
+
 if (Yii::$app->request->get('use_local_asset') == 1) {
     LocalQuizEditorAsset::register($this);
 } else {
     QuizEditorAsset::register($this);
 };
 ?>
-<div id="root"></div>
-<script type="text/babel">
+<div id="quiz-editor-root"></div>
+<script>
+    window.QuizEditorRoot = document.getElementById("quiz-editor-root");
+    window.QuizEditorProps = {
+        save: save,
+        model: {
+            type: <?= json_encode($type) ?>,
+            attrs: <?= json_encode($attrs) ?>,
+            childConfigs: <?= json_encode($childConfigs) ?>,
+            childrenData: <?= json_encode($childrenData) ?>
+        },
+        imagesAPI: <?= json_encode(Url::to(['image/search'], true)) ?>
+    };
+    //==========================================
     function save(state, callback) {
         var fd = new FormData();
         fd.append("state", JSON.stringify(state));
@@ -42,19 +56,4 @@ if (Yii::$app->request->get('use_local_asset') == 1) {
         xhr.send(fd);
 
     }
-
-    ReactDOM.render(
-        <QuizEditor
-            save={save}
-            model={{
-                type: <?= json_encode($type) ?>,
-                attrs: <?= json_encode($attrs) ?>,
-                childConfigs: <?= json_encode($childConfigs) ?>,
-                childrenData: <?= json_encode($childrenData) ?>
-            }}
-            imagesAPI="<?= \yii\helpers\Url::to(['image/search'], true) ?>"
-        />,
-        document.getElementById("root")
-    );
-
 </script>
