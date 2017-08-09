@@ -11,7 +11,7 @@ namespace common\modules\quiz;
 
 use yii\web\AssetBundle;
 
-class QuizEditorAsset extends AssetBundle
+class LocalQuizEditorAsset extends AssetBundle
 {
     public $sourcePath = '@quiz/assets';
 
@@ -37,8 +37,8 @@ class QuizEditorAsset extends AssetBundle
 
 //        'http://localhost:8000/common.js',
 //        'http://localhost:8000/index.js',
-        'js/bundle.js',
-//        'http://localhost:3000/static/js/bundle.js',
+//        'js/bundle.js',
+        'http://localhost:3000/static/js/bundle.js',
     ];
 
     public $depends = [

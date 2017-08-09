@@ -6,7 +6,14 @@
  * Time: 3:29 AM
  */
 use yii\helpers\Url;
-\common\modules\quiz\QuizEditorAsset::register($this);
+use \common\modules\quiz\QuizEditorAsset;
+use common\modules\quiz\LocalQuizEditorAsset;
+if (Yii::$app->request->get('use-local-js') == 1) {
+    LocalQuizEditorAsset::register($this);
+} else {
+    QuizEditorAsset::register($this);
+}
+
 /**
  *
  * @var $quiz \common\modules\quiz\models\Quiz

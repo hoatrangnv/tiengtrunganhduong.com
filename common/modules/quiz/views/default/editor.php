@@ -12,7 +12,13 @@
  * @var array $childConfigs
  * @var array $childrenData
  */
-\common\modules\quiz\QuizEditorAsset::register($this);
+use \common\modules\quiz\QuizEditorAsset;
+use common\modules\quiz\LocalQuizEditorAsset;
+if (Yii::$app->request->get('use-local-js') == 1) {
+    LocalQuizEditorAsset::register($this);
+} else {
+    QuizEditorAsset::register($this);
+};
 ?>
 <div id="root"></div>
 <script type="text/babel">
