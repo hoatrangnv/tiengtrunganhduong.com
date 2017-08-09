@@ -18,6 +18,7 @@ class LocalQuizEditorAsset extends AssetBundle
     public $jsOptions = ['position' => \yii\web\View::POS_END];
 
     public $css = [
+
     ];
 
     public $js = [
