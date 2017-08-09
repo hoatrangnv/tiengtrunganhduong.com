@@ -8,7 +8,7 @@
 use yii\helpers\Url;
 use \common\modules\quiz\QuizEditorAsset;
 use common\modules\quiz\LocalQuizEditorAsset;
-if (Yii::$app->request->get('use-local-js') == 1) {
+if (Yii::$app->request->get('use-local-asset') == 1) {
     LocalQuizEditorAsset::register($this);
 } else {
     QuizEditorAsset::register($this);
