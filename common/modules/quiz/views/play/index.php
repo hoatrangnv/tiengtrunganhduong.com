@@ -6,12 +6,12 @@
  * Time: 3:29 AM
  */
 use yii\helpers\Url;
-use \common\modules\quiz\QuizEditorAsset;
-use common\modules\quiz\LocalQuizEditorAsset;
-if (Yii::$app->request->get('use-local-asset') == 1) {
-    LocalQuizEditorAsset::register($this);
+use \common\modules\quiz\QuizPlayAsset;
+use common\modules\quiz\LocalQuizPlayAsset;
+if (Yii::$app->request->get('use_local_asset') == 1) {
+    LocalQuizPlayAsset::register($this);
 } else {
-    QuizEditorAsset::register($this);
+    QuizPlayAsset::register($this);
 }
 
 /**
@@ -28,32 +28,27 @@ if (Yii::$app->request->get('use-local-asset') == 1) {
  * @var $quizAlerts \common\modules\quiz\models\QuizAlert[]
  */
 ?>
-<div id="root"></div>
-<script type="text/babel">
-    "use strict";
-
-    ReactDOM.render(
-        <Quiz
-            name={<?= json_encode($quiz->name) ?>}
-            introduction={<?=json_encode($quiz->introduction) ?>}
-            image_src={<?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>}
-            login={fbLogin}
-            requestCharacterRealData={requestUserData}
-            input_answers_showing={<?= json_encode($quiz->input_answers_showing) ?>}
-            quizInputGroups={<?= json_encode($quizInputGroups) ?>}
-            quizParams={<?= json_encode($quizParams) ?>}
-            quizCharacters={<?= json_encode($quizCharacters) ?>}
-            quizObjectFilters={<?= json_encode($quizObjectFilters) ?>}
-            quizResults={<?= json_encode($quizResults) ?>}
-            quizAlerts={<?= json_encode($quizAlerts) ?>}
-            quizShapes={<?= json_encode($quizShapes) ?>}
-            quizInputValidators={<?= json_encode($quizInputValidators) ?>}
-            quizStyles={<?= json_encode($quizStyles) ?>}
-        />,
-        document.getElementById("root")
-    );
-</script>
+<div id="quiz-play-root"></div>
 <script>
+    window.QuizPlayRoot = document.getElementById("quiz-play-root");
+    window.QuizPlayProps = {
+        name: <?= json_encode($quiz->name) ?>,
+        introduction: <?=json_encode($quiz->introduction) ?>,
+        image_src: <?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>,
+        login: fbLogin,
+        requestCharacterRealData: requestUserData,
+        input_answers_showing: <?= json_encode($quiz->input_answers_showing) ?>,
+        quizInputGroups: <?= json_encode($quizInputGroups) ?>,
+        quizParams: <?= json_encode($quizParams) ?>,
+        quizCharacters: <?= json_encode($quizCharacters) ?>,
+        quizObjectFilters: <?= json_encode($quizObjectFilters) ?>,
+        quizResults: <?= json_encode($quizResults) ?>,
+        quizAlerts: <?= json_encode($quizAlerts) ?>,
+        quizShapes: <?= json_encode($quizShapes) ?>,
+        quizInputValidators: <?= json_encode($quizInputValidators) ?>,
+        quizStyles: <?= json_encode($quizStyles) ?>
+    };
+    //==============================================
     var userID;
     var accessToken;
     function requestUserData(userType, media, callback) {
