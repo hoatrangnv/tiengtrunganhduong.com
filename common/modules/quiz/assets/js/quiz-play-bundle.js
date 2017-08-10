@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3671ff2039385c8a645a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "40af051fe0759f5d0262"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -1603,7 +1603,7 @@ rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
 // back into ASAP proper.
 // https://github.com/tildeio/rsvp.js/blob/cddf7232546a9cf858524b75cde6f9edf72620a7/lib/rsvp/asap.js
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -2204,6 +2204,38 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 /***/ }),
 
+/***/ "./node_modules/chain-function/index.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************!*\
+  !*** ./~/chain-function/index.js ***!
+  \***********************************/
+/***/ (function(module, exports) {
+
+
+module.exports = function chain(){
+  var len = arguments.length
+  var args = [];
+
+  for (var i = 0; i < len; i++)
+    args[i] = arguments[i]
+
+  args = args.filter(function(fn){ return fn != null })
+
+  if (args.length === 0) return undefined
+  if (args.length === 1) return args[0]
+
+  return args.reduce(function(current, next){
+    return function chainedFunction() {
+      current.apply(this, arguments);
+      next.apply(this, arguments);
+    };
+  })
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/chalk/index.js":
 /* no static exports found */
 /* all exports used */
@@ -2409,7 +2441,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/module.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -2474,6 +2506,67 @@ module.exports = (function () {
 })();
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/classnames/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!*******************************!*\
+  !*** ./~/classnames/index.js ***!
+  \*******************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2016 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				classes.push(classNames.apply(null, arg));
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+			return classNames;
+		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
 
 /***/ }),
 
@@ -3362,12 +3455,32 @@ module.exports = factory;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"plugins\":[null,null]}!./src/components/quiz/Quiz.css":
+/***/ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./node_modules/react-infinite-calendar/styles.css":
 /* no static exports found */
 /* all exports used */
-/*!******************************************************************************************************************************************!*\
-  !*** ./~/css-loader?{"importLoaders":1}!./~/postcss-loader/lib?{"ident":"postcss","plugins":[null,null]}!./src/components/quiz/Quiz.css ***!
-  \******************************************************************************************************************************************/
+/*!****************************************************************************************************************************!*\
+  !*** ./~/css-loader?{"importLoaders":1}!./~/postcss-loader/lib?{"ident":"postcss"}!./~/react-infinite-calendar/styles.css ***!
+  \****************************************************************************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".Cal__Day__root {\n  display: inline-block;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  width: 14.28571%;\n  list-style: none;\n  font-size: 16px;\n  text-align: center;\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .Cal__Day__root.Cal__Day__enabled.Cal__Day__highlighted, .Cal__Day__root.Cal__Day__enabled:active, .Cal__Day__root.Cal__Day__enabled:hover {\n    position: relative;\n    z-index: 1; }\n    .Cal__Day__root.Cal__Day__enabled.Cal__Day__highlighted:before, .Cal__Day__root.Cal__Day__enabled:active:before, .Cal__Day__root.Cal__Day__enabled:hover:before {\n      content: '';\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      width: 52px;\n      height: 52px;\n      margin-top: -26px;\n      margin-left: -26px;\n      border-radius: 50%;\n      background-color: #EFEFEF;\n      z-index: -1; }\n  .Cal__Day__root.Cal__Day__enabled:hover:before {\n    opacity: 0.5; }\n  .Cal__Day__root.Cal__Day__enabled.Cal__Day__highlighted:before, .Cal__Day__root.Cal__Day__enabled:active:before {\n    opacity: 1; }\n  .Cal__Day__root:first-child {\n    position: relative; }\n  .Cal__Day__root.Cal__Day__today {\n    position: relative;\n    z-index: 2; }\n    .Cal__Day__root.Cal__Day__today > span {\n      color: #3d3d3d; }\n    .Cal__Day__root.Cal__Day__today.Cal__Day__disabled > span {\n      color: #AAA; }\n    .Cal__Day__root.Cal__Day__today:before {\n      content: '';\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      width: 52px;\n      height: 52px;\n      margin-top: -26px;\n      margin-left: -26px;\n      border-radius: 50%;\n      -webkit-box-shadow: inset 0 0 0 1px;\n              box-shadow: inset 0 0 0 1px;\n      z-index: -1; }\n    .Cal__Day__root.Cal__Day__today.Cal__Day__disabled:before {\n      -webkit-box-shadow: inset 0 0 0 1px #BBB;\n              box-shadow: inset 0 0 0 1px #BBB; }\n  .Cal__Day__root.Cal__Day__selected {\n    position: relative; }\n    .Cal__Day__root.Cal__Day__selected > .Cal__Day__month, .Cal__Day__root.Cal__Day__selected > .Cal__Day__year {\n      display: none; }\n    .Cal__Day__root.Cal__Day__selected:before {\n      display: none; }\n    .Cal__Day__root.Cal__Day__selected .Cal__Day__selection {\n      content: '';\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      width: 52px;\n      height: 52px;\n      margin-top: -26px;\n      margin-left: -26px;\n      border-radius: 50%;\n      line-height: 56px;\n      z-index: 2; }\n      .Cal__Day__root.Cal__Day__selected .Cal__Day__selection .Cal__Day__month {\n        top: 9px; }\n      .Cal__Day__root.Cal__Day__selected .Cal__Day__selection .Cal__Day__day {\n        position: relative;\n        top: 5px;\n        font-weight: bold;\n        font-size: 18px; }\n  .Cal__Day__root.Cal__Day__disabled {\n    color: #AAA;\n    cursor: not-allowed; }\n\n.Cal__Day__month, .Cal__Day__year {\n  position: absolute;\n  left: 0;\n  right: 0;\n  font-size: 12px;\n  line-height: 12px;\n  text-transform: capitalize; }\n\n.Cal__Day__month {\n  top: 5px; }\n\n.Cal__Day__year {\n  bottom: 5px; }\n\n/*\n * Range selection styles\n */\n.Cal__Day__range.Cal__Day__selected.Cal__Day__start:after, .Cal__Day__range.Cal__Day__selected.Cal__Day__end:after {\n  content: '';\n  position: absolute;\n  top: 50%;\n  width: 50%;\n  height: 52px;\n  margin-top: -26px;\n  -webkit-box-shadow: inset 56px 56px;\n          box-shadow: inset 56px 56px; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__disabled .Cal__Day__selection.Cal__Day__selection {\n  background-color: #EEE !important; }\n  .Cal__Day__range.Cal__Day__selected.Cal__Day__disabled .Cal__Day__selection.Cal__Day__selection .Cal__Day__day, .Cal__Day__range.Cal__Day__selected.Cal__Day__disabled .Cal__Day__selection.Cal__Day__selection .Cal__Day__month {\n    color: #AAA;\n    font-weight: 300; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__start .Cal__Day__selection {\n  border-top-left-radius: 50%;\n  border-bottom-left-radius: 50%; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__start:after {\n  right: 0; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__start.Cal__Day__end:after {\n  display: none; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__betweenRange .Cal__Day__selection {\n  left: 0;\n  right: 0;\n  width: 100%;\n  margin-left: 0;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: center;\n      justify-content: center;\n  -ms-flex-align: center;\n      align-items: center;\n  border-radius: 0; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__betweenRange .Cal__Day__day {\n  top: 0;\n  font-size: 16px; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__betweenRange .Cal__Day__month {\n  display: none; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__end:after {\n  left: 0; }\n\n.Cal__Day__range.Cal__Day__selected.Cal__Day__end .Cal__Day__selection {\n  border-top-right-radius: 50%;\n  border-bottom-right-radius: 50%;\n  color: inherit !important;\n  background-color: #FFF !important;\n  border: 2px solid;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; }\n  .Cal__Day__range.Cal__Day__selected.Cal__Day__end .Cal__Day__selection .Cal__Day__day {\n    top: 4px; }\n.Cal__Container__root {\n  position: relative;\n  display: table;\n  z-index: 1;\n  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  line-height: 1.4em;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  font-weight: 300;\n  outline: none;\n  text-align: left; }\n  .Cal__Container__root.Cal__Container__landscape {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-direction: row;\n        flex-direction: row; }\n    .Cal__Container__root.Cal__Container__landscape .Cal__Container__wrapper {\n      position: relative;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n      overflow: hidden;\n      z-index: 1;\n      border-top-right-radius: 3px;\n      border-bottom-right-radius: 3px; }\n\n.Cal__Container__listWrapper {\n  position: relative;\n  overflow: hidden;\n  background-color: #FFF; }\n.Cal__Header__root {\n  position: relative;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  overflow: hidden;\n  min-height: 98px;\n  padding: 20px;\n  line-height: 1.3;\n  font-weight: 400;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px; }\n  .Cal__Header__root.Cal__Header__landscape {\n    -ms-flex-align: start;\n        align-items: flex-start;\n    min-width: 200px;\n    border-top-right-radius: 0;\n    border-bottom-left-radius: 3px; }\n    .Cal__Header__root.Cal__Header__landscape .Cal__Header__dateWrapper.Cal__Header__day {\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n      height: 76px; }\n\n.Cal__Header__wrapper {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  cursor: pointer; }\n  .Cal__Header__wrapper.Cal__Header__blank {\n    height: 58px;\n    line-height: 58px;\n    color: rgba(255, 255, 255, 0.5);\n    font-size: 18px;\n    cursor: default; }\n\n.Cal__Header__dateWrapper {\n  position: relative;\n  display: block;\n  overflow: hidden;\n  color: rgba(255, 255, 255, 0.5);\n  -webkit-transition: color 0.3s ease;\n  -o-transition: color 0.3s ease;\n  transition: color 0.3s ease; }\n  .Cal__Header__dateWrapper.Cal__Header__active {\n    color: white; }\n  .Cal__Header__dateWrapper.Cal__Header__day {\n    height: 38px;\n    font-size: 36px;\n    line-height: 36px;\n    text-transform: capitalize; }\n  .Cal__Header__dateWrapper.Cal__Header__year {\n    height: 20px;\n    font-size: 18px;\n    line-height: 18px; }\n\n.Cal__Header__date {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n.Cal__Header__range {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1; }\n  .Cal__Header__range .Cal__Header__dateWrapper {\n    overflow: visible; }\n  .Cal__Header__range .Cal__Header__wrapper:first-child:before, .Cal__Header__range .Cal__Header__wrapper:first-child:after {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 50%;\n    width: 0;\n    height: 0;\n    margin-top: -50px;\n    margin-left: -50px;\n    border-top: 100px solid transparent;\n    border-bottom: 100px solid transparent;\n    border-left: 60px solid; }\n  .Cal__Header__range .Cal__Header__wrapper:first-child:before {\n    color: rgba(255, 255, 255, 0.15);\n    -webkit-transform: translateX(1px);\n        -ms-transform: translateX(1px);\n            transform: translateX(1px); }\n  .Cal__Header__range .Cal__Header__wrapper:last-child {\n    margin-left: 60px; }\n  .Cal__Header__range .Cal__Header__wrapper .Cal__Header__date {\n    white-space: nowrap;\n    z-index: 1; }\n.Cal__Today__root {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  height: 32px;\n  padding: 6px;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  -webkit-transform: translate3d(0, -100%, 0);\n          transform: translate3d(0, -100%, 0);\n  font-weight: 500;\n  line-height: 0;\n  z-index: 10;\n  cursor: pointer;\n  -webkit-transition: -webkit-transform 0.3s ease;\n  transition: -webkit-transform 0.3s ease;\n  -o-transition: transform 0.3s ease;\n  transition: transform 0.3s ease;\n  transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n  -webkit-transition-delay: 0.3s;\n       -o-transition-delay: 0.3s;\n          transition-delay: 0.3s; }\n  .Cal__Today__root.Cal__Today__show {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n    -webkit-transition-delay: 0s;\n         -o-transition-delay: 0s;\n            transition-delay: 0s; }\n    .Cal__Today__root.Cal__Today__show .Cal__Today__chevron {\n      -webkit-transition: -webkit-transform 0.3s ease;\n      transition: -webkit-transform 0.3s ease;\n      -o-transition: transform 0.3s ease;\n      transition: transform 0.3s ease;\n      transition: transform 0.3s ease, -webkit-transform 0.3s ease; }\n  .Cal__Today__root .Cal__Today__chevron {\n    position: absolute;\n    top: 50%;\n    margin-top: -6px;\n    margin-left: 5px;\n    -webkit-transform: rotate(270deg);\n        -ms-transform: rotate(270deg);\n            transform: rotate(270deg);\n    -webkit-transition: -webkit-transform 0.3s ease;\n    transition: -webkit-transform 0.3s ease;\n    -o-transition: transform 0.3s ease;\n    transition: transform 0.3s ease;\n    transition: transform 0.3s ease, -webkit-transform 0.3s ease; }\n  .Cal__Today__root.Cal__Today__chevronUp .Cal__Today__chevron {\n    -webkit-transform: rotate(180deg);\n        -ms-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  .Cal__Today__root.Cal__Today__chevronDown .Cal__Today__chevron {\n    -webkit-transform: rotate(360deg);\n        -ms-transform: rotate(360deg);\n            transform: rotate(360deg); }\n.Cal__MonthList__root {\n  width: 100% !important;\n  background-color: #FFF;\n  -webkit-overflow-scrolling: touch; }\n  .Cal__MonthList__root.Cal__MonthList__scrolling > div {\n    pointer-events: none; }\n  .Cal__MonthList__root.Cal__MonthList__scrolling label {\n    opacity: 1; }\n.Cal__Weekdays__root {\n  position: relative;\n  z-index: 5;\n  display: -ms-flexbox;\n  display: flex;\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  -webkit-box-shadow: inset 0 -1px rgba(0, 0, 0, 0.04);\n          box-shadow: inset 0 -1px rgba(0, 0, 0, 0.04); }\n\n.Cal__Weekdays__day {\n  padding: 15px 0;\n  -ms-flex-preferred-size: 14.28571%;\n      flex-basis: 14.28571%;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  font-weight: 500;\n  text-align: center; }\n.Cal__Years__root {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 10;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  background-color: #F9F9F9; }\n  .Cal__Years__root:before, .Cal__Years__root:after {\n    content: '';\n    position: absolute;\n    left: 0;\n    right: 0;\n    height: 50px;\n    pointer-events: none;\n    z-index: 1; }\n  .Cal__Years__root:before {\n    top: 0;\n    background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));\n    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);\n    background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);\n    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%); }\n  .Cal__Years__root:after {\n    bottom: 0;\n    background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0.8)));\n    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);\n    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);\n    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%); }\n\n.Cal__Years__list {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; }\n  .Cal__Years__list.Cal__Years__center {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-align: center;\n        align-items: center;\n    -ms-flex-pack: center;\n        justify-content: center; }\n\n.Cal__Years__year {\n  display: -ms-flexbox;\n  display: flex;\n  padding: 0 20px;\n  height: 100%;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  font-size: 18px;\n  font-weight: 500;\n  text-align: center;\n  cursor: pointer;\n  -webkit-user-select: none;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box; }\n  .Cal__Years__year.Cal__Years__withMonths {\n    border-bottom: 1px solid #E9E9E9; }\n    .Cal__Years__year.Cal__Years__withMonths label {\n      height: 88px;\n      padding-top: 12px;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box; }\n  .Cal__Years__year label {\n    -ms-flex-preferred-size: 42%;\n        flex-basis: 42%; }\n    .Cal__Years__year label span {\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n      color: #333; }\n  .Cal__Years__year ol {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    margin: 0;\n    padding: 0;\n    font-size: 14px; }\n    .Cal__Years__year ol li {\n      display: -ms-flexbox;\n      display: flex;\n      width: 44px;\n      height: 44px;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n      -ms-flex-align: center;\n          align-items: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n      list-style: none;\n      border-radius: 50%;\n      -webkit-box-sizing: border-box;\n              box-sizing: border-box;\n      color: #444;\n      font-weight: 400;\n      text-transform: capitalize; }\n      .Cal__Years__year ol li.Cal__Years__currentMonth {\n        border: 1px solid; }\n      .Cal__Years__year ol li.Cal__Years__selected {\n        position: relative;\n        z-index: 1;\n        background-color: blue;\n        color: #FFF !important;\n        border: 0; }\n      .Cal__Years__year ol li.Cal__Years__disabled {\n        cursor: not-allowed;\n        color: #AAA; }\n        .Cal__Years__year ol li.Cal__Years__disabled:hover {\n          background-color: inherit; }\n      .Cal__Years__year ol li:hover {\n        background-color: #EFEFEF; }\n  .Cal__Years__year:hover label > span, .Cal__Years__year.Cal__Years__active label > span {\n    color: inherit; }\n  .Cal__Years__year:hover, .Cal__Years__year.Cal__Years__active {\n    position: relative;\n    z-index: 2; }\n  .Cal__Years__year.Cal__Years__active {\n    font-size: 32px; }\n  .Cal__Years__year.Cal__Years__currentYear {\n    position: relative; }\n    .Cal__Years__year.Cal__Years__currentYear label > span {\n      min-width: 50px;\n      padding-bottom: 5px;\n      border-bottom: 3px solid; }\n    .Cal__Years__year.Cal__Years__currentYear.Cal__Years__active label > span {\n      min-width: 85px; }\n  .Cal__Years__year.Cal__Years__first {\n    padding-top: 40px; }\n  .Cal__Years__year.Cal__Years__last {\n    padding-bottom: 40px; }\n.Cal__Animation__enter {\n  opacity: 0;\n  -webkit-transform: translate3d(0, -100%, 0);\n          transform: translate3d(0, -100%, 0);\n  -webkit-transition: 0.25s ease;\n  -o-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n.Cal__Animation__enter.Cal__Animation__enterActive {\n  opacity: 1;\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0); }\n\n.Cal__Animation__leave {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n  -webkit-transition: 0.25s ease;\n  -o-transition: 0.25s ease;\n  transition: 0.25s ease; }\n\n.Cal__Animation__leave.Cal__Animation__leaveActive {\n  opacity: 0;\n  -webkit-transform: translate3d(0, 100%, 0);\n          transform: translate3d(0, 100%, 0); }\n.Cal__Slider__root, .Cal__Slider__slide {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n.Cal__Slider__root {\n  overflow: hidden; }\n\n.Cal__Slider__slide {\n  padding: 20px 65px; }\n  .Cal__Slider__slide:first-child {\n    padding-left: 20px; }\n\n.Cal__Slider__wrapper {\n  height: 100%;\n  -webkit-transition: -webkit-transform 0.3s ease;\n  transition: -webkit-transform 0.3s ease;\n  -o-transition: transform 0.3s ease;\n  transition: transform 0.3s ease;\n  transition: transform 0.3s ease, -webkit-transform 0.3s ease; }\n\n.Cal__Slider__arrow {\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  width: 40px;\n  height: 100%;\n  opacity: 0.7;\n  cursor: pointer;\n  border-left: 1px solid rgba(255, 255, 255, 0.1); }\n  .Cal__Slider__arrow svg {\n    width: 15px; }\n  .Cal__Slider__arrow:hover {\n    opacity: 1; }\n\n.Cal__Slider__arrowRight {\n  right: 0; }\n\n.Cal__Slider__arrowLeft {\n  left: 0;\n  -webkit-transform: scaleX(-1);\n      -ms-transform: scaleX(-1);\n          transform: scaleX(-1); }\n.Cal__transition__enter {\n  opacity: 0; }\n\n.Cal__transition__enterActive {\n  opacity: 1;\n  -webkit-transition: opacity 0.3s ease;\n  -o-transition: opacity 0.3s ease;\n  transition: opacity 0.3s ease; }\n\n.Cal__transition__leave {\n  opacity: 1; }\n\n.Cal__transition__leaveActive {\n  opacity: 0;\n  -webkit-transition: opacity 0.3s ease;\n  -o-transition: opacity 0.3s ease;\n  transition: opacity 0.3s ease; }\n.Cal__Month__rows {\n  position: relative;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, rgba(255, 255, 255, 0)), to(rgba(0, 0, 0, 0.05)));\n  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.05) 100%);\n  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.05) 100%);\n  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.05) 100%); }\n\n.Cal__Month__row {\n  padding: 0;\n  margin: 0; }\n  .Cal__Month__row:first-child {\n    text-align: right; }\n    .Cal__Month__row:first-child li {\n      background-color: #FFF;\n      -webkit-box-shadow: 0 -1px 0 #E9E9E9;\n              box-shadow: 0 -1px 0 #E9E9E9; }\n  .Cal__Month__row:nth-child(2) {\n    -webkit-box-shadow: 0 -1px 0 #E9E9E9;\n            box-shadow: 0 -1px 0 #E9E9E9; }\n  .Cal__Month__row.Cal__Month__partial:first-child li:first-child {\n    -webkit-box-shadow: 0px -1px 0 #E9E9E9, inset 1px 0 0 #E9E9E9;\n            box-shadow: 0px -1px 0 #E9E9E9, inset 1px 0 0 #E9E9E9; }\n  .Cal__Month__row.Cal__Month__partial:last-of-type li {\n    position: relative;\n    z-index: 1; }\n\n.Cal__Month__label {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  margin: 0;\n  font-size: 30px;\n  font-weight: 500;\n  z-index: 3;\n  pointer-events: none;\n  background-color: rgba(255, 255, 255, 0.6);\n  opacity: 0;\n  -webkit-transition: opacity 0.3s ease;\n  -o-transition: opacity 0.3s ease;\n  transition: opacity 0.3s ease; }\n  .Cal__Month__label > span {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 56px;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-align: center;\n        align-items: center;\n    -ms-flex-pack: center;\n        justify-content: center;\n    text-transform: capitalize; }\n  .Cal__Month__label.Cal__Month__partialFirstRow {\n    top: 56px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./src/components/quiz/Quiz.css":
+/* no static exports found */
+/* all exports used */
+/*!********************************************************************************************************************!*\
+  !*** ./~/css-loader?{"importLoaders":1}!./~/postcss-loader/lib?{"ident":"postcss"}!./src/components/quiz/Quiz.css ***!
+  \********************************************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../../~/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(undefined);
@@ -3375,7 +3488,7 @@ exports = module.exports = __webpack_require__(/*! ../../../~/css-loader/lib/css
 
 
 // module
-exports.push([module.i, "*\r\n{\r\n    margin: 0;\r\n    padding: 0;\r\n    position: relative;\r\n    -webkit-box-sizing: border-box;\r\n            box-sizing: border-box;\r\n    word-wrap: break-word;\r\n}\r\n.quiz--container\r\n{\r\n    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;\r\n    font-size: 14px;\r\n    width: 100%;\r\n    max-width: 720px;\r\n    border: 1px solid #eee;\r\n    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\r\n            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\r\n    margin: 20px auto;\r\n}\r\n.quiz--container button\r\n{\r\n    cursor: pointer;\r\n    -webkit-transition: all 150ms;\r\n    -o-transition: all 150ms;\r\n    transition: all 150ms;\r\n}\r\n.quiz--container button:hover\r\n{\r\n    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);\r\n            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);\r\n}\r\n.quiz--container img\r\n{\r\n    max-width: 100% !important;\r\n}\r\n.quiz--line-item\r\n{\r\n    display: block;\r\n    width: 100%;\r\n}\r\n.quiz--line-item + .quiz--line-item\r\n{\r\n    margin-top: 1rem;\r\n}\r\n.quiz--line-item:after\r\n{\r\n    content: \"\";\r\n    display: block;\r\n    clear: both;\r\n    height: 0;\r\n    line-height: 0;\r\n}\r\n\r\n/** START BOX */\r\n.quiz--start-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--start-box--title\r\n{\r\n    padding: 0 2rem;\r\n    text-align: center;\r\n    font-size: 1.5rem;\r\n    color: #e33;\r\n}\r\n.quiz--start-box .quiz--image-wrapper img\r\n{\r\n    max-height: 200px;\r\n    display: block;\r\n    margin: auto;\r\n}\r\n.quiz--start-box--intro\r\n{\r\n    padding: 0 2rem;\r\n    text-align: justify;\r\n}\r\n\r\n/** BUTTON */\r\n.quiz--button--next,\r\n.quiz--button--login,\r\n.quiz--button--share\r\n{\r\n    background: #3B5998;\r\n    margin: 0 auto;\r\n    display: block;\r\n    color: #fff;\r\n    text-transform: uppercase;\r\n    font-weight: bold;\r\n    padding: 0.5rem 1rem;\r\n    border: 1px solid #29487D;\r\n}\r\n\r\n/** ALERT BOX */\r\n.quiz--alert-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--alert-box--title\r\n{\r\n    padding: 0 2rem;\r\n    font-size: 1.2rem;\r\n    font-weight: bold;\r\n}\r\n.quiz--alert-box--message\r\n{\r\n    padding: 0 2rem;\r\n    text-align: justify;\r\n}\r\n\r\n/** QA BOX */\r\n.quiz--qa-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--qa-box--title\r\n{\r\n    padding: 0 2rem;\r\n    font-size: 1.2rem;\r\n    font-weight: bold;\r\n}\r\n.quiz--qa-box--body\r\n{\r\n    padding: 0 2rem;\r\n}\r\n\r\n/** RESULT BOX */\r\n.quiz--result-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--result-box--title\r\n{\r\n    padding: 0 2rem;\r\n    font-size: 1.5rem;\r\n    font-weight: bold;\r\n    color: #666;\r\n}\r\n.quiz--result-box--content\r\n{\r\n    padding: 0 2rem;\r\n    text-align: justify;\r\n}\r\n\r\n/** WORD GUESSING */\r\n.quiz--word-guessing[data-correct=\"true\"] .quiz--word-guessing--cell\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--word-guessing[data-correct=\"false\"] .quiz--word-guessing--cell\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--word-guessing--char,\r\n.quiz--word-guessing--cell,\r\n.quiz--word-guessing--whitespace\r\n{\r\n    width: 1.5rem;\r\n    height: 1.5rem;\r\n    line-height: 1.5rem;\r\n    text-align: center;\r\n    background: #ddd;\r\n    display: block;\r\n    float: left;\r\n    cursor: pointer;\r\n    font-weight: bold;\r\n}\r\n.quiz--word-guessing-whitespace\r\n{\r\n    background: #fff;\r\n}\r\n\r\n/** CHECKBOX GROUP */\r\n.quiz--checkbox-group--option\r\n{\r\n    display: block;\r\n    width: 100%;\r\n    padding: 0.5rem;\r\n    border: 1px solid #eee;\r\n    cursor: pointer;\r\n}\r\n.quiz--checkbox-group[data-disabled=\"false\"] .quiz--checkbox-group--option:hover\r\n{\r\n    background: #eee;\r\n}\r\n.quiz--checkbox-group--option[data-checked=\"true\"]\r\n{\r\n    background: #8be;\r\n    border-color: #38a;\r\n}\r\n.quiz--checkbox-group--option[data-correct=\"true\"]\r\n{\r\n    border-color: #6a3;\r\n}\r\n.quiz--checkbox-group--option[data-checked=\"true\"][data-correct=\"true\"]\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--checkbox-group--option[data-checked=\"true\"][data-correct=\"false\"]\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--checkbox-group--option--checkbox\r\n{\r\n    display: none;\r\n}\r\n\r\n/** RADIO GROUP */\r\n.quiz--radio-group--option\r\n{\r\n    display: block;\r\n    width: 100%;\r\n    padding: 0.5rem;\r\n    border: 1px solid #eee;\r\n    cursor: pointer;\r\n}\r\n.quiz--radio-group[data-disabled=\"false\"] .quiz--radio-group--option:hover\r\n{\r\n    background: #eee;\r\n}\r\n.quiz--radio-group--option[data-checked=\"true\"]\r\n{\r\n    background: #8be;\r\n    border-color: #38a;\r\n}\r\n.quiz--radio-group--option[data-correct=\"true\"]\r\n{\r\n    border-color: #6a3;\r\n}\r\n.quiz--radio-group--option[data-checked=\"true\"][data-correct=\"true\"]\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--radio-group--option[data-checked=\"true\"][data-correct=\"false\"]\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--radio-group--option--radio\r\n{\r\n    display: none;\r\n}\r\n\r\n/** NUMBER INPUT */\r\n.quiz--number-input[data-correct=\"true\"] input:disabled\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--number-input[data-correct=\"false\"] input:disabled\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--number-input input\r\n{\r\n    height: 2rem;\r\n}\r\n\r\n/** TEXT INPUT */\r\n.quiz--text-input[data-correct=\"true\"] input:disabled\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--text-input[data-correct=\"false\"] input:disabled\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--text-input input\r\n{\r\n    height: 2rem;\r\n    width: 100%;\r\n}\r\n\r\n", ""]);
+exports.push([module.i, ".Cal__Header__date\r\n{\r\n    position: relative !important;\r\n}\r\n.Cal__Header__dateWrapper.Cal__Header__day\r\n{\r\n    font-size: 16px;\r\n}\r\n.Cal__Header__root.Cal__Header__landscape\r\n{\r\n    min-width: initial;\r\n}\r\n*\r\n{\r\n    margin: 0;\r\n    padding: 0;\r\n    position: relative;\r\n    -webkit-box-sizing: border-box;\r\n            box-sizing: border-box;\r\n    word-wrap: break-word;\r\n}\r\n.quiz--container\r\n{\r\n    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;\r\n    font-size: 14px;\r\n    width: 100%;\r\n    max-width: 720px;\r\n    border: 1px solid #eee;\r\n    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\r\n            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);\r\n    margin: 20px auto;\r\n}\r\n.quiz--container button\r\n{\r\n    cursor: pointer;\r\n    -webkit-transition: all 150ms;\r\n    -o-transition: all 150ms;\r\n    transition: all 150ms;\r\n}\r\n.quiz--container button:hover\r\n{\r\n    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);\r\n            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);\r\n}\r\n.quiz--container img\r\n{\r\n    max-width: 100% !important;\r\n}\r\n.quiz--line-item\r\n{\r\n    display: block;\r\n    width: 100%;\r\n}\r\n.quiz--line-item + .quiz--line-item\r\n{\r\n    margin-top: 1rem;\r\n}\r\n.quiz--line-item:after\r\n{\r\n    content: \"\";\r\n    display: block;\r\n    clear: both;\r\n    height: 0;\r\n    line-height: 0;\r\n}\r\n\r\n/** START BOX */\r\n.quiz--start-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--start-box--title\r\n{\r\n    padding: 0 2rem;\r\n    text-align: center;\r\n    font-size: 1.5rem;\r\n    color: #e33;\r\n}\r\n.quiz--start-box .quiz--image-wrapper img\r\n{\r\n    max-height: 200px;\r\n    display: block;\r\n    margin: auto;\r\n}\r\n.quiz--start-box--intro\r\n{\r\n    padding: 0 2rem;\r\n    text-align: justify;\r\n}\r\n\r\n/** BUTTON */\r\n.quiz--button--next,\r\n.quiz--button--login,\r\n.quiz--button--share\r\n{\r\n    background: #3B5998;\r\n    margin: 0 auto;\r\n    display: block;\r\n    color: #fff;\r\n    text-transform: uppercase;\r\n    font-weight: bold;\r\n    padding: 0.5rem 1rem;\r\n    border: 1px solid #29487D;\r\n}\r\n\r\n/** ALERT BOX */\r\n.quiz--alert-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--alert-box--title\r\n{\r\n    padding: 0 2rem;\r\n    font-size: 1.2rem;\r\n    font-weight: bold;\r\n}\r\n.quiz--alert-box--message\r\n{\r\n    padding: 0 2rem;\r\n    text-align: justify;\r\n}\r\n\r\n/** QA BOX */\r\n.quiz--qa-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--qa-box--title\r\n{\r\n    padding: 0 2rem;\r\n    font-size: 1.2rem;\r\n    font-weight: bold;\r\n}\r\n.quiz--qa-box--body\r\n{\r\n    padding: 0 2rem;\r\n}\r\n\r\n/** RESULT BOX */\r\n.quiz--result-box\r\n{\r\n    padding: 2rem 0;\r\n}\r\n.quiz--result-box--title\r\n{\r\n    padding: 0 2rem;\r\n    font-size: 1.5rem;\r\n    font-weight: bold;\r\n    color: #666;\r\n}\r\n.quiz--result-box--content\r\n{\r\n    padding: 0 2rem;\r\n    text-align: justify;\r\n}\r\n\r\n/** WORD GUESSING */\r\n.quiz--word-guessing[data-correct=\"true\"] .quiz--word-guessing--cell\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--word-guessing[data-correct=\"false\"] .quiz--word-guessing--cell\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--word-guessing--char,\r\n.quiz--word-guessing--cell,\r\n.quiz--word-guessing--whitespace\r\n{\r\n    width: 1.5rem;\r\n    height: 1.5rem;\r\n    line-height: 1.5rem;\r\n    text-align: center;\r\n    background: #ddd;\r\n    display: block;\r\n    float: left;\r\n    cursor: pointer;\r\n    font-weight: bold;\r\n}\r\n.quiz--word-guessing-whitespace\r\n{\r\n    background: #fff;\r\n}\r\n\r\n/** CHECKBOX GROUP */\r\n.quiz--checkbox-group--option\r\n{\r\n    display: block;\r\n    width: 100%;\r\n    padding: 0.5rem;\r\n    border: 1px solid #eee;\r\n    cursor: pointer;\r\n}\r\n.quiz--checkbox-group[data-disabled=\"false\"] .quiz--checkbox-group--option:hover\r\n{\r\n    background: #eee;\r\n}\r\n.quiz--checkbox-group--option[data-checked=\"true\"]\r\n{\r\n    background: #8be;\r\n    border-color: #38a;\r\n}\r\n.quiz--checkbox-group--option[data-correct=\"true\"]\r\n{\r\n    border-color: #6a3;\r\n}\r\n.quiz--checkbox-group--option[data-checked=\"true\"][data-correct=\"true\"]\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--checkbox-group--option[data-checked=\"true\"][data-correct=\"false\"]\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--checkbox-group--option--checkbox\r\n{\r\n    display: none;\r\n}\r\n\r\n/** RADIO GROUP */\r\n.quiz--radio-group--option\r\n{\r\n    display: block;\r\n    width: 100%;\r\n    padding: 0.5rem;\r\n    border: 1px solid #eee;\r\n    cursor: pointer;\r\n}\r\n.quiz--radio-group[data-disabled=\"false\"] .quiz--radio-group--option:hover\r\n{\r\n    background: #eee;\r\n}\r\n.quiz--radio-group--option[data-checked=\"true\"]\r\n{\r\n    background: #8be;\r\n    border-color: #38a;\r\n}\r\n.quiz--radio-group--option[data-correct=\"true\"]\r\n{\r\n    border-color: #6a3;\r\n}\r\n.quiz--radio-group--option[data-checked=\"true\"][data-correct=\"true\"]\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--radio-group--option[data-checked=\"true\"][data-correct=\"false\"]\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--radio-group--option--radio\r\n{\r\n    display: none;\r\n}\r\n\r\n/** NUMBER INPUT */\r\n.quiz--number-input[data-correct=\"true\"] input:disabled\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--number-input[data-correct=\"false\"] input:disabled\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--number-input input\r\n{\r\n    height: 2rem;\r\n}\r\n\r\n/** TEXT INPUT */\r\n.quiz--text-input[data-correct=\"true\"] input:disabled\r\n{\r\n    background: #9c6;\r\n}\r\n.quiz--text-input[data-correct=\"false\"] input:disabled\r\n{\r\n    background: #e88;\r\n}\r\n.quiz--text-input input\r\n{\r\n    height: 2rem;\r\n    width: 100%;\r\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -3466,6 +3579,1818 @@ function toComment(sourceMap) {
 
 	return '/*# ' + data + ' */';
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/add_days/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!**************************************!*\
+  !*** ./~/date-fns/add_days/index.js ***!
+  \**************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Add the specified number of days to the given date.
+ *
+ * @description
+ * Add the specified number of days to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of days to be added
+ * @returns {Date} the new date with the days added
+ *
+ * @example
+ * // Add 10 days to 1 September 2014:
+ * var result = addDays(new Date(2014, 8, 1), 10)
+ * //=> Thu Sep 11 2014 00:00:00
+ */
+function addDays (dirtyDate, dirtyAmount) {
+  var date = parse(dirtyDate)
+  var amount = Number(dirtyAmount)
+  date.setDate(date.getDate() + amount)
+  return date
+}
+
+module.exports = addDays
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/difference_in_calendar_days/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*********************************************************!*\
+  !*** ./~/date-fns/difference_in_calendar_days/index.js ***!
+  \*********************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfDay = __webpack_require__(/*! ../start_of_day/index.js */ "./node_modules/date-fns/start_of_day/index.js")
+
+var MILLISECONDS_IN_MINUTE = 60000
+var MILLISECONDS_IN_DAY = 86400000
+
+/**
+ * @category Day Helpers
+ * @summary Get the number of calendar days between the given dates.
+ *
+ * @description
+ * Get the number of calendar days between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of calendar days
+ *
+ * @example
+ * // How many calendar days are between
+ * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
+ * var result = differenceInCalendarDays(
+ *   new Date(2012, 6, 2, 0, 0),
+ *   new Date(2011, 6, 2, 23, 0)
+ * )
+ * //=> 366
+ */
+function differenceInCalendarDays (dirtyDateLeft, dirtyDateRight) {
+  var startOfDayLeft = startOfDay(dirtyDateLeft)
+  var startOfDayRight = startOfDay(dirtyDateRight)
+
+  var timestampLeft = startOfDayLeft.getTime() -
+    startOfDayLeft.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
+  var timestampRight = startOfDayRight.getTime() -
+    startOfDayRight.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
+
+  // Round the number of days to the nearest integer
+  // because the number of milliseconds in a day is not constant
+  // (e.g. it's different in the day of the daylight saving time clock shift)
+  return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_DAY)
+}
+
+module.exports = differenceInCalendarDays
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/end_of_day/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!****************************************!*\
+  !*** ./~/date-fns/end_of_day/index.js ***!
+  \****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Return the end of a day for the given date.
+ *
+ * @description
+ * Return the end of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the end of a day
+ *
+ * @example
+ * // The end of a day for 2 September 2014 11:55:00:
+ * var result = endOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 23:59:59.999
+ */
+function endOfDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setHours(23, 59, 59, 999)
+  return date
+}
+
+module.exports = endOfDay
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/format/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!************************************!*\
+  !*** ./~/date-fns/format/index.js ***!
+  \************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var getDayOfYear = __webpack_require__(/*! ../get_day_of_year/index.js */ "./node_modules/date-fns/get_day_of_year/index.js")
+var getISOWeek = __webpack_require__(/*! ../get_iso_week/index.js */ "./node_modules/date-fns/get_iso_week/index.js")
+var getISOYear = __webpack_require__(/*! ../get_iso_year/index.js */ "./node_modules/date-fns/get_iso_year/index.js")
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+var isValid = __webpack_require__(/*! ../is_valid/index.js */ "./node_modules/date-fns/is_valid/index.js")
+var enLocale = __webpack_require__(/*! ../locale/en/index.js */ "./node_modules/date-fns/locale/en/index.js")
+
+/**
+ * @category Common Helpers
+ * @summary Format the date.
+ *
+ * @description
+ * Return the formatted date string in the given format.
+ *
+ * Accepted tokens:
+ * | Unit                    | Token | Result examples                  |
+ * |-------------------------|-------|----------------------------------|
+ * | Month                   | M     | 1, 2, ..., 12                    |
+ * |                         | Mo    | 1st, 2nd, ..., 12th              |
+ * |                         | MM    | 01, 02, ..., 12                  |
+ * |                         | MMM   | Jan, Feb, ..., Dec               |
+ * |                         | MMMM  | January, February, ..., December |
+ * | Quarter                 | Q     | 1, 2, 3, 4                       |
+ * |                         | Qo    | 1st, 2nd, 3rd, 4th               |
+ * | Day of month            | D     | 1, 2, ..., 31                    |
+ * |                         | Do    | 1st, 2nd, ..., 31st              |
+ * |                         | DD    | 01, 02, ..., 31                  |
+ * | Day of year             | DDD   | 1, 2, ..., 366                   |
+ * |                         | DDDo  | 1st, 2nd, ..., 366th             |
+ * |                         | DDDD  | 001, 002, ..., 366               |
+ * | Day of week             | d     | 0, 1, ..., 6                     |
+ * |                         | do    | 0th, 1st, ..., 6th               |
+ * |                         | dd    | Su, Mo, ..., Sa                  |
+ * |                         | ddd   | Sun, Mon, ..., Sat               |
+ * |                         | dddd  | Sunday, Monday, ..., Saturday    |
+ * | Day of ISO week         | E     | 1, 2, ..., 7                     |
+ * | ISO week                | W     | 1, 2, ..., 53                    |
+ * |                         | Wo    | 1st, 2nd, ..., 53rd              |
+ * |                         | WW    | 01, 02, ..., 53                  |
+ * | Year                    | YY    | 00, 01, ..., 99                  |
+ * |                         | YYYY  | 1900, 1901, ..., 2099            |
+ * | ISO week-numbering year | GG    | 00, 01, ..., 99                  |
+ * |                         | GGGG  | 1900, 1901, ..., 2099            |
+ * | AM/PM                   | A     | AM, PM                           |
+ * |                         | a     | am, pm                           |
+ * |                         | aa    | a.m., p.m.                       |
+ * | Hour                    | H     | 0, 1, ... 23                     |
+ * |                         | HH    | 00, 01, ... 23                   |
+ * |                         | h     | 1, 2, ..., 12                    |
+ * |                         | hh    | 01, 02, ..., 12                  |
+ * | Minute                  | m     | 0, 1, ..., 59                    |
+ * |                         | mm    | 00, 01, ..., 59                  |
+ * | Second                  | s     | 0, 1, ..., 59                    |
+ * |                         | ss    | 00, 01, ..., 59                  |
+ * | 1/10 of second          | S     | 0, 1, ..., 9                     |
+ * | 1/100 of second         | SS    | 00, 01, ..., 99                  |
+ * | Millisecond             | SSS   | 000, 001, ..., 999               |
+ * | Timezone                | Z     | -01:00, +00:00, ... +12:00       |
+ * |                         | ZZ    | -0100, +0000, ..., +1200         |
+ * | Seconds timestamp       | X     | 512969520                        |
+ * | Milliseconds timestamp  | x     | 512969520900                     |
+ *
+ * The characters wrapped in square brackets are escaped.
+ *
+ * The result may vary by locale.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @param {String} [format='YYYY-MM-DDTHH:mm:ss.SSSZ'] - the string of tokens
+ * @param {Object} [options] - the object with options
+ * @param {Object} [options.locale=enLocale] - the locale object
+ * @returns {String} the formatted date string
+ *
+ * @example
+ * // Represent 11 February 2014 in middle-endian format:
+ * var result = format(
+ *   new Date(2014, 1, 11),
+ *   'MM/DD/YYYY'
+ * )
+ * //=> '02/11/2014'
+ *
+ * @example
+ * // Represent 2 July 2014 in Esperanto:
+ * var eoLocale = require('date-fns/locale/eo')
+ * var result = format(
+ *   new Date(2014, 6, 2),
+ *   'Do [de] MMMM YYYY',
+ *   {locale: eoLocale}
+ * )
+ * //=> '2-a de julio 2014'
+ */
+function format (dirtyDate, dirtyFormatStr, dirtyOptions) {
+  var formatStr = dirtyFormatStr ? String(dirtyFormatStr) : 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+  var options = dirtyOptions || {}
+
+  var locale = options.locale
+  var localeFormatters = enLocale.format.formatters
+  var formattingTokensRegExp = enLocale.format.formattingTokensRegExp
+  if (locale && locale.format && locale.format.formatters) {
+    localeFormatters = locale.format.formatters
+
+    if (locale.format.formattingTokensRegExp) {
+      formattingTokensRegExp = locale.format.formattingTokensRegExp
+    }
+  }
+
+  var date = parse(dirtyDate)
+
+  if (!isValid(date)) {
+    return 'Invalid Date'
+  }
+
+  var formatFn = buildFormatFn(formatStr, localeFormatters, formattingTokensRegExp)
+
+  return formatFn(date)
+}
+
+var formatters = {
+  // Month: 1, 2, ..., 12
+  'M': function (date) {
+    return date.getMonth() + 1
+  },
+
+  // Month: 01, 02, ..., 12
+  'MM': function (date) {
+    return addLeadingZeros(date.getMonth() + 1, 2)
+  },
+
+  // Quarter: 1, 2, 3, 4
+  'Q': function (date) {
+    return Math.ceil((date.getMonth() + 1) / 3)
+  },
+
+  // Day of month: 1, 2, ..., 31
+  'D': function (date) {
+    return date.getDate()
+  },
+
+  // Day of month: 01, 02, ..., 31
+  'DD': function (date) {
+    return addLeadingZeros(date.getDate(), 2)
+  },
+
+  // Day of year: 1, 2, ..., 366
+  'DDD': function (date) {
+    return getDayOfYear(date)
+  },
+
+  // Day of year: 001, 002, ..., 366
+  'DDDD': function (date) {
+    return addLeadingZeros(getDayOfYear(date), 3)
+  },
+
+  // Day of week: 0, 1, ..., 6
+  'd': function (date) {
+    return date.getDay()
+  },
+
+  // Day of ISO week: 1, 2, ..., 7
+  'E': function (date) {
+    return date.getDay() || 7
+  },
+
+  // ISO week: 1, 2, ..., 53
+  'W': function (date) {
+    return getISOWeek(date)
+  },
+
+  // ISO week: 01, 02, ..., 53
+  'WW': function (date) {
+    return addLeadingZeros(getISOWeek(date), 2)
+  },
+
+  // Year: 00, 01, ..., 99
+  'YY': function (date) {
+    return addLeadingZeros(date.getFullYear(), 4).substr(2)
+  },
+
+  // Year: 1900, 1901, ..., 2099
+  'YYYY': function (date) {
+    return addLeadingZeros(date.getFullYear(), 4)
+  },
+
+  // ISO week-numbering year: 00, 01, ..., 99
+  'GG': function (date) {
+    return String(getISOYear(date)).substr(2)
+  },
+
+  // ISO week-numbering year: 1900, 1901, ..., 2099
+  'GGGG': function (date) {
+    return getISOYear(date)
+  },
+
+  // Hour: 0, 1, ... 23
+  'H': function (date) {
+    return date.getHours()
+  },
+
+  // Hour: 00, 01, ..., 23
+  'HH': function (date) {
+    return addLeadingZeros(date.getHours(), 2)
+  },
+
+  // Hour: 1, 2, ..., 12
+  'h': function (date) {
+    var hours = date.getHours()
+    if (hours === 0) {
+      return 12
+    } else if (hours > 12) {
+      return hours % 12
+    } else {
+      return hours
+    }
+  },
+
+  // Hour: 01, 02, ..., 12
+  'hh': function (date) {
+    return addLeadingZeros(formatters['h'](date), 2)
+  },
+
+  // Minute: 0, 1, ..., 59
+  'm': function (date) {
+    return date.getMinutes()
+  },
+
+  // Minute: 00, 01, ..., 59
+  'mm': function (date) {
+    return addLeadingZeros(date.getMinutes(), 2)
+  },
+
+  // Second: 0, 1, ..., 59
+  's': function (date) {
+    return date.getSeconds()
+  },
+
+  // Second: 00, 01, ..., 59
+  'ss': function (date) {
+    return addLeadingZeros(date.getSeconds(), 2)
+  },
+
+  // 1/10 of second: 0, 1, ..., 9
+  'S': function (date) {
+    return Math.floor(date.getMilliseconds() / 100)
+  },
+
+  // 1/100 of second: 00, 01, ..., 99
+  'SS': function (date) {
+    return addLeadingZeros(Math.floor(date.getMilliseconds() / 10), 2)
+  },
+
+  // Millisecond: 000, 001, ..., 999
+  'SSS': function (date) {
+    return addLeadingZeros(date.getMilliseconds(), 3)
+  },
+
+  // Timezone: -01:00, +00:00, ... +12:00
+  'Z': function (date) {
+    return formatTimezone(date.getTimezoneOffset(), ':')
+  },
+
+  // Timezone: -0100, +0000, ... +1200
+  'ZZ': function (date) {
+    return formatTimezone(date.getTimezoneOffset())
+  },
+
+  // Seconds timestamp: 512969520
+  'X': function (date) {
+    return Math.floor(date.getTime() / 1000)
+  },
+
+  // Milliseconds timestamp: 512969520900
+  'x': function (date) {
+    return date.getTime()
+  }
+}
+
+function buildFormatFn (formatStr, localeFormatters, formattingTokensRegExp) {
+  var array = formatStr.match(formattingTokensRegExp)
+  var length = array.length
+
+  var i
+  var formatter
+  for (i = 0; i < length; i++) {
+    formatter = localeFormatters[array[i]] || formatters[array[i]]
+    if (formatter) {
+      array[i] = formatter
+    } else {
+      array[i] = removeFormattingTokens(array[i])
+    }
+  }
+
+  return function (date) {
+    var output = ''
+    for (var i = 0; i < length; i++) {
+      if (array[i] instanceof Function) {
+        output += array[i](date, formatters)
+      } else {
+        output += array[i]
+      }
+    }
+    return output
+  }
+}
+
+function removeFormattingTokens (input) {
+  if (input.match(/\[[\s\S]/)) {
+    return input.replace(/^\[|]$/g, '')
+  }
+  return input.replace(/\\/g, '')
+}
+
+function formatTimezone (offset, delimeter) {
+  delimeter = delimeter || ''
+  var sign = offset > 0 ? '-' : '+'
+  var absOffset = Math.abs(offset)
+  var hours = Math.floor(absOffset / 60)
+  var minutes = absOffset % 60
+  return sign + addLeadingZeros(hours, 2) + delimeter + addLeadingZeros(minutes, 2)
+}
+
+function addLeadingZeros (number, targetLength) {
+  var output = Math.abs(number).toString()
+  while (output.length < targetLength) {
+    output = '0' + output
+  }
+  return output
+}
+
+module.exports = format
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/get_day/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!*************************************!*\
+  !*** ./~/date-fns/get_day/index.js ***!
+  \*************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Weekday Helpers
+ * @summary Get the day of the week of the given date.
+ *
+ * @description
+ * Get the day of the week of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the day of week
+ *
+ * @example
+ * // Which day of the week is 29 February 2012?
+ * var result = getDay(new Date(2012, 1, 29))
+ * //=> 3
+ */
+function getDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  var day = date.getDay()
+  return day
+}
+
+module.exports = getDay
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/get_day_of_year/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*********************************************!*\
+  !*** ./~/date-fns/get_day_of_year/index.js ***!
+  \*********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+var startOfYear = __webpack_require__(/*! ../start_of_year/index.js */ "./node_modules/date-fns/start_of_year/index.js")
+var differenceInCalendarDays = __webpack_require__(/*! ../difference_in_calendar_days/index.js */ "./node_modules/date-fns/difference_in_calendar_days/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Get the day of the year of the given date.
+ *
+ * @description
+ * Get the day of the year of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the day of year
+ *
+ * @example
+ * // Which day of the year is 2 July 2014?
+ * var result = getDayOfYear(new Date(2014, 6, 2))
+ * //=> 183
+ */
+function getDayOfYear (dirtyDate) {
+  var date = parse(dirtyDate)
+  var diff = differenceInCalendarDays(date, startOfYear(date))
+  var dayOfYear = diff + 1
+  return dayOfYear
+}
+
+module.exports = getDayOfYear
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/get_days_in_month/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!***********************************************!*\
+  !*** ./~/date-fns/get_days_in_month/index.js ***!
+  \***********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Get the number of days in a month of the given date.
+ *
+ * @description
+ * Get the number of days in a month of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the number of days in a month
+ *
+ * @example
+ * // How many days are in February 2000?
+ * var result = getDaysInMonth(new Date(2000, 1))
+ * //=> 29
+ */
+function getDaysInMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+  var monthIndex = date.getMonth()
+  var lastDayOfMonth = new Date(0)
+  lastDayOfMonth.setFullYear(year, monthIndex + 1, 0)
+  lastDayOfMonth.setHours(0, 0, 0, 0)
+  return lastDayOfMonth.getDate()
+}
+
+module.exports = getDaysInMonth
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/get_iso_week/index.js":
+/* no static exports found */
+/* all exports used */
+/*!******************************************!*\
+  !*** ./~/date-fns/get_iso_week/index.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+var startOfISOWeek = __webpack_require__(/*! ../start_of_iso_week/index.js */ "./node_modules/date-fns/start_of_iso_week/index.js")
+var startOfISOYear = __webpack_require__(/*! ../start_of_iso_year/index.js */ "./node_modules/date-fns/start_of_iso_year/index.js")
+
+var MILLISECONDS_IN_WEEK = 604800000
+
+/**
+ * @category ISO Week Helpers
+ * @summary Get the ISO week of the given date.
+ *
+ * @description
+ * Get the ISO week of the given date.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the ISO week
+ *
+ * @example
+ * // Which week of the ISO-week numbering year is 2 January 2005?
+ * var result = getISOWeek(new Date(2005, 0, 2))
+ * //=> 53
+ */
+function getISOWeek (dirtyDate) {
+  var date = parse(dirtyDate)
+  var diff = startOfISOWeek(date).getTime() - startOfISOYear(date).getTime()
+
+  // Round the number of days to the nearest integer
+  // because the number of milliseconds in a week is not constant
+  // (e.g. it's different in the week of the daylight saving time clock shift)
+  return Math.round(diff / MILLISECONDS_IN_WEEK) + 1
+}
+
+module.exports = getISOWeek
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/get_iso_year/index.js":
+/* no static exports found */
+/* all exports used */
+/*!******************************************!*\
+  !*** ./~/date-fns/get_iso_year/index.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+var startOfISOWeek = __webpack_require__(/*! ../start_of_iso_week/index.js */ "./node_modules/date-fns/start_of_iso_week/index.js")
+
+/**
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Get the ISO week-numbering year of the given date.
+ *
+ * @description
+ * Get the ISO week-numbering year of the given date,
+ * which always starts 3 days before the year's first Thursday.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the ISO week-numbering year
+ *
+ * @example
+ * // Which ISO-week numbering year is 2 January 2005?
+ * var result = getISOYear(new Date(2005, 0, 2))
+ * //=> 2004
+ */
+function getISOYear (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+
+  var fourthOfJanuaryOfNextYear = new Date(0)
+  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4)
+  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0)
+  var startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear)
+
+  var fourthOfJanuaryOfThisYear = new Date(0)
+  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4)
+  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0)
+  var startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear)
+
+  if (date.getTime() >= startOfNextYear.getTime()) {
+    return year + 1
+  } else if (date.getTime() >= startOfThisYear.getTime()) {
+    return year
+  } else {
+    return year - 1
+  }
+}
+
+module.exports = getISOYear
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_after/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!**************************************!*\
+  !*** ./~/date-fns/is_after/index.js ***!
+  \**************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Common Helpers
+ * @summary Is the first date after the second one?
+ *
+ * @description
+ * Is the first date after the second one?
+ *
+ * @param {Date|String|Number} date - the date that should be after the other one to return true
+ * @param {Date|String|Number} dateToCompare - the date to compare with
+ * @returns {Boolean} the first date is after the second date
+ *
+ * @example
+ * // Is 10 July 1989 after 11 February 1987?
+ * var result = isAfter(new Date(1989, 6, 10), new Date(1987, 1, 11))
+ * //=> true
+ */
+function isAfter (dirtyDate, dirtyDateToCompare) {
+  var date = parse(dirtyDate)
+  var dateToCompare = parse(dirtyDateToCompare)
+  return date.getTime() > dateToCompare.getTime()
+}
+
+module.exports = isAfter
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_before/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!***************************************!*\
+  !*** ./~/date-fns/is_before/index.js ***!
+  \***************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Common Helpers
+ * @summary Is the first date before the second one?
+ *
+ * @description
+ * Is the first date before the second one?
+ *
+ * @param {Date|String|Number} date - the date that should be before the other one to return true
+ * @param {Date|String|Number} dateToCompare - the date to compare with
+ * @returns {Boolean} the first date is before the second date
+ *
+ * @example
+ * // Is 10 July 1989 before 11 February 1987?
+ * var result = isBefore(new Date(1989, 6, 10), new Date(1987, 1, 11))
+ * //=> false
+ */
+function isBefore (dirtyDate, dirtyDateToCompare) {
+  var date = parse(dirtyDate)
+  var dateToCompare = parse(dirtyDateToCompare)
+  return date.getTime() < dateToCompare.getTime()
+}
+
+module.exports = isBefore
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_date/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*************************************!*\
+  !*** ./~/date-fns/is_date/index.js ***!
+  \*************************************/
+/***/ (function(module, exports) {
+
+/**
+ * @category Common Helpers
+ * @summary Is the given argument an instance of Date?
+ *
+ * @description
+ * Is the given argument an instance of Date?
+ *
+ * @param {*} argument - the argument to check
+ * @returns {Boolean} the given argument is an instance of Date
+ *
+ * @example
+ * // Is 'mayonnaise' a Date?
+ * var result = isDate('mayonnaise')
+ * //=> false
+ */
+function isDate (argument) {
+  return argument instanceof Date
+}
+
+module.exports = isDate
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_same_day/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!*****************************************!*\
+  !*** ./~/date-fns/is_same_day/index.js ***!
+  \*****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfDay = __webpack_require__(/*! ../start_of_day/index.js */ "./node_modules/date-fns/start_of_day/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Are the given dates in the same day?
+ *
+ * @description
+ * Are the given dates in the same day?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same day
+ *
+ * @example
+ * // Are 4 September 06:00:00 and 4 September 18:00:00 in the same day?
+ * var result = isSameDay(
+ *   new Date(2014, 8, 4, 6, 0),
+ *   new Date(2014, 8, 4, 18, 0)
+ * )
+ * //=> true
+ */
+function isSameDay (dirtyDateLeft, dirtyDateRight) {
+  var dateLeftStartOfDay = startOfDay(dirtyDateLeft)
+  var dateRightStartOfDay = startOfDay(dirtyDateRight)
+
+  return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime()
+}
+
+module.exports = isSameDay
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_same_month/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!*******************************************!*\
+  !*** ./~/date-fns/is_same_month/index.js ***!
+  \*******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Are the given dates in the same month?
+ *
+ * @description
+ * Are the given dates in the same month?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same month
+ *
+ * @example
+ * // Are 2 September 2014 and 25 September 2014 in the same month?
+ * var result = isSameMonth(
+ *   new Date(2014, 8, 2),
+ *   new Date(2014, 8, 25)
+ * )
+ * //=> true
+ */
+function isSameMonth (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+  return dateLeft.getFullYear() === dateRight.getFullYear() &&
+    dateLeft.getMonth() === dateRight.getMonth()
+}
+
+module.exports = isSameMonth
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_same_year/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!******************************************!*\
+  !*** ./~/date-fns/is_same_year/index.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Year Helpers
+ * @summary Are the given dates in the same year?
+ *
+ * @description
+ * Are the given dates in the same year?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same year
+ *
+ * @example
+ * // Are 2 September 2014 and 25 September 2014 in the same year?
+ * var result = isSameYear(
+ *   new Date(2014, 8, 2),
+ *   new Date(2014, 8, 25)
+ * )
+ * //=> true
+ */
+function isSameYear (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+  return dateLeft.getFullYear() === dateRight.getFullYear()
+}
+
+module.exports = isSameYear
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/is_valid/index.js":
+/* no static exports found */
+/* all exports used */
+/*!**************************************!*\
+  !*** ./~/date-fns/is_valid/index.js ***!
+  \**************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var isDate = __webpack_require__(/*! ../is_date/index.js */ "./node_modules/date-fns/is_date/index.js")
+
+/**
+ * @category Common Helpers
+ * @summary Is the given date valid?
+ *
+ * @description
+ * Returns false if argument is Invalid Date and true otherwise.
+ * Invalid Date is a Date, whose time value is NaN.
+ *
+ * Time value of Date: http://es5.github.io/#x15.9.1.1
+ *
+ * @param {Date} date - the date to check
+ * @returns {Boolean} the date is valid
+ * @throws {TypeError} argument must be an instance of Date
+ *
+ * @example
+ * // For the valid date:
+ * var result = isValid(new Date(2014, 1, 31))
+ * //=> true
+ *
+ * @example
+ * // For the invalid date:
+ * var result = isValid(new Date(''))
+ * //=> false
+ */
+function isValid (dirtyDate) {
+  if (isDate(dirtyDate)) {
+    return !isNaN(dirtyDate)
+  } else {
+    throw new TypeError(toString.call(dirtyDate) + ' is not an instance of Date')
+  }
+}
+
+module.exports = isValid
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/locale/_lib/build_formatting_tokens_reg_exp/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*************************************************************************!*\
+  !*** ./~/date-fns/locale/_lib/build_formatting_tokens_reg_exp/index.js ***!
+  \*************************************************************************/
+/***/ (function(module, exports) {
+
+var commonFormatterKeys = [
+  'M', 'MM', 'Q', 'D', 'DD', 'DDD', 'DDDD', 'd',
+  'E', 'W', 'WW', 'YY', 'YYYY', 'GG', 'GGGG',
+  'H', 'HH', 'h', 'hh', 'm', 'mm',
+  's', 'ss', 'S', 'SS', 'SSS',
+  'Z', 'ZZ', 'X', 'x'
+]
+
+function buildFormattingTokensRegExp (formatters) {
+  var formatterKeys = []
+  for (var key in formatters) {
+    if (formatters.hasOwnProperty(key)) {
+      formatterKeys.push(key)
+    }
+  }
+
+  var formattingTokens = commonFormatterKeys
+    .concat(formatterKeys)
+    .sort()
+    .reverse()
+  var formattingTokensRegExp = new RegExp(
+    '(\\[[^\\[]*\\])|(\\\\)?' + '(' + formattingTokens.join('|') + '|.)', 'g'
+  )
+
+  return formattingTokensRegExp
+}
+
+module.exports = buildFormattingTokensRegExp
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/locale/en/build_distance_in_words_locale/index.js":
+/* no static exports found */
+/* all exports used */
+/*!**********************************************************************!*\
+  !*** ./~/date-fns/locale/en/build_distance_in_words_locale/index.js ***!
+  \**********************************************************************/
+/***/ (function(module, exports) {
+
+function buildDistanceInWordsLocale () {
+  var distanceInWordsLocale = {
+    lessThanXSeconds: {
+      one: 'less than a second',
+      other: 'less than {{count}} seconds'
+    },
+
+    xSeconds: {
+      one: '1 second',
+      other: '{{count}} seconds'
+    },
+
+    halfAMinute: 'half a minute',
+
+    lessThanXMinutes: {
+      one: 'less than a minute',
+      other: 'less than {{count}} minutes'
+    },
+
+    xMinutes: {
+      one: '1 minute',
+      other: '{{count}} minutes'
+    },
+
+    aboutXHours: {
+      one: 'about 1 hour',
+      other: 'about {{count}} hours'
+    },
+
+    xHours: {
+      one: '1 hour',
+      other: '{{count}} hours'
+    },
+
+    xDays: {
+      one: '1 day',
+      other: '{{count}} days'
+    },
+
+    aboutXMonths: {
+      one: 'about 1 month',
+      other: 'about {{count}} months'
+    },
+
+    xMonths: {
+      one: '1 month',
+      other: '{{count}} months'
+    },
+
+    aboutXYears: {
+      one: 'about 1 year',
+      other: 'about {{count}} years'
+    },
+
+    xYears: {
+      one: '1 year',
+      other: '{{count}} years'
+    },
+
+    overXYears: {
+      one: 'over 1 year',
+      other: 'over {{count}} years'
+    },
+
+    almostXYears: {
+      one: 'almost 1 year',
+      other: 'almost {{count}} years'
+    }
+  }
+
+  function localize (token, count, options) {
+    options = options || {}
+
+    var result
+    if (typeof distanceInWordsLocale[token] === 'string') {
+      result = distanceInWordsLocale[token]
+    } else if (count === 1) {
+      result = distanceInWordsLocale[token].one
+    } else {
+      result = distanceInWordsLocale[token].other.replace('{{count}}', count)
+    }
+
+    if (options.addSuffix) {
+      if (options.comparison > 0) {
+        return 'in ' + result
+      } else {
+        return result + ' ago'
+      }
+    }
+
+    return result
+  }
+
+  return {
+    localize: localize
+  }
+}
+
+module.exports = buildDistanceInWordsLocale
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/locale/en/build_format_locale/index.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************************************!*\
+  !*** ./~/date-fns/locale/en/build_format_locale/index.js ***!
+  \***********************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var buildFormattingTokensRegExp = __webpack_require__(/*! ../../_lib/build_formatting_tokens_reg_exp/index.js */ "./node_modules/date-fns/locale/_lib/build_formatting_tokens_reg_exp/index.js")
+
+function buildFormatLocale () {
+  // Note: in English, the names of days of the week and months are capitalized.
+  // If you are making a new locale based on this one, check if the same is true for the language you're working on.
+  // Generally, formatted dates should look like they are in the middle of a sentence,
+  // e.g. in Spanish language the weekdays and months should be in the lowercase.
+  var months3char = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  var monthsFull = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  var weekdays2char = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  var weekdays3char = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  var weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  var meridiemUppercase = ['AM', 'PM']
+  var meridiemLowercase = ['am', 'pm']
+  var meridiemFull = ['a.m.', 'p.m.']
+
+  var formatters = {
+    // Month: Jan, Feb, ..., Dec
+    'MMM': function (date) {
+      return months3char[date.getMonth()]
+    },
+
+    // Month: January, February, ..., December
+    'MMMM': function (date) {
+      return monthsFull[date.getMonth()]
+    },
+
+    // Day of week: Su, Mo, ..., Sa
+    'dd': function (date) {
+      return weekdays2char[date.getDay()]
+    },
+
+    // Day of week: Sun, Mon, ..., Sat
+    'ddd': function (date) {
+      return weekdays3char[date.getDay()]
+    },
+
+    // Day of week: Sunday, Monday, ..., Saturday
+    'dddd': function (date) {
+      return weekdaysFull[date.getDay()]
+    },
+
+    // AM, PM
+    'A': function (date) {
+      return (date.getHours() / 12) >= 1 ? meridiemUppercase[1] : meridiemUppercase[0]
+    },
+
+    // am, pm
+    'a': function (date) {
+      return (date.getHours() / 12) >= 1 ? meridiemLowercase[1] : meridiemLowercase[0]
+    },
+
+    // a.m., p.m.
+    'aa': function (date) {
+      return (date.getHours() / 12) >= 1 ? meridiemFull[1] : meridiemFull[0]
+    }
+  }
+
+  // Generate ordinal version of formatters: M -> Mo, D -> Do, etc.
+  var ordinalFormatters = ['M', 'D', 'DDD', 'd', 'Q', 'W']
+  ordinalFormatters.forEach(function (formatterToken) {
+    formatters[formatterToken + 'o'] = function (date, formatters) {
+      return ordinal(formatters[formatterToken](date))
+    }
+  })
+
+  return {
+    formatters: formatters,
+    formattingTokensRegExp: buildFormattingTokensRegExp(formatters)
+  }
+}
+
+function ordinal (number) {
+  var rem100 = number % 100
+  if (rem100 > 20 || rem100 < 10) {
+    switch (rem100 % 10) {
+      case 1:
+        return number + 'st'
+      case 2:
+        return number + 'nd'
+      case 3:
+        return number + 'rd'
+    }
+  }
+  return number + 'th'
+}
+
+module.exports = buildFormatLocale
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/locale/en/index.js":
+/* no static exports found */
+/* all exports used */
+/*!***************************************!*\
+  !*** ./~/date-fns/locale/en/index.js ***!
+  \***************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var buildDistanceInWordsLocale = __webpack_require__(/*! ./build_distance_in_words_locale/index.js */ "./node_modules/date-fns/locale/en/build_distance_in_words_locale/index.js")
+var buildFormatLocale = __webpack_require__(/*! ./build_format_locale/index.js */ "./node_modules/date-fns/locale/en/build_format_locale/index.js")
+
+/**
+ * @category Locales
+ * @summary English locale.
+ */
+module.exports = {
+  distanceInWords: buildDistanceInWordsLocale(),
+  format: buildFormatLocale()
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/parse/index.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************!*\
+  !*** ./~/date-fns/parse/index.js ***!
+  \***********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var isDate = __webpack_require__(/*! ../is_date/index.js */ "./node_modules/date-fns/is_date/index.js")
+
+var MILLISECONDS_IN_HOUR = 3600000
+var MILLISECONDS_IN_MINUTE = 60000
+var DEFAULT_ADDITIONAL_DIGITS = 2
+
+var parseTokenDateTimeDelimeter = /[T ]/
+var parseTokenPlainTime = /:/
+
+// year tokens
+var parseTokenYY = /^(\d{2})$/
+var parseTokensYYY = [
+  /^([+-]\d{2})$/, // 0 additional digits
+  /^([+-]\d{3})$/, // 1 additional digit
+  /^([+-]\d{4})$/ // 2 additional digits
+]
+
+var parseTokenYYYY = /^(\d{4})/
+var parseTokensYYYYY = [
+  /^([+-]\d{4})/, // 0 additional digits
+  /^([+-]\d{5})/, // 1 additional digit
+  /^([+-]\d{6})/ // 2 additional digits
+]
+
+// date tokens
+var parseTokenMM = /^-(\d{2})$/
+var parseTokenDDD = /^-?(\d{3})$/
+var parseTokenMMDD = /^-?(\d{2})-?(\d{2})$/
+var parseTokenWww = /^-?W(\d{2})$/
+var parseTokenWwwD = /^-?W(\d{2})-?(\d{1})$/
+
+// time tokens
+var parseTokenHH = /^(\d{2}([.,]\d*)?)$/
+var parseTokenHHMM = /^(\d{2}):?(\d{2}([.,]\d*)?)$/
+var parseTokenHHMMSS = /^(\d{2}):?(\d{2}):?(\d{2}([.,]\d*)?)$/
+
+// timezone tokens
+var parseTokenTimezone = /([Z+-].*)$/
+var parseTokenTimezoneZ = /^(Z)$/
+var parseTokenTimezoneHH = /^([+-])(\d{2})$/
+var parseTokenTimezoneHHMM = /^([+-])(\d{2}):?(\d{2})$/
+
+/**
+ * @category Common Helpers
+ * @summary Convert the given argument to an instance of Date.
+ *
+ * @description
+ * Convert the given argument to an instance of Date.
+ *
+ * If the argument is an instance of Date, the function returns its clone.
+ *
+ * If the argument is a number, it is treated as a timestamp.
+ *
+ * If an argument is a string, the function tries to parse it.
+ * Function accepts complete ISO 8601 formats as well as partial implementations.
+ * ISO 8601: http://en.wikipedia.org/wiki/ISO_8601
+ *
+ * If all above fails, the function passes the given argument to Date constructor.
+ *
+ * @param {Date|String|Number} argument - the value to convert
+ * @param {Object} [options] - the object with options
+ * @param {0 | 1 | 2} [options.additionalDigits=2] - the additional number of digits in the extended year format
+ * @returns {Date} the parsed date in the local time zone
+ *
+ * @example
+ * // Convert string '2014-02-11T11:30:30' to date:
+ * var result = parse('2014-02-11T11:30:30')
+ * //=> Tue Feb 11 2014 11:30:30
+ *
+ * @example
+ * // Parse string '+02014101',
+ * // if the additional number of digits in the extended year format is 1:
+ * var result = parse('+02014101', {additionalDigits: 1})
+ * //=> Fri Apr 11 2014 00:00:00
+ */
+function parse (argument, dirtyOptions) {
+  if (isDate(argument)) {
+    // Prevent the date to lose the milliseconds when passed to new Date() in IE10
+    return new Date(argument.getTime())
+  } else if (typeof argument !== 'string') {
+    return new Date(argument)
+  }
+
+  var options = dirtyOptions || {}
+  var additionalDigits = options.additionalDigits
+  if (additionalDigits == null) {
+    additionalDigits = DEFAULT_ADDITIONAL_DIGITS
+  } else {
+    additionalDigits = Number(additionalDigits)
+  }
+
+  var dateStrings = splitDateString(argument)
+
+  var parseYearResult = parseYear(dateStrings.date, additionalDigits)
+  var year = parseYearResult.year
+  var restDateString = parseYearResult.restDateString
+
+  var date = parseDate(restDateString, year)
+
+  if (date) {
+    var timestamp = date.getTime()
+    var time = 0
+    var offset
+
+    if (dateStrings.time) {
+      time = parseTime(dateStrings.time)
+    }
+
+    if (dateStrings.timezone) {
+      offset = parseTimezone(dateStrings.timezone)
+    } else {
+      // get offset accurate to hour in timezones that change offset
+      offset = new Date(timestamp + time).getTimezoneOffset()
+      offset = new Date(timestamp + time + offset * MILLISECONDS_IN_MINUTE).getTimezoneOffset()
+    }
+
+    return new Date(timestamp + time + offset * MILLISECONDS_IN_MINUTE)
+  } else {
+    return new Date(argument)
+  }
+}
+
+function splitDateString (dateString) {
+  var dateStrings = {}
+  var array = dateString.split(parseTokenDateTimeDelimeter)
+  var timeString
+
+  if (parseTokenPlainTime.test(array[0])) {
+    dateStrings.date = null
+    timeString = array[0]
+  } else {
+    dateStrings.date = array[0]
+    timeString = array[1]
+  }
+
+  if (timeString) {
+    var token = parseTokenTimezone.exec(timeString)
+    if (token) {
+      dateStrings.time = timeString.replace(token[1], '')
+      dateStrings.timezone = token[1]
+    } else {
+      dateStrings.time = timeString
+    }
+  }
+
+  return dateStrings
+}
+
+function parseYear (dateString, additionalDigits) {
+  var parseTokenYYY = parseTokensYYY[additionalDigits]
+  var parseTokenYYYYY = parseTokensYYYYY[additionalDigits]
+
+  var token
+
+  // YYYY or ±YYYYY
+  token = parseTokenYYYY.exec(dateString) || parseTokenYYYYY.exec(dateString)
+  if (token) {
+    var yearString = token[1]
+    return {
+      year: parseInt(yearString, 10),
+      restDateString: dateString.slice(yearString.length)
+    }
+  }
+
+  // YY or ±YYY
+  token = parseTokenYY.exec(dateString) || parseTokenYYY.exec(dateString)
+  if (token) {
+    var centuryString = token[1]
+    return {
+      year: parseInt(centuryString, 10) * 100,
+      restDateString: dateString.slice(centuryString.length)
+    }
+  }
+
+  // Invalid ISO-formatted year
+  return {
+    year: null
+  }
+}
+
+function parseDate (dateString, year) {
+  // Invalid ISO-formatted year
+  if (year === null) {
+    return null
+  }
+
+  var token
+  var date
+  var month
+  var week
+
+  // YYYY
+  if (dateString.length === 0) {
+    date = new Date(0)
+    date.setUTCFullYear(year)
+    return date
+  }
+
+  // YYYY-MM
+  token = parseTokenMM.exec(dateString)
+  if (token) {
+    date = new Date(0)
+    month = parseInt(token[1], 10) - 1
+    date.setUTCFullYear(year, month)
+    return date
+  }
+
+  // YYYY-DDD or YYYYDDD
+  token = parseTokenDDD.exec(dateString)
+  if (token) {
+    date = new Date(0)
+    var dayOfYear = parseInt(token[1], 10)
+    date.setUTCFullYear(year, 0, dayOfYear)
+    return date
+  }
+
+  // YYYY-MM-DD or YYYYMMDD
+  token = parseTokenMMDD.exec(dateString)
+  if (token) {
+    date = new Date(0)
+    month = parseInt(token[1], 10) - 1
+    var day = parseInt(token[2], 10)
+    date.setUTCFullYear(year, month, day)
+    return date
+  }
+
+  // YYYY-Www or YYYYWww
+  token = parseTokenWww.exec(dateString)
+  if (token) {
+    week = parseInt(token[1], 10) - 1
+    return dayOfISOYear(year, week)
+  }
+
+  // YYYY-Www-D or YYYYWwwD
+  token = parseTokenWwwD.exec(dateString)
+  if (token) {
+    week = parseInt(token[1], 10) - 1
+    var dayOfWeek = parseInt(token[2], 10) - 1
+    return dayOfISOYear(year, week, dayOfWeek)
+  }
+
+  // Invalid ISO-formatted date
+  return null
+}
+
+function parseTime (timeString) {
+  var token
+  var hours
+  var minutes
+
+  // hh
+  token = parseTokenHH.exec(timeString)
+  if (token) {
+    hours = parseFloat(token[1].replace(',', '.'))
+    return (hours % 24) * MILLISECONDS_IN_HOUR
+  }
+
+  // hh:mm or hhmm
+  token = parseTokenHHMM.exec(timeString)
+  if (token) {
+    hours = parseInt(token[1], 10)
+    minutes = parseFloat(token[2].replace(',', '.'))
+    return (hours % 24) * MILLISECONDS_IN_HOUR +
+      minutes * MILLISECONDS_IN_MINUTE
+  }
+
+  // hh:mm:ss or hhmmss
+  token = parseTokenHHMMSS.exec(timeString)
+  if (token) {
+    hours = parseInt(token[1], 10)
+    minutes = parseInt(token[2], 10)
+    var seconds = parseFloat(token[3].replace(',', '.'))
+    return (hours % 24) * MILLISECONDS_IN_HOUR +
+      minutes * MILLISECONDS_IN_MINUTE +
+      seconds * 1000
+  }
+
+  // Invalid ISO-formatted time
+  return null
+}
+
+function parseTimezone (timezoneString) {
+  var token
+  var absoluteOffset
+
+  // Z
+  token = parseTokenTimezoneZ.exec(timezoneString)
+  if (token) {
+    return 0
+  }
+
+  // ±hh
+  token = parseTokenTimezoneHH.exec(timezoneString)
+  if (token) {
+    absoluteOffset = parseInt(token[2], 10) * 60
+    return (token[1] === '+') ? -absoluteOffset : absoluteOffset
+  }
+
+  // ±hh:mm or ±hhmm
+  token = parseTokenTimezoneHHMM.exec(timezoneString)
+  if (token) {
+    absoluteOffset = parseInt(token[2], 10) * 60 + parseInt(token[3], 10)
+    return (token[1] === '+') ? -absoluteOffset : absoluteOffset
+  }
+
+  return 0
+}
+
+function dayOfISOYear (isoYear, week, day) {
+  week = week || 0
+  day = day || 0
+  var date = new Date(0)
+  date.setUTCFullYear(isoYear, 0, 4)
+  var fourthOfJanuaryDay = date.getUTCDay() || 7
+  var diff = week * 7 + day + 1 - fourthOfJanuaryDay
+  date.setUTCDate(date.getUTCDate() + diff)
+  return date
+}
+
+module.exports = parse
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/start_of_day/index.js":
+/* no static exports found */
+/* all exports used */
+/*!******************************************!*\
+  !*** ./~/date-fns/start_of_day/index.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Return the start of a day for the given date.
+ *
+ * @description
+ * Return the start of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a day
+ *
+ * @example
+ * // The start of a day for 2 September 2014 11:55:00:
+ * var result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 00:00:00
+ */
+function startOfDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfDay
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/start_of_iso_week/index.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************************!*\
+  !*** ./~/date-fns/start_of_iso_week/index.js ***!
+  \***********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfWeek = __webpack_require__(/*! ../start_of_week/index.js */ "./node_modules/date-fns/start_of_week/index.js")
+
+/**
+ * @category ISO Week Helpers
+ * @summary Return the start of an ISO week for the given date.
+ *
+ * @description
+ * Return the start of an ISO week for the given date.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of an ISO week
+ *
+ * @example
+ * // The start of an ISO week for 2 September 2014 11:55:00:
+ * var result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfISOWeek (dirtyDate) {
+  return startOfWeek(dirtyDate, {weekStartsOn: 1})
+}
+
+module.exports = startOfISOWeek
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/start_of_iso_year/index.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************************!*\
+  !*** ./~/date-fns/start_of_iso_year/index.js ***!
+  \***********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var getISOYear = __webpack_require__(/*! ../get_iso_year/index.js */ "./node_modules/date-fns/get_iso_year/index.js")
+var startOfISOWeek = __webpack_require__(/*! ../start_of_iso_week/index.js */ "./node_modules/date-fns/start_of_iso_week/index.js")
+
+/**
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Return the start of an ISO week-numbering year for the given date.
+ *
+ * @description
+ * Return the start of an ISO week-numbering year,
+ * which always starts 3 days before the year's first Thursday.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of an ISO year
+ *
+ * @example
+ * // The start of an ISO week-numbering year for 2 July 2005:
+ * var result = startOfISOYear(new Date(2005, 6, 2))
+ * //=> Mon Jan 03 2005 00:00:00
+ */
+function startOfISOYear (dirtyDate) {
+  var year = getISOYear(dirtyDate)
+  var fourthOfJanuary = new Date(0)
+  fourthOfJanuary.setFullYear(year, 0, 4)
+  fourthOfJanuary.setHours(0, 0, 0, 0)
+  var date = startOfISOWeek(fourthOfJanuary)
+  return date
+}
+
+module.exports = startOfISOYear
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/start_of_month/index.js":
+/* no static exports found */
+/* exports used: default */
+/*!********************************************!*\
+  !*** ./~/date-fns/start_of_month/index.js ***!
+  \********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Return the start of a month for the given date.
+ *
+ * @description
+ * Return the start of a month for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a month
+ *
+ * @example
+ * // The start of a month for 2 September 2014 11:55:00:
+ * var result = startOfMonth(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setDate(1)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfMonth
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/start_of_week/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*******************************************!*\
+  !*** ./~/date-fns/start_of_week/index.js ***!
+  \*******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Week Helpers
+ * @summary Return the start of a week for the given date.
+ *
+ * @description
+ * Return the start of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @param {Object} [options] - the object with options
+ * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Date} the start of a week
+ *
+ * @example
+ * // The start of a week for 2 September 2014 11:55:00:
+ * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sun Aug 31 2014 00:00:00
+ *
+ * @example
+ * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
+ * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), {weekStartsOn: 1})
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfWeek (dirtyDate, dirtyOptions) {
+  var weekStartsOn = dirtyOptions ? (Number(dirtyOptions.weekStartsOn) || 0) : 0
+
+  var date = parse(dirtyDate)
+  var day = date.getDay()
+  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn
+
+  date.setDate(date.getDate() - diff)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfWeek
+
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/start_of_year/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*******************************************!*\
+  !*** ./~/date-fns/start_of_year/index.js ***!
+  \*******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(/*! ../parse/index.js */ "./node_modules/date-fns/parse/index.js")
+
+/**
+ * @category Year Helpers
+ * @summary Return the start of a year for the given date.
+ *
+ * @description
+ * Return the start of a year for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a year
+ *
+ * @example
+ * // The start of a year for 2 September 2014 11:55:00:
+ * var result = startOfYear(new Date(2014, 8, 2, 11, 55, 00))
+ * //=> Wed Jan 01 2014 00:00:00
+ */
+function startOfYear (dirtyDate) {
+  var cleanDate = parse(dirtyDate)
+  var date = new Date(0)
+  date.setFullYear(cleanDate.getFullYear(), 0, 1)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfYear
 
 
 /***/ }),
@@ -3879,6 +5804,327 @@ function coerce(val) {
   return val;
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/class/addClass.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************!*\
+  !*** ./~/dom-helpers/class/addClass.js ***!
+  \*****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = addClass;
+
+var _hasClass = __webpack_require__(/*! ./hasClass */ "./node_modules/dom-helpers/class/hasClass.js");
+
+var _hasClass2 = _interopRequireDefault(_hasClass);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function addClass(element, className) {
+  if (element.classList) element.classList.add(className);else if (!(0, _hasClass2.default)(element)) element.className = element.className + ' ' + className;
+}
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/class/hasClass.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************!*\
+  !*** ./~/dom-helpers/class/hasClass.js ***!
+  \*****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = hasClass;
+function hasClass(element, className) {
+  if (element.classList) return !!className && element.classList.contains(className);else return (" " + element.className + " ").indexOf(" " + className + " ") !== -1;
+}
+module.exports = exports["default"];
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/class/removeClass.js":
+/* no static exports found */
+/* all exports used */
+/*!********************************************!*\
+  !*** ./~/dom-helpers/class/removeClass.js ***!
+  \********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function removeClass(element, className) {
+  if (element.classList) element.classList.remove(className);else element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ').replace(/^\s*|\s*$/g, '');
+};
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/transition/properties.js":
+/* no static exports found */
+/* all exports used */
+/*!************************************************!*\
+  !*** ./~/dom-helpers/transition/properties.js ***!
+  \************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.animationEnd = exports.animationDelay = exports.animationTiming = exports.animationDuration = exports.animationName = exports.transitionEnd = exports.transitionDuration = exports.transitionDelay = exports.transitionTiming = exports.transitionProperty = exports.transform = undefined;
+
+var _inDOM = __webpack_require__(/*! ../util/inDOM */ "./node_modules/dom-helpers/util/inDOM.js");
+
+var _inDOM2 = _interopRequireDefault(_inDOM);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var transform = 'transform';
+var prefix = void 0,
+    transitionEnd = void 0,
+    animationEnd = void 0;
+var transitionProperty = void 0,
+    transitionDuration = void 0,
+    transitionTiming = void 0,
+    transitionDelay = void 0;
+var animationName = void 0,
+    animationDuration = void 0,
+    animationTiming = void 0,
+    animationDelay = void 0;
+
+if (_inDOM2.default) {
+  var _getTransitionPropert = getTransitionProperties();
+
+  prefix = _getTransitionPropert.prefix;
+  exports.transitionEnd = transitionEnd = _getTransitionPropert.transitionEnd;
+  exports.animationEnd = animationEnd = _getTransitionPropert.animationEnd;
+
+
+  exports.transform = transform = prefix + '-' + transform;
+  exports.transitionProperty = transitionProperty = prefix + '-transition-property';
+  exports.transitionDuration = transitionDuration = prefix + '-transition-duration';
+  exports.transitionDelay = transitionDelay = prefix + '-transition-delay';
+  exports.transitionTiming = transitionTiming = prefix + '-transition-timing-function';
+
+  exports.animationName = animationName = prefix + '-animation-name';
+  exports.animationDuration = animationDuration = prefix + '-animation-duration';
+  exports.animationTiming = animationTiming = prefix + '-animation-delay';
+  exports.animationDelay = animationDelay = prefix + '-animation-timing-function';
+}
+
+exports.transform = transform;
+exports.transitionProperty = transitionProperty;
+exports.transitionTiming = transitionTiming;
+exports.transitionDelay = transitionDelay;
+exports.transitionDuration = transitionDuration;
+exports.transitionEnd = transitionEnd;
+exports.animationName = animationName;
+exports.animationDuration = animationDuration;
+exports.animationTiming = animationTiming;
+exports.animationDelay = animationDelay;
+exports.animationEnd = animationEnd;
+exports.default = {
+  transform: transform,
+  end: transitionEnd,
+  property: transitionProperty,
+  timing: transitionTiming,
+  delay: transitionDelay,
+  duration: transitionDuration
+};
+
+
+function getTransitionProperties() {
+  var style = document.createElement('div').style;
+
+  var vendorMap = {
+    O: function O(e) {
+      return 'o' + e.toLowerCase();
+    },
+    Moz: function Moz(e) {
+      return e.toLowerCase();
+    },
+    Webkit: function Webkit(e) {
+      return 'webkit' + e;
+    },
+    ms: function ms(e) {
+      return 'MS' + e;
+    }
+  };
+
+  var vendors = Object.keys(vendorMap);
+
+  var transitionEnd = void 0,
+      animationEnd = void 0;
+  var prefix = '';
+
+  for (var i = 0; i < vendors.length; i++) {
+    var vendor = vendors[i];
+
+    if (vendor + 'TransitionProperty' in style) {
+      prefix = '-' + vendor.toLowerCase();
+      transitionEnd = vendorMap[vendor]('TransitionEnd');
+      animationEnd = vendorMap[vendor]('AnimationEnd');
+      break;
+    }
+  }
+
+  if (!transitionEnd && 'transitionProperty' in style) transitionEnd = 'transitionend';
+
+  if (!animationEnd && 'animationName' in style) animationEnd = 'animationend';
+
+  style = null;
+
+  return { animationEnd: animationEnd, transitionEnd: transitionEnd, prefix: prefix };
+}
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/util/inDOM.js":
+/* no static exports found */
+/* all exports used */
+/*!*************************************!*\
+  !*** ./~/dom-helpers/util/inDOM.js ***!
+  \*************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/util/requestAnimationFrame.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************************!*\
+  !*** ./~/dom-helpers/util/requestAnimationFrame.js ***!
+  \*****************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _inDOM = __webpack_require__(/*! ./inDOM */ "./node_modules/dom-helpers/util/inDOM.js");
+
+var _inDOM2 = _interopRequireDefault(_inDOM);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var vendors = ['', 'webkit', 'moz', 'o', 'ms'];
+var cancel = 'clearTimeout';
+var raf = fallback;
+var compatRaf = void 0;
+
+var getKey = function getKey(vendor, k) {
+  return vendor + (!vendor ? k : k[0].toUpperCase() + k.substr(1)) + 'AnimationFrame';
+};
+
+if (_inDOM2.default) {
+  vendors.some(function (vendor) {
+    var rafKey = getKey(vendor, 'request');
+
+    if (rafKey in window) {
+      cancel = getKey(vendor, 'cancel');
+      return raf = function raf(cb) {
+        return window[rafKey](cb);
+      };
+    }
+  });
+}
+
+/* https://github.com/component/raf */
+var prev = new Date().getTime();
+function fallback(fn) {
+  var curr = new Date().getTime(),
+      ms = Math.max(0, 16 - (curr - prev)),
+      req = setTimeout(fn, ms);
+
+  prev = curr;
+  return req;
+}
+
+compatRaf = function compatRaf(cb) {
+  return raf(cb);
+};
+compatRaf.cancel = function (id) {
+  window[cancel] && typeof window[cancel] === 'function' && window[cancel](id);
+};
+exports.default = compatRaf;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/util/scrollbarSize.js":
+/* no static exports found */
+/* exports used: default */
+/*!*********************************************!*\
+  !*** ./~/dom-helpers/util/scrollbarSize.js ***!
+  \*********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (recalc) {
+  if (!size || recalc) {
+    if (_inDOM2.default) {
+      var scrollDiv = document.createElement('div');
+
+      scrollDiv.style.position = 'absolute';
+      scrollDiv.style.top = '-9999px';
+      scrollDiv.style.width = '50px';
+      scrollDiv.style.height = '50px';
+      scrollDiv.style.overflow = 'scroll';
+
+      document.body.appendChild(scrollDiv);
+      size = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+      document.body.removeChild(scrollDiv);
+    }
+  }
+
+  return size;
+};
+
+var _inDOM = __webpack_require__(/*! ./inDOM */ "./node_modules/dom-helpers/util/inDOM.js");
+
+var _inDOM2 = _interopRequireDefault(_inDOM);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var size = void 0;
+
+module.exports = exports['default'];
 
 /***/ }),
 
@@ -6431,7 +8677,7 @@ exports.matchToToken = function(match) {
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(/*! !webpack amd options */ "./node_modules/react-scripts/node_modules/webpack/buildin/amd-options.js");
+  var isLoader = "function" === "function" && __webpack_require__(/*! !webpack amd options */ "./node_modules/webpack/buildin/amd-options.js");
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -7331,7 +9577,7 @@ exports.matchToToken = function(match) {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../react-scripts/~/webpack/buildin/module.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -8668,6 +10914,48 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 /***/ }),
 
+/***/ "./node_modules/prop-types/index.js":
+/* no static exports found */
+/* all exports used */
+/*!*******************************!*\
+  !*** ./~/prop-types/index.js ***!
+  \*******************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+if (true) {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/prop-types/factoryWithTypeCheckers.js")(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = require('./factoryWithThrowingShims')();
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/prop-types/lib/ReactPropTypesSecret.js":
 /* no static exports found */
 /* all exports used */
@@ -9236,7 +11524,7 @@ module.exports = ReactPropTypesSecret;
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../react-scripts/~/webpack/buildin/module.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -10107,7 +12395,7 @@ function tryApplyUpdates(onHotUpdateSuccess) {
 
 /***/ "./node_modules/react-dom/index.js":
 /* no static exports found */
-/* exports used: default */
+/* all exports used */
 /*!******************************!*\
   !*** ./~/react-dom/index.js ***!
   \******************************/
@@ -30083,6 +32371,3177 @@ function massage(warning, frames) {
 
 /***/ }),
 
+/***/ "./node_modules/react-infinite-calendar/es/Calendar/index.js":
+/* exports provided: withDefaultProps, default */
+/* exports used: default, withDefaultProps */
+/*!********************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Calendar/index.js ***!
+  \********************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return withDefaultProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Calendar; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_defaultProps__ = __webpack_require__(/*! recompose/defaultProps */ "./node_modules/recompose/defaultProps.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_defaultProps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_recompose_defaultProps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_defaultDisplayOptions__ = __webpack_require__(/*! ../utils/defaultDisplayOptions */ "./node_modules/react-infinite-calendar/es/utils/defaultDisplayOptions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_defaultDisplayOptions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__utils_defaultDisplayOptions__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_defaultLocale__ = __webpack_require__(/*! ../utils/defaultLocale */ "./node_modules/react-infinite-calendar/es/utils/defaultLocale.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_defaultLocale___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__utils_defaultLocale__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_defaultTheme__ = __webpack_require__(/*! ../utils/defaultTheme */ "./node_modules/react-infinite-calendar/es/utils/defaultTheme.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_defaultTheme___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__utils_defaultTheme__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Today__ = __webpack_require__(/*! ../Today */ "./node_modules/react-infinite-calendar/es/Today/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Header__ = __webpack_require__(/*! ../Header */ "./node_modules/react-infinite-calendar/es/Header/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__MonthList__ = __webpack_require__(/*! ../MonthList */ "./node_modules/react-infinite-calendar/es/MonthList/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Weekdays__ = __webpack_require__(/*! ../Weekdays */ "./node_modules/react-infinite-calendar/es/Weekdays/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__Years__ = __webpack_require__(/*! ../Years */ "./node_modules/react-infinite-calendar/es/Years/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__Day__ = __webpack_require__(/*! ../Day */ "./node_modules/react-infinite-calendar/es/Day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_date_fns_parse__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_day__ = __webpack_require__(/*! date-fns/start_of_day */ "./node_modules/date-fns/start_of_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_day__);
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var styles = {
+  container: {
+    'root': 'Cal__Container__root',
+    'landscape': 'Cal__Container__landscape',
+    'wrapper': 'Cal__Container__wrapper',
+    'listWrapper': 'Cal__Container__listWrapper'
+  },
+  day: {
+    'root': 'Cal__Day__root',
+    'enabled': 'Cal__Day__enabled',
+    'highlighted': 'Cal__Day__highlighted',
+    'today': 'Cal__Day__today',
+    'disabled': 'Cal__Day__disabled',
+    'selected': 'Cal__Day__selected',
+    'month': 'Cal__Day__month',
+    'year': 'Cal__Day__year',
+    'selection': 'Cal__Day__selection',
+    'day': 'Cal__Day__day',
+    'range': 'Cal__Day__range',
+    'start': 'Cal__Day__start',
+    'end': 'Cal__Day__end',
+    'betweenRange': 'Cal__Day__betweenRange'
+  }
+};
+
+var withDefaultProps = __WEBPACK_IMPORTED_MODULE_0_recompose_defaultProps___default()({
+  autoFocus: true,
+  DayComponent: __WEBPACK_IMPORTED_MODULE_13__Day__["a" /* default */],
+  display: 'days',
+  displayOptions: {},
+  HeaderComponent: __WEBPACK_IMPORTED_MODULE_9__Header__["a" /* default */],
+  height: 500,
+  keyboardSupport: true,
+  max: new Date(2050, 11, 31),
+  maxDate: new Date(2050, 11, 31),
+  min: new Date(1980, 0, 1),
+  minDate: new Date(1980, 0, 1),
+  onHighlightedDateChange: __WEBPACK_IMPORTED_MODULE_4__utils__["a" /* emptyFn */],
+  onScroll: __WEBPACK_IMPORTED_MODULE_4__utils__["a" /* emptyFn */],
+  onScrollEnd: __WEBPACK_IMPORTED_MODULE_4__utils__["a" /* emptyFn */],
+  onSelect: __WEBPACK_IMPORTED_MODULE_4__utils__["a" /* emptyFn */],
+  passThrough: {},
+  rowHeight: 56,
+  tabIndex: 1,
+  width: 400,
+  YearsComponent: __WEBPACK_IMPORTED_MODULE_12__Years__["a" /* default */]
+});
+
+var Calendar = function (_Component) {
+  _inherits(Calendar, _Component);
+
+  function Calendar(props) {
+    _classCallCheck(this, Calendar);
+
+    var _this = _possibleConstructorReturn(this, _Component.apply(this, arguments));
+
+    _this._displayOptions = {};
+    _this._locale = {};
+    _this._theme = {};
+
+    _this.getCurrentOffset = function () {
+      return _this.scrollTop;
+    };
+
+    _this.getDateOffset = function (date) {
+      return _this._MonthList && _this._MonthList.getDateOffset(date);
+    };
+
+    _this.scrollTo = function (offset) {
+      return _this._MonthList && _this._MonthList.scrollTo(offset);
+    };
+
+    _this.scrollToDate = function () {
+      var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+      var offset = arguments[1];
+      var shouldAnimate = arguments[2];
+      var display = _this.props.display;
+
+
+      return _this._MonthList && _this._MonthList.scrollToDate(date, offset, shouldAnimate && display === 'days', function () {
+        return _this.setState({ isScrolling: false });
+      });
+    };
+
+    _this.getScrollSpeed = new __WEBPACK_IMPORTED_MODULE_4__utils__["b" /* ScrollSpeed */]().getScrollSpeed;
+
+    _this.handleScroll = function (scrollTop, e) {
+      var _this$props = _this.props,
+          onScroll = _this$props.onScroll,
+          rowHeight = _this$props.rowHeight;
+      var isScrolling = _this.state.isScrolling;
+
+      var _this$getDisplayOptio = _this.getDisplayOptions(),
+          showTodayHelper = _this$getDisplayOptio.showTodayHelper,
+          showOverlay = _this$getDisplayOptio.showOverlay;
+
+      var scrollSpeed = _this.scrollSpeed = Math.abs(_this.getScrollSpeed(scrollTop));
+      _this.scrollTop = scrollTop;
+
+      // We only want to display the months overlay if the user is rapidly scrolling
+      if (showOverlay && scrollSpeed > rowHeight && !isScrolling) {
+        _this.setState({
+          isScrolling: true
+        });
+      }
+
+      if (showTodayHelper) {
+        _this.updateTodayHelperPosition(scrollSpeed);
+      }
+
+      onScroll(scrollTop, e);
+      _this.handleScrollEnd();
+    };
+
+    _this.handleScrollEnd = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["c" /* debounce */])(function () {
+      var onScrollEnd = _this.props.onScrollEnd;
+      var isScrolling = _this.state.isScrolling;
+
+      var _this$getDisplayOptio2 = _this.getDisplayOptions(),
+          showTodayHelper = _this$getDisplayOptio2.showTodayHelper;
+
+      if (isScrolling) {
+        _this.setState({ isScrolling: false });
+      }
+
+      if (showTodayHelper) {
+        _this.updateTodayHelperPosition(0);
+      }
+
+      onScrollEnd(_this.scrollTop);
+    }, 150);
+
+    _this.updateTodayHelperPosition = function (scrollSpeed) {
+      var today = _this.today;
+      var scrollTop = _this.scrollTop;
+      var showToday = _this.state.showToday;
+      var _this$props2 = _this.props,
+          height = _this$props2.height,
+          rowHeight = _this$props2.rowHeight;
+
+      var _this$getDisplayOptio3 = _this.getDisplayOptions(),
+          todayHelperRowOffset = _this$getDisplayOptio3.todayHelperRowOffset;
+
+      var newState = void 0;
+
+      if (!_this._todayOffset) {
+        _this._todayOffset = _this.getDateOffset(today);
+      }
+
+      // Today is above the fold
+      if (scrollTop >= _this._todayOffset + (height - rowHeight) / 2 + rowHeight * todayHelperRowOffset) {
+        if (showToday !== __WEBPACK_IMPORTED_MODULE_8__Today__["a" /* DIRECTION_UP */]) newState = __WEBPACK_IMPORTED_MODULE_8__Today__["a" /* DIRECTION_UP */];
+      }
+      // Today is below the fold
+      else if (scrollTop <= _this._todayOffset - height / 2 - rowHeight * (todayHelperRowOffset + 1)) {
+          if (showToday !== __WEBPACK_IMPORTED_MODULE_8__Today__["b" /* DIRECTION_DOWN */]) newState = __WEBPACK_IMPORTED_MODULE_8__Today__["b" /* DIRECTION_DOWN */];
+        } else if (showToday && scrollSpeed <= 1) {
+          newState = false;
+        }
+
+      if (scrollTop === 0) {
+        newState = false;
+      }
+
+      if (newState != null) {
+        _this.setState({ showToday: newState });
+      }
+    };
+
+    _this.setDisplay = function (display) {
+      _this.setState({ display: display });
+    };
+
+    _this.updateYears(props);
+
+    _this.state = {
+      display: props.display
+    };
+    return _this;
+  }
+
+  Calendar.prototype.componentDidMount = function componentDidMount() {
+    var autoFocus = this.props.autoFocus;
+
+
+    if (autoFocus) {
+      this.node.focus();
+    }
+  };
+
+  Calendar.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    var _props = this.props,
+        min = _props.min,
+        minDate = _props.minDate,
+        max = _props.max,
+        maxDate = _props.maxDate;
+
+
+    if (nextProps.min !== min || nextProps.minDate !== minDate || nextProps.max !== max || nextProps.maxDate !== maxDate) {
+      this.updateYears(nextProps);
+    }
+
+    if (nextProps.display !== this.props.display) {
+      this.setState({ display: nextProps.display });
+    }
+  };
+
+  Calendar.prototype.updateYears = function updateYears() {
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+
+    this._min = __WEBPACK_IMPORTED_MODULE_14_date_fns_parse___default()(props.min);
+    this._max = __WEBPACK_IMPORTED_MODULE_14_date_fns_parse___default()(props.max);
+    this._minDate = __WEBPACK_IMPORTED_MODULE_14_date_fns_parse___default()(props.minDate);
+    this._maxDate = __WEBPACK_IMPORTED_MODULE_14_date_fns_parse___default()(props.maxDate);
+
+    var min = this._min.getFullYear();
+    var minMonth = this._min.getMonth();
+    var max = this._max.getFullYear();
+    var maxMonth = this._max.getMonth();
+
+    var months = [];
+    var year = void 0,
+        month = void 0;
+    for (year = min; year <= max; year++) {
+      for (month = 0; month < 12; month++) {
+        if (year === min && month < minMonth || year === max && month > maxMonth) {
+          continue;
+        }
+
+        months.push({ month: month, year: year });
+      }
+    }
+
+    this.months = months;
+  };
+
+  Calendar.prototype.getDisabledDates = function getDisabledDates(disabledDates) {
+    return disabledDates && disabledDates.map(function (date) {
+      return __WEBPACK_IMPORTED_MODULE_15_date_fns_format___default()(__WEBPACK_IMPORTED_MODULE_14_date_fns_parse___default()(date), 'YYYY-MM-DD');
+    });
+  };
+
+  Calendar.prototype.getDisplayOptions = function getDisplayOptions() {
+    var displayOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props.displayOptions;
+
+    return Object.assign(this._displayOptions, __WEBPACK_IMPORTED_MODULE_5__utils_defaultDisplayOptions___default.a, displayOptions);
+  };
+
+  Calendar.prototype.getLocale = function getLocale() {
+    return Object.assign(this._locale, __WEBPACK_IMPORTED_MODULE_6__utils_defaultLocale___default.a, this.props.locale);
+  };
+
+  Calendar.prototype.getTheme = function getTheme() {
+    return Object.assign(this._theme, __WEBPACK_IMPORTED_MODULE_7__utils_defaultTheme___default.a, this.props.theme);
+  };
+
+  Calendar.prototype.render = function render() {
+    var _classNames,
+        _this2 = this;
+
+    var _props2 = this.props,
+        className = _props2.className,
+        passThrough = _props2.passThrough,
+        DayComponent = _props2.DayComponent,
+        disabledDays = _props2.disabledDays,
+        displayDate = _props2.displayDate,
+        height = _props2.height,
+        HeaderComponent = _props2.HeaderComponent,
+        rowHeight = _props2.rowHeight,
+        scrollDate = _props2.scrollDate,
+        selected = _props2.selected,
+        tabIndex = _props2.tabIndex,
+        width = _props2.width,
+        YearsComponent = _props2.YearsComponent;
+
+    var _getDisplayOptions = this.getDisplayOptions(),
+        hideYearsOnSelect = _getDisplayOptions.hideYearsOnSelect,
+        layout = _getDisplayOptions.layout,
+        overscanMonthCount = _getDisplayOptions.overscanMonthCount,
+        shouldHeaderAnimate = _getDisplayOptions.shouldHeaderAnimate,
+        showHeader = _getDisplayOptions.showHeader,
+        showMonthsForYears = _getDisplayOptions.showMonthsForYears,
+        showOverlay = _getDisplayOptions.showOverlay,
+        showTodayHelper = _getDisplayOptions.showTodayHelper,
+        showWeekdays = _getDisplayOptions.showWeekdays;
+
+    var _state = this.state,
+        display = _state.display,
+        isScrolling = _state.isScrolling,
+        showToday = _state.showToday;
+
+    var disabledDates = this.getDisabledDates(this.props.disabledDates);
+    var locale = this.getLocale();
+    var theme = this.getTheme();
+    var today = this.today = __WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_day___default()(new Date());
+
+    return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+      'div',
+      _extends({
+        tabIndex: tabIndex,
+        className: __WEBPACK_IMPORTED_MODULE_3_classnames___default()(className, styles.container.root, (_classNames = {}, _classNames[styles.container.landscape] = layout === 'landscape', _classNames)),
+        style: { color: theme.textColor.default, width: width },
+        'aria-label': 'Calendar',
+        ref: function ref(node) {
+          _this2.node = node;
+        }
+      }, passThrough.rootNode),
+      showHeader && __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(HeaderComponent, _extends({
+        selected: selected,
+        shouldAnimate: Boolean(shouldHeaderAnimate && display !== 'years'),
+        layout: layout,
+        theme: theme,
+        locale: locale,
+        scrollToDate: this.scrollToDate,
+        setDisplay: this.setDisplay,
+        dateFormat: locale.headerFormat,
+        display: display,
+        displayDate: displayDate
+      }, passThrough.Header)),
+      __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+        'div',
+        { className: styles.container.wrapper },
+        showWeekdays && __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__Weekdays__["a" /* default */], { weekdays: locale.weekdays, weekStartsOn: locale.weekStartsOn, theme: theme }),
+        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+          'div',
+          { className: styles.container.listWrapper },
+          showTodayHelper && __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Today__["c" /* default */], {
+            scrollToDate: this.scrollToDate,
+            show: showToday,
+            today: today,
+            theme: theme,
+            todayLabel: locale.todayLabel.long
+          }),
+          __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__MonthList__["a" /* default */], {
+            ref: function ref(instance) {
+              _this2._MonthList = instance;
+            },
+            DayComponent: DayComponent,
+            disabledDates: disabledDates,
+            disabledDays: disabledDays,
+            height: height,
+            isScrolling: isScrolling,
+            locale: locale,
+            maxDate: this._maxDate,
+            min: this._min,
+            minDate: this._minDate,
+            months: this.months,
+            onScroll: this.handleScroll,
+            overscanMonthCount: overscanMonthCount,
+            passThrough: passThrough,
+            theme: theme,
+            today: today,
+            rowHeight: rowHeight,
+            selected: selected,
+            scrollDate: scrollDate,
+            showOverlay: showOverlay,
+            width: width
+          })
+        ),
+        display === 'years' && __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(YearsComponent, _extends({
+          ref: function ref(instance) {
+            _this2._Years = instance;
+          },
+          height: height,
+          hideOnSelect: hideYearsOnSelect,
+          locale: locale,
+          max: this._max,
+          maxDate: this._maxDate,
+          min: this._min,
+          minDate: this._minDate,
+          scrollToDate: this.scrollToDate,
+          selected: selected,
+          setDisplay: this.setDisplay,
+          showMonths: showMonthsForYears,
+          theme: theme,
+          today: today,
+          width: width,
+          years: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["d" /* range */])(this._min.getFullYear(), this._max.getFullYear() + 1)
+        }, passThrough.Years))
+      )
+    );
+  };
+
+  return Calendar;
+}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
+
+
+ true ? Calendar.propTypes = {
+  autoFocus: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+  className: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+  DayComponent: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  disabledDates: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.instanceOf(Date)),
+  disabledDays: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number),
+  display: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOf(['years', 'days']),
+  displayOptions: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+    hideYearsOnSelect: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    layout: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOf(['portrait', 'landscape']),
+    overscanMonthCount: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+    shouldHeaderAnimate: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    showHeader: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    showMonthsForYears: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    showOverlay: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    showTodayHelper: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    showWeekdays: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+    todayHelperRowOffset: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number
+  }),
+  height: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  keyboardSupport: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+  locale: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+    blank: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+    headerFormat: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+    todayLabel: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+      long: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+      short: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string
+    }),
+    weekdays: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string),
+    weekStartsOn: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOf([0, 1, 2, 3, 4, 5, 6])
+  }),
+  max: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.instanceOf(Date),
+  maxDate: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.instanceOf(Date),
+  min: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.instanceOf(Date),
+  minDate: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.instanceOf(Date),
+  onScroll: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  onScrollEnd: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  onSelect: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  rowHeight: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  tabIndex: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  theme: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+    floatingNav: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+      background: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+      chevron: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+      color: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string
+    }),
+    headerColor: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+    selectionColor: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func]),
+    textColor: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.shape({
+      active: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+      default: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string
+    }),
+    todayColor: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+    weekdayColor: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string
+  }),
+  width: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number]),
+  YearsComponent: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func
+} : void 0;
+;
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Calendar/withDateSelection.js":
+/* exports provided: enhanceDay, withDateSelection */
+/* exports used: withDateSelection */
+/*!********************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Calendar/withDateSelection.js ***!
+  \********************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export enhanceDay */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return withDateSelection; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState__ = __webpack_require__(/*! recompose/withState */ "./node_modules/recompose/withState.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_recompose_withState__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange__ = __webpack_require__(/*! recompose/withPropsOnChange */ "./node_modules/recompose/withPropsOnChange.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withProps__ = __webpack_require__(/*! recompose/withProps */ "./node_modules/recompose/withProps.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_recompose_withProps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose__ = __webpack_require__(/*! recompose/compose */ "./node_modules/recompose/compose.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_recompose_compose__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4____ = __webpack_require__(/*! ./ */ "./node_modules/react-infinite-calendar/es/Calendar/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_parse__);
+
+
+
+
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+var enhanceDay = __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default()(['selected'], function (props) {
+  return {
+    isSelected: props.selected === props.date
+  };
+});
+
+var enhanceYear = __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default()(['selected'], function (_ref) {
+  var selected = _ref.selected;
+  return {
+    selected: __WEBPACK_IMPORTED_MODULE_7_date_fns_parse___default()(selected)
+  };
+});
+
+// Enhancer to handle selecting and displaying a single date
+var withDateSelection = __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default()(__WEBPACK_IMPORTED_MODULE_4____["b" /* withDefaultProps */], __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils__["l" /* withImmutableProps */])(function (_ref2) {
+  var DayComponent = _ref2.DayComponent,
+      onSelect = _ref2.onSelect,
+      setScrollDate = _ref2.setScrollDate,
+      YearsComponent = _ref2.YearsComponent;
+  return {
+    DayComponent: enhanceDay(DayComponent),
+    YearsComponent: enhanceYear(YearsComponent)
+  };
+}), __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('scrollDate', 'setScrollDate', function (props) {
+  return props.selected || new Date();
+}), __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default()(function (_ref3) {
+  var _onSelect = _ref3.onSelect,
+      setScrollDate = _ref3.setScrollDate,
+      props = _objectWithoutProperties(_ref3, ['onSelect', 'setScrollDate']);
+
+  var selected = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils__["m" /* sanitizeDate */])(props.selected, props);
+
+  return {
+    passThrough: {
+      Day: {
+        onClick: _onSelect
+      },
+      Years: {
+        onSelect: function onSelect(year) {
+          return handleYearSelect(year, { onSelect: _onSelect, selected: selected, setScrollDate: setScrollDate });
+        }
+      }
+    },
+    selected: selected && __WEBPACK_IMPORTED_MODULE_6_date_fns_format___default()(selected, 'YYYY-MM-DD')
+  };
+}));
+
+
+function handleYearSelect(date, _ref4) {
+  var setScrollDate = _ref4.setScrollDate,
+      selected = _ref4.selected,
+      onSelect = _ref4.onSelect;
+
+  var newDate = __WEBPACK_IMPORTED_MODULE_7_date_fns_parse___default()(date);
+
+  onSelect(newDate);
+  setScrollDate(newDate);
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Calendar/withKeyboardSupport.js":
+/* exports provided: withKeyboardSupport */
+/*!**********************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Calendar/withKeyboardSupport.js ***!
+  \**********************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export withKeyboardSupport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState__ = __webpack_require__(/*! recompose/withState */ "./node_modules/recompose/withState.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_recompose_withState__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withProps__ = __webpack_require__(/*! recompose/withProps */ "./node_modules/recompose/withProps.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withProps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_recompose_withProps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withHandlers__ = __webpack_require__(/*! recompose/withHandlers */ "./node_modules/recompose/withHandlers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withHandlers___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_recompose_withHandlers__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose__ = __webpack_require__(/*! recompose/compose */ "./node_modules/recompose/compose.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_recompose_compose__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_add_days__ = __webpack_require__(/*! date-fns/add_days */ "./node_modules/date-fns/add_days/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_add_days___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_add_days__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__ = __webpack_require__(/*! date-fns/is_after */ "./node_modules/date-fns/is_after/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before__ = __webpack_require__(/*! date-fns/is_before */ "./node_modules/date-fns/is_before/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_is_before__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+
+
+
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+var enhanceDay = __WEBPACK_IMPORTED_MODULE_1_recompose_withProps___default()(function (props) {
+  return {
+    isHighlighted: props.highlightedDate === props.date
+  };
+});
+
+var withKeyboardSupport = __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default()(__WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('highlightedDate', 'setHighlight'), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["l" /* withImmutableProps */])(function (_ref) {
+  var DayComponent = _ref.DayComponent;
+  return {
+    DayComponent: enhanceDay(DayComponent)
+  };
+}), __WEBPACK_IMPORTED_MODULE_2_recompose_withHandlers___default()({
+  onKeyDown: function onKeyDown(props) {
+    return function (e) {
+      return handleKeyDown(e, props);
+    };
+  }
+}), __WEBPACK_IMPORTED_MODULE_1_recompose_withProps___default()(function (_ref2) {
+  var highlightedDate = _ref2.highlightedDate,
+      onKeyDown = _ref2.onKeyDown,
+      onSelect = _ref2.onSelect,
+      passThrough = _ref2.passThrough,
+      setHighlight = _ref2.setHighlight;
+  return {
+    passThrough: _extends({}, passThrough, {
+      Day: _extends({}, passThrough.Day, {
+        highlightedDate: __WEBPACK_IMPORTED_MODULE_5_date_fns_format___default()(highlightedDate, 'YYYY-MM-DD'),
+        onClick: function onClick(date) {
+          setHighlight(null);
+          passThrough.Day.onClick(date);
+        }
+      }),
+      rootNode: { onKeyDown: onKeyDown }
+    })
+  };
+}));
+
+function handleKeyDown(e, props) {
+  var minDate = props.minDate,
+      maxDate = props.maxDate,
+      onClick = props.passThrough.Day.onClick,
+      setScrollDate = props.setScrollDate,
+      setHighlight = props.setHighlight;
+
+  var highlightedDate = getInitialDate(props);
+  var delta = 0;
+
+  if ([__WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].left, __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].up, __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].right, __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].down].indexOf(e.keyCode) > -1 && typeof e.preventDefault === 'function') {
+    e.preventDefault();
+  }
+
+  switch (e.keyCode) {
+    case __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].enter:
+      onClick && onClick(highlightedDate);
+      return;
+    case __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].left:
+      delta = -1;
+      break;
+    case __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].right:
+      delta = +1;
+      break;
+    case __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].down:
+      delta = +7;
+      break;
+    case __WEBPACK_IMPORTED_MODULE_8__utils__["n" /* keyCodes */].up:
+      delta = -7;
+      break;
+    default:
+      delta = 0;
+  }
+
+  if (delta) {
+    var newHighlightedDate = __WEBPACK_IMPORTED_MODULE_4_date_fns_add_days___default()(highlightedDate, delta);
+
+    // Make sure the new highlighted date isn't before min / max
+    if (__WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default()(newHighlightedDate, minDate)) {
+      newHighlightedDate = new Date(minDate);
+    } else if (__WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(newHighlightedDate, maxDate)) {
+      newHighlightedDate = new Date(maxDate);
+    }
+
+    setScrollDate(newHighlightedDate);
+    setHighlight(newHighlightedDate);
+  }
+}
+
+function getInitialDate(_ref3) {
+  var highlightedDate = _ref3.highlightedDate,
+      selected = _ref3.selected,
+      displayDate = _ref3.displayDate;
+
+  return highlightedDate || selected.start || displayDate || selected || new Date();
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Calendar/withMultipleDates.js":
+/* exports provided: enhanceDay, withMultipleDates, defaultMultipleDateInterpolation */
+/*!********************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Calendar/withMultipleDates.js ***!
+  \********************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export enhanceDay */
+/* unused harmony export withMultipleDates */
+/* unused harmony export defaultMultipleDateInterpolation */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState__ = __webpack_require__(/*! recompose/withState */ "./node_modules/recompose/withState.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_recompose_withState__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange__ = __webpack_require__(/*! recompose/withPropsOnChange */ "./node_modules/recompose/withPropsOnChange.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withProps__ = __webpack_require__(/*! recompose/withProps */ "./node_modules/recompose/withProps.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_recompose_withProps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose__ = __webpack_require__(/*! recompose/compose */ "./node_modules/recompose/compose.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_recompose_compose__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4____ = __webpack_require__(/*! ./ */ "./node_modules/react-infinite-calendar/es/Calendar/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Header_withMultipleDates__ = __webpack_require__(/*! ../Header/withMultipleDates */ "./node_modules/react-infinite-calendar/es/Header/withMultipleDates.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_date_fns_parse__);
+
+
+
+
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+
+// Enhance Day component to display selected state based on an array of selected dates
+var enhanceDay = __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default()(['selected'], function (props) {
+  return {
+    isSelected: props.selected.indexOf(props.date) !== -1
+  };
+});
+
+// Enhance year component
+var enhanceYears = __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default()(function (_ref) {
+  var displayDate = _ref.displayDate;
+  return {
+    selected: displayDate ? __WEBPACK_IMPORTED_MODULE_8_date_fns_parse___default()(displayDate) : null
+  };
+});
+
+// Enhancer to handle selecting and displaying multiple dates
+var withMultipleDates = __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default()(__WEBPACK_IMPORTED_MODULE_4____["b" /* withDefaultProps */], __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('scrollDate', 'setScrollDate', getInitialDate), __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('displayDate', 'setDisplayDate', getInitialDate), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils__["l" /* withImmutableProps */])(function (_ref2) {
+  var DayComponent = _ref2.DayComponent,
+      HeaderComponent = _ref2.HeaderComponent,
+      YearsComponent = _ref2.YearsComponent;
+  return {
+    DayComponent: enhanceDay(DayComponent),
+    HeaderComponent: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__Header_withMultipleDates__["a" /* default */])(HeaderComponent),
+    YearsComponent: enhanceYears(YearsComponent)
+  };
+}), __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default()(function (_ref3) {
+  var displayDate = _ref3.displayDate,
+      onSelect = _ref3.onSelect,
+      setDisplayDate = _ref3.setDisplayDate,
+      scrollToDate = _ref3.scrollToDate,
+      props = _objectWithoutProperties(_ref3, ['displayDate', 'onSelect', 'setDisplayDate', 'scrollToDate']);
+
+  return {
+    passThrough: {
+      Day: {
+        onClick: function onClick(date) {
+          return handleSelect(date, { onSelect: onSelect, setDisplayDate: setDisplayDate });
+        }
+      },
+      Header: {
+        setDisplayDate: setDisplayDate
+      },
+      Years: {
+        displayDate: displayDate,
+        onSelect: function onSelect(year, e, callback) {
+          return handleYearSelect(year, callback);
+        },
+        selected: displayDate
+      }
+    },
+    selected: props.selected.filter(function (date) {
+      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils__["m" /* sanitizeDate */])(date, props);
+    }).map(function (date) {
+      return __WEBPACK_IMPORTED_MODULE_7_date_fns_format___default()(date, 'YYYY-MM-DD');
+    })
+  };
+}));
+
+
+function handleSelect(date, _ref4) {
+  var onSelect = _ref4.onSelect,
+      setDisplayDate = _ref4.setDisplayDate;
+
+  onSelect(date);
+  setDisplayDate(date);
+}
+
+function handleYearSelect(date, callback) {
+  callback(__WEBPACK_IMPORTED_MODULE_8_date_fns_parse___default()(date));
+}
+
+function getInitialDate(_ref5) {
+  var selected = _ref5.selected;
+
+  return selected.length ? selected[0] : new Date();
+}
+
+function defaultMultipleDateInterpolation(date, selected) {
+  var selectedMap = selected.map(function (date) {
+    return __WEBPACK_IMPORTED_MODULE_7_date_fns_format___default()(date, 'YYYY-MM-DD');
+  });
+  var index = selectedMap.indexOf(__WEBPACK_IMPORTED_MODULE_7_date_fns_format___default()(date, 'YYYY-MM-DD'));
+
+  return index === -1 ? [].concat(selected, [date]) : [].concat(selected.slice(0, index), selected.slice(index + 1));
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Calendar/withRange.js":
+/* exports provided: EVENT_TYPE, enhanceDay, withRange */
+/*!************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Calendar/withRange.js ***!
+  \************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export EVENT_TYPE */
+/* unused harmony export enhanceDay */
+/* unused harmony export withRange */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState__ = __webpack_require__(/*! recompose/withState */ "./node_modules/recompose/withState.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_recompose_withState__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange__ = __webpack_require__(/*! recompose/withPropsOnChange */ "./node_modules/recompose/withPropsOnChange.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withProps__ = __webpack_require__(/*! recompose/withProps */ "./node_modules/recompose/withProps.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_recompose_withProps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose__ = __webpack_require__(/*! recompose/compose */ "./node_modules/recompose/compose.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_recompose_compose__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5____ = __webpack_require__(/*! ./ */ "./node_modules/react-infinite-calendar/es/Calendar/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before__ = __webpack_require__(/*! date-fns/is_before */ "./node_modules/date-fns/is_before/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_is_before__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Header_withRange__ = __webpack_require__(/*! ../Header/withRange */ "./node_modules/react-infinite-calendar/es/Header/withRange.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_date_fns_parse__);
+
+
+
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+
+
+var styles = {
+  'root': 'Cal__Day__root',
+  'enabled': 'Cal__Day__enabled',
+  'highlighted': 'Cal__Day__highlighted',
+  'today': 'Cal__Day__today',
+  'disabled': 'Cal__Day__disabled',
+  'selected': 'Cal__Day__selected',
+  'month': 'Cal__Day__month',
+  'year': 'Cal__Day__year',
+  'selection': 'Cal__Day__selection',
+  'day': 'Cal__Day__day',
+  'range': 'Cal__Day__range',
+  'start': 'Cal__Day__start',
+  'end': 'Cal__Day__end',
+  'betweenRange': 'Cal__Day__betweenRange'
+};
+
+
+var isTouchDevice = false;
+
+var EVENT_TYPE = {
+  END: 3,
+  HOVER: 2,
+  START: 1
+};
+
+// Enhance Day component to display selected state based on an array of selected dates
+var enhanceDay = __WEBPACK_IMPORTED_MODULE_1_recompose_withPropsOnChange___default()(['selected'], function (_ref) {
+  var _classNames;
+
+  var date = _ref.date,
+      selected = _ref.selected,
+      theme = _ref.theme;
+
+  var isSelected = date >= selected.start && date <= selected.end;
+  var isStart = date === selected.start;
+  var isEnd = date === selected.end;
+  var isRange = !(isStart && isEnd);
+  var style = isRange && (isStart && { backgroundColor: theme.accentColor } || isEnd && { borderColor: theme.accentColor });
+
+  return {
+    className: isSelected && isRange && __WEBPACK_IMPORTED_MODULE_4_classnames___default()(styles.range, (_classNames = {}, _classNames[styles.start] = isStart, _classNames[styles.betweenRange] = !isStart && !isEnd, _classNames[styles.end] = isEnd, _classNames)),
+    isSelected: isSelected,
+    selectionStyle: style
+  };
+});
+
+// Enhancer to handle selecting and displaying multiple dates
+var withRange = __WEBPACK_IMPORTED_MODULE_3_recompose_compose___default()(__WEBPACK_IMPORTED_MODULE_5____["b" /* withDefaultProps */], __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('scrollDate', 'setScrollDate', getInitialDate), __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('displayKey', 'setDisplayKey', getInitialDate), __WEBPACK_IMPORTED_MODULE_0_recompose_withState___default()('selectionStart', 'setSelectionStart', null), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["l" /* withImmutableProps */])(function (_ref2) {
+  var DayComponent = _ref2.DayComponent,
+      HeaderComponent = _ref2.HeaderComponent,
+      YearsComponent = _ref2.YearsComponent;
+  return {
+    DayComponent: enhanceDay(DayComponent),
+    HeaderComponent: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__Header_withRange__["a" /* default */])(HeaderComponent)
+  };
+}), __WEBPACK_IMPORTED_MODULE_2_recompose_withProps___default()(function (_ref3) {
+  var displayKey = _ref3.displayKey,
+      passThrough = _ref3.passThrough,
+      selected = _ref3.selected,
+      setDisplayKey = _ref3.setDisplayKey,
+      props = _objectWithoutProperties(_ref3, ['displayKey', 'passThrough', 'selected', 'setDisplayKey']);
+
+  return {
+    /* eslint-disable sort-keys */
+    passThrough: _extends({}, passThrough, {
+      Day: {
+        onClick: function onClick(date) {
+          return handleSelect(date, _extends({ selected: selected }, props));
+        },
+        handlers: {
+          onMouseOver: !isTouchDevice && props.selectionStart ? function (e) {
+            return handleMouseOver(e, _extends({ selected: selected }, props));
+          } : null
+        }
+      },
+      Years: {
+        selected: selected && selected[displayKey],
+        onSelect: function onSelect(date) {
+          return handleYearSelect(date, _extends({ displayKey: displayKey, selected: selected }, props));
+        }
+      },
+      Header: {
+        onYearClick: function onYearClick(date, e, key) {
+          return setDisplayKey(key || 'start');
+        }
+      }
+    }),
+    selected: {
+      start: selected && __WEBPACK_IMPORTED_MODULE_9_date_fns_format___default()(selected.start, 'YYYY-MM-DD'),
+      end: selected && __WEBPACK_IMPORTED_MODULE_9_date_fns_format___default()(selected.end, 'YYYY-MM-DD')
+    }
+  };
+}));
+
+
+function getSortedSelection(_ref4) {
+  var start = _ref4.start,
+      end = _ref4.end;
+
+  return __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default()(start, end) ? { start: start, end: end } : { start: end, end: start };
+}
+
+function handleSelect(date, _ref5) {
+  var onSelect = _ref5.onSelect,
+      selected = _ref5.selected,
+      selectionStart = _ref5.selectionStart,
+      setSelectionStart = _ref5.setSelectionStart;
+
+  if (selectionStart) {
+    onSelect(_extends({
+      eventType: EVENT_TYPE.END
+    }, getSortedSelection({
+      start: selectionStart,
+      end: date
+    })));
+    setSelectionStart(null);
+  } else {
+    onSelect({ eventType: EVENT_TYPE.START, start: date, end: date });
+    setSelectionStart(date);
+  }
+}
+
+function handleMouseOver(e, _ref6) {
+  var onSelect = _ref6.onSelect,
+      selectionStart = _ref6.selectionStart;
+
+  var dateStr = e.target.getAttribute('data-date');
+  var date = dateStr && __WEBPACK_IMPORTED_MODULE_10_date_fns_parse___default()(dateStr);
+
+  if (!date) {
+    return;
+  }
+
+  onSelect(_extends({
+    eventType: EVENT_TYPE.HOVER
+  }, getSortedSelection({
+    start: selectionStart,
+    end: date
+  })));
+}
+
+function handleYearSelect(date, _ref7) {
+  var _Object$assign;
+
+  var displayKey = _ref7.displayKey,
+      onSelect = _ref7.onSelect,
+      selected = _ref7.selected,
+      setScrollDate = _ref7.setScrollDate;
+
+
+  setScrollDate(date);
+  onSelect(getSortedSelection(Object.assign({}, selected, (_Object$assign = {}, _Object$assign[displayKey] = __WEBPACK_IMPORTED_MODULE_10_date_fns_parse___default()(date), _Object$assign))));
+}
+
+function getInitialDate(_ref8) {
+  var selected = _ref8.selected;
+
+  return selected && selected.start || new Date();
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('touchstart', function onTouch() {
+    isTouchDevice = true;
+
+    window.removeEventListener('touchstart', onTouch, false);
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Day/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!***************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Day/index.js ***!
+  \***************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Day; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_date_fns_parse__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var styles = {
+  'root': 'Cal__Day__root',
+  'enabled': 'Cal__Day__enabled',
+  'highlighted': 'Cal__Day__highlighted',
+  'today': 'Cal__Day__today',
+  'disabled': 'Cal__Day__disabled',
+  'selected': 'Cal__Day__selected',
+  'month': 'Cal__Day__month',
+  'year': 'Cal__Day__year',
+  'selection': 'Cal__Day__selection',
+  'day': 'Cal__Day__day',
+  'range': 'Cal__Day__range',
+  'start': 'Cal__Day__start',
+  'end': 'Cal__Day__end',
+  'betweenRange': 'Cal__Day__betweenRange'
+};
+
+var Day = function (_PureComponent) {
+  _inherits(Day, _PureComponent);
+
+  function Day() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Day);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _PureComponent.call.apply(_PureComponent, [this].concat(args))), _this), _this.handleClick = function () {
+      var _this$props = _this.props,
+          date = _this$props.date,
+          isDisabled = _this$props.isDisabled,
+          onClick = _this$props.onClick;
+
+
+      if (!isDisabled && typeof onClick === 'function') {
+        onClick(__WEBPACK_IMPORTED_MODULE_2_date_fns_parse___default()(date));
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Day.prototype.renderSelection = function renderSelection(selectionColor) {
+    var _props = this.props,
+        day = _props.day,
+        date = _props.date,
+        isToday = _props.isToday,
+        todayLabel = _props.locale.todayLabel,
+        monthShort = _props.monthShort,
+        textColor = _props.theme.textColor,
+        selectionStyle = _props.selectionStyle;
+
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      {
+        className: styles.selection,
+        'data-date': date,
+        style: _extends({
+          backgroundColor: this.selectionColor,
+          color: textColor.active
+        }, selectionStyle)
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'span',
+        { className: styles.month },
+        isToday ? todayLabel.short || todayLabel.long : monthShort
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'span',
+        { className: styles.day },
+        day
+      )
+    );
+  };
+
+  Day.prototype.render = function render() {
+    var _classNames;
+
+    var _props2 = this.props,
+        className = _props2.className,
+        currentYear = _props2.currentYear,
+        date = _props2.date,
+        day = _props2.day,
+        handlers = _props2.handlers,
+        isDisabled = _props2.isDisabled,
+        isHighlighted = _props2.isHighlighted,
+        isToday = _props2.isToday,
+        isSelected = _props2.isSelected,
+        monthShort = _props2.monthShort,
+        _props2$theme = _props2.theme,
+        selectionColor = _props2$theme.selectionColor,
+        todayColor = _props2$theme.todayColor,
+        year = _props2.year;
+
+    var color = void 0;
+
+    if (isSelected) {
+      color = this.selectionColor = typeof selectionColor === 'function' ? selectionColor(date) : selectionColor;
+    } else if (isToday) {
+      color = todayColor;
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'li',
+      _extends({
+        style: color ? { color: color } : null,
+        className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()(styles.root, (_classNames = {}, _classNames[styles.today] = isToday, _classNames[styles.highlighted] = isHighlighted, _classNames[styles.selected] = isSelected, _classNames[styles.disabled] = isDisabled, _classNames[styles.enabled] = !isDisabled, _classNames), className),
+        onClick: this.handleClick,
+        'data-date': date
+      }, handlers),
+      day === 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'span',
+        { className: styles.month },
+        monthShort
+      ),
+      isToday ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'span',
+        null,
+        day
+      ) : day,
+      day === 1 && currentYear !== year && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'span',
+        { className: styles.year },
+        year
+      ),
+      isSelected && this.renderSelection()
+    );
+  };
+
+  return Day;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Header/Slider/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!*************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Header/Slider/index.js ***!
+  \*************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Slider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup__ = __webpack_require__(/*! react-transition-group/CSSTransitionGroup */ "./node_modules/react-transition-group/CSSTransitionGroup.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_classnames__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var styles = {
+  'root': 'Cal__Slider__root',
+  'slide': 'Cal__Slider__slide',
+  'wrapper': 'Cal__Slider__wrapper',
+  'arrow': 'Cal__Slider__arrow',
+  'arrowRight': 'Cal__Slider__arrowRight',
+  'arrowLeft': 'Cal__Slider__arrowLeft'
+};
+var transition = {
+  'enter': 'Cal__transition__enter',
+  'enterActive': 'Cal__transition__enterActive',
+  'leave': 'Cal__transition__leave',
+  'leaveActive': 'Cal__transition__leaveActive'
+};
+
+
+var DIRECTIONS = {
+  LEFT: 0,
+  RIGHT: 1
+};
+
+var Arrow = function Arrow(_ref) {
+  var _classNames;
+
+  var direction = _ref.direction,
+      _onClick = _ref.onClick;
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'div',
+    {
+      className: __WEBPACK_IMPORTED_MODULE_2_classnames___default()(styles.arrow, (_classNames = {}, _classNames[styles.arrowLeft] = direction === DIRECTIONS.LEFT, _classNames[styles.arrowRight] = direction === DIRECTIONS.RIGHT, _classNames)),
+      onClick: function onClick() {
+        return _onClick(direction);
+      }
+    },
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'svg',
+      {
+        x: '0px',
+        y: '0px',
+        viewBox: '0 0 26 46'
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('path', { d: 'M31.232233,34.767767 C32.2085438,35.7440777 33.7914562,35.7440777 34.767767,34.767767 C35.7440777,33.7914562 35.7440777,32.2085438 34.767767,31.232233 L14.767767,11.232233 C13.7914562,10.2559223 12.2085438,10.2559223 11.232233,11.232233 L-8.767767,31.232233 C-9.7440777,32.2085438 -9.7440777,33.7914562 -8.767767,34.767767 C-7.7914562,35.7440777 -6.2085438,35.7440777 -5.232233,34.767767 L12.9997921,16.5357418 L31.232233,34.767767 Z', id: 'Shape', fill: '#FFF', transform: 'translate(13.000000, 23.000000) rotate(90.000000) translate(-13.000000, -23.000000) ' })
+    )
+  );
+};
+
+var Slider = function (_PureComponent) {
+  _inherits(Slider, _PureComponent);
+
+  function Slider() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Slider);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _PureComponent.call.apply(_PureComponent, [this].concat(args))), _this), _this.handleClick = function (direction) {
+      var _this$props = _this.props,
+          children = _this$props.children,
+          index = _this$props.index,
+          onChange = _this$props.onChange;
+
+
+      switch (direction) {
+        case DIRECTIONS.LEFT:
+          index = Math.max(0, index - 1);
+          break;
+        case DIRECTIONS.RIGHT:
+          index = Math.min(index + 1, children.length);
+          break;
+        default:
+          return;
+      }
+
+      onChange(index);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Slider.prototype.render = function render() {
+    var _props = this.props,
+        children = _props.children,
+        index = _props.index;
+
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: styles.root },
+      index !== 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Arrow, { onClick: this.handleClick, direction: DIRECTIONS.LEFT }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup___default.a,
+        {
+          className: styles.wrapper,
+          component: 'div',
+          style: {
+            transform: 'translate3d(-' + 100 * index + '%, 0, 0)'
+          },
+          transitionName: transition,
+          transitionEnterTimeout: 300,
+          transitionLeaveTimeout: 300
+        },
+        __WEBPACK_IMPORTED_MODULE_0_react__["Children"].map(children, function (child, i) {
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            {
+              key: i,
+              className: styles.slide,
+              style: { transform: 'translateX(' + 100 * i + '%)' }
+            },
+            child
+          );
+        })
+      ),
+      index !== children.length - 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Arrow, { onClick: this.handleClick, direction: DIRECTIONS.RIGHT })
+    );
+  };
+
+  return Slider;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Header/defaultSelectionRenderer.js":
+/* exports provided: default */
+/* exports used: default */
+/*!*************************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Header/defaultSelectionRenderer.js ***!
+  \*************************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = defaultSelectionRenderer;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup__ = __webpack_require__(/*! react-transition-group/CSSTransitionGroup */ "./node_modules/react-transition-group/CSSTransitionGroup.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_parse__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_format__);
+
+
+
+
+
+var styles = {
+  'root': 'Cal__Header__root',
+  'landscape': 'Cal__Header__landscape',
+  'dateWrapper': 'Cal__Header__dateWrapper',
+  'day': 'Cal__Header__day',
+  'wrapper': 'Cal__Header__wrapper',
+  'blank': 'Cal__Header__blank',
+  'active': 'Cal__Header__active',
+  'year': 'Cal__Header__year',
+  'date': 'Cal__Header__date',
+  'range': 'Cal__Header__range'
+};
+var animation = {
+  'enter': 'Cal__Animation__enter',
+  'enterActive': 'Cal__Animation__enterActive',
+  'leave': 'Cal__Animation__leave',
+  'leaveActive': 'Cal__Animation__leaveActive'
+};
+
+
+function defaultSelectionRenderer(value, _ref) {
+  var display = _ref.display,
+      key = _ref.key,
+      locale = _ref.locale.locale,
+      dateFormat = _ref.dateFormat,
+      onYearClick = _ref.onYearClick,
+      scrollToDate = _ref.scrollToDate,
+      setDisplay = _ref.setDisplay,
+      shouldAnimate = _ref.shouldAnimate;
+
+  var date = __WEBPACK_IMPORTED_MODULE_3_date_fns_parse___default()(value);
+  var values = date && [{
+    active: display === 'years',
+    handleClick: function handleClick(e) {
+      onYearClick(date, e, key);
+      setDisplay('years');
+    },
+    item: 'year',
+    title: display === 'days' ? 'Change year' : null,
+    value: date.getFullYear()
+  }, {
+    active: display === 'days',
+    handleClick: function handleClick(e) {
+      if (display !== 'days') {
+        setDisplay('days');
+      } else if (date) {
+        scrollToDate(date, -40, true);
+      }
+    },
+    item: 'day',
+    title: display === 'days' ? 'Scroll to ' + __WEBPACK_IMPORTED_MODULE_4_date_fns_format___default()(date, dateFormat, { locale: locale }) : null,
+    value: __WEBPACK_IMPORTED_MODULE_4_date_fns_format___default()(date, dateFormat, { locale: locale })
+  }];
+
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'div',
+    {
+      key: key,
+      className: styles.wrapper,
+      'aria-label': __WEBPACK_IMPORTED_MODULE_4_date_fns_format___default()(date, dateFormat + ' YYYY', { locale: locale })
+    },
+    values.map(function (_ref2) {
+      var _classNames;
+
+      var handleClick = _ref2.handleClick,
+          item = _ref2.item,
+          key = _ref2.key,
+          value = _ref2.value,
+          active = _ref2.active,
+          title = _ref2.title;
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        {
+          key: item,
+          className: __WEBPACK_IMPORTED_MODULE_2_classnames___default()(styles.dateWrapper, styles[item], (_classNames = {}, _classNames[styles.active] = active, _classNames)),
+          title: title
+        },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_1_react_transition_group_CSSTransitionGroup___default.a,
+          {
+            transitionName: animation,
+            transitionEnterTimeout: 250,
+            transitionLeaveTimeout: 250,
+            transitionEnter: shouldAnimate,
+            transitionLeave: shouldAnimate
+          },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            {
+              key: item + '-' + value,
+              className: styles.date,
+              'aria-hidden': true,
+              onClick: handleClick
+            },
+            value
+          )
+        )
+      );
+    })
+  );
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Header/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!******************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Header/index.js ***!
+  \******************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Header; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__defaultSelectionRenderer__ = __webpack_require__(/*! ./defaultSelectionRenderer */ "./node_modules/react-infinite-calendar/es/Header/defaultSelectionRenderer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_classnames__);
+var _class, _temp;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var styles = {
+  'root': 'Cal__Header__root',
+  'landscape': 'Cal__Header__landscape',
+  'dateWrapper': 'Cal__Header__dateWrapper',
+  'day': 'Cal__Header__day',
+  'wrapper': 'Cal__Header__wrapper',
+  'blank': 'Cal__Header__blank',
+  'active': 'Cal__Header__active',
+  'year': 'Cal__Header__year',
+  'date': 'Cal__Header__date',
+  'range': 'Cal__Header__range'
+};
+var Header = (_temp = _class = function (_PureComponent) {
+  _inherits(Header, _PureComponent);
+
+  function Header() {
+    _classCallCheck(this, Header);
+
+    return _possibleConstructorReturn(this, _PureComponent.apply(this, arguments));
+  }
+
+  Header.prototype.render = function render() {
+    var _classNames;
+
+    var _props = this.props,
+        layout = _props.layout,
+        blank = _props.locale.blank,
+        selected = _props.selected,
+        renderSelection = _props.renderSelection,
+        theme = _props.theme;
+
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      {
+        className: __WEBPACK_IMPORTED_MODULE_4_classnames___default()(styles.root, (_classNames = {}, _classNames[styles.landscape] = layout === 'landscape', _classNames)),
+        style: {
+          backgroundColor: theme.headerColor,
+          color: theme.textColor.active
+        }
+      },
+      selected && renderSelection(selected, this.props) || __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: __WEBPACK_IMPORTED_MODULE_4_classnames___default()(styles.wrapper, styles.blank) },
+        blank
+      )
+    );
+  };
+
+  return Header;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]), _class.defaultProps = {
+  onYearClick: __WEBPACK_IMPORTED_MODULE_2__utils__["a" /* emptyFn */],
+  renderSelection: __WEBPACK_IMPORTED_MODULE_3__defaultSelectionRenderer__["a" /* default */]
+}, _temp);
+
+ true ? Header.propTypes = {
+  dateFormat: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  display: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  layout: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  locale: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  onYearClick: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  selected: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.any,
+  shouldAnimate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  theme: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+} : void 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Header/withMultipleDates.js":
+/* exports provided: default */
+/* exports used: default */
+/*!******************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Header/withMultipleDates.js ***!
+  \******************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__defaultSelectionRenderer__ = __webpack_require__(/*! ./defaultSelectionRenderer */ "./node_modules/react-infinite-calendar/es/Header/defaultSelectionRenderer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Slider__ = __webpack_require__(/*! ./Slider */ "./node_modules/react-infinite-calendar/es/Header/Slider/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_parse__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_format__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["l" /* withImmutableProps */])(function (_ref) {
+  var renderSelection = _ref.renderSelection,
+      setDisplayDate = _ref.setDisplayDate;
+  return {
+    renderSelection: function renderSelection(values, _ref2) {
+      var scrollToDate = _ref2.scrollToDate,
+          displayDate = _ref2.displayDate,
+          props = _objectWithoutProperties(_ref2, ['scrollToDate', 'displayDate']);
+
+      if (!values.length) {
+        return null;
+      }
+
+      var dates = values.sort();
+      var index = values.indexOf(__WEBPACK_IMPORTED_MODULE_5_date_fns_format___default()(__WEBPACK_IMPORTED_MODULE_4_date_fns_parse___default()(displayDate), 'YYYY-MM-DD'));
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_3__Slider__["a" /* default */],
+        {
+          index: index !== -1 ? index : dates.length - 1,
+          onChange: function onChange(index) {
+            return setDisplayDate(dates[index], function () {
+              return setTimeout(function () {
+                return scrollToDate(dates[index], 0, true);
+              }, 50);
+            });
+          }
+        },
+        dates.map(function (value) {
+          return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__defaultSelectionRenderer__["a" /* default */])(value, _extends({}, props, {
+            key: index,
+            scrollToDate: scrollToDate,
+            shouldAnimate: false
+          }));
+        })
+      );
+    }
+  };
+}));
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Header/withRange.js":
+/* exports provided: default */
+/* exports used: default */
+/*!**********************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Header/withRange.js ***!
+  \**********************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__defaultSelectionRenderer__ = __webpack_require__(/*! ./defaultSelectionRenderer */ "./node_modules/react-infinite-calendar/es/Header/defaultSelectionRenderer.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+var styles = {
+  'root': 'Cal__Header__root',
+  'landscape': 'Cal__Header__landscape',
+  'dateWrapper': 'Cal__Header__dateWrapper',
+  'day': 'Cal__Header__day',
+  'wrapper': 'Cal__Header__wrapper',
+  'blank': 'Cal__Header__blank',
+  'active': 'Cal__Header__active',
+  'year': 'Cal__Header__year',
+  'date': 'Cal__Header__date',
+  'range': 'Cal__Header__range'
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils__["l" /* withImmutableProps */])(function (_ref) {
+  var renderSelection = _ref.renderSelection;
+  return {
+    renderSelection: function renderSelection(values, props) {
+      if (!values || !values.start && !values.end) {
+        return null;
+      }
+      if (values.start === values.end) {
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__defaultSelectionRenderer__["a" /* default */])(values.start, props);
+      }
+
+      var dateFormat = props.locale && props.locale.headerFormat || 'MMM Do';
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: styles.range, style: { color: props.theme.headerColor } },
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__defaultSelectionRenderer__["a" /* default */])(values.start, _extends({}, props, { dateFormat: dateFormat, key: 'start', shouldAnimate: false })),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__defaultSelectionRenderer__["a" /* default */])(values.end, _extends({}, props, { dateFormat: dateFormat, key: 'end', shouldAnimate: false }))
+      );
+    }
+  };
+}));
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Month/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!*****************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Month/index.js ***!
+  \*****************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Month; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_get_day__ = __webpack_require__(/*! date-fns/get_day */ "./node_modules/date-fns/get_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_get_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_get_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_same_year__ = __webpack_require__(/*! date-fns/is_same_year */ "./node_modules/date-fns/is_same_year/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_same_year___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_is_same_year__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+var styles = {
+  'rows': 'Cal__Month__rows',
+  'row': 'Cal__Month__row',
+  'partial': 'Cal__Month__partial',
+  'label': 'Cal__Month__label',
+  'partialFirstRow': 'Cal__Month__partialFirstRow'
+};
+
+var Month = function (_PureComponent) {
+  _inherits(Month, _PureComponent);
+
+  function Month() {
+    _classCallCheck(this, Month);
+
+    return _possibleConstructorReturn(this, _PureComponent.apply(this, arguments));
+  }
+
+  Month.prototype.renderRows = function renderRows() {
+    var _props = this.props,
+        DayComponent = _props.DayComponent,
+        disabledDates = _props.disabledDates,
+        disabledDays = _props.disabledDays,
+        monthDate = _props.monthDate,
+        locale = _props.locale,
+        maxDate = _props.maxDate,
+        minDate = _props.minDate,
+        rowHeight = _props.rowHeight,
+        rows = _props.rows,
+        selected = _props.selected,
+        today = _props.today,
+        theme = _props.theme,
+        passThrough = _props.passThrough;
+
+    var currentYear = today.getFullYear();
+    var year = monthDate.getFullYear();
+    var month = monthDate.getMonth();
+    var monthShort = __WEBPACK_IMPORTED_MODULE_3_date_fns_format___default()(monthDate, 'MMM', { locale: locale.locale });
+    var monthRows = [];
+    var day = 0;
+    var isDisabled = false;
+    var isToday = false;
+    var date = void 0,
+        days = void 0,
+        dow = void 0,
+        row = void 0;
+
+    // Used for faster comparisons
+    var _today = __WEBPACK_IMPORTED_MODULE_3_date_fns_format___default()(today, 'YYYY-MM-DD');
+    var _minDate = __WEBPACK_IMPORTED_MODULE_3_date_fns_format___default()(minDate, 'YYYY-MM-DD');
+    var _maxDate = __WEBPACK_IMPORTED_MODULE_3_date_fns_format___default()(maxDate, 'YYYY-MM-DD');
+
+    // Oh the things we do in the name of performance...
+    for (var i = 0, len = rows.length; i < len; i++) {
+      var _classNames;
+
+      row = rows[i];
+      days = [];
+      dow = __WEBPACK_IMPORTED_MODULE_4_date_fns_get_day___default()(new Date(year, month, row[0]));
+
+      for (var k = 0, _len = row.length; k < _len; k++) {
+        day = row[k];
+
+        date = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["i" /* getDateString */])(year, month, day);
+        isToday = date === _today;
+
+        isDisabled = minDate && date < _minDate || maxDate && date > _maxDate || disabledDays && disabledDays.length && disabledDays.indexOf(dow) !== -1 || disabledDates && disabledDates.length && disabledDates.indexOf(date) !== -1;
+
+        days[k] = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(DayComponent, _extends({
+          key: 'day-' + day,
+          currentYear: currentYear,
+          date: date,
+          day: day,
+          selected: selected,
+          isDisabled: isDisabled,
+          isToday: isToday,
+          locale: locale,
+          month: month,
+          monthShort: monthShort,
+          theme: theme,
+          year: year
+        }, passThrough.Day));
+
+        dow += 1;
+      }
+      monthRows[i] = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'ul',
+        {
+          key: 'Row-' + i,
+          className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()(styles.row, (_classNames = {}, _classNames[styles.partial] = row.length !== 7, _classNames)),
+          style: { height: rowHeight },
+          role: 'row',
+          'aria-label': 'Week ' + (i + 1)
+        },
+        days
+      );
+    }
+
+    return monthRows;
+  };
+
+  Month.prototype.render = function render() {
+    var _classNames2;
+
+    var _props2 = this.props,
+        locale = _props2.locale.locale,
+        monthDate = _props2.monthDate,
+        today = _props2.today,
+        rows = _props2.rows,
+        rowHeight = _props2.rowHeight,
+        showOverlay = _props2.showOverlay,
+        style = _props2.style,
+        theme = _props2.theme;
+
+    var dateFormat = __WEBPACK_IMPORTED_MODULE_5_date_fns_is_same_year___default()(monthDate, today) ? 'MMMM' : 'MMMM YYYY';
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: styles.root, style: _extends({}, style, { lineHeight: rowHeight + 'px' }) },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: styles.rows },
+        this.renderRows(),
+        showOverlay && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'label',
+          {
+            className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()(styles.label, (_classNames2 = {}, _classNames2[styles.partialFirstRow] = rows[0].length !== 7, _classNames2)),
+            style: { backgroundColor: theme.overlayColor }
+          },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            null,
+            __WEBPACK_IMPORTED_MODULE_3_date_fns_format___default()(monthDate, dateFormat, { locale: locale })
+          )
+        )
+      )
+    );
+  };
+
+  return Month;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/MonthList/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!*********************************************************!*\
+  !*** ./~/react-infinite-calendar/es/MonthList/index.js ***!
+  \*********************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MonthList; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_tiny_virtual_list__ = __webpack_require__(/*! react-tiny-virtual-list */ "./node_modules/react-tiny-virtual-list/es/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_parse__ = __webpack_require__(/*! date-fns/parse */ "./node_modules/date-fns/parse/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_parse__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_month__ = __webpack_require__(/*! date-fns/start_of_month */ "./node_modules/date-fns/start_of_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Month__ = __webpack_require__(/*! ../Month */ "./node_modules/react-infinite-calendar/es/Month/index.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+var styles = {
+  'root': 'Cal__MonthList__root',
+  'scrolling': 'Cal__MonthList__scrolling'
+};
+
+
+var AVERAGE_ROWS_PER_MONTH = 5;
+
+var MonthList = function (_Component) {
+  _inherits(MonthList, _Component);
+
+  function MonthList() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, MonthList);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
+      scrollTop: _this.getDateOffset(_this.props.scrollDate)
+    }, _this.cache = {}, _this.memoize = function (param) {
+      if (!this.cache[param]) {
+        var weekStartsOn = this.props.locale.weekStartsOn;
+
+        var _param$split = param.split(':'),
+            year = _param$split[0],
+            month = _param$split[1];
+
+        var result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["e" /* getMonth */])(year, month, weekStartsOn);
+        this.cache[param] = result;
+      }
+      return this.cache[param];
+    }, _this.monthHeights = [], _this._getRef = function (instance) {
+      _this.VirtualList = instance;
+    }, _this.getMonthHeight = function (index) {
+      if (!_this.monthHeights[index]) {
+        var _this$props = _this.props,
+            weekStartsOn = _this$props.locale.weekStartsOn,
+            months = _this$props.months,
+            rowHeight = _this$props.rowHeight;
+        var _months$index = months[index],
+            month = _months$index.month,
+            year = _months$index.year;
+
+        var weeks = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["f" /* getWeeksInMonth */])(month, year, weekStartsOn, index === months.length - 1);
+        var height = weeks * rowHeight;
+        _this.monthHeights[index] = height;
+      }
+
+      return _this.monthHeights[index];
+    }, _this.scrollToDate = function (date) {
+      for (var _len2 = arguments.length, rest = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        rest[_key2 - 2] = arguments[_key2];
+      }
+
+      var _this2;
+
+      var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+      var offsetTop = _this.getDateOffset(date);
+      (_this2 = _this).scrollTo.apply(_this2, [offsetTop + offset].concat(rest));
+    }, _this.scrollTo = function () {
+      var scrollTop = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var shouldAnimate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var onScrollEnd = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : __WEBPACK_IMPORTED_MODULE_4__utils__["a" /* emptyFn */];
+
+      var onComplete = function onComplete() {
+        return setTimeout(function () {
+          _this.scrollEl.style.overflowY = 'auto';
+          onScrollEnd();
+        });
+      };
+
+      // Interrupt iOS Momentum scroll
+      _this.scrollEl.style.overflowY = 'hidden';
+
+      if (shouldAnimate) {
+        /* eslint-disable sort-keys */
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["g" /* animate */])({
+          fromValue: _this.scrollEl.scrollTop,
+          toValue: scrollTop,
+          onUpdate: function onUpdate(scrollTop, callback) {
+            return _this.setState({ scrollTop: scrollTop }, callback);
+          },
+          onComplete: onComplete
+        });
+      } else {
+        window.requestAnimationFrame(function () {
+          _this.scrollEl.scrollTop = scrollTop;
+          onComplete();
+        });
+      }
+    }, _this.renderMonth = function (_ref) {
+      var index = _ref.index,
+          style = _ref.style;
+      var _this$props2 = _this.props,
+          DayComponent = _this$props2.DayComponent,
+          disabledDates = _this$props2.disabledDates,
+          disabledDays = _this$props2.disabledDays,
+          locale = _this$props2.locale,
+          maxDate = _this$props2.maxDate,
+          minDate = _this$props2.minDate,
+          months = _this$props2.months,
+          passThrough = _this$props2.passThrough,
+          rowHeight = _this$props2.rowHeight,
+          selected = _this$props2.selected,
+          showOverlay = _this$props2.showOverlay,
+          theme = _this$props2.theme,
+          today = _this$props2.today;
+      var _months$index2 = months[index],
+          month = _months$index2.month,
+          year = _months$index2.year;
+
+      var key = year + ':' + month;
+
+      var _this$memoize = _this.memoize(key),
+          date = _this$memoize.date,
+          rows = _this$memoize.rows;
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Month__["a" /* default */], _extends({
+        key: key,
+        selected: selected,
+        DayComponent: DayComponent,
+        monthDate: date,
+        disabledDates: disabledDates,
+        disabledDays: disabledDays,
+        maxDate: maxDate,
+        minDate: minDate,
+        rows: rows,
+        rowHeight: rowHeight,
+        isScrolling: false,
+        showOverlay: showOverlay,
+        today: today,
+        theme: theme,
+        style: style,
+        locale: locale,
+        passThrough: passThrough
+      }, passThrough.Month));
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  MonthList.prototype.componentDidMount = function componentDidMount() {
+    this.scrollEl = this.VirtualList.rootNode;
+  };
+
+  MonthList.prototype.componentWillReceiveProps = function componentWillReceiveProps(_ref2) {
+    var scrollDate = _ref2.scrollDate;
+
+    if (scrollDate !== this.props.scrollDate) {
+      this.setState({
+        scrollTop: this.getDateOffset(scrollDate)
+      });
+    }
+  };
+
+  MonthList.prototype.getDateOffset = function getDateOffset(date) {
+    var _props = this.props,
+        min = _props.min,
+        rowHeight = _props.rowHeight,
+        weekStartsOn = _props.locale.weekStartsOn,
+        height = _props.height;
+
+    var weeks = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["h" /* getWeek */])(__WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_month___default()(min), __WEBPACK_IMPORTED_MODULE_5_date_fns_parse___default()(date), weekStartsOn);
+
+    return weeks * rowHeight - (height - rowHeight / 2) / 2;
+  };
+
+  MonthList.prototype.render = function render() {
+    var _classNames;
+
+    var _props2 = this.props,
+        height = _props2.height,
+        isScrolling = _props2.isScrolling,
+        onScroll = _props2.onScroll,
+        overscanMonthCount = _props2.overscanMonthCount,
+        months = _props2.months,
+        rowHeight = _props2.rowHeight,
+        width = _props2.width;
+    var scrollTop = this.state.scrollTop;
+
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_tiny_virtual_list__["a" /* default */], {
+      ref: this._getRef,
+      width: width,
+      height: height,
+      itemCount: months.length,
+      itemSize: this.getMonthHeight,
+      estimatedItemSize: rowHeight * AVERAGE_ROWS_PER_MONTH,
+      renderItem: this.renderMonth,
+      onScroll: onScroll,
+      scrollOffset: scrollTop,
+      className: __WEBPACK_IMPORTED_MODULE_3_classnames___default()(styles.root, (_classNames = {}, _classNames[styles.scrolling] = isScrolling, _classNames)),
+      style: { lineHeight: rowHeight + 'px' },
+      overscanCount: overscanMonthCount
+    });
+  };
+
+  return MonthList;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+ true ? MonthList.propTypes = {
+  disabledDates: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string),
+  disabledDays: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number),
+  height: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  isScrolling: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  locale: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  maxDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.instanceOf(Date),
+  min: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.instanceOf(Date),
+  minDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.instanceOf(Date),
+  months: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object),
+  onDaySelect: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  onScroll: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  overscanMonthCount: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  rowHeight: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  selectedDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.instanceOf(Date),
+  showOverlay: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  theme: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  today: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.instanceOf(Date),
+  width: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string])
+} : void 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Today/index.js":
+/* exports provided: DIRECTION_UP, DIRECTION_DOWN, default */
+/* exports used: DIRECTION_UP, DIRECTION_DOWN, default */
+/*!*****************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Today/index.js ***!
+  \*****************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DIRECTION_UP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DIRECTION_DOWN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Today; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_classnames__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var styles = {
+  'root': 'Cal__Today__root',
+  'show': 'Cal__Today__show',
+  'chevron': 'Cal__Today__chevron',
+  'chevronUp': 'Cal__Today__chevronUp',
+  'chevronDown': 'Cal__Today__chevronDown'
+};
+
+
+var DIRECTION_UP = 1;
+var DIRECTION_DOWN = -1;
+var CHEVRON = 'M256,298.3L256,298.3L256,298.3l174.2-167.2c4.3-4.2,11.4-4.1,15.8,0.2l30.6,29.9c4.4,4.3,4.5,11.3,0.2,15.5L264.1,380.9 c-2.2,2.2-5.2,3.2-8.1,3c-3,0.1-5.9-0.9-8.1-3L35.2,176.7c-4.3-4.2-4.2-11.2,0.2-15.5L66,131.3c4.4-4.3,11.5-4.4,15.8-0.2L256,298.3 z';
+
+var Today = function (_PureComponent) {
+  _inherits(Today, _PureComponent);
+
+  function Today() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Today);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _PureComponent.call.apply(_PureComponent, [this].concat(args))), _this), _this.scrollToToday = function () {
+      var scrollToDate = _this.props.scrollToDate;
+
+
+      scrollToDate(new Date(), -40, true);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Today.prototype.render = function render() {
+    var _classNames;
+
+    var _props = this.props,
+        todayLabel = _props.todayLabel,
+        show = _props.show,
+        theme = _props.theme;
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      {
+        className: __WEBPACK_IMPORTED_MODULE_2_classnames___default()(styles.root, (_classNames = {}, _classNames[styles.show] = show, _classNames[styles.chevronUp] = show === DIRECTION_UP, _classNames[styles.chevronDown] = show === DIRECTION_DOWN, _classNames)),
+        style: {
+          backgroundColor: theme.floatingNav.background,
+          color: theme.floatingNav.color
+        },
+        onClick: this.scrollToToday,
+        ref: 'node'
+      },
+      todayLabel,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'svg',
+        {
+          className: styles.chevron,
+          x: '0px',
+          y: '0px',
+          width: '14px',
+          height: '14px',
+          viewBox: '0 0 512 512'
+        },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('path', {
+          fill: theme.floatingNav.chevron || theme.floatingNav.color,
+          d: CHEVRON
+        })
+      )
+    );
+  };
+
+  return Today;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]);
+
+
+ true ? Today.propTypes = {
+  scrollToDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  show: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool]),
+  theme: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  todayLabel: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+} : void 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Weekdays/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!********************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Weekdays/index.js ***!
+  \********************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Weekdays; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var styles = {
+  'root': 'Cal__Weekdays__root',
+  'day': 'Cal__Weekdays__day'
+};
+
+var Weekdays = function (_PureComponent) {
+  _inherits(Weekdays, _PureComponent);
+
+  function Weekdays() {
+    _classCallCheck(this, Weekdays);
+
+    return _possibleConstructorReturn(this, _PureComponent.apply(this, arguments));
+  }
+
+  Weekdays.prototype.render = function render() {
+    var _props = this.props,
+        weekdays = _props.weekdays,
+        weekStartsOn = _props.weekStartsOn,
+        theme = _props.theme;
+
+    var orderedWeekdays = [].concat(weekdays.slice(weekStartsOn, 7), weekdays.slice(0, weekStartsOn));
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'ul',
+      {
+        className: styles.root,
+        style: {
+          backgroundColor: theme.weekdayColor,
+          color: theme.textColor.active,
+          paddingRight: __WEBPACK_IMPORTED_MODULE_2__utils__["j" /* scrollbarSize */]
+        },
+        'aria-hidden': true
+      },
+      orderedWeekdays.map(function (val, index) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'li',
+          { key: 'Weekday-' + index, className: styles.day },
+          val
+        );
+      })
+    );
+  };
+
+  return Weekdays;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]);
+
+
+ true ? Weekdays.propTypes = {
+  locale: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  theme: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+} : void 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/Years/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!*****************************************************!*\
+  !*** ./~/react-infinite-calendar/es/Years/index.js ***!
+  \*****************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Years; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_tiny_virtual_list__ = __webpack_require__(/*! react-tiny-virtual-list */ "./node_modules/react-tiny-virtual-list/es/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(/*! ../utils */ "./node_modules/react-infinite-calendar/es/utils/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_format__ = __webpack_require__(/*! date-fns/format */ "./node_modules/date-fns/format/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_format__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__ = __webpack_require__(/*! date-fns/is_after */ "./node_modules/date-fns/is_after/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before__ = __webpack_require__(/*! date-fns/is_before */ "./node_modules/date-fns/is_before/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_is_before__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_is_same_month__ = __webpack_require__(/*! date-fns/is_same_month */ "./node_modules/date-fns/is_same_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_is_same_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_date_fns_is_same_month__);
+var _class, _temp;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var styles = {
+  'root': 'Cal__Years__root',
+  'list': 'Cal__Years__list',
+  'center': 'Cal__Years__center',
+  'year': 'Cal__Years__year',
+  'withMonths': 'Cal__Years__withMonths',
+  'currentMonth': 'Cal__Years__currentMonth',
+  'selected': 'Cal__Years__selected',
+  'disabled': 'Cal__Years__disabled',
+  'active': 'Cal__Years__active',
+  'currentYear': 'Cal__Years__currentYear',
+  'first': 'Cal__Years__first',
+  'last': 'Cal__Years__last'
+};
+
+
+var SPACING = 40;
+
+var Years = (_temp = _class = function (_Component) {
+  _inherits(Years, _Component);
+
+  function Years() {
+    _classCallCheck(this, Years);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+  }
+
+  Years.prototype.handleClick = function handleClick(date, e) {
+    var _props = this.props,
+        hideOnSelect = _props.hideOnSelect,
+        onSelect = _props.onSelect,
+        setDisplay = _props.setDisplay,
+        scrollToDate = _props.scrollToDate;
+
+
+    onSelect(date, e, function (date) {
+      return scrollToDate(date);
+    });
+
+    if (hideOnSelect) {
+      window.requestAnimationFrame(function () {
+        return setDisplay('days');
+      });
+    }
+  };
+
+  Years.prototype.renderMonths = function renderMonths(year) {
+    var _this2 = this;
+
+    var _props2 = this.props,
+        locale = _props2.locale.locale,
+        selected = _props2.selected,
+        theme = _props2.theme,
+        today = _props2.today,
+        min = _props2.min,
+        max = _props2.max,
+        minDate = _props2.minDate,
+        maxDate = _props2.maxDate;
+
+    var months = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils__["k" /* getMonthsForYear */])(year, selected.getDate());
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'ol',
+      null,
+      months.map(function (date, index) {
+        var _classNames;
+
+        var isSelected = __WEBPACK_IMPORTED_MODULE_8_date_fns_is_same_month___default()(date, selected);
+        var isCurrentMonth = __WEBPACK_IMPORTED_MODULE_8_date_fns_is_same_month___default()(date, today);
+        var isDisabled = __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default()(date, min) || __WEBPACK_IMPORTED_MODULE_7_date_fns_is_before___default()(date, minDate) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, max) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, maxDate);
+        var style = Object.assign({}, isSelected && {
+          backgroundColor: typeof theme.selectionColor === 'function' ? theme.selectionColor(date) : theme.selectionColor
+        }, isCurrentMonth && {
+          borderColor: theme.todayColor
+        });
+
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'li',
+          {
+            key: index,
+            onClick: function onClick(e) {
+              e.stopPropagation();
+
+              if (!isDisabled) {
+                _this2.handleClick(date, e);
+              }
+            },
+            className: __WEBPACK_IMPORTED_MODULE_3_classnames___default()(styles.month, (_classNames = {}, _classNames[styles.selected] = isSelected, _classNames[styles.currentMonth] = isCurrentMonth, _classNames[styles.disabled] = isDisabled, _classNames)),
+            style: style,
+            title: 'Set date to ' + __WEBPACK_IMPORTED_MODULE_5_date_fns_format___default()(date, 'MMMM Do, YYYY')
+          },
+          __WEBPACK_IMPORTED_MODULE_5_date_fns_format___default()(date, 'MMM', { locale: locale })
+        );
+      })
+    );
+  };
+
+  Years.prototype.render = function render() {
+    var _this3 = this;
+
+    var _props3 = this.props,
+        height = _props3.height,
+        selected = _props3.selected,
+        showMonths = _props3.showMonths,
+        theme = _props3.theme,
+        today = _props3.today,
+        width = _props3.width;
+
+    var currentYear = today.getFullYear();
+    var years = this.props.years.slice(0, this.props.years.length);
+    var selectedYearIndex = years.indexOf(selected.getFullYear());
+    var rowHeight = showMonths ? 110 : 50;
+    var heights = years.map(function (val, index) {
+      return index === 0 || index === years.length - 1 ? rowHeight + SPACING : rowHeight;
+    });
+    var containerHeight = years.length * rowHeight < height + 50 ? years.length * rowHeight : height + 50;
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      {
+        className: styles.root,
+        style: { color: theme.selectionColor, height: height + 50 }
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_tiny_virtual_list__["a" /* default */], {
+        ref: 'List',
+        className: styles.list,
+        width: width,
+        height: containerHeight,
+        itemCount: years.length,
+        estimatedItemSize: rowHeight,
+        itemSize: function itemSize(index) {
+          return heights[index];
+        },
+        scrollToIndex: selectedYearIndex !== -1 ? selectedYearIndex : null,
+        scrollToAlignment: 'center',
+        renderItem: function renderItem(_ref) {
+          var _classNames2;
+
+          var index = _ref.index,
+              style = _ref.style;
+
+          var year = years[index];
+          var isActive = index === selectedYearIndex;
+
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            {
+              key: index,
+              className: __WEBPACK_IMPORTED_MODULE_3_classnames___default()(styles.year, (_classNames2 = {}, _classNames2[styles.active] = !showMonths && isActive, _classNames2[styles.currentYear] = !showMonths && year === currentYear, _classNames2[styles.withMonths] = showMonths, _classNames2[styles.first] = index === 0, _classNames2[styles.last] = index === years.length - 1, _classNames2)),
+              onClick: function onClick() {
+                return _this3.handleClick(new Date(selected).setYear(year));
+              },
+              title: 'Set year to ' + year,
+              'data-year': year,
+              style: Object.assign({}, style, {
+                color: typeof theme.selectionColor === 'function' ? theme.selectionColor(new Date(year, 0, 1)) : theme.selectionColor
+              })
+            },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                {
+                  style: !showMonths && year === currentYear ? { borderColor: theme.todayColor } : null
+                },
+                year
+              )
+            ),
+            showMonths && _this3.renderMonths(year)
+          );
+        }
+      })
+    );
+  };
+
+  return Years;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]), _class.defaultProps = {
+  onSelect: __WEBPACK_IMPORTED_MODULE_4__utils__["a" /* emptyFn */],
+  showMonths: true
+}, _temp);
+
+ true ? Years.propTypes = {
+  height: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  hideOnSelect: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  locale: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  max: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  maxDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  min: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  minDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  onSelect: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  scrollToDate: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  selectedYear: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  setDisplay: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  theme: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  width: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string]),
+  years: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array
+} : void 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/index.js":
+/* exports provided: Calendar, withDateSelection, withKeyboardSupport, withMultipleDates, defaultMultipleDateInterpolation, withRange, EVENT_TYPE, default */
+/* exports used: default */
+/*!***********************************************!*\
+  !*** ./~/react-infinite-calendar/es/index.js ***!
+  \***********************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DefaultCalendar; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Calendar__ = __webpack_require__(/*! ./Calendar */ "./node_modules/react-infinite-calendar/es/Calendar/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Calendar_withDateSelection__ = __webpack_require__(/*! ./Calendar/withDateSelection */ "./node_modules/react-infinite-calendar/es/Calendar/withDateSelection.js");
+/* unused harmony reexport Calendar */
+/* unused harmony reexport withDateSelection */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Calendar_withKeyboardSupport__ = __webpack_require__(/*! ./Calendar/withKeyboardSupport */ "./node_modules/react-infinite-calendar/es/Calendar/withKeyboardSupport.js");
+/* unused harmony reexport withKeyboardSupport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Calendar_withMultipleDates__ = __webpack_require__(/*! ./Calendar/withMultipleDates */ "./node_modules/react-infinite-calendar/es/Calendar/withMultipleDates.js");
+/* unused harmony reexport withMultipleDates */
+/* unused harmony reexport defaultMultipleDateInterpolation */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Calendar_withRange__ = __webpack_require__(/*! ./Calendar/withRange */ "./node_modules/react-infinite-calendar/es/Calendar/withRange.js");
+/* unused harmony reexport withRange */
+/* unused harmony reexport EVENT_TYPE */
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _class, _temp2;
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * By default, Calendar is a controlled component.
+ * Export a sensible default for minimal setup
+ */
+var DefaultCalendar = (_temp2 = _class = function (_Component) {
+  _inherits(DefaultCalendar, _Component);
+
+  function DefaultCalendar() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, DefaultCalendar);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
+      selected: typeof _this.props.selected !== 'undefined' ? _this.props.selected : new Date()
+    }, _this.handleSelect = function (selected) {
+      var _this$props = _this.props,
+          onSelect = _this$props.onSelect,
+          interpolateSelection = _this$props.interpolateSelection;
+
+
+      if (typeof onSelect === 'function') {
+        onSelect(selected);
+      }
+
+      _this.setState({ selected: interpolateSelection(selected, _this.state.selected) });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  DefaultCalendar.prototype.componentWillReceiveProps = function componentWillReceiveProps(_ref) {
+    var selected = _ref.selected;
+
+    if (selected !== this.props.selected) {
+      this.setState({ selected: selected });
+    }
+  };
+
+  DefaultCalendar.prototype.render = function render() {
+    // eslint-disable-next-line no-unused-vars
+    var _props = this.props,
+        Component = _props.Component,
+        interpolateSelection = _props.interpolateSelection,
+        props = _objectWithoutProperties(_props, ['Component', 'interpolateSelection']);
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Component, _extends({}, props, {
+      onSelect: this.handleSelect,
+      selected: this.state.selected
+    }));
+  };
+
+  return DefaultCalendar;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]), _class.defaultProps = {
+  Component: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__Calendar_withDateSelection__["a" /* withDateSelection */])(__WEBPACK_IMPORTED_MODULE_1__Calendar__["a" /* default */]),
+  interpolateSelection: function interpolateSelection(selected) {
+    return selected;
+  }
+}, _temp2);
+
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/utils/animate.js":
+/* exports provided: default */
+/* exports used: default */
+/*!*******************************************************!*\
+  !*** ./~/react-infinite-calendar/es/utils/animate.js ***!
+  \*******************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = animate;
+function easing(time) {
+  return 1 - --time * time * time * time;
+};
+
+/**
+ * Given a start/end point of a scroll and time elapsed, calculate the scroll position we should be at
+ * @param {Number} start - the initial value
+ * @param {Number} stop - the final desired value
+ * @param {Number} elapsed - the amount of time elapsed since we started animating
+ * @param {Number} - duration - the duration of the animation
+ * @return {Number} - The value we should use on the next tick
+ */
+function getValue(start, end, elapsed, duration) {
+  if (elapsed > duration) return end;
+  return start + (end - start) * easing(elapsed / duration);
+};
+
+/**
+ * Smoothly animate between two values
+ * @param {Number} fromValue - the initial value
+ * @param {Function} onUpdate - A function that is called on each tick
+ * @param {Function} onComplete - A callback that is fired once the scroll animation ends
+ * @param {Number} duration - the desired duration of the scroll animation
+ */
+function animate(_ref) {
+  var fromValue = _ref.fromValue,
+      toValue = _ref.toValue,
+      onUpdate = _ref.onUpdate,
+      onComplete = _ref.onComplete,
+      _ref$duration = _ref.duration,
+      duration = _ref$duration === undefined ? 600 : _ref$duration;
+
+  var startTime = performance.now();
+
+  var tick = function tick() {
+    var elapsed = performance.now() - startTime;
+
+    window.requestAnimationFrame(function () {
+      return onUpdate(getValue(fromValue, toValue, elapsed, duration),
+      // Callback
+      elapsed <= duration ? tick : onComplete);
+    });
+  };
+
+  tick();
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/utils/defaultDisplayOptions.js":
+/* no static exports found */
+/* exports used: default */
+/*!*********************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/utils/defaultDisplayOptions.js ***!
+  \*********************************************************************/
+/***/ (function(module, exports) {
+
+module.exports = {
+  hideYearsOnSelect: true,
+  layout: 'portrait',
+  overscanMonthCount: 2,
+  shouldHeaderAnimate: true,
+  showHeader: true,
+  showMonthsForYears: true,
+  showOverlay: true,
+  showTodayHelper: true,
+  showWeekdays: true,
+  todayHelperRowOffset: 4
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/utils/defaultLocale.js":
+/* no static exports found */
+/* exports used: default */
+/*!*************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/utils/defaultLocale.js ***!
+  \*************************************************************/
+/***/ (function(module, exports) {
+
+module.exports = {
+  blank: 'Select a date...',
+  headerFormat: 'ddd, MMM Do',
+  todayLabel: {
+    long: 'Today'
+  },
+  weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  weekStartsOn: 0
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/utils/defaultTheme.js":
+/* no static exports found */
+/* exports used: default */
+/*!************************************************************!*\
+  !*** ./~/react-infinite-calendar/es/utils/defaultTheme.js ***!
+  \************************************************************/
+/***/ (function(module, exports) {
+
+module.exports = {
+  accentColor: '#448AFF',
+  floatingNav: {
+    background: 'rgba(56, 87, 138, 0.94)',
+    chevron: '#FFA726',
+    color: '#FFF'
+  },
+  headerColor: '#448AFF',
+  selectionColor: '#559FFF',
+  textColor: {
+    active: '#FFF',
+    default: '#333'
+  },
+  todayColor: '#FFA726',
+  weekdayColor: '#559FFF'
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/es/utils/index.js":
+/* exports provided: keyCodes, getMonth, getWeek, getWeeksInMonth, ScrollSpeed, scrollbarSize, emptyFn, sanitizeDate, getDateString, getMonthsForYear, withImmutableProps, debounce, range, animate */
+/* exports used: emptyFn, ScrollSpeed, debounce, range, getMonth, getWeeksInMonth, animate, getWeek, getDateString, scrollbarSize, getMonthsForYear, withImmutableProps, sanitizeDate, keyCodes */
+/*!*****************************************************!*\
+  !*** ./~/react-infinite-calendar/es/utils/index.js ***!
+  \*****************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return keyCodes; });
+/* harmony export (immutable) */ __webpack_exports__["e"] = getMonth;
+/* harmony export (immutable) */ __webpack_exports__["h"] = getWeek;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getWeeksInMonth;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ScrollSpeed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return scrollbarSize; });
+/* harmony export (immutable) */ __webpack_exports__["a"] = emptyFn;
+/* harmony export (immutable) */ __webpack_exports__["m"] = sanitizeDate;
+/* harmony export (immutable) */ __webpack_exports__["i"] = getDateString;
+/* harmony export (immutable) */ __webpack_exports__["k"] = getMonthsForYear;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return withImmutableProps; });
+/* harmony export (immutable) */ __webpack_exports__["c"] = debounce;
+/* harmony export (immutable) */ __webpack_exports__["d"] = range;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withPropsOnChange__ = __webpack_require__(/*! recompose/withPropsOnChange */ "./node_modules/recompose/withPropsOnChange.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_recompose_withPropsOnChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_recompose_withPropsOnChange__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_dom_helpers_util_scrollbarSize__ = __webpack_require__(/*! dom-helpers/util/scrollbarSize */ "./node_modules/dom-helpers/util/scrollbarSize.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_dom_helpers_util_scrollbarSize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_dom_helpers_util_scrollbarSize__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_get_days_in_month__ = __webpack_require__(/*! date-fns/get_days_in_month */ "./node_modules/date-fns/get_days_in_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_get_days_in_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_date_fns_get_days_in_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_get_day__ = __webpack_require__(/*! date-fns/get_day */ "./node_modules/date-fns/get_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_get_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_get_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_after__ = __webpack_require__(/*! date-fns/is_after */ "./node_modules/date-fns/is_after/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_after___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_is_after__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_before__ = __webpack_require__(/*! date-fns/is_before */ "./node_modules/date-fns/is_before/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_before___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_is_before__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_same_day__ = __webpack_require__(/*! date-fns/is_same_day */ "./node_modules/date-fns/is_same_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_same_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_same_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_end_of_day__ = __webpack_require__(/*! date-fns/end_of_day */ "./node_modules/date-fns/end_of_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_end_of_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_end_of_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_start_of_day__ = __webpack_require__(/*! date-fns/start_of_day */ "./node_modules/date-fns/start_of_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_start_of_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_date_fns_start_of_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__animate__ = __webpack_require__(/*! ./animate */ "./node_modules/react-infinite-calendar/es/utils/animate.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_9__animate__["a"]; });
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+
+
+
+
+
+
+var keyCodes = {
+  command: 91,
+  control: 17,
+  down: 40,
+  enter: 13,
+  escape: 27,
+  left: 37,
+  right: 39,
+  shift: 16,
+  up: 38
+};
+
+/**
+ * Given a year and a month, returns the rows for that month to be iterated over
+ * @param {Number} year - the year number
+ * @param {Number} month - the index of the month
+ * @param {Number} weekStartsOn - the index of the first day of the week (from 0 to 6)
+ * @return {Object} - Returns the first day of the month and the rows of that month
+ */
+function getMonth(year, month, weekStartsOn) {
+  var rows = [];
+  var monthDate = new Date(year, month, 1);
+  var daysInMonth = __WEBPACK_IMPORTED_MODULE_2_date_fns_get_days_in_month___default()(monthDate);
+  var weekEndsOn = getEndOfWeekIndex(weekStartsOn);
+
+  var dow = __WEBPACK_IMPORTED_MODULE_3_date_fns_get_day___default()(new Date(year, month, 1));
+  var week = 0;
+
+  for (var day = 1; day <= daysInMonth; day++) {
+    if (!rows[week]) {
+      rows[week] = [];
+    }
+
+    rows[week].push(day);
+
+    if (dow === weekEndsOn) {
+      week++;
+    }
+
+    dow = dow < 6 ? dow + 1 : 0;
+  }
+
+  return {
+    date: monthDate,
+    rows: rows
+  };
+}
+
+function getWeek(yearStart, date, weekStartsOn) {
+  var yearStartDate = typeof yearStart === 'number' ? new Date(yearStart, 0, 1) // 1st Jan of the Year
+  : yearStart;
+
+  return Math.ceil((Math.round((date - yearStartDate) / (60 * 60 * 24 * 1000)) + yearStartDate.getDay() + 1 - weekStartsOn) / 7);
+}
+
+/**
+ * Get the number of weeks in a given month to be able to calculate the height of that month
+ * @param {Number} year - the year number
+ * @param {Number} month - the index of the month
+ * @param {Number} weekStartsOn - the index of the first day of the week (from 0 to 6)
+ * @return {Number} - Returns the number of weeks for the given month
+ */
+function getWeeksInMonth(month) {
+  var year = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Date().getFullYear();
+  var weekStartsOn = arguments[2];
+  var isLastDisplayedMonth = arguments[3];
+
+  var weekEndsOn = getEndOfWeekIndex(weekStartsOn);
+
+  var firstOfMonth = new Date(year, month, 1);
+  var firstWeekNumber = getWeek(year, firstOfMonth, weekStartsOn);
+
+  var lastOfMonth = new Date(year, month + 1, 0); // Last date of the Month
+  var lastWeekNumber = getWeek(year, lastOfMonth, weekStartsOn);
+
+  var rowCount = lastWeekNumber - firstWeekNumber;
+
+  // If the last week contains 7 days, we need to add an extra row
+  if (lastOfMonth.getDay() === weekEndsOn || isLastDisplayedMonth) {
+    rowCount++;
+  }
+
+  return rowCount;
+}
+
+/**
+ * Helper to find out what day the week ends on given the localized start of the week
+ * @param {Number} weekStartsOn - the index of the first day of the week (from 0 to 6)
+ * @return {Number} - Returns the index of the day the week ends on
+ */
+function getEndOfWeekIndex(weekStartsOn) {
+  var weekEndsOn = weekStartsOn === 0 ? 6 : weekStartsOn - 1;
+
+  return weekEndsOn;
+}
+
+var ScrollSpeed = function () {
+  function ScrollSpeed() {
+    var _this = this;
+
+    _classCallCheck(this, ScrollSpeed);
+
+    this.clear = function () {
+      _this.lastPosition = null;
+      _this.delta = 0;
+    };
+  }
+
+  ScrollSpeed.prototype.getScrollSpeed = function getScrollSpeed(scrollOffset) {
+    if (this.lastPosition != null) {
+      this.delta = scrollOffset - this.lastPosition;
+    }
+    this.lastPosition = scrollOffset;
+
+    clearTimeout(this._timeout);
+    this._timeout = setTimeout(this.clear, 50);
+
+    return this.delta;
+  };
+
+  return ScrollSpeed;
+}();
+
+var scrollbarSize = __WEBPACK_IMPORTED_MODULE_1_dom_helpers_util_scrollbarSize___default()();
+
+function emptyFn() {
+  /* no-op */
+}
+
+function sanitizeDate(date, _ref) {
+  var _ref$disabledDates = _ref.disabledDates,
+      disabledDates = _ref$disabledDates === undefined ? [] : _ref$disabledDates,
+      _ref$disabledDays = _ref.disabledDays,
+      disabledDays = _ref$disabledDays === undefined ? [] : _ref$disabledDays,
+      minDate = _ref.minDate,
+      maxDate = _ref.maxDate;
+
+  // Selected date should not be disabled or outside the selectable range
+  if (!date || disabledDates.some(function (disabledDate) {
+    return __WEBPACK_IMPORTED_MODULE_6_date_fns_is_same_day___default()(disabledDate, date);
+  }) || disabledDays && disabledDays.indexOf(__WEBPACK_IMPORTED_MODULE_3_date_fns_get_day___default()(date)) !== -1 || minDate && __WEBPACK_IMPORTED_MODULE_5_date_fns_is_before___default()(date, __WEBPACK_IMPORTED_MODULE_8_date_fns_start_of_day___default()(minDate)) || maxDate && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_after___default()(date, __WEBPACK_IMPORTED_MODULE_7_date_fns_end_of_day___default()(maxDate))) {
+    return null;
+  }
+
+  return date;
+}
+
+function getDateString(year, month, date) {
+  return year + '-' + ('0' + (month + 1)).slice(-2) + '-' + ('0' + date).slice(-2);
+}
+
+function getMonthsForYear(year) {
+  var day = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+  return Array.apply(null, Array(12)).map(function (val, index) {
+    return new Date(year, index, day);
+  });
+}
+
+var withImmutableProps = function withImmutableProps(props) {
+  return __WEBPACK_IMPORTED_MODULE_0_recompose_withPropsOnChange___default()(function () {
+    return false;
+  }, props);
+};
+
+function debounce(callback, wait) {
+  var _this2 = this;
+
+  var timeout = null;
+  var callbackArgs = null;
+
+  var later = function later() {
+    return callback.apply(_this2, callbackArgs);
+  };
+
+  return function () {
+    callbackArgs = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+function range(start, stop) {
+  var step = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+
+  var length = Math.max(Math.ceil((stop - start) / step), 0);
+  var range = Array(length);
+
+  for (var i = 0; i < length; i++, start += step) {
+    range[i] = start;
+  }
+
+  return range;
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-infinite-calendar/styles.css":
+/* no static exports found */
+/*!**********************************************!*\
+  !*** ./~/react-infinite-calendar/styles.css ***!
+  \**********************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !../css-loader??ref--4-1!../postcss-loader/lib??postcss!./styles.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./node_modules/react-infinite-calendar/styles.css");
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(/*! ../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(true) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept(/*! !../css-loader??ref--4-1!../postcss-loader/lib??postcss!./styles.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./node_modules/react-infinite-calendar/styles.css", function() {
+			var newContent = __webpack_require__(/*! !../css-loader??ref--4-1!../postcss-loader/lib??postcss!./styles.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./node_modules/react-infinite-calendar/styles.css");
+			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "./node_modules/react-scripts/config/polyfills.js":
 /* no static exports found */
 /* all exports used */
@@ -30593,85 +36052,1387 @@ function matchWhitelist(error, list) {
 
 /***/ }),
 
-/***/ "./node_modules/react-scripts/node_modules/webpack/buildin/amd-options.js":
-/* no static exports found */
-/* all exports used */
-/*!****************************************!*\
-  !*** (webpack)/buildin/amd-options.js ***!
-  \****************************************/
-/***/ (function(module, exports) {
+/***/ "./node_modules/react-tiny-virtual-list/es/SizeAndPositionManager.js":
+/* exports provided: default */
+/* exports used: default */
+/*!****************************************************************!*\
+  !*** ./~/react-tiny-virtual-list/es/SizeAndPositionManager.js ***!
+  \****************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SizeAndPositionManager; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(/*! ./constants */ "./node_modules/react-tiny-virtual-list/es/constants.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
+/* Forked from react-virtualized 💖 */
+
+
+var SizeAndPositionManager = function () {
+  function SizeAndPositionManager(_ref) {
+    var itemCount = _ref.itemCount,
+        itemSizeGetter = _ref.itemSizeGetter,
+        estimatedItemSize = _ref.estimatedItemSize;
+
+    _classCallCheck(this, SizeAndPositionManager);
+
+    this._itemSizeGetter = itemSizeGetter;
+    this._itemCount = itemCount;
+    this._estimatedItemSize = estimatedItemSize;
+
+    // Cache of size and position data for items, mapped by item index.
+    this._itemSizeAndPositionData = {};
+
+    // Measurements for items up to this index can be trusted; items afterward should be estimated.
+    this._lastMeasuredIndex = -1;
+  }
+
+  SizeAndPositionManager.prototype.updateConfig = function updateConfig(_ref2) {
+    var itemCount = _ref2.itemCount,
+        estimatedItemSize = _ref2.estimatedItemSize;
+
+    this._itemCount = itemCount;
+    this._estimatedItemSize = estimatedItemSize;
+  };
+
+  SizeAndPositionManager.prototype.getLastMeasuredIndex = function getLastMeasuredIndex() {
+    return this._lastMeasuredIndex;
+  };
+
+  /**
+   * This method returns the size and position for the item at the specified index.
+   * It just-in-time calculates (or used cached values) for items leading up to the index.
+   */
+
+
+  SizeAndPositionManager.prototype.getSizeAndPositionForIndex = function getSizeAndPositionForIndex(index) {
+    if (index < 0 || index >= this._itemCount) {
+      throw Error('Requested index ' + index + ' is outside of range 0..' + this._itemCount);
+    }
+
+    if (index > this._lastMeasuredIndex) {
+      var lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
+      var offset = lastMeasuredSizeAndPosition.offset + lastMeasuredSizeAndPosition.size;
+
+      for (var i = this._lastMeasuredIndex + 1; i <= index; i++) {
+        var size = this._itemSizeGetter({ index: i });
+
+        if (size == null || isNaN(size)) {
+          throw Error('Invalid size returned for index ' + i + ' of value ' + size);
+        }
+
+        this._itemSizeAndPositionData[i] = {
+          offset: offset,
+          size: size
+        };
+
+        offset += size;
+      }
+
+      this._lastMeasuredIndex = index;
+    }
+
+    return this._itemSizeAndPositionData[index];
+  };
+
+  SizeAndPositionManager.prototype.getSizeAndPositionOfLastMeasuredItem = function getSizeAndPositionOfLastMeasuredItem() {
+    return this._lastMeasuredIndex >= 0 ? this._itemSizeAndPositionData[this._lastMeasuredIndex] : { offset: 0, size: 0 };
+  };
+
+  /**
+  * Total size of all items being measured.
+  * This value will be completedly estimated initially.
+  * As items as measured the estimate will be updated.
+  */
+
+
+  SizeAndPositionManager.prototype.getTotalSize = function getTotalSize() {
+    var lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
+
+    return lastMeasuredSizeAndPosition.offset + lastMeasuredSizeAndPosition.size + (this._itemCount - this._lastMeasuredIndex - 1) * this._estimatedItemSize;
+  };
+
+  /**
+   * Determines a new offset that ensures a certain item is visible, given the alignment.
+   *
+   * @param align Desired alignment within container; one of "start" (default), "center", or "end"
+   * @param containerSize Size (width or height) of the container viewport
+   * @return Offset to use to ensure the specified item is visible
+   */
+
+
+  SizeAndPositionManager.prototype.getUpdatedOffsetForIndex = function getUpdatedOffsetForIndex(_ref3) {
+    var _ref3$align = _ref3.align,
+        align = _ref3$align === undefined ? __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* ALIGN_START */] : _ref3$align,
+        containerSize = _ref3.containerSize,
+        targetIndex = _ref3.targetIndex;
+
+    if (containerSize <= 0) {
+      return 0;
+    }
+
+    var datum = this.getSizeAndPositionForIndex(targetIndex);
+    var maxOffset = datum.offset;
+    var minOffset = maxOffset - containerSize + datum.size;
+
+    var idealOffset = void 0;
+
+    switch (align) {
+      case __WEBPACK_IMPORTED_MODULE_0__constants__["i" /* ALIGN_END */]:
+        idealOffset = minOffset;
+        break;
+      case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* ALIGN_CENTER */]:
+        idealOffset = maxOffset - (containerSize - datum.size) / 2;
+        break;
+      default:
+        idealOffset = maxOffset;
+        break;
+    }
+
+    var totalSize = this.getTotalSize();
+
+    return Math.max(0, Math.min(totalSize - containerSize, idealOffset));
+  };
+
+  SizeAndPositionManager.prototype.getVisibleRange = function getVisibleRange(_ref4) {
+    var containerSize = _ref4.containerSize,
+        offset = _ref4.offset,
+        overscanCount = _ref4.overscanCount;
+
+    var totalSize = this.getTotalSize();
+
+    if (totalSize === 0) {
+      return {};
+    }
+
+    var maxOffset = offset + containerSize;
+    var start = this._findNearestItem(offset);
+    var stop = start;
+
+    var datum = this.getSizeAndPositionForIndex(start);
+    offset = datum.offset + datum.size;
+
+    while (offset < maxOffset && stop < this._itemCount - 1) {
+      stop++;
+      offset += this.getSizeAndPositionForIndex(stop).size;
+    }
+
+    if (overscanCount) {
+      start = Math.max(0, start - overscanCount);
+      stop = Math.min(stop + overscanCount, this._itemCount - 1);
+    }
+
+    return {
+      start: start,
+      stop: stop
+    };
+  };
+
+  /**
+   * Clear all cached values for items after the specified index.
+   * This method should be called for any item that has changed its size.
+   * It will not immediately perform any calculations; they'll be performed the next time getSizeAndPositionForIndex() is called.
+   */
+
+
+  SizeAndPositionManager.prototype.resetItem = function resetItem(index) {
+    this._lastMeasuredIndex = Math.min(this._lastMeasuredIndex, index - 1);
+  };
+
+  SizeAndPositionManager.prototype._binarySearch = function _binarySearch(_ref5) {
+    var low = _ref5.low,
+        high = _ref5.high,
+        offset = _ref5.offset;
+
+    var middle = void 0;
+    var currentOffset = void 0;
+
+    while (low <= high) {
+      middle = low + Math.floor((high - low) / 2);
+      currentOffset = this.getSizeAndPositionForIndex(middle).offset;
+
+      if (currentOffset === offset) {
+        return middle;
+      } else if (currentOffset < offset) {
+        low = middle + 1;
+      } else if (currentOffset > offset) {
+        high = middle - 1;
+      }
+    }
+
+    if (low > 0) {
+      return low - 1;
+    }
+  };
+
+  SizeAndPositionManager.prototype._exponentialSearch = function _exponentialSearch(_ref6) {
+    var index = _ref6.index,
+        offset = _ref6.offset;
+
+    var interval = 1;
+
+    while (index < this._itemCount && this.getSizeAndPositionForIndex(index).offset < offset) {
+      index += interval;
+      interval *= 2;
+    }
+
+    return this._binarySearch({
+      high: Math.min(index, this._itemCount - 1),
+      low: Math.floor(index / 2),
+      offset: offset
+    });
+  };
+
+  /**
+   * Searches for the item (index) nearest the specified offset.
+   *
+   * If no exact match is found the next lowest item index will be returned.
+   * This allows partially visible items (with offsets just before/above the fold) to be visible.
+   */
+
+
+  SizeAndPositionManager.prototype._findNearestItem = function _findNearestItem(offset) {
+    if (isNaN(offset)) {
+      throw Error('Invalid offset ' + offset + ' specified');
+    }
+
+    // Our search algorithms find the nearest match at or below the specified offset.
+    // So make sure the offset is at least 0 or no match will be found.
+    offset = Math.max(0, offset);
+
+    var lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
+    var lastMeasuredIndex = Math.max(0, this._lastMeasuredIndex);
+
+    if (lastMeasuredSizeAndPosition.offset >= offset) {
+      // If we've already measured items within this range just use a binary search as it's faster.
+      return this._binarySearch({
+        high: lastMeasuredIndex,
+        low: 0,
+        offset: offset
+      });
+    } else {
+      // If we haven't yet measured this high, fallback to an exponential search with an inner binary search.
+      // The exponential search avoids pre-computing sizes for the full set of items as a binary search would.
+      // The overall complexity for this approach is O(log n).
+      return this._exponentialSearch({
+        index: lastMeasuredIndex,
+        offset: offset
+      });
+    }
+  };
+
+  return SizeAndPositionManager;
+}();
+
+
 
 /***/ }),
 
-/***/ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js":
-/* no static exports found */
-/* all exports used */
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/***/ (function(module, exports) {
+/***/ "./node_modules/react-tiny-virtual-list/es/constants.js":
+/* exports provided: ALIGN_START, ALIGN_CENTER, ALIGN_END, DIRECTION_VERTICAL, DIRECTION_HORIZONTAL, SCROLL_CHANGE_OBSERVED, SCROLL_CHANGE_REQUESTED, scrollProp, sizeProp, positionProp */
+/* exports used: SCROLL_CHANGE_REQUESTED, SCROLL_CHANGE_OBSERVED, scrollProp, sizeProp, positionProp, DIRECTION_VERTICAL, ALIGN_START, ALIGN_CENTER, ALIGN_END, DIRECTION_HORIZONTAL */
+/*!***************************************************!*\
+  !*** ./~/react-tiny-virtual-list/es/constants.js ***!
+  \***************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var g;
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ALIGN_START; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return ALIGN_CENTER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return ALIGN_END; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return DIRECTION_VERTICAL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return DIRECTION_HORIZONTAL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SCROLL_CHANGE_OBSERVED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SCROLL_CHANGE_REQUESTED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return scrollProp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return sizeProp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return positionProp; });
+var _scrollProp, _sizeProp, _positionProp;
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
+var ALIGN_START = 'start';
+var ALIGN_CENTER = 'center';
+var ALIGN_END = 'end';
+var DIRECTION_VERTICAL = 'vertical';
+var DIRECTION_HORIZONTAL = 'horizontal';
+var SCROLL_CHANGE_OBSERVED = 'observed';
+var SCROLL_CHANGE_REQUESTED = 'requested';
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
+var scrollProp = (_scrollProp = {}, _scrollProp[DIRECTION_VERTICAL] = 'scrollTop', _scrollProp[DIRECTION_HORIZONTAL] = 'scrollLeft', _scrollProp);
+var sizeProp = (_sizeProp = {}, _sizeProp[DIRECTION_VERTICAL] = 'height', _sizeProp[DIRECTION_HORIZONTAL] = 'width', _sizeProp);
+var positionProp = (_positionProp = {}, _positionProp[DIRECTION_VERTICAL] = 'top', _positionProp[DIRECTION_HORIZONTAL] = 'left', _positionProp);
 
 /***/ }),
 
-/***/ "./node_modules/react-scripts/node_modules/webpack/buildin/module.js":
-/* no static exports found */
-/* all exports used */
-/*!***********************************!*\
-  !*** (webpack)/buildin/module.js ***!
-  \***********************************/
-/***/ (function(module, exports) {
+/***/ "./node_modules/react-tiny-virtual-list/es/index.js":
+/* exports provided: default */
+/* exports used: default */
+/*!***********************************************!*\
+  !*** ./~/react-tiny-virtual-list/es/index.js ***!
+  \***********************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VirtualList; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SizeAndPositionManager__ = __webpack_require__(/*! ./SizeAndPositionManager */ "./node_modules/react-tiny-virtual-list/es/SizeAndPositionManager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(/*! ./constants */ "./node_modules/react-tiny-virtual-list/es/constants.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _class, _temp2;
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var STYLE_WRAPPER = { overflow: 'auto', willChange: 'transform', WebkitOverflowScrolling: 'touch' };
+var STYLE_INNER = { position: 'relative', overflow: 'hidden', width: '100%', minHeight: '100%' };
+var STYLE_ITEM = { position: 'absolute', left: 0, width: '100%' };
+
+var VirtualList = (_temp2 = _class = function (_PureComponent) {
+  _inherits(VirtualList, _PureComponent);
+
+  function VirtualList() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, VirtualList);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _PureComponent.call.apply(_PureComponent, [this].concat(args))), _this), _this.sizeAndPositionManager = new __WEBPACK_IMPORTED_MODULE_2__SizeAndPositionManager__["a" /* default */]({
+      itemCount: _this.props.itemCount,
+      itemSizeGetter: function itemSizeGetter(_ref) {
+        var index = _ref.index;
+        return _this.getSize(index);
+      },
+      estimatedItemSize: _this.getEstimatedItemSize()
+    }), _this.state = {
+      offset: _this.props.scrollOffset || _this.props.scrollToIndex != null && _this.getOffsetForIndex(_this.props.scrollToIndex) || 0,
+      scrollChangeReason: __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* SCROLL_CHANGE_REQUESTED */]
+    }, _this._styleCache = {}, _this._getRef = function (node) {
+      _this.rootNode = node;
+    }, _this.handleScroll = function (e) {
+      var onScroll = _this.props.onScroll;
+
+      var offset = _this.getNodeOffset();
+
+      if (offset < 0 || _this.state.offset === offset || e.target !== _this.rootNode) {
+        return;
+      }
+
+      _this.setState({
+        offset: offset,
+        scrollChangeReason: __WEBPACK_IMPORTED_MODULE_3__constants__["b" /* SCROLL_CHANGE_OBSERVED */]
+      });
+
+      if (typeof onScroll === 'function') {
+        onScroll(offset, e);
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  VirtualList.prototype.componentDidMount = function componentDidMount() {
+    var _props = this.props,
+        scrollOffset = _props.scrollOffset,
+        scrollToIndex = _props.scrollToIndex;
+
+
+    if (scrollOffset != null) {
+      this.scrollTo(scrollOffset);
+    } else if (scrollToIndex != null) {
+      this.scrollTo(this.getOffsetForIndex(scrollToIndex));
+    }
+  };
+
+  VirtualList.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    var _props2 = this.props,
+        estimatedItemSize = _props2.estimatedItemSize,
+        itemCount = _props2.itemCount,
+        itemSize = _props2.itemSize,
+        scrollOffset = _props2.scrollOffset,
+        scrollToAlignment = _props2.scrollToAlignment,
+        scrollToIndex = _props2.scrollToIndex;
+
+    var scrollPropsHaveChanged = nextProps.scrollToIndex !== scrollToIndex || nextProps.scrollToAlignment !== scrollToAlignment;
+    var itemPropsHaveChanged = nextProps.itemCount !== itemCount || nextProps.itemSize !== itemSize || nextProps.estimatedItemSize !== estimatedItemSize;
+
+    if (nextProps.itemCount !== itemCount || nextProps.estimatedItemSize !== estimatedItemSize) {
+      this.sizeAndPositionManager.updateConfig({
+        itemCount: nextProps.itemCount,
+        estimatedItemSize: this.getEstimatedItemSize(nextProps)
+      });
+    }
+
+    if (itemPropsHaveChanged) {
+      this.recomputeSizes();
+    }
+
+    if (nextProps.scrollOffset !== scrollOffset) {
+      this.setState({
+        offset: nextProps.scrollOffset,
+        scrollChangeReason: __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* SCROLL_CHANGE_REQUESTED */]
+      });
+    } else if (scrollPropsHaveChanged || nextProps.scrollToIndex && itemPropsHaveChanged) {
+      this.setState({
+        offset: this.getOffsetForIndex(nextProps.scrollToIndex, nextProps.scrollToAlignment, nextProps.itemCount),
+        scrollChangeReason: __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* SCROLL_CHANGE_REQUESTED */]
+      });
+    }
+  };
+
+  VirtualList.prototype.componentDidUpdate = function componentDidUpdate(nextProps, nextState) {
+    var offset = this.state.offset;
+
+
+    if (nextState.offset !== offset && nextState.scrollChangeReason === __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* SCROLL_CHANGE_REQUESTED */]) {
+      this.scrollTo(offset);
+    }
+  };
+
+  VirtualList.prototype.getEstimatedItemSize = function getEstimatedItemSize() {
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+
+    return props.estimatedItemSize || typeof props.itemSize === "number" && props.itemSize || 50;
+  };
+
+  VirtualList.prototype.getNodeOffset = function getNodeOffset() {
+    var scrollDirection = this.props.scrollDirection;
+
+    return this.rootNode[__WEBPACK_IMPORTED_MODULE_3__constants__["c" /* scrollProp */][scrollDirection]];
+  };
+
+  VirtualList.prototype.scrollTo = function scrollTo(value) {
+    var scrollDirection = this.props.scrollDirection;
+
+    this.rootNode[__WEBPACK_IMPORTED_MODULE_3__constants__["c" /* scrollProp */][scrollDirection]] = value;
+  };
+
+  VirtualList.prototype.getOffsetForIndex = function getOffsetForIndex(index) {
+    var scrollToAlignment = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.scrollToAlignment;
+    var itemCount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.props.itemCount;
+    var scrollDirection = this.props.scrollDirection;
+
+
+    if (index < 0 || index >= itemCount) {
+      index = 0;
+    }
+
+    return this.sizeAndPositionManager.getUpdatedOffsetForIndex({
+      align: scrollToAlignment,
+      containerSize: this.props[__WEBPACK_IMPORTED_MODULE_3__constants__["d" /* sizeProp */][scrollDirection]],
+      targetIndex: index
+    });
+  };
+
+  VirtualList.prototype.getSize = function getSize(index) {
+    var itemSize = this.props.itemSize;
+
+
+    if (typeof itemSize === 'function') {
+      return itemSize(index);
+    }
+
+    return Array.isArray(itemSize) ? itemSize[index] : itemSize;
+  };
+
+  VirtualList.prototype.getStyle = function getStyle(index) {
+    var _extends2;
+
+    var style = this._styleCache[index];
+    if (style) {
+      return style;
+    }
+
+    var scrollDirection = this.props.scrollDirection;
+
+    var _sizeAndPositionManag = this.sizeAndPositionManager.getSizeAndPositionForIndex(index),
+        size = _sizeAndPositionManag.size,
+        offset = _sizeAndPositionManag.offset;
+
+    return this._styleCache[index] = _extends({}, STYLE_ITEM, (_extends2 = {}, _extends2[__WEBPACK_IMPORTED_MODULE_3__constants__["d" /* sizeProp */][scrollDirection]] = size, _extends2[__WEBPACK_IMPORTED_MODULE_3__constants__["e" /* positionProp */][scrollDirection]] = offset, _extends2));
+  };
+
+  VirtualList.prototype.recomputeSizes = function recomputeSizes() {
+    var startIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    this._styleCache = {};
+    this.sizeAndPositionManager.resetItem(startIndex);
+  };
+
+  VirtualList.prototype.render = function render() {
+    var _extends3;
+
+    /* eslint-disable no-unused-vars */
+    var _props3 = this.props,
+        estimatedItemSize = _props3.estimatedItemSize,
+        height = _props3.height,
+        overscanCount = _props3.overscanCount,
+        renderItem = _props3.renderItem,
+        itemCount = _props3.itemCount,
+        itemSize = _props3.itemSize,
+        scrollDirection = _props3.scrollDirection,
+        scrollOffset = _props3.scrollOffset,
+        scrollToIndex = _props3.scrollToIndex,
+        scrollToAlignment = _props3.scrollToAlignment,
+        style = _props3.style,
+        width = _props3.width,
+        props = _objectWithoutProperties(_props3, ['estimatedItemSize', 'height', 'overscanCount', 'renderItem', 'itemCount', 'itemSize', 'scrollDirection', 'scrollOffset', 'scrollToIndex', 'scrollToAlignment', 'style', 'width']);
+
+    var offset = this.state.offset;
+
+    var _sizeAndPositionManag2 = this.sizeAndPositionManager.getVisibleRange({
+      containerSize: this.props[__WEBPACK_IMPORTED_MODULE_3__constants__["d" /* sizeProp */][scrollDirection]],
+      offset: offset,
+      overscanCount: overscanCount
+    }),
+        start = _sizeAndPositionManag2.start,
+        stop = _sizeAndPositionManag2.stop;
+
+    var items = [];
+
+    for (var index = start; index <= stop; index++) {
+      items.push(renderItem({
+        index: index,
+        style: this.getStyle(index)
+      }));
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      _extends({ ref: this._getRef }, props, { onScroll: this.handleScroll, style: _extends({}, STYLE_WRAPPER, style, { height: height, width: width }) }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { style: _extends({}, STYLE_INNER, (_extends3 = {}, _extends3[__WEBPACK_IMPORTED_MODULE_3__constants__["d" /* sizeProp */][scrollDirection]] = this.sizeAndPositionManager.getTotalSize(), _extends3)) },
+        items
+      )
+    );
+  };
+
+  return VirtualList;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["PureComponent"]), _class.defaultProps = {
+  overscanCount: 3,
+  scrollDirection: __WEBPACK_IMPORTED_MODULE_3__constants__["f" /* DIRECTION_VERTICAL */],
+  width: '100%'
+}, _temp2);
+
+ true ? VirtualList.propTypes = {
+  estimatedItemSize: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  height: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string]).isRequired,
+  itemCount: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
+  itemSize: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func]).isRequired,
+  overscanCount: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  renderItem: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+  scrollOffset: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  scrollToIndex: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+  scrollToAlignment: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOf([__WEBPACK_IMPORTED_MODULE_3__constants__["g" /* ALIGN_START */], __WEBPACK_IMPORTED_MODULE_3__constants__["h" /* ALIGN_CENTER */], __WEBPACK_IMPORTED_MODULE_3__constants__["i" /* ALIGN_END */]]),
+  scrollDirection: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOf([__WEBPACK_IMPORTED_MODULE_3__constants__["j" /* DIRECTION_HORIZONTAL */], __WEBPACK_IMPORTED_MODULE_3__constants__["f" /* DIRECTION_VERTICAL */]]).isRequired,
+  width: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string]).isRequired
+} : void 0;
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/CSSTransitionGroup.js":
+/* no static exports found */
+/* exports used: default */
+/*!********************************************************!*\
+  !*** ./~/react-transition-group/CSSTransitionGroup.js ***!
+  \********************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _TransitionGroup = __webpack_require__(/*! ./TransitionGroup */ "./node_modules/react-transition-group/TransitionGroup.js");
+
+var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
+
+var _CSSTransitionGroupChild = __webpack_require__(/*! ./CSSTransitionGroupChild */ "./node_modules/react-transition-group/CSSTransitionGroupChild.js");
+
+var _CSSTransitionGroupChild2 = _interopRequireDefault(_CSSTransitionGroupChild);
+
+var _PropTypes = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/utils/PropTypes.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var propTypes = {
+  transitionName: _PropTypes.nameShape.isRequired,
+
+  transitionAppear: _propTypes2.default.bool,
+  transitionEnter: _propTypes2.default.bool,
+  transitionLeave: _propTypes2.default.bool,
+  transitionAppearTimeout: (0, _PropTypes.transitionTimeout)('Appear'),
+  transitionEnterTimeout: (0, _PropTypes.transitionTimeout)('Enter'),
+  transitionLeaveTimeout: (0, _PropTypes.transitionTimeout)('Leave')
 };
 
+var defaultProps = {
+  transitionAppear: false,
+  transitionEnter: true,
+  transitionLeave: true
+};
+
+var CSSTransitionGroup = function (_React$Component) {
+  _inherits(CSSTransitionGroup, _React$Component);
+
+  function CSSTransitionGroup() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, CSSTransitionGroup);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this._wrapChild = function (child) {
+      return _react2.default.createElement(_CSSTransitionGroupChild2.default, {
+        name: _this.props.transitionName,
+        appear: _this.props.transitionAppear,
+        enter: _this.props.transitionEnter,
+        leave: _this.props.transitionLeave,
+        appearTimeout: _this.props.transitionAppearTimeout,
+        enterTimeout: _this.props.transitionEnterTimeout,
+        leaveTimeout: _this.props.transitionLeaveTimeout
+      }, child);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  // We need to provide this childFactory so that
+  // ReactCSSTransitionGroupChild can receive updates to name, enter, and
+  // leave while it is leaving.
+
+
+  CSSTransitionGroup.prototype.render = function render() {
+    return _react2.default.createElement(_TransitionGroup2.default, _extends({}, this.props, { childFactory: this._wrapChild }));
+  };
+
+  return CSSTransitionGroup;
+}(_react2.default.Component);
+
+CSSTransitionGroup.displayName = 'CSSTransitionGroup';
+
+
+CSSTransitionGroup.propTypes =  true ? propTypes : {};
+CSSTransitionGroup.defaultProps = defaultProps;
+
+exports.default = CSSTransitionGroup;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/CSSTransitionGroupChild.js":
+/* no static exports found */
+/* all exports used */
+/*!*************************************************************!*\
+  !*** ./~/react-transition-group/CSSTransitionGroupChild.js ***!
+  \*************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _addClass = __webpack_require__(/*! dom-helpers/class/addClass */ "./node_modules/dom-helpers/class/addClass.js");
+
+var _addClass2 = _interopRequireDefault(_addClass);
+
+var _removeClass = __webpack_require__(/*! dom-helpers/class/removeClass */ "./node_modules/dom-helpers/class/removeClass.js");
+
+var _removeClass2 = _interopRequireDefault(_removeClass);
+
+var _requestAnimationFrame = __webpack_require__(/*! dom-helpers/util/requestAnimationFrame */ "./node_modules/dom-helpers/util/requestAnimationFrame.js");
+
+var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
+
+var _properties = __webpack_require__(/*! dom-helpers/transition/properties */ "./node_modules/dom-helpers/transition/properties.js");
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+
+var _PropTypes = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/utils/PropTypes.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var events = [];
+if (_properties.transitionEnd) events.push(_properties.transitionEnd);
+if (_properties.animationEnd) events.push(_properties.animationEnd);
+
+function addEndListener(node, listener) {
+  if (events.length) {
+    events.forEach(function (e) {
+      return node.addEventListener(e, listener, false);
+    });
+  } else {
+    setTimeout(listener, 0);
+  }
+
+  return function () {
+    if (!events.length) return;
+    events.forEach(function (e) {
+      return node.removeEventListener(e, listener, false);
+    });
+  };
+}
+
+var propTypes = {
+  children: _propTypes2.default.node,
+  name: _PropTypes.nameShape.isRequired,
+
+  // Once we require timeouts to be specified, we can remove the
+  // boolean flags (appear etc.) and just accept a number
+  // or a bool for the timeout flags (appearTimeout etc.)
+  appear: _propTypes2.default.bool,
+  enter: _propTypes2.default.bool,
+  leave: _propTypes2.default.bool,
+  appearTimeout: _propTypes2.default.number,
+  enterTimeout: _propTypes2.default.number,
+  leaveTimeout: _propTypes2.default.number
+};
+
+var CSSTransitionGroupChild = function (_React$Component) {
+  _inherits(CSSTransitionGroupChild, _React$Component);
+
+  function CSSTransitionGroupChild() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, CSSTransitionGroupChild);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.componentWillAppear = function (done) {
+      if (_this.props.appear) {
+        _this.transition('appear', done, _this.props.appearTimeout);
+      } else {
+        done();
+      }
+    }, _this.componentWillEnter = function (done) {
+      if (_this.props.enter) {
+        _this.transition('enter', done, _this.props.enterTimeout);
+      } else {
+        done();
+      }
+    }, _this.componentWillLeave = function (done) {
+      if (_this.props.leave) {
+        _this.transition('leave', done, _this.props.leaveTimeout);
+      } else {
+        done();
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  CSSTransitionGroupChild.prototype.componentWillMount = function componentWillMount() {
+    this.classNameAndNodeQueue = [];
+    this.transitionTimeouts = [];
+  };
+
+  CSSTransitionGroupChild.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.unmounted = true;
+
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    this.transitionTimeouts.forEach(function (timeout) {
+      clearTimeout(timeout);
+    });
+
+    this.classNameAndNodeQueue.length = 0;
+  };
+
+  CSSTransitionGroupChild.prototype.transition = function transition(animationType, finishCallback, timeout) {
+    var node = (0, _reactDom.findDOMNode)(this);
+
+    if (!node) {
+      if (finishCallback) {
+        finishCallback();
+      }
+      return;
+    }
+
+    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
+    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
+    var timer = null;
+    var removeListeners = void 0;
+
+    (0, _addClass2.default)(node, className);
+
+    // Need to do this to actually trigger a transition.
+    this.queueClassAndNode(activeClassName, node);
+
+    // Clean-up the animation after the specified delay
+    var finish = function finish(e) {
+      if (e && e.target !== node) {
+        return;
+      }
+
+      clearTimeout(timer);
+      if (removeListeners) removeListeners();
+
+      (0, _removeClass2.default)(node, className);
+      (0, _removeClass2.default)(node, activeClassName);
+
+      if (removeListeners) removeListeners();
+
+      // Usually this optional callback is used for informing an owner of
+      // a leave animation and telling it to remove the child.
+      if (finishCallback) {
+        finishCallback();
+      }
+    };
+
+    if (timeout) {
+      timer = setTimeout(finish, timeout);
+      this.transitionTimeouts.push(timer);
+    } else if (_properties.transitionEnd) {
+      removeListeners = addEndListener(node, finish);
+    }
+  };
+
+  CSSTransitionGroupChild.prototype.queueClassAndNode = function queueClassAndNode(className, node) {
+    var _this2 = this;
+
+    this.classNameAndNodeQueue.push({
+      className: className,
+      node: node
+    });
+
+    if (!this.rafHandle) {
+      this.rafHandle = (0, _requestAnimationFrame2.default)(function () {
+        return _this2.flushClassNameAndNodeQueue();
+      });
+    }
+  };
+
+  CSSTransitionGroupChild.prototype.flushClassNameAndNodeQueue = function flushClassNameAndNodeQueue() {
+    if (!this.unmounted) {
+      this.classNameAndNodeQueue.forEach(function (obj) {
+        // This is for to force a repaint,
+        // which is necessary in order to transition styles when adding a class name.
+        /* eslint-disable no-unused-expressions */
+        obj.node.scrollTop;
+        /* eslint-enable no-unused-expressions */
+        (0, _addClass2.default)(obj.node, obj.className);
+      });
+    }
+    this.classNameAndNodeQueue.length = 0;
+    this.rafHandle = null;
+  };
+
+  CSSTransitionGroupChild.prototype.render = function render() {
+    var props = _extends({}, this.props);
+    delete props.name;
+    delete props.appear;
+    delete props.enter;
+    delete props.leave;
+    delete props.appearTimeout;
+    delete props.enterTimeout;
+    delete props.leaveTimeout;
+    delete props.children;
+    return _react2.default.cloneElement(_react2.default.Children.only(this.props.children), props);
+  };
+
+  return CSSTransitionGroupChild;
+}(_react2.default.Component);
+
+CSSTransitionGroupChild.displayName = 'CSSTransitionGroupChild';
+
+
+CSSTransitionGroupChild.propTypes =  true ? propTypes : {};
+
+exports.default = CSSTransitionGroupChild;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/TransitionGroup.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************************!*\
+  !*** ./~/react-transition-group/TransitionGroup.js ***!
+  \*****************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _chainFunction = __webpack_require__(/*! chain-function */ "./node_modules/chain-function/index.js");
+
+var _chainFunction2 = _interopRequireDefault(_chainFunction);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _warning = __webpack_require__(/*! warning */ "./node_modules/warning/browser.js");
+
+var _warning2 = _interopRequireDefault(_warning);
+
+var _ChildMapping = __webpack_require__(/*! ./utils/ChildMapping */ "./node_modules/react-transition-group/utils/ChildMapping.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var propTypes = {
+  component: _propTypes2.default.any,
+  childFactory: _propTypes2.default.func,
+  children: _propTypes2.default.node
+};
+
+var defaultProps = {
+  component: 'span',
+  childFactory: function childFactory(child) {
+    return child;
+  }
+};
+
+var TransitionGroup = function (_React$Component) {
+  _inherits(TransitionGroup, _React$Component);
+
+  function TransitionGroup(props, context) {
+    _classCallCheck(this, TransitionGroup);
+
+    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props, context));
+
+    _this.performAppear = function (key, component) {
+      _this.currentlyTransitioningKeys[key] = true;
+
+      if (component.componentWillAppear) {
+        component.componentWillAppear(_this._handleDoneAppearing.bind(_this, key, component));
+      } else {
+        _this._handleDoneAppearing(key, component);
+      }
+    };
+
+    _this._handleDoneAppearing = function (key, component) {
+      if (component.componentDidAppear) {
+        component.componentDidAppear();
+      }
+
+      delete _this.currentlyTransitioningKeys[key];
+
+      var currentChildMapping = (0, _ChildMapping.getChildMapping)(_this.props.children);
+
+      if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+        // This was removed before it had fully appeared. Remove it.
+        _this.performLeave(key, component);
+      }
+    };
+
+    _this.performEnter = function (key, component) {
+      _this.currentlyTransitioningKeys[key] = true;
+
+      if (component.componentWillEnter) {
+        component.componentWillEnter(_this._handleDoneEntering.bind(_this, key, component));
+      } else {
+        _this._handleDoneEntering(key, component);
+      }
+    };
+
+    _this._handleDoneEntering = function (key, component) {
+      if (component.componentDidEnter) {
+        component.componentDidEnter();
+      }
+
+      delete _this.currentlyTransitioningKeys[key];
+
+      var currentChildMapping = (0, _ChildMapping.getChildMapping)(_this.props.children);
+
+      if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+        // This was removed before it had fully entered. Remove it.
+        _this.performLeave(key, component);
+      }
+    };
+
+    _this.performLeave = function (key, component) {
+      _this.currentlyTransitioningKeys[key] = true;
+
+      if (component.componentWillLeave) {
+        component.componentWillLeave(_this._handleDoneLeaving.bind(_this, key, component));
+      } else {
+        // Note that this is somewhat dangerous b/c it calls setState()
+        // again, effectively mutating the component before all the work
+        // is done.
+        _this._handleDoneLeaving(key, component);
+      }
+    };
+
+    _this._handleDoneLeaving = function (key, component) {
+      if (component.componentDidLeave) {
+        component.componentDidLeave();
+      }
+
+      delete _this.currentlyTransitioningKeys[key];
+
+      var currentChildMapping = (0, _ChildMapping.getChildMapping)(_this.props.children);
+
+      if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
+        // This entered again before it fully left. Add it again.
+        _this.keysToEnter.push(key);
+      } else {
+        _this.setState(function (state) {
+          var newChildren = _extends({}, state.children);
+          delete newChildren[key];
+          return { children: newChildren };
+        });
+      }
+    };
+
+    _this.childRefs = Object.create(null);
+
+    _this.state = {
+      children: (0, _ChildMapping.getChildMapping)(props.children)
+    };
+    return _this;
+  }
+
+  TransitionGroup.prototype.componentWillMount = function componentWillMount() {
+    this.currentlyTransitioningKeys = {};
+    this.keysToEnter = [];
+    this.keysToLeave = [];
+  };
+
+  TransitionGroup.prototype.componentDidMount = function componentDidMount() {
+    var initialChildMapping = this.state.children;
+    for (var key in initialChildMapping) {
+      if (initialChildMapping[key]) {
+        this.performAppear(key, this.childRefs[key]);
+      }
+    }
+  };
+
+  TransitionGroup.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    var nextChildMapping = (0, _ChildMapping.getChildMapping)(nextProps.children);
+    var prevChildMapping = this.state.children;
+
+    this.setState({
+      children: (0, _ChildMapping.mergeChildMappings)(prevChildMapping, nextChildMapping)
+    });
+
+    for (var key in nextChildMapping) {
+      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
+      if (nextChildMapping[key] && !hasPrev && !this.currentlyTransitioningKeys[key]) {
+        this.keysToEnter.push(key);
+      }
+    }
+
+    for (var _key in prevChildMapping) {
+      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(_key);
+      if (prevChildMapping[_key] && !hasNext && !this.currentlyTransitioningKeys[_key]) {
+        this.keysToLeave.push(_key);
+      }
+    }
+
+    // If we want to someday check for reordering, we could do it here.
+  };
+
+  TransitionGroup.prototype.componentDidUpdate = function componentDidUpdate() {
+    var _this2 = this;
+
+    var keysToEnter = this.keysToEnter;
+    this.keysToEnter = [];
+    keysToEnter.forEach(function (key) {
+      return _this2.performEnter(key, _this2.childRefs[key]);
+    });
+
+    var keysToLeave = this.keysToLeave;
+    this.keysToLeave = [];
+    keysToLeave.forEach(function (key) {
+      return _this2.performLeave(key, _this2.childRefs[key]);
+    });
+  };
+
+  TransitionGroup.prototype.render = function render() {
+    var _this3 = this;
+
+    // TODO: we could get rid of the need for the wrapper node
+    // by cloning a single child
+    var childrenToRender = [];
+
+    var _loop = function _loop(key) {
+      var child = _this3.state.children[key];
+      if (child) {
+        var isCallbackRef = typeof child.ref !== 'string';
+        var factoryChild = _this3.props.childFactory(child);
+        var ref = function ref(r) {
+          _this3.childRefs[key] = r;
+        };
+
+         true ? (0, _warning2.default)(isCallbackRef, 'string refs are not supported on children of TransitionGroup and will be ignored. ' + 'Please use a callback ref instead: https://facebook.github.io/react/docs/refs-and-the-dom.html#the-ref-callback-attribute') : void 0;
+
+        // Always chaining the refs leads to problems when the childFactory
+        // wraps the child. The child ref callback gets called twice with the
+        // wrapper and the child. So we only need to chain the ref if the
+        // factoryChild is not different from child.
+        if (factoryChild === child && isCallbackRef) {
+          ref = (0, _chainFunction2.default)(child.ref, ref);
+        }
+
+        // You may need to apply reactive updates to a child as it is leaving.
+        // The normal React way to do it won't work since the child will have
+        // already been removed. In case you need this behavior you can provide
+        // a childFactory function to wrap every child, even the ones that are
+        // leaving.
+        childrenToRender.push(_react2.default.cloneElement(factoryChild, {
+          key: key,
+          ref: ref
+        }));
+      }
+    };
+
+    for (var key in this.state.children) {
+      _loop(key);
+    }
+
+    // Do not forward TransitionGroup props to primitive DOM nodes
+    var props = _extends({}, this.props);
+    delete props.transitionLeave;
+    delete props.transitionName;
+    delete props.transitionAppear;
+    delete props.transitionEnter;
+    delete props.childFactory;
+    delete props.transitionLeaveTimeout;
+    delete props.transitionEnterTimeout;
+    delete props.transitionAppearTimeout;
+    delete props.component;
+
+    return _react2.default.createElement(this.props.component, props, childrenToRender);
+  };
+
+  return TransitionGroup;
+}(_react2.default.Component);
+
+TransitionGroup.displayName = 'TransitionGroup';
+
+
+TransitionGroup.propTypes =  true ? propTypes : {};
+TransitionGroup.defaultProps = defaultProps;
+
+exports.default = TransitionGroup;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/utils/ChildMapping.js":
+/* no static exports found */
+/* all exports used */
+/*!********************************************************!*\
+  !*** ./~/react-transition-group/utils/ChildMapping.js ***!
+  \********************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.getChildMapping = getChildMapping;
+exports.mergeChildMappings = mergeChildMappings;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+/**
+ * Given `this.props.children`, return an object mapping key to child.
+ *
+ * @param {*} children `this.props.children`
+ * @return {object} Mapping of key to child
+ */
+function getChildMapping(children) {
+  if (!children) {
+    return children;
+  }
+  var result = {};
+  _react.Children.map(children, function (child) {
+    return child;
+  }).forEach(function (child) {
+    result[child.key] = child;
+  });
+  return result;
+}
+
+/**
+ * When you're adding or removing children some may be added or removed in the
+ * same render pass. We want to show *both* since we want to simultaneously
+ * animate elements in and out. This function takes a previous set of keys
+ * and a new set of keys and merges them with its best guess of the correct
+ * ordering. In the future we may expose some of the utilities in
+ * ReactMultiChild to make this easy, but for now React itself does not
+ * directly have this concept of the union of prevChildren and nextChildren
+ * so we implement it here.
+ *
+ * @param {object} prev prev children as returned from
+ * `ReactTransitionChildMapping.getChildMapping()`.
+ * @param {object} next next children as returned from
+ * `ReactTransitionChildMapping.getChildMapping()`.
+ * @return {object} a key set that contains all keys in `prev` and all keys
+ * in `next` in a reasonable order.
+ */
+function mergeChildMappings(prev, next) {
+  prev = prev || {};
+  next = next || {};
+
+  function getValueForKey(key) {
+    if (next.hasOwnProperty(key)) {
+      return next[key];
+    }
+
+    return prev[key];
+  }
+
+  // For each key of `next`, the list of keys to insert before that key in
+  // the combined list
+  var nextKeysPending = {};
+
+  var pendingKeys = [];
+  for (var prevKey in prev) {
+    if (next.hasOwnProperty(prevKey)) {
+      if (pendingKeys.length) {
+        nextKeysPending[prevKey] = pendingKeys;
+        pendingKeys = [];
+      }
+    } else {
+      pendingKeys.push(prevKey);
+    }
+  }
+
+  var i = void 0;
+  var childMapping = {};
+  for (var nextKey in next) {
+    if (nextKeysPending.hasOwnProperty(nextKey)) {
+      for (i = 0; i < nextKeysPending[nextKey].length; i++) {
+        var pendingNextKey = nextKeysPending[nextKey][i];
+        childMapping[nextKeysPending[nextKey][i]] = getValueForKey(pendingNextKey);
+      }
+    }
+    childMapping[nextKey] = getValueForKey(nextKey);
+  }
+
+  // Finally, add the keys which didn't appear before any key in `next`
+  for (i = 0; i < pendingKeys.length; i++) {
+    childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
+  }
+
+  return childMapping;
+}
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/utils/PropTypes.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************************!*\
+  !*** ./~/react-transition-group/utils/PropTypes.js ***!
+  \*****************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.nameShape = undefined;
+exports.transitionTimeout = transitionTimeout;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function transitionTimeout(transitionType) {
+  var timeoutPropName = 'transition' + transitionType + 'Timeout';
+  var enabledPropName = 'transition' + transitionType;
+
+  return function (props) {
+    // If the transition is enabled
+    if (props[enabledPropName]) {
+      // If no timeout duration is provided
+      if (props[timeoutPropName] == null) {
+        return new Error(timeoutPropName + ' wasn\'t supplied to CSSTransitionGroup: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
+
+        // If the duration isn't a number
+      } else if (typeof props[timeoutPropName] !== 'number') {
+        return new Error(timeoutPropName + ' must be a number (in milliseconds)');
+      }
+    }
+
+    return null;
+  };
+}
+
+var nameShape = exports.nameShape = _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.shape({
+  enter: _propTypes2.default.string,
+  leave: _propTypes2.default.string,
+  active: _propTypes2.default.string
+}), _propTypes2.default.shape({
+  enter: _propTypes2.default.string,
+  enterActive: _propTypes2.default.string,
+  leave: _propTypes2.default.string,
+  leaveActive: _propTypes2.default.string,
+  appear: _propTypes2.default.string,
+  appearActive: _propTypes2.default.string
+})]);
 
 /***/ }),
 
@@ -33469,7 +40230,7 @@ module.exports = traverseAllChildren;
 
 /***/ "./node_modules/react/react.js":
 /* no static exports found */
-/* exports used: default */
+/* all exports used */
 /*!**************************!*\
   !*** ./~/react/react.js ***!
   \**************************/
@@ -33480,6 +40241,702 @@ module.exports = traverseAllChildren;
 
 module.exports = __webpack_require__(/*! ./lib/React */ "./node_modules/react/lib/React.js");
 
+
+/***/ }),
+
+/***/ "./node_modules/recompose/compose.js":
+/* no static exports found */
+/* exports used: default */
+/*!********************************!*\
+  !*** ./~/recompose/compose.js ***!
+  \********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = compose;
+function compose() {
+  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+    funcs[_key] = arguments[_key];
+  }
+
+  if (funcs.length === 0) {
+    return function (arg) {
+      return arg;
+    };
+  }
+
+  if (funcs.length === 1) {
+    return funcs[0];
+  }
+
+  return funcs.reduce(function (a, b) {
+    return function () {
+      return a(b.apply(undefined, arguments));
+    };
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/recompose/createEagerFactory.js":
+/* no static exports found */
+/* all exports used */
+/*!*******************************************!*\
+  !*** ./~/recompose/createEagerFactory.js ***!
+  \*******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _createEagerElementUtil = __webpack_require__(/*! ./utils/createEagerElementUtil */ "./node_modules/recompose/utils/createEagerElementUtil.js");
+
+var _createEagerElementUtil2 = _interopRequireDefault(_createEagerElementUtil);
+
+var _isReferentiallyTransparentFunctionComponent = __webpack_require__(/*! ./isReferentiallyTransparentFunctionComponent */ "./node_modules/recompose/isReferentiallyTransparentFunctionComponent.js");
+
+var _isReferentiallyTransparentFunctionComponent2 = _interopRequireDefault(_isReferentiallyTransparentFunctionComponent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createFactory = function createFactory(type) {
+  var isReferentiallyTransparent = (0, _isReferentiallyTransparentFunctionComponent2.default)(type);
+  return function (p, c) {
+    return (0, _createEagerElementUtil2.default)(false, isReferentiallyTransparent, type, p, c);
+  };
+};
+
+exports.default = createFactory;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/createHelper.js":
+/* no static exports found */
+/* all exports used */
+/*!*************************************!*\
+  !*** ./~/recompose/createHelper.js ***!
+  \*************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var createHelper = function createHelper(func, helperName) {
+  var setDisplayName = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  var noArgs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+  if ("development" !== 'production' && setDisplayName) {
+    var _ret = function () {
+      /* eslint-disable global-require */
+      var wrapDisplayName = __webpack_require__(/*! ./wrapDisplayName */ "./node_modules/recompose/wrapDisplayName.js").default;
+      /* eslint-enable global-require */
+
+      if (noArgs) {
+        return {
+          v: function v(BaseComponent) {
+            var Component = func(BaseComponent);
+            Component.displayName = wrapDisplayName(BaseComponent, helperName);
+            return Component;
+          }
+        };
+      }
+
+      return {
+        v: function v() {
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          return function (BaseComponent) {
+            var Component = func.apply(undefined, args)(BaseComponent);
+            Component.displayName = wrapDisplayName(BaseComponent, helperName);
+            return Component;
+          };
+        }
+      };
+    }();
+
+    if (typeof _ret === "object") return _ret.v;
+  }
+
+  return func;
+};
+
+exports.default = createHelper;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/defaultProps.js":
+/* no static exports found */
+/* exports used: default */
+/*!*************************************!*\
+  !*** ./~/recompose/defaultProps.js ***!
+  \*************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _createHelper = __webpack_require__(/*! ./createHelper */ "./node_modules/recompose/createHelper.js");
+
+var _createHelper2 = _interopRequireDefault(_createHelper);
+
+var _createEagerFactory = __webpack_require__(/*! ./createEagerFactory */ "./node_modules/recompose/createEagerFactory.js");
+
+var _createEagerFactory2 = _interopRequireDefault(_createEagerFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultProps = function defaultProps(props) {
+  return function (BaseComponent) {
+    var factory = (0, _createEagerFactory2.default)(BaseComponent);
+    var DefaultProps = function DefaultProps(ownerProps) {
+      return factory(ownerProps);
+    };
+    DefaultProps.defaultProps = props;
+    return DefaultProps;
+  };
+};
+
+exports.default = (0, _createHelper2.default)(defaultProps, 'defaultProps');
+
+/***/ }),
+
+/***/ "./node_modules/recompose/getDisplayName.js":
+/* no static exports found */
+/* all exports used */
+/*!***************************************!*\
+  !*** ./~/recompose/getDisplayName.js ***!
+  \***************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var getDisplayName = function getDisplayName(Component) {
+  if (typeof Component === 'string') {
+    return Component;
+  }
+
+  if (!Component) {
+    return undefined;
+  }
+
+  return Component.displayName || Component.name || 'Component';
+};
+
+exports.default = getDisplayName;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/isClassComponent.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************!*\
+  !*** ./~/recompose/isClassComponent.js ***!
+  \*****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var isClassComponent = function isClassComponent(Component) {
+  return Boolean(Component && Component.prototype && typeof Component.prototype.isReactComponent === 'object');
+};
+
+exports.default = isClassComponent;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/isReferentiallyTransparentFunctionComponent.js":
+/* no static exports found */
+/* all exports used */
+/*!********************************************************************!*\
+  !*** ./~/recompose/isReferentiallyTransparentFunctionComponent.js ***!
+  \********************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _isClassComponent = __webpack_require__(/*! ./isClassComponent.js */ "./node_modules/recompose/isClassComponent.js");
+
+var _isClassComponent2 = _interopRequireDefault(_isClassComponent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var isReferentiallyTransparentFunctionComponent = function isReferentiallyTransparentFunctionComponent(Component) {
+  return Boolean(typeof Component === 'function' && !(0, _isClassComponent2.default)(Component) && !Component.defaultProps && !Component.contextTypes && ("development" === 'production' || !Component.propTypes));
+};
+
+exports.default = isReferentiallyTransparentFunctionComponent;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/mapProps.js":
+/* no static exports found */
+/* all exports used */
+/*!*********************************!*\
+  !*** ./~/recompose/mapProps.js ***!
+  \*********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _createHelper = __webpack_require__(/*! ./createHelper */ "./node_modules/recompose/createHelper.js");
+
+var _createHelper2 = _interopRequireDefault(_createHelper);
+
+var _createEagerFactory = __webpack_require__(/*! ./createEagerFactory */ "./node_modules/recompose/createEagerFactory.js");
+
+var _createEagerFactory2 = _interopRequireDefault(_createEagerFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapProps = function mapProps(propsMapper) {
+  return function (BaseComponent) {
+    var factory = (0, _createEagerFactory2.default)(BaseComponent);
+    return function (props) {
+      return factory(propsMapper(props));
+    };
+  };
+};
+
+exports.default = (0, _createHelper2.default)(mapProps, 'mapProps');
+
+/***/ }),
+
+/***/ "./node_modules/recompose/shallowEqual.js":
+/* no static exports found */
+/* all exports used */
+/*!*************************************!*\
+  !*** ./~/recompose/shallowEqual.js ***!
+  \*************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _shallowEqual = __webpack_require__(/*! fbjs/lib/shallowEqual */ "./node_modules/fbjs/lib/shallowEqual.js");
+
+var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _shallowEqual2.default;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/utils/createEagerElementUtil.js":
+/* no static exports found */
+/* all exports used */
+/*!*****************************************************!*\
+  !*** ./~/recompose/utils/createEagerElementUtil.js ***!
+  \*****************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createEagerElementUtil = function createEagerElementUtil(hasKey, isReferentiallyTransparent, type, props, children) {
+  if (!hasKey && isReferentiallyTransparent) {
+    if (children) {
+      return type(_extends({}, props, { children: children }));
+    }
+    return type(props);
+  }
+
+  var Component = type;
+
+  if (children) {
+    return _react2.default.createElement(
+      Component,
+      props,
+      children
+    );
+  }
+
+  return _react2.default.createElement(Component, props);
+};
+
+exports.default = createEagerElementUtil;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/utils/pick.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************!*\
+  !*** ./~/recompose/utils/pick.js ***!
+  \***********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var pick = function pick(obj, keys) {
+  var result = {};
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (obj.hasOwnProperty(key)) {
+      result[key] = obj[key];
+    }
+  }
+  return result;
+};
+
+exports.default = pick;
+
+/***/ }),
+
+/***/ "./node_modules/recompose/withHandlers.js":
+/* no static exports found */
+/* exports used: default */
+/*!*************************************!*\
+  !*** ./~/recompose/withHandlers.js ***!
+  \*************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _createEagerFactory = __webpack_require__(/*! ./createEagerFactory */ "./node_modules/recompose/createEagerFactory.js");
+
+var _createEagerFactory2 = _interopRequireDefault(_createEagerFactory);
+
+var _createHelper = __webpack_require__(/*! ./createHelper */ "./node_modules/recompose/createHelper.js");
+
+var _createHelper2 = _interopRequireDefault(_createHelper);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var mapValues = function mapValues(obj, func) {
+  var result = {};
+  /* eslint-disable no-restricted-syntax */
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      result[key] = func(obj[key], key);
+    }
+  }
+  /* eslint-enable no-restricted-syntax */
+  return result;
+};
+
+var withHandlers = function withHandlers(handlers) {
+  return function (BaseComponent) {
+    var _class, _temp2, _initialiseProps;
+
+    var factory = (0, _createEagerFactory2.default)(BaseComponent);
+    return _temp2 = _class = function (_Component) {
+      _inherits(_class, _Component);
+
+      function _class() {
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, _class);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), _possibleConstructorReturn(_this, _ret);
+      }
+
+      _class.prototype.componentWillReceiveProps = function componentWillReceiveProps() {
+        this.cachedHandlers = {};
+      };
+
+      _class.prototype.render = function render() {
+        return factory(_extends({}, this.props, this.handlers));
+      };
+
+      return _class;
+    }(_react.Component), _initialiseProps = function _initialiseProps() {
+      var _this2 = this;
+
+      this.cachedHandlers = {};
+      this.handlers = mapValues(typeof handlers === 'function' ? handlers(this.props) : handlers, function (createHandler, handlerName) {
+        return function () {
+          var cachedHandler = _this2.cachedHandlers[handlerName];
+          if (cachedHandler) {
+            return cachedHandler.apply(undefined, arguments);
+          }
+
+          var handler = createHandler(_this2.props);
+          _this2.cachedHandlers[handlerName] = handler;
+
+          if ("development" !== 'production' && typeof handler !== 'function') {
+            console.error( // eslint-disable-line no-console
+            'withHandlers(): Expected a map of higher-order functions. ' + 'Refer to the docs for more info.');
+          }
+
+          return handler.apply(undefined, arguments);
+        };
+      });
+    }, _temp2;
+  };
+};
+
+exports.default = (0, _createHelper2.default)(withHandlers, 'withHandlers');
+
+/***/ }),
+
+/***/ "./node_modules/recompose/withProps.js":
+/* no static exports found */
+/* exports used: default */
+/*!**********************************!*\
+  !*** ./~/recompose/withProps.js ***!
+  \**********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createHelper = __webpack_require__(/*! ./createHelper */ "./node_modules/recompose/createHelper.js");
+
+var _createHelper2 = _interopRequireDefault(_createHelper);
+
+var _mapProps = __webpack_require__(/*! ./mapProps */ "./node_modules/recompose/mapProps.js");
+
+var _mapProps2 = _interopRequireDefault(_mapProps);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var withProps = function withProps(input) {
+  return (0, _mapProps2.default)(function (props) {
+    return _extends({}, props, typeof input === 'function' ? input(props) : input);
+  });
+};
+
+exports.default = (0, _createHelper2.default)(withProps, 'withProps');
+
+/***/ }),
+
+/***/ "./node_modules/recompose/withPropsOnChange.js":
+/* no static exports found */
+/* exports used: default */
+/*!******************************************!*\
+  !*** ./~/recompose/withPropsOnChange.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _pick = __webpack_require__(/*! ./utils/pick */ "./node_modules/recompose/utils/pick.js");
+
+var _pick2 = _interopRequireDefault(_pick);
+
+var _shallowEqual = __webpack_require__(/*! ./shallowEqual */ "./node_modules/recompose/shallowEqual.js");
+
+var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+
+var _createHelper = __webpack_require__(/*! ./createHelper */ "./node_modules/recompose/createHelper.js");
+
+var _createHelper2 = _interopRequireDefault(_createHelper);
+
+var _createEagerFactory = __webpack_require__(/*! ./createEagerFactory */ "./node_modules/recompose/createEagerFactory.js");
+
+var _createEagerFactory2 = _interopRequireDefault(_createEagerFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var withPropsOnChange = function withPropsOnChange(shouldMapOrKeys, propsMapper) {
+  return function (BaseComponent) {
+    var factory = (0, _createEagerFactory2.default)(BaseComponent);
+    var shouldMap = typeof shouldMapOrKeys === 'function' ? shouldMapOrKeys : function (props, nextProps) {
+      return !(0, _shallowEqual2.default)((0, _pick2.default)(props, shouldMapOrKeys), (0, _pick2.default)(nextProps, shouldMapOrKeys));
+    };
+
+    return function (_Component) {
+      _inherits(_class2, _Component);
+
+      function _class2() {
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, _class2);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.computedProps = propsMapper(_this.props), _temp), _possibleConstructorReturn(_this, _ret);
+      }
+
+      _class2.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+        if (shouldMap(this.props, nextProps)) {
+          this.computedProps = propsMapper(nextProps);
+        }
+      };
+
+      _class2.prototype.render = function render() {
+        return factory(_extends({}, this.props, this.computedProps));
+      };
+
+      return _class2;
+    }(_react.Component);
+  };
+};
+
+exports.default = (0, _createHelper2.default)(withPropsOnChange, 'withPropsOnChange');
+
+/***/ }),
+
+/***/ "./node_modules/recompose/withState.js":
+/* no static exports found */
+/* exports used: default */
+/*!**********************************!*\
+  !*** ./~/recompose/withState.js ***!
+  \**********************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _createHelper = __webpack_require__(/*! ./createHelper */ "./node_modules/recompose/createHelper.js");
+
+var _createHelper2 = _interopRequireDefault(_createHelper);
+
+var _createEagerFactory = __webpack_require__(/*! ./createEagerFactory */ "./node_modules/recompose/createEagerFactory.js");
+
+var _createEagerFactory2 = _interopRequireDefault(_createEagerFactory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var withState = function withState(stateName, stateUpdaterName, initialState) {
+  return function (BaseComponent) {
+    var factory = (0, _createEagerFactory2.default)(BaseComponent);
+    return function (_Component) {
+      _inherits(_class2, _Component);
+
+      function _class2() {
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, _class2);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
+          stateValue: typeof initialState === 'function' ? initialState(_this.props) : initialState
+        }, _this.updateStateValue = function (updateFn, callback) {
+          return _this.setState(function (_ref) {
+            var stateValue = _ref.stateValue;
+            return {
+              stateValue: typeof updateFn === 'function' ? updateFn(stateValue) : updateFn
+            };
+          }, callback);
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+      }
+
+      _class2.prototype.render = function render() {
+        var _extends2;
+
+        return factory(_extends({}, this.props, (_extends2 = {}, _extends2[stateName] = this.state.stateValue, _extends2[stateUpdaterName] = this.updateStateValue, _extends2)));
+      };
+
+      return _class2;
+    }(_react.Component);
+  };
+};
+
+exports.default = (0, _createHelper2.default)(withState, 'withState');
+
+/***/ }),
+
+/***/ "./node_modules/recompose/wrapDisplayName.js":
+/* no static exports found */
+/* all exports used */
+/*!****************************************!*\
+  !*** ./~/recompose/wrapDisplayName.js ***!
+  \****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _getDisplayName = __webpack_require__(/*! ./getDisplayName */ "./node_modules/recompose/getDisplayName.js");
+
+var _getDisplayName2 = _interopRequireDefault(_getDisplayName);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var wrapDisplayName = function wrapDisplayName(BaseComponent, hocName) {
+  return hocName + '(' + (0, _getDisplayName2.default)(BaseComponent) + ')';
+};
+
+exports.default = wrapDisplayName;
 
 /***/ }),
 
@@ -33523,7 +40980,7 @@ if (hadRuntime) {
   }
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -34272,7 +41729,7 @@ if (hadRuntime) {
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -34385,7 +41842,7 @@ if ('_sockjs_onload' in global) {
   setTimeout(global._sockjs_onload, 1);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -34969,7 +42426,7 @@ InfoIframe.prototype.close = function() {
 
 module.exports = InfoIframe;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -35095,7 +42552,7 @@ module.exports = global.location || {
 , hash: ''
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -35490,7 +42947,7 @@ module.exports = function(availableTransports) {
   return SockJS;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -36193,7 +43650,7 @@ AbstractXHRObject.supportsCORS = cors;
 
 module.exports = AbstractXHRObject;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -36207,7 +43664,7 @@ module.exports = AbstractXHRObject;
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global.EventSource;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -36231,7 +43688,7 @@ if (Driver) {
 	module.exports = undefined;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -36511,7 +43968,7 @@ JsonPTransport.needBody = true;
 
 module.exports = JsonPTransport;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -36720,7 +44177,7 @@ module.exports = function(transport) {
   return IframeWrapTransport;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37025,7 +44482,7 @@ HtmlfileReceiver.enabled = HtmlfileReceiver.htmlfileEnabled || iframeUtils.ifram
 
 module.exports = HtmlfileReceiver;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37222,7 +44679,7 @@ JsonpReceiver.prototype._createScript = function(url) {
 
 module.exports = JsonpReceiver;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37418,7 +44875,7 @@ module.exports = function(url, payload, callback) {
   };
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37535,7 +44992,7 @@ XDRObject.enabled = !!(global.XDomainRequest && browser.hasDomain());
 
 module.exports = XDRObject;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37924,7 +45381,7 @@ XhrStreamingTransport.needBody = !!global.document;
 
 module.exports = XhrStreamingTransport;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37955,7 +45412,7 @@ if (global.crypto && global.crypto.getRandomValues) {
   };
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -37996,7 +45453,7 @@ module.exports = {
   }
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -38146,7 +45603,7 @@ if (!isChromePackagedApp) {
   module.exports.attachEvent('unload', unloadTriggered);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -38346,7 +45803,7 @@ if (global.document) {
     typeof global.postMessage === 'object') && (!browser.isKonqueror());
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -38378,7 +45835,7 @@ var logObject = {};
 
 module.exports = logObject;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -42564,7 +50021,7 @@ URL.qs = qs;
 
 module.exports = URL;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../react-scripts/~/webpack/buildin/global.js */ "./node_modules/react-scripts/node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -43427,6 +50884,161 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/warning/browser.js":
+/* no static exports found */
+/* all exports used */
+/*!******************************!*\
+  !*** ./~/warning/browser.js ***!
+  \******************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = function() {};
+
+if (true) {
+  warning = function(condition, format, args) {
+    var len = arguments.length;
+    args = new Array(len > 2 ? len - 2 : 0);
+    for (var key = 2; key < len; key++) {
+      args[key - 2] = arguments[key];
+    }
+    if (format === undefined) {
+      throw new Error(
+        '`warning(condition, format, ...args)` requires a warning ' +
+        'message argument'
+      );
+    }
+
+    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+      throw new Error(
+        'The warning format should be able to uniquely identify this ' +
+        'warning. Please, use a more descriptive format than: ' + format
+      );
+    }
+
+    if (!condition) {
+      var argIndex = 0;
+      var message = 'Warning: ' +
+        format.replace(/%s/g, function() {
+          return args[argIndex++];
+        });
+      if (typeof console !== 'undefined') {
+        console.error(message);
+      }
+      try {
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+      } catch(x) {}
+    }
+  };
+}
+
+module.exports = warning;
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/amd-options.js":
+/* no static exports found */
+/* all exports used */
+/*!****************************************!*\
+  !*** (webpack)/buildin/amd-options.js ***!
+  \****************************************/
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/global.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/module.js":
+/* no static exports found */
+/* all exports used */
+/*!***********************************!*\
+  !*** (webpack)/buildin/module.js ***!
+  \***********************************/
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/whatwg-fetch/fetch.js":
 /* no static exports found */
 /* all exports used */
@@ -43910,7 +51522,7 @@ module.exports = {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(/*! !../../../~/css-loader??ref--4-1!../../../~/postcss-loader/lib??postcss!./Quiz.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"plugins\":[null,null]}!./src/components/quiz/Quiz.css");
+var content = __webpack_require__(/*! !../../../~/css-loader??ref--4-1!../../../~/postcss-loader/lib??postcss!./Quiz.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./src/components/quiz/Quiz.css");
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -43924,8 +51536,8 @@ if(content.locals) module.exports = content.locals;
 if(true) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept(/*! !../../../~/css-loader??ref--4-1!../../../~/postcss-loader/lib??postcss!./Quiz.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"plugins\":[null,null]}!./src/components/quiz/Quiz.css", function() {
-			var newContent = __webpack_require__(/*! !../../../~/css-loader??ref--4-1!../../../~/postcss-loader/lib??postcss!./Quiz.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"plugins\":[null,null]}!./src/components/quiz/Quiz.css");
+		module.hot.accept(/*! !../../../~/css-loader??ref--4-1!../../../~/postcss-loader/lib??postcss!./Quiz.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./src/components/quiz/Quiz.css", function() {
+			var newContent = __webpack_require__(/*! !../../../~/css-loader??ref--4-1!../../../~/postcss-loader/lib??postcss!./Quiz.css */ "./node_modules/css-loader/index.js?{\"importLoaders\":1}!./node_modules/postcss-loader/lib/index.js?{\"ident\":\"postcss\"}!./src/components/quiz/Quiz.css");
 			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
 			update(newContent);
 		});
@@ -43947,11 +51559,14 @@ if(true) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(/*! react */ "./node_modules/react/react.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Quiz_css__ = __webpack_require__(/*! ./Quiz.css */ "./src/components/quiz/Quiz.css");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Quiz_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Quiz_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_infinite_calendar__ = __webpack_require__(/*! react-infinite-calendar */ "./node_modules/react-infinite-calendar/es/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_infinite_calendar_styles_css__ = __webpack_require__(/*! react-infinite-calendar/styles.css */ "./node_modules/react-infinite-calendar/styles.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_infinite_calendar_styles_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_infinite_calendar_styles_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Quiz_css__ = __webpack_require__(/*! ./Quiz.css */ "./src/components/quiz/Quiz.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Quiz_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Quiz_css__);
 
 
-var _jsxFileName = 'D:\\react\\quiz\\src\\components\\quiz\\Quiz.jsx';
+var _jsxFileName = 'D:\\reactjs\\quiz\\src\\components\\quiz\\Quiz.jsx';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -43962,6 +51577,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
 
 
 
@@ -44651,7 +52268,7 @@ var Quiz = function (_React$Component) {
                         actionType: this.props.quizCharacters.length > 0 ? "login and start" : "start",
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 642
+                            lineNumber: 644
                         },
                         __self: this
                     });
@@ -44675,7 +52292,7 @@ var Quiz = function (_React$Component) {
                                     voteResult: this.voteResult,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 663
+                                        lineNumber: 665
                                     },
                                     __self: this
                                 });
@@ -44689,7 +52306,7 @@ var Quiz = function (_React$Component) {
                                     onNext: this.nextTask,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 678
+                                        lineNumber: 680
                                     },
                                     __self: this
                                 });
@@ -44768,7 +52385,7 @@ var Quiz = function (_React$Component) {
                             media: resultCharacterMediaData,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 746
+                                lineNumber: 748
                             },
                             __self: this
                         });
@@ -44783,7 +52400,7 @@ var Quiz = function (_React$Component) {
                 'div',
                 { className: 'quiz--container', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 762
+                        lineNumber: 764
                     },
                     __self: this
                 },
@@ -44820,7 +52437,7 @@ var StartBox = function (_React$Component2) {
                 'div',
                 { className: 'quiz--start-box', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 782
+                        lineNumber: 784
                     },
                     __self: this
                 },
@@ -44828,7 +52445,7 @@ var StartBox = function (_React$Component2) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 783
+                            lineNumber: 785
                         },
                         __self: this
                     },
@@ -44836,7 +52453,7 @@ var StartBox = function (_React$Component2) {
                         'h2',
                         { className: 'quiz--start-box--title', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 784
+                                lineNumber: 786
                             },
                             __self: this
                         },
@@ -44845,7 +52462,7 @@ var StartBox = function (_React$Component2) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 785
+                                    lineNumber: 787
                                 },
                                 __self: this
                             },
@@ -44857,7 +52474,7 @@ var StartBox = function (_React$Component2) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 788
+                            lineNumber: 790
                         },
                         __self: this
                     },
@@ -44869,7 +52486,7 @@ var StartBox = function (_React$Component2) {
                             onClick: this.props.action,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 789
+                                lineNumber: 791
                             },
                             __self: this
                         },
@@ -44878,7 +52495,7 @@ var StartBox = function (_React$Component2) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 794
+                                    lineNumber: 796
                                 },
                                 __self: this
                             },
@@ -44890,7 +52507,7 @@ var StartBox = function (_React$Component2) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 799
+                            lineNumber: 801
                         },
                         __self: this
                     },
@@ -44898,13 +52515,13 @@ var StartBox = function (_React$Component2) {
                         'div',
                         { className: 'quiz--image-wrapper', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 800
+                                lineNumber: 802
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.props.image_src, alt: this.props.name, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 801
+                                lineNumber: 803
                             },
                             __self: this
                         })
@@ -44914,7 +52531,7 @@ var StartBox = function (_React$Component2) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 807
+                            lineNumber: 809
                         },
                         __self: this
                     },
@@ -44922,13 +52539,13 @@ var StartBox = function (_React$Component2) {
                         'div',
                         { className: 'quiz--start-box--intro', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 808
+                                lineNumber: 810
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.introduction }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 809
+                                lineNumber: 811
                             },
                             __self: this
                         })
@@ -45154,7 +52771,7 @@ var ResultBox = function (_React$Component3) {
                 'div',
                 { className: 'quiz--result-box', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 1014
+                        lineNumber: 1016
                     },
                     __self: this
                 },
@@ -45162,7 +52779,7 @@ var ResultBox = function (_React$Component3) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1015
+                            lineNumber: 1017
                         },
                         __self: this
                     },
@@ -45170,7 +52787,7 @@ var ResultBox = function (_React$Component3) {
                         'h3',
                         { className: 'quiz--result-box--title', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1016
+                                lineNumber: 1018
                             },
                             __self: this
                         },
@@ -45179,7 +52796,7 @@ var ResultBox = function (_React$Component3) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1017
+                                    lineNumber: 1019
                                 },
                                 __self: this
                             },
@@ -45191,7 +52808,7 @@ var ResultBox = function (_React$Component3) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1020
+                            lineNumber: 1022
                         },
                         __self: this
                     },
@@ -45199,7 +52816,7 @@ var ResultBox = function (_React$Component3) {
                         'div',
                         { className: 'quiz--canvas-wrapper', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1021
+                                lineNumber: 1023
                             },
                             __self: this
                         },
@@ -45211,14 +52828,14 @@ var ResultBox = function (_React$Component3) {
                             height: this.props.canvas_height,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1025
+                                lineNumber: 1027
                             },
                             __self: this
                         }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'quiz--loading', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1032
+                                    lineNumber: 1034
                                 },
                                 __self: this
                             },
@@ -45227,7 +52844,7 @@ var ResultBox = function (_React$Component3) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1033
+                                        lineNumber: 1035
                                     },
                                     __self: this
                                 },
@@ -45240,7 +52857,7 @@ var ResultBox = function (_React$Component3) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1038
+                            lineNumber: 1040
                         },
                         __self: this
                     },
@@ -45252,7 +52869,7 @@ var ResultBox = function (_React$Component3) {
                             onClick: function onClick() {},
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1039
+                                lineNumber: 1041
                             },
                             __self: this
                         },
@@ -45261,7 +52878,7 @@ var ResultBox = function (_React$Component3) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1044
+                                    lineNumber: 1046
                                 },
                                 __self: this
                             },
@@ -45273,7 +52890,7 @@ var ResultBox = function (_React$Component3) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1049
+                            lineNumber: 1051
                         },
                         __self: this
                     },
@@ -45281,13 +52898,13 @@ var ResultBox = function (_React$Component3) {
                         'div',
                         { className: 'quiz--result-box--content', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1050
+                                lineNumber: 1052
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.embedDataToString(this.props.content) }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1051
+                                lineNumber: 1053
                             },
                             __self: this
                         })
@@ -45317,7 +52934,7 @@ var AlertBox = function (_React$Component4) {
                 Object.assign({ className: 'quiz--alert-box' }, { "data-type": this.props.type }, {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 1066
+                        lineNumber: 1068
                     },
                     __self: this
                 }),
@@ -45325,7 +52942,7 @@ var AlertBox = function (_React$Component4) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1069
+                            lineNumber: 1071
                         },
                         __self: this
                     },
@@ -45333,7 +52950,7 @@ var AlertBox = function (_React$Component4) {
                         'h3',
                         { className: 'quiz--alert-box--title', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1070
+                                lineNumber: 1072
                             },
                             __self: this
                         },
@@ -45342,7 +52959,7 @@ var AlertBox = function (_React$Component4) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1071
+                                    lineNumber: 1073
                                 },
                                 __self: this
                             },
@@ -45354,7 +52971,7 @@ var AlertBox = function (_React$Component4) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1075
+                            lineNumber: 1077
                         },
                         __self: this
                     },
@@ -45362,13 +52979,13 @@ var AlertBox = function (_React$Component4) {
                         'div',
                         { className: 'quiz--alert-box--message', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1076
+                                lineNumber: 1078
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.embedDataToString(this.props.message) }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1077
+                                lineNumber: 1079
                             },
                             __self: this
                         })
@@ -45378,7 +52995,7 @@ var AlertBox = function (_React$Component4) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1080
+                            lineNumber: 1082
                         },
                         __self: this
                     },
@@ -45386,7 +53003,7 @@ var AlertBox = function (_React$Component4) {
                         'button',
                         { type: 'button', className: 'quiz--button--next', onClick: this.props.onNext, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1081
+                                lineNumber: 1083
                             },
                             __self: this
                         },
@@ -45395,7 +53012,7 @@ var AlertBox = function (_React$Component4) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1082
+                                    lineNumber: 1084
                                 },
                                 __self: this
                             },
@@ -45584,7 +53201,7 @@ var QABox = function (_React$Component5) {
                     },
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 1239
+                        lineNumber: 1241
                     },
                     __self: _this17
                 });
@@ -45597,7 +53214,7 @@ var QABox = function (_React$Component5) {
                         'div',
                         { key: uniqueId(), className: 'quiz--line-item', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1259
+                                lineNumber: 1261
                             },
                             __self: _this17
                         },
@@ -45611,7 +53228,7 @@ var QABox = function (_React$Component5) {
                     'div',
                     { key: uniqueId(), className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1272
+                            lineNumber: 1274
                         },
                         __self: this
                     },
@@ -45622,7 +53239,7 @@ var QABox = function (_React$Component5) {
                 'div',
                 { className: 'quiz--qa-box', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 1283
+                        lineNumber: 1285
                     },
                     __self: this
                 },
@@ -45630,7 +53247,7 @@ var QABox = function (_React$Component5) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1284
+                            lineNumber: 1286
                         },
                         __self: this
                     },
@@ -45638,7 +53255,7 @@ var QABox = function (_React$Component5) {
                         'h3',
                         { className: 'quiz--qa-box--title', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1285
+                                lineNumber: 1287
                             },
                             __self: this
                         },
@@ -45647,7 +53264,7 @@ var QABox = function (_React$Component5) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1286
+                                    lineNumber: 1288
                                 },
                                 __self: this
                             },
@@ -45659,7 +53276,7 @@ var QABox = function (_React$Component5) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1289
+                            lineNumber: 1291
                         },
                         __self: this
                     },
@@ -45667,13 +53284,13 @@ var QABox = function (_React$Component5) {
                         'div',
                         { className: 'quiz--qa-box--intro', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1290
+                                lineNumber: 1292
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.embedDataToString(this.props.introduction) }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1291
+                                lineNumber: 1293
                             },
                             __self: this
                         })
@@ -45683,7 +53300,7 @@ var QABox = function (_React$Component5) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1294
+                            lineNumber: 1296
                         },
                         __self: this
                     },
@@ -45691,7 +53308,7 @@ var QABox = function (_React$Component5) {
                         'div',
                         { className: 'quiz--qa-box--body', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1295
+                                lineNumber: 1297
                             },
                             __self: this
                         },
@@ -45699,7 +53316,7 @@ var QABox = function (_React$Component5) {
                             'form',
                             { className: 'quiz--form', onSubmit: this.handleSubmit, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1296
+                                    lineNumber: 1298
                                 },
                                 __self: this
                             },
@@ -45707,7 +53324,7 @@ var QABox = function (_React$Component5) {
                                 'div',
                                 { className: 'quiz--line-item', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1297
+                                        lineNumber: 1299
                                     },
                                     __self: this
                                 },
@@ -45717,7 +53334,7 @@ var QABox = function (_React$Component5) {
                                 'div',
                                 { className: 'quiz--line-item', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1300
+                                        lineNumber: 1302
                                     },
                                     __self: this
                                 },
@@ -45725,7 +53342,7 @@ var QABox = function (_React$Component5) {
                                     'button',
                                     { type: 'submit', className: 'quiz--button--next', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1301
+                                            lineNumber: 1303
                                         },
                                         __self: this
                                     },
@@ -45770,13 +53387,15 @@ var Input = function (_React$Component6) {
                     case "Tags":
                         value = [];
                         break;
+                    case "Datetime":
+                    case "Date":
+                        value = {};
+                        break;
                     case "Text":
                     case "Number":
                     case "Select":
                     case "RadioGroup":
                     case "Checkbox":
-                    case "Datetime":
-                    case "Date":
                     default:
                         value = "";
                 }
@@ -45823,7 +53442,7 @@ var Input = function (_React$Component6) {
                         }, {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1361
+                                lineNumber: 1365
                             },
                             __self: this
                         }),
@@ -45839,7 +53458,7 @@ var Input = function (_React$Component6) {
                                 }, {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1388
+                                        lineNumber: 1392
                                     },
                                     __self: _this19
                                 }),
@@ -45847,7 +53466,7 @@ var Input = function (_React$Component6) {
                                     'div',
                                     { className: 'quiz--checkbox-group--option--checkbox', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1396
+                                            lineNumber: 1400
                                         },
                                         __self: _this19
                                     },
@@ -45873,7 +53492,7 @@ var Input = function (_React$Component6) {
                                         disabled: _this19.props.answerShowed,
                                         __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1397
+                                            lineNumber: 1401
                                         },
                                         __self: _this19
                                     })
@@ -45882,13 +53501,13 @@ var Input = function (_React$Component6) {
                                     'div',
                                     { className: 'quiz--checkbox-group--option--content', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1419
+                                            lineNumber: 1423
                                         },
                                         __self: _this19
                                     },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: _this19.props.embedDataToString(option.content || option.value) }, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1420
+                                            lineNumber: 1424
                                         },
                                         __self: _this19
                                     })
@@ -45897,13 +53516,13 @@ var Input = function (_React$Component6) {
                                     'div',
                                     { className: 'quiz--checkbox-group--option--explanation', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1424
+                                            lineNumber: 1428
                                         },
                                         __self: _this19
                                     },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: _this19.props.embedDataToString(option.explanation) }, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1425
+                                            lineNumber: 1429
                                         },
                                         __self: _this19
                                     })
@@ -45925,7 +53544,7 @@ var Input = function (_React$Component6) {
                         }, {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1435
+                                lineNumber: 1439
                             },
                             __self: this
                         }),
@@ -45941,7 +53560,7 @@ var Input = function (_React$Component6) {
                                 }, {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1445
+                                        lineNumber: 1449
                                     },
                                     __self: _this19
                                 }),
@@ -45949,7 +53568,7 @@ var Input = function (_React$Component6) {
                                     'div',
                                     { className: 'quiz--radio-group--option--radio', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1453
+                                            lineNumber: 1457
                                         },
                                         __self: _this19
                                     },
@@ -45963,7 +53582,7 @@ var Input = function (_React$Component6) {
                                         disabled: _this19.props.answerShowed,
                                         __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1454
+                                            lineNumber: 1458
                                         },
                                         __self: _this19
                                     })
@@ -45972,13 +53591,13 @@ var Input = function (_React$Component6) {
                                     'div',
                                     { className: 'quiz--radio-group--option--content', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1462
+                                            lineNumber: 1466
                                         },
                                         __self: _this19
                                     },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: _this19.props.embedDataToString(option.content || option.value) }, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1463
+                                            lineNumber: 1467
                                         },
                                         __self: _this19
                                     })
@@ -45987,13 +53606,13 @@ var Input = function (_React$Component6) {
                                     'div',
                                     { className: 'quiz--radio-group--option--explanation', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1467
+                                            lineNumber: 1471
                                         },
                                         __self: _this19
                                     },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: _this19.props.embedDataToString(option.explanation) }, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1468
+                                            lineNumber: 1472
                                         },
                                         __self: _this19
                                     })
@@ -46015,7 +53634,7 @@ var Input = function (_React$Component6) {
                         }, {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1478
+                                lineNumber: 1482
                             },
                             __self: this
                         }),
@@ -46034,7 +53653,7 @@ var Input = function (_React$Component6) {
                                 disabled: this.props.answerShowed,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1487
+                                    lineNumber: 1491
                                 },
                                 __self: this
                             },
@@ -46042,7 +53661,7 @@ var Input = function (_React$Component6) {
                                 'option',
                                 { key: uniqueId(), value: '', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1497
+                                        lineNumber: 1501
                                     },
                                     __self: this
                                 },
@@ -46053,7 +53672,7 @@ var Input = function (_React$Component6) {
                                     'option',
                                     { key: uniqueId(), value: option.value, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1499
+                                            lineNumber: 1503
                                         },
                                         __self: _this19
                                     },
@@ -46077,7 +53696,7 @@ var Input = function (_React$Component6) {
                         }, {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1510
+                                lineNumber: 1514
                             },
                             __self: this
                         }),
@@ -46088,7 +53707,7 @@ var Input = function (_React$Component6) {
                             onChange: function onChange(event) {
                                 var value = event.target.value;
                                 var option = _this19.props.options.find(function (option) {
-                                    return option.correct && value == option.value;
+                                    return option.correct && value === option.value;
                                 });
                                 if (!option) {
                                     option = _this19.props.options.find(function (option) {
@@ -46100,7 +53719,7 @@ var Input = function (_React$Component6) {
                             disabled: this.props.answerShowed,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1519
+                                lineNumber: 1523
                             },
                             __self: this
                         })
@@ -46140,13 +53759,47 @@ var Input = function (_React$Component6) {
                             correct: this.props.answerShowed ? this.state.value.value === correctOption.value : null,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1547
+                                lineNumber: 1551
                             },
                             __self: this
                         });
                     } else {
                         input = "";
                     }
+                    break;
+                case "Date":
+                    input = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_infinite_calendar__["a" /* default */], {
+                        width: 600,
+                        height: 300,
+                        display: 'years',
+                        displayOptions: {
+                            layout: 'landscape'
+                        },
+                        selected: value.date ? new Date(value.year, value.monthIndex, value.date) : new Date(),
+                        onSelect: function onSelect(date) {
+                            var value = timeFormat(date, "Y-m-d");
+                            var option = _this19.props.options.find(function (option) {
+                                return option.correct && value === option.value;
+                            });
+                            if (!option) {
+                                option = _this19.props.options.find(function (option) {
+                                    return !option.correct;
+                                });
+                            }
+                            var storedValue = {
+                                year: date.getFullYear(),
+                                month: date.getMonth() + 1,
+                                monthIndex: date.getMonth(),
+                                date: date.getDate()
+                            };
+                            _this19.handleChange(storedValue, option ? option.score : 0);
+                        },
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 1572
+                        },
+                        __self: this
+                    });
                     break;
                 default:
                     input = "";
@@ -46155,7 +53808,7 @@ var Input = function (_React$Component6) {
                 'div',
                 { className: 'quiz--input', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 1571
+                        lineNumber: 1602
                     },
                     __self: this
                 },
@@ -46163,7 +53816,7 @@ var Input = function (_React$Component6) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1574
+                            lineNumber: 1605
                         },
                         __self: this
                     },
@@ -46171,13 +53824,13 @@ var Input = function (_React$Component6) {
                         'div',
                         { className: 'quiz--input--question', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1575
+                                lineNumber: 1606
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.embedDataToString(this.props.question) }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1576
+                                lineNumber: 1607
                             },
                             __self: this
                         })
@@ -46187,7 +53840,7 @@ var Input = function (_React$Component6) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1580
+                            lineNumber: 1611
                         },
                         __self: this
                     },
@@ -46197,7 +53850,7 @@ var Input = function (_React$Component6) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1585
+                            lineNumber: 1616
                         },
                         __self: this
                     },
@@ -46205,13 +53858,13 @@ var Input = function (_React$Component6) {
                         'div',
                         { className: 'quiz--input--answer-explanation', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1586
+                                lineNumber: 1617
                             },
                             __self: this
                         },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.embedDataToString(this.props.answer_explanation) }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1587
+                                lineNumber: 1618
                             },
                             __self: this
                         })
@@ -46221,7 +53874,7 @@ var Input = function (_React$Component6) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1593
+                            lineNumber: 1624
                         },
                         __self: this
                     },
@@ -46229,7 +53882,7 @@ var Input = function (_React$Component6) {
                         'div',
                         { className: 'quiz--input--error-messages', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1594
+                                lineNumber: 1625
                             },
                             __self: this
                         },
@@ -46238,7 +53891,7 @@ var Input = function (_React$Component6) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 1595
+                                    lineNumber: 1626
                                 },
                                 __self: this
                             },
@@ -46247,7 +53900,7 @@ var Input = function (_React$Component6) {
                                     'li',
                                     { key: uniqueId(), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 1596
+                                            lineNumber: 1627
                                         },
                                         __self: _this19
                                     },
@@ -46256,7 +53909,7 @@ var Input = function (_React$Component6) {
                                         {
                                             __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 1596
+                                                lineNumber: 1627
                                             },
                                             __self: _this19
                                         },
@@ -46402,7 +54055,7 @@ var WordGuessing = function (_React$Component7) {
                 }, {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 1702
+                        lineNumber: 1733
                     },
                     __self: this
                 }),
@@ -46410,7 +54063,7 @@ var WordGuessing = function (_React$Component7) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1709
+                            lineNumber: 1740
                         },
                         __self: this
                     },
@@ -46418,7 +54071,7 @@ var WordGuessing = function (_React$Component7) {
                         'div',
                         { className: 'quiz--word-guessing--word', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1710
+                                lineNumber: 1741
                             },
                             __self: this
                         },
@@ -46441,7 +54094,7 @@ var WordGuessing = function (_React$Component7) {
                                     },
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1719
+                                        lineNumber: 1750
                                     },
                                     __self: _this23
                                 });
@@ -46452,7 +54105,7 @@ var WordGuessing = function (_React$Component7) {
                                     className: 'quiz--word-guessing--whitespace',
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1728
+                                        lineNumber: 1759
                                     },
                                     __self: _this23
                                 });
@@ -46464,7 +54117,7 @@ var WordGuessing = function (_React$Component7) {
                     'div',
                     { className: 'quiz--line-item', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 1738
+                            lineNumber: 1769
                         },
                         __self: this
                     },
@@ -46472,7 +54125,7 @@ var WordGuessing = function (_React$Component7) {
                         'div',
                         { className: 'quiz--word-guessing--char-list', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 1739
+                                lineNumber: 1770
                             },
                             __self: this
                         },
@@ -46491,7 +54144,7 @@ var WordGuessing = function (_React$Component7) {
                                     },
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 1746
+                                        lineNumber: 1777
                                     },
                                     __self: _this23
                                 },
@@ -46506,6 +54159,13 @@ var WordGuessing = function (_React$Component7) {
 
     return WordGuessing;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+function timeFormat(date, format) {
+    var pad = function pad(num) {
+        return (num < 10 ? "0" : "") + num;
+    };
+    return format.split("Y").join(date.getFullYear()).split("m").join(pad(date.getMonth() + 1)).split("d").join(pad(date.getDate())).split("H").join(pad(date.getHours())).split("i").join(pad(date.getMinutes())).split("s").join(pad(date.getSeconds()));
+}
 
 function uniqueId() {
     return "__" + Math.floor(1 + 999999999 * Math.random());
@@ -46552,13 +54212,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_quiz_Quiz__ = __webpack_require__(/*! ./components/quiz/Quiz */ "./src/components/quiz/Quiz.jsx");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__registerServiceWorker__ = __webpack_require__(/*! ./registerServiceWorker */ "./src/registerServiceWorker.js");
-var _jsxFileName = 'D:\\react\\quiz\\src\\index.js';
+var _jsxFileName = 'D:\\reactjs\\quiz\\src\\index.js';
+
 
 
 // import QuizEditor from './components/quiz/QuizEditor';
-
-// import './index.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__registerServiceWorker__["a" /* default */])();
 
@@ -46566,7 +54224,7 @@ if (window.QuizPlayRoot) {
     __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_quiz_Quiz__["a" /* default */], Object.assign({}, window.QuizPlayProps, {
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 12
+            lineNumber: 10
         },
         __self: this
     })), window.QuizPlayRoot);
@@ -46697,10 +54355,10 @@ function unregister() {
   \**************************************************************************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\react\quiz\node_modules\react-dev-utils\webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
-__webpack_require__(/*! D:\react\quiz\node_modules\react-scripts\config\polyfills.js */"./node_modules/react-scripts/config/polyfills.js");
-__webpack_require__(/*! D:\react\quiz\node_modules\react-error-overlay\lib\index.js */"./node_modules/react-error-overlay/lib/index.js");
-module.exports = __webpack_require__(/*! D:\react\quiz\src\index.js */"./src/index.js");
+__webpack_require__(/*! D:\reactjs\quiz\node_modules\react-dev-utils\webpackHotDevClient.js */"./node_modules/react-dev-utils/webpackHotDevClient.js");
+__webpack_require__(/*! D:\reactjs\quiz\node_modules\react-scripts\config\polyfills.js */"./node_modules/react-scripts/config/polyfills.js");
+__webpack_require__(/*! D:\reactjs\quiz\node_modules\react-error-overlay\lib\index.js */"./node_modules/react-error-overlay/lib/index.js");
+module.exports = __webpack_require__(/*! D:\reactjs\quiz\src\index.js */"./src/index.js");
 
 
 /***/ })
