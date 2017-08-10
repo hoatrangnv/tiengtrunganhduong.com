@@ -34,9 +34,10 @@ class QuizParam extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'var_name', 'arguments', 'quiz_fn_id', 'task_order', 'quiz_id'], 'required'],
+            [['name', 'var_name', 'quiz_fn_id', 'task_order', 'quiz_id'], 'required'],
             [['quiz_fn_id', 'task_order', 'quiz_id'], 'integer'],
-            [['name', 'var_name', 'arguments'], 'string', 'max' => 255],
+            [['arguments'], 'string'],
+            [['name', 'var_name'], 'string', 'max' => 255],
             [['quiz_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['quiz_fn_id' => 'id'], 'except' => 'test'],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
