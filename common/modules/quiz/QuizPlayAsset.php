@@ -18,7 +18,7 @@ class QuizPlayAsset extends AssetBundle
     public $jsOptions = ['position' => \yii\web\View::POS_END];
 
     public $css = [
-
+        'js/quiz-play-bundle.css',
     ];
 
     public $js = [
