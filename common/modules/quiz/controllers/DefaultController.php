@@ -219,7 +219,7 @@ class DefaultController extends Controller
                         }
                     } else if ($attr['name'] == 'arguments') {
                         $arr_value = json_decode($attr['value']);
-                        $attr['value'] = implode("```\n", $arr_value);
+                        $attr['value'] = implode("\n```\n", $arr_value);
 
 //                        if (!is_array($attr['value'])) {
 //                            $attr['value'] = json_decode($attr['value']);
