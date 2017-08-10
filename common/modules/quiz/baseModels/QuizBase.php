@@ -50,7 +50,7 @@ class QuizBase extends ActiveRecord
 //                $type = 'Hidden';
                 $type = 'None';
             } else if ($column->name === 'arguments') {
-                $type = 'Tags';
+                $type = 'TextArea';
             } else if ($column->name === 'image_id') {
                 $type = 'ImageSelect';
             } else if (substr($column->name, -5) === '_time') {

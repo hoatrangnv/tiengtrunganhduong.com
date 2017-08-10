@@ -218,10 +218,12 @@ class DefaultController extends Controller
                             ]];
                         }
                     } else if ($attr['name'] == 'arguments') {
-                        $attr['value'] = json_decode($attr['value']);
-                        if (!is_array($attr['value'])) {
+                        $arr_value = json_decode($attr['value']);
+                        $attr['value'] = implode("```\n", $arr_value);
+
+//                        if (!is_array($attr['value'])) {
 //                            $attr['value'] = json_decode($attr['value']);
-                        }
+//                        }
                     }
                     $childAttrs[] = $attr;
                     if ($attr['name'] == 'id') {
@@ -464,7 +466,10 @@ class DefaultController extends Controller
             foreach ($attrs as $attr) {
                 try {
                     if ($attr['name'] == 'arguments') {
-                        $result[$attr['name']] = json_encode($attr['value']);
+                        $arr_value = array_map(function ($item) {
+                            return trim($item);
+                        }, explode("```", $attr['value']));
+                        $result[$attr['name']] = json_encode($arr_value);
                     } else {
                         $result[$attr['name']] = $attr['value'];
                     }
