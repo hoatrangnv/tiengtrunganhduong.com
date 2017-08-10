@@ -18,7 +18,7 @@ class QuizEditorAsset extends AssetBundle
     public $jsOptions = ['position' => \yii\web\View::POS_END];
 
     public $css = [
-
+        'css/quiz-editor-bundle.css',
     ];
 
     public $js = [
