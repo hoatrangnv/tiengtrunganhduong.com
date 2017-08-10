@@ -22,7 +22,7 @@ class QuizEditorAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/bundle.js',
+        'js/quiz-editor-bundle.js',
     ];
 
     public $depends = [

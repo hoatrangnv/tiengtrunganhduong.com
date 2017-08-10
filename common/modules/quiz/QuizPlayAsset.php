@@ -22,7 +22,7 @@ class QuizPlayAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/bundle.js',
+        'js/quiz-play-bundle.js',
     ];
 
     public $depends = [
