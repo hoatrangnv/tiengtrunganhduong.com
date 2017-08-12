@@ -65,8 +65,8 @@ class FacebookController extends Controller
         if (!$userID) {
             exit;
         }
-        $width = Yii::$app->request->get('width', '');
-        $height = Yii::$app->request->get('height', '');
+        $width = Yii::$app->request->get('width', 0);
+        $height = Yii::$app->request->get('height', 0);
         $contextOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -74,8 +74,23 @@ class FacebookController extends Controller
             ],
         ];
 
+        $queryStr = '';
+        if ($width > 0) {
+            $queryStr = "width=$width";
+        }
+        if ($height > 0) {
+            if ($queryStr) {
+                $queryStr .= "&height=$height";
+            } else {
+                $queryStr .= "height=$height";
+            }
+        }
+        if ($queryStr) {
+            $queryStr = "?$queryStr";
+        }
+
         $image_data = file_get_contents(
-            "https://graph.facebook.com/$userID/picture?width=$width&height=$height",
+            "https://graph.facebook.com/$userID/picture$queryStr",
             false,
             stream_context_create($contextOptions)
         );
