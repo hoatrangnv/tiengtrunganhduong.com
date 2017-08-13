@@ -9,26 +9,31 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property integer $z_index
- * @property integer $opacity
+ * @property string $z_index
+ * @property string $opacity
  * @property string $top
  * @property string $left
  * @property string $width
  * @property string $height
  * @property string $max_width
  * @property string $max_height
+ * @property string $min_width
+ * @property string $min_height
  * @property string $padding
  * @property string $background_color
  * @property string $border_color
  * @property string $border_width
  * @property string $border_radius
- * @property string $font
  * @property string $line_height
  * @property string $text_color
  * @property string $text_align
  * @property string $text_stroke_color
  * @property string $text_stroke_width
  * @property integer $quiz_id
+ * @property string $font_family
+ * @property string $font_size
+ * @property string $font_weight
+ * @property string $font_style
  *
  * @property QuizCharacterMediumToStyle[] $quizCharacterMediumToStyles
  * @property QuizCharacterMedium[] $quizCharacterMedia
@@ -53,8 +58,8 @@ class QuizStyle extends QuizBase
     {
         return [
             [['name'], 'required'],
-            [['z_index', 'opacity', 'quiz_id'], 'integer'],
-            [['name', 'top', 'left', 'width', 'height', 'max_width', 'max_height', 'padding', 'background_color', 'border_color', 'border_width', 'border_radius', 'font', 'line_height', 'text_color', 'text_align', 'text_stroke_color', 'text_stroke_width'], 'string', 'max' => 255],
+            [['quiz_id'], 'integer'],
+            [['name', 'z_index', 'opacity', 'top', 'left', 'width', 'height', 'max_width', 'max_height', 'min_width', 'min_height', 'padding', 'background_color', 'border_color', 'border_width', 'border_radius', 'line_height', 'text_color', 'text_align', 'text_stroke_color', 'text_stroke_width', 'font_family', 'font_size', 'font_weight', 'font_style'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
@@ -75,18 +80,23 @@ class QuizStyle extends QuizBase
             'height' => 'Height',
             'max_width' => 'Max Width',
             'max_height' => 'Max Height',
+            'min_width' => 'Min Width',
+            'min_height' => 'Min Height',
             'padding' => 'Padding',
             'background_color' => 'Background Color',
             'border_color' => 'Border Color',
             'border_width' => 'Border Width',
             'border_radius' => 'Border Radius',
-            'font' => 'Font',
             'line_height' => 'Line Height',
             'text_color' => 'Text Color',
             'text_align' => 'Text Align',
             'text_stroke_color' => 'Text Stroke Color',
             'text_stroke_width' => 'Text Stroke Width',
             'quiz_id' => 'Quiz ID',
+            'font_family' => 'Font Family',
+            'font_size' => 'Font Size',
+            'font_weight' => 'Font Weight',
+            'font_style' => 'Font Style',
         ];
     }
 

@@ -16,6 +16,7 @@ use Yii;
  * @property integer $priority
  * @property integer $canvas_width
  * @property integer $canvas_height
+ * @property string $canvas_background_color
  * @property integer $quiz_id
  *
  * @property QuizInputOptionToVotedResult[] $quizInputOptionToVotedResults
@@ -45,7 +46,7 @@ class QuizResult extends QuizBase
             [['name', 'type', 'canvas_width', 'canvas_height', 'quiz_id'], 'required'],
             [['content'], 'string'],
             [['priority', 'canvas_width', 'canvas_height', 'quiz_id'], 'integer'],
-            [['name', 'type', 'title'], 'string', 'max' => 255],
+            [['name', 'type', 'title', 'canvas_background_color'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 511],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
@@ -66,6 +67,7 @@ class QuizResult extends QuizBase
             'priority' => 'Priority',
             'canvas_width' => 'Canvas Width',
             'canvas_height' => 'Canvas Height',
+            'canvas_background_color' => 'Canvas Background Color',
             'quiz_id' => 'Quiz ID',
         ];
     }

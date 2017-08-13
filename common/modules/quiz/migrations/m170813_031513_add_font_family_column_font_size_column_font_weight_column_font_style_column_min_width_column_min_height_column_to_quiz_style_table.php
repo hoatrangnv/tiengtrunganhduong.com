@@ -16,8 +16,8 @@ class m170813_031513_add_font_family_column_font_size_column_font_weight_column_
         $this->addColumn('quiz_style', 'font_size', $this->string()->after('font_family'));
         $this->addColumn('quiz_style', 'font_weight', $this->string()->after('font_size'));
         $this->addColumn('quiz_style', 'font_style', $this->string()->after('font_weight'));
-        $this->addColumn('quiz_style', 'min_width', $this->integer()->after('max_height'));
-        $this->addColumn('quiz_style', 'min_height', $this->integer()->after('min_width'));
+        $this->addColumn('quiz_style', 'min_width', $this->string()->after('max_height'));
+        $this->addColumn('quiz_style', 'min_height', $this->string()->after('min_width'));
 
         $this->dropColumn('quiz_style', 'font');
     }

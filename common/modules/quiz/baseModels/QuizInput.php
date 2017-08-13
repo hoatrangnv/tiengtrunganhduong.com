@@ -14,6 +14,7 @@ use Yii;
  * @property integer $is_open_question
  * @property string $question
  * @property string $answer_explanation
+ * @property integer $shuffle_options
  * @property integer $sort_order
  * @property integer $options_per_row
  * @property integer $options_per_small_row
@@ -41,7 +42,7 @@ class QuizInput extends QuizBase
     {
         return [
             [['name', 'var_name', 'type', 'quiz_input_group_id'], 'required'],
-            [['is_open_question', 'sort_order', 'options_per_row', 'options_per_small_row', 'quiz_input_group_id'], 'integer'],
+            [['is_open_question', 'shuffle_options', 'sort_order', 'options_per_row', 'options_per_small_row', 'quiz_input_group_id'], 'integer'],
             [['question', 'answer_explanation'], 'string'],
             [['name', 'var_name', 'type'], 'string', 'max' => 255],
             [['quiz_input_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizInputGroup::className(), 'targetAttribute' => ['quiz_input_group_id' => 'id'], 'except' => 'test'],
@@ -61,6 +62,7 @@ class QuizInput extends QuizBase
             'is_open_question' => 'Is Open Question',
             'question' => 'Question',
             'answer_explanation' => 'Answer Explanation',
+            'shuffle_options' => 'Shuffle Options',
             'sort_order' => 'Sort Order',
             'options_per_row' => 'Options Per Row',
             'options_per_small_row' => 'Options Per Small Row',
