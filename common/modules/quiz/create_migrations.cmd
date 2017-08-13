@@ -31,3 +31,8 @@ php yii my-migrate/create --migrationPath="@quiz/migrations" add_guideline_colum
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_is_open_question_column_to_quiz_input_table --fields="is_open_question:smallInteger(1)"
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_width_column_height_column_to_quiz_character_medium_table --fields="width:integer,height:integer"
 php yii my-migrate/create --migrationPath="@quiz/migrations" add_type_column_to_quiz_result_table --fields="type:string:notNull"
+
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_case_sensitive_column_to_quiz_input_option_table --fields="case_sensitive:smallInteger(1)"
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_shuffle_options_column_to_quiz_input_table --fields="shuffle_options:smallInteger(1)"
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_canvas_background_color_column_to_quiz_result_table --fields="canvas_background_color:string"
+php yii my-migrate/create --migrationPath="@quiz/migrations" add_font_family_column_font_size_column_font_weight_column_font_style_column_min_width_column_min_height_column_to_quiz_style_table --fields="font_family:string,font_size:string,font_weight:string,font_style:string,min_width:string,min_height:string"

@@ -80,10 +80,9 @@ class FacebookController extends Controller
         }
         if ($height > 0) {
             if ($queryStr) {
-                $queryStr .= "&height=$height";
-            } else {
-                $queryStr .= "height=$height";
+                $queryStr .= '&';
             }
+            $queryStr .= "height=$height";
         }
         if ($queryStr) {
             $queryStr = "?$queryStr";
