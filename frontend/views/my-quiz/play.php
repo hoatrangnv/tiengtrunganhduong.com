@@ -206,7 +206,7 @@ $this->params['breadcrumbs'][] = $this->title;
         console.log(data);
         FB.ui({
             method: "feed",
-            display: "page",
+            display: "popup",
             href: location.href,
             picture: data.imageURL,
             title: data.title,
