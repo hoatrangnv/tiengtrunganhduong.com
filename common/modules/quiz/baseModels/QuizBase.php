@@ -9,6 +9,7 @@
 namespace common\modules\quiz\baseModels;
 
 
+use common\db\MyActiveRecord;
 use common\modules\gii\generators\model\Generator;
 use common\modules\quiz\models\QuizFn;
 use yii\db\ActiveRecord;
@@ -16,7 +17,7 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
-class QuizBase extends ActiveRecord
+class QuizBase extends MyActiveRecord
 {
     /**
      * @return array

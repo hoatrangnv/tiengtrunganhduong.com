@@ -14,7 +14,7 @@ use common\models\UrlParam;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1 class="news-title"><?= $model->name ?></h1>
+<h2 class="news-title"><?= $model->name ?></h2>
 <article>
     <div class="news-info">
         <?= $this->render('info', ['model' => $model]) ?>

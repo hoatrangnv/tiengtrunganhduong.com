@@ -9,7 +9,7 @@
 namespace common\modules\image\models;
 
 use Yii;
-use yii\db\ActiveRecord;
+use common\db\MyActiveRecord;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\FileHelper;
@@ -39,7 +39,7 @@ use yii\helpers\Html;
  * @property integer $height
  */
 
-class BaseImage extends ActiveRecord
+class BaseImage extends MyActiveRecord
 {
 
     const DEFAULT_LABEL = '';

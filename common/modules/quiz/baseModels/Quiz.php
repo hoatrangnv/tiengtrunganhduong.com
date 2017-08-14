@@ -30,6 +30,10 @@ use Yii;
  * @property integer $updater_id
  * @property integer $image_id
  * @property integer $quiz_category_id
+ * @property integer $view_count
+ * @property integer $like_count
+ * @property integer $comment_count
+ * @property integer $share_count
  *
  * @property User $creator
  * @property Image $image
@@ -63,7 +67,7 @@ class Quiz extends QuizBase
         return [
             [['name', 'slug', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id'], 'required'],
             [['introduction'], 'string'],
-            [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id'], 'integer'],
+            [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['name', 'slug', 'input_answers_showing', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
@@ -104,6 +108,10 @@ class Quiz extends QuizBase
             'updater_id' => 'Updater ID',
             'image_id' => 'Image ID',
             'quiz_category_id' => 'Quiz Category ID',
+            'view_count' => 'View Count',
+            'like_count' => 'Like Count',
+            'comment_count' => 'Comment Count',
+            'share_count' => 'Share Count',
         ];
     }
 

@@ -26,7 +26,7 @@ class QuizPlayAsset extends AssetBundle
     ];
 
     public $depends = [
-        '\common\modules\quiz\DefaultAsset',
+//        '\common\modules\quiz\DefaultAsset',
 //        'yii\bootstrap\BootstrapAsset',
     ];
 }

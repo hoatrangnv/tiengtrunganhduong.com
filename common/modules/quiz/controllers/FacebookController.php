@@ -97,4 +97,21 @@ class FacebookController extends Controller
         header("Content-Type: image/jpeg");
         imagejpeg(imagecreatefromstring($image_data));
     }
+
+    public function actionCanvasImageToUrl()
+    {
+        if (!Yii::$app->request->isPost) {
+            throw new \Exception;
+        }
+        if (($image = rawurldecode(Yii::$app->request->post('image'))) == null) {
+            throw new \Exception;
+        }
+//        list($type, $data) = explode(';', $image);
+//        list(, $data)      = explode(',', $data);
+//        $data = base64_decode($data);
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+        $image_name = uniqid(date('YmdHis_')) . '.png';
+        file_put_contents(Yii::getAlias("@webroot/quiz-images/$image_name"), $data);
+        return json_encode(['errorMsg' => '', 'data' => Yii::getAlias("@frontendUrl/quiz-images/$image_name")]);
+    }
 }

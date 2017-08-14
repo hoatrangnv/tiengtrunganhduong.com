@@ -58,6 +58,14 @@ return [
                 ['pattern' => 'sitemap.xml', 'route' => 'sitemap/index'],
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
+                // Quiz
+                ['pattern' => 'quiz', 'route' => 'my-quiz/index'],
+                ['pattern' => 'quiz/', 'route' => 'my-quiz/index'],
+                ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'my-quiz/play'],
+                ['pattern' => 'quiz/facebook/get-user-data', 'route' => '/quiz/facebook/get-user-data'],
+                ['pattern' => 'quiz/facebook/get-user-avatar', 'route' => '/quiz/facebook/get-user-avatar'],
+                ['pattern' => 'quiz/facebook/canvas-image-to-url', 'route' => '/quiz/facebook/canvas-image-to-url'],
+
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
                 ['pattern' => 'article/ajax-update-counter', 'route' => 'article/ajax-update-counter'],
