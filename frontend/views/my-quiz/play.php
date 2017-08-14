@@ -205,7 +205,7 @@ $this->params['breadcrumbs'][] = $this->title;
     function fbShare(data, callback) {
         console.log(data);
         FB.ui({
-            method: "feed",
+            method: "share",
             display: "popup",
             href: location.href,
             picture: data.imageURL,
@@ -219,7 +219,7 @@ $this->params['breadcrumbs'][] = $this->title;
             appId      : '1793387650973425',
             cookie     : true,
             xfbml      : true,
-            version    : 'v2.8'
+            version    : 'v2.5'
         });
         FB.AppEvents.logPageView();
     };
