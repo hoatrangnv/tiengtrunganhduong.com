@@ -110,7 +110,7 @@ class FacebookController extends Controller
 //        list(, $data)      = explode(',', $data);
 //        $data = base64_decode($data);
         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
-        $image_name = uniqid(date('YmdHis_')) . '.jpg';
+        $image_name = uniqid(date('YmdHis_')) . '.png';
         file_put_contents(Yii::getAlias("@webroot/quiz-images/$image_name"), $data);
         return json_encode(['errorMsg' => '', 'data' => Yii::getAlias("@frontendUrl/quiz-images/$image_name")]);
     }

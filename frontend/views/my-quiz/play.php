@@ -205,20 +205,14 @@ $this->params['breadcrumbs'][] = $this->title;
     function fbShare(data, callback) {
         console.log(data);
         FB.ui({
-            method: "share",
+            method: "feed",
             display: "iframe",
             href: location.href,
             picture: data.imageURL,
             title: data.title,
             description: data.description,
             caption: <?= json_encode(Yii::$app->name) ?>
-        }, function (response) {
-            if (response && !response.error_message) {
-                alert('Posting completed.');
-            } else {
-                alert('Error while posting.');
-            }
-        });
+        }, callback);
     }
     window.fbAsyncInit = function() {
         FB.init({
