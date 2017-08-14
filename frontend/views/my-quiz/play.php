@@ -203,6 +203,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     }
     function fbShare(data, callback) {
+        console.log(data);
         FB.ui({
             method: "share",
             display: "iframe",
