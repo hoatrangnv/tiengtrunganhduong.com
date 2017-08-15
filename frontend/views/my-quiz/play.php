@@ -70,7 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
         "Login": "Đăng nhập với Facebook",
         "Share": "Chia sẻ lên Facebook",
         "Wait for minute": "Chờ một chút nhé",
-        "Loading": "Đang tải"
+        "Loading": "Đang tải",
+        "Next": "Tiếp theo"
     };
     window.QuizPlayRoot = document.getElementById("quiz-play-root");
     window.QuizPlayProps = {
