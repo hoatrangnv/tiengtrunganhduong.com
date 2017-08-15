@@ -117,15 +117,15 @@ class MyQuizController extends BaseController
         do {
             $try_count++;
             $debug_res = file_get_contents(
-                "https://graph.facebook.com/debug_token?input_token="
-                    . urlencode($url) . '&access_token='
-                    . Yii::$app->params['fb_app_id'] . '|' . Yii::$app->params['fb_app_secret'],
+//                "https://graph.facebook.com/debug_token?input_token="
+//                    . urlencode($url) . '&access_token='
+//                    . Yii::$app->params['fb_app_id'] . '|' . Yii::$app->params['fb_app_secret'],
+                'https://graph.facebook.com/?id=' . urlencode($url) . '&scrape=true',
                 false,
                 stream_context_create($contextOptions)
             );
             sleep(0.5);
-        } while ((!$debug_res) || $try_count < 10);
-        return $debug_res;
+        } while (!$debug_res || $try_count < 10);
         return json_encode([
             'errorMsg' => '',
             'data' => [
