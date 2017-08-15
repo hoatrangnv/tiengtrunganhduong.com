@@ -49,9 +49,13 @@ class MyQuizController extends BaseController
         $sharingTitle = Yii::$app->request->get(UrlParam::SHARING_TITLE);
         $sharingDescription = Yii::$app->request->get(UrlParam::SHARING_DESCRIPTION);
         $sharingImageSrc = Yii::$app->request->get(UrlParam::SHARING_IMAGE_SRC);
-        if ($sharingTitle && $sharingDescription && $sharingImageSrc) {
+        if ($sharingTitle) {
             $this->seoInfo->meta_title = $sharingTitle;
+        }
+        if ($sharingDescription) {
             $this->seoInfo->meta_description = $sharingDescription;
+        }
+        if ($sharingImageSrc) {
             $this->seoInfo->image_src =
                 strrpos($sharingImageSrc, 'http') === 0
                     ? $sharingImageSrc
