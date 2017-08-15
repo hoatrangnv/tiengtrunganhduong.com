@@ -102,7 +102,10 @@ class MyQuizController extends BaseController
         file_put_contents("$dir$image_name", $data);
         $facebookDebugger = new FacebookDebugger();
 //        var_dump("facebookDebugger->reload(url)");
-        echo json_encode($facebookDebugger->reload($url));
+        for ($i = 0; $i < 5; $i++) {
+            echo json_encode($facebookDebugger->reload($url));
+            sleep(1);
+        }
 //        return json_encode([
 //            'errorMsg' => '',
 //            'data' => [
