@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\UrlParam;
+use common\utils\FacebookDebugger;
 use Yii;
 use frontend\models\Quiz;
 use frontend\models\UrlRedirection;
@@ -91,17 +92,19 @@ class MyQuizController extends BaseController
             FileHelper::createDirectory($dir);
         }
         $image_src = "$path$image_name";
+        $url = Url::to(['/my-quiz/play',
+            UrlParam::SLUG => $slug,
+            UrlParam::SHARING_TITLE => $title,
+            UrlParam::SHARING_DESCRIPTION => $description,
+            UrlParam::SHARING_IMAGE_SRC => $image_src,
+        ], true);
         file_put_contents("$dir$image_name", $data);
-        sleep(3);
+        $facebookDebugger = new FacebookDebugger();
+        $facebookDebugger->reload($url);
         return json_encode([
             'errorMsg' => '',
             'data' => [
-                'url' => Url::to(['/my-quiz/play',
-                    UrlParam::SLUG => $slug,
-                    UrlParam::SHARING_TITLE => $title,
-                    UrlParam::SHARING_DESCRIPTION => $description,
-                    UrlParam::SHARING_IMAGE_SRC => $image_src,
-                ], true),
+                'url' => $url,
                 'title' => $title,
                 'description' => $description,
                 'image_src' => Yii::getAlias("@quizImagesUrl/$image_src"),
