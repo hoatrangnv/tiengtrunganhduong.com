@@ -68,7 +68,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <script>
     window.QuizMessages = {
         "Login": "Đăng nhập với Facebook",
-        "Share": "Chia sẻ lên Facebook"
+        "Share": "Chia sẻ lên Facebook",
+        "Wait for minute": "Chờ một chút nhé",
+        "Loading": "Đang tải"
     };
     window.QuizPlayRoot = document.getElementById("quiz-play-root");
     window.QuizPlayProps = {
