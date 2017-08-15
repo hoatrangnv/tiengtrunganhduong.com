@@ -206,7 +206,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     }
     function fbShare(data, callback) {
-        console.log(data);
+        console.log("sharing data", data);
         FB.ui({
             method: "share",
             display: "popup",
