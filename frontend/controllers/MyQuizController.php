@@ -103,18 +103,18 @@ class MyQuizController extends BaseController
         $facebookDebugger = new FacebookDebugger();
 //        var_dump("facebookDebugger->reload(url)");
         for ($i = 0; $i < 5; $i++) {
-            echo json_encode($facebookDebugger->reload($url));
+            $facebookDebugger->reload($url);
             sleep(1);
         }
-//        return json_encode([
-//            'errorMsg' => '',
-//            'data' => [
-//                'url' => $url,
-//                'title' => $title,
-//                'description' => $description,
-//                'image_src' => Yii::getAlias("@quizImagesUrl/$image_src"),
-//            ]
-//        ]);
+        return json_encode([
+            'errorMsg' => '',
+            'data' => [
+                'url' => $url,
+                'title' => $title,
+                'description' => $description,
+                'image_src' => Yii::getAlias("@quizImagesUrl/$image_src"),
+            ]
+        ]);
     }
 
     /**
