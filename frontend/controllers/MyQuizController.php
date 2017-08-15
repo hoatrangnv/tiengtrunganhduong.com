@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\UrlParam;
 use common\utils\FacebookDebugger;
+use Facebook\Facebook;
 use Yii;
 use frontend\models\Quiz;
 use frontend\models\UrlRedirection;
@@ -100,7 +101,7 @@ class MyQuizController extends BaseController
         ], true);
         file_put_contents("$dir$image_name", $data);
         $facebookDebugger = new FacebookDebugger();
-        $facebookDebugger->reload($url);
+        var_dump($facebookDebugger->reload($url));
         return json_encode([
             'errorMsg' => '',
             'data' => [
