@@ -99,7 +99,7 @@ class MyQuizController extends BaseController
                 ], true),
                 'title' => $title,
                 'description' => $description,
-                'image_src' => $image_src,
+                'image_src' => Yii::getAlias("@quizImagesUrl/$image_src"),
             ]
         ]);
     }
