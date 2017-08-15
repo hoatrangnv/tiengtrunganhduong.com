@@ -108,7 +108,7 @@ class MyQuizController extends BaseController
         ], true);
         file_put_contents("$dir$image_name", $data);
         $facebookDebugger = new FacebookDebugger();
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $facebookDebugger->reload($url);
             sleep(0.5);
         }
