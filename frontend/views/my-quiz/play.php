@@ -210,10 +210,10 @@ $this->params['breadcrumbs'][] = $this->title;
         FB.ui({
             method: "share",
             display: "popup",
-            href: data.sharingURL,
-            picture: data.imageURL,
-            title: data.title,
-            description: data.description,
+            href: data.url,
+            picture: data.image_src,
+            title: data.title || <?= json_encode($quiz->name) ?>,
+            description: data.description || <?= json_encode($quiz->description) ?>,
             caption: <?= json_encode(Yii::$app->name) ?>
         }, callback);
     }
