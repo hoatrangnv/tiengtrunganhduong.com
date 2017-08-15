@@ -80,6 +80,7 @@ return [
         ],
         'assetManager' => [
             'appendTimestamp' => true,
+            'forceCopy' => true,
             'bundles' => [
                 \yii\bootstrap\BootstrapAsset::className() => [
                     'css' => [],
