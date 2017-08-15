@@ -107,25 +107,24 @@ class MyQuizController extends BaseController
             UrlParam::SHARING_IMAGE_SRC => $image_src,
         ], true);
         file_put_contents("$dir$image_name", $data);
-//        $facebookDebugger = new FacebookDebugger();
-////        var_dump("facebookDebugger->reload(url)");
-//        for ($i = 0; $i < 3; $i++) {
-//            $facebookDebugger->reload($url);
-//            sleep(1);
-//        }
-        $try_count = 0;
-        do {
-            $try_count++;
-            $debug_res = file_get_contents(
-//                "https://graph.facebook.com/debug_token?input_token="
-//                    . urlencode($url) . '&access_token='
-//                    . Yii::$app->params['fb_app_id'] . '|' . Yii::$app->params['fb_app_secret'],
-                'https://graph.facebook.com/?id=' . urlencode($url) . '&scrape=true',
-                false,
-                stream_context_create($contextOptions)
-            );
+        $facebookDebugger = new FacebookDebugger();
+        for ($i = 0; $i < 5; $i++) {
+            $facebookDebugger->reload($url);
             sleep(0.5);
-        } while (!$debug_res || $try_count < 10);
+        }
+//        $try_count = 0;
+//        do {
+//            $try_count++;
+//            $debug_res = file_get_contents(
+////                "https://graph.facebook.com/debug_token?input_token="
+////                    . urlencode($url) . '&access_token='
+////                    . Yii::$app->params['fb_app_id'] . '|' . Yii::$app->params['fb_app_secret'],
+//                'https://graph.facebook.com/?id=' . urlencode($url) . '&scrape=true',
+//                false,
+//                stream_context_create($contextOptions)
+//            );
+//            sleep(0.5);
+//        } while (!$debug_res || $try_count < 10);
         return json_encode([
             'errorMsg' => '',
             'data' => [
