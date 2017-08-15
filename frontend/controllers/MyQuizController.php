@@ -69,12 +69,12 @@ class MyQuizController extends BaseController
     {
         if (!Yii::$app->request->isPost
             || !($slug = rawurldecode(Yii::$app->request->post('slug')))
-            || !($title = rawurldecode(Yii::$app->request->post('title')))
-            || !($description = rawurldecode(Yii::$app->request->post('description')))
             || !($image = rawurldecode(Yii::$app->request->post('image')))
         ) {
             throw new BadRequestHttpException();
         }
+        $title = rawurldecode(Yii::$app->request->post('title', ''));
+        $description = rawurldecode(Yii::$app->request->post('description', ''));
 
 //        list($type, $data) = explode(';', $image);
 //        list(, $data)      = explode(',', $data);
