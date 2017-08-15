@@ -37,5 +37,6 @@ return [
         '@frontendUrl' => 'http://tiengtrunganhduong.com',
         '@backendUrl' => 'http://admin.tiengtrunganhduong.com',
         '@imagesUrl' => 'http://tiengtrunganhduong.com/images',
+        '@quizImagesUrl' => 'http://tiengtrunganhduong.com/quiz-images',
     ]
 ];

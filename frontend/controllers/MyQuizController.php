@@ -6,6 +6,8 @@ use common\models\UrlParam;
 use Yii;
 use frontend\models\Quiz;
 use frontend\models\UrlRedirection;
+use yii\helpers\FileHelper;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use common\db\MyActiveRecord;
 use common\db\MyActiveQuery;
@@ -42,7 +44,64 @@ class MyQuizController extends BaseController
         //TODO: If not, redirect to Model Url.
         $this->cmpUrls8RedirectIfNot($model->getUrl([], true));
         $this->seoInfo->parseValues($model->attributes);
+
+        //TODO: Sharing data
+        $sharingTitle = Yii::$app->request->get(UrlParam::SHARING_TITLE);
+        $sharingDescription = Yii::$app->request->get(UrlParam::SHARING_DESCRIPTION);
+        $sharingImageSrc = Yii::$app->request->get(UrlParam::SHARING_IMAGE_SRC);
+        if ($sharingTitle && $sharingDescription && $sharingImageSrc) {
+            $this->seoInfo->meta_title = $sharingTitle;
+            $this->seoInfo->meta_description = $sharingDescription;
+            $this->seoInfo->image_src =
+                strrpos($sharingImageSrc, 'http') === 0
+                    ? $sharingImageSrc
+                    : Yii::getAlias("@quizImagesUrl/$sharingImageSrc");
+        }
+
         return $this->render('play', array_merge($model->getPlayData(), ['relatedItems' => $relatedItems]));
+    }
+
+    /**
+     * @return string
+     * @throws BadRequestHttpException
+     */
+    public function actionGetSharingData()
+    {
+        if (!Yii::$app->request->isPost
+            || !($slug = rawurldecode(Yii::$app->request->post('slug')))
+            || !($title = rawurldecode(Yii::$app->request->post('title')))
+            || !($description = rawurldecode(Yii::$app->request->post('description')))
+            || !($image = rawurldecode(Yii::$app->request->post('image')))
+        ) {
+            throw new BadRequestHttpException();
+        }
+
+//        list($type, $data) = explode(';', $image);
+//        list(, $data)      = explode(',', $data);
+//        $data = base64_decode($data);
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
+        $image_name = uniqid(date('YmdHis_')) . '.png';
+        $path = date('Y/m/d/');
+        $dir = Yii::getAlias("@quizImages/$path");
+        if (!file_exists($dir)) {
+            FileHelper::createDirectory($dir);
+        }
+        $image_src = "$path$image_name";
+        file_put_contents("$dir$image_name", $data);
+        return json_encode([
+            'errorMsg' => '',
+            'data' => [
+                'url' => Url::to(['/my-quiz/play',
+                    UrlParam::SLUG => $slug,
+                    UrlParam::SHARING_TITLE => $title,
+                    UrlParam::SHARING_DESCRIPTION => $description,
+                    UrlParam::SHARING_IMAGE_SRC => $image_src,
+                ], true),
+                'title' => $title,
+                'description' => $description,
+                'image_src' => $image_src,
+            ]
+        ]);
     }
 
     /**

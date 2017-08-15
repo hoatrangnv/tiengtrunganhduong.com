@@ -23,4 +23,8 @@ class UrlParam
     const VALUE = 'value';
     const FIELD = 'field';
     const AMP = 'amp';
+
+    const SHARING_TITLE = 'sharing_title';
+    const SHARING_DESCRIPTION = 'sharing_description';
+    const SHARING_IMAGE_SRC = 'sharing_image_src';
 }

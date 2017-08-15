@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
         image_src: <?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>,
         login: fbLogin,
         share: fbShare,
-        exportCanvasImageAsDataURL: exportCanvasImageAsDataURL,
+        getSharingData: getSharingData,
         requestCharacterRealData: requestUserData,
         input_answers_showing: <?= json_encode($quiz->input_answers_showing) ?>,
         quizInputGroups: <?= json_encode($quizInputGroups) ?>,
@@ -180,12 +180,15 @@ $this->params['breadcrumbs'][] = $this->title;
      * @param {String} data.description
      * @param {Function} callback
      */
-    function exportCanvasImageAsDataURL(data, callback) {
+    function getSharingData(data, callback) {
         var fd = new FormData();
         fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
-        fd.append("image", data);
+        fd.append("slug", <?= json_encode($quiz->slug) ?>);
+        fd.append("title", data.title);
+        fd.append("description", data.description);
+        fd.append("image", data.image);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<?= Url::to(['/quiz/facebook/canvas-image-to-url']) ?>", true);
+        xhr.open("POST", "<?= Url::to(['/my-quiz/get-sharing-data']) ?>", true);
         xhr.onload = function() {
             if (this.status == 200) {
                 var response = JSON.parse(this.response);
@@ -207,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
         FB.ui({
             method: "share",
             display: "popup",
-            href: location.href,
+            href: data.sharingURL,
             picture: data.imageURL,
             title: data.title,
             description: data.description,

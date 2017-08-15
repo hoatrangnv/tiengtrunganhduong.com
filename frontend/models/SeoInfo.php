@@ -14,6 +14,7 @@ use yii\web\View;
 
 class SeoInfo extends \common\models\SeoInfo
 {
+    public $image_src;
     /**
      * @return SeoInfo
      */
@@ -127,7 +128,12 @@ class SeoInfo extends \common\models\SeoInfo
                 'content' => $context->canonicalLink
             ]);
         }
-        if ($this->image) {
+        if ($this->image_src) {
+            $view->registerMetaTag([
+                'property' => 'og:image',
+                'content' => $this->image_src
+            ]);
+        } else if ($this->image) {
             $view->registerMetaTag([
                 'property' => 'og:image',
                 'content' => $this->image->getSource()

@@ -64,7 +64,7 @@ return [
                 ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'my-quiz/play'],
                 ['pattern' => 'quiz/facebook/get-user-data', 'route' => '/quiz/facebook/get-user-data'],
                 ['pattern' => 'quiz/facebook/get-user-avatar', 'route' => '/quiz/facebook/get-user-avatar'],
-                ['pattern' => 'quiz/facebook/canvas-image-to-url', 'route' => '/quiz/facebook/canvas-image-to-url'],
+                ['pattern' => 'my-quiz/get-sharing-data', 'route' => '/my-quiz/get-sharing-data'],
 
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],
