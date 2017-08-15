@@ -118,7 +118,7 @@ class MyQuizController extends BaseController
             $try_count++;
             $debug_res = file_get_contents(
                 "https://graph.facebook.com/debug_token?input_token="
-                    . urlencode($url) . '&access_token=' . Yii::$app->params['fb_app_id'],
+                    . urlencode($url) . '&access_token=' . Yii::$app->params['fb_app_access_token'],
                 false,
                 stream_context_create($contextOptions)
             );
