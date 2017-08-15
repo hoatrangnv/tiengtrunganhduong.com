@@ -92,6 +92,7 @@ class MyQuizController extends BaseController
         }
         $image_src = "$path$image_name";
         file_put_contents("$dir$image_name", $data);
+        sleep(3);
         return json_encode([
             'errorMsg' => '',
             'data' => [
