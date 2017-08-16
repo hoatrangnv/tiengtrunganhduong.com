@@ -1,0 +1,11 @@
+{
+    "name": "vanquyet/yii2-quiz",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "vanquyettran",
+            "email": "vanquyettran@hotmail.com"
+        }
+    ],
+    "require": {}
+}
