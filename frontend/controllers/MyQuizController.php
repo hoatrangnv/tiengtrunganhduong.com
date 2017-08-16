@@ -141,7 +141,7 @@ class MyQuizController extends BaseController
     {
         $image_src = Yii::$app->request->post('image_src');
         $location = Yii::getAlias("@quizImages/$image_src");
-        $res = ['errorMsg'];
+        $res = ['errorMsg' => ''];
         if (is_file($location)) {
             try {
                 unlink($location);
