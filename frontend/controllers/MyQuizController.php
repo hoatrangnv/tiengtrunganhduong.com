@@ -73,12 +73,12 @@ class MyQuizController extends BaseController
      */
     public function actionGetSharingData()
     {
-        $contextOptions = [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ],
-        ];
+//        $contextOptions = [
+//            'ssl' => [
+//                'verify_peer' => false,
+//                'verify_peer_name' => false,
+//            ],
+//        ];
 
         if (!Yii::$app->request->isPost
             || !($slug = rawurldecode(Yii::$app->request->post('slug')))
@@ -131,9 +131,27 @@ class MyQuizController extends BaseController
                 'url' => $url,
                 'title' => $title,
                 'description' => $description,
-                'image_src' => Yii::getAlias("@quizImagesUrl/$image_src"),
+                'image_url' => Yii::getAlias("@quizImagesUrl/$image_src"),
+                'image_src' => $image_src,
             ]
         ]);
+    }
+
+    public function actionRemoveSharingImage()
+    {
+        $image_src = Yii::$app->request->post('image_src');
+        $location = Yii::getAlias("@quizImages/$image_src");
+        $res = ['errorMsg'];
+        if (is_file($location)) {
+            try {
+                unlink($location);
+            } catch (\Exception $e) {
+                $res['errorMsg'] = $e->getMessage();
+            }
+        } else {
+            $res['errorMsg'] = 'Image does not exist.';
+        }
+        return json_encode($res);
     }
 
     /**

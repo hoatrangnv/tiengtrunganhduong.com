@@ -218,11 +218,37 @@ $this->params['breadcrumbs'][] = $this->title;
             method: "share",
             display: "popup",
             href: data.url,
-            picture: data.image_src,
+            picture: data.image_url,
             title: data.title || <?= json_encode($quiz->name) ?>,
             description: data.description || <?= json_encode($quiz->description) ?>,
             caption: <?= json_encode(Yii::$app->name) ?>
-        }, callback);
+        },   // callback
+            function(response) {
+                if (response && !response.error_message) {
+                    console.log('Posting completed.');
+                } else {
+                    console.log('Error while posting.');
+                    var fd = new FormData();
+                    fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
+                    fd.append("image_src", data.image_src);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "<?= Url::to(['/my-quiz/remove-sharing-image']) ?>", true);
+                    xhr.onload = function() {
+                        if (this.status == 200) {
+                            var response = JSON.parse(this.response);
+                            if (response && !response.errorMsg) {
+                                console.log(response.data);
+                                console.log("Removed sharing image.")
+                            }
+                        } else {
+                        }
+                    };
+                    xhr.upload.onprogress = function(event) {
+                        console.log("Removing sharing image...")
+                    };
+                    xhr.send(fd);
+                }
+            });
     }
     window.fbAsyncInit = function() {
         FB.init({
