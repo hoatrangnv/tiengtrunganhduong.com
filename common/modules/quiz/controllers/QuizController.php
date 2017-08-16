@@ -5,7 +5,6 @@ namespace common\modules\quiz\controllers;
 use Yii;
 use common\modules\quiz\models\Quiz;
 use common\modules\quiz\models\QuizSearch;
-use backend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

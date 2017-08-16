@@ -5,14 +5,13 @@ namespace common\modules\quiz\controllers;
 use Yii;
 use common\modules\quiz\models\QuizInputValidator;
 use common\modules\quiz\searchModels\QuizInputValidator as QuizInputValidatorSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * QuizInputValidatorController implements the CRUD actions for QuizInputValidator model.
  */
-class QuizInputValidatorController extends Controller
+class QuizInputValidatorController extends BaseController
 {
     /**
      * @inheritdoc
