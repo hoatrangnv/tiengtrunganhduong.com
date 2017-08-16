@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script>
-    window.QuizMessages = {
+    window.QuizPlayMessages = {
         "Login": "Đăng nhập để bắt đầu",
         "Share": "Chia sẻ với bạn bè",
         "Wait for minute": "Chờ một chút nhé",
@@ -215,14 +215,38 @@ $this->params['breadcrumbs'][] = $this->title;
     function fbShare(data, callback) {
         console.log("sharing data", data);
         FB.ui({
-            method: "share",
-            display: "popup",
-            href: data.url,
-            picture: data.image_src,
-            title: data.title || <?= json_encode($quiz->name) ?>,
-            description: data.description || <?= json_encode($quiz->description) ?>,
-            caption: <?= json_encode(Yii::$app->name) ?>
-        }, callback);
+                method: "share",
+                display: "popup",
+                href: data.url,
+                picture: data.image_url,
+                title: data.title || <?= json_encode($quiz->name) ?>,
+                description: data.description || <?= json_encode($quiz->description) ?>,
+                caption: <?= json_encode(Yii::$app->name) ?>
+            },   // callback
+            function(response) {
+                if (response && !response.error_message) {
+                    console.log('Posting completed.');
+                } else {
+                    console.log('Error while posting.');
+                    var fd = new FormData();
+                    fd.append("<?= Yii::$app->request->csrfParam ?>", "<?= Yii::$app->request->csrfToken ?>");
+                    fd.append("image_src", data.image_src);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "<?= Url::to(['/my-quiz/remove-sharing-image']) ?>", true);
+                    xhr.onload = function() {
+                        if (this.status == 200) {
+                            var response = JSON.parse(this.response);
+                            console.log(response)
+                        } else {
+                            console.log("Response staus:", this.status);
+                        }
+                    };
+                    xhr.upload.onprogress = function(event) {
+                        console.log("Removing sharing image...")
+                    };
+                    xhr.send(fd);
+                }
+            });
     }
     window.fbAsyncInit = function() {
         FB.init({

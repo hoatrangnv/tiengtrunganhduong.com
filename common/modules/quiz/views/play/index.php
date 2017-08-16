@@ -30,6 +30,13 @@ if (Yii::$app->request->get('use_local_asset') == 1) {
 ?>
 <div id="quiz-play-root"></div>
 <script>
+    window.QuizPlayMessages = {
+        "Login": "Đăng nhập để chơi",
+        "Share": "Chia sẻ với bạn bè",
+        "Wait for minute": "Chờ một chút nhé",
+        "Loading": "Đang tải",
+        "Next": "Tiếp theo"
+    };
     window.QuizPlayRoot = document.getElementById("quiz-play-root");
     window.QuizPlayProps = {
         name: <?= json_encode($quiz->name) ?>,
