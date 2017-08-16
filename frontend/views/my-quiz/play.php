@@ -236,11 +236,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     xhr.onload = function() {
                         if (this.status == 200) {
                             var response = JSON.parse(this.response);
-                            if (response && !response.errorMsg) {
-                                console.log(response.data);
-                                console.log("Removed sharing image.")
-                            }
+                            console.log(response)
                         } else {
+                            console.log("Response staus:", this.status);
                         }
                     };
                     xhr.upload.onprogress = function(event) {
