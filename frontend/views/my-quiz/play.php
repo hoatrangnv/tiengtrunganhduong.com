@@ -66,8 +66,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script>
-    window.QuizMessages = {
-        "Login": "Đăng nhập Facebook để chơi",
+    window.QuizPlayMessages = {
+        "Login": "Đăng nhập để chơi",
         "Share": "Chia sẻ với bạn bè",
         "Wait for minute": "Chờ một chút nhé",
         "Loading": "Đang tải",
