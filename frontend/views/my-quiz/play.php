@@ -67,8 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <script>
     window.QuizMessages = {
-        "Login": "Đăng nhập với Facebook",
-        "Share": "Chia sẻ lên Facebook",
+        "Login": "Đăng nhập để bắt đầu",
+        "Share": "Chia sẻ với bạn bè",
         "Wait for minute": "Chờ một chút nhé",
         "Loading": "Đang tải",
         "Next": "Tiếp theo"
@@ -170,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
         FB.login(function(response) {
             console.log("response", response);
             if (response.authResponse) {
-                console.log('Welcome!  Fetching your information.... ');
+                console.log('Welcome! Fetching your information.... ');
                 accessToken = response.authResponse.accessToken;
                 userID = response.authResponse.userID;
                 callback();
