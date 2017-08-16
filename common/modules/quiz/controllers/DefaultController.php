@@ -35,7 +35,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Default controller for the `quiz` module
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
 //    public $layout = '@quiz/views/layouts/main';
     public $layout = '@quiz/views/layouts/antd';

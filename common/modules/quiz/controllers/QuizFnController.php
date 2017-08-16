@@ -5,14 +5,13 @@ namespace common\modules\quiz\controllers;
 use Yii;
 use common\modules\quiz\models\QuizFn;
 use common\modules\quiz\searchModels\QuizFn as QuizFnSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * QuizFnController implements the CRUD actions for QuizFn model.
  */
-class QuizFnController extends Controller
+class QuizFnController extends BaseController
 {
     /**
      * @inheritdoc
