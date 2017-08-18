@@ -13,7 +13,7 @@ use yii\web\AssetBundle;
 
 class QuizEditorAsset extends AssetBundle
 {
-    public $sourcePath = '@quiz/assets';
+    public $sourcePath = '@common/modules/assets';
 
     public $jsOptions = ['position' => \yii\web\View::POS_END];
 

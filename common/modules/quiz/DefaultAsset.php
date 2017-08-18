@@ -13,7 +13,7 @@ use yii\web\AssetBundle;
 
 class DefaultAsset extends AssetBundle
 {
-    public $sourcePath = '@quiz/assets';
+    public $sourcePath = '@common/modules//assets';
 
     public $css = [
         'css/site.css',
