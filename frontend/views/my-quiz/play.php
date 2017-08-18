@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <script>
     window.QuizPlayMessages = {
-        "Login": "Đăng nhập để chơi",
+        "Login": "Đăng nhập để bắt đầu",
         "Share": "Chia sẻ với bạn bè",
         "Wait for minute": "Chờ một chút nhé",
         "Loading": "Đang tải",
@@ -170,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
         FB.login(function(response) {
             console.log("response", response);
             if (response.authResponse) {
-                console.log('Welcome!  Fetching your information.... ');
+                console.log('Welcome! Fetching your information.... ');
                 accessToken = response.authResponse.accessToken;
                 userID = response.authResponse.userID;
                 callback();
@@ -215,14 +215,14 @@ $this->params['breadcrumbs'][] = $this->title;
     function fbShare(data, callback) {
         console.log("sharing data", data);
         FB.ui({
-            method: "share",
-            display: "popup",
-            href: data.url,
-            picture: data.image_url,
-            title: data.title || <?= json_encode($quiz->name) ?>,
-            description: data.description || <?= json_encode($quiz->description) ?>,
-            caption: <?= json_encode(Yii::$app->name) ?>
-        },   // callback
+                method: "share",
+                display: "popup",
+                href: data.url,
+                picture: data.image_url,
+                title: data.title || <?= json_encode($quiz->name) ?>,
+                description: data.description || <?= json_encode($quiz->description) ?>,
+                caption: <?= json_encode(Yii::$app->name) ?>
+            },   // callback
             function(response) {
                 if (response && !response.error_message) {
                     console.log('Posting completed.');
