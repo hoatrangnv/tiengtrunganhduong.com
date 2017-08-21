@@ -64,6 +64,9 @@ return [
         'image2' => [
             'class' => 'common\modules\image\Module',
         ],
+        'audio' => [
+            'class' => 'common\modules\audio\Module',
+        ],
         'my-gii' => [
             'class' => 'common\modules\gii\Module',
         ],

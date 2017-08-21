@@ -1,0 +1,1 @@
+php yii my-migrate/create create_audio_table --migrationPath="@console/migrations" --fields="name:string:notNull,path:string,file_basename:string:notNull:unique,file_extension:string:notNull,mime_type:string:notNull,duration:integer,quality:integer,create_time:integer:notNull,update_time:integer,creator_id:integer:notNull:foreignKey(user),updater_id:integer:foreignKey(user)"
