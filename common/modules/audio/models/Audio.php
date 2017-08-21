@@ -83,7 +83,7 @@ class Audio extends \common\modules\audio\baseModels\Audio
     public function rules()
     {
         return [
-            [['name', 'file_basename', 'file_extension', 'mime_type'], 'required'],
+            [['name', 'file_basename', 'file_extension', 'mime_type'], 'required', 'except' => 'form'],
             [['duration', 'quality'], 'integer'],
             [['name', 'path', 'file_basename', 'file_extension', 'mime_type'], 'string', 'max' => 255],
             [['file_basename'], 'unique'],

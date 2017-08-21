@@ -67,14 +67,15 @@ class AudioController extends Controller
         $model = new Audio();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->scenario = null;
             if ($model->saveFileAndModel()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-
         if ($model->hasErrors()) {
             Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->getErrors()));
         }
+        $model->scenario = 'form';
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -91,6 +92,7 @@ class AudioController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->scenario = null;
             if ($model->updateFileAndModel()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -98,6 +100,7 @@ class AudioController extends Controller
         if ($model->hasErrors()) {
             Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->getErrors()));
         }
+        $model->scenario = 'form';
         return $this->render('update', [
             'model' => $model,
         ]);
