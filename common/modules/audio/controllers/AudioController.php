@@ -67,7 +67,7 @@ class AudioController extends Controller
         $model = new Audio();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->scenario = null;
+            $model->scenario = '';
             if ($model->saveFileAndModel()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -92,7 +92,7 @@ class AudioController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->scenario = null;
+            $model->scenario = '';
             if ($model->updateFileAndModel()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
