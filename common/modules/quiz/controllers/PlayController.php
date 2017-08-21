@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
 
 class PlayController extends BaseController
 {
-    public $layout = '@quiz/views/layouts/antd';
+    public $layout = '@common/modules/quiz/views/layouts/antd';
 
     public function actionIndex($id)
     {

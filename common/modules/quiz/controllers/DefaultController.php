@@ -37,8 +37,8 @@ use yii\web\NotFoundHttpException;
  */
 class DefaultController extends BaseController
 {
-//    public $layout = '@quiz/views/layouts/main';
-    public $layout = '@quiz/views/layouts/antd';
+//    public $layout = '@common/modules/quiz/views/layouts/main';
+    public $layout = '@common/modules/quiz/views/layouts/antd';
 
     /**
      * Renders the index view for the module
