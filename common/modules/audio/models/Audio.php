@@ -36,6 +36,7 @@ class Audio extends \common\modules\audio\baseModels\Audio
             'audio/mp3',
             'audio/wav',
             'audio/x-wav',
+            'image/*'
         ];
     }
 
