@@ -19,6 +19,8 @@ if ($model->isNewRecord) {
     $model->active = true;
     $model->quality = 60;
 }
+
+$model->image_name_to_basename = true;
 ?>
 <style>
     #image-preview-wrapper img {
