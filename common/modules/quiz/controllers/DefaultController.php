@@ -485,11 +485,11 @@ class DefaultController extends BaseController
             , true
         );
         $attrs = $parseAttrs($state['attrs']);
-        if ($attrs['id']) {
-            $quiz = Quiz::findOne($attrs['id']);
-        } else {
+//        if ($attrs['id']) {
+//            $quiz = Quiz::findOne($attrs['id']);
+//        } else {
             $quiz = new Quiz();
-        }
+//        }
         $quiz->setAttributes($attrs);
         $errors = [];
         if (!$quiz->validate()) {
