@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
             'parameters',
             'body:ntext',
+            // 'async',
             // 'guideline:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],

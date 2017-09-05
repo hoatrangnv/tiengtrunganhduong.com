@@ -18,7 +18,7 @@ class QuizFn extends QuizFnModel
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'async'], 'integer'],
             [['name', 'description', 'parameters', 'body', 'guideline'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class QuizFn extends QuizFnModel
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'async' => $this->async,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

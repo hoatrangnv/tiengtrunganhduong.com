@@ -5,8 +5,10 @@ namespace common\modules\quiz\controllers;
 use Yii;
 use common\modules\quiz\models\QuizFn;
 use common\modules\quiz\searchModels\QuizFn as QuizFnSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 
 /**
  * QuizFnController implements the CRUD actions for QuizFn model.
@@ -67,6 +69,9 @@ class QuizFnController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if ($model->hasErrors()) {
+                Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->getErrors()));
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -86,6 +91,9 @@ class QuizFnController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if ($model->hasErrors()) {
+                Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->getErrors()));
+            }
             return $this->render('update', [
                 'model' => $model,
             ]);

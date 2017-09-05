@@ -12,6 +12,7 @@ use Yii;
  * @property string $description
  * @property string $parameters
  * @property string $body
+ * @property integer $async
  * @property string $guideline
  *
  * @property QuizCharacterDataFilter[] $quizCharacterDataFilters
@@ -40,6 +41,7 @@ class QuizFn extends QuizBase
         return [
             [['name', 'parameters', 'body'], 'required'],
             [['body', 'guideline'], 'string'],
+            [['async'], 'integer'],
             [['name', 'parameters'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 511],
         ];
@@ -56,6 +58,7 @@ class QuizFn extends QuizBase
             'description' => 'Description',
             'parameters' => 'Parameters',
             'body' => 'Body',
+            'async' => 'Async',
             'guideline' => 'Guideline',
         ];
     }

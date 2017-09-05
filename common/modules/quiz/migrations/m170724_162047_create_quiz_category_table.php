@@ -59,7 +59,7 @@ class m170724_162047_create_quiz_category_table extends Migration
             'creator_id',
             'user',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `updater_id`
@@ -76,7 +76,7 @@ class m170724_162047_create_quiz_category_table extends Migration
             'updater_id',
             'user',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `image_id`
@@ -93,7 +93,7 @@ class m170724_162047_create_quiz_category_table extends Migration
             'image_id',
             'image',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
         // creates index for column `parent_id`
@@ -110,7 +110,7 @@ class m170724_162047_create_quiz_category_table extends Migration
             'parent_id',
             'quiz_category',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
     }
 

@@ -12,6 +12,8 @@ use Yii;
  * @property string $title
  * @property string $introduction
  * @property integer $duration
+ * @property integer $countdown_delay
+ * @property string $timeout_handling
  * @property integer $task_order
  * @property integer $inputs_per_row
  * @property integer $inputs_per_small_row
@@ -39,8 +41,8 @@ class QuizInputGroup extends QuizBase
         return [
             [['name', 'task_order', 'quiz_id'], 'required'],
             [['introduction'], 'string'],
-            [['duration', 'task_order', 'inputs_per_row', 'inputs_per_small_row', 'quiz_id'], 'integer'],
-            [['name', 'title', 'inputs_appearance'], 'string', 'max' => 255],
+            [['duration', 'countdown_delay', 'task_order', 'inputs_per_row', 'inputs_per_small_row', 'quiz_id'], 'integer'],
+            [['name', 'title', 'timeout_handling', 'inputs_appearance'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
@@ -56,6 +58,8 @@ class QuizInputGroup extends QuizBase
             'title' => 'Title',
             'introduction' => 'Introduction',
             'duration' => 'Duration',
+            'countdown_delay' => 'Countdown Delay',
+            'timeout_handling' => 'Timeout Handling',
             'task_order' => 'Task Order',
             'inputs_per_row' => 'Inputs Per Row',
             'inputs_per_small_row' => 'Inputs Per Small Row',

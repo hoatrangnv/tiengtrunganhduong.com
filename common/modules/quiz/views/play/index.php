@@ -42,6 +42,8 @@ if (Yii::$app->request->get('use_local_asset') == 1) {
         name: <?= json_encode($quiz->name) ?>,
         introduction: <?=json_encode($quiz->introduction) ?>,
         image_src: <?= json_encode($quiz->image ? $quiz->image->getSource() : '') ?>,
+        duration: <?= json_encode($quiz->duration) ?>,
+        timeout_handling: <?= json_encode($quiz->timeout_handling) ?>,
         login: fbLogin,
         requestCharacterRealData: requestUserData,
         input_answers_showing: <?= json_encode($quiz->input_answers_showing) ?>,
