@@ -995,6 +995,11 @@ form.primary .form-group.has-success textarea {
     color: #FF2D33;
 }
 
+/** Quiz */
+.quiz-container {
+    border: 1px solid #ddd;
+}
+
 @media screen and (max-width: 860px)
 {
     .main-content,
