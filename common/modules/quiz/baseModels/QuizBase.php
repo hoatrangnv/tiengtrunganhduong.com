@@ -33,10 +33,15 @@ class QuizBase extends MyActiveRecord
                 'quiz_character_medium_id',
                 'quiz_input_group_id',
                 'quiz_input_id',
+                'quiz_input_option_id',
                 'create_time',
                 'update_time',
                 'creator_id',
                 'updater_id',
+                'view_count',
+                'comment_count',
+                'like_count',
+                'share_count',
             ])) {
                 continue;
             }
@@ -59,7 +64,13 @@ class QuizBase extends MyActiveRecord
             } else if (substr($column->name, -3) === '_id') {
                 $type = 'Select';
                 if (substr($column->name, -6) === '_fn_id') {
-                    foreach (QuizFn::find()->all() as $fn) {
+                    $quizFns = self::shortClassName() == 'QuizParam'
+                        ? QuizFn::find()->all()
+                        : QuizFn::find()->where(['or', ['async' => 0], ['async' => null]])->all();
+                    foreach ($quizFns as $fn) {
+                        /**
+                         * @var $fn QuizFn
+                         */
                         $options[] = [
                             'label' => $fn->name,
                             'value' => $fn->id
@@ -99,8 +110,13 @@ class QuizBase extends MyActiveRecord
             $inputConfigs[] = $inputConfig;
         }
         return [
-            'type' => join('', array_slice(explode('\\', self::className()), -1)),
+            'type' => self::shortClassName(),
             'attrs' => $inputConfigs
         ];
+    }
+
+    public static function shortClassName()
+    {
+         return join('', array_slice(explode('\\', self::className()), -1));
     }
 }

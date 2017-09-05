@@ -14,7 +14,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
-        'quiz' => [
+        'quiz-module' => [
             'class' => 'common\modules\quiz\Module',
         ],
     ],
@@ -59,13 +59,22 @@ return [
                 ['pattern' => 'sitemap-static.xml', 'route' => 'sitemap/static'],
                 ['pattern' => 'sitemap-article-<' . UrlParam::PAGE . ':\d+>.xml', 'route' => 'sitemap/article'],
                 // Quiz
-                ['pattern' => 'quiz', 'route' => 'my-quiz/index'],
-                ['pattern' => 'quiz/', 'route' => 'my-quiz/index'],
-                ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'my-quiz/play'],
-                ['pattern' => 'quiz/facebook/get-user-data', 'route' => '/quiz/facebook/get-user-data'],
-                ['pattern' => 'quiz/facebook/get-user-avatar', 'route' => '/quiz/facebook/get-user-avatar'],
-                ['pattern' => 'my-quiz/get-sharing-data', 'route' => '/my-quiz/get-sharing-data'],
-                ['pattern' => 'my-quiz/remove-sharing-image', 'route' => '/my-quiz/remove-sharing-image'],
+//                ['pattern' => 'quiz', 'route' => 'my-quiz/index'],
+//                ['pattern' => 'quiz/', 'route' => 'my-quiz/index'],
+//                ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'my-quiz/play'],
+//                ['pattern' => 'quiz/facebook/get-user-data', 'route' => '/quiz/facebook/get-user-data'],
+//                ['pattern' => 'quiz/facebook/get-user-avatar', 'route' => '/quiz/facebook/get-user-avatar'],
+//                ['pattern' => 'my-quiz/get-sharing-data', 'route' => '/my-quiz/get-sharing-data'],
+//                ['pattern' => 'my-quiz/remove-sharing-image', 'route' => '/my-quiz/remove-sharing-image'],
+                // Quiz
+                ['pattern' => '<' . UrlParam::SLUG . '>.html', 'route' => 'quiz/play'],
+                ['pattern' => 'quiz/get-sharing-data', 'route' => 'quiz/get-sharing-data'],
+                ['pattern' => 'quiz/test-callback', 'route' => 'quiz/test-callback'],
+
+                // User
+                ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],
+                ['pattern' => 'user/get-facebook-avatar', 'route' => 'user/get-facebook-avatar'],
+                ['pattern' => 'user/login-with-facebook', 'route' => 'user/login-with-facebook'],
 
                 // Article
                 ['pattern' => 'article/ajax-get-items', 'route' => 'article/ajax-get-items'],

@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'async')->checkbox() ?>
+
     <?= $form->field($model, 'guideline')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

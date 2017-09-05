@@ -21,85 +21,85 @@ use Facebook\Exceptions\FacebookSDKException;
 
 class FacebookController extends Controller
 {
-    public function actionGetUserData()
-    {
-        $userID = Yii::$app->request->post('userID');
-        $accessToken = Yii::$app->request->post('accessToken');
-        $response = [
-            'data' => [],
-            'errorMsg' => '',
-        ];
-
-        $fb = new Facebook([
-            'app_id' => Yii::$app->params['fb_app_id'],
-            'app_secret' => Yii::$app->params['fb_app_secret'],
-            'default_graph_version' => 'v2.2',
-        ]);
-
-        try {
-            // Returns a `Facebook\FacebookResponse` object
-            /**
-             * @var $response FacebookResponse
-             */
-            $fbResponse = $fb->get("/$userID?fields=id,name,first_name,last_name,picture,gender", $accessToken);
-        } catch(FacebookResponseException $e) {
-            $response['errorMsg'] = 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch(FacebookSDKException $e) {
-            $response['errorMsg'] = 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
-        }
-
-        $user = $fbResponse->getGraphUser();
-
-        $response['data'] = [
-            'name' => $user->getName(),
-            'first_name' => $user->getFirstName(),
-            'last_name' => $user->getLastName(),
-            'gender' => $user->getGender(),
-            'birthday' => $user->getBirthday(),
-        ];
-
-        echo json_encode($response);
-    }
-
-    public function actionGetUserAvatar()
-    {
-        $userID = Yii::$app->request->get('userID');
-        if (!$userID) {
-            exit;
-        }
-        $width = Yii::$app->request->get('width', 0);
-        $height = Yii::$app->request->get('height', 0);
-        $contextOptions = [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ],
-        ];
-
-        $queryStr = '';
-        if ($width > 0) {
-            $queryStr = "width=$width";
-        }
-        if ($height > 0) {
-            if ($queryStr) {
-                $queryStr .= '&';
-            }
-            $queryStr .= "height=$height";
-        }
-        if ($queryStr) {
-            $queryStr = "?$queryStr";
-        }
-
-        $image_data = file_get_contents(
-            "https://graph.facebook.com/$userID/picture$queryStr",
-            false,
-            stream_context_create($contextOptions)
-        );
-
-        header("Content-Type: image/jpeg");
-        imagejpeg(imagecreatefromstring($image_data));
-    }
+//    public function actionGetUserData()
+//    {
+//        $userID = Yii::$app->request->post('userID');
+//        $accessToken = Yii::$app->request->post('accessToken');
+//        $response = [
+//            'data' => [],
+//            'errorMsg' => '',
+//        ];
+//
+//        $fb = new Facebook([
+//            'app_id' => Yii::$app->params['fb_app_id'],
+//            'app_secret' => Yii::$app->params['fb_app_secret'],
+//            'default_graph_version' => 'v2.2',
+//        ]);
+//
+//        try {
+//            // Returns a `Facebook\FacebookResponse` object
+//            /**
+//             * @var $response FacebookResponse
+//             */
+//            $fbResponse = $fb->get("/$userID?fields=id,name,first_name,last_name,picture,gender", $accessToken);
+//        } catch(FacebookResponseException $e) {
+//            $response['errorMsg'] = 'Graph returned an error: ' . $e->getMessage();
+//            exit;
+//        } catch(FacebookSDKException $e) {
+//            $response['errorMsg'] = 'Facebook SDK returned an error: ' . $e->getMessage();
+//            exit;
+//        }
+//
+//        $user = $fbResponse->getGraphUser();
+//
+//        $response['data'] = [
+//            'name' => $user->getName(),
+//            'first_name' => $user->getFirstName(),
+//            'last_name' => $user->getLastName(),
+//            'gender' => $user->getGender(),
+//            'birthday' => $user->getBirthday(),
+//        ];
+//
+//        echo json_encode($response);
+//    }
+//
+//    public function actionGetUserAvatar()
+//    {
+//        $userID = Yii::$app->request->get('userID');
+//        if (!$userID) {
+//            exit;
+//        }
+//        $width = Yii::$app->request->get('width', 0);
+//        $height = Yii::$app->request->get('height', 0);
+//        $contextOptions = [
+//            'ssl' => [
+//                'verify_peer' => false,
+//                'verify_peer_name' => false,
+//            ],
+//        ];
+//
+//        $queryStr = '';
+//        if ($width > 0) {
+//            $queryStr = "width=$width";
+//        }
+//        if ($height > 0) {
+//            if ($queryStr) {
+//                $queryStr .= '&';
+//            }
+//            $queryStr .= "height=$height";
+//        }
+//        if ($queryStr) {
+//            $queryStr = "?$queryStr";
+//        }
+//
+//        $image_data = file_get_contents(
+//            "https://graph.facebook.com/$userID/picture$queryStr",
+//            false,
+//            stream_context_create($contextOptions)
+//        );
+//
+//        header("Content-Type: image/jpeg");
+//        imagejpeg(imagecreatefromstring($image_data));
+//    }
 
 }

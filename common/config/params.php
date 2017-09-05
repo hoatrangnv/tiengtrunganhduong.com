@@ -14,4 +14,6 @@ return [
 //            client_id=YOUR_APP_ID
 //            &client_secret=YOUR_APP_SECRET
 //            &grant_type=client_credentials
+    'facebook.appID' => '1793387650973425',
+    'facebook.appSecret' => 'f97fb489ad55c057db1a8b8103180ba2',
 ];
