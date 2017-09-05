@@ -15,7 +15,7 @@ class Quiz extends \common\modules\quiz\models\Quiz
 {
     public function getUrl($params = [], $schema = true)
     {
-        return Url::to(array_merge(['my-quiz/play', UrlParam::SLUG => $this->slug], $params), $schema);
+        return Url::to(array_merge(['quiz/play', UrlParam::SLUG => $this->slug], $params), $schema);
     }
 
     public function desc()
