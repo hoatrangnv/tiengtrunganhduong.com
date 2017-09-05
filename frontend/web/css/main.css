@@ -997,7 +997,7 @@ form.primary .form-group.has-success textarea {
 
 /** Quiz */
 .quiz--container {
-    border: 1px solid #ddd;
+    border: 1px solid #eee;
 }
 
 @media screen and (max-width: 860px)
