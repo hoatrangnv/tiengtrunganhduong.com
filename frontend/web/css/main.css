@@ -996,7 +996,7 @@ form.primary .form-group.has-success textarea {
 }
 
 /** Quiz */
-.quiz-container {
+.quiz--container {
     border: 1px solid #ddd;
 }
 
