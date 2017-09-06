@@ -15,6 +15,15 @@ use yii\base\NotSupportedException;
 class User extends \common\models\User implements IdentityInterface
 {
     /**
+     * @param $fb_id
+     * @return string
+     */
+    public static function getUsernameFromFbUId($fb_id)
+    {
+        return "fbu.$fb_id";
+    }
+
+    /**
      * @inheritdoc
      */
     public static function findIdentity($id)
