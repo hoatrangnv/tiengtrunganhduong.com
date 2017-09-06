@@ -25,7 +25,7 @@ function ckeditor(id) {
     //    ]) ?>//'
 //} );
     CKEDITOR.replace(id, {
-        extraPlugins: 'uploadimage,image2',
+        extraPlugins: 'uploadimage,image2,html5audio',
         height: 300,
 
         // Upload images to a CKFinder connector (note that the response type is set to JSON).

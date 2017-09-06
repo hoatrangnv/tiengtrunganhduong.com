@@ -8,6 +8,7 @@
 
 namespace common\db;
 
+use common\models\Audio;
 use PHPHtmlParser\Dom;
 use Prophecy\Exception\Doubler\MethodNotFoundException;
 use vanquyet\queryTemplate\QueryTemplate;
@@ -186,6 +187,9 @@ abstract class MyActiveRecord extends ActiveRecord
                     'Image' => function ($id) {
                         return Image::find()->where(['id' => $id])->oneActive();
                     },
+                    'Audio' => function ($id) {
+                        return Audio::find()->where(['id' => $id])->oneActive();
+                    }
                 ],
                 'enableDebugMode' => false,
             ]);
@@ -211,6 +215,7 @@ abstract class MyActiveRecord extends ActiveRecord
         foreach ($attributes as $attribute) {
             /**
              * @var \DOMElement $imgTag
+             * @var \DOMElement $audioTag
              */
             if (!$this->hasAttribute($attribute)) {
                 continue;
@@ -231,6 +236,8 @@ abstract class MyActiveRecord extends ActiveRecord
                     mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8')
 //                    , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
                 );
+
+                // Img
                 $imgTags = $doc->getElementsByTagName('img');
                 $i = 0;
                 while ($imgTag = $imgTags->item($i)) {
@@ -284,7 +291,53 @@ abstract class MyActiveRecord extends ActiveRecord
 
                     $imgTag->parentNode->replaceChild($node, $imgTag);
                 }
-//                $this->$attribute = $doc->saveHTML();
+
+                // Audio
+                $audioTags = $doc->getElementsByTagName('audio');
+                $i = 0;
+                while ($audioTag = $audioTags->item($i)) {
+                    if (!$audioTag) {
+                        $i++;
+                        continue;
+                    }
+                    $src = $audioTag->getAttribute('src');
+                    $id = null;
+                    if (strpos($src, '?audio_id=') === false && strpos($src, '&audio_id=') === false) {
+                        $i++;
+                        continue;
+                    }
+                    $parts = parse_url($src);
+                    if (isset($parts['query'])) {
+                        parse_str($parts['query'], $query);
+                        if (isset($query['audio_id'])) {
+                            $id = $query['audio_id'];
+                        }
+                    }
+                    if (!$id) {
+                        $i++;
+                        continue;
+                    }
+
+                    $opts = [];
+                    $width = null;
+                    $height = null;
+                    foreach (['controls', 'controlslist', 'loop', 'autoplay', 'muted', 'preload', 'id', 'class', 'style'] as $attr) {
+                        $val = $audioTag->getAttribute($attr);
+                        if ($val) {
+                            $opts[$attr] = $val;
+                        }
+                    }
+                    $opts_str = json_encode($opts);
+
+                    $node = $doc->createTextNode(
+                        QueryTemplate::__FUNC_OPEN
+                        . " Audio($id)" . QueryTemplate::__OBJECT_OPERATOR . "audioTag($opts_str) "
+                        . QueryTemplate::__FUNC_CLOSE
+                    );
+
+                    $audioTag->parentNode->replaceChild($node, $audioTag);
+                }
+
                 $doc->saveHTML();
                 $bodies = $doc->getElementsByTagName('body');
                 if (isset($bodies[0])) {

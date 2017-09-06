@@ -37,7 +37,7 @@ use common\behaviors\MySluggableBehavior;
  * @property integer $menu_label
  *
  */
-class ArticleCategory extends \common\models\MyActiveRecord
+class ArticleCategory extends \common\db\MyActiveRecord
 {
     public function getUrl($params = [])
     {

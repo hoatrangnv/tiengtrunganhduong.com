@@ -45,7 +45,7 @@ use yii\validators\DateValidator;
  * @property string $menu_label
  *
  */
-class Article extends \common\models\MyActiveRecord
+class Article extends \common\db\MyActiveRecord
 {
     public function getUrl($params = [])
     {
