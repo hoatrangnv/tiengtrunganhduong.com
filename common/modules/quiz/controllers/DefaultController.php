@@ -15,7 +15,9 @@ use common\modules\quiz\models\QuizCharacterMediumDataSorter;
 use common\modules\quiz\models\QuizCharacterMediumToStyle;
 use common\modules\quiz\models\QuizInput;
 use common\modules\quiz\models\QuizInputGroup;
+use common\modules\quiz\models\QuizInputImage;
 use common\modules\quiz\models\QuizInputOption;
+use common\modules\quiz\models\QuizInputOptionChecker;
 use common\modules\quiz\models\QuizObjectFilter;
 use common\modules\quiz\models\QuizParam;
 use common\modules\quiz\models\QuizResult;
@@ -40,6 +42,8 @@ class DefaultController extends BaseController
 //    public $layout = '@common/modules/quiz/views/layouts/main';
     public $layout = '@common/modules/quiz/views/layouts/antd';
 
+    private static $argsSeparator = "\n";
+
     /**
      * Renders the index view for the module
      * @return string
@@ -54,7 +58,14 @@ class DefaultController extends BaseController
     {
         $inputGroupConfig = QuizInputGroup::modelConfig();
         $inputConfig = QuizInput::modelConfig();
-        $inputConfig['childConfigs'] = [QuizInputOption::modelConfig()];
+        $inputOptionConfig = QuizInputOption::modelConfig();
+        $inputOptionConfig['childConfigs'] = [
+            QuizInputOptionChecker::modelConfig(),
+        ];
+        $inputConfig['childConfigs'] = [
+            $inputOptionConfig,
+            QuizInputImage::modelConfig(),
+        ];
         $inputGroupConfig['childConfigs'] = [$inputConfig];
 
         $characterConfig = QuizCharacter::modelConfig();
@@ -109,7 +120,14 @@ class DefaultController extends BaseController
 
         $inputGroupConfig = QuizInputGroup::modelConfig();
         $inputConfig = QuizInput::modelConfig();
-        $inputConfig['childConfigs'] = [QuizInputOption::modelConfig()];
+        $inputOptionConfig = QuizInputOption::modelConfig();
+        $inputOptionConfig['childConfigs'] = [
+            QuizInputOptionChecker::modelConfig(),
+        ];
+        $inputConfig['childConfigs'] = [
+            $inputOptionConfig,
+            QuizInputImage::modelConfig(),
+        ];
         $inputGroupConfig['childConfigs'] = [$inputConfig];
 
         $characterConfig = QuizCharacter::modelConfig();
@@ -140,7 +158,11 @@ class DefaultController extends BaseController
 
         $attrs = [];
         foreach ($quizConfig['attrs'] as $attr) {
-            $attr['value'] = $quiz->getAttribute($attr['name']);
+            if ($attr['name'] == 'showed_stopwatches') {
+                $attr['value'] = json_decode($quiz->getAttribute($attr['name']));
+            } else {
+                $attr['value'] = $quiz->getAttribute($attr['name']);
+            }
             $attr['errorMsg'] = '';
             $attrs[] = $attr;
         }
@@ -154,7 +176,7 @@ class DefaultController extends BaseController
          * @param array $children
          * @return array
          */
-        $getChildrenData = function (array $children) use (&$getChildrenData, $inputGroupConfig, $inputConfig, $characterConfig, $characterMediumConfig) {
+        $getChildrenData = function (array $children) use (&$getChildrenData, $inputGroupConfig, $inputConfig, $inputOptionConfig, $characterConfig, $characterMediumConfig) {
             $childrenData = ['items' => [], 'activeItemId' => null, 'errorItemIds' => []];
             usort($children, function ($a, $b) {
                 /**
@@ -183,7 +205,7 @@ class DefaultController extends BaseController
                 if ($b->hasAttribute('sort_order')) {
                     return 1;
                 }
-                
+
                 return 0;
             });
 
@@ -219,7 +241,7 @@ class DefaultController extends BaseController
                         }
                     } else if ($attr['name'] == 'arguments') {
                         $arr_value = json_decode($attr['value']);
-                        $attr['value'] = implode("\n```\n", $arr_value);
+                        $attr['value'] = implode(self::$argsSeparator, $arr_value);
 
 //                        if (!is_array($attr['value'])) {
 //                            $attr['value'] = json_decode($attr['value']);
@@ -365,7 +387,10 @@ class DefaultController extends BaseController
                         }
                         unset($attr);
                         $childData['childConfigs'] = $inputConfig['childConfigs'];
-                        $grandChildren = $child->quizInputOptions;
+                        $grandChildren = array_merge(
+                            $child->quizInputOptions,
+                            $child->quizInputImages
+                        );
                         break;
                     case 'QuizInputOption':
                         /**
@@ -382,6 +407,8 @@ class DefaultController extends BaseController
                             }
                         }
                         unset($attr);
+                        $childData['childConfigs'] = $inputOptionConfig['childConfigs'];
+                        $grandChildren = $child->quizInputOptionCheckers;
                         break;
                     case 'QuizShape':
                         /**
@@ -468,7 +495,7 @@ class DefaultController extends BaseController
                     if ($attr['name'] == 'arguments') {
                         $arr_value = array_map(function ($item) {
                             return trim($item);
-                        }, explode("```", $attr['value']));
+                        }, explode(self::$argsSeparator, $attr['value']));
                         $result[$attr['name']] = json_encode($arr_value);
                     } else {
                         $result[$attr['name']] = $attr['value'];
@@ -486,10 +513,11 @@ class DefaultController extends BaseController
         } else {
             $quiz = new Quiz();
         }
+        $attrs['showed_stopwatches'] = json_encode($attrs['showed_stopwatches'] ? $attrs['showed_stopwatches'] : []);
         $quiz->setAttributes($attrs);
-        $errors = [];
+        $allErrors = [];
         if (!$quiz->validate()) {
-            $errors['Quiz#'] = $quiz->errors;
+            $allErrors['Quiz#'] = $quiz->errors;
             foreach ($quiz->errors as $attrName => $errors) {
                 foreach ($state['attrs'] as &$attr) {
                     if ($attrName == $attr['name']) {
@@ -518,18 +546,18 @@ class DefaultController extends BaseController
 //*/
 //            ],
             'QuizResult' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_character_medium_ids' => [],
-                        'quiz_shape_ids' => [],
-//                        'quiz_character_medium_filter_ids' => [],
-//                        'quiz_shape_filter_ids' => [],
-                    ],
-                ],
-*/
+                /*
+                                [
+                                    '__id' => '',
+                                    'id' => null,
+                                    'junctions' => [
+                                        'quiz_character_medium_ids' => [],
+                                        'quiz_shape_ids' => [],
+                //                        'quiz_character_medium_filter_ids' => [],
+                //                        'quiz_shape_filter_ids' => [],
+                                    ],
+                                ],
+                */
             ],
 //            'QuizCharacter' => [
 ///*
@@ -544,28 +572,28 @@ class DefaultController extends BaseController
 //*/
 //            ],
             'QuizCharacterMedium' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_style_ids' => [],
-//                        'quiz_filter_ids' => [],
-//                        'quiz_sorter_ids' => [],
-                    ],
-                ],
-*/
+                /*
+                                [
+                                    '__id' => '',
+                                    'id' => null,
+                                    'junctions' => [
+                                        'quiz_style_ids' => [],
+                //                        'quiz_filter_ids' => [],
+                //                        'quiz_sorter_ids' => [],
+                                    ],
+                                ],
+                */
             ],
             'QuizShape' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_style_ids' => [],
-                    ]
-                ],
-*/
+                /*
+                                [
+                                    '__id' => '',
+                                    'id' => null,
+                                    'junctions' => [
+                                        'quiz_style_ids' => [],
+                                    ]
+                                ],
+                */
             ],
 //            'QuizInputGroup' => [
 ///*
@@ -579,27 +607,27 @@ class DefaultController extends BaseController
 //*/
 //            ],
             'QuizInput' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-//                        'quiz_input_option_filter_ids' => [],
-                        'quiz_validator_ids' => [],
-                    ]
-                ],
-*/
+                /*
+                                [
+                                    '__id' => '',
+                                    'id' => null,
+                                    'junctions' => [
+                //                        'quiz_input_option_filter_ids' => [],
+                                        'quiz_validator_ids' => [],
+                                    ]
+                                ],
+                */
             ],
             'QuizInputOption' => [
-/*
-                [
-                    '__id' => '',
-                    'id' => null,
-                    'junctions' => [
-                        'quiz_voted_result_ids' => [],
-                    ]
-                ],
-*/
+                /*
+                                [
+                                    '__id' => '',
+                                    'id' => null,
+                                    'junctions' => [
+                                        'quiz_voted_result_ids' => [],
+                                    ]
+                                ],
+                */
             ],
 
             'QuizInputValidator' => [
@@ -632,6 +660,8 @@ class DefaultController extends BaseController
             'QuizInputGroup',
             'QuizInput',
             'QuizInputOption',
+            'QuizInputOptionChecker',
+            'QuizInputImage',
             'QuizShape',
             'QuizObjectFilter',
             'QuizCharacterDataFilter',
@@ -647,8 +677,8 @@ class DefaultController extends BaseController
          * @param $test
          */
         $loadModels = function (&$data, $parent, $test)
-            use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
-                &$loadModels, &$errors, &$task_order, &$sort_order, &$junctions) {
+        use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
+            &$loadModels, &$allErrors, &$task_order, &$sort_order, &$junctions) {
             // Delete no longer children
             $oldChildren = [];
             if (!$parent->isNewRecord) {
@@ -678,7 +708,12 @@ class DefaultController extends BaseController
                 }  else if ($parent instanceof QuizInputGroup) {
                     $oldChildren = $parent->quizInputs;
                 } else if ($parent instanceof QuizInput) {
-                    $oldChildren = $parent->quizInputOptions;
+                    $oldChildren = array_merge(
+                        $parent->quizInputOptions,
+                        $parent->quizInputImages
+                    );
+                } else if ($parent instanceof QuizInputOption) {
+                    $oldChildren = $parent->quizInputOptionCheckers;
                 }
             }
             foreach ($data['items'] as $childData) {
@@ -731,12 +766,13 @@ class DefaultController extends BaseController
                         = $attrs['quiz_character_medium_id']
                         = $attrs['quiz_input_group_id']
                         = $attrs['quiz_input_id']
+                        = $attrs['quiz_input_option_id']
                         = $parent->id;
                     $model->setAttributes($attrs);
                     if (!$model->validate()) {
                         $task_order--;
                         $sort_order--;
-                        $errors["{$childData['type']}#{$childData['id']}"] = $model->errors;
+                        $allErrors["{$childData['type']}#{$childData['id']}"] = $model->errors;
                         foreach ($model->errors as $attrName => $errors) {
                             foreach ($childData['attrs'] as &$attr) {
                                 if ($attrName == $attr['name']) {
@@ -813,7 +849,7 @@ class DefaultController extends BaseController
             $quiz->id = $testingId();
         }
         $loadModels($state['childrenData'], $quiz, true);
-        if (empty($errors)) {
+        if (empty($allErrors)) {
             if ($quiz->isNewRecord) {
                 $quiz->id = null;
             }
@@ -1108,7 +1144,9 @@ class DefaultController extends BaseController
         echo json_encode([
             'state' => $state,
             'updateLink' => Url::to(['update', 'id' => $quiz->id]),
-            'success' => empty($errors),
+            'success' => empty($allErrors),
+            'errors' => $allErrors,
+            'errorsDumped' => VarDumper::dumpAsString($allErrors),
         ]);
 //    }
 //        echo json_encode([
