@@ -8,8 +8,8 @@
 
 namespace frontend\controllers;
 
-use common\models\MyActiveQuery;
-use common\models\MyActiveRecord;
+use common\db\MyActiveQuery;
+use common\db\MyActiveRecord;
 use common\models\UrlParam;
 use frontend\models\ArticleCategory;
 use frontend\models\UrlRedirection;
