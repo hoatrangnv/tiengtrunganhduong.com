@@ -65,8 +65,15 @@ AppAsset::register($this);
                     ['label' => 'Create', 'url' => ['/image2/default/create']],
                     ['label' => 'Update', 'url' => ['/image2/default/update'], 'visible' => false],
                     ['label' => 'View', 'url' => ['/image2/default/view'], 'visible' => false],
-//                    ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
+                    ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
                 ]],
+                ['label' => 'Audio', 'items' => [
+                    ['label' => 'Index', 'url' => ['/audio/audio/index']],
+                    ['label' => 'Create', 'url' => ['/audio/audio/create']],
+                    ['label' => 'Update', 'url' => ['/audio/audio/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/audio/audio/view'], 'visible' => false],
+                ]],
+
 //                ['label' => 'Site Param', 'items' => [
 //                    ['label' => 'Index', 'url' => ['/site-param/index']],
 //                    ['label' => 'Create', 'url' => ['/site-param/create']],
