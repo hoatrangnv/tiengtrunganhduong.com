@@ -38,7 +38,11 @@ function ckeditor(id) {
 //    filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
 //        filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
         filebrowserImageBrowseUrl: '<?= Yii::getAlias('@web/libs/ckfinder/ckfinder.html?type=Images') ?>',
-        filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+//        filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+        filebrowserUploadUrl: '<?php echo Url::to([
+            'upload/ckeditor-file',
+            Yii::$app->request->csrfParam => Yii::$app->request->csrfToken
+        ]) ?>',
         filebrowserImageUploadUrl: '<?php echo Url::to([
             'upload/ckeditor-image',
             Yii::$app->request->csrfParam => Yii::$app->request->csrfToken

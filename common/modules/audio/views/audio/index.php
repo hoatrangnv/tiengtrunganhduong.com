@@ -25,11 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'name',
-            'path',
+//            'name',
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function (\common\modules\audio\models\Audio $audio) {
+
+                    return Html::a($audio->name, $audio->getSource());
+                }
+            ],
+//            'path',
             'file_basename',
-            'file_extension',
-            // 'mime_type',
+//            'file_extension',
+            'mime_type',
             // 'duration',
             // 'quality',
             // 'create_time:datetime',

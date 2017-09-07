@@ -8,7 +8,8 @@
 
 namespace backend\controllers;
 
-use backend\models\Image;
+use common\models\Image;
+use common\models\Audio;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
@@ -22,7 +23,7 @@ class UploadController extends BaseController
     public function beforeAction($action)
     {
         // With some actions
-        if (in_array($action->id, ['ckeditor-image'])) {
+        if (in_array($action->id, ['ckeditor-image', 'ckeditor-file'])) {
             // @TODO: Retrieve CSRF token via GET method
             $token = Yii::$app->request->get(Yii::$app->request->csrfParam);
             if (Yii::$app->request->validateCsrfToken($token)) {
@@ -139,6 +140,47 @@ class UploadController extends BaseController
             ]]);
         } else {
             return json_encode(['success' => false, 'errors' => $image->getErrors()]);
+        }
+    }
+
+    public function actionCkeditorFile()
+    {
+
+        $funcNum = (string) Yii::$app->request->get('CKEditorFuncNum');
+        $funcNum = preg_replace('/[^0-9]/', '', $funcNum);
+//        $editor = Yii::$app->request->get('CKEditor');
+
+        $file = UploadedFile::getInstanceByName('upload');
+        switch (0) {
+            case strpos($file->type, 'audio/'):
+                $audio = new Audio();
+                $audio->audio_name_to_basename = true;
+                if ($audio->saveFileAndModel($file)) {
+                    $errorMessage = '';
+                    $fileUrl = $audio->getSource() . '?audio_id=' . $audio->id;
+                } else {
+                    $errorMessage = Yii::t('app', "Audio was not uploaded") . ': ';
+                    foreach ($audio->getErrors() as $attr => $errors) {
+                        $errorMessage .=
+                            "\n    $attr:\n        " .
+                            implode("\n        ",
+                                array_map(function ($error) {
+                                    return str_replace('"', "'", $error);
+                                }, $errors)
+                            );
+                    }
+                    $fileUrl = '';
+                }
+                ob_start();
+                ?>
+                <script type="text/javascript">
+                    /**
+                     * http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader)/Custom_File_Browser
+                     */
+                    window.parent.CKEDITOR.tools.callFunction(<?php echo json_encode($funcNum); ?>, <?php echo json_encode($fileUrl); ?>, <?php echo json_encode($errorMessage); ?>);
+                </script>
+                <?php
+                break;
         }
     }
 }
