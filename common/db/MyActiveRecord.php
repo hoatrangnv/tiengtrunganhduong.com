@@ -185,10 +185,10 @@ abstract class MyActiveRecord extends ActiveRecord
                 'content' => $this->$attribute,
                 'queries' => [
                     'Image' => function ($id) {
-                        return Image::find()->where(['id' => $id])->oneActive();
+                        return Image::find()->where(['id' => $id])->one();
                     },
                     'Audio' => function ($id) {
-                        return Audio::find()->where(['id' => $id])->oneActive();
+                        return Audio::find()->where(['id' => $id])->one();
                     }
                 ],
                 'enableDebugMode' => false,
