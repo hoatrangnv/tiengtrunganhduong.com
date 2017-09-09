@@ -12,7 +12,7 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
         $modelConfig = parent::modelConfig();
 
         $modelConfig['attrs'][] = [
-            'type' => 'MultipleSelect',
+            'type' => 'CheckboxGroup',
             'name' => 'quiz_input_validator_ids',
             'label' => 'Quiz input validators',
             'value' => [],
@@ -23,30 +23,45 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
 
         foreach ($modelConfig['attrs'] as &$attr) {
             $newAttr = $attr;
-            if ($newAttr['name'] === 'type') {
-                $newAttr['type'] = 'Select';
-                $newAttr['options'] = [
-                    // Limited answers types
-                    [
-                        'value' => 'Limited-answers Types:',
-                        'disabled' => true,
-                    ],
-                    'RadioGroup',
-                    'CheckboxGroup',
-                    'Select',
-                    'WordGuessing',
-                    'ImageMapCheckpointOne',
-                    'ImageMapCheckpointMany',
-                    // Unlimited answers types:
-                    [
-                        'value' => 'Unlimited-answers Types:',
-                        'disabled' => true,
-                    ],
-                    'Text',
-                    'Number',
-                    'Date',
-                    'Datetime',
-                ];
+            switch ($newAttr['name']) {
+                case 'type':
+                    $newAttr['type'] = 'Select';
+                    $newAttr['options'] = [
+                        // Limited answers types
+                        [
+                            'value' => 'Limited-answers Types:',
+                            'disabled' => true,
+                        ],
+                        'RadioGroup',
+                        'CheckboxGroup',
+                        'Select',
+                        'WordGuessing',
+                        'ImageMapCheckpointOne',
+                        'ImageMapCheckpointMany',
+                        // Unlimited answers types:
+                        [
+                            'value' => 'Unlimited-answers Types:',
+                            'disabled' => true,
+                        ],
+                        'Text',
+                        'Number',
+                        'Date',
+                        'Datetime',
+                    ];
+                    $newAttr['defaultValue'] = 'RadioGroup';
+                    break;
+                case 'name':
+                    $newAttr['defaultValue'] = 'Input @i{QuizInput}';
+                    break;
+                case 'var_name':
+                    $newAttr['defaultValue'] = 'input_@i{QuizInput}';
+                    break;
+                case 'required':
+                case 'auto_next':
+                case 'shuffle_options':
+                    $newAttr['defaultValue'] = 1;
+                    break;
+
             }
             $attr = $newAttr;
         }

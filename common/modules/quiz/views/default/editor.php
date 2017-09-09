@@ -45,7 +45,8 @@ if (Yii::$app->request->get('use_local_asset') == 1) {
         xhr.onload = function() {
             if (this.status == 200) {
                 var res = JSON.parse(this.response);
-//                console.log('Server got:', res);
+                console.log('Server got text:', this.response);
+                console.log('-- json parse -->', res);
 //                return res;
                 callback(res);
             } else {

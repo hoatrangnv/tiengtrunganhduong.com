@@ -66,6 +66,9 @@ php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_showed_
 
 
 
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" drop_is_open_question_column_from_quiz_input_table --fields="is_open_question:smallInteger(1)"
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" drop_inputs_per_rows_column_inputs_per_small_rows_column_inputs_appearance_column_from_quiz_input_group_table --fields="inputs_per_row:integer,inputs_per_small_row:integer,inputs_appearance:string"
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_input_questions_are_open_column_inputs_appear_simultaneously_column_to_quiz_input_group_table --fields="input_questions_are_open:smallInteger(1),inputs_appear_simultaneously:smallInteger(1)"
 
 
 

@@ -5,6 +5,13 @@ namespace common\modules\quiz\models;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use common\behaviors\MySluggableBehavior;
+
+/**
+ * Class Quiz
+ * @package common\modules\quiz\models
+ * @property string $publish_time_timestamp
+ */
 
 class Quiz extends \common\modules\quiz\baseModels\Quiz
 {
@@ -13,11 +20,15 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
         $modelConfig = parent::modelConfig();
 
         foreach ($modelConfig['attrs'] as &$attr) {
-            $newAttr = $attr;
-            switch ($newAttr['name']) {
+            switch ($attr['name']) {
+                case 'publish_time':
+                    $attr['name'] = 'publish_time_timestamp';
+                    $attr['type'] = 'Datetime';
+                    $attr['defaultValue'] = date(self::TIMESTAMP_FORMAT, self::getDefaultPublishTime());
+                    break;
                 case 'input_answers_showing':
-                    $newAttr['type'] = 'Select';
-                    $newAttr['options'] = [
+                    $attr['type'] = 'RadioGroup';
+                    $attr['options'] = [
 //                        [
 //                            'value' => 'AfterInputGroup',
 //                            'label' => 'Sau mỗi nhóm câu hỏi',
@@ -37,22 +48,36 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
                     ];
                     break;
                 case 'timeout_handling':
-                    $newAttr['type'] = 'Select';
-                    $newAttr['options'] = [
-                        'ShowResult',
-                        'GameOver',
+                    $attr['type'] = 'RadioGroup';
+                    $attr['options'] = [
+                        'ShowQuizResult',
+                        'EndQuiz',
                     ];
                     break;
                 case 'showed_stopwatches':
-                    $newAttr['type'] = 'MultipleSelect';
-                    $newAttr['options'] = [
+//                    $attr['type'] = 'MultipleSelect';
+                    $attr['type'] = 'CheckboxGroup';
+                    $attr['options'] = [
                         'total',
                         'allQAs',
                         'closedQAs',
                     ];
                     break;
+                case 'active':
+                case 'visible':
+                case 'doindex':
+                case 'dofollow':
+                    $attr['defaultValue'] = 1;
+                    break;
+                case 'slug':
+                    $attr['readOnly'] = true;
+                    $attr['placeholder'] = 'Auto generated from `name`';
+                    break;
+                case 'description':
+                case 'meta_description':
+                    $attr['type'] = 'TextArea';
+                    break;
             }
-            $attr = $newAttr;
         }
 
         return $modelConfig;
@@ -64,6 +89,13 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
     public function behaviors()
     {
         return [
+            [
+                'class' => MySluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
+                'ensureUnique' => true,
+                'immutable' => false
+            ],
             [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'creator_id',
@@ -84,41 +116,47 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
     public function rules()
     {
         return [
-            [['name', 'slug', 'publish_time'], 'required'],
+            [['name'], 'required'],
             [['introduction'], 'string'],
-            [['duration', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'image_id', 'quiz_category_id'], 'integer'],
+            [['duration', 'countdown_delay', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'publish_time', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['name', 'slug', 'timeout_handling', 'showed_stopwatches', 'input_answers_showing', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],
-            ['publish_time', 'date', 'format' => 'php:' . self::TIMESTAMP_FORMAT]
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id'], 'except' => 'test'],
+            [['quiz_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['quiz_category_id' => 'id'], 'except' => 'test'],
+            ['publish_time_timestamp', 'date', 'format' => 'php:' . self::TIMESTAMP_FORMAT],
+            ['publish_time', 'integer'],
         ];
     }
 
+    public $publish_time_timestamp;
+
     const TIMESTAMP_FORMAT = 'Y-m-d H:i:s';
 
-//    public function __construct(array $config = [])
-//    {
-//        // Init publish time for new record
-//        if ($this->isNewRecord) {
-//            $this->publish_time = date(self::TIMESTAMP_FORMAT, $this->getDefaultPublishTime());
-//        }
-//        parent::__construct($config);
-//    }
+    public function __construct(array $config = [])
+    {
+        // Init publish time for new record
+        if ($this->isNewRecord) {
+            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->getDefaultPublishTime());
+        }
+        parent::__construct($config);
+    }
 
     public function afterFind()
     {
         // Init publish time for record found
-        $this->publish_time = date(self::TIMESTAMP_FORMAT, $this->publish_time);
+        $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
         parent::afterFind();
     }
 
     public function beforeSave($insert)
     {
-        if (!$this->publish_time) {
+        if (!$this->publish_time_timestamp) {
             $this->publish_time = $this->getDefaultPublishTime();
+            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
         } else {
-            $this->publish_time = strtotime($this->publish_time);
+            $this->publish_time = strtotime($this->publish_time_timestamp);
         }
         return parent::beforeSave($insert);
     }

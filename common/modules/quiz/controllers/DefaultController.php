@@ -163,7 +163,6 @@ class DefaultController extends BaseController
             } else {
                 $attr['value'] = $quiz->getAttribute($attr['name']);
             }
-            $attr['errorMsg'] = '';
             $attrs[] = $attr;
         }
 
@@ -205,7 +204,7 @@ class DefaultController extends BaseController
                 if ($b->hasAttribute('sort_order')) {
                     return 1;
                 }
-
+                
                 return 0;
             });
 
@@ -224,7 +223,6 @@ class DefaultController extends BaseController
                 $modelConfig = $class::modelConfig();
                 foreach ($modelConfig['attrs'] as $attr) {
                     $attr['value'] = $child->getAttribute($attr['name']);
-                    $attr['errorMsg'] = '';
                     if ($attr['name'] == 'image_id') {
                         $image = Image::findOne($attr['value']);
                         if ($image) {
@@ -488,6 +486,7 @@ class DefaultController extends BaseController
 
     public function actionAjaxSave()
     {
+        $reload = false;
         $parseAttrs = function ($attrs) {
             $result = [];
             foreach ($attrs as $attr) {
@@ -508,10 +507,13 @@ class DefaultController extends BaseController
         };
         $state = json_decode(\Yii::$app->request->post('state'), true);
         $attrs = $parseAttrs($state['attrs']);
+        $old_slug = null;
         if ($attrs['id']) {
             $quiz = Quiz::findOne($attrs['id']);
+            $old_slug = $quiz->slug;
         } else {
             $quiz = new Quiz();
+            $reload = true;
         }
         $attrs['showed_stopwatches'] = json_encode($attrs['showed_stopwatches'] ? $attrs['showed_stopwatches'] : []);
         $quiz->setAttributes($attrs);
@@ -546,18 +548,18 @@ class DefaultController extends BaseController
 //*/
 //            ],
             'QuizResult' => [
-                /*
-                                [
-                                    '__id' => '',
-                                    'id' => null,
-                                    'junctions' => [
-                                        'quiz_character_medium_ids' => [],
-                                        'quiz_shape_ids' => [],
-                //                        'quiz_character_medium_filter_ids' => [],
-                //                        'quiz_shape_filter_ids' => [],
-                                    ],
-                                ],
-                */
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_character_medium_ids' => [],
+                        'quiz_shape_ids' => [],
+//                        'quiz_character_medium_filter_ids' => [],
+//                        'quiz_shape_filter_ids' => [],
+                    ],
+                ],
+*/
             ],
 //            'QuizCharacter' => [
 ///*
@@ -572,28 +574,28 @@ class DefaultController extends BaseController
 //*/
 //            ],
             'QuizCharacterMedium' => [
-                /*
-                                [
-                                    '__id' => '',
-                                    'id' => null,
-                                    'junctions' => [
-                                        'quiz_style_ids' => [],
-                //                        'quiz_filter_ids' => [],
-                //                        'quiz_sorter_ids' => [],
-                                    ],
-                                ],
-                */
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_style_ids' => [],
+//                        'quiz_filter_ids' => [],
+//                        'quiz_sorter_ids' => [],
+                    ],
+                ],
+*/
             ],
             'QuizShape' => [
-                /*
-                                [
-                                    '__id' => '',
-                                    'id' => null,
-                                    'junctions' => [
-                                        'quiz_style_ids' => [],
-                                    ]
-                                ],
-                */
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_style_ids' => [],
+                    ]
+                ],
+*/
             ],
 //            'QuizInputGroup' => [
 ///*
@@ -607,27 +609,27 @@ class DefaultController extends BaseController
 //*/
 //            ],
             'QuizInput' => [
-                /*
-                                [
-                                    '__id' => '',
-                                    'id' => null,
-                                    'junctions' => [
-                //                        'quiz_input_option_filter_ids' => [],
-                                        'quiz_validator_ids' => [],
-                                    ]
-                                ],
-                */
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+//                        'quiz_input_option_filter_ids' => [],
+                        'quiz_validator_ids' => [],
+                    ]
+                ],
+*/
             ],
             'QuizInputOption' => [
-                /*
-                                [
-                                    '__id' => '',
-                                    'id' => null,
-                                    'junctions' => [
-                                        'quiz_voted_result_ids' => [],
-                                    ]
-                                ],
-                */
+/*
+                [
+                    '__id' => '',
+                    'id' => null,
+                    'junctions' => [
+                        'quiz_voted_result_ids' => [],
+                    ]
+                ],
+*/
             ],
 
             'QuizInputValidator' => [
@@ -677,8 +679,8 @@ class DefaultController extends BaseController
          * @param $test
          */
         $loadModels = function (&$data, $parent, $test)
-        use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
-            &$loadModels, &$allErrors, &$task_order, &$sort_order, &$junctions) {
+            use ($parseAttrs, $testingId, $quiz_component_types, $addJunction,
+                &$loadModels, &$allErrors, &$task_order, &$sort_order, &$junctions) {
             // Delete no longer children
             $oldChildren = [];
             if (!$parent->isNewRecord) {
@@ -854,6 +856,11 @@ class DefaultController extends BaseController
                 $quiz->id = null;
             }
             if ($quiz->save()) {
+//                var_dump($quiz->slug);
+//                var_dump($old_slug);die;
+                if ($old_slug != $quiz->slug) {
+                    $reload = true;
+                }
 //                $addJunction(array_merge($state, ['type' => 'Quiz', 'id' => '__Quiz#' . $quiz->id]), $quiz, [
 //                    'quiz_input_group_filter_ids',
 //                    'quiz_character_filter_ids',
@@ -1141,17 +1148,16 @@ class DefaultController extends BaseController
                 }
             }
         }
-        echo json_encode([
+
+        $json_res = json_encode([
             'state' => $state,
-            'updateLink' => Url::to(['update', 'id' => $quiz->id]),
+            'reloadUrl' => $reload ? Url::to(['update', 'id' => $quiz->id]) : null,
             'success' => empty($allErrors),
             'errors' => $allErrors,
             'errorsDumped' => VarDumper::dumpAsString($allErrors),
         ]);
-//    }
-//        echo json_encode([
-//            'id' => $quiz->id,
-//            'errors' => $errors
-//        ]);
+
+        echo $json_res;
+
     }
 }

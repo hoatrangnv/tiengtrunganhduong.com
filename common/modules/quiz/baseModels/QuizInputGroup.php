@@ -15,10 +15,9 @@ use Yii;
  * @property integer $countdown_delay
  * @property string $timeout_handling
  * @property integer $task_order
- * @property integer $inputs_per_row
- * @property integer $inputs_per_small_row
- * @property string $inputs_appearance
  * @property integer $quiz_id
+ * @property integer $input_questions_are_open
+ * @property integer $inputs_appear_simultaneously
  *
  * @property QuizInput[] $quizInputs
  * @property Quiz $quiz
@@ -41,8 +40,8 @@ class QuizInputGroup extends QuizBase
         return [
             [['name', 'task_order', 'quiz_id'], 'required'],
             [['introduction'], 'string'],
-            [['duration', 'countdown_delay', 'task_order', 'inputs_per_row', 'inputs_per_small_row', 'quiz_id'], 'integer'],
-            [['name', 'title', 'timeout_handling', 'inputs_appearance'], 'string', 'max' => 255],
+            [['duration', 'countdown_delay', 'task_order', 'quiz_id', 'input_questions_are_open', 'inputs_appear_simultaneously'], 'integer'],
+            [['name', 'title', 'timeout_handling'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }
@@ -61,10 +60,9 @@ class QuizInputGroup extends QuizBase
             'countdown_delay' => 'Countdown Delay',
             'timeout_handling' => 'Timeout Handling',
             'task_order' => 'Task Order',
-            'inputs_per_row' => 'Inputs Per Row',
-            'inputs_per_small_row' => 'Inputs Per Small Row',
-            'inputs_appearance' => 'Inputs Appearance',
             'quiz_id' => 'Quiz ID',
+            'input_questions_are_open' => 'Input Questions Are Open',
+            'inputs_appear_simultaneously' => 'Inputs Appear Simultaneously',
         ];
     }
 

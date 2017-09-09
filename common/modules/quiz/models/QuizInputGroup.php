@@ -13,26 +13,30 @@ class QuizInputGroup extends \common\modules\quiz\baseModels\QuizInputGroup
         foreach ($modelConfig['attrs'] as &$attr) {
             $newAttr = $attr;
             switch ($newAttr['name']) {
-                case 'inputs_appearance':
-                    $newAttr['type'] = 'Select';
+//                case 'inputs_appearance':
+//                    $newAttr['type'] = 'RadioGroup';
+//                    $newAttr['options'] = [
+//                        [
+//                            'value' => 'Simultaneously',
+//                            'label' => 'Đồng thời',
+//                        ],
+//                        [
+//                            'value' => 'InTurn',
+//                            'label' => 'Lần lượt',
+//                        ]
+//                    ];
+//                    $newAttr['defaultValue'] = 'InTurn';
+//                    break;
+                case 'timeout_handling':
+                    $newAttr['type'] = 'RadioGroup';
                     $newAttr['options'] = [
-                        [
-                            'value' => 'Simultaneously',
-                            'label' => 'Đồng thời',
-                        ],
-                        [
-                            'value' => 'InTurn',
-                            'label' => 'Lần lượt',
-                        ]
+                        'ShowQuizResult',
+                        'EndQuiz',
+                        'EndCurrentQuizInputGroup',
                     ];
                     break;
-                case 'timeout_handling':
-                    $newAttr['type'] = 'Select';
-                    $newAttr['options'] = [
-                        'IgnoreInputGroup',
-                        'ShowResult',
-                        'GameOver',
-                    ];
+                case 'name':
+                    $newAttr['defaultValue'] = 'Input Group @i{QuizInputGroup}';
                     break;
             }
             $attr = $newAttr;

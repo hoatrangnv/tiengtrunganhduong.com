@@ -12,23 +12,38 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
 
         foreach ($modelConfig['attrs'] as &$attr) {
             $newAttr = $attr;
-            if ($newAttr['name'] === 'type') {
-                $newAttr['type'] = 'Select';
-                $newAttr['options'] = [
-                    'Bad',
-                    'Good',
-                    'Excellent',
-                    'Funny',
-                    'Sad',
-                    'Happy',
-                    'Default',
-                ];
+            switch ($newAttr['name']) {
+                case 'type':
+                    $newAttr['type'] = 'Select';
+                    $newAttr['options'] = [
+                        'Bad',
+                        'Good',
+                        'Excellent',
+                        'Funny',
+                        'Sad',
+                        'Happy',
+                        'Default',
+                    ];
+                    $newAttr['defaultValue'] = 'Default';
+                    break;
+                case 'name':
+                    $newAttr['defaultValue'] = 'Result @i{QuizResult}';
+                    break;
+                case 'canvas_width':
+                    $newAttr['defaultValue'] = 720;
+                    break;
+                case 'canvas_height':
+                    $newAttr['defaultValue'] = 377;
+                    break;
+                case 'canvas_background_color':
+                    $newAttr['defaultValue'] = 'white';
+                    break;
             }
             $attr = $newAttr;
         }
 
         $modelConfig['attrs'][] = [
-            'type' => 'MultipleSelect',
+            'type' => 'CheckboxGroup',
             'name' => 'quiz_shape_ids',
             'label' => 'Quiz shapes',
             'value' => [],
@@ -38,7 +53,7 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
         ];
 
         $modelConfig['attrs'][] = [
-            'type' => 'MultipleSelect',
+            'type' => 'CheckboxGroup',
             'name' => 'quiz_character_medium_ids',
             'label' => 'Quiz character media',
             'value' => [],

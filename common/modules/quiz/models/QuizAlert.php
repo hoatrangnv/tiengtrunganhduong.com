@@ -17,16 +17,22 @@ class QuizAlert extends \common\modules\quiz\baseModels\QuizAlert
 
         foreach ($modelConfig['attrs'] as &$attr) {
             $newAttr = $attr;
-            if ($newAttr['name'] === 'type') {
-                $newAttr['type'] = 'Select';
-                $newAttr['options'] = [
-                    'Info',
-                    'Warning',
-                    'Danger',
-                    'Success',
-                    'Primary',
-                    'Default',
-                ];
+            switch ($newAttr['name']) {
+                case 'type':
+                    $newAttr['type'] = 'Select';
+                    $newAttr['options'] = [
+                        'Info',
+                        'Warning',
+                        'Danger',
+                        'Success',
+                        'Primary',
+                        'Default',
+                    ];
+                    $newAttr['defaultValue'] = 'Default';
+                    break;
+                case 'name':
+                    $newAttr['defaultValue'] = 'Alert @i{QuizAlert}';
+                    break;
             }
             $attr = $newAttr;
         }

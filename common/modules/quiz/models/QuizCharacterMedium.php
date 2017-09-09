@@ -20,7 +20,7 @@ class QuizCharacterMedium extends \common\modules\quiz\baseModels\QuizCharacterM
         }
 
         $modelConfig['attrs'][] = [
-            'type' => 'MultipleSelect',
+            'type' => 'CheckboxGroup',
             'name' => 'quiz_style_ids',
             'label' => 'Quiz styles',
             'value' => [],

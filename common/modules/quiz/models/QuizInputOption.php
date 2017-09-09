@@ -11,7 +11,8 @@ class QuizInputOption extends \common\modules\quiz\baseModels\QuizInputOption
         $modelConfig = parent::modelConfig();
 
         $modelConfig['attrs'][] = [
-            'type' => 'MultipleSelect',
+//            'type' => 'MultipleSelect',
+            'type' => 'CheckboxGroup',
             'name' => 'quiz_voted_result_ids',
             'label' => 'Quiz voted results',
             'value' => [],
