@@ -38,4 +38,5 @@ return [
     'Submit' => 'Gửi đi',
     '{0,number} comments' => '{0,number} bình luận',
     '{0,number} views' => '{0,number} xem',
+    '{0,number} plays' => '{0,number} chơi',
 ];
