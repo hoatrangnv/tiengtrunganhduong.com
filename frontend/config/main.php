@@ -70,6 +70,7 @@ return [
                 ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'quiz/play'],
                 ['pattern' => 'quiz/get-sharing-data', 'route' => 'quiz/get-sharing-data'],
                 ['pattern' => 'quiz/test-callback', 'route' => 'quiz/test-callback'],
+                ['pattern' => 'quiz/ajax-update-counter', 'route' => 'quiz/ajax-update-counter'],
 
                 // User
                 ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],
