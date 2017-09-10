@@ -309,7 +309,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 console.log(xhttp.response);
             }
         };
-        xhttp.open("POST", "<?= Url::to(['article/ajax-update-counter']) ?>");
+        xhttp.open("POST", "<?= Url::to(['quiz/ajax-update-counter']) ?>");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("<?=
             (Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken)
