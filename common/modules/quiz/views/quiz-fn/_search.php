@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'body') ?>
 
+    <?php // echo $form->field($model, 'return_type') ?>
+
     <?php // echo $form->field($model, 'async') ?>
 
     <?php // echo $form->field($model, 'guideline') ?>

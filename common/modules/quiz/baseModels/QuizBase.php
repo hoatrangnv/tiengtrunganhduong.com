@@ -55,18 +55,6 @@ class QuizBase extends MyActiveRecord
             ])) {
 //                $type = 'Hidden';
                 $type = 'None';
-            } else if ($column->name == 'name') {
-                $type = 'Text';
-                $placeholder = 'My Name';
-            } else if ($column->name == 'var_name') {
-                $type = 'Text';
-                $placeholder = 'my_name';
-            } else if ($column->name == 'countdown_delay') {
-                $type = 'Number';
-                $placeholder = '= 100 by default, means 100% of second <=> 1 second';
-            } else if ($column->name == 'arguments') {
-                $type = 'TextArea';
-                $placeholder = "\"Example\"\n123456789\n@r.inputs.your_name.value";
             } else if ($column->name == 'image_id') {
                 $type = 'ImageSelect';
             } else if (substr($column->name, -5) == '_time') {
@@ -74,16 +62,35 @@ class QuizBase extends MyActiveRecord
             } else if (substr($column->name, -3) == '_id') {
                 $type = 'Select';
                 if (substr($column->name, -6) == '_fn_id') {
-                    $quizFns = self::shortClassName() == 'QuizParam'
-                        ? QuizFn::find()->all()
-                        : QuizFn::find()->where(['or', ['async' => 0], ['async' => null]])->all();
+                    $query = QuizFn::find();
+                    if (self::shortClassName() != 'QuizParam') {
+                        $query = $query->andWhere(['or', ['async' => 0], ['async' => null]]);
+                    }
+                    switch (self::shortClassName()) {
+                        case 'QuizInputValidator':
+                        case 'QuizInputOptionChecker':
+                        case 'QuizObjectFilter':
+                        case 'QuizCharacterDataFilter':
+                        case 'QuizCharacterMediumDataFilter':
+                            $query->andWhere(['return_type' => QuizFn::RETURN_TYPE_BOOLEAN]);
+                            break;
+                        case 'QuizCharacterDataSorter':
+                        case 'QuizCharacterMediumDataSorter':
+                            $query->andWhere(['return_type' => QuizFn::RETURN_TYPE_NUMBER]);
+                            break;
+                        case 'QuizParam':
+                            $query->orderBy('return_type asc, name asc');
+                            break;
+                    }
+                    $quizFns = $query->all();
                     foreach ($quizFns as $fn) {
                         /**
                          * @var $fn QuizFn
                          */
                         $options[] = [
-                            'label' => $fn->name,
-                            'value' => $fn->id
+                            'label' => "{{$fn->return_type}} {$fn->name}( {$fn->parameters} )",
+                            'value' => $fn->id,
+                            'extraInfo' => $fn->guideline
                         ];
                     }
                 }
@@ -110,6 +117,39 @@ class QuizBase extends MyActiveRecord
                         break;
                 }
             }
+
+            switch ($column->name) {
+                case 'name':
+                    $placeholder = 'My Name';
+                    break;
+                case 'var_name':
+                    $placeholder = 'my_name';
+                    break;
+                case 'countdown_delay':
+                    $placeholder = '100 by default, means 100% of second <=> 1 second';
+                    break;
+                case 'duration':
+                    $placeholder = 'seconds';
+                    break;
+                case 'arguments':
+                    $type = 'MonospaceTextArea';
+                    switch (self::shortClassName()) {
+                        case 'QuizParam':
+                            $placeholder = "\"each one on aline\" \n[\"abc\", 123, null] \n@r.characters.var_name.gender \n@r.inputs.var_name.value \n@r.params.var_name \n@statistics.score \n@elapsedTime.closedQAs";
+                            break;
+                        case 'QuizObjectFilter':
+                            $placeholder = "@item.name \n@r.inputs.your_choice.value \n[\"Group 1\", \"Group 3\"] \n\"odd\" \n[\"Group 2\", \"Group 4\"] \n\"even\" \n\"Group 2\" \n2";
+                            break;
+                        case 'QuizInputValidator':
+                            $placeholder = "@value \n@type";
+                            break;
+                        case 'QuizInputOptionChecker':
+                            $placeholder = "@value \n1000";
+                            break;
+                    }
+                    break;
+            }
+
             $inputConfig = [
                 'type' => $type,
                 'name' => $column->name,

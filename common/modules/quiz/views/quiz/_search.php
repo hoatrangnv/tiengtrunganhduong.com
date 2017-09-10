@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\modules\quiz\models\QuizSearch */
+/* @var $model common\modules\quiz\searchModels\Quiz */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -21,9 +21,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'slug') ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'introduction') ?>
 
-    <?= $form->field($model, 'meta_title') ?>
+    <?= $form->field($model, 'escape_html') ?>
+
+    <?php // echo $form->field($model, 'duration') ?>
+
+    <?php // echo $form->field($model, 'countdown_delay') ?>
+
+    <?php // echo $form->field($model, 'timeout_handling') ?>
+
+    <?php // echo $form->field($model, 'showed_stopwatches') ?>
+
+    <?php // echo $form->field($model, 'input_answers_showing') ?>
+
+    <?php // echo $form->field($model, 'description') ?>
+
+    <?php // echo $form->field($model, 'meta_title') ?>
 
     <?php // echo $form->field($model, 'meta_description') ?>
 
@@ -54,6 +68,14 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'image_id') ?>
 
     <?php // echo $form->field($model, 'quiz_category_id') ?>
+
+    <?php // echo $form->field($model, 'view_count') ?>
+
+    <?php // echo $form->field($model, 'like_count') ?>
+
+    <?php // echo $form->field($model, 'comment_count') ?>
+
+    <?php // echo $form->field($model, 'share_count') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

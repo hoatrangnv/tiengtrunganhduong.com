@@ -1,16 +1,16 @@
 <?php
 
-namespace common\modules\quiz\models;
+namespace common\modules\quiz\searchModels;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\modules\quiz\models\Quiz;
+use common\modules\quiz\models\Quiz as QuizModel;
 
 /**
- * QuizSearch represents the model behind the search form about `common\modules\quiz\models\Quiz`.
+ * Quiz represents the model behind the search form about `common\modules\quiz\models\Quiz`.
  */
-class QuizSearch extends Quiz
+class Quiz extends QuizModel
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class QuizSearch extends Quiz
     public function rules()
     {
         return [
-            [['id', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id'], 'integer'],
-            [['name', 'slug', 'description', 'meta_title', 'meta_description', 'meta_keywords'], 'safe'],
+            [['id', 'escape_html', 'duration', 'countdown_delay', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
+            [['name', 'slug', 'introduction', 'timeout_handling', 'showed_stopwatches', 'input_answers_showing', 'description', 'meta_title', 'meta_description', 'meta_keywords'], 'safe'],
         ];
     }
 
@@ -41,12 +41,21 @@ class QuizSearch extends Quiz
      */
     public function search($params)
     {
-        $query = Quiz::find();
+        $query = QuizModel::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort'=> [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
@@ -60,6 +69,9 @@ class QuizSearch extends Quiz
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'escape_html' => $this->escape_html,
+            'duration' => $this->duration,
+            'countdown_delay' => $this->countdown_delay,
             'sort_order' => $this->sort_order,
             'active' => $this->active,
             'visible' => $this->visible,
@@ -73,10 +85,18 @@ class QuizSearch extends Quiz
             'updater_id' => $this->updater_id,
             'image_id' => $this->image_id,
             'quiz_category_id' => $this->quiz_category_id,
+            'view_count' => $this->view_count,
+            'like_count' => $this->like_count,
+            'comment_count' => $this->comment_count,
+            'share_count' => $this->share_count,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['like', 'introduction', $this->introduction])
+            ->andFilterWhere(['like', 'timeout_handling', $this->timeout_handling])
+            ->andFilterWhere(['like', 'showed_stopwatches', $this->showed_stopwatches])
+            ->andFilterWhere(['like', 'input_answers_showing', $this->input_answers_showing])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'meta_title', $this->meta_title])
             ->andFilterWhere(['like', 'meta_description', $this->meta_description])

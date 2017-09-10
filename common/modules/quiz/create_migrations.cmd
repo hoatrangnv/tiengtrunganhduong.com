@@ -26,7 +26,7 @@ php yii my-migrate/create --migrationPath="@modules/quiz/migrations" create_junc
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" create_junction_quiz_result_and_quiz_character_medium_for_quiz_result_and_quiz_character_medium_tables
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" create_junction_quiz_input_and_quiz_input_validator_for_quiz_input_and_quiz_input_validator_tables
 
-php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_error_message_column_to_quiz_input_validator_table --fields="error_message:string"
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_error_message_column_to_quiz_input_validator_table --fields="error_message:string:notNull"
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_guideline_column_to_quiz_fn_table --fields="guideline:text"
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_is_open_question_column_to_quiz_input_table --fields="is_open_question:smallInteger(1)"
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_width_column_height_column_to_quiz_character_medium_table --fields="width:integer,height:integer"
@@ -69,6 +69,9 @@ php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_showed_
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" drop_is_open_question_column_from_quiz_input_table --fields="is_open_question:smallInteger(1)"
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" drop_inputs_per_rows_column_inputs_per_small_rows_column_inputs_appearance_column_from_quiz_input_group_table --fields="inputs_per_row:integer,inputs_per_small_row:integer,inputs_appearance:string"
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_input_questions_are_open_column_inputs_appear_simultaneously_column_to_quiz_input_group_table --fields="input_questions_are_open:smallInteger(1),inputs_appear_simultaneously:smallInteger(1)"
+
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_return_type_column_to_quiz_fn_table --fields="return_type:string:notNull"
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_escape_html_column_to_quiz_table --fields="escape_html:smallInteger(1)"
 
 
 

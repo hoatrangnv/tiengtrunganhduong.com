@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property string $slug
  * @property string $introduction
+ * @property integer $escape_html
  * @property integer $duration
  * @property integer $countdown_delay
  * @property string $timeout_handling
@@ -70,7 +71,7 @@ class Quiz extends QuizBase
         return [
             [['name', 'slug', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id'], 'required'],
             [['introduction'], 'string'],
-            [['duration', 'countdown_delay', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
+            [['escape_html', 'duration', 'countdown_delay', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'create_time', 'update_time', 'publish_time', 'creator_id', 'updater_id', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['name', 'slug', 'timeout_handling', 'showed_stopwatches', 'input_answers_showing', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
@@ -92,6 +93,7 @@ class Quiz extends QuizBase
             'name' => 'Name',
             'slug' => 'Slug',
             'introduction' => 'Introduction',
+            'escape_html' => 'Escape Html',
             'duration' => 'Duration',
             'countdown_delay' => 'Countdown Delay',
             'timeout_handling' => 'Timeout Handling',

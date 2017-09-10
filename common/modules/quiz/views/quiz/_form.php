@@ -16,6 +16,18 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'introduction')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'duration')->textInput() ?>
+
+    <?= $form->field($model, 'countdown_delay')->textInput() ?>
+
+    <?= $form->field($model, 'timeout_handling')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'showed_stopwatches')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'input_answers_showing')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
@@ -41,6 +53,14 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'image_id')->textInput() ?>
 
     <?= $form->field($model, 'quiz_category_id')->textInput() ?>
+
+    <?= $form->field($model, 'view_count')->textInput() ?>
+
+    <?= $form->field($model, 'like_count')->textInput() ?>
+
+    <?= $form->field($model, 'comment_count')->textInput() ?>
+
+    <?= $form->field($model, 'share_count')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

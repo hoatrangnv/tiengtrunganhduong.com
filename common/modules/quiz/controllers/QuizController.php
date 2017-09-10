@@ -4,9 +4,11 @@ namespace common\modules\quiz\controllers;
 
 use Yii;
 use common\modules\quiz\models\Quiz;
-use common\modules\quiz\models\QuizSearch;
+use common\modules\quiz\searchModels\Quiz as QuizSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 
 /**
  * QuizController implements the CRUD actions for Quiz model.
@@ -67,6 +69,9 @@ class QuizController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if ($model->hasErrors()) {
+                Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->getErrors()));
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -86,6 +91,9 @@ class QuizController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if ($model->hasErrors()) {
+                Yii::$app->session->setFlash('error', VarDumper::dumpAsString($model->getErrors()));
+            }
             return $this->render('update', [
                 'model' => $model,
             ]);

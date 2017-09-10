@@ -10,7 +10,6 @@ use common\behaviors\MySluggableBehavior;
 /**
  * Class Quiz
  * @package common\modules\quiz\models
- * @property string $publish_time_timestamp
  */
 
 class Quiz extends \common\modules\quiz\baseModels\Quiz
@@ -22,7 +21,6 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
         foreach ($modelConfig['attrs'] as &$attr) {
             switch ($attr['name']) {
                 case 'publish_time':
-                    $attr['name'] = 'publish_time_timestamp';
                     $attr['type'] = 'Datetime';
                     $attr['defaultValue'] = date(self::TIMESTAMP_FORMAT, self::getDefaultPublishTime());
                     break;
@@ -118,50 +116,46 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
         return [
             [['name'], 'required'],
             [['introduction'], 'string'],
-            [['duration', 'countdown_delay', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'publish_time', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
+            [['escape_html', 'duration', 'countdown_delay', 'sort_order', 'active', 'visible', 'doindex', 'dofollow', 'featured', 'image_id', 'quiz_category_id', 'view_count', 'like_count', 'comment_count', 'share_count'], 'integer'],
             [['name', 'slug', 'timeout_handling', 'showed_stopwatches', 'input_answers_showing', 'meta_title'], 'string', 'max' => 255],
             [['description', 'meta_description', 'meta_keywords'], 'string', 'max' => 511],
             [['name'], 'unique'],
             [['slug'], 'unique'],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id'], 'except' => 'test'],
             [['quiz_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCategory::className(), 'targetAttribute' => ['quiz_category_id' => 'id'], 'except' => 'test'],
-            ['publish_time_timestamp', 'date', 'format' => 'php:' . self::TIMESTAMP_FORMAT],
-            ['publish_time', 'integer'],
+            ['publish_time', 'date', 'format' => 'php:' . self::TIMESTAMP_FORMAT]
         ];
     }
 
-    public $publish_time_timestamp;
-
     const TIMESTAMP_FORMAT = 'Y-m-d H:i:s';
 
-    public function __construct(array $config = [])
-    {
-        // Init publish time for new record
-        if ($this->isNewRecord) {
-            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->getDefaultPublishTime());
-        }
-        parent::__construct($config);
-    }
+//    public function __construct(array $config = [])
+//    {
+//        // Init publish time for new record
+//        if ($this->isNewRecord) {
+//            $this->publish_time = date(self::TIMESTAMP_FORMAT, self::getDefaultPublishTime());
+//        }
+//        parent::__construct($config);
+//    }
 
     public function afterFind()
     {
         // Init publish time for record found
-        $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
+        $this->publish_time = date(self::TIMESTAMP_FORMAT, $this->publish_time);
         parent::afterFind();
     }
 
     public function beforeSave($insert)
     {
-        if (!$this->publish_time_timestamp) {
-            $this->publish_time = $this->getDefaultPublishTime();
-            $this->publish_time_timestamp = date(self::TIMESTAMP_FORMAT, $this->publish_time);
+        if (!$this->publish_time) {
+            $this->publish_time = self::getDefaultPublishTime();
         } else {
-            $this->publish_time = strtotime($this->publish_time_timestamp);
+            $this->publish_time = strtotime($this->publish_time);
         }
         return parent::beforeSave($insert);
     }
 
-    public function getDefaultPublishTime()
+    public static function getDefaultPublishTime()
     {
         // Round up ten minute (600s)
         return 600 * ceil(time() / 600);

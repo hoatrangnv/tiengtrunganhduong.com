@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
             'parameters',
             'body:ntext',
+            // 'return_type',
             // 'async',
             // 'guideline:ntext',
 

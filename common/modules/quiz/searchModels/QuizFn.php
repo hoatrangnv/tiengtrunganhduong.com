@@ -19,7 +19,7 @@ class QuizFn extends QuizFnModel
     {
         return [
             [['id', 'async'], 'integer'],
-            [['name', 'description', 'parameters', 'body', 'guideline'], 'safe'],
+            [['name', 'description', 'parameters', 'body', 'return_type', 'guideline'], 'safe'],
         ];
     }
 
@@ -49,6 +49,15 @@ class QuizFn extends QuizFnModel
             'query' => $query,
         ]);
 
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort'=> [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
+        ]);
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -67,6 +76,7 @@ class QuizFn extends QuizFnModel
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'parameters', $this->parameters])
             ->andFilterWhere(['like', 'body', $this->body])
+            ->andFilterWhere(['like', 'return_type', $this->return_type])
             ->andFilterWhere(['like', 'guideline', $this->guideline]);
 
         return $dataProvider;

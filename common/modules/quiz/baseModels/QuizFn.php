@@ -12,6 +12,7 @@ use Yii;
  * @property string $description
  * @property string $parameters
  * @property string $body
+ * @property string $return_type
  * @property integer $async
  * @property string $guideline
  *
@@ -19,6 +20,7 @@ use Yii;
  * @property QuizCharacterDataSorter[] $quizCharacterDataSorters
  * @property QuizCharacterMediumDataFilter[] $quizCharacterMediumDataFilters
  * @property QuizCharacterMediumDataSorter[] $quizCharacterMediumDataSorters
+ * @property QuizInputOptionChecker[] $quizInputOptionCheckers
  * @property QuizInputValidator[] $quizInputValidators
  * @property QuizObjectFilter[] $quizObjectFilters
  * @property QuizParam[] $quizParams
@@ -39,10 +41,10 @@ class QuizFn extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'parameters', 'body'], 'required'],
+            [['name', 'parameters', 'body', 'return_type'], 'required'],
             [['body', 'guideline'], 'string'],
             [['async'], 'integer'],
-            [['name', 'parameters'], 'string', 'max' => 255],
+            [['name', 'parameters', 'return_type'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 511],
         ];
     }
@@ -58,6 +60,7 @@ class QuizFn extends QuizBase
             'description' => 'Description',
             'parameters' => 'Parameters',
             'body' => 'Body',
+            'return_type' => 'Return Type',
             'async' => 'Async',
             'guideline' => 'Guideline',
         ];
@@ -93,6 +96,14 @@ class QuizFn extends QuizBase
     public function getQuizCharacterMediumDataSorters()
     {
         return $this->hasMany(QuizCharacterMediumDataSorter::className(), ['quiz_fn_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuizInputOptionCheckers()
+    {
+        return $this->hasMany(QuizInputOptionChecker::className(), ['quiz_fn_id' => 'id']);
     }
 
     /**
