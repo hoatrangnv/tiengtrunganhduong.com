@@ -489,15 +489,21 @@ class DefaultController extends BaseController
         $reload = false;
         $parseAttrs = function ($attrs) {
             $result = [];
+//            var_dump($attrs);die;
             foreach ($attrs as $attr) {
                 try {
-                    if ($attr['name'] == 'arguments') {
-                        $arr_value = array_map(function ($item) {
-                            return trim($item);
-                        }, explode(self::$argsSeparator, $attr['value']));
-                        $result[$attr['name']] = json_encode($arr_value);
-                    } else {
-                        $result[$attr['name']] = $attr['value'];
+                    switch ($attr['name']) {
+                        case 'arguments':
+                            $arr_value = array_map(function ($item) {
+                                return trim($item);
+                            }, explode(self::$argsSeparator, $attr['value']));
+                            $result[$attr['name']] = json_encode($arr_value);
+                            break;
+//                        case 'duration':
+//                            var_dump($attr['value']);die;
+//                            break;
+                        default:
+                            $result[$attr['name']] = $attr['value'];
                     }
                 } catch (\Exception $e) {
 //                    var_dump($attr);
