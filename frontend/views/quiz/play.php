@@ -32,6 +32,7 @@ if (Yii::$app->request->get('use_local_asset') == 1) {
  */
 
 $this->title = $quiz->name;
+$this->params['breadcrumbs'][] = ['label' => 'Quizzes', 'url' => ['quiz/index'], ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content-box fit-content">
