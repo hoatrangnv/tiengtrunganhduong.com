@@ -55,14 +55,20 @@ $this->params['breadcrumbs'][] = $this->title;
         "Start": "Bắt đầu",
         "Login": "Đăng nhập để bắt đầu",
         "Share": "Chia sẻ với bạn bè",
-        "Wait for minute": "Chờ một chút nhé",
-        "Loading": "Đang tải",
+        "Wait for minute": "Chờ chút nhé...",
+        "Loading": "Đang tải...",
+        "Loading images": "Đang tải ảnh...",
         "Next": "Tiếp theo",
+        "Try again": "Hãy thử lại!",
+        "This is required": "Câu hỏi bắt buộc trả lời!",
+        "Please fulfill this word": "Hãy hoàn thành chữ này!",
         "Common remaining time": "Thời gian còn lại",
         "Group remaining time": "Thời gian còn lại",
         "Total time": "Thời gian",
         "All questions answering time": "Thời gian trả lời câu hỏi",
-        "Closed questions answering time": "Thời gian trả lời câu hỏi tính điểm"
+        "Closed questions answering time": "Thời gian trả lời câu hỏi tính điểm",
+        "Failed to load images": "Lỗi không tải được ảnh :(",
+        "Failed to get sharing data": "Lỗi ko chia sẻ đc :("
     };
     window.QuizPlayRoot = document.getElementById("quiz-play-root");
     window.QuizPlayProps = {
