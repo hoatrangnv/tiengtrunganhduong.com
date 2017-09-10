@@ -25,7 +25,7 @@ class Quiz extends \common\modules\quiz\models\Quiz
 
     public function date()
     {
-        return date('d/m/Y H:i', (int) $this->publish_time);
+        return date('d/m/Y H:i', strtotime($this->publish_time));
     }
 
     public function views()
