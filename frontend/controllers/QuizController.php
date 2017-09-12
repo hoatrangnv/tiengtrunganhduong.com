@@ -248,7 +248,11 @@ class QuizController extends BaseController
         $name = Yii::$app->request->getBodyParam('name');
         $words = explode(' ', $name);
         $response = [
-            'data' => null,
+            'data' => [
+                'name' => '',
+                'translated_name' => '',
+                'spelling' => '',
+            ],
             'error_message' => '',
         ];
         foreach ($words as $word) {
@@ -256,7 +260,9 @@ class QuizController extends BaseController
             if ($word) {
                 $translation = NameTranslation::findOne(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE]);
                 if ($translation) {
-                    $response['data'][] = $translation->attributes;
+                    $response['data']['name'] .= ' ' . $translation->word;
+                    $response['data']['translated_name'] .= ' ' . $translation->word;
+                    $response['data']['spelling'] .= ' ' . $translation->spelling;
                 }
             }
         }
