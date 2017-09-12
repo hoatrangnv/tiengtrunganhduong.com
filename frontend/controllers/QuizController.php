@@ -245,7 +245,7 @@ class QuizController extends BaseController
 
     public function actionTranslateName()
     {
-        $name = Yii::$app->request->getBodyParam('name');
+        $name = Yii::$app->request->get('name');
         $words = explode(' ', $name);
         $response = [
             'data' => [
@@ -257,6 +257,7 @@ class QuizController extends BaseController
         ];
         foreach ($words as $word) {
             $word = strtolower(trim($word));
+            var_dump($word);
             if ($word) {
                 $translation = NameTranslation::findOne(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE]);
                 if ($translation) {
