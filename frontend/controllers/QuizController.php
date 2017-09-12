@@ -257,7 +257,6 @@ class QuizController extends BaseController
         ];
         foreach ($words as $word) {
             $word = strtolower(trim($word));
-            var_dump($word);
             if ($word) {
                 $translation = NameTranslation::findOne(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE]);
                 if ($translation) {
