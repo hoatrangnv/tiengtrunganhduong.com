@@ -261,7 +261,7 @@ class QuizController extends BaseController
                 $translation = NameTranslation::findOne(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE]);
                 if ($translation) {
                     $response['data']['name'] .= ' ' . $translation->word;
-                    $response['data']['translated_name'] .= ' ' . $translation->word;
+                    $response['data']['translated_name'] .= ' ' . $translation->translated_word;
                     $response['data']['spelling'] .= ' ' . $translation->spelling;
                 }
             }
