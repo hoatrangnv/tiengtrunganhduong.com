@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\NameTranslation;
 use common\models\UrlParam;
 use common\utils\FacebookDebugger;
 use Facebook\Facebook;
@@ -240,5 +241,32 @@ class QuizController extends BaseController
     public function actionTestCallback()
     {
         echo '{"value":"hahaha"}';
+    }
+
+    public function actionTranslateName()
+    {
+        $name = Yii::$app->request->get('name');
+        $words = explode(' ', $name);
+        $response = [
+            'data' => [
+                'name' => '',
+                'translated_name' => '',
+                'spelling' => '',
+            ],
+            'error_message' => '',
+        ];
+        foreach ($words as $word) {
+            $word = strtolower(trim($word));
+            if ($word) {
+                $translation = NameTranslation::findOne(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE]);
+                if ($translation) {
+                    $response['data']['name'] .= ' ' . $translation->word;
+                    $response['data']['translated_name'] .= ' ' . $translation->translated_word;
+                    $response['data']['spelling'] .= ' ' . $translation->spelling;
+                }
+            }
+        }
+        echo json_encode($response);
+        exit();
     }
 }
