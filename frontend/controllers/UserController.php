@@ -172,10 +172,10 @@ class UserController extends Controller
         ];
 
         $queryStr = '';
-        if (is_int($width) && $width > 0) {
+        if (is_numeric($width) && $width > 0) {
             $queryStr = "width=$width";
         }
-        if (is_int($height) && $height > 0) {
+        if (is_numeric($height) && $height > 0) {
             if ($queryStr) {
                 $queryStr .= '&';
             }
