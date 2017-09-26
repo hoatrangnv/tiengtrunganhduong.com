@@ -36,23 +36,20 @@ class BaseController extends Controller
     {
         Yii::$app->params['amp'] = ('amp' === Yii::$app->request->get(UrlParam::AMP));
 
-        // @TODO: AMP
-        if (in_array(Yii::$app->requestedRoute, ['site/index', 'article/index', 'article/view', 'article/category'])) {
-            if (!Yii::$app->params['amp']) {
-                $arrUrl = array_merge([Yii::$app->requestedRoute, UrlParam::AMP => 'amp'], Yii::$app->request->get());
-                $this->ampLink = Url::to($arrUrl, true);
-            } else {
-                $reqParams = Yii::$app->request->get();
-                if (isset($reqParams[UrlParam::AMP])) {
-                    unset($reqParams[UrlParam::AMP]);
-                }
-                $arrUrl = array_merge([Yii::$app->requestedRoute], $reqParams);
-                $this->canonicalLink = Url::to($arrUrl, true);
+        // Canonical & AMP
+        $reqParams = Yii::$app->request->get();
+        $allAvailableParams = UrlParam::getAllParams();
+        $canonicalParams = [];
+        foreach ($reqParams as $paramName => $paramValue) {
+            if (UrlParam::AMP != $paramName && isset($allAvailableParams[$paramName])) {
+                $canonicalParams[$paramName] = $paramValue;
             }
         }
-
-        if (!$this->canonicalLink) {
-            $this->canonicalLink = Url::current([], true);
+        $this->canonicalLink = Url::to(array_merge([Yii::$app->requestedRoute], $canonicalParams), true);
+        if (in_array(Yii::$app->requestedRoute, ['site/index', 'article/index', 'article/view', 'article/category'])) {
+            if (!Yii::$app->params['amp']) {
+                $this->ampLink = Url::to(array_merge([Yii::$app->requestedRoute], array_merge($canonicalParams, [UrlParam::AMP => 'amp'])), true);
+            }
         }
 
         if (Yii::$app->params['amp']) {
