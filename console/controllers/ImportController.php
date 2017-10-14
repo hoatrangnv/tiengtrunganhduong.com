@@ -15,7 +15,7 @@ class ImportController extends Controller {
             }
             $translation->word = $item['name'];
             $translation->translated_word = $item['trans'];
-            $translation->spelling = $item['spelling'];
+            $translation->spelling = $item['spell'];
             $translation->status = 1;
             echo "\nImport word = $translation->word";
             if (!$translation->save()) {
