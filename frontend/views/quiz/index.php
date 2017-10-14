@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                formatNumbers();
             }
         };
-        xhttp.open("POST", "<?= Url::to(['article/ajax-get-items'], true) ?>");
+        xhttp.open("POST", "<?= Url::to(['quiz/ajax-get-items'], true) ?>");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("<?=
             (Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken)
