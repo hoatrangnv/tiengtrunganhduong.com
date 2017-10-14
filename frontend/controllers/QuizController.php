@@ -269,9 +269,9 @@ class QuizController extends BaseController
                         break;
                     }
                 }
-                if (!$translation && !empty($translations)) {
-                    $translation = $translations[0];
-                }
+//                if (!$translation && !empty($translations)) {
+//                    $translation = $translations[0];
+//                }
                 if ($translation) {
                     $response['data']['name'] .= ' ' . $translation->word;
                     $response['data']['translated_name'] .= ' ' . $translation->translated_word;
