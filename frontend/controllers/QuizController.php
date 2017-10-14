@@ -273,7 +273,7 @@ class QuizController extends BaseController
 //                    $translation = $translations[0];
 //                }
                 if ($translation) {
-                    $response['data']['name'] .= ' ' . $o_word;
+                    $response['data']['name'] .= ' ' . trim($o_word);
                     $response['data']['translated_name'] .= ' ' . $translation->translated_word;
                     $response['data']['spelling'] .= ' ' . $translation->spelling;
                 }
