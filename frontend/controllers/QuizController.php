@@ -255,12 +255,25 @@ class QuizController extends BaseController
             ],
             'error_message' => '',
         ];
-        foreach ($words as $word) {
-            $word = strtolower(trim($word));
+        foreach ($words as $o_word) {
+            $word = strtolower(trim($o_word));
             if ($word) {
-                $translation = NameTranslation::findOne(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE]);
+                $translations = NameTranslation::find()->where(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE])->all();
+                $translation = null;
+                foreach ($translations as $record) {
+                    /**
+                     * @var $record NameTranslation
+                     */
+                    if (strtolower(trim($record->word)) == $word) {
+                        $translation = $record;
+                        break;
+                    }
+                }
+//                if (!$translation && !empty($translations)) {
+//                    $translation = $translations[0];
+//                }
                 if ($translation) {
-                    $response['data']['name'] .= ' ' . $translation->word;
+                    $response['data']['name'] .= ' ' . trim($o_word);
                     $response['data']['translated_name'] .= ' ' . $translation->translated_word;
                     $response['data']['spelling'] .= ' ' . $translation->spelling;
                 }

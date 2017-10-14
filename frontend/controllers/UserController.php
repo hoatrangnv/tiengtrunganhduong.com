@@ -162,8 +162,8 @@ class UserController extends Controller
         if (!$userID) {
             exit;
         }
-        $width = Yii::$app->request->get('width', 0);
-        $height = Yii::$app->request->get('height', 0);
+        $width = Yii::$app->request->get('width');
+        $height = Yii::$app->request->get('height');
         $contextOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -172,10 +172,10 @@ class UserController extends Controller
         ];
 
         $queryStr = '';
-        if ($width > 0) {
+        if (is_numeric($width) && $width > 0) {
             $queryStr = "width=$width";
         }
-        if ($height > 0) {
+        if (is_numeric($height) && $height > 0) {
             if ($queryStr) {
                 $queryStr .= '&';
             }
@@ -185,13 +185,17 @@ class UserController extends Controller
             $queryStr = "?$queryStr";
         }
 
-        $image_data = file_get_contents(
+        $image_data = @file_get_contents(
             "https://graph.facebook.com/$userID/picture$queryStr",
             false,
             stream_context_create($contextOptions)
         );
 
         header("Content-Type: image/jpeg");
-        imagejpeg(imagecreatefromstring($image_data));
+
+        if ($image_data) {
+            imagejpeg(imagecreatefromstring($image_data));
+        }
+
     }
 }

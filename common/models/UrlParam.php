@@ -23,8 +23,30 @@ class UrlParam
     const VALUE = 'value';
     const FIELD = 'field';
     const AMP = 'amp';
-
     const SHARING_TITLE = 'sharing_title';
     const SHARING_DESCRIPTION = 'sharing_description';
     const SHARING_IMAGE_SRC = 'sharing_image_src';
+
+    public static function getAllParams()
+    {
+        $allParams = [
+            self::SLUG,
+            self::PARENT_SLUG,
+            self::CATEGORY_SLUG,
+            self::ALIAS,
+            self::TYPE,
+            self::ACTION_ID,
+            self::PAGE,
+            self::KEYWORD,
+            self::NAME,
+            self::VALUE,
+            self::FIELD,
+            self::AMP,
+            self::SHARING_TITLE,
+            self::SHARING_DESCRIPTION,
+            self::SHARING_IMAGE_SRC,
+        ];
+
+        return array_combine($allParams, $allParams);
+    }
 }
