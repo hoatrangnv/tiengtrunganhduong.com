@@ -255,8 +255,8 @@ class QuizController extends BaseController
             ],
             'error_message' => '',
         ];
-        foreach ($words as $word) {
-            $word = strtolower(trim($word));
+        foreach ($words as $o_word) {
+            $word = strtolower(trim($o_word));
             if ($word) {
                 $translations = NameTranslation::find()->where(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE])->all();
                 $translation = null;
@@ -273,7 +273,7 @@ class QuizController extends BaseController
 //                    $translation = $translations[0];
 //                }
                 if ($translation) {
-                    $response['data']['name'] .= ' ' . $translation->word;
+                    $response['data']['name'] .= ' ' . $o_word;
                     $response['data']['translated_name'] .= ' ' . $translation->translated_word;
                     $response['data']['spelling'] .= ' ' . $translation->spelling;
                 }
