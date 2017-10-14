@@ -13,7 +13,7 @@ class ImportController extends Controller {
             if (!($translation = NameTranslation::find()->where(['word' => $item['name']])->one())) {
                 $translation = new NameTranslation();
             }
-            $translation->word = $item['name'];
+            $translation->word = strtolower($item['name']);
             $translation->translated_word = $item['trans'];
             $translation->spelling = $item['spell'];
             $translation->status = 1;
