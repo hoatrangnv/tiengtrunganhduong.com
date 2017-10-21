@@ -30,13 +30,6 @@ $seoInfo->registerLinkTags($this);
 <?php $this->head() ?>
 <?php echo Html::csrfMetaTags() ?>
 <style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-        google_ad_client: "ca-pub-5467392149281559",
-        enable_page_level_ads: true
-    });
-</script>
 </head>
 <body>
 <?php $this->beginBody() ?>
