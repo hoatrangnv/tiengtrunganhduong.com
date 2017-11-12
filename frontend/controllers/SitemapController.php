@@ -106,11 +106,11 @@ class SitemapController extends Controller
              */
             $image = $article->getImage()->oneActive();
             if ($image) {
-                $url['image'] = [
-                    'loc' => urldecode($image->getSource()),
-                    'title' => Html::encode($image->name),
-                    'caption' => Html::encode($image->name)
-                ];
+//                $url['image'] = [
+//                    'loc' => urldecode($image->getSource()),
+//                    'title' => Html::encode($image->name),
+//                    'caption' => Html::encode($image->name)
+//                ];
             }
             $url['news'] = [
                 'publication_date' => date('c', $article->publish_time),
