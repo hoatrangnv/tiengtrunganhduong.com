@@ -11,6 +11,7 @@ namespace frontend\controllers;
 
 use common\models\UrlParam;
 use frontend\models\Article;
+use frontend\models\Image;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -95,12 +96,18 @@ class SitemapController extends Controller
 
         $urls = [];
 
+        /**
+         * @var $articles Article[]
+         */
         foreach ($articles as $article) {
             $url = ['loc' => $article->getUrl([], true)];
+            /**
+             * @var $image Image
+             */
             $image = $article->getImage()->oneActive();
             if ($image) {
                 $url['image'] = [
-                    'loc' => $image->getSource(),
+                    'loc' => rawurldecode($image->getSource()),
                     'title' => Html::encode($image->name),
                     'caption' => Html::encode($image->name)
                 ];
