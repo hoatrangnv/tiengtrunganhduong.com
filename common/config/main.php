@@ -34,10 +34,10 @@ return [
     'aliases' => [
         '@quiz' => '@common/modules/quiz',
         '@mdm/admin' => '@backend/mdm.admin',
-        '@frontendUrl' => 'http://tiengtrunganhduong.com',
-        '@backendUrl' => 'http://admin.tiengtrunganhduong.com',
-        '@imagesUrl' => 'http://tiengtrunganhduong.com/images',
-        '@audiosUrl' => 'http://tiengtrunganhduong.com/audios',
-        '@quizImagesUrl' => 'http://tiengtrunganhduong.com/quiz-images',
+        '@frontendUrl' => 'https://tiengtrunganhduong.com',
+        '@backendUrl' => 'https://admin.tiengtrunganhduong.com',
+        '@imagesUrl' => 'https://tiengtrunganhduong.com/images',
+        '@audiosUrl' => 'https://tiengtrunganhduong.com/audios',
+        '@quizImagesUrl' => 'https://tiengtrunganhduong.com/quiz-images',
     ]
 ];
