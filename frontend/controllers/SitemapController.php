@@ -107,7 +107,7 @@ class SitemapController extends Controller
             $image = $article->getImage()->oneActive();
             if ($image) {
                 $url['image'] = [
-                    'loc' => rawurlencode($image->getSource()),
+                    'loc' => str_replace(['%2F', '%3A'], ['/', ':'], rawurlencode($image->getSource())),
                     'title' => Html::encode($image->name),
                     'caption' => Html::encode($image->name)
                 ];
