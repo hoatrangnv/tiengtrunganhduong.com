@@ -246,7 +246,7 @@ class QuizController extends BaseController
     public function actionTranslateName()
     {
         $name = Yii::$app->request->get('name');
-        $words = explode(' ', $name);
+        $words = preg_split( "/( |\+)/", $name);
         $response = [
             'data' => [
                 'name' => '',
@@ -276,6 +276,10 @@ class QuizController extends BaseController
                     $response['data']['name'] .= ' ' . trim($o_word);
                     $response['data']['translated_name'] .= ' ' . $translation->translated_word;
                     $response['data']['spelling'] .= ' ' . $translation->spelling;
+                } else {
+                    $response['data']['name'] .= ' ' . trim($o_word);
+                    $response['data']['translated_name'] .= ' _';
+                    $response['data']['spelling'] .= ' _';
                 }
             }
         }
