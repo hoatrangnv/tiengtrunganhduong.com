@@ -24,7 +24,7 @@ use yii\helpers\Url;
             input,
             element(
                 "button",
-                "Submit",
+                "Dịch tên",
                 {
                     type: "submit"
                 }
@@ -44,6 +44,10 @@ use yii\helpers\Url;
     renderResult(search_text);
 
     function renderResult(search) {
+        empty(result);
+        result.appendChild(
+            element("div", "Đang dịch...")
+        );
         requestTranslation(search, function (data) {
             empty(result);
             appendChildren(result, [
