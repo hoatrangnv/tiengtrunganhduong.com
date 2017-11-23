@@ -12,6 +12,10 @@ use yii\helpers\Url;
  */
 ?>
 <style>
+    .title {
+        margin-bottom: 1rem;
+        font-size: 2em;
+    }
     .search-form {
         width: 100%;
     }
@@ -52,6 +56,8 @@ use yii\helpers\Url;
         margin-top: 1rem;
     }
 </style>
+
+<h2 class="title">Dịch tên Tiếng Việt sang Tiếng Trung</h2>
 
 <div id="translation-root"></div>
 
