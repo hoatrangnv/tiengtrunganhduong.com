@@ -46,7 +46,7 @@ class BaseController extends Controller
             }
         }
         $this->canonicalLink = Url::to(array_merge([Yii::$app->requestedRoute], $canonicalParams), true);
-        if (in_array(Yii::$app->requestedRoute, ['site/index', 'article/index', 'article/view', 'article/category'])) {
+        if (in_array(Yii::$app->requestedRoute, ['site/index', 'article/view'])) {
             if (!Yii::$app->params['amp']) {
                 $this->ampLink = Url::to(array_merge([Yii::$app->requestedRoute], array_merge($canonicalParams, [UrlParam::AMP => 'amp'])), true);
             }
