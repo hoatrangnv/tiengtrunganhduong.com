@@ -48,6 +48,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // Landing
+                ['pattern' => 'dang-ky-khoa-hoc-tieng-trung', 'route' => 'course-registration/index'],
                 // Site
                 ['pattern' => '<' . UrlParam::AMP . ':amp>.htm', 'route' => 'site/index'],
                 ['pattern' => '', 'route' => 'site/index'],

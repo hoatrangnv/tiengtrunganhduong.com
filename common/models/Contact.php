@@ -31,12 +31,23 @@ class Contact extends \common\models\MyActiveRecord
     const STATUS_SEEN = 2;
     const STATUS_REPLIED = 3;
 
+    const TYPE_NORMAL = 1;
+    const TYPE_COURSE_REGISTRATION = 2;
+
     public static function getStatuses()
     {
         return [
             self::STATUS_NEW => Yii::t('app', 'New'),
             self::STATUS_SEEN => Yii::t('app', 'Seen'),
             self::STATUS_REPLIED => Yii::t('app', 'Replied'),
+        ];
+    }
+
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_NORMAL => 'Normal',
+            self::TYPE_COURSE_REGISTRATION => 'Course Registration'
         ];
     }
 
