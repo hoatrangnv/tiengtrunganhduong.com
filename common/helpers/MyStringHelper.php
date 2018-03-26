@@ -34,6 +34,7 @@ class MyStringHelper extends StringHelper
         foreach($unicode as $nonUnicode=>$uni){
             $str = preg_replace("/($uni)/i", $nonUnicode, $str);
         }
+
         return $str;
     }
 }
