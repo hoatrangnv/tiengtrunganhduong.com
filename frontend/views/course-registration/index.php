@@ -550,7 +550,6 @@ use yii\widgets\ActiveForm;
              data-item-aspect-ratio="adjust-by-active-items"
              data-display-thumbnails="true"
              data-display-thumbnails-small="false"
-             data-repeat-at-last="true"
              data-display-navigator="true"
         >
             <?php
