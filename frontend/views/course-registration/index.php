@@ -32,11 +32,8 @@ use yii\widgets\ActiveForm;
              display: block;
              width: 100%;
              height: 100%;
-             background-color: #fff;
+             background-color: #222;
              opacity: 0.5;
-         }
-         .white-background {
-             background: #fff;
          }
     </style>
     <script src="//hammerjs.github.io/dist/hammer.min.js" type="text/javascript"></script>
@@ -50,13 +47,14 @@ use yii\widgets\ActiveForm;
     <div class="left">
         <div class="slogan-wrapper">
             <div class="slogan">
-                Khuyến mại sốc:
-                <br>
-                ❅ Tặng tài khoản học online giá 1500K
-                <br>
-                ❅ Tặng giáo trình học, giáo trình nghe bổ sung
-                <br>
-                ❅ Tặng Poster 1500 chữ Hán
+                <div class="title">
+                    KHUYẾN MÃI SỐC
+                </div>
+                <ul class="content">
+                    <li>❅ Tặng tài khoản học online trị giá 1.500.000đ</li>
+                    <li>❅ Tặng giáo trình học, giáo trình nghe bổ sung</li>
+                    <li>❅ Tặng poster 1500 chữ Hán</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -80,8 +78,6 @@ use yii\widgets\ActiveForm;
         <?php ActiveForm::end(); ?>
     </div>
 </div>
-
-<div class="white-background">
 
 <!-- COURSES -->
 <div class="container" id="courses">
@@ -562,7 +558,6 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 </footer>
-</div>
 
 </body>
 </html>
