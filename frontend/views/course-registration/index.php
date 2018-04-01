@@ -51,8 +51,11 @@ use yii\widgets\ActiveForm;
         <div class="slogan-wrapper">
             <div class="slogan">
                 Khuyến mại sốc:
+                <br>
                 ❅Tặng tài khoản học online, bộ đề thi HSK3,4 online trị giá 1500K
+                <br>
                 ❅Tặng giáo trình học, giáo trình nghe bổ sung
+                <br>
                 ❅Tặng Poster 1500 chữ Hán
             </div>
         </div>
@@ -89,15 +92,16 @@ use yii\widgets\ActiveForm;
         <div class="slider"
              data-page-size-large="2"
              data-page-size-small="1"
-             data-slide-time="200"
+             data-slide-time="110"
              data-display-arrows="true"
              data-preview-left="0.25"
              data-preview-right="0.25"
-             data-preview-left-small="0.1"
-             data-preview-right-small="0.1"
+             data-preview-left-small="0"
+             data-preview-right-small="0"
              data-repeat-at-last="true"
+             data-item-aspect-ratio="adjust-by-active-items"
         >
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="course-detail course-1">
                     <h3 class="name">Hán ngữ 1</h3>
                     <ul class="intro">
@@ -121,7 +125,7 @@ use yii\widgets\ActiveForm;
                     <button type="button" class="apply-button">Đăng ký</button>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="course-detail course-2">
                     <h3 class="name">Hán ngữ 2</h3>
                     <ul class="intro">
@@ -145,7 +149,7 @@ use yii\widgets\ActiveForm;
                     <button type="button" class="apply-button">Đăng ký</button>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="course-detail course-3">
                     <h3 class="name">Hán ngữ 3</h3>
                     <ul class="intro">
@@ -169,7 +173,7 @@ use yii\widgets\ActiveForm;
                     <button type="button" class="apply-button">Đăng ký</button>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="course-detail course-4">
                     <h3 class="name">Hán ngữ 4</h3>
                     <ul class="intro">
@@ -193,7 +197,7 @@ use yii\widgets\ActiveForm;
                     <button type="button" class="apply-button">Đăng ký</button>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="course-detail course-5">
                     <h3 class="name">Hán ngữ 5</h3>
                     <ul class="intro">
@@ -229,48 +233,67 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="body">
         <div class="slider"
-             data-page-size-large="3"
-             data-slide-time="200"
+             data-page-size-large="2"
+             data-slide-time="110"
              data-display-arrows="true"
              data-preview-left="0.25"
              data-preview-right="0.25"
-             data-preview-left-small="0.1"
-             data-preview-right-small="0.1"
+             data-preview-left-small="0"
+             data-preview-right-small="0"
              data-repeat-at-last="true"
+             data-item-aspect-ratio="adjust-by-active-items"
         >
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="featured-item">
-                    <h3 class="name"><?= date('Y') - 2010 ?> năm đào tạo Tiếng Trung giao tiếp</h3>
+                    <h3 class="name clr">
+                        <i class="icon mortarboard-icon"></i>
+                        <span><?= date('Y') - 2010 ?> năm đào tạo Tiếng Trung giao tiếp</span>
+                    </h3>
                     <div class="desc">Với hàng nghìn học viên đã được đào tạo, chúng tôi thấu hiểu những khó khăn gặp phải của người Việt khi học tiếng Trung. Qua đó đưa ra lộ trình và phương pháp học tối ưu.</div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="featured-item">
-                    <h3 class="name">Giáo viên trong nước kết hợp bản ngữ</h3>
+                    <h3 class="name clr">
+                        <i class="icon teacher-icon"></i>
+                        <span>Giáo viên trong nước kết hợp bản ngữ</span>
+                    </h3>
                     <div class="desc">Đội ngũ giáo viên tốt nghiệp đại học chính quy chuyên ngành tiếng Trung trong và ngoài nước, có nhiệt huyết, kỹ năng sư phạm, chuyên môn tốt. Các giáo viên Bản ngữ được kết hợp để nâng cao khả năng giao tiếp của học viên.</div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="featured-item">
-                    <h3 class="name">Cam kết về chất lượng đầu ra của học viên</h3>
+                    <h3 class="name clr">
+                        <i class="icon diploma-icon"></i>
+                        <span>Cam kết về chất lượng đầu ra của học viên</span>
+                    </h3>
                     <div class="desc">Tiếng Trung Ánh Dương luôn đặt uy tín, chất lượng lên hàng đầu. Các học viên được cam kết đầu ra theo đúng yêu cầu của mỗi khóa học.</div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="featured-item">
-                    <h3 class="name">Học tiếng Trung online FREE</h3>
+                    <h3 class="name clr">
+                        <i class="icon online-icon"></i>
+                        <span>Học tiếng Trung online FREE</span>
+                    </h3>
                     <div class="desc">Học viên được học tập MIỄN PHÍ bất cứ lúc nào thông qua “hệ sinh thái tiếng Trung” được xây dựng bởi Tiếng Trung Ánh Dương. Các kênh học tập được duy trì hàng ngày điển hình bao gồm hệ thống học trực tuyến nihao.vn, fanpage facebook, kênh youtube, Zalo...</div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="featured-item">
-                    <h3 class="name">Hoạt động ngoại khóa phong phú</h3>
+                    <h3 class="name clr">
+                        <i class="icon landscape-icon"></i>
+                        <span>Hoạt động ngoại khóa phong phú</span>
+                    </h3>
                     <div class="desc">Thường xuyên tổ chức các hoạt động giao lưu, tham quan, dã ngoại với người bản địa để tạo môi trường học tập, nâng cao khả năng giao tiếp sử dụng tiếng Trung trong môi trường thực tế.</div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="featured-item">
-                    <h3 class="name">Được tiếp cận kho tài liệu học tập khổng lồ</h3>
+                    <h3 class="name clr">
+                        <i class="icon books-icon"></i>
+                        <span>Được tiếp cận kho tài liệu học tập khổng lồ</span>
+                    </h3>
                     <div class="desc">Các học viên cũng có cơ hội tiếp cận kho tài liệu tiếng Trung khổng lồ phục vụ mục đích học tập, nghiên cứu được lưu sưu tầm và lưu trữ qua nhiều năm tại trung tâm.</div>
                 </div>
             </div>
@@ -287,15 +310,16 @@ use yii\widgets\ActiveForm;
     <div class="body aspect-ratio __1x1">
         <div class="slider"
              data-page-size-large="2"
-             data-slide-time="200"
+             data-slide-time="110"
              data-display-arrows="true"
              data-preview-left="0.25"
              data-preview-right="0.25"
-             data-preview-left-small="0.1"
-             data-preview-right-small="0.1"
+             data-preview-left-small="0"
+             data-preview-right-small="0"
              data-repeat-at-last="true"
+             data-item-aspect-ratio="adjust-by-active-items"
         >
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -309,7 +333,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -324,7 +348,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -340,7 +364,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -355,7 +379,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -369,7 +393,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -383,7 +407,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -398,7 +422,7 @@ use yii\widgets\ActiveForm;
                     </ul>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="teacher">
                     <div class="image">
                         <span>
@@ -426,15 +450,16 @@ use yii\widgets\ActiveForm;
     <div class="body aspect-ratio __1x1">
         <div class="slider"
              data-page-size-large="3"
-             data-slide-time="200"
+             data-slide-time="110"
              data-display-arrows="true"
              data-preview-left="0.25"
              data-preview-right="0.25"
-             data-preview-left-small="0.1"
-             data-preview-right-small="0.1"
+             data-preview-left-small="0"
+             data-preview-right-small="0"
              data-repeat-at-last="true"
+             data-item-aspect-ratio="adjust-by-active-items"
         >
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="student">
                     <div class="image">
                         <span>
@@ -447,7 +472,7 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="student">
                     <div class="image">
                         <span>
@@ -460,7 +485,7 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="student">
                     <div class="image">
                         <span>
@@ -473,7 +498,7 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="student">
                     <div class="image">
                         <span>
@@ -486,7 +511,7 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
             </div>
-            <div class="inner">
+            <div class="inner" data-clickable="true">
                 <div class="student">
                     <div class="image">
                         <span>
@@ -495,7 +520,7 @@ use yii\widgets\ActiveForm;
                     </div>
                     <h3 class="name">Ngọc Hân</h3>
                     <div class="review">
-                        Đến với Trung tâm e thấy rất vui và thoải mái. Cô giáo kiến thức rộng, dạy học lại rất dễ hiểu. em học lớp Hán Ngữ 4 có nhiều ngữ pháp khó, nhưng phương pháp giảng bài của cô giúp em hiểu bài ngay trên lớp. Em cảm ơn cô giáo và trung tâm rất nhiều.hihi!
+                        Đến với Trung tâm e thấy rất vui và thoải mái. Cô giáo kiến thức rộng, dạy học lại rất dễ hiểu. em học lớp Hán Ngữ 4 có nhiều ngữ pháp khó, nhưng phương pháp giảng bài của cô giúp em hiểu bài ngay trên lớp. Em cảm ơn cô giáo và trung tâm rất nhiều. Hihi!
                     </div>
                 </div>
             </div>
@@ -508,7 +533,11 @@ use yii\widgets\ActiveForm;
         <h2>Trung Tâm Tiếng Trung Ánh Dương</h2>
         <ul>
             <li>Địa chỉ: Số 12, ngõ 39, Hồ Tùng Mậu, Mai Dịch, Cấu Giấy, Hà Nội</li>
-            <li>Email: <a href="mailto:tiengtrunganhduong@gmail.com">tiengtrunganhduong@gmail.com</a> - Hotline: <a href="tel:097.5158.419">097.5158.419</a></li>
+            <li>
+                Email: <a href="mailto:tiengtrunganhduong@gmail.com">tiengtrunganhduong@gmail.com</a>
+                <span class="sm-hidden">-</span> <br class="sm-only"/>
+                Hotline: <a href="tel:097.5158.419">097.5158.419</a>
+            </li>
         </ul>
         <div class="socials">
             <a href="https://www.facebook.com/tiengtrunganhduong" target="_blank"><b class="icon facebook-icon"></b></a>
