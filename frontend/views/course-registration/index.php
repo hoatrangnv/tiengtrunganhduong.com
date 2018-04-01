@@ -21,20 +21,12 @@ use yii\widgets\ActiveForm;
          ?>
          html {
              background-image: url("<?= Yii::getAlias('@web/img/landing/banner.jpg') ?>");
-             background-position: top center;
-             background-size: 100%;
-             background-repeat: no-repeat;
-             background-attachment: fixed;
          }
-         html:before {
-             content: "";
-             position: absolute;
-             display: block;
-             width: 100%;
-             height: 100%;
-             background-color: #222;
-             opacity: 0.5;
-         }
+        @media screen and (max-width: 599px) {
+             html {
+                 background-image: url("<?= Yii::getAlias('@web/img/landing/banner_smallx.jpg') ?>");
+             }
+        }
     </style>
     <script src="//hammerjs.github.io/dist/hammer.min.js" type="text/javascript"></script>
     <script src="//rawgit.com/vanquyettran/slider/master/slider.js" type="text/javascript"></script>
@@ -51,8 +43,8 @@ use yii\widgets\ActiveForm;
                     KHUYẾN MÃI SỐC
                 </div>
                 <ul class="content">
-                    <li>❅ Tặng tài khoản học online trị giá 1.500.000đ</li>
-                    <li>❅ Tặng giáo trình học, giáo trình nghe bổ sung</li>
+                    <li>❅ Tặng tài khoản học online 1.500.000đ</li>
+                    <li>❅ Tặng giáo trình học, giáo trình nghe</li>
                     <li>❅ Tặng poster 1500 chữ Hán</li>
                 </ul>
             </div>

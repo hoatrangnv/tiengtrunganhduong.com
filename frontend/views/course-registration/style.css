@@ -16,7 +16,17 @@ html {
     overflow-y: scroll;
     background-repeat: no-repeat;
     background-position: top center;
-    background-size: cover;
+    background-size: 100%;
+    background-attachment: fixed;
+}
+html:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+    opacity: 0.5;
 }
 body {
     min-height: 1000px;
@@ -330,7 +340,6 @@ span.icon {
     height: 500px;
 }
 #header .slogan {
-    font-size: 1.7em;
     font-weight: bold;
     color: #e8e8e8;
     /*text-shadow:
@@ -343,9 +352,12 @@ span.icon {
 }
 #header .slogan > .title {
     text-align: center;
+    font-size: 1.9em;
+    font-weight: normal;
 }
 #header .slogan > .content {
     margin-top: 1rem;
+    font-size: 1.7em;
 }
 #header .slogan > .content li {
     list-style: none;
@@ -713,7 +725,6 @@ footer {
     text-align: center;
     background: #ddd;
     padding: 2rem 0;
-    padding-top: 2rem;
 }
 footer h2 {
     color: #F47A20;
@@ -743,7 +754,6 @@ footer .socials a {
     display: inline-block;
 }
 
-
 @media screen and (min-width: 600px) {
     .sm-only {
         display: none;
@@ -751,6 +761,7 @@ footer .socials a {
 }
 @media screen and (max-width: 599px) {
     html {
+        background-size: cover;
         font-size: 14px;
     }
     #header .left,
@@ -801,4 +812,34 @@ footer .socials a {
     .container .heading .title {
         font-size: 1.3em;
     }
+
+    #header {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    #header .slogan-wrapper {
+        height: auto;
+    }
+    #header .slogan {
+        padding: 0;
+        margin-bottom: 1.5rem;
+        border: none;
+    }
+    #header .slogan .title {
+        font-size: 1.4em;
+    }
+    #header .slogan .content {
+        margin-top: 0.5rem;
+        font-size: 1.1em;
+    }
+    #header .apply-form {
+        max-width: calc(100% - 2rem);
+        margin: auto;
+    }
+    /*#header .slogan .content {
+        margin-top: 0.5rem;
+    }
+    #header .slogan .content li {
+        margin-top: 0;
+    }*/
 }
