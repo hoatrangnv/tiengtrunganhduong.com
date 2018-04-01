@@ -24,13 +24,24 @@ class CourseRegistrationForm extends Model
     {
         return [
             // name, phone_number, subject and body are required
-            [['name', 'email', 'phone_number'], 'required'],
+            [['name', 'phone_number', 'course_name'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
 //            ['verifyCode', 'captcha'],
             [['course_name', 'message'], 'string', 'max' => 255],
             [['phone_number'], 'string', 'max' => 32],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Họ tên',
+            'email' => 'Email',
+            'phone_number' => 'Số điện thoại',
+            'message' => 'Lời nhắn',
+            'course_name' => 'Khóa học',
         ];
     }
 

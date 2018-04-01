@@ -30,17 +30,13 @@ class CourseRegistrationController extends Controller
 
             return $this->refresh();
         } else {
-            $courses = [
-                'Hán ngữ 1',
-                'Hán ngữ 2',
-                'Hán ngữ 3',
-                'Hán ngữ 4',
-                'Hán ngữ 5',
-                'Hán ngữ 6',
-                'Giao tiếp',
-                'Học online',
+            $course_list = [
+                'HAN_NGU_1' => 'Hán Ngữ 1',
+                'HAN_NGU_2' => 'Hán Ngữ 2',
+                'HAN_NGU_3' => 'Hán Ngữ 3',
+                'HAN_NGU_4' => 'Hán Ngữ 4',
+                'HAN_NGU_5' => 'Hán Ngữ 5',
             ];
-            $course_list = array_combine($courses, $courses);
             return $this->render('index', compact('model', 'course_list'));
         }
     }

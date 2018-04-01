@@ -52,16 +52,16 @@ use yii\widgets\ActiveForm;
             <div class="slogan">
                 Khuyến mại sốc:
                 <br>
-                ❅Tặng tài khoản học online, bộ đề thi HSK3,4 online trị giá 1500K
+                ❅ Tặng tài khoản học online giá 1500K
                 <br>
-                ❅Tặng giáo trình học, giáo trình nghe bổ sung
+                ❅ Tặng giáo trình học, giáo trình nghe bổ sung
                 <br>
-                ❅Tặng Poster 1500 chữ Hán
+                ❅ Tặng Poster 1500 chữ Hán
             </div>
         </div>
     </div>
     <div class="right">
-        <?php $form = ActiveForm::begin(['id' => 'contact-form', 'options' => ['class' => 'apply-form']]); ?>
+        <?php $form = ActiveForm::begin(['id' => 'apply-form', 'options' => ['class' => 'apply-form']]); ?>
 
         <?= $form->field($model, 'name')->textInput() ?>
 
@@ -122,7 +122,10 @@ use yii\widgets\ActiveForm;
                     <div class="tuition">
                         <strong>Học phí:</strong> 1.000.000 VNĐ
                     </div>
-                    <button type="button" class="apply-button">Đăng ký</button>
+                    <button type="button"
+                            class="apply-button"
+                            onclick="goToApplyForm('HAN_NGU_1')"
+                    >Đăng ký</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -146,7 +149,11 @@ use yii\widgets\ActiveForm;
                     <div class="tuition">
                         <strong>Học phí:</strong> 1.100.000 VNĐ
                     </div>
-                    <button type="button" class="apply-button">Đăng ký</button>
+                    <button
+                        type="button"
+                        class="apply-button"
+                        onclick="goToApplyForm('HAN_NGU_2')"
+                    >Đăng ký</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -170,7 +177,11 @@ use yii\widgets\ActiveForm;
                     <div class="tuition">
                         <strong>Học phí:</strong> 1.400.000 VNĐ
                     </div>
-                    <button type="button" class="apply-button">Đăng ký</button>
+                    <button
+                        type="button"
+                        class="apply-button"
+                        onclick="goToApplyForm('HAN_NGU_3')"
+                    >Đăng ký</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -194,7 +205,11 @@ use yii\widgets\ActiveForm;
                     <div class="tuition">
                         <strong>Học phí:</strong> 1.600.000 VNĐ
                     </div>
-                    <button type="button" class="apply-button">Đăng ký</button>
+                    <button
+                        type="button"
+                        class="apply-button"
+                        onclick="goToApplyForm('HAN_NGU_4')"
+                    >Đăng ký</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -218,7 +233,11 @@ use yii\widgets\ActiveForm;
                     <div class="tuition">
                         <strong>Học phí:</strong> 2.000.000 VNĐ
                     </div>
-                    <button type="button" class="apply-button">Đăng ký</button>
+                    <button
+                        type="button"
+                        class="apply-button"
+                        onclick="goToApplyForm('HAN_NGU_5')"
+                    >Đăng ký</button>
                 </div>
             </div>
         </div>
@@ -565,4 +584,11 @@ use yii\widgets\ActiveForm;
     }
     ?>
     [].forEach.call(document.querySelectorAll(".slider"), initSlider);
+    function goToApplyForm(course_name) {
+        var form = document.querySelector("#apply-form");
+        var course_name_input = form.querySelector("#<?= Html::getInputId($model, 'course_name') ?>");
+        course_name_input.value = course_name;
+        var name_input = form.querySelector("#<?= Html::getInputId($model, 'name') ?>");
+        name_input.focus();
+    }
 </script>

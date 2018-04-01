@@ -45,7 +45,7 @@ body {
     font-size: 2.0em;
 }
 .container > .heading .title-smaller {
-    font-size: 1.6em;
+    font-size: 1.8em;
 }
 
 a {
@@ -402,6 +402,9 @@ span.icon {
     width: 100%;
     margin-top: 1rem;
 }
+.apply-form .form-group.has-error .help-block {
+    color: #c00;
+}
 
 /** COURSES */
 #courses {
@@ -682,7 +685,6 @@ span.icon {
     font-size: 1.5em;
 }
 .student .review {
-    padding: 0 1rem;
     margin-top: 0.5rem;
     text-align: justify;
 }
@@ -761,6 +763,10 @@ footer .socials a {
 
     .featured-item .name span {
         font-size: 1.25em;
+    }
+
+    .student .review {
+        padding: 0 1rem;
     }
 
     footer h2 {
