@@ -63,6 +63,8 @@ use yii\widgets\ActiveForm;
     <div class="right">
         <?php $form = ActiveForm::begin(['id' => 'apply-form', 'options' => ['class' => 'apply-form']]); ?>
 
+        <?= $form->field($model, 'course_name')->dropDownList($course_list) ?>
+
         <?= $form->field($model, 'name')->textInput() ?>
 
         <?= $form->field($model, 'email') ?>
@@ -70,8 +72,6 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'phone_number') ?>
 
         <?= $form->field($model, 'message')->textarea(['rows' => 2]) ?>
-
-        <?= $form->field($model, 'course_name')->dropDownList($course_list) ?>
 
         <div class="form-group">
             <button type="submit">Đăng ký</button>
@@ -98,7 +98,6 @@ use yii\widgets\ActiveForm;
              data-preview-right="0.25"
              data-preview-left-small="0"
              data-preview-right-small="0"
-             data-repeat-at-last="true"
              data-item-aspect-ratio="adjust-by-active-items"
         >
             <div class="inner" data-clickable="true">
@@ -259,7 +258,6 @@ use yii\widgets\ActiveForm;
              data-preview-right="0.25"
              data-preview-left-small="0"
              data-preview-right-small="0"
-             data-repeat-at-last="true"
              data-item-aspect-ratio="adjust-by-active-items"
         >
             <div class="inner" data-clickable="true">
@@ -335,7 +333,6 @@ use yii\widgets\ActiveForm;
              data-preview-right="0.25"
              data-preview-left-small="0"
              data-preview-right-small="0"
-             data-repeat-at-last="true"
              data-item-aspect-ratio="adjust-by-active-items"
         >
             <div class="inner" data-clickable="true">
@@ -475,7 +472,6 @@ use yii\widgets\ActiveForm;
              data-preview-right="0.25"
              data-preview-left-small="0"
              data-preview-right-small="0"
-             data-repeat-at-last="true"
              data-item-aspect-ratio="adjust-by-active-items"
         >
             <div class="inner" data-clickable="true">
