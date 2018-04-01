@@ -20,11 +20,11 @@ use yii\widgets\ActiveForm;
          require_once 'style.css';
          ?>
          html {
-             background-image: url("<?= Yii::getAlias('@web/img/landing/banner_x.jpg') ?>");
+             background-image: url("<?= Yii::getAlias('@web/img/landing/banners/banner_x.jpg') ?>");
          }
         @media screen and (max-width: 599px) {
              html {
-                 background-image: url("<?= Yii::getAlias('@web/img/landing/banner_small_x.jpg') ?>");
+                 background-image: url("<?= Yii::getAlias('@web/img/landing/banners/banner_small_x.jpg') ?>");
              }
         }
     </style>
@@ -349,7 +349,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_thoan.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_thoan.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Thoan</h3>
@@ -363,7 +363,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_huyen.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_huyen.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Huyền</h3>
@@ -378,7 +378,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_nham.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_nham.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Nhâm</h3>
@@ -394,7 +394,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_ly.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_ly.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Ly</h3>
@@ -409,7 +409,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_hang.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_hang.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Hằng</h3>
@@ -423,7 +423,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_thuong.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_thuong.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Thương</h3>
@@ -437,7 +437,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_quynh.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_quynh.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Quỳnh</h3>
@@ -452,7 +452,7 @@ use yii\widgets\ActiveForm;
                 <div class="teacher">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>gv_co_lam.jpg" alt="teacher">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>teachers/gv_co_lam.jpg" alt="teacher">
                         </span>
                     </div>
                     <h3 class="name">Cô Lâm</h3>
@@ -488,7 +488,7 @@ use yii\widgets\ActiveForm;
                 <div class="student">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>hv_01.jpg" alt="student">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>students/hv_01.jpg" alt="student">
                         </span>
                     </div>
                     <h3 class="name">Nguyễn Minh Anh</h3>
@@ -501,7 +501,7 @@ use yii\widgets\ActiveForm;
                 <div class="student">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>hv_02.jpg" alt="student">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>students/hv_02.jpg" alt="student">
                         </span>
                     </div>
                     <h3 class="name">Minh Thành</h3>
@@ -514,7 +514,7 @@ use yii\widgets\ActiveForm;
                 <div class="student">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>hv_03.jpg" alt="student">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>students/hv_03.jpg" alt="student">
                         </span>
                     </div>
                     <h3 class="name">Thu Trang</h3>
@@ -527,7 +527,7 @@ use yii\widgets\ActiveForm;
                 <div class="student">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>hv_04.jpg" alt="student">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>students/hv_04.jpg" alt="student">
                         </span>
                     </div>
                     <h3 class="name">Hữu Thiện</h3>
@@ -540,7 +540,7 @@ use yii\widgets\ActiveForm;
                 <div class="student">
                     <div class="image">
                         <span>
-                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>hv_05.jpg" alt="student">
+                            <img src="<?= Yii::getAlias('@web/img/landing/') ?>students/hv_05.jpg" alt="student">
                         </span>
                     </div>
                     <h3 class="name">Ngọc Hân</h3>
