@@ -538,6 +538,34 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 
+<!-- GALLERY -->
+<div class="container" id="gallery">
+    <div class="heading">
+        <h2 class="title">Ảnh lớp học</h2>
+    </div>
+    <div class="body">
+        <div class="slider"
+             data-slide-time="110"
+             data-display-arrows="true"
+             data-item-aspect-ratio="adjust-by-active-items"
+             data-display-thumbnails="true"
+             data-display-thumbnails-small="false"
+             data-repeat-at-last="true"
+             data-display-navigator="true"
+        >
+            <?php
+            for ($i = 0; $i < 10; $i++) {
+                ?>
+                <div class="inner" data-clickable="true">
+                    <img src="<?= Yii::getAlias('@web/img/landing/') ?>gallery/<?= $i ?>.jpg" alt="ảnh lớp học">
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
 <footer class="container">
     <div class="body">
         <h2>Trung Tâm Tiếng Trung Ánh Dương</h2>
