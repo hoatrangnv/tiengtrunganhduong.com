@@ -769,6 +769,29 @@ footer .socials a {
         width: 100%;
         float: none;
     }
+    #header {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    #header .slogan-wrapper {
+        height: auto;
+    }
+    #header .slogan {
+        padding: 0;
+        margin-bottom: 1.5rem;
+        border: none;
+    }
+    #header .slogan .title {
+        font-size: 1.4em;
+    }
+    #header .slogan .content {
+        margin-top: 0.5rem;
+        font-size: 1.1em;
+    }
+    #header .apply-form {
+        max-width: calc(100% - 2rem);
+        margin: auto;
+    }
 
     .container .heading .title {
         font-size: 1.6em;
@@ -812,34 +835,4 @@ footer .socials a {
     .container .heading .title {
         font-size: 1.3em;
     }
-
-    #header {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    #header .slogan-wrapper {
-        height: auto;
-    }
-    #header .slogan {
-        padding: 0;
-        margin-bottom: 1.5rem;
-        border: none;
-    }
-    #header .slogan .title {
-        font-size: 1.4em;
-    }
-    #header .slogan .content {
-        margin-top: 0.5rem;
-        font-size: 1.1em;
-    }
-    #header .apply-form {
-        max-width: calc(100% - 2rem);
-        margin: auto;
-    }
-    /*#header .slogan .content {
-        margin-top: 0.5rem;
-    }
-    #header .slogan .content li {
-        margin-top: 0;
-    }*/
 }
