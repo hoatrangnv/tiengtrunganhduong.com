@@ -20,11 +20,11 @@ use yii\widgets\ActiveForm;
          require_once 'style.css';
          ?>
          html {
-             background-image: url("<?= Yii::getAlias('@web/img/landing/banner.jpg') ?>");
+             background-image: url("<?= Yii::getAlias('@web/img/landing/banner_x.jpg') ?>");
          }
         @media screen and (max-width: 599px) {
              html {
-                 background-image: url("<?= Yii::getAlias('@web/img/landing/banner_smallx.jpg') ?>");
+                 background-image: url("<?= Yii::getAlias('@web/img/landing/banner_small_x.jpg') ?>");
              }
         }
     </style>
@@ -299,7 +299,7 @@ use yii\widgets\ActiveForm;
                         <i class="icon books-icon"></i>
                         <span>Được tiếp cận kho tài liệu học tập khổng lồ</span>
                     </h3>
-                    <div class="desc">Các học viên cũng có cơ hội tiếp cận kho tài liệu tiếng Trung khổng lồ phục vụ mục đích học tập, nghiên cứu được lưu sưu tầm và lưu trữ qua nhiều năm tại trung tâm.</div>
+                    <div class="desc">Các học viên cũng có cơ hội tiếp cận kho tài liệu tiếng Trung khổng lồ phục vụ mục đích học tập, nghiên cứu được sưu tầm và lưu trữ qua nhiều năm tại trung tâm.</div>
                 </div>
             </div>
         </div>
