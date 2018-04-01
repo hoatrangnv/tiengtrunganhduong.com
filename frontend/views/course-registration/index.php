@@ -53,18 +53,25 @@ use yii\widgets\ActiveForm;
     <div class="right">
         <?php $form = ActiveForm::begin(['id' => 'apply-form', 'options' => ['class' => 'apply-form']]); ?>
 
-        <?= $form->field($model, 'course_name')->dropDownList($course_list) ?>
+        <div class="heading">
+            <h1 class="title">Tiếng Trung Ánh Dương</h1>
+        </div>
 
-        <?= $form->field($model, 'name')->textInput() ?>
+        <div class="body">
+            <?= $form->field($model, 'course_name')->dropDownList($course_list)->label('Đăng ký khóa học') ?>
 
-        <?= $form->field($model, 'email') ?>
+            <?= $form->field($model, 'name')->textInput() ?>
 
-        <?= $form->field($model, 'phone_number') ?>
+            <?= $form->field($model, 'email') ?>
 
-        <?= $form->field($model, 'message')->textarea(['rows' => 2]) ?>
+            <?= $form->field($model, 'phone_number') ?>
 
-        <div class="form-group">
-            <button type="submit">Đăng ký</button>
+            <?= $form->field($model, 'message')->textarea(['rows' => 2]) ?>
+
+            <div class="form-group">
+                <button type="submit">Đăng ký</button>
+            </div>
+
         </div>
 
         <?php ActiveForm::end(); ?>
