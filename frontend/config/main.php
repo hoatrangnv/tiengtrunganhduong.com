@@ -49,7 +49,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 // Landing
-                ['pattern' => 'dang-ky-khoa-hoc-tieng-trung', 'route' => 'course-registration/index'],
+                ['pattern' => 'khoa-hoc-tieng-trung-giao-tiep-co-ban-va-nang-cao.html', 'route' => 'course-registration/index'],
+                ['pattern' => 'dang-ky-khoa-hoc-thanh-cong.html', 'route' => 'course-registration/success'],
                 // Site
                 ['pattern' => '<' . UrlParam::AMP . ':amp>.htm', 'route' => 'site/index'],
                 ['pattern' => '', 'route' => 'site/index'],
