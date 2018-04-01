@@ -110,7 +110,10 @@ use yii\widgets\ActiveForm;
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Nắm vững hệ thống phiên âm la tinh tiếng Trung, phát âm chuẩn, có khả năng nghe nói đọc viết và thực hành được những đoạn giao tiếp thông thường. Kết thúc khóa học bạn có thể tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK1.
-                            <a><span>Xem chi tiết</span> <i class="icon external-link-icon"></i></a>
+                            <a href="https://tiengtrunganhduong.com/lop-han-ngu-1-danh-cho-cac-ban-bat-dau-hoc-tieng-trung.htm" title="Hán ngữ 1" target="_blank">
+                                <span>Xem chi tiết</span>
+                                <i class="icon external-link-icon"></i>
+                            </a>
                         </li>
                     </ul>
                     <div class="tuition">
@@ -137,7 +140,10 @@ use yii\widgets\ActiveForm;
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Phát triển mở rộng từ vựng về các chủ đề giao tiếp trong cuộc sống. Nắm được hệ thống ngữ pháp cơ bản trong tiếng Hán. Tăng kỹ năng nhận đọc chữ Hán theo đoạn văn ngắn. Kết thúc khóa học bạn có thể tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK2.
-                            <a><span>Xem chi tiết</span> <i class="icon external-link-icon"></i></a>
+                            <a href="https://tiengtrunganhduong.com/lop-han-ngu-2.htm" title="Hán ngữ 2" target="_blank">
+                                <span>Xem chi tiết</span>
+                                <i class="icon external-link-icon"></i>
+                            </a>
                         </li>
                     </ul>
                     <div class="tuition">
@@ -165,7 +171,10 @@ use yii\widgets\ActiveForm;
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Tiếp tục phát triển mở rộng từ vựng và các chủ đề giao tiếp. Nắm và vận dụng được các cấu trúc và hiện tượng ngữ pháp khó, đọc được các đoạn văn dài, phản xạ nghe nói tốt. Kết thúc khóa học bạn có thể tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK3.
-                            <a><span>Xem chi tiết</span> <i class="icon external-link-icon"></i></a>
+                            <a href="https://tiengtrunganhduong.com/lop-han-ngu-3.htm" title="Hán ngữ 3" target="_blank">
+                                <span>Xem chi tiết</span>
+                                <i class="icon external-link-icon"></i>
+                            </a>
                         </li>
                     </ul>
                     <div class="tuition">
@@ -193,7 +202,10 @@ use yii\widgets\ActiveForm;
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Làm dày thêm vốn từ vựng về cho người học. Tự tin giao tiếp được những mẫu câu dài về các chủ để thường dùng trong giao tiếp hàng ngày. Tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK4.
-                            <a><span>Xem chi tiết</span> <i class="icon external-link-icon"></i></a>
+                            <a href="https://tiengtrunganhduong.com/lop-han-ngu-4.htm" title="Hán ngữ 4" target="_blank">
+                                <span>Xem chi tiết</span>
+                                <i class="icon external-link-icon"></i>
+                            </a>
                         </li>
                     </ul>
                     <div class="tuition">
@@ -221,7 +233,10 @@ use yii\widgets\ActiveForm;
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Phát triển mạnh lượng từ vựng cũng như cách sử dụng từ, từ đó có thể mở rộng giao tiếp được nhiều chủ đề liên quan tới đời sống, tình yêu, triết lý, khoa học, công việc. Kết thúc khóa học tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK4.
-                            <a><span>Xem chi tiết</span> <i class="icon external-link-icon"></i></a>
+                            <a href="https://tiengtrunganhduong.com/lop-han-ngu-5.htm" title="Hán ngữ 5" target="_blank">
+                                <span>Xem chi tiết</span>
+                                <i class="icon external-link-icon"></i>
+                            </a>
                         </li>
                     </ul>
                     <div class="tuition">

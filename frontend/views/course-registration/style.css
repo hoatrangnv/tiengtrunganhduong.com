@@ -426,6 +426,7 @@ span.icon {
     border: 1px solid #ccc;
     font-size: 16px;
     background-color: #fff;
+    display: block;
 }
 .apply-form textarea {
     width: 100%;
@@ -435,6 +436,7 @@ span.icon {
     border: 1px solid #ccc;
     font-size: 16px;
     resize: vertical;
+    display: block;
 }
 .apply-form .form-group + .form-group {
     width: 100%;
