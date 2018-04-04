@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\NameTranslation;
-use backend\models\NameTranslationSearch;
+use backend\models\ChineseSingleWord;
+use backend\models\ChineseSingleWordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * NameTranslationController implements the CRUD actions for NameTranslation model.
+ * ChineseSingleWordController implements the CRUD actions for ChineseSingleWord model.
  */
-class NameTranslationController extends Controller
+class ChineseSingleWordController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class NameTranslationController extends Controller
     }
 
     /**
-     * Lists all NameTranslation models.
+     * Lists all ChineseSingleWord models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new NameTranslationSearch();
+        $searchModel = new ChineseSingleWordSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class NameTranslationController extends Controller
     }
 
     /**
-     * Displays a single NameTranslation model.
+     * Displays a single ChineseSingleWord model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class NameTranslationController extends Controller
     }
 
     /**
-     * Creates a new NameTranslation model.
+     * Creates a new ChineseSingleWord model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new NameTranslation();
+        $model = new ChineseSingleWord();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class NameTranslationController extends Controller
     }
 
     /**
-     * Updates an existing NameTranslation model.
+     * Updates an existing ChineseSingleWord model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class NameTranslationController extends Controller
     }
 
     /**
-     * Deletes an existing NameTranslation model.
+     * Deletes an existing ChineseSingleWord model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class NameTranslationController extends Controller
     }
 
     /**
-     * Finds the NameTranslation model based on its primary key value.
+     * Finds the ChineseSingleWord model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return NameTranslation the loaded model
+     * @return ChineseSingleWord the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = NameTranslation::findOne($id)) !== null) {
+        if (($model = ChineseSingleWord::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

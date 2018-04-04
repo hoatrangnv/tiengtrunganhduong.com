@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\NameTranslation;
+use backend\models\ChineseSingleWord;
 
 /**
- * NameTranslationSearch represents the model behind the search form about `backend\models\NameTranslation`.
+ * ChineseSingleWordSearch represents the model behind the search form about `backend\models\ChineseSingleWord`.
  */
-class NameTranslationSearch extends NameTranslation
+class ChineseSingleWordSearch extends ChineseSingleWord
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class NameTranslationSearch extends NameTranslation
     public function rules()
     {
         return [
-            [['id', 'type'], 'integer'],
-            [['word', 'translated_word', 'spelling', 'meaning'], 'safe'],
+            [['id'], 'integer'],
+            [['word', 'meaning'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class NameTranslationSearch extends NameTranslation
      */
     public function search($params)
     {
-        $query = NameTranslation::find();
+        $query = ChineseSingleWord::find();
 
         // add conditions that should always apply here
 
@@ -60,12 +60,9 @@ class NameTranslationSearch extends NameTranslation
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'type' => $this->type,
         ]);
 
         $query->andFilterWhere(['like', 'word', $this->word])
-            ->andFilterWhere(['like', 'translated_word', $this->translated_word])
-            ->andFilterWhere(['like', 'spelling', $this->spelling])
             ->andFilterWhere(['like', 'meaning', $this->meaning]);
 
         return $dataProvider;

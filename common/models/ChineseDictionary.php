@@ -5,23 +5,20 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "name_translation".
+ * This is the model class for table "chinese_dictionary".
  *
  * @property integer $id
  * @property string $word
- * @property string $translated_word
- * @property string $spelling
  * @property string $meaning
- * @property integer $type
  */
-class NameTranslation extends \yii\db\ActiveRecord
+class ChineseDictionary extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'name_translation';
+        return 'chinese_dictionary';
     }
 
     /**
@@ -30,10 +27,9 @@ class NameTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['word', 'translated_word', 'spelling'], 'required'],
+            [['word', 'meaning'], 'required'],
             [['meaning'], 'string'],
-            [['type'], 'integer'],
-            [['word', 'translated_word', 'spelling'], 'string', 'max' => 255],
+            [['word'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,10 +41,7 @@ class NameTranslation extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'word' => 'Word',
-            'translated_word' => 'Translated Word',
-            'spelling' => 'Spelling',
             'meaning' => 'Meaning',
-            'type' => 'Type',
         ];
     }
 }

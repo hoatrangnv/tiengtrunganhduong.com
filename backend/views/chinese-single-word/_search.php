@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\NameTranslationSearch */
+/* @var $model backend\models\ChineseSingleWordSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="name-translation-search">
+<div class="chinese-single-word-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -19,13 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'word') ?>
 
-    <?= $form->field($model, 'translated_word') ?>
-
-    <?= $form->field($model, 'spelling') ?>
-
     <?= $form->field($model, 'meaning') ?>
-
-    <?php // echo $form->field($model, 'type') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

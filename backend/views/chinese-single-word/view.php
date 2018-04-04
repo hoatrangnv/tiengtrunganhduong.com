@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\NameTranslation */
+/* @var $model backend\models\ChineseSingleWord */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Name Translations', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Chinese Single Words', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="name-translation-view">
+<div class="chinese-single-word-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,10 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'word',
-            'translated_word',
-            'spelling',
             'meaning:ntext',
-            'type',
         ],
     ]) ?>
 

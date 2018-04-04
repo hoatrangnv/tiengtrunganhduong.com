@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\NameTranslationSearch */
+/* @var $searchModel backend\models\ChineseSingleWordSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Name Translations';
+$this->title = 'Chinese Single Words';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="name-translation-index">
+<div class="chinese-single-word-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Name Translation', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Chinese Single Word', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,10 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'word',
-            'translated_word',
-            'spelling',
             'meaning:ntext',
-            'type',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
