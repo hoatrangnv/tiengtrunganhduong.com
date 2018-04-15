@@ -2,10 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\models\ChineseSingleWord;
 use common\models\NameTranslation;
 use common\models\UrlParam;
 use common\utils\FacebookDebugger;
 use Facebook\Facebook;
+use Faker\Guesser\Name;
 use Yii;
 use frontend\models\Quiz;
 use frontend\models\UrlRedirection;
@@ -249,40 +251,176 @@ class QuizController extends BaseController
         $words = preg_split( "/( |\+)/", $name);
         $response = [
             'data' => [
-                'name' => '',
-                'translated_name' => '',
-                'spelling' => '',
+                'words' => [],
+                'translated_words' => [],
+                'spellings' => [],
+                'meanings' => [],
             ],
             'error_message' => '',
         ];
-        foreach ($words as $o_word) {
-            $word = strtolower(trim($o_word));
-            if ($word) {
-                $translations = NameTranslation::find()->where(['word' => $word, 'status' => NameTranslation::STATUS_ACTIVE])->all();
-                $translation = null;
-                foreach ($translations as $record) {
-                    /**
-                     * @var $record NameTranslation
-                     */
-                    if (strtolower(trim($record->word)) == $word) {
-                        $translation = $record;
-                        break;
-                    }
-                }
-//                if (!$translation && !empty($translations)) {
-//                    $translation = $translations[0];
+
+//        foreach ($words as $i => $o_word) {
+//            $word = strtolower(trim($o_word));
+//            if ($word) {
+//                $translations = NameTranslation::find()->where([
+//                    'word' => $word,
+//                    'type' => 0 == $i ? NameTranslation::TYPE_LAST_NAME : NameTranslation::TYPE_FIRST_NAME
+//                ])->all();
+//                $translation = null;
+//                foreach ($translations as $record) {
+//                    /**
+//                     * @var $record NameTranslation
+//                     */
+//                    if (strtolower(trim($record->word)) == $word) {
+//                        $translation = $record;
+//                        break;
+//                    }
 //                }
-                if ($translation) {
-                    $response['data']['name'] .= ' ' . trim($o_word);
-                    $response['data']['translated_name'] .= ' ' . $translation->translated_word;
-                    $response['data']['spelling'] .= ' ' . $translation->spelling;
-                } else {
-                    $response['data']['name'] .= ' ' . trim($o_word);
-                    $response['data']['translated_name'] .= ' _';
-                    $response['data']['spelling'] .= ' _';
-                }
+////                if (!$translation && !empty($translations)) {
+////                    $translation = $translations[0];
+////                }
+//                if ($translation) {
+//                    $response['data']['name'] .= ' ' . trim($o_word);
+//                    $response['data']['translated_name'] .= ' ' . $translation->translated_word;
+//                    $response['data']['spelling'] .= ' ' . $translation->spelling;
+//                } else {
+//                    $response['data']['name'] .= ' ' . trim($o_word);
+//                    $response['data']['translated_name'] .= ' _';
+//                    $response['data']['spelling'] .= ' _';
+//                }
+//            }
+//        }
+
+        $first_name_words = [];
+        $last_name_word = '';
+        if (count($words) == 1) {
+            $first_name_words = $words;
+        } else if (count($words) == 2) {
+            $first_name_words = [$words[1]];
+            $last_name_word = $words[0];
+        } else {
+            $first_name_words = array_slice($words, 2);
+            $last_name_word = $words[0] . ' ' . $words[1];
+            $last_name_translations = NameTranslation::find()
+                ->where(['LIKE', 'word', $last_name_word])
+                ->andWhere(['type' => NameTranslation::TYPE_LAST_NAME])
+                ->all();
+            if (count($last_name_translations) == 0) {
+                $first_name_words = array_slice($words, 1);
+                $last_name_word = $words[0];
             }
         }
+
+        $last_name_translation_all = NameTranslation::find()
+            ->where(['LIKE', 'word', $last_name_word])
+            ->andWhere(['type' => NameTranslation::TYPE_LAST_NAME])
+            ->all();
+
+        /**
+         * @var $last_name_translation NameTranslation[]
+         */
+        $last_name_translation = [];
+        foreach ($last_name_translation_all as $record) {
+            /**
+             * @var $record NameTranslation
+             */
+            if (mb_strtolower(trim($record->word)) == mb_strtolower($last_name_word)) {
+                $last_name_translation[] = $record;
+            }
+        }
+        if (count($last_name_translation) == 0) {
+            // find in chinese single word table
+
+        }
+
+        $first_name_translations_all = NameTranslation::find()
+            ->where(array_merge(
+                ['OR'],
+                array_map(function ($word) {
+                    return ['LIKE', 'word', $word];
+                }, $first_name_words)))
+            ->andWhere(['type' => NameTranslation::TYPE_FIRST_NAME])
+            ->all();
+
+        /**
+         * @var $first_name_translations NameTranslation[][]
+         */
+        $first_name_translations = [];
+        foreach ($first_name_words as $word_index => $word) {
+            $first_name_translations[$word_index] = [];
+            foreach ($first_name_translations_all as $record) {
+                /**
+                 * @var $record NameTranslation
+                 */
+                if (mb_strtolower(trim($record->word)) == mb_strtolower($word)) {
+                    $first_name_translations[$word_index][] = $record;
+                }
+            }
+            if (count($first_name_translations[$word_index]) == 0) {
+                // find in chinese single word table
+            }
+        }
+
+        $findMeaning = function ($translation) {
+            return array_map(function ($translation) {
+                /**
+                 * @var $translation NameTranslation
+                 */
+                $meaning = $translation->meaning;
+                if ('' === trim($meaning)) {
+                    /**
+                     * @var $singleWords ChineseSingleWord[]
+                     */
+                    $singleWords = ChineseSingleWord::find()
+                        ->where(['LIKE', 'word', $translation->translated_word])
+                        ->all();
+
+                    foreach ($singleWords as $singleWord) {
+                        if (mb_strtolower($singleWord->word) === mb_strtolower($translation->translated_word)) {
+                            $meaning .= str_replace(["\\n", "\\t"], ["\n", ""], $singleWord->meaning) . "\n";
+                        }
+                    }
+                    $meaning = trim($meaning);
+                }
+                return $meaning;
+            }, $translation);
+        };
+
+        if ('' !== $last_name_word) {
+            $response['data']['words'][] = $last_name_word;
+            $response['data']['translated_words'][] = array_map(function ($translation) {
+                /**
+                 * @var $translation NameTranslation
+                 */
+                return $translation->translated_word;
+            }, $last_name_translation);
+            $response['data']['spellings'][] = array_map(function ($translation) {
+                /**
+                 * @var $translation NameTranslation
+                 */
+                return $translation->spelling;
+            }, $last_name_translation);
+            $response['data']['meanings'][] = $findMeaning($last_name_translation);
+        }
+
+        foreach ($first_name_words as $index => $word) {
+            $response['data']['words'][] = $word;
+            $translation = $first_name_translations[$index];
+            $response['data']['translated_words'][] = array_map(function ($translation) {
+                /**
+                 * @var $translation NameTranslation
+                 */
+                return $translation->translated_word;
+            }, $translation);;
+            $response['data']['spellings'][] = array_map(function ($translation) {
+                /**
+                 * @var $translation NameTranslation
+                 */
+                return $translation->spelling;
+            }, $translation);
+            $response['data']['meanings'][] = $findMeaning($translation);
+        }
+
         echo json_encode($response);
         exit();
     }

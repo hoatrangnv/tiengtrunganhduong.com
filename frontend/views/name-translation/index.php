@@ -64,8 +64,8 @@ use yii\helpers\Url;
 <script>
     var search_text = <?= json_encode($search) ?>;
     var translationRoot = document.getElementById("translation-root");
-    var result = element("div", null, {"class": "result-box"});
-    var input = element(
+    var result = elm("div", null, {"class": "result-box"});
+    var input = elm(
         "input",
         null,
         {
@@ -74,11 +74,11 @@ use yii\helpers\Url;
             value: search_text.split("+").join(" "), "class": "search-input"
         }
     );
-    var form = element(
+    var form = elm(
         "form",
         [
             input,
-            element(
+            elm(
                 "button",
                 "Dịch",
                 {
@@ -88,14 +88,11 @@ use yii\helpers\Url;
             )
         ],
         {
-            "class": "search-form clr"
-        },
-        {
-            submit: [function (event) {
+            "class": "search-form clr",
+            onsubmit: function (event) {
                 event.preventDefault();
-
                 renderResult(input.value);
-            }]
+            }
         }
     );
     appendChildren(translationRoot, [form, result]);
@@ -106,21 +103,94 @@ use yii\helpers\Url;
         if ("string" == typeof search && search.trim()) {
             empty(result);
             result.appendChild(
-                element("div", "Đang dịch...")
+                elm("div", "Đang dịch...")
             );
-            requestTranslation(search, function (data) {
-                empty(result);
-                appendChildren(result, [
-                    element("h3", data.name),
-                    element("h3", data.translated_name),
-                    element("div", data.spelling)
-                ]);
-            }, function (error_msg) {
-                empty(result);
-                appendChildren(result, [
-                    element("h3", error_msg)
-                ]);
-            });
+            requestTranslation(
+                search,
+                /**
+                 *
+                 * @param data
+                 * @param {string[]} data.words
+                 * @param {string[][]} data.translated_words
+                 * @param {string[][]} data.spellings
+                 * @param {string[][]} data.meanings
+                 */
+                function (data) {
+                    empty(result);
+
+                    var null_replacement = "__";
+                    var translated_names = [];
+                    var spellings = [];
+                    var total_translated_names = 0;
+                    data.translated_words.forEach(function (translated_word_list, list_index) {
+                        if (translated_word_list.length === 0) {
+                            data.translated_words[list_index] = [null_replacement];
+                            data.spellings[list_index] = [null_replacement];
+                        } else {
+                            if (total_translated_names > 0) {
+                                total_translated_names *= translated_word_list.length;
+                            } else {
+                                total_translated_names = translated_word_list.length;
+                            }
+                        }
+                    });
+                    data.translated_words.forEach(function (translated_word_list, list_index) {
+                        if (translated_word_list.length > 0) {
+                            var same_count = total_translated_names / translated_word_list.length;
+                            var i, j;
+                            for (i = 0; i < translated_word_list.length; i ++) {
+                                for (j = 0; j < same_count; j++) {
+                                    if (0 == list_index) {
+                                        translated_names[i * same_count + j] = translated_word_list[i];
+                                        spellings[i * same_count + j] = data.spellings[list_index][i];
+                                    } else {
+                                        translated_names[i * same_count + j] += " " + translated_word_list[i];
+                                        spellings[i * same_count + j] += " " + data.spellings[list_index][i];
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    appendChildren(result, [
+                        elm("h3", data.words.join(" ")),
+                        elm("ul", translated_names.map(function (name, index) {
+                            return elm("li", [
+                                elm("b", name),
+                                elm("i", "(" + spellings[index] + ")", {
+                                    style: style({
+                                        "margin-left": "1em"
+                                    })
+                                })
+                            ]);
+                        })),
+                        elm("h3", "Ý nghĩa:", {
+                            style: style({
+                                "margin-top": "1rem"
+                            })
+                        }),
+                        elm("ul", data.words.map(function (word, index) {
+                            return elm("li", [
+                                elm("h4", word),
+                                elm("ul", data.meanings[index].map(function (meaning, meaning_index) {
+                                    return elm("li", [
+                                        elm("h5", data.translated_words[index][meaning_index]),
+                                        elm("div", meaning.split("\n").map(function (line) {
+                                            return elm("p", line);
+                                        }))
+                                    ]);
+                                }))
+                            ]);
+                        }))
+                    ]);
+                },
+                function (error_msg) {
+                    empty(result);
+                    appendChildren(result, [
+                        elm("h3", error_msg)
+                    ]);
+                }
+            );
         }
     }
 
@@ -147,19 +217,20 @@ use yii\helpers\Url;
     // =================
     // Helper functions
 
-    function element(nodeName, content, attributes, eventListeners) {
+    //func element
+    function elm(nodeName, content, attributes) {
         var node = document.createElement(nodeName);
         appendChildren(node, content);
         setAttributes(node, attributes);
-        addEventListeners(node, eventListeners);
         return node;
     }
 
     function appendChildren(node, content) {
         var append = function (t) {
-            if ("string" == typeof t) {
-                node.innerHTML += t;
-            } else if (t instanceof HTMLElement) {
+            if (/string|number/.test(typeof t)) {
+                var textNode = document.createTextNode(t);
+                node.appendChild(textNode);
+            } else if (t instanceof Node) {
                 node.appendChild(t);
             }
         };
@@ -177,23 +248,17 @@ use yii\helpers\Url;
             var attrName;
             for (attrName in attributes) {
                 if (attributes.hasOwnProperty(attrName)) {
-                    node.setAttribute(attrName, attributes[attrName]);
-                }
-            }
-        }
-    }
-
-    function addEventListeners(node, listeners) {
-        if (listeners) {
-            var eventName;
-            for (eventName in listeners) {
-                if (listeners.hasOwnProperty(eventName)) {
-                    if (listeners[eventName] instanceof Array) {
-                        listeners[eventName].forEach(function (listener) {
-                            node.addEventListener(eventName, listener);
-                        })
-                    } else {
-                        node[eventName] = listeners[eventName];
+                    var attrValue = attributes[attrName];
+                    switch (typeof attrValue) {
+                        case "string":
+                        case "number":
+                            node.setAttribute(attrName, attrValue);
+                            break;
+                        case "function":
+                        case "boolean":
+                            node[attrName] = attrValue;
+                            break;
+                        default:
                     }
                 }
             }
@@ -211,20 +276,10 @@ use yii\helpers\Url;
         var attrName;
         for (attrName in obj) {
             if (Object.prototype.hasOwnProperty.call(obj, attrName)) {
-                result_array.push(attrName + ":" + obj[attrName]);
+                result_array.push(attrName + ": " + obj[attrName]);
             }
         }
-        return result_array.join(";");
-    }
-
-    function isContains(root, elem) {
-        if (root.contains(elem)) {
-            return true;
-        } else {
-            return [].some.call(root.children, function (child) {
-                return isContains(child, elem);
-            });
-        }
+        return result_array.join("; ");
     }
 
 </script>

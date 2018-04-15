@@ -16,6 +16,9 @@ use Yii;
  */
 class NameTranslation extends \yii\db\ActiveRecord
 {
+    const TYPE_FIRST_NAME = 1;
+    const TYPE_LAST_NAME = 2;
+
     /**
      * @inheritdoc
      */

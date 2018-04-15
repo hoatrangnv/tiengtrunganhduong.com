@@ -1,10 +1,10 @@
 <?php
 return [
     'myActiveQuery' => [
-        'enableCache' => true,
+        'enableCache' => false,
         'publishTimeWrongNumber' => 60
     ],
     'amp' => false,
-    'enableCache' => true,
+    'enableCache' => false,
     'cacheDuration' => 3600,
 ];
