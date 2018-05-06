@@ -17,6 +17,7 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@common/runtime/cache',
+            'dirMode' => 0777,
         ],
         'frontendUrlManager' => [
             'class' => 'yii\web\UrlManager',
