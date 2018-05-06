@@ -58,7 +58,7 @@ use yii\widgets\ActiveForm;
         </div>
 
         <div class="body">
-            <?= $form->field($model, 'course_name')->dropDownList($course_list)->label('Đăng ký khóa học') ?>
+            <?= $form->field($model, 'course_name')->dropDownList($course_list)->label('Bạn quan tâm đến khóa học nào?') ?>
 
             <?= $form->field($model, 'name')->textInput() ?>
 
@@ -69,7 +69,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'message')->textarea(['rows' => 2]) ?>
 
             <div class="form-group">
-                <button type="submit">Đăng ký</button>
+                <button type="submit">Nhận tư vấn miễn phí</button>
             </div>
 
         </div>
@@ -122,7 +122,7 @@ use yii\widgets\ActiveForm;
                     <button type="button"
                             class="apply-button"
                             onclick="goToApplyForm('HAN_NGU_1')"
-                    >Đăng ký</button>
+                    >Nhận tư vấn miễn phí</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -153,7 +153,7 @@ use yii\widgets\ActiveForm;
                         type="button"
                         class="apply-button"
                         onclick="goToApplyForm('HAN_NGU_2')"
-                    >Đăng ký</button>
+                    >Nhận tư vấn miễn phí</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -184,7 +184,7 @@ use yii\widgets\ActiveForm;
                         type="button"
                         class="apply-button"
                         onclick="goToApplyForm('HAN_NGU_3')"
-                    >Đăng ký</button>
+                    >Nhận tư vấn miễn phí</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -215,7 +215,7 @@ use yii\widgets\ActiveForm;
                         type="button"
                         class="apply-button"
                         onclick="goToApplyForm('HAN_NGU_4')"
-                    >Đăng ký</button>
+                    >Nhận tư vấn miễn phí</button>
                 </div>
             </div>
             <div class="inner" data-clickable="true">
@@ -246,7 +246,7 @@ use yii\widgets\ActiveForm;
                         type="button"
                         class="apply-button"
                         onclick="goToApplyForm('HAN_NGU_5')"
-                    >Đăng ký</button>
+                    >Nhận tư vấn miễn phí</button>
                 </div>
             </div>
         </div>
