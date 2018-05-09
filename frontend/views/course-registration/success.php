@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký thành công khóa học <?= $course_name ?> | Tiếng Trung Ánh Dương</title>
+    <title>Nhận tư vấn khóa học <?= $course_name ?> | Tiếng Trung Ánh Dương</title>
     <style>
         html {
             font-size: 16px;
@@ -45,9 +45,9 @@
     </style>
 </head>
 <body>
-    <h1>Đăng ký thành công!</h1>
+    <h1>Đăng ký Tư vấn khóa học thành công!</h1>
     <p>
-        Chúc mừng bạn <strong><?= $name ?></strong> đã đăng ký thành công khóa học <strong><?= $course_name ?></strong>
+        Cảm ơn bạn <strong><?= $name ?></strong> đã quan tâm đến khóa học <strong><?= $course_name ?></strong>
     </p>
     <p>
         <strong>Tiếng Trung Ánh Dương</strong> sẽ liên hệ với bạn trong thời gian sớm nhất.
