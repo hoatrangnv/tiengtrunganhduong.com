@@ -26,10 +26,17 @@ class CourseRegistrationController extends Controller
     public function actionIndex()
     {
         $this->layout = false;
+
+
         $model = new CourseRegistrationForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 //            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
             // @TODO: Saves contact instead of sending email
+            $ref = Yii::$app->request->get('ref');
+            if ($ref !== null) {
+                $model->message .= "\n\n*Ref: $ref";
+            }
+
             if ($model->saveContact()) {
 //                Yii::$app->session->setFlash('success', 'Đăng ký thành công!');
                 return $this->redirect(['success', 'name' => $model->name, 'course_name' => $model->course_name]);
@@ -40,6 +47,11 @@ class CourseRegistrationController extends Controller
             return $this->refresh();
         } else {
             $course_list = self::COURSE_LIST;
+            $default_course = Yii::$app->request->get('default_course');
+            if (!isset($course_list[$default_course])) {
+                $default_course = '';
+            }
+            $model->course_name = $default_course;
             return $this->render('index', compact('model', 'course_list'));
         }
     }
