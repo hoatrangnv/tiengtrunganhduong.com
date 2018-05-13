@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
     <meta name="robots" content="index, follow">
     <meta name="robots" content="NOODP, NOYDIR">
     <title>Khóa học tiếng Trung cơ bản, tiếng Trung giao tiếp-Trung tâm tiếng Trung Ánh Dương</title>
+    <link href="<?= \yii\helpers\Url::to(['course-registration/index'], true) ?>" rel="canonical">
     <style type="text/css">
          <?php
          require_once 'slider.css';
