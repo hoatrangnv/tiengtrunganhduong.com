@@ -30,6 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'word',
+            'spelling',
+            'spelling_vi',
             'meaning:ntext',
         ],
     ]) ?>

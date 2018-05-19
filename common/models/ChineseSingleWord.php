@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property string $word
+ * @property string $spelling
+ * @property string $spelling_vi
  * @property string $meaning
  */
 class ChineseSingleWord extends \yii\db\ActiveRecord
@@ -27,9 +29,9 @@ class ChineseSingleWord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['word', 'meaning'], 'required'],
+            [['word', 'spelling', 'spelling_vi', 'meaning'], 'required'],
             [['meaning'], 'string'],
-            [['word'], 'string', 'max' => 255],
+            [['word', 'spelling', 'spelling_vi'], 'string', 'max' => 255],
         ];
     }
 
@@ -41,6 +43,8 @@ class ChineseSingleWord extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'word' => 'Word',
+            'spelling' => 'Spelling',
+            'spelling_vi' => 'Spelling Vi',
             'meaning' => 'Meaning',
         ];
     }

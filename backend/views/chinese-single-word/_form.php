@@ -14,6 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'word')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'spelling')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'spelling_vi')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'meaning')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

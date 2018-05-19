@@ -20,6 +20,8 @@ class m180403_101010_create_chinese_single_word_table extends Migration
         $this->createTable('chinese_single_word', [
             'id' => $this->primaryKey(),
             'word' => $this->string()->notNull(),
+            'spelling' => $this->string()->notNull(),
+            'spelling_vi' => $this->string()->notNull(),
             'meaning' => $this->text()->notNull(),
         ], $tableOptions);
     }

@@ -19,6 +19,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'word') ?>
 
+    <?= $form->field($model, 'spelling') ?>
+
+    <?= $form->field($model, 'spelling_vi') ?>
+
     <?= $form->field($model, 'meaning') ?>
 
     <div class="form-group">

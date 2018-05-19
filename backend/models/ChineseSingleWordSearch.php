@@ -19,7 +19,7 @@ class ChineseSingleWordSearch extends ChineseSingleWord
     {
         return [
             [['id'], 'integer'],
-            [['word', 'meaning'], 'safe'],
+            [['word', 'spelling', 'spelling_vi', 'meaning'], 'safe'],
         ];
     }
 
@@ -63,6 +63,8 @@ class ChineseSingleWordSearch extends ChineseSingleWord
         ]);
 
         $query->andFilterWhere(['like', 'word', $this->word])
+            ->andFilterWhere(['like', 'spelling', $this->spelling])
+            ->andFilterWhere(['like', 'spelling_vi', $this->spelling_vi])
             ->andFilterWhere(['like', 'meaning', $this->meaning]);
 
         return $dataProvider;

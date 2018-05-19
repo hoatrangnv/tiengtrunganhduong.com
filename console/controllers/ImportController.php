@@ -60,11 +60,13 @@ class ImportController extends Controller {
 
     public function actionDict()
     {
-        $data = json_decode(file_get_contents(\Yii::getAlias('@console/data/tu-don-nhieu-nghia.json', 'r'), true));
+        $data = json_decode(file_get_contents(\Yii::getAlias('@console/data/single_words.json', 'r'), true));
         foreach ($data as $item) {
             $model = new ChineseSingleWord();
             $model->word = $item[0];
-            $model->meaning = $item[1];
+            $model->spelling = $item[1];
+            $model->spelling_vi = $item[2];
+            $model->meaning = $item[3];
             $model->save();
         }
     }
