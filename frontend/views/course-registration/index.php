@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
     <meta name="robots" content="index, follow">
     <meta name="robots" content="NOODP, NOYDIR">
     <title>Khóa học tiếng Trung cơ bản, tiếng Trung giao tiếp-Trung tâm tiếng Trung Ánh Dương</title>
+    <link href="<?= \yii\helpers\Url::to(['course-registration/index'], true) ?>" rel="canonical">
     <style type="text/css">
          <?php
          require_once 'slider.css';
@@ -636,8 +637,6 @@ use yii\widgets\ActiveForm;
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-P88Z7R2');</script>
 <!-- End Google Tag Manager -->
-
-Additionally, paste this code immediately after the opening <body> tag:
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P88Z7R2"

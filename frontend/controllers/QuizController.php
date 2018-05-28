@@ -373,6 +373,7 @@ class QuizController extends BaseController
                      */
                     $singleWords = ChineseSingleWord::find()
                         ->where(['LIKE', 'word', $translation->translated_word])
+                        ->andWhere(['LIKE', 'spelling', $translation->spelling])
                         ->all();
 
                     foreach ($singleWords as $singleWord) {
