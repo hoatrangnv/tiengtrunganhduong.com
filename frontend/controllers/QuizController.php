@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\ChineseSingleWord;
+use common\models\MissingWord;
 use common\models\NameTranslation;
 use common\models\UrlParam;
 use common\utils\FacebookDebugger;
@@ -402,6 +403,19 @@ class QuizController extends BaseController
                 return $translation->spelling;
             }, $last_name_translation);
             $response['data']['meanings'][] = $findMeaning($last_name_translation);
+
+            if (empty($last_name_translation)) {
+                if (!($missingWord = MissingWord::findOne(['word' => $last_name_word]))) {
+                    $missingWord = new MissingWord();
+                    $missingWord->word = $last_name_word;
+                    $missingWord->search_count = 1;
+                    $missingWord->status = MissingWord::STATUS_NEW;
+                } else {
+                    $missingWord->search_count++;
+                }
+                $missingWord->last_search_time = date('Y-m-d H:i:s');
+                $missingWord->save();
+            }
         }
 
         foreach ($first_name_words as $index => $word) {
@@ -420,6 +434,19 @@ class QuizController extends BaseController
                 return $translation->spelling;
             }, $translation);
             $response['data']['meanings'][] = $findMeaning($translation);
+
+            if (empty($translation)) {
+                if (!($missingWord = MissingWord::findOne(['word' => $word]))) {
+                    $missingWord = new MissingWord();
+                    $missingWord->word = $word;
+                    $missingWord->search_count = 1;
+                    $missingWord->status = MissingWord::STATUS_NEW;
+                } else {
+                    $missingWord->search_count++;
+                }
+                $missingWord->last_search_time = date('Y-m-d H:i:s');
+                $missingWord->save();
+            }
         }
 
         echo json_encode($response);
