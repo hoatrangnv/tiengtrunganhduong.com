@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\MissingWord;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,13 +13,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'word')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'word')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'search_count')->textInput() ?>
+    <?= $form->field($model, 'search_count')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'last_search_time')->textInput() ?>
+    <?= $form->field($model, 'last_search_time')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(MissingWord::$allStatusLabels) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

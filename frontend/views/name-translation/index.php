@@ -174,7 +174,14 @@ use yii\helpers\Url;
                                 elm("h4", word),
                                 elm("ul", data.meanings[index].map(function (meaning, meaning_index) {
                                     return elm("li", [
-                                        elm("h5", data.translated_words[index][meaning_index]),
+                                        elm(
+                                            "div",
+                                            [
+                                                elm("b", data.translated_words[index][meaning_index]),
+                                                " ",
+                                                elm("i", "(" + data.spellings[index][meaning_index] + ")")
+                                            ]
+                                        ),
                                         elm("div", meaning.split("\n").map(function (line) {
                                             return elm("p", line);
                                         }))

@@ -16,7 +16,12 @@ use Yii;
 class MissingWord extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 1;
-    const STATUS_FILLED = 2;
+    const STATUS_ADDED = 2;
+
+    public static $allStatusLabels = [
+        self::STATUS_NEW => 'Mới',
+        self::STATUS_ADDED => 'Đã thêm'
+    ];
 
     /**
      * @inheritdoc
