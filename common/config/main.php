@@ -36,7 +36,7 @@ return [
         '@quiz' => '@common/modules/quiz',
         '@mdm/admin' => '@backend/mdm.admin',
         '@frontendUrl' => 'https://tiengtrunganhduong.com',
-        '@backendUrl' => 'https://admin.tiengtrunganhduong.com',
+        '@backendUrl' => 'https://tiengtrunganhduong.com/backend',
         '@imagesUrl' => 'https://tiengtrunganhduong.com/images',
         '@audiosUrl' => 'https://tiengtrunganhduong.com/audios',
         '@quizImagesUrl' => 'https://tiengtrunganhduong.com/quiz-images',
