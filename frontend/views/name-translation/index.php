@@ -14,7 +14,7 @@ use yii\helpers\Url;
 <style>
     .title {
         margin-bottom: 1rem;
-        font-size: 2em;
+        font-size: 1.8em;
     }
     .search-form {
         width: 100%;
@@ -55,9 +55,22 @@ use yii\helpers\Url;
     .result-box {
         margin-top: 1rem;
     }
+    .desc {
+        margin-bottom: 2rem;
+    }
+    #translation-root {
+        margin-bottom: 2rem;
+    }
+    #translation-root ul {
+        padding-left: 1.5em;
+    }
 </style>
 
-<h2 class="title">Dịch tên Tiếng Việt sang Tiếng Trung</h2>
+<h2 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Họ tên Tiếng Trung của bạn' ?></h2>
+
+<div class="desc">
+    <?= $this->context->seoInfo->long_description ?>
+</div>
 
 <div id="translation-root"></div>
 
@@ -70,8 +83,9 @@ use yii\helpers\Url;
         null,
         {
             type: "text",
-            placeholder: "Nhập tên của bạn tại đây",
-            value: search_text.split("+").join(" "), "class": "search-input"
+            placeholder: "Nhập họ tên của bạn tại đây",
+            value: search_text.split("+").join(" "), "class": "search-input",
+            spellcheck: "false"
         }
     );
     var form = elm(
@@ -152,44 +166,63 @@ use yii\helpers\Url;
                         }
                     });
 
-                    appendChildren(result, [
-                        elm("h3", data.words.join(" ")),
-                        elm("ul", translated_names.map(function (name, index) {
-                            return elm("li", [
-                                elm("b", name),
-                                elm("i", "(" + spellings[index] + ")", {
-                                    style: style({
-                                        "margin-left": "1em"
+                    appendChildren(
+                        result,
+                        [
+                            elm("h3", data.words.join(" ")),
+                            elm("ul", translated_names.map(function (name, index) {
+                                return elm("li", [
+                                    elm("b", name),
+                                    elm("i", "(" + spellings[index] + ")", {
+                                        style: style({
+                                            "margin-left": "0.5em"
+                                        })
                                     })
+                                ]);
+                            })),
+                            elm("h3", "Ý nghĩa:", {
+                                style: style({
+                                    "margin-top": "1rem",
+                                    "text-decoration": "underline",
+                                    color: "#16B0F4"
                                 })
-                            ]);
-                        })),
-                        elm("h3", "Ý nghĩa:", {
-                            style: style({
-                                "margin-top": "1rem"
                             })
-                        }),
-                        elm("ul", data.words.map(function (word, index) {
-                            return elm("li", [
-                                elm("h4", word),
-                                elm("ul", data.meanings[index].map(function (meaning, meaning_index) {
-                                    return elm("li", [
-                                        elm(
-                                            "div",
-                                            [
-                                                elm("b", data.translated_words[index][meaning_index]),
-                                                " ",
-                                                elm("i", "(" + data.spellings[index][meaning_index] + ")")
-                                            ]
-                                        ),
-                                        elm("div", meaning.split("\n").map(function (line) {
-                                            return elm("p", line);
-                                        }))
-                                    ]);
-                                }))
-                            ]);
+                        ].concat(data.words.map(function (word, index) {
+                            return elm(
+                                "div",
+                                [
+                                    elm("h3", word),
+                                    elm("ul", data.meanings[index].map(function (meaning, meaning_index) {
+                                        return elm("li", [
+                                            elm(
+                                                "div",
+                                                [
+                                                    elm("b", data.translated_words[index][meaning_index]),
+                                                    elm("i", "(" + data.spellings[index][meaning_index] + ")", {
+                                                        style: style({
+                                                            "margin-left": "0.5em"
+                                                        })
+                                                    })
+                                                ]
+                                            ),
+                                            elm("div", meaning.split("\n").map(function (line) {
+                                                return elm("p", line);
+                                            }), {
+                                                style: style({
+                                                    color: "#666"
+                                                })
+                                            })
+                                        ]);
+                                    }))
+                                ],
+                                {
+                                    style: style({
+                                        "margin-top": "0.5rem"
+                                    })
+                                }
+                            );
                         }))
-                    ]);
+                    );
                 },
                 function (error_msg) {
                     empty(result);
@@ -290,3 +323,6 @@ use yii\helpers\Url;
     }
 
 </script>
+
+<?= $this->render('//layouts/likeShare') ?>
+<?= $this->render('//layouts/fbComment') ?>

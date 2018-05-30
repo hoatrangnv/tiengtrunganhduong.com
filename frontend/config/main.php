@@ -68,7 +68,7 @@ return [
 //                ['pattern' => 'my-quiz/get-sharing-data', 'route' => '/my-quiz/get-sharing-data'],
 //                ['pattern' => 'my-quiz/remove-sharing-image', 'route' => '/my-quiz/remove-sharing-image'],
                 // Quiz
-                ['pattern' => 'dich-ten-tieng-viet-sang-tieng-trung.html', 'route' => 'name-translation/index'],
+                ['pattern' => 'ho-ten-tieng-trung-quoc-cua-ban.html', 'route' => 'name-translation/index'],
                 ['pattern' => 'quiz', 'route' => 'quiz/index'],
                 ['pattern' => 'quiz', 'route' => 'quiz/index', 'suffix' => '/'],
                 ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'quiz/play'],
