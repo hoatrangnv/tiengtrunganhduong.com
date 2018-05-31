@@ -66,7 +66,7 @@ use yii\helpers\Url;
     }
 </style>
 
-<h2 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Họ tên Tiếng Trung của bạn' ?></h2>
+<h1 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Họ tên Tiếng Trung của bạn' ?></h1>
 
 <div class="desc">
     <?= $this->context->seoInfo->long_description ?>
