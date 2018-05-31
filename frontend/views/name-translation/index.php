@@ -13,7 +13,7 @@ use yii\helpers\Url;
 ?>
 <style>
     .title {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
         font-size: 1.8em;
     }
     .search-form {
