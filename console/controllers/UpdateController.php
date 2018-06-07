@@ -10,6 +10,7 @@ namespace console\controllers;
 
 
 use backend\models\Image;
+use common\models\NameTranslation;
 use frontend\models\ArticleCategory;
 use yii\console\Controller;
 use yii\helpers\VarDumper;
@@ -194,5 +195,24 @@ class UpdateController extends Controller
                 echo VarDumper::dumpAsString($item->errors) . "\n";
             }
         }
+    }
+
+    public function actionRemoveSpacesFromNameTranslationTable()
+    {
+        $w_count = 0;
+        $s_count = 0;
+        foreach (NameTranslation::find()->where(['type' => NameTranslation::TYPE_FIRST_NAME])->all() as $nameTranslation) {
+            /**
+             * @var $nameTranslation NameTranslation
+             */
+            if (strpos($nameTranslation->translated_word, ' ') !== false) {
+                $w_count++;
+            }
+            if (strpos($nameTranslation->spelling, ' ') !== false) {
+                $s_count++;
+            }
+        }
+        echo "\nW count = $w_count";
+        echo "\nS count = $s_count";
     }
 }
