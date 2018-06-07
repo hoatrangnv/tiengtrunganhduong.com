@@ -29,6 +29,41 @@ class NameTranslationController extends Controller
         ];
     }
 
+    public function actionRemoveSpacesFromNameTranslationTable()
+    {
+        $total_count = 0;
+        $w_count = 0;
+        $t_count = 0;
+        $s_count = 0;
+        $saved_count = 0;
+        foreach (NameTranslation::find()->where(['type' => NameTranslation::TYPE_FIRST_NAME])->all() as $nameTranslation) {
+            $total_count++;
+            /**
+             * @var $nameTranslation NameTranslation
+             */
+            if (mb_strpos($nameTranslation->word, ' ') !== false) {
+                $nameTranslation->word = str_replace(' ', '', $nameTranslation->word);
+                $w_count++;
+            }
+            if (mb_strpos($nameTranslation->translated_word, ' ') !== false) {
+                $nameTranslation->translated_word = str_replace(' ', '', $nameTranslation->translated_word);
+                $t_count++;
+            }
+            if (mb_strpos($nameTranslation->spelling, ' ') !== false) {
+                $nameTranslation->spelling = str_replace(' ', '', $nameTranslation->spelling);
+                $s_count++;
+            }
+            if ($nameTranslation->save()) {
+                $saved_count++;
+            }
+        }
+        echo "\nTotal count = $total_count";
+        echo "\nW count = $w_count";
+        echo "\nT count = $t_count";
+        echo "\nS count = $s_count";
+        echo "\nSaved count = $saved_count";
+    }
+
     /**
      * Lists all NameTranslation models.
      * @return mixed
