@@ -14,7 +14,7 @@ return [
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
-            'baseUrl' => '/backend',
+            'baseUrl' => '',
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
