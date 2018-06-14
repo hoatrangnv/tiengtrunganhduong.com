@@ -325,4 +325,4 @@ use yii\helpers\Url;
 </script>
 
 <?= $this->render('//layouts/likeShare') ?>
-<?= $this->render('//layouts/fbComment') ?>
+<?= $this->render('//layouts/fbComment', ['url' => $this->context->canonicalLink]) ?>
