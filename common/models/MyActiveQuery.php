@@ -328,7 +328,7 @@ class MyActiveQuery extends ActiveQuery implements ActiveQueryInterface
     {
         $query = clone $this;
         if ($query->primaryModel !== null) {
-            $query->primaryModel = "{$query->primaryModel->className()}#{$query->primaryModel->primaryKey}";
+            $query->primaryModel = $query->primaryModel->className() . '#' . json_encode($query->primaryModel->primaryKey);
         }
         return md5(serialize([
             $method,
