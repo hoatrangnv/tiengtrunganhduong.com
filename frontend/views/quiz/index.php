@@ -27,13 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php
     if ($hasMore) {
-        echo '<button type="button" class="view-more"'
-                . ' onclick="viewMore(this.previousElementSibling, this)">Xem thêm</button>';
+        echo '<button type="button" class="see-more"'
+            . ' onclick="seeMore(this.previousElementSibling, this)">Xem thêm</button>';
     }
     ?>
 </div>
 <script>
-    function viewMore(container, button) {
+    function seeMore(container, button) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             (Yii::$app->request->csrfParam . '=' . Yii::$app->request->csrfToken)
             . ('&' . UrlParam::ACTION_ID . '=' . $action_id)
             . (
-                $action_id == 'category'
+            $action_id == 'category'
                 ? ('&' . UrlParam::SLUG . "=$slug")
                 : ''
             )
