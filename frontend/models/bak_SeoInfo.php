@@ -12,28 +12,19 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\View;
 
-/**
- * Class SeoInfo
- * @package frontend\models
- * @property (String|integer)[] $customImage
- */
-class SeoInfo extends \common\models\SeoInfo
+class bak_SeoInfo extends \common\models\SeoInfo
 {
-    public $customImage;
-
-    public function init()
-    {
-        parent::init();
-        if (!$this->name) {
-            $this->name = Yii::$app->name;
-        }
-    }
-
+    public $image_src;
     /**
      * @return SeoInfo
      */
-    public static function findStaticSeoInfo()
+    public static function findOneByRequestInfo()
     {
+//        $url_path = parse_url(Yii::$app->request->absoluteUrl, PHP_URL_PATH);
+//        $model = self::find()
+//            ->where(['REGEXP', 'url', "$url_path"])
+//            ->oneActive();
+
         $model = self::find()->where(['route' => Yii::$app->requestedRoute])->oneActive();
         return $model;
     }
@@ -55,11 +46,11 @@ class SeoInfo extends \common\models\SeoInfo
         $context = $view->context;
         $view->registerMetaTag([
             'name' => 'description',
-            'content' => $this->meta_description ? $this->meta_description : $this->name
+            'content' => $this->meta_description
         ], 'description');
         $view->registerMetaTag([
             'name' => 'keywords',
-            'content' => $this->meta_keywords ? $this->meta_keywords : $this->name
+            'content' => $this->meta_keywords
         ], 'keywords');
         $view->registerMetaTag([
             'name' => 'robots',
@@ -85,6 +76,11 @@ class SeoInfo extends \common\models\SeoInfo
             'name' => 'DC.Source',
             'content' => Url::home(true)
         ]);
+//        $view->registerMetaTag([
+//            'name' => 'DC.language',
+//            'scheme' => 'UTF-8',
+//            'content' => 'vi'
+//        ]);
         $view->registerMetaTag([
             'name' => 'DC.Coverage',
             'content' => 'Việt Nam'
@@ -105,10 +101,14 @@ class SeoInfo extends \common\models\SeoInfo
             'name' => 'viewport',
             'content' => 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no'
         ]);
+        $view->registerMetaTag([
+            'name' => 'google-site-verification',
+            'content' => '5OXlM25RjDEojQoFvlP8bm8y3DOdhq-Svq6aiYVCsGY'
+        ]);
         /** Facebook Meta */
         $view->registerMetaTag([
             'property' => 'fb:app_id',
-            'content' => Yii::$app->params['facebook.appID']
+            'content' => Yii::$app->params['fb_app_id']
         ]);
         $view->registerMetaTag([
             'property' => 'og:type',
@@ -116,47 +116,27 @@ class SeoInfo extends \common\models\SeoInfo
         ]);
         $view->registerMetaTag([
             'property' => 'og:title',
-            'content' => $this->meta_title ? $this->meta_title : $this->name
+            'content' => $this->meta_title
         ]);
         $view->registerMetaTag([
             'property' => 'og:description',
-            'content' => $this->meta_description ? $this->meta_description : $this->name
+            'content' => $this->meta_description
         ]);
         if (property_exists($context, 'canonicalLink')) {
             $view->registerMetaTag([
                 'property' => 'og:url',
-                'content' => Url::current([], true)
+                'content' => $context->canonicalLink
             ]);
         }
-        if (isset($this->customImage['source'])) {
+        if ($this->image_src) {
             $view->registerMetaTag([
                 'property' => 'og:image',
-                'content' => $this->customImage['source']
+                'content' => $this->image_src
             ]);
-            if (isset($this->customImage['width'])) {
-                $view->registerMetaTag([
-                    'property' => 'og:image:width',
-                    'content' => $this->customImage['width']
-                ]);
-            }
-            if (isset($this->customImage['height'])) {
-                $view->registerMetaTag([
-                    'property' => 'og:image:height',
-                    'content' => $this->customImage['height']
-                ]);
-            }
         } else if ($this->image) {
             $view->registerMetaTag([
                 'property' => 'og:image',
                 'content' => $this->image->getSource()
-            ]);
-            $view->registerMetaTag([
-                'property' => 'og:image:width',
-                'content' => $this->image->width
-            ]);
-            $view->registerMetaTag([
-                'property' => 'og:image:height',
-                'content' => $this->image->height
             ]);
         }
         $view->registerMetaTag([
@@ -196,7 +176,12 @@ class SeoInfo extends \common\models\SeoInfo
         }
     }
 
-    public function beforeSave($insert)
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        return false;
+    }
+
+    public function update($runValidation = true, $attributeNames = null)
     {
         return false;
     }

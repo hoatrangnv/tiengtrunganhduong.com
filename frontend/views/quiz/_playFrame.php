@@ -1082,7 +1082,7 @@ $loadingIcon = str_replace(["/\r|\n/", "#", "/"], ["", "%23", "%2F"], preg_repla
                 title: data.title || (window.QuizPlayProps ? window.QuizPlayProps.name : ''),
                 description: data.description || (window.QuizPlayProps ? window.QuizPlayProps.description : ''),
                 caption: <?= json_encode(Yii::$app->name) ?>,
-                hashtag: "#horoquiz"
+                hashtag: "#tiengtrunganhduong"
             }, // callback
             function (response) {
                 if (response && !response.error_message) {
