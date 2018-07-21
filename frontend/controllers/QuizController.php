@@ -27,7 +27,7 @@ class QuizController extends BaseController
         $models = $this->findModels(Quiz::find());
         return $this->render('index', [
             'title' => Yii::t('app', 'Quizzes'),
-            'quizzes' => array_slice($models, 0, self::ITEMS_PER_PAGE),
+            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
     }
