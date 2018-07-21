@@ -14,17 +14,21 @@ if (!isset($imagesSize)) {
     $imagesSize = null;
 }
 
-foreach ($models as $quiz) {
-    echo "<li>{$quiz->a(
-                '<div class="image">' .
-                    '<div class="item-view">' .
-                        '<div class="img-wrap">' .
-                            $quiz->img($imagesSize) .
-                        '</div>' .
-                    '</div>' .
-                '</div>' .
-                '<div class="name">' .
-                    $quiz->name .
-                '</div>'
-            )}</li>";
+foreach ($models as $item) {
+    echo $item->a('<div class="image">
+        <div class="item-view">
+            <div class="img-wrap">' .
+        $item->img($imagesSize) .
+        '</div>
+        </div>
+    </div>
+    <div class="name">' .
+        "<span>$item->name</span>" .
+        '</div>
+    <div class="info">' .
+        $this->render('info', ['model' => $item]) .
+        '</div>
+    <div class="desc">' .
+        $item->desc() .
+        '</div>', ['class' => 'news-item clr']);
 }
