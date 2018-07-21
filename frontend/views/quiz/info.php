@@ -17,7 +17,7 @@
 </span>
 <span class="info-item views">
     <i class="icon eye-icon"></i>
-    <span><?= Yii::t('app', '{0,number} views', $model->views()) ?></span>
+    <span><?= Yii::t('app', '{0,number} plays', $model->views()) ?></span>
 </span>
 <span class="info-item comments">
     <i class="icon chat-icon"></i>
