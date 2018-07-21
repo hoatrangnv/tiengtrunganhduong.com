@@ -66,7 +66,6 @@ $seoInfo->registerLinkTags($this);
             <?php require_once 'aside.php' ?>
         </aside>
     </div>
-    <div id="fb-root"></div>
 </div>
 
 <?php require_once 'footer.php' ?>
