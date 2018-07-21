@@ -167,6 +167,29 @@ $loadingIcon = str_replace(["/\r|\n/", "#", "/"], ["", "%23", "%2F"], preg_repla
 <div id="quiz-play-root"></div>
 
 <style>
+    .loading-icon {
+        background-image: url("data:image/svg+xml,\
+    <svg version='1.1' id='Layer_1' xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg' xmlns:xlink='http:%2F%2Fwww.w3.org%2F1999%2Fxlink' x='0px' y='0px' width='24px' height='30px' viewBox='0 0 24 30' style='enable-background:new 0 0 50 50;' xml:space='preserve'>\
+    <rect x='0' y='10' width='4' height='10' fill='%23333' opacity='0.2'>\
+    <animate attributeName='opacity' attributeType='XML' values='0.2; 1; .2' begin='0s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <animate attributeName='height' attributeType='XML' values='10; 20; 10' begin='0s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <animate attributeName='y' attributeType='XML' values='10; 5; 10' begin='0s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <%2Frect>\
+    <rect x='8' y='10' width='4' height='10' fill='%23333'  opacity='0.2'>\
+    <animate attributeName='opacity' attributeType='XML' values='0.2; 1; .2' begin='0.15s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <animate attributeName='height' attributeType='XML' values='10; 20; 10' begin='0.15s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <animate attributeName='y' attributeType='XML' values='10; 5; 10' begin='0.15s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <%2Frect>\
+    <rect x='16' y='10' width='4' height='10' fill='%23333'  opacity='0.2'>\
+    <animate attributeName='opacity' attributeType='XML' values='0.2; 1; .2' begin='0.3s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <animate attributeName='height' attributeType='XML' values='10; 20; 10' begin='0.3s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <animate attributeName='y' attributeType='XML' values='10; 5; 10' begin='0.3s' dur='0.6s' repeatCount='indefinite' %2F>\
+    <%2Frect>\
+    <%2Fsvg>\
+    ");
+        width: 1em;
+        height: 1em;
+    }
     .quiz-msg-overlay {
         display: block;
         position: absolute;

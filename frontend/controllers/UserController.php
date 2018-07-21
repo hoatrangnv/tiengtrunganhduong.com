@@ -8,25 +8,38 @@
 
 namespace frontend\controllers;
 
-use Facebook\Facebook;
-use Facebook\FacebookResponse;
-use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Exceptions\FacebookResponseException;
-
-use frontend\models\SiteParam;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\FacebookResponse;
+use Facebook\Facebook;
 use frontend\models\User;
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class UserController extends Controller
 {
+
+    const COOKIE_EXPIRE_TIME = 864000;
+
+    /*
+     * for javascript only
+     */
     public function actionLoginWithFacebook()
     {
+//        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $response = [
+            'data' => null,
+            'errorMsg' => ''
+        ];
 
         $fb = new Facebook([
             'app_id' => Yii::$app->params['facebook.appID'],
             'app_secret' => Yii::$app->params['facebook.appSecret'],
-            'default_graph_version' => 'v2.2',
+            'default_graph_version' => 'v2.10',
         ]);
 
         $helper = $fb->getJavaScriptHelper();
@@ -34,92 +47,91 @@ class UserController extends Controller
         try {
             $accessToken = $helper->getAccessToken();
             $userID = $helper->getUserId();
-        } catch(FacebookResponseException $e) {
+        } catch (FacebookResponseException $e) {
             // When Graph returns an error
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch(FacebookSDKException $e) {
+            $response['errorMsg'] = 'Graph returned an error: ' . $e->getMessage();
+        } catch (FacebookSDKException $e) {
             // When validation fails or other local issues
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
+            $response['errorMsg'] =  'Facebook SDK returned an error: ' . $e->getMessage();
         }
 
-        if (!isset($accessToken, $userID)) {
-            echo 'No cookie set or no OAuth data could be obtained from cookie.';
-            exit;
-        }
 
-        // Logged in
-        echo json_encode([
-            'userID' => $userID,
-            'accessToken' => $accessToken->getValue(),
-        ]);
+        if (isset($accessToken, $userID)) {
+            // Logged in
+            $response['data'] = [
+                'userID' => $userID,
+                'accessToken' => $accessToken->getValue(),
+                'info' => [
+                    'name' => null,
+                    'first_name' => null,
+                    'last_name' => null,
+                    'gender' => null,
+                    'birthday' => null,
+                ],
+            ];
 
-//        $_SESSION['fb_access_token'] = (string) $accessToken;
-
-        try {
             // Returns a `Facebook\FacebookResponse` object
             /**
              * @var $response FacebookResponse
              */
-            $fbResponse = $fb->get("/$userID?fields=id,name,first_name,last_name,gender,picture,email", $accessToken);
-        } catch(FacebookResponseException $e) {
-//            $response['errorMsg'] = 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch(FacebookSDKException $e) {
-//            $response['errorMsg'] = 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
-        }
+            $fbResponse = $fb->get("/$userID?fields=id,name,first_name,last_name,gender,picture,email,birthday", $accessToken);
+            $fbUser = $fbResponse->getGraphUser();
 
-        $fbUser = $fbResponse->getGraphUser();
-
-//        $response['data'] = [
-//            'name' => $user->getName(),
-//            'first_name' => $user->getFirstName(),
-//            'last_name' => $user->getLastName(),
-//            'gender' => $user->getGender(),
-//            'birthday' => $user->getBirthday(),
-//        ];
-
-        $username = User::getUsernameFromFbUId($userID);
-        $password = Yii::$app->security->generateRandomString();
-        if ($user = User::findByUsername($username)) {
-            $user->first_name = $fbUser->getFirstName();
-            $user->last_name = $fbUser->getLastName();
-            $user->gender = $fbUser->getGender();
-            $user->picture_url = $fbUser->getPicture()->getUrl();
-            $user->save();
-            Yii::$app->user->login($user);
-        } else {
-            $user = new User();
-            $user->username = $username;
-            $user->email = "$username@facebook.com";
-            $user->first_name = $fbUser->getFirstName();
-            $user->last_name = $fbUser->getLastName();
-            $user->gender = $fbUser->getGender();
-            $user->picture_url = $fbUser->getPicture()->getUrl();
-            $user->type = User::TYPE_FRONTEND;
-            $user->status = User::STATUS_ACTIVE;
-            $user->setPassword($password);
-            $user->generateAuthKey();
-            if ($user->save()) {
-                Yii::$app->user->login($user);
+            $username = User::getUsernameFromFbUId($userID);
+            $password = Yii::$app->security->generateRandomString();
+            if ($user = User::findByUsername($username)) {
+                $user->first_name = $fbUser->getFirstName();
+                $user->last_name = $fbUser->getLastName();
+                $user->gender = $fbUser->getGender();
+                $user->picture_url = $fbUser->getPicture()->getUrl();
+                $user->save();
+                Yii::$app->user->login($user, self::COOKIE_EXPIRE_TIME);
+            } else {
+                $user = new User();
+                $user->username = $username;
+                $user->email = $fbUser->getEmail();
+                if (!$user->email) {
+                    $user->email = "$username@facebook.com";
+                }
+                $user->first_name = $fbUser->getFirstName();
+                $user->last_name = $fbUser->getLastName();
+                $user->gender = $fbUser->getGender();
+                $user->picture_url = $fbUser->getPicture()->getUrl();
+                $user->type = User::TYPE_FRONTEND;
+                $user->status = User::STATUS_ACTIVE;
+                $user->setPassword($password);
+                $user->generateAuthKey();
+                if ($user->save()) {
+                    Yii::$app->user->login($user, self::COOKIE_EXPIRE_TIME);
+                }
             }
+
+            $response['data']['info'] = [
+                'id' => $userID,
+                'name' => $fbUser->getName(),
+                'first_name' => $fbUser->getFirstName(),
+                'last_name' => $fbUser->getLastName(),
+                'gender' => $fbUser->getGender(),
+                'birthday' => $fbUser->getBirthday(),
+            ];
+
+            // User is logged in!
+            // You can redirect them to a members-only page.
+            //header('Location: https://example.com/members.php');
+        } else {
+            $response['errorMsg'] =  'No cookie set or no OAuth data could be obtained from cookie.';
         }
 
-        // User is logged in!
-        // You can redirect them to a members-only page.
-        //header('Location: https://example.com/members.php');
-
-
+        return json_encode($response);
     }
 
     public function actionGetFacebookData()
     {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         $userID = Yii::$app->request->post('userID');
         $accessToken = Yii::$app->request->post('accessToken');
         $response = [
-            'data' => [],
+            'data' => null,
             'errorMsg' => '',
         ];
 
@@ -134,26 +146,24 @@ class UserController extends Controller
             /**
              * @var $response FacebookResponse
              */
-            $fbResponse = $fb->get("/$userID?fields=id,name,first_name,last_name,gender", $accessToken);
+            $fbResponse = $fb->get("/$userID?fields=id,name,first_name,last_name,gender,birthday", $accessToken);
+            $user = $fbResponse->getGraphUser();
+
+            $response['data'] = [
+                'id' => $userID,
+                'name' => $user->getName(),
+                'first_name' => $user->getFirstName(),
+                'last_name' => $user->getLastName(),
+                'gender' => $user->getGender(),
+                'birthday' => $user->getBirthday(),
+            ];
         } catch(FacebookResponseException $e) {
-            $response['errorMsg'] = 'Graph returned an error: ' . $e->getMessage();
-            exit;
+            $response['errorMsg'] = 'Graph returned an error: ' . $e->getMessage() . "\nuserID= $userID, accessToken= $accessToken";
         } catch(FacebookSDKException $e) {
             $response['errorMsg'] = 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
         }
 
-        $user = $fbResponse->getGraphUser();
-
-        $response['data'] = [
-            'name' => $user->getName(),
-            'first_name' => $user->getFirstName(),
-            'last_name' => $user->getLastName(),
-            'gender' => $user->getGender(),
-            'birthday' => $user->getBirthday(),
-        ];
-
-        echo json_encode($response);
+        return $response;
     }
 
     public function actionGetFacebookAvatar()
@@ -196,6 +206,85 @@ class UserController extends Controller
         if ($image_data) {
             imagejpeg(imagecreatefromstring($image_data));
         }
+    }
 
+    public function actionLogout() {
+        Yii::$app->user->logout();
+        return $this->redirect(Url::home());
+    }
+
+    public function actionLoginFacebook() {
+        if (!session_id()) {
+            session_start();
+        }
+//        $accessToken = Yii::$app->request->get('token', '');
+        $fb = new Facebook([
+            'app_id' => Yii::$app->params['facebook.appID'],
+            'app_secret' => Yii::$app->params['facebook.appSecret'],
+            'default_graph_version' => 'v2.10',
+        ]);
+
+        $helper = $fb->getRedirectLoginHelper();
+        if (Yii::$app->request->get('state', '') != '' ) {
+            $_SESSION['FBRLH_state']=Yii::$app->request->get('state');
+        }
+        $permissions = ['public_profile', 'email'];
+        $loginUrl = $helper->getLoginUrl(Url::to(['user/login-facebook'], true), $permissions);
+
+        $accessToken = $helper->getAccessToken();
+
+        if (!$accessToken ) {
+            return $this->redirect($loginUrl);
+//                return '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+//             return ['stt' => '0', 'msg' => 'invalid token', 'data' => ''];
+        } else {
+            try {
+                // Get the \Facebook\GraphNodes\GraphUser object for the current user.
+                // If you provided a 'default_access_token', the '{access-token}' is optional.
+                $response = $fb->get('/me?fields=id,name,first_name,last_name,gender,picture,email', $accessToken);
+            } catch (FacebookResponseException $e) {
+                // When Graph returns an error
+                throw new NotFoundHttpException($e->getMessage());
+//                return ['stt' => '0', 'msg' => 'Graph returned an error: ' . $e->getMessage(), 'data' => ''];
+            } catch (FacebookSDKException $e) {
+                // When validation fails or other local issues
+//                return ['stt' => '0', 'msg' => 'Graph returned an error: ' . $e->getMessage(), 'data' => ''];
+                throw new NotFoundHttpException($e->getMessage());
+            }
+
+
+            $fbUser = $response->getGraphUser();
+            $userID = $fbUser->getId();
+            $username = User::getUsernameFromFbUId($userID);
+            $password = Yii::$app->security->generateRandomString();
+            if ($user = User::findByUsername($username)) {
+                $user->first_name = $fbUser->getFirstName();
+                $user->last_name = $fbUser->getLastName();
+                $user->gender = $fbUser->getGender();
+                $user->picture_url = $fbUser->getPicture()->getUrl();
+                $user->save();
+                Yii::$app->user->login($user);
+            } else {
+                $user = new User();
+                $user->username = $username;
+                $user->email = $fbUser->getEmail();
+                if (!$user->email) {
+                    $user->email = "$username@facebook.com";
+                }
+                $user->first_name = $fbUser->getFirstName();
+                $user->last_name = $fbUser->getLastName();
+                $user->gender = $fbUser->getGender();
+                $user->picture_url = $fbUser->getPicture()->getUrl();
+                $user->type = User::TYPE_FRONTEND;
+                $user->status = User::STATUS_ACTIVE;
+                $user->setPassword($password);
+                $user->generateAuthKey();
+                if ($user->save()) {
+                    Yii::$app->user->login($user);
+                }
+            }
+//            Yii::$app->user->login($model);
+            return $this->redirect(Url::home());
+        }
     }
 }
