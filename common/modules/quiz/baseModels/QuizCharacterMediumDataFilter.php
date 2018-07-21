@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property integer $apply_order
  * @property string $arguments
  * @property integer $quiz_fn_id
  * @property integer $quiz_character_medium_id
@@ -32,8 +33,8 @@ class QuizCharacterMediumDataFilter extends QuizBase
     public function rules()
     {
         return [
-            [['name', 'arguments', 'quiz_fn_id', 'quiz_character_medium_id'], 'required'],
-            [['quiz_fn_id', 'quiz_character_medium_id'], 'integer'],
+            [['name', 'apply_order', 'arguments', 'quiz_fn_id', 'quiz_character_medium_id'], 'required'],
+            [['apply_order', 'quiz_fn_id', 'quiz_character_medium_id'], 'integer'],
             [['name', 'arguments'], 'string', 'max' => 255],
             [['quiz_character_medium_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizCharacterMedium::className(), 'targetAttribute' => ['quiz_character_medium_id' => 'id'], 'except' => 'test'],
             [['quiz_fn_id'], 'exist', 'skipOnError' => true, 'targetClass' => QuizFn::className(), 'targetAttribute' => ['quiz_fn_id' => 'id'], 'except' => 'test'],
@@ -48,6 +49,7 @@ class QuizCharacterMediumDataFilter extends QuizBase
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'apply_order' => 'Apply Order',
             'arguments' => 'Arguments',
             'quiz_fn_id' => 'Quiz Fn ID',
             'quiz_character_medium_id' => 'Quiz Character Medium ID',

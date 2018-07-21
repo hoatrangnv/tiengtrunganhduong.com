@@ -36,8 +36,8 @@ class QuizInput extends \common\modules\quiz\baseModels\QuizInput
                         'CheckboxGroup',
                         'Select',
                         'WordGuessing',
-                        'ImageMapCheckpointOne',
-                        'ImageMapCheckpointMany',
+                        'ImageMapMarkingOne',
+                        'ImageMapMarkingMany',
                         // Unlimited answers types:
                         [
                             'value' => 'Unlimited-answers Types:',

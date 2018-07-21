@@ -11,7 +11,7 @@ use Yii;
  * @property string $name
  * @property string $var_name
  * @property string $type
- * @property integer $index
+ * @property string $index
  * @property integer $task_order
  * @property integer $quiz_id
  *
@@ -37,8 +37,8 @@ class QuizCharacter extends QuizBase
     {
         return [
             [['name', 'var_name', 'type', 'index', 'task_order', 'quiz_id'], 'required'],
-            [['index', 'task_order', 'quiz_id'], 'integer'],
-            [['name', 'var_name', 'type'], 'string', 'max' => 255],
+            [['task_order', 'quiz_id'], 'integer'],
+            [['name', 'var_name', 'type', 'index'], 'string', 'max' => 255],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id'], 'except' => 'test'],
         ];
     }

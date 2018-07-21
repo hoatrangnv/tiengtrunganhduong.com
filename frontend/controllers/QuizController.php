@@ -2,22 +2,16 @@
 
 namespace frontend\controllers;
 
-use common\models\ChineseSingleWord;
-use common\models\MissingWord;
-use common\models\NameTranslation;
+use common\db\MyActiveQuery;
 use common\models\UrlParam;
-use common\utils\FacebookDebugger;
-use Facebook\Facebook;
-use Faker\Guesser\Name;
-use Yii;
 use frontend\models\Quiz;
 use frontend\models\UrlRedirection;
+use Yii;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
-use yii\web\NotFoundHttpException;
-use common\db\MyActiveRecord;
-use common\db\MyActiveQuery;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 class QuizController extends BaseController
 {
@@ -33,7 +27,25 @@ class QuizController extends BaseController
         $models = $this->findModels(Quiz::find());
         return $this->render('index', [
             'title' => Yii::t('app', 'Quizzes'),
-            'models' => array_slice($models, 0, self::ITEMS_PER_PAGE),
+            'quizzes' => array_slice($models, 0, self::ITEMS_PER_PAGE),
+            'hasMore' => isset($models[static::ITEMS_PER_PAGE])
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionMe()
+    {
+        if (Yii::$app->user->isGuest) {
+            echo Yii::t('app', 'Please login to see your quizzes');
+            exit();
+        }
+        Yii::$app->session->set(self::SESSION_PAGE_KEY, 1);
+        $models = $this->findModels(Quiz::find()->where(['creator_id' => Yii::$app->user->id]));
+        return $this->render('index', [
+            'title' => Yii::t('app', 'Your Quizzes'),
+            'quizzes' => array_slice($models, 0, self::ITEMS_PER_PAGE),
             'hasMore' => isset($models[static::ITEMS_PER_PAGE])
         ]);
     }
@@ -46,6 +58,11 @@ class QuizController extends BaseController
             ->orderBy('publish_time desc')
             ->limit(12)
             ->allPublished();
+        $relatedItems = Quiz::find()->where(['<>', 'id', $model->id])->limit(8)
+            ->orderBy('publish_time desc')
+            ->allPublished();
+        shuffle($relatedItems);
+        $relatedItems = array_slice($relatedItems, 0, 4);
         //TODO: Check whether Requested Url is same as Model Url or not.
         //TODO: If not, redirect to Model Url.
         $this->cmpUrls8RedirectIfNot($model->getUrl([], true));
@@ -62,13 +79,15 @@ class QuizController extends BaseController
             $this->seoInfo->meta_description = $sharingDescription;
         }
         if ($sharingImageSrc) {
-            $this->seoInfo->image_src =
-                strrpos($sharingImageSrc, 'http') === 0
-                    ? $sharingImageSrc
-                    : Yii::getAlias("@quizImagesUrl/$sharingImageSrc");
+            $this->seoInfo->customImage['source'] = substr($sharingImageSrc, 0, 10) == 'data:image' ? $sharingImageSrc : Yii::getAlias("@quizImagesUrl/$sharingImageSrc");
+            if ($image_size = @getimagesize(Yii::getAlias("@quizImages/$sharingImageSrc"))) {
+                list ($image_width, $image_height) = $image_size;
+                $this->seoInfo->customImage['width'] = $image_width;
+                $this->seoInfo->customImage['height'] = $image_height;
+            }
         }
 
-        return $this->render('play', array_merge($model->getPlayData(), ['relatedItems' => $relatedItems]));
+        return $this->render('play', ['quiz' => $model, 'relatedItems' => $relatedItems]);
     }
 
     /**
@@ -97,7 +116,7 @@ class QuizController extends BaseController
 //        list(, $data)      = explode(',', $data);
 //        $data = base64_decode($data);
         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image));
-        $image_name = uniqid(date('YmdHis_')) . '.png';
+        $image_name = uniqid(date('YmdHis_')) . '.jpg';
         $path = date('Y/m/d/');
         $dir = Yii::getAlias("@quizImages/$path");
         if (!file_exists($dir)) {
@@ -111,18 +130,18 @@ class QuizController extends BaseController
             UrlParam::SHARING_IMAGE_SRC => $image_src,
         ], true);
         file_put_contents("$dir$image_name", $data);
-        $facebookDebugger = new FacebookDebugger();
-        for ($i = 0; $i < 3; $i++) {
-            $facebookDebugger->reload($url);
-            sleep(0.5);
-        }
+//        $facebookDebugger = new FacebookDebugger();
+//        for ($i = 0; $i < 3; $i++) {
+//            $facebookDebugger->reload($url);
+//            sleep(0.5);
+//        }
 //        $try_count = 0;
 //        do {
 //            $try_count++;
 //            $debug_res = file_get_contents(
 ////                "https://graph.facebook.com/debug_token?input_token="
 ////                    . urlencode($url) . '&access_token='
-////                    . Yii::$app->params['fb_app_id'] . '|' . Yii::$app->params['fb_app_secret'],
+////                    . Yii::$app->params['facebook.appID'] . '|' . Yii::$app->params['fb_app_secret'],
 //                'https://graph.facebook.com/?id=' . urlencode($url) . '&scrape=true',
 //                false,
 //                stream_context_create($contextOptions)
@@ -157,6 +176,13 @@ class QuizController extends BaseController
         switch ($action_id) {
             case 'index':
                 $query = Quiz::find();
+                break;
+            case 'me':
+                if (!Yii::$app->user->isGuest) {
+                    $query = Quiz::find()->where(['creator_id' => Yii::$app->user->id]);
+                } else {
+                    throw new BadRequestHttpException();
+                }
                 break;
             default:
                 throw new BadRequestHttpException();
@@ -234,222 +260,30 @@ class QuizController extends BaseController
     public function findModels(MyActiveQuery $query)
     {
         $page = Yii::$app->session->get(self::SESSION_PAGE_KEY);
-        return $query
+        $query
             ->limit(static::ITEMS_PER_PAGE + 1)
             ->offset(($page - 1) * static::ITEMS_PER_PAGE)
-            ->orderBy('publish_time desc')
-            ->allPublished();
+            ->orderBy('publish_time desc');
+        if (Yii::$app->user->isGuest) {
+            return $query->allPublished();
+        } else {
+            $wrong_number = $query->publishTimeWrongNumber;
+            $time = (int) round(time() / $wrong_number) * $wrong_number;
+            return $query->andWhere([
+                'OR',
+                ['creator_id' => Yii::$app->user->id],
+                [
+                    'AND',
+                    ['=', 'active', 1],
+                    ['=', 'visible', 1],
+                    ['<=', $query->publishTimeAttribute, $time],
+                ],
+            ])->all();
+        }
     }
 
     public function actionTestCallback()
     {
         echo '{"value":"hahaha"}';
-    }
-
-    public function actionTranslateName()
-    {
-        $name = Yii::$app->request->get('name');
-        $words = preg_split( "/( |\+)/", $name);
-        $response = [
-            'data' => [
-                'words' => [],
-                'translated_words' => [],
-                'spellings' => [],
-                'meanings' => [],
-            ],
-            'error_message' => '',
-        ];
-
-//        foreach ($words as $i => $o_word) {
-//            $word = strtolower(trim($o_word));
-//            if ($word) {
-//                $translations = NameTranslation::find()->where([
-//                    'word' => $word,
-//                    'type' => 0 == $i ? NameTranslation::TYPE_LAST_NAME : NameTranslation::TYPE_FIRST_NAME
-//                ])->all();
-//                $translation = null;
-//                foreach ($translations as $record) {
-//                    /**
-//                     * @var $record NameTranslation
-//                     */
-//                    if (strtolower(trim($record->word)) == $word) {
-//                        $translation = $record;
-//                        break;
-//                    }
-//                }
-////                if (!$translation && !empty($translations)) {
-////                    $translation = $translations[0];
-////                }
-//                if ($translation) {
-//                    $response['data']['name'] .= ' ' . trim($o_word);
-//                    $response['data']['translated_name'] .= ' ' . $translation->translated_word;
-//                    $response['data']['spelling'] .= ' ' . $translation->spelling;
-//                } else {
-//                    $response['data']['name'] .= ' ' . trim($o_word);
-//                    $response['data']['translated_name'] .= ' _';
-//                    $response['data']['spelling'] .= ' _';
-//                }
-//            }
-//        }
-
-        $first_name_words = [];
-        $last_name_word = '';
-        if (count($words) == 1) {
-            $first_name_words = $words;
-        } else if (count($words) == 2) {
-            $first_name_words = [$words[1]];
-            $last_name_word = $words[0];
-        } else {
-            $first_name_words = array_slice($words, 2);
-            $last_name_word = $words[0] . ' ' . $words[1];
-            $last_name_translations = NameTranslation::find()
-                ->where(['LIKE', 'word', $last_name_word])
-                ->andWhere(['type' => NameTranslation::TYPE_LAST_NAME])
-                ->all();
-            if (count($last_name_translations) == 0) {
-                $first_name_words = array_slice($words, 1);
-                $last_name_word = $words[0];
-            }
-        }
-
-        $last_name_translation_all = NameTranslation::find()
-            ->where(['LIKE', 'word', $last_name_word])
-            ->andWhere(['type' => NameTranslation::TYPE_LAST_NAME])
-            ->all();
-
-        /**
-         * @var $last_name_translation NameTranslation[]
-         */
-        $last_name_translation = [];
-        foreach ($last_name_translation_all as $record) {
-            /**
-             * @var $record NameTranslation
-             */
-            if (mb_strtolower(trim($record->word)) == mb_strtolower($last_name_word)) {
-                $last_name_translation[] = $record;
-            }
-        }
-        if (count($last_name_translation) == 0) {
-            // find in chinese single word table
-
-        }
-
-        $first_name_translations_all = NameTranslation::find()
-            ->where(array_merge(
-                ['OR'],
-                array_map(function ($word) {
-                    return ['LIKE', 'word', $word];
-                }, $first_name_words)))
-            ->andWhere(['type' => NameTranslation::TYPE_FIRST_NAME])
-            ->all();
-
-        /**
-         * @var $first_name_translations NameTranslation[][]
-         */
-        $first_name_translations = [];
-        foreach ($first_name_words as $word_index => $word) {
-            $first_name_translations[$word_index] = [];
-            foreach ($first_name_translations_all as $record) {
-                /**
-                 * @var $record NameTranslation
-                 */
-                if (mb_strtolower(trim($record->word)) == mb_strtolower($word)) {
-                    $first_name_translations[$word_index][] = $record;
-                }
-            }
-            if (count($first_name_translations[$word_index]) == 0) {
-                // find in chinese single word table
-            }
-        }
-
-        $findMeaning = function ($translation) {
-            return array_map(function ($translation) {
-                /**
-                 * @var $translation NameTranslation
-                 */
-                $meaning = $translation->meaning;
-                if ('' === trim($meaning)) {
-                    /**
-                     * @var $singleWords ChineseSingleWord[]
-                     */
-                    $singleWords = ChineseSingleWord::find()
-                        ->where(['LIKE', 'word', $translation->translated_word])
-                        ->andWhere(['LIKE', 'spelling', $translation->spelling])
-                        ->all();
-
-                    foreach ($singleWords as $singleWord) {
-                        if (mb_strtolower($singleWord->word) === mb_strtolower($translation->translated_word)) {
-                            $meaning .= str_replace(["\\n", "\\t"], ["\n", ""], $singleWord->meaning) . "\n";
-                        }
-                    }
-                    $meaning = trim($meaning);
-                }
-                return $meaning;
-            }, $translation);
-        };
-
-        if ('' !== $last_name_word) {
-            $response['data']['words'][] = $last_name_word;
-            $response['data']['translated_words'][] = array_map(function ($translation) {
-                /**
-                 * @var $translation NameTranslation
-                 */
-                return $translation->translated_word;
-            }, $last_name_translation);
-            $response['data']['spellings'][] = array_map(function ($translation) {
-                /**
-                 * @var $translation NameTranslation
-                 */
-                return $translation->spelling;
-            }, $last_name_translation);
-            $response['data']['meanings'][] = $findMeaning($last_name_translation);
-
-            if (empty($last_name_translation)) {
-                if (!($missingWord = MissingWord::findOne(['word' => $last_name_word]))) {
-                    $missingWord = new MissingWord();
-                    $missingWord->word = $last_name_word;
-                    $missingWord->search_count = 1;
-                    $missingWord->status = MissingWord::STATUS_NEW;
-                } else {
-                    $missingWord->search_count++;
-                }
-                $missingWord->last_search_time = date('Y-m-d H:i:s');
-                $missingWord->save();
-            }
-        }
-
-        foreach ($first_name_words as $index => $word) {
-            $response['data']['words'][] = $word;
-            $translation = $first_name_translations[$index];
-            $response['data']['translated_words'][] = array_map(function ($translation) {
-                /**
-                 * @var $translation NameTranslation
-                 */
-                return $translation->translated_word;
-            }, $translation);;
-            $response['data']['spellings'][] = array_map(function ($translation) {
-                /**
-                 * @var $translation NameTranslation
-                 */
-                return $translation->spelling;
-            }, $translation);
-            $response['data']['meanings'][] = $findMeaning($translation);
-
-            if (empty($translation)) {
-                if (!($missingWord = MissingWord::findOne(['word' => $word]))) {
-                    $missingWord = new MissingWord();
-                    $missingWord->word = $word;
-                    $missingWord->search_count = 1;
-                    $missingWord->status = MissingWord::STATUS_NEW;
-                } else {
-                    $missingWord->search_count++;
-                }
-                $missingWord->last_search_time = date('Y-m-d H:i:s');
-                $missingWord->save();
-            }
-        }
-
-        echo json_encode($response);
-        exit();
     }
 }

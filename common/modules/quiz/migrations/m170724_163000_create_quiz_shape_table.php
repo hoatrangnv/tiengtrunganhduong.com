@@ -43,7 +43,7 @@ class m170724_163000_create_quiz_shape_table extends Migration
             'image_id',
             'image',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `quiz_id`

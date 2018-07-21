@@ -43,7 +43,7 @@ class m170724_163214_create_quiz_input_validator_table extends Migration
             'quiz_fn_id',
             'quiz_fn',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `quiz_id`

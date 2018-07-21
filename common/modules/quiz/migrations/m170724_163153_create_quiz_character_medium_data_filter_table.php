@@ -43,7 +43,7 @@ class m170724_163153_create_quiz_character_medium_data_filter_table extends Migr
             'quiz_fn_id',
             'quiz_fn',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `quiz_character_medium_id`

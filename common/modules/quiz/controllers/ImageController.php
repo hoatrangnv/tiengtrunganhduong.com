@@ -24,7 +24,7 @@ class ImageController extends Controller
             ->where(['like', 'name', $q])
             ->andWhere(['=', 'active', 1])
             ->offset($page - 1)
-            ->limit(3)
+            ->limit(30)
             ->orderBy('create_time desc')
             ->all();
 

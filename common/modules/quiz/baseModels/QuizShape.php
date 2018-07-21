@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $text
+ * @property string $image_src
  * @property integer $image_id
  * @property integer $quiz_id
  *
@@ -37,6 +38,7 @@ class QuizShape extends QuizBase
     {
         return [
             [['name', 'quiz_id'], 'required'],
+            [['image_src'], 'string'],
             [['image_id', 'quiz_id'], 'integer'],
             [['name', 'text'], 'string', 'max' => 255],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id'], 'except' => 'test'],
@@ -53,6 +55,7 @@ class QuizShape extends QuizBase
             'id' => 'ID',
             'name' => 'Name',
             'text' => 'Text',
+            'image_src' => 'Image Src',
             'image_id' => 'Image ID',
             'quiz_id' => 'Quiz ID',
         ];

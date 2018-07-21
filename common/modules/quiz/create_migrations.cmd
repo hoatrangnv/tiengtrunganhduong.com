@@ -73,9 +73,15 @@ php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_input_q
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_return_type_column_to_quiz_fn_table --fields="return_type:string:notNull"
 php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_escape_html_column_to_quiz_table --fields="escape_html:smallInteger(1)"
 
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_image_src_column_to_quiz_shape_table --fields="image_src:text"
+
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_apply_order_column_to_quiz_character_data_filter_table --fields="apply_order:integer:notNull"
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_apply_order_column_to_quiz_character_medium_data_filter_table --fields="apply_order:integer:notNull"
+
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" add_exported_play_props_column_to_quiz_table --fields="exported_play_props:text"
 
 
-
+php yii my-migrate/create --migrationPath="@modules/quiz/migrations" drop_task_order_column_from_quiz_character_medium_table --fields="task_order:integer:notNull"
 
 
 

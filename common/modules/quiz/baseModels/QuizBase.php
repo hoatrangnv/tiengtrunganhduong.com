@@ -42,6 +42,8 @@ class QuizBase extends MyActiveRecord
                 'comment_count',
                 'like_count',
                 'share_count',
+                'play_count',
+                'exported_play_props',
             ])) {
                 continue;
             }
@@ -52,6 +54,7 @@ class QuizBase extends MyActiveRecord
                 'id',
                 'task_order',
                 'sort_order',
+                'apply_order',
             ])) {
 //                $type = 'Hidden';
                 $type = 'None';
@@ -146,6 +149,15 @@ class QuizBase extends MyActiveRecord
                         case 'QuizInputOptionChecker':
                             $placeholder = "@value \n1000";
                             break;
+                        case 'QuizCharacterDataSorter':
+                        case 'QuizCharacterMediumDataSorter':
+                            $placeholder = "@a.birthday \n@b.birthday";
+                            break;
+                        case 'QuizCharacterDataFilter':
+                        case 'QuizCharacterMediumDataFilter':
+                            $placeholder = "@item.name \n@index \n@data";
+                            break;
+
                     }
                     break;
             }

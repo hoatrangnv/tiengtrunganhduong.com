@@ -44,7 +44,7 @@ class m170724_163200_create_quiz_character_data_sorter_table extends Migration
             'quiz_fn_id',
             'quiz_fn',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `quiz_character_id`

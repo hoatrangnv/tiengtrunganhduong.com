@@ -30,13 +30,13 @@ class QuizResult extends \common\modules\quiz\baseModels\QuizResult
                     $newAttr['defaultValue'] = 'Result @i{QuizResult}';
                     break;
                 case 'canvas_width':
-                    $newAttr['defaultValue'] = 720;
+                    $newAttr['defaultValue'] = 600;
                     break;
                 case 'canvas_height':
-                    $newAttr['defaultValue'] = 377;
+                    $newAttr['defaultValue'] = 315;
                     break;
                 case 'canvas_background_color':
-                    $newAttr['defaultValue'] = 'white';
+                    $newAttr['defaultValue'] = 'gray';
                     break;
             }
             $attr = $newAttr;

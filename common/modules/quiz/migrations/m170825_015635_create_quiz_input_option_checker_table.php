@@ -43,7 +43,7 @@ class m170825_015635_create_quiz_input_option_checker_table extends Migration
             'quiz_fn_id',
             'quiz_fn',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `quiz_input_option_id`

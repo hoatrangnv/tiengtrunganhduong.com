@@ -45,7 +45,7 @@ class m170724_163221_create_quiz_param_table extends Migration
             'quiz_fn_id',
             'quiz_fn',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `quiz_id`

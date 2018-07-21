@@ -15,6 +15,8 @@ class QuizCharacterMedium extends \common\modules\quiz\baseModels\QuizCharacterM
                 $attr['type'] = 'RadioGroup';
                 $attr['options'] = [
                     'Avatar',
+                    'Photo',
+                    'Post',
                 ];
             }
         }

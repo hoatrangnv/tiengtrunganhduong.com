@@ -1,0 +1,99 @@
+server {
+    listen 80;
+    server_name www.horoquiz.com;
+    rewrite ^ http://horoquiz.com$request_uri? permanent;
+}
+
+server {
+    listen       80;
+    server_name  horoquiz.com;
+
+    root        /data/website/soicau2.mobi/frontend/web;
+    access_log  /var/log/nginx/horoquiz.com.access.log ;
+    error_log   /var/log/nginx/horoquiz.com.error.log;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+        index index.php  index.html index.htm;
+    }
+    # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    #Static files   location
+    location ~* ^.+\.(jpg|jpeg|gif|png|ico|css|zip|tgz|gz|rar|bz2|doc|xls|exe|pdf|ppt|txt|tar|mid|midi|wav|bmp|rtf|js|swf)$ {
+        #access_log      off;
+        log_not_found   off;
+        expires 7d;
+    }
+	fastcgi_buffers 32 32k;
+    fastcgi_buffer_size 32k;
+	location /index.php {
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+    location /nginx_status {
+        # Turn on nginx stats
+        stub_status on;
+
+        # I do not need logs for stats
+        access_log off;
+
+        # Security: Only allow access from 192.168.1.100 IP #
+        # allow 192.168.1.100;
+
+        # Send rest of the world to /dev/null #
+        deny all;
+   }
+
+}
+
+
+
+
+server {
+    listen       80;              # listen port
+    server_name  cp.horoquiz.com; # Server name
+
+    root        /data/website/soicau2.mobi/backend/web;
+    access_log  /var/log/nginx/horoquiz.com.access.log ;
+    error_log   /var/log/nginx/horoquiz.com.error.log;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+        index index.php  index.html index.htm;
+    }
+    # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+	# Static files   location
+    location ~* ^.+\.(jpg|jpeg|gif|png|ico|css|zip|tgz|gz|rar|bz2|doc|xls|exe|pdf|ppt|txt|tar|mid|midi|wav|bmp|rtf|js|swf)$ {
+        # access_log      off;
+        log_not_found   off;
+        expires 7d;
+    }
+    # buffer
+    fastcgi_buffers 32 32k;
+    fastcgi_buffer_size 32k;
+
+	location ~ ^(/index.php|/picture-cut/src/php/upload.php|/picture-cut/src/windows/window.bootstrap.php) {
+		fastcgi_split_path_info       ^(.+\.php)(.*)$;
+		include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    }
+}
+              
