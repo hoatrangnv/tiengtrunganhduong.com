@@ -121,7 +121,7 @@ class BaseController extends Controller
 
         // @TODO: Find Seo Info
         if (in_array(Yii::$app->requestedRoute, array_keys(SeoInfo::getRoutes()))) {
-            $this->seoInfo = SeoInfo::findOneByRequestInfo();
+            $this->seoInfo = SeoInfo::findStaticSeoInfo();
         }
         if (!$this->seoInfo) {
             $this->seoInfo = new SeoInfo();

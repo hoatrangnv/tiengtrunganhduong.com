@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     .fb-like-container {
         text-align: center;
+        margin-top: 1rem;
     }
     .fb-like-container > *,
     .fb-like-container > * > * {
