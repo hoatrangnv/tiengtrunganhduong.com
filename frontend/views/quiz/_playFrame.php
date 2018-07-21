@@ -7,78 +7,36 @@
  */
 
 use \yii\helpers\Url;
-
-$loadingIcons = [
-    // Blue cat
-    '<svg xmlns="http://www.w3.org/2000/svg" class="lds-bluecat" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-      <g transform="rotate(293.691 50 50)">
-        <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" keyTimes="0;1" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.5 0 0.5 1" begin="-0.15000000000000002s"/>
-        <circle cx="50" cy="50" r="39.891" stroke="#6994b7" stroke-width="14.4" fill="none" stroke-dasharray="0 300">
-          <animate attributeName="stroke-dasharray" values="15 300;55.1413599195142 300;15 300" keyTimes="0;0.5;1" dur="1.5s" repeatCount="indefinite" calcMode="linear" keySplines="0 0.4 0.6 1;0.4 0 1 0.6" begin="-0.069s"/>
-        </circle>
-        <circle cx="50" cy="50" r="39.891" stroke="#eeeeee" stroke-width="7.2" fill="none" stroke-dasharray="0 300">
-          <animate attributeName="stroke-dasharray" values="15 300;55.1413599195142 300;15 300" keyTimes="0;0.5;1" dur="1.5s" repeatCount="indefinite" calcMode="linear" keySplines="0 0.4 0.6 1;0.4 0 1 0.6" begin="-0.069s"/>
-        </circle>
-        <circle cx="50" cy="50" r="32.771" stroke="#000000" stroke-width="1" fill="none" stroke-dasharray="0 300">
-          <animate attributeName="stroke-dasharray" values="15 300;45.299378454348094 300;15 300" keyTimes="0;0.5;1" dur="1.5s" repeatCount="indefinite" calcMode="linear" keySplines="0 0.4 0.6 1;0.4 0 1 0.6" begin="-0.069s"/>
-        </circle>
-        <circle cx="50" cy="50" r="47.171" stroke="#000000" stroke-width="1" fill="none" stroke-dasharray="0 300">
-          <animate attributeName="stroke-dasharray" values="15 300;66.03388996804073 300;15 300" keyTimes="0;0.5;1" dur="1.5s" repeatCount="indefinite" calcMode="linear" keySplines="0 0.4 0.6 1;0.4 0 1 0.6" begin="-0.069s"/>
-        </circle>
-      </g>
-
-      <g transform="rotate(331.868 50 50)">
-        <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" keyTimes="0;1" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.5 0 0.5 1"/>
-	<path fill="#6994b7" stroke="#000000" d="M97.2,50.1c0,6.1-1.2,12.2-3.5,17.9l-13.3-5.4c1.6-3.9,2.4-8.2,2.4-12.4"/>
-	<path fill="#eeeeee" d="M93.5,49.9c0,1.2,0,2.7-0.1,3.9l-0.4,3.6c-0.4,2-2.3,3.3-4.1,2.8l-0.2-0.1c-1.8-0.5-3.1-2.3-2.7-3.9l0.4-3 c0.1-1,0.1-2.3,0.1-3.3"/>
-	<path fill="#6994b7" stroke="#000000" d="M85.4,62.7c-0.2,0.7-0.5,1.4-0.8,2.1c-0.3,0.7-0.6,1.4-0.9,2c-0.6,1.1-2,1.4-3.2,0.8c-1.1-0.7-1.7-2-1.2-2.9 c0.3-0.6,0.5-1.2,0.8-1.8c0.2-0.6,0.6-1.2,0.7-1.8"/>
-	<path fill="#6994b7" stroke="#000000" d="M94.5,65.8c-0.3,0.9-0.7,1.7-1,2.6c-0.4,0.9-0.7,1.7-1.1,2.5c-0.7,1.4-2.3,1.9-3.4,1.3h0 c-1.1-0.7-1.5-2.2-0.9-3.4c0.4-0.8,0.7-1.5,1-2.3c0.3-0.8,0.7-1.5,0.9-2.3"/>
-      </g>
-      <g transform="rotate(293.691 50 50)">
-        <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" keyTimes="0;1" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.5 0 0.5 1" begin="-0.15000000000000002s"/>
-        <path fill="#eeeeee" stroke="#000000" d="M86.9,35.3l-6,2.4c-0.4-1.2-1.1-2.4-1.7-3.5c-0.2-0.5,0.3-1.1,0.9-1C82.3,33.8,84.8,34.4,86.9,35.3z"/>
-        <path fill="#eeeeee" stroke="#000000" d="M87.1,35.3l6-2.4c-0.6-1.7-1.5-3.3-2.3-4.9c-0.3-0.7-1.2-0.6-1.4,0.1C88.8,30.6,88.2,33,87.1,35.3z"/>
-        <path fill="#6994b7" stroke="#000000" d="M82.8,50.1c0-3.4-0.5-6.8-1.6-10c-0.2-0.8-0.4-1.5-0.3-2.3c0.1-0.8,0.4-1.6,0.7-2.4c0.7-1.5,1.9-3.1,3.7-4l0,0 c1.8-0.9,3.7-1.1,5.6-0.3c0.9,0.4,1.7,1,2.4,1.8c0.7,0.8,1.3,1.7,1.7,2.8c1.5,4.6,2.2,9.5,2.3,14.4"/>
-        <path fill="#eeeeee" d="M86.3,50.2l0-0.9l-0.1-0.9l-0.1-1.9c0-0.9,0.2-1.7,0.7-2.3c0.5-0.7,1.3-1.2,2.3-1.4l0.3,0 c0.9-0.2,1.9,0,2.6,0.6c0.7,0.5,1.3,1.4,1.4,2.4l0.2,2.2l0.1,1.1l0,1.1"/>
-        <path fill="#ff9922" d="M93.2,34.6c0.1,0.4-0.3,0.8-0.9,1c-0.6,0.2-1.2,0.1-1.4-0.2c-0.1-0.3,0.3-0.8,0.9-1 C92.4,34.2,93,34.3,93.2,34.6z"/>
-        <path fill="#ff9922" d="M81.9,38.7c0.1,0.3,0.7,0.3,1.3,0.1c0.6-0.2,1-0.6,0.9-0.9c-0.1-0.3-0.7-0.3-1.3-0.1 C82.2,38,81.8,38.4,81.9,38.7z"/>
-        <path fill="#000000" d="M88.5,36.8c0.1,0.3-0.2,0.7-0.6,0.8c-0.5,0.2-0.9,0-1.1-0.3c-0.1-0.3,0.2-0.7,0.6-0.8C87.9,36.3,88.4,36.4,88.5,36.8z"/>
-        <path stroke="#000000" d="M85.9,38.9c0.2,0.6,0.8,0.9,1.4,0.7c0.6-0.2,0.9-0.9,0.6-2.1c0.3,1.2,1,1.7,1.6,1.5c0.6-0.2,0.9-0.8,0.8-1.4"/>
-        <path fill="#6994b7" stroke="#000000" d="M86.8,42.3l0.4,2.2c0.1,0.4,0.1,0.7,0.2,1.1l0.1,1.1c0.1,1.2-0.9,2.3-2.2,2.3c-1.3,0-2.5-0.8-2.5-1.9l-0.1-1 c0-0.3-0.1-0.6-0.2-1l-0.3-1.9"/>
-        <path fill="#6994b7" stroke="#000000" d="M96.2,40.3l0.5,2.7c0.1,0.5,0.2,0.9,0.2,1.4l0.1,1.4c0.1,1.5-0.9,2.8-2.2,2.9h0c-1.3,0-2.5-1.1-2.6-2.4 L92.1,45c0-0.4-0.1-0.8-0.2-1.2l-0.4-2.5"/>
-        <path fill="#000000" d="M91.1,34.1c0.3,0.7,0,1.4-0.7,1.6c-0.6,0.2-1.3-0.1-1.6-0.7c-0.2-0.6,0-1.4,0.7-1.6C90.1,33.1,90.8,33.5,91.1,34.1z"/>
-        <path fill="#000000" d="M85.5,36.3c0.2,0.6-0.1,1.2-0.7,1.5c-0.6,0.2-1.3,0-1.5-0.6C83,36.7,83.4,36,84,35.8C84.6,35.5,85.3,35.7,85.5,36.3z"/>
-
-      </g></svg>'
-];
-$loadingIcon = $loadingIcons[rand(0, count($loadingIcons) - 1)];
-$loadingIcon = str_replace(["/\r|\n/", "#", "/"], ["", "%23", "%2F"], preg_replace("/\r|\n/", "", $loadingIcon));
 ?>
+
 <div id="quiz-play-root"></div>
 
 <style>
+    .quiz--loading-box--icon,
     .loading-icon {
         background-image: url("data:image/svg+xml,\
     <svg version='1.1' id='Layer_1' xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg' xmlns:xlink='http:%2F%2Fwww.w3.org%2F1999%2Fxlink' x='0px' y='0px' width='24px' height='30px' viewBox='0 0 24 30' style='enable-background:new 0 0 50 50;' xml:space='preserve'>\
-    <rect x='0' y='10' width='4' height='10' fill='%23333' opacity='0.2'>\
+    <rect x='0' y='10' width='4' height='10' fill='%233B5998' opacity='0.2'>\
     <animate attributeName='opacity' attributeType='XML' values='0.2; 1; .2' begin='0s' dur='0.6s' repeatCount='indefinite' %2F>\
     <animate attributeName='height' attributeType='XML' values='10; 20; 10' begin='0s' dur='0.6s' repeatCount='indefinite' %2F>\
     <animate attributeName='y' attributeType='XML' values='10; 5; 10' begin='0s' dur='0.6s' repeatCount='indefinite' %2F>\
     <%2Frect>\
-    <rect x='8' y='10' width='4' height='10' fill='%23333'  opacity='0.2'>\
+    <rect x='8' y='10' width='4' height='10' fill='%233B5998'  opacity='0.2'>\
     <animate attributeName='opacity' attributeType='XML' values='0.2; 1; .2' begin='0.15s' dur='0.6s' repeatCount='indefinite' %2F>\
     <animate attributeName='height' attributeType='XML' values='10; 20; 10' begin='0.15s' dur='0.6s' repeatCount='indefinite' %2F>\
     <animate attributeName='y' attributeType='XML' values='10; 5; 10' begin='0.15s' dur='0.6s' repeatCount='indefinite' %2F>\
     <%2Frect>\
-    <rect x='16' y='10' width='4' height='10' fill='%23333'  opacity='0.2'>\
+    <rect x='16' y='10' width='4' height='10' fill='%233B5998'  opacity='0.2'>\
     <animate attributeName='opacity' attributeType='XML' values='0.2; 1; .2' begin='0.3s' dur='0.6s' repeatCount='indefinite' %2F>\
     <animate attributeName='height' attributeType='XML' values='10; 20; 10' begin='0.3s' dur='0.6s' repeatCount='indefinite' %2F>\
     <animate attributeName='y' attributeType='XML' values='10; 5; 10' begin='0.3s' dur='0.6s' repeatCount='indefinite' %2F>\
     <%2Frect>\
     <%2Fsvg>\
     ");
-        width: 1em;
-        height: 1em;
+    }
+    .loading-icon {
+        width: 20px;
+        height: 20px;
     }
     .quiz-msg-overlay {
         display: block;
@@ -118,9 +76,6 @@ $loadingIcon = str_replace(["/\r|\n/", "#", "/"], ["", "%23", "%2F"], preg_repla
         font-size: 1.2em;
         margin-top: 1em;
         cursor: pointer;
-    }
-    .quiz--loading-box--icon {
-        background-image: url('data:image/svg+xml;utf8,<?= $loadingIcon ?>');
     }
     .quiz--button--login {
         font-size: 1.4em;
@@ -214,26 +169,26 @@ $loadingIcon = str_replace(["/\r|\n/", "#", "/"], ["", "%23", "%2F"], preg_repla
 
 <script>
     window.QuizPlayMessages = {
-        "Start": "<?= Yii::t('app', "Start") ?>",
-        "Login": "<?= Yii::t('app', "Continue with Facebook") ?>",
-        "Share": "<?= Yii::t('app', "Share with friends") ?>",
-        "Wait for a minute": "<?= Yii::t('app', "Wait for a minute...") ?>",
-        "Loading": "<?= Yii::t('app', "Loading...") ?>",
-        "Processing": "<?= Yii::t('app', "Processing...") ?>",
-        "Loading images for canvas-based questions": "<?= Yii::t('app', "Loading images...") ?>",
-        "Next": "<?= Yii::t('app', "Next") ?>",
-        "Try again": "<?= Yii::t('app', "Try again!") ?>",
-        "This is required": "<?= Yii::t('app', "This is required!") ?>",
-        "Please fulfill this word": "<?= Yii::t('app', "Please fulfill this word!") ?>",
-        "Common remaining time": "<?= Yii::t('app', "Common remaining time") ?>",
-        "Group remaining time": "<?= Yii::t('app', "Group remaining time") ?>",
-        "Total time": "<?= Yii::t('app', "Total time") ?>",
-        "All questions answering time": "<?= Yii::t('app', "All questions answering time") ?>",
-        "Closed questions answering time": "<?= Yii::t('app', "Closed questions answering time") ?>",
-        "Failed to load images": "<?= Yii::t('app', "Failed to load images :(") ?>",
-        "Failed to get sharing data": "<?= Yii::t('app', "Failed to get sharing data :(") ?>",
-        "Wait for sharing data": "<?= Yii::t('app', 'Already have the result...') ?>",
-        "Loading layers for result canvas": "<?= Yii::t('app', 'Calculating result...') ?>"
+        "Start": "Bắt đầu",
+        "Login": "Tiếp tục với Facebook",
+        "Share": "Chia sẻ với bạn bè",
+        "Wait for a minute": "Chờ chút nhé...",
+        "Loading": "Đang tải...",
+        "Processing": "Đang xử lý...",
+        "Loading images for canvas-based questions": "Đang tải ảnh cho câu hỏi...",
+        "Next": "Tiếp theo",
+        "Try again": "Thử lại",
+        "This is required": "Câu hỏi bắt buộc",
+        "Please fulfill this word": "Vui lòng hoàn thành",
+        "Common remaining time": "Thời gian (common) còn lại",
+        "Group remaining time": "Thời gian (group) còn lại",
+        "Total time": "Tổng thời gian",
+        "All questions answering time": "Tổng thời gian trả lời các câu hỏi",
+        "Closed questions answering time": "Tổng thời gian trả lời câu hỏi đóng",
+        "Failed to load images": "Không tải được ảnh",
+        "Failed to get sharing data": "Không chia sẻ được",
+        "Wait for sharing data": "Đang chia sẻ...",
+        "Loading layers for result canvas": "Đang tạo ảnh kết quả..."
     };
     window.QuizPlayRoot = document.getElementById("quiz-play-root");
     if (window.QuizPlayProps) {
@@ -839,7 +794,7 @@ $loadingIcon = str_replace(["/\r|\n/", "#", "/"], ["", "%23", "%2F"], preg_repla
                     } else {
                         console.log('User cancelled login or did not fully authorize.');
                     }
-                }, {scope: 'public_profile,email,user_posts'});
+                }, {scope: 'public_profile,email'});
             };
 
             var _considerLogin = function () {
