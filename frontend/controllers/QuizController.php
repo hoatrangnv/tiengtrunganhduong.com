@@ -96,6 +96,7 @@ class QuizController extends BaseController
      */
     public function actionGetSharingData()
     {
+        $this->enableCsrfValidation = false;
 //        $contextOptions = [
 //            'ssl' => [
 //                'verify_peer' => false,

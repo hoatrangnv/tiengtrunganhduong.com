@@ -172,7 +172,6 @@ use \yii\helpers\Url;
         "Start": "Bắt đầu",
         "Login": "Tiếp tục với Facebook",
         "Share": "Chia sẻ với bạn bè",
-        "Share with friends": "Chia sẻ với bạn bè",
         "Wait for a minute": "Chờ chút nhé...",
         "Loading": "Đang tải...",
         "Processing": "Đang xử lý...",
