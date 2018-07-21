@@ -69,8 +69,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </svg>-->
             <div
                 class="fb-like"
-                data-href="https://www.facebook.com/horoquiz/"
-                data-layout="button"
+                data-href="https://www.facebook.com/trungtamtiengtrungvuive//"
+                data-layout="button_count"
                 data-action="like"
                 data-size="small"
                 data-show-faces="false"
