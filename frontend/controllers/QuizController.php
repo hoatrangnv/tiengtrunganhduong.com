@@ -106,12 +106,20 @@ class QuizController extends BaseController
 //            ],
 //        ];
 
-        if (!Yii::$app->request->isPost
-            || !($slug = rawurldecode(Yii::$app->request->post('slug')))
-            || !($image = rawurldecode(Yii::$app->request->post('image')))
-        ) {
-            throw new BadRequestHttpException();
+        if (!Yii::$app->request->isPost) {
+            throw new BadRequestHttpException('Request must be POST');
         }
+
+        $slug = rawurldecode(Yii::$app->request->post('slug', ''));
+        if ($slug === '') {
+            throw new BadRequestHttpException('Slug cannot be empty');
+        }
+
+        $image = rawurldecode(Yii::$app->request->post('image', ''));
+        if ($image === '') {
+            throw new BadRequestHttpException('Image cannot be empty');
+        }
+
         $title = rawurldecode(Yii::$app->request->post('title', ''));
         $description = rawurldecode(Yii::$app->request->post('description', ''));
 
