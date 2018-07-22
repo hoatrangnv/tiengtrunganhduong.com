@@ -881,18 +881,17 @@ use \yii\helpers\Url;
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "<?= Url::to(['/quiz/get-sharing-data']) ?>", true);
         xhr.onload = function () {
-            if (this.status == 200) {
-                var response = JSON.parse(this.response);
-                if (response && !response.errorMsg) {
-                    console.log(response.data);
-                    callback({data: response.data, errorMsg: response.errorMsg});
-                    quizCompleted = true;
-                } else {
-                    callback(false);
-                }
+            var response = JSON.parse(this.response);
+            if (response && !response.errorMsg) {
+                console.log(response.data);
+                callback({data: response.data, errorMsg: response.errorMsg});
+                quizCompleted = true;
             } else {
                 callback(false);
             }
+        };
+        xhr.onerror = function () {
+            callback(false);
         };
         var percentElm = element("span");
         message.appendChild(percentElm);
