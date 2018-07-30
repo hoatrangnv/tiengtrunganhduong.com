@@ -127,7 +127,8 @@ class BaseController extends Controller
             $this->seoInfo = new SeoInfo();
         }
 
-        echo 'Validate csrf: ' . Yii::$app->getRequest()->validateCsrfToken();
+        echo 'Validate csrf: ';
+        var_dump(Yii::$app->getRequest()->validateCsrfToken());
         return parent::beforeAction($action);
     }
 }
