@@ -127,7 +127,11 @@ class BaseController extends Controller
             $this->seoInfo = new SeoInfo();
         }
 
-        return true;
-//        return parent::beforeAction($action);
+        // this is bad idea, fix this as soon as possible
+        if (in_array(Yii::$app->requestedRoute, ['quiz/get-sharing-data'])) {
+            return true;
+        }
+
+        return parent::beforeAction($action);
     }
 }
