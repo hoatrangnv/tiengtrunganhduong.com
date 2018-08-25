@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             if (data.length > 0) {
                 window.QuizHighScoreContainer.innerHTML = window.renderHighScoreResultAsHtml(data);
             }
-        });
+        }, <?= $quiz->id ?>, 10);
     </script>
     <?= $this->render('//layouts/fbSDK') ?>
     <div class="fb-like-container">
