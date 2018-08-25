@@ -13,6 +13,7 @@ use common\models\QuizHighScore;
 use frontend\models\User;
 use InvalidArgumentException;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
@@ -39,6 +40,7 @@ class QuizApiController extends Controller
         $quiz_id = $req->post('quiz_id');
         $score = $req->post('score');
         $duration = $req->post('duration');
+        $result_limit = $req->post('result_limit', 10);
 
         if ($quiz_id === null) {
             throw new InvalidArgumentException('`quiz_id` is required.');
@@ -55,17 +57,69 @@ class QuizApiController extends Controller
         $quizHighScore->duration = +$duration;
         $quizHighScore->time = time();
 
-        if ($quizHighScore->save()) {
-            return [
-                'status' => 'success',
-                'data' => $quizHighScore->attributes
-            ];
+        $oldQuizHighScore = QuizHighScore::findOne(['quiz_id' => $quiz_id, 'user_id' => $user->id]);
+
+        if ($oldQuizHighScore) {
+            if ($quizHighScore->score > $oldQuizHighScore->score
+                || (
+                    $quizHighScore->score === $oldQuizHighScore->score
+                    && $quizHighScore->duration < $oldQuizHighScore->duration
+                )
+            ) {
+                $oldQuizHighScore->score = $quizHighScore->score;
+                $oldQuizHighScore->duration = $quizHighScore->duration;
+                $oldQuizHighScore->time = $quizHighScore->time;
+
+//                if ($oldQuizHighScore->save()) {
+//                    return [
+//                        'status' => 'succeed',
+//                        'data' => $oldQuizHighScore->attributes
+//                    ];
+//                } else {
+//                    return [
+//                        'status' => 'fail',
+//                        'error' => $oldQuizHighScore->errors
+//                    ];
+//                }
+                $oldQuizHighScore->save();
+            }
         } else {
-            return [
-                'status' => 'failure',
-                'error' => $quizHighScore->errors
-            ];
+//            if ($quizHighScore->save()) {
+//                return [
+//                    'status' => 'succeed',
+//                    'data' => $quizHighScore->attributes
+//                ];
+//            } else {
+//                return [
+//                    'status' => 'fail',
+//                    'error' => $quizHighScore->errors
+//                ];
+//            }
+            $quizHighScore->save();
         }
+
+//        return [
+//            'status' => 'rejected',
+//        ];
+
+        $quizHighScores = QuizHighScore::find()
+            ->where(['quiz_id' => $quiz_id])
+            ->orderBy('score DESC, duration ASC, time DESC')
+            ->limit($result_limit)
+            ->all();
+
+        return array_map(function ($item) {
+            /**
+             * @var QuizHighScore $item
+             */
+            return [
+                'user' => $item->user->attributes,
+                'score' => $item->score,
+                'duration' => $item->duration,
+                'formattedTime' => date('d/m/Y H:i:s', $item->time),
+                'time' => $item->time
+            ];
+        }, $quizHighScores);
 
     }
 }
