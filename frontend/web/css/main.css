@@ -1478,6 +1478,15 @@ form.primary .form-group.has-success textarea {
 .high-score-table tr td {
     border-top: 1px solid #eee;
 }
+.high-score-table tr td.rank {
+    font-weight: bold;
+}
+.high-score-table tr:first-child td.rank {
+    color: #f42;
+}
+.high-score-table tr:nth-child(2) td.rank {
+    color: #6a2;
+}
 .high-score-table tr td.avatar img {
     width: 40px;
     height: 40px;
