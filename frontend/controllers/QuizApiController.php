@@ -51,8 +51,8 @@ class QuizApiController extends Controller
         $quizHighScore = new QuizHighScore();
         $quizHighScore->quiz_id = $quiz_id;
         $quizHighScore->user_id = $user->id;
-        $quizHighScore->score = $score;
-        $quizHighScore->duration = $duration;
+        $quizHighScore->score = +$score;
+        $quizHighScore->duration = +$duration;
         $quizHighScore->time = time();
 
         if ($quizHighScore->save()) {
