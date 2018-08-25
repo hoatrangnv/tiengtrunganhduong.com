@@ -1494,11 +1494,11 @@ form.primary .form-group.has-success textarea {
     background: #6a2;
     color: #fff;
 }
-.high-score-table tr td.avatar img {
+.high-score-table tr td.user-avatar img {
     width: 40px;
     height: 40px;
 }
-.high-score-table tr td.name {
+.high-score-table tr td.user-name {
     font-weight: bold;
 }
 .high-score-table tr td.score {
