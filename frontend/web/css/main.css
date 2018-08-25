@@ -1470,13 +1470,14 @@ form.primary .form-group.has-success textarea {
  */
 .high-score-table {
     width: 100%;
+    border-collapse: collapse;
 }
 .high-score-table tr th,
 .high-score-table tr td {
     padding: 0.5rem;
 }
 .high-score-table tr th {
-    color: #888;
+    color: #666;
 }
 .high-score-table tr td {
     border-top: 1px solid #eee;
