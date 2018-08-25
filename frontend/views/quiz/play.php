@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 <div class="content-box">
     <script>
-        window.QuizPlayProps = <?= $quiz->exported_play_props ? $quiz->exported_play_props : json_encode($quiz->getPlayProps()) ?>;
+        window.QuizPlayProps = <?= /*$quiz->exported_play_props ? $quiz->exported_play_props :*/ json_encode($quiz->getPlayProps()) ?>;
     </script>
     <?= $this->render('_playFrame') ?>
     <script>
