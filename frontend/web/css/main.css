@@ -1481,11 +1481,16 @@ form.primary .form-group.has-success textarea {
 .high-score-table tr td.rank {
     font-weight: bold;
 }
-.high-score-table tr:nth-child(2) td.rank {
-    color: #f42;
+.high-score-table tr td.rank span {
+    display: inline-block;
+    padding: 0.5em;
+    background: #eee;
 }
-.high-score-table tr:nth-child(3) td.rank {
-    color: #6a2;
+.high-score-table tr:nth-child(2) td.rank span {
+    background: #f42;
+}
+.high-score-table tr:nth-child(3) td.rank span {
+    background: #6a2;
 }
 .high-score-table tr td.avatar img {
     width: 40px;
