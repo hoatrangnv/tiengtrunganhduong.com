@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 
 
-use common\models\QuizHighScore;
+use frontend\models\QuizHighScore;
 use frontend\models\User;
 use InvalidArgumentException;
 use Yii;
