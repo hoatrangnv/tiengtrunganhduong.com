@@ -1500,7 +1500,7 @@ form.primary .form-group.has-success textarea {
 }
 .high-score-table tr td.user-avatar img {
     width: 40px;
-    height: 40px;
+    height: auto;
 }
 .high-score-table tr td.user-name {
     font-weight: bold;
