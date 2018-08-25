@@ -78,6 +78,7 @@ return [
                 ['pattern' => 'quiz/ajax-get-items', 'route' => 'quiz/ajax-get-items'],
                 ['pattern' => 'quiz/translate-name', 'route' => 'quiz/translate-name'],
                 ['pattern' => 'quiz-api/save-high-score', 'route' => 'quiz-api/save-high-score'],
+                ['pattern' => 'quiz-api/get-high-score-result', 'route' => 'quiz-api/get-high-score-result'],
 
                 // User
                 ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],

@@ -53,11 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 <div class="content-box">
     <script>
-        window.QuizPlayProps = <?= /*$quiz->exported_play_props ? $quiz->exported_play_props :*/ json_encode($quiz->getPlayProps()) ?>;
+        window.QuizPlayProps = <?= json_encode($quiz->getPlayProps()) ?>;
     </script>
     <?= $this->render('_playFrame') ?>
     <script>
         window.renderQuizPlay();
+        window.getHighScoreResult(data => {
+            if (data.length > 0) {
+                window.QuizHighScoreContainer.innerHTML = window.renderHighScoreResultAsHtml(data);
+            }
+        });
     </script>
     <?= $this->render('//layouts/fbSDK') ?>
     <div class="fb-like-container">

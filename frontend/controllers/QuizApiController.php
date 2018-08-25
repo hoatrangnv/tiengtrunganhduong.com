@@ -41,6 +41,8 @@ class QuizApiController extends Controller
         $score = $req->post('score');
         $duration = $req->post('duration');
         $result_limit = $req->post('result_limit', 10);
+        $start_time = $req->post('start_time');
+        $end_time = $req->post('end_time');
 
         if ($quiz_id === null) {
             throw new InvalidArgumentException('`quiz_id` is required.');
@@ -70,43 +72,78 @@ class QuizApiController extends Controller
                 $oldQuizHighScore->duration = $quizHighScore->duration;
                 $oldQuizHighScore->time = $quizHighScore->time;
 
-//                if ($oldQuizHighScore->save()) {
-//                    return [
-//                        'status' => 'succeed',
-//                        'data' => $oldQuizHighScore->attributes
-//                    ];
-//                } else {
-//                    return [
-//                        'status' => 'fail',
-//                        'error' => $oldQuizHighScore->errors
-//                    ];
-//                }
                 $oldQuizHighScore->save();
             }
         } else {
-//            if ($quizHighScore->save()) {
-//                return [
-//                    'status' => 'succeed',
-//                    'data' => $quizHighScore->attributes
-//                ];
-//            } else {
-//                return [
-//                    'status' => 'fail',
-//                    'error' => $quizHighScore->errors
-//                ];
-//            }
             $quizHighScore->save();
         }
 
-//        return [
-//            'status' => 'rejected',
-//        ];
-
-        $quizHighScores = QuizHighScore::find()
+        $query = QuizHighScore::find()
             ->where(['quiz_id' => $quiz_id])
             ->orderBy('score DESC, duration ASC, time DESC')
-            ->limit($result_limit)
-            ->all();
+            ->limit($result_limit);
+
+        if ($start_time) {
+            $query->andWhere(['>=', 'time', strtotime($start_time)]);
+        }
+
+        if ($end_time) {
+            $query->andWhere(['<=', 'time', strtotime($start_time)]);
+        }
+
+        $quizHighScores = $query->all();
+
+        return array_map(function ($item) {
+            /**
+             * @var QuizHighScore $item
+             */
+            $user = $item->user;
+            return [
+                'user' => [
+                    'id' => $user->id,
+                    'name' => "$user->last_name $user->first_name",
+                    'picture_url' => $user->picture_url,
+                ],
+                'score' => $item->score,
+                'duration' => $item->duration,
+                'formattedTime' => date('d/m/Y H:i:s', $item->time),
+                'time' => $item->time
+            ];
+        }, $quizHighScores);
+
+    }
+
+    public function actionGetHighScoreResult()
+    {
+        if (!Yii::$app->request->isPost) {
+            throw new BadRequestHttpException('Request must be POST.');
+        }
+
+        $req = Yii::$app->request;
+
+        $quiz_id = $req->post('quiz_id');
+        $result_limit = $req->post('result_limit', 10);
+        $start_time = $req->post('start_time');
+        $end_time = $req->post('end_time');
+
+        if ($quiz_id === null) {
+            throw new InvalidArgumentException('`quiz_id` is required.');
+        }
+
+        $query = QuizHighScore::find()
+            ->where(['quiz_id' => $quiz_id])
+            ->orderBy('score DESC, duration ASC, time DESC')
+            ->limit($result_limit);
+
+        if ($start_time) {
+            $query->andWhere(['>=', 'time', strtotime($start_time)]);
+        }
+
+        if ($end_time) {
+            $query->andWhere(['<=', 'time', strtotime($start_time)]);
+        }
+
+        $quizHighScores = $query->all();
 
         return array_map(function ($item) {
             /**

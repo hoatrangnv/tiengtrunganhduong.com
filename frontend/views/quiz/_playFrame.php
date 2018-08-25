@@ -10,6 +10,8 @@ use \yii\helpers\Url;
 ?>
 
 <div id="quiz-play-root"></div>
+<div id="quiz-high-score-container"></div>
+
 
 <style>
     .quiz--loading-box--icon,
@@ -191,9 +193,15 @@ use \yii\helpers\Url;
         "Loading layers for result canvas": "Đang tạo ảnh kết quả..."
     };
     window.QuizPlayRoot = document.getElementById("quiz-play-root");
+    window.QuizHighScoreContainer = document.getElementById("quiz-high-score-container");
     if (window.QuizPlayProps) {
         if ("undefined" == typeof window.QuizPlayProps.login) {
-            window.QuizPlayProps.login = fbLogin;
+            window.QuizPlayProps.login = function (callback) {
+                if (window.QuizHighScoreContainer.parentNode) {
+                    window.QuizHighScoreContainer.parentNode.removeChild(window.QuizHighScoreContainer);
+                }
+                fbLogin(callback);
+            };
         }
         if ("undefined" == typeof window.QuizPlayProps.shareButtons) {
             window.QuizPlayProps.shareButtons = {
@@ -981,4 +989,158 @@ use \yii\helpers\Url;
     function isMobile() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    window.saveHighScoreAndGetResult = function (callback, quiz_id, score, duration, result_limit, start_time, end_time) {
+        console.log('saving high score');
+
+        result_limit = result_limit || 10;
+        start_time = start_time || '';
+        end_time = end_time || '';
+
+        const formData = new FormData();
+        formData.append('quiz_id', quiz_id);
+        formData.append('score', score);
+        formData.append('duration', duration);
+        formData.append('result_limit', result_limit);
+        formData.append('start_time', start_time);
+        formData.append('end_time', end_time);
+
+        fetch('<?= Url::to(['quiz-api/save-high-score']) ?>', {
+            credentials: "same-origin",
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(response => {
+                console.log(response);
+                callback(response);
+            })
+            .catch(error => {
+                console.log('err', error);
+            });
+    };
+
+    window.getHighScoreResult = function (callback, quiz_id, result_limit, start_time, end_time) {
+        console.log('saving high score');
+
+        result_limit = result_limit || 10;
+        start_time = start_time || '';
+        end_time = end_time || '';
+
+        const formData = new FormData();
+        formData.append('quiz_id', quiz_id);
+        formData.append('result_limit', result_limit);
+        formData.append('start_time', start_time);
+        formData.append('end_time', end_time);
+
+        fetch('<?= Url::to(['quiz-api/get-high-score-result']) ?>', {
+            credentials: "same-origin",
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(response => {
+                console.log(response);
+                callback(response);
+            })
+            .catch(error => {
+                console.log('err', error);
+            });
+    };
+
+    window.renderHighScoreResultAsHtml = function (high_score_list) {
+        console.log('high_score_list', high_score_list);
+        if (!(high_score_list instanceof Array)) {
+            return '';
+        }
+
+        const setAttributes =  function (element, attributes) {
+            if (attributes) {
+                var attrName;
+                for (attrName in attributes) {
+                    if (attributes.hasOwnProperty(attrName)) {
+                        var attrValue = attributes[attrName];
+                        switch (typeof attrValue) {
+                            case "string":
+                            case "number":
+                                element.setAttribute(attrName, attrValue);
+                                break;
+                            case "function":
+                            case "boolean":
+                                element[attrName] = attrValue;
+                                break;
+                            default:
+                        }
+                    }
+                }
+            }
+        };
+
+        const appendChildren = function (element, content) {
+            var append = function (t) {
+                if (/string|number/.test(typeof t)) {
+                    var textNode = document.createTextNode(t);
+                    element.appendChild(textNode);
+                } else if (t instanceof Node) {
+                    element.appendChild(t);
+                }
+            };
+            if (content instanceof Array) {
+                content.forEach(function (item) {
+                    append(item);
+                });
+            } else {
+                append(content);
+            }
+        };
+
+        const E = function (elementName, content, attributes) {
+            var element = document.createElement(elementName);
+            appendChildren(element, content);
+            setAttributes(element, attributes);
+            return element;
+        };
+
+
+        const table = E('table', [E('tr', [
+            E('th', 'Ảnh'),
+            E('th', 'Họ tên'),
+            E('th', 'Điểm'),
+            E('th', 'Thời gian'),
+            E('th', 'Xếp hạng'),
+        ])].concat(high_score_list.map((item, index) => E('tr', [
+            E('td', E('img', item.user.picture_url, {src: item.user.picture_url}), {class: 'user-avatar'}),
+            E('td', E('span', item.user.name), {class: 'user-name'}),
+            E('td', E('span', item.score), {class: 'score'}),
+            E('td', E('span', item.duration + 's'), {class: 'duration'}),
+            E('td', E('span', index + 1), {class: 'rank'}),
+        ]))), {
+            class: 'high-score-table'
+        });
+
+        return table.outerHTML;
+    };
 </script>
