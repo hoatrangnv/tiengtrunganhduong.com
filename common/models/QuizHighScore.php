@@ -10,7 +10,7 @@ use Yii;
  * @property int $quiz_id
  * @property int $user_id
  * @property int $score
- * @property int $duration
+ * @property double $duration
  * @property int $time
  *
  * @property Quiz $quiz
@@ -33,7 +33,8 @@ class QuizHighScore extends \yii\db\ActiveRecord
     {
         return [
             [['quiz_id', 'user_id', 'score', 'time'], 'required'],
-            [['quiz_id', 'user_id', 'score', 'duration', 'time'], 'integer'],
+            [['quiz_id', 'user_id', 'score', 'time'], 'integer'],
+            [['duration'], 'number'],
             [['quiz_id', 'user_id'], 'unique', 'targetAttribute' => ['quiz_id', 'user_id']],
             [['quiz_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quiz::className(), 'targetAttribute' => ['quiz_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

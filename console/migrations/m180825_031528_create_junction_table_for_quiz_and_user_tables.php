@@ -25,7 +25,7 @@ class m180825_031528_create_junction_table_for_quiz_and_user_tables extends Migr
             'quiz_id' => $this->integer(),
             'user_id' => $this->integer(),
             'score' => $this->integer()->notNull(),
-            'duration' => $this->integer(),
+            'duration' => $this->float(),
             'time' => $this->integer()->notNull(),
             'PRIMARY KEY(quiz_id, user_id)',
         ], $tableOptions);
