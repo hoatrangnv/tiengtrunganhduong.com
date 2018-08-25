@@ -35,8 +35,8 @@ class QuizApiController extends Controller
          * @var $user User
          */
         $user = Yii::$app->user->identity;
-        
-        var_dump($req);
+
+        var_dump($req->post());
         die;
 
         $quiz_id = $req->post('quiz_id');
