@@ -112,8 +112,13 @@ class QuizApiController extends Controller
             /**
              * @var QuizHighScore $item
              */
+            $user = $item->user;
             return [
-                'user' => $item->user->attributes,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => "$user->last_name $user->first_name",
+                    'picture_url' => $user->picture_url,
+                ],
                 'score' => $item->score,
                 'duration' => $item->duration,
                 'formattedTime' => date('d/m/Y H:i:s', $item->time),
