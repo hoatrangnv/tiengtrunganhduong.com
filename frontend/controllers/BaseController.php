@@ -127,7 +127,7 @@ class BaseController extends Controller
             $this->seoInfo = new SeoInfo();
         }
 
-        // this is bad idea, fix this as soon as possible
+        // this is a bad idea, fix this as soon as possible
         if (in_array(Yii::$app->requestedRoute, ['quiz/get-sharing-data'])) {
             return true;
         }

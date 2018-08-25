@@ -9,11 +9,14 @@ use common\models\UrlParam;
 use frontend\models\NameTranslation;
 use frontend\models\Quiz;
 use frontend\models\UrlRedirection;
+use frontend\models\User;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 class QuizController extends BaseController

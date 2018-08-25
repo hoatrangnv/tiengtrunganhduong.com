@@ -67,11 +67,12 @@ AppAsset::register($this);
                     ['label' => 'View', 'url' => ['/image2/default/view'], 'visible' => false],
                     ['label' => 'Multiple Upload', 'url' => ['/upload/images']],
                 ]],
-                ['label' => 'Audio', 'items' => [
-                    ['label' => 'Index', 'url' => ['/audio/audio/index']],
-                    ['label' => 'Create', 'url' => ['/audio/audio/create']],
-                    ['label' => 'Update', 'url' => ['/audio/audio/update'], 'visible' => false],
-                    ['label' => 'View', 'url' => ['/audio/audio/view'], 'visible' => false],
+                ['label' => 'Quiz', 'items' => [
+                    ['label' => 'Quizzes', 'url' => ['/quiz/quiz/index']],
+                    ['label' => 'Create New Quiz', 'url' => ['/quiz/default/create']],
+                    ['label' => 'QuizFn List', 'url' => ['/quiz/quiz-fn/index']],
+                    ['label' => 'Update', 'url' => ['/quiz/default/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/quiz/quiz/view'], 'visible' => false],
                 ]],
 
 //                ['label' => 'Site Param', 'items' => [
@@ -94,6 +95,11 @@ AppAsset::register($this);
 //                    ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
 //                ]],
                 ['label' => 'More...', 'items' => [
+                    ['label' => 'Audio', 'url' => ['/audio/audio/index']],
+                    ['label' => 'Create', 'url' => ['/audio/audio/create'], 'visible' => false],
+                    ['label' => 'Update', 'url' => ['/audio/audio/update'], 'visible' => false],
+                    ['label' => 'View', 'url' => ['/audio/audio/view'], 'visible' => false],
+
                     ['label' => 'Banner', 'url' => ['/banner/index']],
                     ['label' => 'Create', 'url' => ['/banner/create'], 'visible' => false],
                     ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],

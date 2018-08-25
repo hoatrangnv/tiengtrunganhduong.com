@@ -77,6 +77,7 @@ return [
                 ['pattern' => 'quiz/ajax-update-counter', 'route' => 'quiz/ajax-update-counter'],
                 ['pattern' => 'quiz/ajax-get-items', 'route' => 'quiz/ajax-get-items'],
                 ['pattern' => 'quiz/translate-name', 'route' => 'quiz/translate-name'],
+                ['pattern' => 'quiz-api/save-high-score', 'route' => 'quiz-api/save-high-score'],
 
                 // User
                 ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],
