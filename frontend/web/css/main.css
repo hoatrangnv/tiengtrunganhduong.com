@@ -1480,7 +1480,7 @@ form.primary .form-group.has-success textarea {
     color: #666;
 }
 .high-score-table tr td {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #ddd;
 }
 .high-score-table tr td.rank {
     font-weight: bold;
