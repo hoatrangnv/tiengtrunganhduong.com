@@ -1461,3 +1461,39 @@ form.primary .form-group.has-success textarea {
         padding-right: 2.5rem;
     }
 }
+
+
+
+
+/**
+ * High score list
+ */
+.high-score-list {
+    padding-left: 2rem;
+}
+.high-score-list li:not(:first-child) {
+    border-top: 1px solid #eee;
+    padding: 1rem 0;
+}
+.high-score-list li > :not(:first-child) {
+    margin-left: 1rem;
+}
+.high-score-list li > .avatar {
+    width: 40px;
+    height: 40px;
+}
+.high-score-list li > .name {
+    font-weight: bold;
+}
+.high-score-list li > .score {
+    color: #f42;
+    font-family: Consolas, Menlo, Courier, monospace;
+}
+.high-score-list li > .duration {
+    color: #6a2;
+    font-family: Consolas, Menlo, Courier, monospace;
+}
+.high-score-list li > .time {
+    color: #aaa;
+}
+
