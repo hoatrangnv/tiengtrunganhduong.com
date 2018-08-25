@@ -1486,11 +1486,13 @@ form.primary .form-group.has-success textarea {
     padding: 0.5em;
     background: #eee;
 }
-.high-score-table tr:nth-child(2) td.rank span {
+.high-score-table tr:nth-child(2):not(:last-child) td.rank span {
     background: #f42;
+    color: #fff;
 }
-.high-score-table tr:nth-child(3) td.rank span {
+.high-score-table tr:nth-child(3):not(:last-child) td.rank span {
     background: #6a2;
+    color: #fff;
 }
 .high-score-table tr td.avatar img {
     width: 40px;
