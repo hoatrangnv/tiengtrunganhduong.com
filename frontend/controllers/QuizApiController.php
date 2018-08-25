@@ -103,7 +103,7 @@ class QuizApiController extends Controller
                     'id' => $user->id,
                     'name' => "$user->last_name $user->first_name",
                     'picture_url' => 'http://graph.facebook.com/'
-                        . str_replace('fid.', '', $user->username)
+                        . str_replace('fbu.', '', $user->username)
                         . '/picture?width=50&height=50',
                 ],
                 'score' => $item->score,
@@ -157,7 +157,7 @@ class QuizApiController extends Controller
                     'id' => $user->id,
                     'name' => "$user->last_name $user->first_name",
                     'picture_url' => 'http://graph.facebook.com/'
-                        . str_replace('fid.', '', $user->username)
+                        . str_replace('fbu.', '', $user->username)
                         . '/picture?width=50&height=50',
                 ],
                 'score' => $item->score,
