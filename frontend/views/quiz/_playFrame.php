@@ -200,7 +200,7 @@ use \yii\helpers\Url;
                 below: [
                     {
                         method: fbShare,
-                        html: "<div class='fb-bt-inner-share'><i class='icon fb-logo-icon'></i> <span><?= Yii::t('app', 'Share with friends') ?></span></div>"
+                        html: "<div class='fb-bt-inner-share'><i class='icon fb-logo-icon'></i> <span>Chia sẻ với bạn bè</span></div>"
                     },
                     {
                         method: fbSend,
