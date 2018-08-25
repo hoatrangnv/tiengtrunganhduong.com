@@ -170,12 +170,12 @@ class Quiz extends \common\modules\quiz\baseModels\Quiz
         }
 
         // Save Exported play props
-//        $exported_play_props = json_encode($this->getPlayProps());
-//        if (strlen($exported_play_props) <= self::EXPORTED_PLAY_PROPS_MAX_LENGTH) {
-//            $this->exported_play_props = $exported_play_props;
-//        } else {
-//            $this->exported_play_props = '';
-//        }
+        $exported_play_props = json_encode($this->getPlayProps());
+        if (strlen($exported_play_props) <= self::EXPORTED_PLAY_PROPS_MAX_LENGTH) {
+            $this->exported_play_props = $exported_play_props;
+        } else {
+            $this->exported_play_props = '';
+        }
 
         return parent::beforeSave($insert);
     }
