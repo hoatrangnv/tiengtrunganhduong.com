@@ -1475,6 +1475,9 @@ form.primary .form-group.has-success textarea {
 .high-score-table tr td {
     padding: 0.5rem;
 }
+.high-score-table tr th {
+    color: #888;
+}
 .high-score-table tr td {
     border-top: 1px solid #eee;
 }
