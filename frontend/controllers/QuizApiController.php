@@ -72,7 +72,9 @@ class QuizApiController extends Controller
                 $oldQuizHighScore->duration = $quizHighScore->duration;
                 $oldQuizHighScore->time = $quizHighScore->time;
 
-                $oldQuizHighScore->save();
+                if (!$oldQuizHighScore->save()) {
+                    var_dump($oldQuizHighScore->errors);
+                }
             }
         } else {
             $quizHighScore->save();
