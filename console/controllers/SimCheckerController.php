@@ -17,27 +17,30 @@ class SimCheckerController extends Controller
     public function actionViettel()
     {
         $getNumbers = function ($url) {
-            $page_content = file_get_contents($url);
-            $dom = new Dom();
-            $dom->loadStr($page_content, [
-                'whitespaceTextNode' => true,
-                'strict'             => false,
-                'enforceEncoding'    => null,
-                'cleanupInput'       => false,
-                'removeScripts'      => false,
-                'removeStyles'       => false,
-                'preserveLineBreaks' => true,
-            ]);
             $result = [];
-            foreach ($dom->find('.table-simso .col-number a') as $item) {
-                $result[] = (string) $item->innerHTML;
+            try {
+                $page_content = file_get_contents($url);
+                $dom = new Dom();
+                $dom->loadStr($page_content, [
+                    'whitespaceTextNode' => true,
+                    'strict'             => false,
+                    'enforceEncoding'    => null,
+                    'cleanupInput'       => false,
+                    'removeScripts'      => false,
+                    'removeStyles'       => false,
+                    'preserveLineBreaks' => true,
+                ]);
+                foreach ($dom->find('.col-number a') as $item) {
+                    $result[] = (string) $item->innerHTML;
+                }
+                $dom = null;
+            } catch (\Exception $e) {
             }
-            $dom = null;
             return $result;
         };
-        $viettel_url = 'https://shop.viettel.vn/ajax/tim-kiem-sim?from_money=50000&to_money=22000000&total_point=&total_node=&number=09%2A&length%5B0%5D=10&_=1498007495126&page=';
+        $viettel_url = 'https://shop.viettel.vn/ajax/tim-kiem-sim?is_commitment=1&number=09%2A&_=1537671972612&page=';
         $numbers = [];
-        for ($page = 0; $page < 21; $page++) {
+        for ($page = 0; $page < 40/*36*/; $page++) {
             $numbers = array_merge($numbers, $getNumbers($viettel_url . $page));
         }
 //        $file = fopen(\Yii::getAlias('@console/runtime/viettel.txt') . date('_Ymd_His'), 'w');
@@ -68,19 +71,20 @@ class SimCheckerController extends Controller
 //                    $number_list[] = [$number, $score];
 //                }
 //            }
-            echo "=============\n";
+            echo "\n=============\n";
+            echo $number;
             $url = 'http://xemboisim.vn/xem-boi-so-dien-thoai.htm';
             $data = [
                 'sosim' => $number,
-                'check' => 'Xem',
-                'ngay' => '16',
-                'thang' => '09',
-                'nam' => '1993',
+//                'check' => 'Xem',
+                'ngay' => '23',// '16',
+                'thang' => '6',// '9',
+                'nam' => '1991',// '1993',
                 'gioitinh' => 'Nam',
-                'giosinh' => '5 giờ đến 7 giờ',
-                'option' => 'com_boi',
-                'view' => 'simdep',
-                'Itemid' => '34',
+                'giosinh' => '17 giờ đến 19 giờ',// '5 giờ đến 7 giờ',
+//                'option' => 'com_boi',
+//                'view' => 'simdep',
+//                'Itemid' => '34',
             ];
 
             // use key 'http' even if you send the request to https://...
@@ -92,7 +96,11 @@ class SimCheckerController extends Controller
                 ]
             ];
             $context  = stream_context_create($options);
-            $result = file_get_contents($url, false, $context);
+            try {
+                $result = file_get_contents($url, false, $context);
+            } catch (\Exception $e) {
+                continue;
+            }
             if ($result === FALSE) { /* Handle error */ }
             $dom = new Dom();
             $dom->loadStr($result, [
@@ -104,21 +112,23 @@ class SimCheckerController extends Controller
                 'removeStyles'       => false,
                 'preserveLineBreaks' => true,
             ]);
-            $kl = $dom->find('.KL', 0);
+            $kl = $dom->find('.tong_diem b', 0);
             if ($kl) {
-                $pos = strpos($kl->innerHTML, '/ 10');
+                $pos = strpos($kl->innerHTML, '/10');
                 if ($pos !== false) {
-                    $score = (float) substr($kl->innerHTML, $pos - 6, 5);
-                    echo $number . ': ' . $score . "\n";
+                    $score = (float) str_replace(['Tổng điểm ', '/10'], ['', ''], $kl->innerHTML);
+                    echo ': ' . $score;
                     $number_list[] = [$number, $score];
                 }
             }
         }
         usort($number_list, function ($a, $b) {
-            return (float) $b[1] - (float) $a[1];
+            if ($b[1] > $a[1]) return 1;
+            if ($a[1] > $b[1]) return -1;
+            return 0;
         });
-        $file = fopen(\Yii::getAlias('@console/runtime/number_list') . date('_Ymd_His') . '.txt', 'w');
-        fwrite($file, json_encode($number_list));
+        $file = fopen(\Yii::getAlias('@console/runtime/quan_number_list') . date('_Ymd_His') . '.txt', 'w');
+        fwrite($file, json_encode($number_list, JSON_PRETTY_PRINT));
         fclose($file);
     }
 }
