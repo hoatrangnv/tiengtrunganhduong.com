@@ -79,7 +79,7 @@ $seoInfo->registerLinkTags($this);
 
 <!--<script><?php /*require_once Yii::getAlias('@webroot/js/main.js') */?></script>-->
 <?php
-if (!Yii::$app->response->isServerError) {
+if (Yii::$app->response->isSuccessful) {
     require_once 'fbMessenger.php';
     require_once 'fbSDK.php';
     require_once 'googlePlatform.php';
