@@ -30,6 +30,13 @@ $seoInfo->registerLinkTags($this);
 <?php $this->head() ?>
 <?php echo Html::csrfMetaTags() ?>
 <style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-5467392149281559",
+        enable_page_level_ads: true
+    });
+</script>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -71,11 +78,15 @@ $seoInfo->registerLinkTags($this);
 <?php require_once 'footer.php' ?>
 
 <!--<script><?php /*require_once Yii::getAlias('@webroot/js/main.js') */?></script>-->
-<?php require_once 'fbMessenger.php' ?>
-<?php require_once 'fbSDK.php' ?>
-<?php require_once 'googlePlatform.php' ?>
-<?php require_once 'twitterWidget.php' ?>
-<?php require_once 'tracking.php' ?>
+<?php
+if (Yii::$app->requestedRoute !== 'site/error') {
+    require_once 'fbMessenger.php';
+    require_once 'fbSDK.php';
+    require_once 'googlePlatform.php';
+    require_once 'twitterWidget.php';
+    require_once 'tracking.php';
+}
+?>
 <?php $this->endBody() ?>
 </body>
 </html>
