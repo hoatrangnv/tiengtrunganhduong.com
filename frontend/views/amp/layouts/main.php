@@ -86,7 +86,9 @@ $seoInfo->registerLinkTags($this);
         <?php
     }
     ?>
-
+    <script async custom-element="amp-auto-ads"
+            src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
 </head>
 <body>
     <?php $this->beginBody() ?>
@@ -126,6 +128,9 @@ $seoInfo->registerLinkTags($this);
     </div>
     <?php require_once 'footer.php' ?>
     <?php require_once 'tracking.php' ?>
+    <amp-auto-ads type="adsense"
+                  data-ad-client="ca-pub-5467392149281559">
+    </amp-auto-ads>
     <?php $this->endBody() ?>
 </body>
 </html>
