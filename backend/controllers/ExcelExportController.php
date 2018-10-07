@@ -19,17 +19,10 @@ class ExcelExportController extends Controller
     public function actionArticles() {
         $request = \Yii::$app->request;
 
-        $req_fields_str = $request->get('fields', '');
-        $req_fields = explode('|', $req_fields_str);
         $article = new Article();
-        foreach ($req_fields as $req_field) {
-            if (!$article->hasAttribute($req_field)) {
-                echo 'requested field does not exist: ' . $req_field;
-                exit();
-            }
-        }
 
-        if (count($req_fields) === 0) {
+        $req_fields_str = $request->get('fields', '');
+        if ($req_fields_str === '') {
             echo 'No valid fields. Please provide some valid fields to export.';
             echo '<br>';
             echo 'Format: ?fields=field_1|field_2|field_x';
@@ -41,6 +34,14 @@ class ExcelExportController extends Controller
             }
             echo '</ul>';
             exit();
+        }
+
+        $req_fields = explode('|', $req_fields_str);
+        foreach ($req_fields as $req_field) {
+            if (!$article->hasAttribute($req_field)) {
+                echo 'requested field does not exist: ' . $req_field;
+                exit();
+            }
         }
 
         $page_index = (int) $request->get('page_index', 0);
