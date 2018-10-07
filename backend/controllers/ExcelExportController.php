@@ -27,6 +27,12 @@ class ExcelExportController extends Controller
             echo '<br>';
             echo 'Format: ?fields=field_1|field_2|field_x';
             echo '<br>';
+            echo 'Format: ?fields=field_1|field_2|field_x&page_index=0&page_size=1000';
+            echo '<br>';
+            echo 'Format: ?fields=field_1|field_2|field_x&page_index=0&page_size=1000&sort=-publish_time|id';
+            echo '<br>';
+            echo 'Format: ?fields=field_1|field_2|field_x&sort=-publish_time';
+            echo '<br>';
             echo 'There are all valid fields:';
             echo '<ul>';
             foreach ($article->attributes() as $field) {
