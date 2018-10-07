@@ -36,7 +36,7 @@ class ExcelExportController extends Controller
             echo '<br>';
             echo 'There are all valid fields:';
             echo '<ul>';
-            foreach ($article->fields() as $field) {
+            foreach ($article->attributes() as $field) {
                 echo '<li>' . $field . '</li>';
             }
             echo '</ul>';
@@ -44,7 +44,7 @@ class ExcelExportController extends Controller
         }
 
         $page_index = (int) $request->get('page_index', 0);
-        $page_size = (int) $request->get('page_size', 1000);
+        $page_size = (int) $request->get('page_size', 0);
         if ($page_index < 0) {
             echo 'page_index must be greater than or equal to 0';
             exit();
@@ -90,10 +90,11 @@ class ExcelExportController extends Controller
             $excel->getActiveSheet()->setCellValue("$column$rowCount", $article->getAttributeLabel($field));
         }
 
-        $query = Article::find()
-            ->orderBy($sql_sort)
-            ->limit($page_size)
-            ->offset($page_index * $page_size);
+        $query = Article::find()->orderBy($sql_sort);
+
+        if ($page_size > 0) {
+            $query->limit($page_size)->offset($page_index * $page_size);
+        }
 
         $rowCount = 2;
         $total = 0;
@@ -103,6 +104,7 @@ class ExcelExportController extends Controller
                  * @var $article Article
                  */
                 $column = 'A';
+                $total++;
 
                 $excel->getActiveSheet()->setCellValue("$column$rowCount", $total);
                 foreach ($req_fields as $field) {
@@ -118,7 +120,6 @@ class ExcelExportController extends Controller
                     $excel->getActiveSheet()->setCellValue("$column$rowCount", $value);
                 }
 
-                $total++;
                 $rowCount++;
             }
         }
@@ -130,5 +131,9 @@ class ExcelExportController extends Controller
 
         echo Html::a('Download ' . $file_name, \Yii::getAlias("@web/excel_export/$file_name.xlsx"));
         exit();
+    }
+
+    public function actionArticlesForm() {
+        return $this->render('articlesForm');
     }
 }

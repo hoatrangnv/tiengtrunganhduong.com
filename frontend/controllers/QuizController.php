@@ -346,7 +346,7 @@ class QuizController extends BaseController
 //                }
 //            }
 //        }
-
+        $last_name_can_be_first_name_word = false;
         $first_name_words = [];
         $last_name_word = '';
         if (count($words) == 1) {
@@ -354,6 +354,7 @@ class QuizController extends BaseController
         } else if (count($words) == 2) {
             $first_name_words = [$words[1]];
             $last_name_word = $words[0];
+            $last_name_can_be_first_name_word = true;
         } else {
             $first_name_words = array_slice($words, 2);
             $last_name_word = $words[0] . ' ' . $words[1];
@@ -385,8 +386,10 @@ class QuizController extends BaseController
             }
         }
         if (count($last_name_translation) == 0) {
-            // find in chinese single word table
-
+            if ($last_name_can_be_first_name_word) {
+                array_unshift($first_name_words, $last_name_word);
+                $last_name_word = '';
+            }
         }
 
         $first_name_translations_all = NameTranslation::find()
