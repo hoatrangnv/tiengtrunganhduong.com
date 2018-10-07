@@ -150,6 +150,12 @@ article a:hover {
 .fit-content img {
     height: auto;
 }
+.fit-content .table-wrapper,
+.table-wrap {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
 
 /**
  * CONTENT POPUP IMAGES

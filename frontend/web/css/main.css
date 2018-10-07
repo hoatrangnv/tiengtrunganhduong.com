@@ -150,6 +150,7 @@ article a:hover {
 .fit-content img {
     height: auto !important;
 }
+.fit-content .table-wrapper,
 .table-wrap {
     overflow-x: auto;
     max-width: 100%;

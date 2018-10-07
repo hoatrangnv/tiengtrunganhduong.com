@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $model->templateToHtml(['content']);
         $content = preg_replace("/<img[^>]+\>/i", "", $model->getAmpContent());
-        echo $content;
         if (strpos($content, '<amp-youtube') !== false) {
             Yii::$app->params['has-amp-youtube'] = true;
         }
@@ -36,7 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
         if (strpos($content, '<amp-audio') !== false) {
             Yii::$app->params['has-amp-audio'] = true;
         }
-
+        echo str_replace(
+            ['<table ', '</table>'],
+            ['<div class="table-wrapper"><table ', '</table></div>'],
+            $model->content);
         ?>
     </div>
 </article>
