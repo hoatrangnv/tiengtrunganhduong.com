@@ -25,20 +25,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="news-content fit-content content-popup-images">
         <?php
         $model->templateToHtml(['content']);
+
         $content = preg_replace("/<img[^>]+\>/i", "", $model->getAmpContent());
-        if (strpos($content, '<amp-youtube') !== false) {
-            Yii::$app->params['has-amp-youtube'] = true;
-        }
-        if (strpos($content, '<amp-iframe') !== false) {
-            Yii::$app->params['has-amp-iframe'] = true;
-        }
-        if (strpos($content, '<amp-audio') !== false) {
-            Yii::$app->params['has-amp-audio'] = true;
-        }
+
         echo str_replace(
             ['<table ', '</table>'],
             ['<div class="table-wrapper"><table ', '</table></div>'],
-            $model->content);
+            $content);
+
+        if (strpos($content, '<amp-youtube') !== false) {
+            Yii::$app->params['has-amp-youtube'] = true;
+        }
+
+        if (strpos($content, '<amp-iframe') !== false) {
+            Yii::$app->params['has-amp-iframe'] = true;
+        }
+
+        if (strpos($content, '<amp-audio') !== false) {
+            Yii::$app->params['has-amp-audio'] = true;
+        }
         ?>
     </div>
 </article>
