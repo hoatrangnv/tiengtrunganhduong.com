@@ -89,7 +89,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
 
-            'shown_on_menu',
+            'visible:boolean',
+            'featured:boolean',
+            'shown_on_menu:boolean',
+            'disable_ads:boolean',
 
             [
                 'class' => ActionColumn::className(),

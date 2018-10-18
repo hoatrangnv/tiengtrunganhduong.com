@@ -53,8 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'content:ntext',
             // 'type',
             // 'status',
-             'sort_order',
-             'active:boolean',
+            'sort_order',
+            'active:boolean',
+            'disable_ads:boolean',
             // 'create_time:datetime',
             // 'update_time:datetime',
 
