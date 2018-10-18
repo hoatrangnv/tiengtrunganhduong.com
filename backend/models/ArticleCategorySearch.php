@@ -18,7 +18,7 @@ class ArticleCategorySearch extends ArticleCategory
     public function rules()
     {
         return [
-            [['id', 'creator_id', 'updater_id', 'image_id', 'parent_id', 'active', 'visible', 'featured', 'shown_on_menu', 'type', 'status', 'sort_order', 'create_time', 'update_time', 'doindex', 'dofollow',], 'integer'],
+            [['id', 'creator_id', 'updater_id', 'image_id', 'parent_id', 'active', 'visible', 'featured', 'shown_on_menu', 'type', 'status', 'sort_order', 'create_time', 'update_time', 'doindex', 'dofollow', 'disable_ads'], 'integer'],
             [['slug', 'name', 'meta_title', 'meta_description', 'meta_keywords', 'description', 'long_description', 'menu_label'], 'safe'],
         ];
     }
@@ -73,6 +73,7 @@ class ArticleCategorySearch extends ArticleCategory
             'sort_order' => $this->sort_order,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time,
+            'disable_ads' => $this->disable_ads,
         ]);
 
         $query->andFilterWhere(['like', 'slug', $this->slug])

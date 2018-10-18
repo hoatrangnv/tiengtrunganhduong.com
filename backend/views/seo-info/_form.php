@@ -114,6 +114,8 @@ $imageDropDownListOptions = [
 
         <?= $form->field($model, 'active')->checkbox() ?>
 
+        <?php echo $form->field($model, 'disable_ads')->checkbox() ?>
+
         <?= $form->field($model, 'long_description')->textarea(['rows' => 20]) ?>
 
         <div class="form-group">

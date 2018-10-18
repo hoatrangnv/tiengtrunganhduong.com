@@ -135,6 +135,7 @@ $imageDropDownListOptions = [
 
             <?php echo $form->field($model, 'featured')->checkbox() ?>
 
+            <?php echo $form->field($model, 'disable_ads')->checkbox() ?>
         </div>
         <div class="col-md-6">
             <?php echo $form->field($model, 'doindex')->checkbox() ?>
@@ -142,7 +143,6 @@ $imageDropDownListOptions = [
             <?php echo $form->field($model, 'dofollow')->checkbox() ?>
 
             <?php echo $form->field($model, 'shown_on_menu')->checkbox() ?>
-
         </div>
         <div class="col-md-12">
             <?php echo $form->field($model, 'long_description')->textarea(['rows' => 20]) ?>

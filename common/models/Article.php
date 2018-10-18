@@ -43,6 +43,7 @@ use yii\validators\DateValidator;
  * @property integer $doindex
  * @property integer $dofollow
  * @property string $menu_label
+ * @property integer $disable_ads
  *
  */
 class Article extends \common\db\MyActiveRecord
@@ -70,7 +71,7 @@ class Article extends \common\db\MyActiveRecord
                 'active', 'visible', 'featured', 'shown_on_menu',
                 'status', 'type', 'sort_order', /*'create_time', 'update_time',*/
                 'publish_time', 'view_count', 'like_count', 'comment_count', 'share_count',
-                'doindex', 'dofollow',], 'integer'],
+                'doindex', 'dofollow', 'disable_ads'], 'integer'],
             [['slug', 'name', 'content'], 'required'],
             [['content', 'sub_content'], 'string'],
             [['slug', 'name', 'meta_title', 'menu_label'], 'string', 'max' => 255],
@@ -119,6 +120,7 @@ class Article extends \common\db\MyActiveRecord
             'doindex' => 'Doindex',
             'dofollow' => 'Dofollow',
             'menu_label' => 'Menu Label',
+            'disable_ads' => 'Disable Ads',
         ];
     }
 

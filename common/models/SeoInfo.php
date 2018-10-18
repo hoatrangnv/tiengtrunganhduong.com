@@ -30,6 +30,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $update_time
  * @property integer $doindex
  * @property integer $dofollow
+ * @property integer $disable_ads
  *
  * @property User $creator
  * @property User $updater
@@ -84,7 +85,7 @@ class SeoInfo extends MyActiveRecord
     {
         return [
             [[/*'creator_id', 'updater_id',*/ 'image_id', 'active', 'type', 'status', 'sort_order',
-                /*'create_time', 'update_time',*/ 'doindex', 'dofollow'], 'integer'],
+                /*'create_time', 'update_time',*/ 'doindex', 'dofollow', 'disable_ads'], 'integer'],
             [['name'], 'required'],
             [['long_description', 'content'], 'string'],
             [['url', 'meta_keywords', 'meta_description', 'description'], 'string', 'max' => 511],
@@ -122,6 +123,7 @@ class SeoInfo extends MyActiveRecord
             'update_time' => 'Update Time',
             'doindex' => 'Doindex',
             'dofollow' => 'Dofollow',
+            'disable_ads' => 'Disable Ads',
         ];
     }
 
