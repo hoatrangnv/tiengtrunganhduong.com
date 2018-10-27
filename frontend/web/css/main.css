@@ -171,11 +171,11 @@ article a:hover {
     color: #ff4c3c;
 }
 .paragraph a:hover {
-    border-bottom: 1px solid #ffaaa2;
+    text-decoration: underline;
 }
 .paragraph a:active {
     opacity: 0.7;
-    border-bottom: none;
+    text-decoration: none;
 }
 .paragraph table {
     border-spacing: 0;
