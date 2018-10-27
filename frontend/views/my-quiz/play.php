@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
     }
     ?>
-    <div class="news-content fit-content content-popup-images">
+    <div class="news-content paragraph content-popup-images">
         <div id="quiz-play-root"></div>
     </div>
 </article>

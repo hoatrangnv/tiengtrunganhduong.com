@@ -139,19 +139,64 @@ article a:hover {
 }
 
 /**
- * FIT CONTENT
+ * PARAGRAPH
  */
-.fit-content {
-    width: 100%;
-}
-.fit-content * {
+.paragraph * {
     max-width: 100% !important;
-}
-.fit-content img {
     height: auto !important;
 }
-.fit-content .table-wrapper,
-.table-wrap {
+.paragraph img {
+    object-fit: contain;
+}
+.paragraph ul,
+.paragraph ol {
+    padding-left: 2em;
+}
+.paragraph {
+    line-height: 1.5;
+}
+.paragraph > :not(:first-child) {
+    margin-top: 0.5em;
+}
+.paragraph h2 {
+    font-size: 1.2em;
+}
+.paragraph h3 {
+    font-size: 1.15em;
+}
+.paragraph h4 {
+    font-size: 1.1em;
+}
+.paragraph a {
+    color: #ff4c3c;
+}
+.paragraph a:hover {
+    border-bottom: 1px solid #ffaaa2;
+}
+.paragraph a:active {
+    opacity: 0.7;
+    border-bottom: none;
+}
+.paragraph table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border: 1px solid #333;
+}
+.paragraph table tr th,
+.paragraph table tr td {
+    border: none;
+    padding: 0.5em;
+}
+.paragraph table tr th:not(:last-child),
+.paragraph table tr td:not(:last-child) {
+    border-right: 1px solid #333;
+}
+.paragraph table tr:not(:last-child) th,
+.paragraph table tr:not(:last-child) td {
+    border-bottom: 1px solid #333;
+}
+
+.paragraph .table-wrap {
     overflow-x: auto;
     max-width: 100%;
     -webkit-overflow-scrolling: touch;
@@ -551,9 +596,6 @@ article a:hover {
     margin-top: 1.5em;
     font-size: 16px;
     text-align: justify;
-}
-.news-content ul {
-    padding-left: 1.5em;
 }
 
 /**

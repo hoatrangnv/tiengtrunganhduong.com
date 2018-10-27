@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="news-desc">
         <?= nl2br($model->description) ?>
     </div>
-    <div class="news-content fit-content content-popup-images">
+    <div class="news-content paragraph content-popup-images">
         <?php
         $model->templateToHtml(['content']);
         echo str_replace(

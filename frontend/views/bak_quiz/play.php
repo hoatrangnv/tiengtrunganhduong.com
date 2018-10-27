@@ -35,7 +35,7 @@ $this->title = $quiz->name;
 $this->params['breadcrumbs'][] = ['label' => 'Quizzes', 'url' => ['quiz/index'], ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="content-box fit-content">
+<div class="content-box paragraph">
     <div id="quiz-play-root"></div>
 </div>
 <div class="content-box">
