@@ -143,9 +143,9 @@ article a:hover {
  */
 .paragraph * {
     max-width: 100%;
-    height: auto;
 }
 .paragraph img {
+    height: auto;
     object-fit: contain;
 }
 .paragraph ul,
