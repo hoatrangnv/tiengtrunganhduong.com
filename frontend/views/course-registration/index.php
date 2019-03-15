@@ -34,8 +34,8 @@ use yii\widgets\ActiveForm;
         }
     </style>
     <script src="//hammerjs.github.io/dist/hammer.min.js" type="text/javascript"></script>
-    <script src="//rawgit.com/vanquyettran/slider/master/slider.js" type="text/javascript"></script>
     <script type="text/javascript">
+        <?php require_once 'slider.js'; ?>
         <?php require_once 'script.js'; ?>
     </script>
 </head>
@@ -688,7 +688,11 @@ Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng
         document,'script','https://connect.facebook.net/en_US/fbevents.js');
 
     fbq('init', '299656173576600');
-    fbq('track', "PageView");</script>
+    fbq('track', "PageView");
+    document.querySelector('#apply-form').addEventListener('submit', function (ev) {
+        fbq('track', 'CompleteRegistration');
+    });
+</script>
 <noscript><img height="1" width="1" alt="facebook pixel code" src="https://www.facebook.com/tr?id=299656173576600&ev=PageView&noscript=1"
     /></noscript>
 <!-- End Facebook Pixel Code -->
