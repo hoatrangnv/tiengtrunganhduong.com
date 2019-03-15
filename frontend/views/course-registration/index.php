@@ -689,9 +689,9 @@ Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng
 
     fbq('init', '299656173576600');
     fbq('track', "PageView");
-    document.querySelector('#apply-form').addEventListener('submit', function (ev) {
-        fbq('track', 'CompleteRegistration');
-    });
+    // document.querySelector('#apply-form').addEventListener('submit', function (ev) {
+    //     fbq('track', 'CompleteRegistration');
+    // });
 </script>
 <noscript><img height="1" width="1" alt="facebook pixel code" src="https://www.facebook.com/tr?id=299656173576600&ev=PageView&noscript=1"
     /></noscript>
