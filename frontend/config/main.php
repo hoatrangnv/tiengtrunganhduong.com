@@ -51,6 +51,8 @@ return [
                 // Landing
                 ['pattern' => 'khoa-hoc-tieng-trung-giao-tiep-co-ban-va-nang-cao.html', 'route' => 'course-registration/index'],
                 ['pattern' => 'dang-ky-tu-van-khoa-hoc-thanh-cong.html', 'route' => 'course-registration/success'],
+                ['pattern' => 'course-registration/ajax-save-contact', 'route' => 'course-registration/ajax-save-contact'],
+                ['pattern' => 'course-registration/ajax-validate-contact', 'route' => 'course-registration/ajax-validate-contact'],
                 // Site
                 ['pattern' => '<' . UrlParam::AMP . ':amp>.htm', 'route' => 'site/index'],
                 ['pattern' => '', 'route' => 'site/index'],

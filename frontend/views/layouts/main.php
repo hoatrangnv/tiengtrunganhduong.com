@@ -83,7 +83,6 @@ if (!$seoInfo->disable_ads) {
 
 <?php require_once 'footer.php' ?>
 
-<!--<script><?php /*require_once Yii::getAlias('@webroot/js/main.js') */?></script>-->
 <?php
 if (Yii::$app->response->isSuccessful) {
     require_once 'fbMessenger.php';

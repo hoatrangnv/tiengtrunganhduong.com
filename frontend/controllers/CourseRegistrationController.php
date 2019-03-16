@@ -11,7 +11,9 @@ namespace frontend\controllers;
 
 use frontend\models\CourseRegistrationForm;
 use Yii;
+use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
+use yii\web\Response;
 
 class CourseRegistrationController extends Controller
 {
@@ -25,35 +27,59 @@ class CourseRegistrationController extends Controller
 
     public function actionIndex()
     {
-        $this->layout = false;
-
+        $this->layout = 'courseRegistration';
+        // @TODO: Enable jQuery and yii
+        Yii::$app->assetManager->bundles = [
+            \yii\bootstrap\BootstrapAsset::class => [
+                'css' => [],
+            ],
+        ];
 
         $model = new CourseRegistrationForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-//            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-            // @TODO: Saves contact instead of sending email
-            $ref = Yii::$app->request->get('ref');
-            if ($ref !== null) {
-                $model->message .= "\n\n*Ref: $ref";
-            }
-
-            if ($model->saveContact()) {
-//                Yii::$app->session->setFlash('success', 'Đăng ký thành công!');
-                return $this->redirect(['success', 'name' => $model->name, 'course_name' => $model->course_name]);
-            } else {
-                Yii::$app->session->setFlash('error', 'Không thành công. Vui lòng kiểm tra lại thông tin và thử lại!');
-            }
-
-            return $this->refresh();
-        } else {
-            $course_list = self::COURSE_LIST;
-            $default_course = Yii::$app->request->get('default_course');
-            if (!isset($course_list[$default_course])) {
-                $default_course = '';
-            }
-            $model->course_name = $default_course;
-            return $this->render('index', compact('model', 'course_list'));
+        $course_list = self::COURSE_LIST;
+        $default_course = Yii::$app->request->get('default_course');
+        if (!isset($course_list[$default_course])) {
+            $default_course = '';
         }
+        $model->course_name = $default_course;
+        return $this->render('index', compact('model', 'course_list'));
+    }
+
+    public function actionAjaxSaveContact() {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $result = [];
+        $model = new CourseRegistrationForm();
+        $request = Yii::$app->request;
+        if ($model->load($request->post())) {
+            if ($model->validate()) {
+                $ref = $request->post('ref');
+                if ($ref !== null) {
+                    $model->message .= "\n\n*Ref: $ref";
+                }
+
+                if ($model->saveContact()) {
+                    $result['model'] = $model->attributes;
+                } else {
+                    $result['error'] = 'Không lưu được thông tin, vui lòng thử lại hoặc liên hệ trực tiếp qua hotline.';
+                }
+            } else {
+                $result['error'] = $model->errors;
+            }
+        } else {
+            $result['error'] = 'Không có dữ liệu nào được gửi lên, vui lòng thử lại hoặc liên hệ trực tiếp qua hotline.';
+        }
+
+        return $result;
+    }
+
+    public function actionAjaxValidateContact() {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = new CourseRegistrationForm();
+        $request = Yii::$app->request;
+        if ($request->isPost) {
+            $model->load($request->post());
+        }
+        return ActiveForm::validate($model);
     }
 
     public function actionSuccess()

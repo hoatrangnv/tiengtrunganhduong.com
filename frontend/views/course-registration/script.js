@@ -68,6 +68,8 @@ function popup(msg_html, max_width, max_height) {
     });
 
     document.body.appendChild(container);
+
+    return container;
 }
 
 function element(nodeName, content, attributes) {

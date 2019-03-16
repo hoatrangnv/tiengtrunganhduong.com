@@ -4,6 +4,7 @@
  * @var String[] $course_list
  */
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 
@@ -18,7 +19,7 @@ use yii\widgets\ActiveForm;
     <meta name="robots" content="index, follow">
     <meta name="robots" content="NOODP, NOYDIR">
     <title>Khóa học tiếng Trung cơ bản, tiếng Trung giao tiếp-Trung tâm tiếng Trung Ánh Dương</title>
-    <link href="<?= \yii\helpers\Url::to(['course-registration/index'], true) ?>" rel="canonical">
+    <link href="<?= Url::to(['course-registration/index'], true) ?>" rel="canonical">
     <style type="text/css">
          <?php
          require_once 'slider.css';
@@ -56,30 +57,7 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <div class="right">
-        <?php $form = ActiveForm::begin(['id' => 'apply-form', 'options' => ['class' => 'apply-form']]); ?>
-
-        <div class="heading">
-            <h1 class="title">Tiếng Trung Ánh Dương</h1>
-        </div>
-
-        <div class="body">
-            <?= $form->field($model, 'course_name')->dropDownList($course_list)->label('Bạn quan tâm đến khóa học nào?') ?>
-
-            <?= $form->field($model, 'name')->textInput() ?>
-
-            <?= $form->field($model, 'email') ?>
-
-            <?= $form->field($model, 'phone_number') ?>
-
-            <?= $form->field($model, 'message')->textarea(['rows' => 2]) ?>
-
-            <div class="form-group">
-                <button type="submit">Nhận tư vấn miễn phí</button>
-            </div>
-
-        </div>
-
-        <?php ActiveForm::end(); ?>
+        <?= $this->render('applyForm', ['model' => $model, 'course_list' => $course_list]) ?>
     </div>
 </div>
 
@@ -599,7 +577,6 @@ use yii\widgets\ActiveForm;
         <div class="socials">
             <a href="https://www.facebook.com/tiengtrunganhduong" target="_blank"><b class="icon facebook-icon"></b></a>
             <a href="https://twitter.com/tiengtrung247" target="_blank"><b class="icon twitter-icon"></b></a>
-            <a href="https://plus.google.com/+tiengtrunganhduong" target="_blank"><b class="icon google-plus-icon"></b></a>
             <a href="https://www.youtube.com/tiengtrunganhduong" target="_blank"><b class="icon youtube-icon"></b></a>
         </div>
     </div>
@@ -629,70 +606,3 @@ use yii\widgets\ActiveForm;
         name_input.focus();
     }
 </script>
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-P88Z7R2');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P88Z7R2"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-<!-- Google Analytics -->
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-100860436-1', 'auto');
-    ga('send', 'pageview');
-</script>
-
-<!-- Google Code dành cho Thẻ tiếp thị lại -->
-<!--------------------------------------------------
-Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng cá nhân hay đặt thẻ tiếp thị lại trên các trang có liên quan đến danh mục nhạy cảm. Xem thêm thông tin và hướng dẫn về cách thiết lập thẻ trên: http://google.com/ads/remarketingsetup
---------------------------------------------------->
-<script type="text/javascript">
-    /* <![CDATA[ */
-    var google_conversion_id = 981760178;
-    var google_custom_params = window.google_tag_params;
-    var google_remarketing_only = true;
-    /* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<style>
-    iframe[name="google_conversion_frame"] {
-        position: absolute !important;
-        height: 0 !important;
-        margin: 0;
-        padding: 0;
-    }
-</style>
-<noscript>
-    <img height="1" width="1" alt="google ads double click" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/981760178/?value=0&guid=ON&script=0"/>
-</noscript>
-
-<!-- Facebook Pixel Code -->
-<script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-        document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-    fbq('init', '299656173576600');
-    fbq('track', "PageView");
-    // document.querySelector('#apply-form').addEventListener('submit', function (ev) {
-    //     fbq('track', 'CompleteRegistration');
-    // });
-</script>
-<noscript><img height="1" width="1" alt="facebook pixel code" src="https://www.facebook.com/tr?id=299656173576600&ev=PageView&noscript=1"
-    /></noscript>
-<!-- End Facebook Pixel Code -->
