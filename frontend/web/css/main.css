@@ -1559,7 +1559,7 @@ form.primary .form-group.has-success textarea {
  * HSK LINK
  */
 .hsk-course-link {
-    padding: 1rem;
+    padding: 1rem 0;
 }
 .hsk-course-link img {
 }

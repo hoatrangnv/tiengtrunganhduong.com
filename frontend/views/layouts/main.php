@@ -70,20 +70,21 @@ if (!$seoInfo->disable_ads) {
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-
-        <?php
-        if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {
-            ?>
+    </div>
+    <?php
+    if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {
+        ?>
+        <div class="container clr">
             <div class="hsk-course-link">
                 <a href="<?= Url::to(['course-registration/index', 'ref' => 'link_below_menu'], true) ?>" title="Đăng ký khóa học Tiếng Trung HSK">
                     <img src="<?= Yii::getAlias('@web/img/hot.gif') ?>"/>
                     <span>Học Tiếng Trung HSK - ĐĂNG KÝ hôm nay, Nhận ngay ưu đãi</span>
                 </a>
             </div>
-            <?php
-        }
-        ?>
-    </div>
+        </div>
+        <?php
+    }
+    ?>
     <div class="container clr">
         <?= Alert::widget() ?>
         <div class="main-content left">
