@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -69,6 +70,19 @@ if (!$seoInfo->disable_ads) {
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+
+        <?php
+        if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {
+            ?>
+            <div class="hsk-course-link">
+                <a href="<?= Url::to(['course-registration/index', 'ref' => 'link_below_menu'], true) ?>" title="Đăng ký khóa học Tiếng Trung HSK">
+                    <img src="<?= Yii::getAlias('@web/img/hot.gif') ?>"/>
+                    <span>Học Tiếng Trung HSK - ĐĂNG KÝ hôm nay, Nhận ngay ưu đãi</span>
+                </a>
+            </div>
+            <?php
+        }
+        ?>
     </div>
     <div class="container clr">
         <?= Alert::widget() ?>

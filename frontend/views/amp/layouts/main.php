@@ -117,6 +117,19 @@ $seoInfo->registerLinkTags($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+
+            <?php
+            if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {
+                ?>
+                <div class="hsk-course-link">
+                    <a href="<?= Url::to(['course-registration/index', 'ref' => 'link_below_menu'], true) ?>" title="Đăng ký khóa học Tiếng Trung HSK">
+                        <amp-img src="<?= Yii::getAlias('@web/img/hot.gif') ?>" width="22px" height="11px" layout="fixed" alt="hot"></amp-img>
+                        <span>Học Tiếng Trung HSK - ĐĂNG KÝ hôm nay, Nhận ngay ưu đãi</span>
+                    </a>
+                </div>
+                <?php
+            }
+            ?>
         </div>
         <div class="container clr">
             <?= Alert::widget() ?>

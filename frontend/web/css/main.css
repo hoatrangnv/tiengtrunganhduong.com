@@ -1555,3 +1555,18 @@ form.primary .form-group.has-success textarea {
     color: #6a2;
 }
 
+/**
+ * HSK LINK
+ */
+.hsk-course-link {
+    padding: 1rem;
+}
+.hsk-course-link img {
+}
+.hsk-course-link span {
+    color: #00f;
+    font-weight: bold;
+}
+.hsk-course-link a:hover span {
+    text-decoration: underline;
+}

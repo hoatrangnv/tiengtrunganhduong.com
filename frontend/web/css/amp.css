@@ -1042,6 +1042,25 @@ form.primary .form-group.has-success textarea {
     text-decoration: underline;
 }
 
+/**
+ * HSK LINK
+ */
+.hsk-course-link {
+    padding: 1rem;
+}
+.hsk-course-link img {
+    display: inline-block;
+}
+.hsk-course-link span {
+    color: #00f;
+    font-weight: bold;
+    display: inline-block;
+}
+.hsk-course-link a:hover span {
+    text-decoration: underline;
+}
+
+
 @media screen and (max-width: 860px)
 {
     .main-content,
