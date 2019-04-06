@@ -78,7 +78,7 @@ if (!$seoInfo->disable_ads) {
             <div class="hsk-course-link">
                 <a href="<?= Url::to(['course-registration/index', 'ref' => 'link_below_menu'], true) ?>" title="Đăng ký khóa học Tiếng Trung HSK">
                     <img src="<?= Yii::getAlias('@web/img/hot.gif') ?>"/>
-                    <span>Học Tiếng Trung HSK - ĐĂNG KÝ hôm nay, Nhận ngay ưu đãi !!</span>
+                    <span>Học Tiếng Trung HSK -> Học Tiếng Trung giao tiếp</span>
                 </a>
             </div>
         </div>
