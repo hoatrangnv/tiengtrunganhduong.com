@@ -7,7 +7,6 @@
  */
 use frontend\models\SiteParam;
 
-$phone = SiteParam::findOneByName(SiteParam::PHONE_NUMBER);
 ?>
 <footer class="wrap">
     <div class="container clr">
@@ -21,7 +20,7 @@ $phone = SiteParam::findOneByName(SiteParam::PHONE_NUMBER);
         <div>
             <div><?= Yii::t('app', 'Address') ?>: <?= ($item = SiteParam::findOneByName(SiteParam::ADDRESS)) ? $item->value : '' ?></div>
             <div>Email: <?= ($item = SiteParam::findOneByName(SiteParam::EMAIL)) ? $item->value : '' ?></div>
-            <div>Hotline: <?= $phone ? $item->value : '' ?></div>
+            <div>Hotline: <?= ($item = SiteParam::findOneByName(SiteParam::PHONE_NUMBER_LABELED)) ? $item->value : '' ?></div>
         </div>
         <div class="social-networks">
             <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : '#' ?>" target="_blank" rel="nofollow"><i class="icon facebook-icon"></i></a>
@@ -37,6 +36,7 @@ $phone = SiteParam::findOneByName(SiteParam::PHONE_NUMBER);
     </div>
 </footer>
 <?php
+$phone = SiteParam::findOneByName(SiteParam::PHONE_NUMBER);
 if ($phone) {
     ?>
     <div id="phonering-alo-phoneIcon" class="phonering-alo-phone phonering-alo-green phonering-alo-show">
