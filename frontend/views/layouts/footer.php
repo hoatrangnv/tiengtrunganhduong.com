@@ -6,6 +6,8 @@
  * Time: 2:08 AM
  */
 use frontend\models\SiteParam;
+
+$phone = SiteParam::findOneByName(SiteParam::PHONE_NUMBER);
 ?>
 <footer class="wrap">
     <div class="container clr">
@@ -19,7 +21,7 @@ use frontend\models\SiteParam;
         <div>
             <div><?= Yii::t('app', 'Address') ?>: <?= ($item = SiteParam::findOneByName(SiteParam::ADDRESS)) ? $item->value : '' ?></div>
             <div>Email: <?= ($item = SiteParam::findOneByName(SiteParam::EMAIL)) ? $item->value : '' ?></div>
-            <div>Hotline: <?= ($item = SiteParam::findOneByName(SiteParam::PHONE_NUMBER)) ? $item->value : '' ?></div>
+            <div>Hotline: <?= $phone ? $phone->value : '' ?></div>
         </div>
         <div class="social-networks">
             <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : 'javascript:void(0)' ?>" target="_blank" rel="nofollow"><i class="icon facebook-icon"></i></a>
@@ -34,4 +36,16 @@ use frontend\models\SiteParam;
         </div>
     </div>
 </footer>
-
+<?php
+if ($this->context->screen !== 'large' && $phone) {
+    ?>
+    <div id="phonering-alo-phoneIcon" class="phonering-alo-phone phonering-alo-green phonering-alo-show">
+        <div class="phonering-alo-ph-circle"></div>
+        <div class="phonering-alo-ph-circle-fill"></div>
+        <div class="phonering-alo-ph-img-circle">
+            <a class="pps-btn-img " title="Liên hệ" href="tel:<?= $phone->value ?>"></a>
+        </div>
+    </div>
+    <?php
+}
+?>
