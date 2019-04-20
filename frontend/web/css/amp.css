@@ -1492,6 +1492,7 @@ form.primary .form-group.has-success textarea {
  */
 .hsk-course-link {
     padding: 1rem 0;
+    font-size: 1.2em;
 }
 .hsk-course-link span {
     color: #00f;
