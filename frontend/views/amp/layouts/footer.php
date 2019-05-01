@@ -35,17 +35,3 @@ use frontend\models\SiteParam;
         </div>
     </div>
 </footer>
-<?php
-$phone = SiteParam::findOneByName(SiteParam::PHONE_NUMBER);
-if ($phone) {
-    ?>
-    <div id="phonering-alo-phoneIcon" class="phonering-alo-phone phonering-alo-green phonering-alo-show">
-        <div class="phonering-alo-ph-circle"></div>
-        <div class="phonering-alo-ph-circle-fill"></div>
-        <a class="phonering-alo-ph-img-circle" title="Liên hệ" href="tel:<?= $phone->value ?>">
-            <div class="pps-btn-img"></div>
-        </a>
-    </div>
-    <?php
-}
-?>
