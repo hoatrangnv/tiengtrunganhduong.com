@@ -45,7 +45,7 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['image_files'], 'file', 'skipOnEmpty' => false,
+            [['image_files'], 'file', 'skipOnEmpty' => true,
                 'mimeTypes' => Image::getValidImageMimeTypes(),
                 'extensions' => Image::getValidImageExtensions(),
                 'maxSize' => Image::getMaxImageSize(),
@@ -60,7 +60,7 @@ class UploadForm extends Model
             ['image_file_extension', 'string', 'max' => 32],
             ['image_file_extension', 'in', 'range' => Image::getValidImageExtensions()],
 
-            [['audio_files'], 'file', 'skipOnEmpty' => false,
+            [['audio_files'], 'file', 'skipOnEmpty' => true,
                 'mimeTypes' => Audio::getValidAudioMimeTypes(),
                 'extensions' => Audio::getValidAudioExtensions(),
                 'maxSize' => Audio::getMaxAudioSize(),

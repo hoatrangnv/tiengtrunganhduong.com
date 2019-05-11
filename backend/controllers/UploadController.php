@@ -74,6 +74,8 @@ class UploadController extends BaseController
                     $unsaved .= '</ul>';
                     Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . $unsaved);
                 }
+            } else {
+                Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . VarDumper::dumpAsString($model->errors));
             }
         }
 
@@ -112,6 +114,8 @@ class UploadController extends BaseController
                     $unsaved .= '</ul>';
                     Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . $unsaved);
                 }
+            } else {
+                Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . VarDumper::dumpAsString($model->errors));
             }
         }
 
