@@ -30,7 +30,6 @@ $seoInfo->registerLinkTags($this);
 <meta charset="<?= Yii::$app->charset ?>">
 <?php $this->head() ?>
 <?php echo Html::csrfMetaTags() ?>
-<style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <?php
 if (!$seoInfo->disable_ads) {

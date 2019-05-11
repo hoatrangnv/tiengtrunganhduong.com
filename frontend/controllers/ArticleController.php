@@ -49,6 +49,7 @@ class ArticleController extends BaseController
     public function actionView()
     {
         $model = $this->findModel(Yii::$app->request->get(UrlParam::SLUG));
+        $model->templateToHtml(['content']);
 
         // @TODO: Check whether Requested Url is same as Model Url or not.
         // @TODO: If not, redirect to Model Url.
@@ -72,6 +73,11 @@ class ArticleController extends BaseController
             $relatedItems = [];
         }
         $this->seoInfo->parseValues($model->attributes);
+
+        if (strpos($model->content, 'audio-inline') !== false) {
+            $this->ampLink = null;
+        }
+
         return $this->render('view', [
             'model' => $model,
             'relatedItems' => $relatedItems

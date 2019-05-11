@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use vanquyet\queryTemplate\QueryTemplate;
 use Yii;
 use yii\helpers\Html;
 
@@ -28,12 +29,22 @@ class Audio extends \common\modules\audio\models\Audio
             },
             'audioTag' => function ($options = []) {
                 $src = $this->getSource();
-                if (Yii::$app->controller && in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])
-                ) {
+                if (Yii::$app->controller && in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])) {
                     $src .= "?audio_id=$this->id";
                 }
                 $options['src'] = $src;
                 return Html::tag('audio', '', $options);
+            },
+            'inlineButton' => function ($options = []) {
+                $id = $this->id;
+                $src = $this->getSource();
+                if (Yii::$app->controller && in_array(Yii::$app->controllerNamespace, ['backend\\controllers'])) {
+                    return "[($id)]";
+                } else {
+                    $options['data-src'] = $src;
+                    $options['class'] = 'audio-inline';
+                    return Html::tag('button', '', $options);
+                }
             },
             'source' => function () {
                 return $this->getSource();

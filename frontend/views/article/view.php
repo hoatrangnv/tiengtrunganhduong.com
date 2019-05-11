@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="news-content paragraph content-popup-images">
         <?php
-        $model->templateToHtml(['content']);
         echo str_replace(
             ['<table ', '</table>'],
             ['<div class="table-wrapper"><table ', '</table></div>'],

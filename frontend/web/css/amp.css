@@ -1502,3 +1502,9 @@ form.primary .form-group.has-success textarea {
     text-decoration: underline;
 }
 
+/**
+ * Audio inline button
+ */
+button.audio-inline {
+    display: none;
+}
