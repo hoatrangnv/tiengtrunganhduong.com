@@ -102,11 +102,6 @@ AppAsset::register($this);
 //                    ['label' => 'View', 'url' => ['/seo-info/view'], 'visible' => false],
 //                ]],
                 ['label' => 'More...', 'items' => [
-//                    ['label' => 'Audio', 'url' => ['/audio/audio/index']],
-//                    ['label' => 'Create', 'url' => ['/audio/audio/create'], 'visible' => false],
-//                    ['label' => 'Update', 'url' => ['/audio/audio/update'], 'visible' => false],
-//                    ['label' => 'View', 'url' => ['/audio/audio/view'], 'visible' => false],
-
                     ['label' => 'Banner', 'url' => ['/banner/index']],
                     ['label' => 'Create', 'url' => ['/banner/create'], 'visible' => false],
                     ['label' => 'Update', 'url' => ['/banner/update'], 'visible' => false],
