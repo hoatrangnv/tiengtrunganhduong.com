@@ -23,7 +23,7 @@ class Audio extends \common\modules\audio\baseModels\Audio
     public $audio_file;
     public $audio_name_to_basename;
 
-    public static function getMaxAudioSize() {
+    public static function  getMaxAudioSize() {
         return 12 * 1024 * 1024;
     }
 
