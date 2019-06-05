@@ -24,8 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="news-content paragraph content-popup-images">
         <?php
-        $model->templateToHtml(['content']);
-
         $content = preg_replace("/<img[^>]+\>/i", "", $model->getAmpContent());
 
         echo str_replace(

@@ -1486,3 +1486,25 @@ form.primary .form-group.has-success textarea {
         padding-right: 2.5rem;
     }
 }
+
+/**
+ * HSK LINK
+ */
+.hsk-course-link {
+    padding: 1rem 0;
+    font-size: 1.2em;
+}
+.hsk-course-link span {
+    color: #00f;
+    font-weight: bold;
+}
+.hsk-course-link a:hover span {
+    text-decoration: underline;
+}
+
+/**
+ * Audio inline button
+ */
+button.audio-inline {
+    display: none;
+}

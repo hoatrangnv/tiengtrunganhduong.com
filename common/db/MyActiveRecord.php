@@ -346,6 +346,21 @@ abstract class MyActiveRecord extends ActiveRecord
                     $this->templateLogMessage .= "Body tag was not found\n";
                     return false;
                 }
+
+                // audio inline
+                $preg_open = preg_quote("[(");
+                $preg_close = preg_quote(")]");
+                $preg_pattern_template = "/open([\\s\\S]*?)close/";
+                $preg_pattern = str_replace(['open', 'close'], [$preg_open, $preg_close], $preg_pattern_template);
+
+                $preg_callback = function ($matches) {
+                    return QueryTemplate::__FUNC_OPEN
+                    . " Audio(" . $matches[1]. ")" . QueryTemplate::__OBJECT_OPERATOR . "inlineButton() "
+                    . QueryTemplate::__FUNC_CLOSE;
+                };
+                $this->$attribute = preg_replace_callback($preg_pattern, $preg_callback, $this->$attribute);
+
+
             } catch (\Exception $e) {
                 $this->templateLogMessage .= $e->getMessage() . "\n";
                 return false;

@@ -6,6 +6,7 @@
  * Time: 2:08 AM
  */
 use frontend\models\SiteParam;
+
 ?>
 <footer class="wrap">
     <div class="container clr">
@@ -19,7 +20,7 @@ use frontend\models\SiteParam;
         <div>
             <div><?= Yii::t('app', 'Address') ?>: <?= ($item = SiteParam::findOneByName(SiteParam::ADDRESS)) ? $item->value : '' ?></div>
             <div>Email: <?= ($item = SiteParam::findOneByName(SiteParam::EMAIL)) ? $item->value : '' ?></div>
-            <div>Hotline: <?= ($item = SiteParam::findOneByName(SiteParam::PHONE_NUMBER)) ? $item->value : '' ?></div>
+            <div>Hotline: <?= ($item = SiteParam::findOneByName(SiteParam::PHONE_NUMBER_LABELED)) ? $item->value : '' ?></div>
         </div>
         <div class="social-networks">
             <a title="facebook" href="<?= ($item = SiteParam::findOneByName(SiteParam::FACEBOOK_URL)) ? $item->value : '#' ?>" target="_blank" rel="nofollow"><i class="icon facebook-icon"></i></a>
@@ -34,4 +35,3 @@ use frontend\models\SiteParam;
         </div>
     </div>
 </footer>
-

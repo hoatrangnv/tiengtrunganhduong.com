@@ -2,6 +2,7 @@
 namespace backend\models;
 
 use backend\models\Image;
+use common\models\Audio;
 use common\models\MyActiveRecord;
 use common\helpers\MyStringHelper;
 use Imagine\Image\ManipulatorInterface;
@@ -30,6 +31,11 @@ class UploadForm extends Model
     public $image_file_basename;
     public $image_file_extension;
     public $image_name_to_basename;
+    public $audio_files;
+    public $audio_name;
+    public $audio_file_basename;
+    public $audio_file_extension;
+    public $audio_name_to_basename;
 
     /**
      * @var UploadedFile
@@ -39,7 +45,7 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['image_files'], 'file', 'skipOnEmpty' => false,
+            [['image_files'], 'file', 'skipOnEmpty' => true,
                 'mimeTypes' => Image::getValidImageMimeTypes(),
                 'extensions' => Image::getValidImageExtensions(),
                 'maxSize' => Image::getMaxImageSize(),
@@ -53,6 +59,17 @@ class UploadForm extends Model
             ['image_file_basename', 'string', 'max' => 128],
             ['image_file_extension', 'string', 'max' => 32],
             ['image_file_extension', 'in', 'range' => Image::getValidImageExtensions()],
+
+            [['audio_files'], 'file', 'skipOnEmpty' => true,
+                'mimeTypes' => Audio::getValidAudioMimeTypes(),
+                'extensions' => Audio::getValidAudioExtensions(),
+                'maxSize' => Audio::getMaxAudioSize(),
+                'maxFiles' => 50,
+            ],
+            ['audio_name', 'string', 'max' => 128],
+            ['audio_file_basename', 'string', 'max' => 128],
+            ['audio_file_extension', 'string', 'max' => 32],
+            ['audio_file_extension', 'in', 'range' => Audio::getValidAudioExtensions()],
 
             ['file', 'file'],
         ];
@@ -80,6 +97,28 @@ class UploadForm extends Model
                 }
             }
             return $images;
+        } else {
+            return false;
+        }
+    }
+
+    public function uploadAudios()
+    {
+        if ($this->validate()) {
+            $audios = [
+                'saved' => [],
+                'unsaved' => [],
+            ];
+            foreach ($this->audio_files as $file) {
+                $audio = new Audio();
+                $audio->audio_name_to_basename = true;
+                if ($audio->saveFileAndModel($file)) {
+                    $audios['saved'][] = $audio;
+                } else {
+                    $audios['unsaved'][] = $audio;
+                }
+            }
+            return $audios;
         } else {
             return false;
         }

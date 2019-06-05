@@ -74,11 +74,55 @@ class UploadController extends BaseController
                     $unsaved .= '</ul>';
                     Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . $unsaved);
                 }
+            } else {
+                Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . VarDumper::dumpAsString($model->errors));
             }
         }
 
         return $this->render('images', ['model' => $model]);
     }
+
+    public function actionAudios()
+    {
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            $model->audio_files = UploadedFile::getInstances($model, 'audio_files');
+            if ($audios = $model->uploadAudios()) {
+                // file is uploaded successfully
+
+                if (count($audios['saved']) > 0) {
+                    $saved = '<ul>';
+                    foreach ($audios['saved'] as $audio) {
+                        /**
+                         * @var $audio Audio
+                         */
+                        $saved .= "<li><a href='{$audio->getSource()}' target='_blank'>$audio->name</a></li>";
+                    }
+                    $saved .= '</ul>';
+                    Yii::$app->session->setFlash('success', '<div>Uploaded Successfully:</div>' . $saved);
+                }
+
+                if (count($audios['unsaved']) > 0) {
+                    $unsaved = '<ul>';
+                    foreach ($audios['unsaved'] as $audio) {
+                        /**
+                         * @var $audio Audio
+                         */
+                        $unsaved .= "<li><a href='{$audio->getSource()}' target='_blank'>$audio->name</a></li>";
+                    }
+                    $unsaved .= '</ul>';
+                    Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . $unsaved);
+                }
+            } else {
+                Yii::$app->session->setFlash('error', '<div>Upload was fail:</div>' . VarDumper::dumpAsString($model->errors));
+            }
+        }
+
+        return $this->render('audios', ['model' => $model]);
+    }
+
+
 
     public function actionCkeditorImage()
     {

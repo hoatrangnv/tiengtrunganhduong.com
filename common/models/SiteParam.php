@@ -33,6 +33,7 @@ class SiteParam extends MyActiveRecord
     const ADDRESS = 'address';
     const EMAIL = 'email';
     const PHONE_NUMBER = 'phone_number';
+    const PHONE_NUMBER_LABELED = 'phone_number_labeled';
     const COMPANY_NAME = 'company_name';
 
     public static function getTypes()
@@ -44,6 +45,7 @@ class SiteParam extends MyActiveRecord
             self::YOUTUBE_URL => 'Youtube URL',
             self::COMPANY_NAME => 'Company name',
             self::PHONE_NUMBER => 'Phone number',
+            self::PHONE_NUMBER_LABELED => 'Phone number labeled',
             self::EMAIL => 'Email',
             self::ADDRESS => 'Address',
         ];

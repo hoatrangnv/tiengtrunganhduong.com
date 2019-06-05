@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -29,7 +30,6 @@ $seoInfo->registerLinkTags($this);
 <meta charset="<?= Yii::$app->charset ?>">
 <?php $this->head() ?>
 <?php echo Html::csrfMetaTags() ?>
-<style><?php /*require_once Yii::getAlias('@webroot/css/main.css') */?></style>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <?php
 if (!$seoInfo->disable_ads) {
@@ -70,6 +70,20 @@ if (!$seoInfo->disable_ads) {
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
     </div>
+    <?php
+    if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {
+        ?>
+        <div class="container clr">
+            <div class="hsk-course-link">
+                <a href="<?= Url::to(['course-registration/index', 'ref' => 'link_below_menu'], true) ?>" title="Đăng ký khóa học Tiếng Trung HSK">
+                    <img src="<?= Yii::getAlias('@web/img/hot.gif') ?>"/>
+                    <span>Học tiếng Trung giao tiếp &rarr; Đăng ký hôm nay nhận ngay ưu đãi</span>
+                </a>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
     <div class="container clr">
         <?= Alert::widget() ?>
         <div class="main-content left">

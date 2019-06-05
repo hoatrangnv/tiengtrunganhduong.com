@@ -63,3 +63,43 @@ function loadingFinish() {
         });
     });
 }(document.querySelectorAll("form.primary input, form.primary textarea, form.primary select"));
+
+/**
+ * Audio inline
+ */
+!function (buttons) {
+    [].forEach.call(buttons, function (button) {
+        var src = button.getAttribute("data-src");
+        var loaded = false;
+        var audio = new Audio(src);
+        audio.preload = 'none';
+        audio.onloadeddata = function () {
+            loaded = true;
+            button.disabled = false;
+            button.classList.add('playing');
+            audio.play();
+        };
+        audio.onended = function () {
+            button.classList.remove('playing');
+        };
+        audio.onerror = function () {
+            button.disabled = false;
+            button.classList.add('error');
+        };
+        button.addEventListener("click", function () {
+            if (loaded) {
+                if (button.classList.contains('playing')) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    button.classList.remove('playing');
+                } else {
+                    audio.play();
+                    button.classList.add('playing');
+                }
+            } else {
+                audio.load();
+                button.disabled = true;
+            }
+        });
+    });
+}(document.querySelectorAll("button.audio-inline"));
