@@ -33,10 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
         </div>
         <div class="news-author">
-            <span itemprop="author"><?= $model->creator->pen_name ?></span>
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name"><?= $model->creator ? $model->creator->pen_name : 'Nguyễn Thoan' ?></span>
+            </span>
             /
-            <span itemscope itemtype="https://schema.org/Organization">
-                <span itemprop="publisher">Tiếng Trung Ánh Dương</span>
+            <span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+                <span itemprop="name">Tiếng Trung Ánh Dương</span>
+                <img src="<?= Url::home(true) ?>/favicon.ico" alt="logo" itemprop="logo">
             </span>
         </div>
     </div>
