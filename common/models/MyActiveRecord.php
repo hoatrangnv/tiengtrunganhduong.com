@@ -67,10 +67,6 @@ abstract class MyActiveRecord extends ActiveRecord
             $options['title'] = $options['alt'];
         }
 
-        if (!isset($options['itemprop'])) {
-            $options['itemprop'] = 'image';
-        }
-
         if ($this instanceof Image) {
             return $this->img($size, $options, $srcOptions);
         }

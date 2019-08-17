@@ -23,9 +23,12 @@ class Image extends CommonImage
                 $options['height'] = 200;
             }
             $options['layout'] = 'responsive';
-        } else {
+        }
+
+        if (!isset($options['itemprop'])) {
             $options['itemprop'] = 'image';
         }
+
         if (Yii::$app->params['amp']) {
             $tag = parent::img(null, $options, $srcOptions);
             $tag = str_replace('<img', '<amp-img', $tag);

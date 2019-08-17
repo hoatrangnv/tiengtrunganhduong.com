@@ -46,6 +46,11 @@ class ArticleCategory extends \common\models\ArticleCategory
             }
             $options['layout'] = 'responsive';
         }
+
+        if (!isset($options['itemprop'])) {
+            $options['itemprop'] = 'image';
+        }
+
         $tag = parent::img($size, $options, $srcOptions);
         if (Yii::$app->params['amp']) {
             $tag = str_replace('<img', '<amp-img', $tag);

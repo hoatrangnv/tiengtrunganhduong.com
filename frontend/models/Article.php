@@ -44,7 +44,9 @@ class Article extends CommonArticle
                 $options['height'] = 200;
             }
             $options['layout'] = 'responsive';
-        } else {
+        }
+
+        if (!isset($options['itemprop'])) {
             $options['itemprop'] = 'image';
         }
 
