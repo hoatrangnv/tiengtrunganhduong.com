@@ -66,9 +66,7 @@ if (!$seoInfo->disable_ads) {
     }
     ?>
     <div class="container sm-non-padding clr">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <?= $this->render('//layouts/breadcrumb') ?>
     </div>
     <?php
     if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {

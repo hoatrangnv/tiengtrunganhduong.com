@@ -16,6 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <article itemscope itemtype="http://schema.org/Article">
     <h1 class="news-title" itemprop="headline"><?= $model->name ?></h1>
+    <?php
+    if ($model->image) {
+        ?>
+        <meta itemprop="image" content="<?= $model->image->getImgSrc() ?>" />
+        <?php
+    }
+    ?>
     <div>
         <div class="news-info">
             <?= $this->render('info', ['model' => $model]) ?>
