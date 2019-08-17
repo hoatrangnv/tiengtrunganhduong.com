@@ -34,8 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="news-author">
             <span itemprop="author"><?= $model->creator->pen_name ?></span>
-            /
-            <span itemprop="publisher">Tiếng Trung Ánh Dương</span>
         </div>
     </div>
 </article>
