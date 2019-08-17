@@ -114,9 +114,9 @@ $seoInfo->registerLinkTags($this);
         }
         ?>
         <div class="container sm-non-padding clr">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
+            <div class="container sm-non-padding clr">
+                <?= $this->render('../../layouts/breadcrumb') ?>
+            </div>
         </div>
         <?php
         if (!in_array(Yii::$app->requestedRoute, ['site/index'])) {

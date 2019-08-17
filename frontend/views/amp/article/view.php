@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <span class="publisher" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
                 <span class="publisher-name" itemprop="name"><?= ($item = SiteParam::findOneByName(SiteParam::COMPANY_NAME)) ? $item->value : Yii::$app->name ?></span>
                 <span class="publisher-logo" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-                    <amp-img width="17" height="17" layout="responsive" src="<?= Url::home(true) ?>favicon.ico" alt="logo" itemprop="url">
+                    <amp-img width="17" height="17" layout="fixed" src="<?= Url::home(true) ?>favicon.ico" alt="logo" itemprop="url">
                 </span>
             </span>
         </div>
