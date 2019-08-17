@@ -13,7 +13,7 @@
 ?>
 <span class="info-item datetime">
     <i class="icon calendar-icon"></i>
-    <span><?= $model->date() ?></span>
+    <time datetime="<?= date('Y-m-d', $model->publish_time) ?>" itemprop="datePublished"><?= $model->date() ?></time>
 </span>
 <span class="info-item views">
     <i class="icon eye-icon"></i>

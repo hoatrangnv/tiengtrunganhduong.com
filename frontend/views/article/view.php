@@ -14,22 +14,24 @@ use common\models\UrlParam;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1 class="news-title"><?= $model->name ?></h1>
-<article>
-    <div class="news-info">
-        <?= $this->render('info', ['model' => $model]) ?>
-        <?= $this->render('//layouts/likeShare') ?>
-    </div>
-    <div class="news-desc">
-        <?= nl2br($model->description) ?>
-    </div>
-    <div class="news-content paragraph content-popup-images">
-        <?php
-        echo str_replace(
-            ['<table ', '</table>'],
-            ['<div class="table-wrapper"><table ', '</table></div>'],
-            $model->content);
-        ?>
+<article itemscope itemtype="http://schema.org/Article">
+    <h1 class="news-title" itemprop="name"><?= $model->name ?></h1>
+    <div>
+        <div class="news-info">
+            <?= $this->render('info', ['model' => $model]) ?>
+            <?= $this->render('//layouts/likeShare') ?>
+        </div>
+        <div class="news-desc" itemprop="description">
+            <?= nl2br($model->description) ?>
+        </div>
+        <div class="news-content paragraph content-popup-images" itemprop="articleBody">
+            <?php
+            echo str_replace(
+                ['<table ', '</table>'],
+                ['<div class="table-wrapper" itemscope itemtype="http://schema.org/Table"><table ', '</table></div>'],
+                $model->content);
+            ?>
+        </div>
     </div>
 </article>
 <article>
