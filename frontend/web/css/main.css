@@ -604,6 +604,15 @@ article a:hover {
     font-style: italic;
     margin-top: 1.5rem;
 }
+.news-author * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.news-author .publisher-logo img {
+    height: 1.5em;
+    width: auto;
+    display: inline-block;
+}
 
 /**
  * RELATED NEWS

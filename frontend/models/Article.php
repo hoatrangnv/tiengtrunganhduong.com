@@ -44,7 +44,10 @@ class Article extends CommonArticle
                 $options['height'] = 200;
             }
             $options['layout'] = 'responsive';
+        } else {
+            $options['itemprop'] = 'image';
         }
+
         $tag = parent::img($size, $options, $srcOptions);
         if (Yii::$app->params['amp']) {
             $tag = str_replace('<img', '<amp-img', $tag);

@@ -15,7 +15,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <article itemscope itemtype="http://schema.org/Article">
-    <h1 class="news-title" itemprop="name"><?= $model->name ?></h1>
+    <h1 class="news-title" itemprop="headline"><?= $model->name ?></h1>
     <div>
         <div class="news-info">
             <?= $this->render('info', ['model' => $model]) ?>
@@ -25,21 +25,24 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= nl2br($model->description) ?>
         </div>
         <div class="news-content paragraph content-popup-images" itemprop="articleBody">
-            <?php
-            echo str_replace(
+            <?=
+            str_replace(
                 ['<table ', '</table>'],
                 ['<div class="table-wrapper" itemscope itemtype="http://schema.org/Table"><table ', '</table></div>'],
-                $model->content);
+                $model->content
+            );
             ?>
         </div>
         <div class="news-author">
-            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-                <span itemprop="name"><?= $model->creator ? $model->creator->pen_name : 'Nguyễn Thoan' ?></span>
+            <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="author-name" itemprop="name"><?= ($model->creator && $model->creator->pen_name) ? $model->creator->pen_name : 'Nguyễn Thoan' ?></span>
             </span>
-            /
-            <span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-                <span itemprop="name">Tiếng Trung Ánh Dương</span>
-                <img src="<?= Url::home(true) ?>/favicon.ico" alt="logo" itemprop="logo">
+            <span>|</span>
+            <span class="publisher" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+                <span class="publisher-name" itemprop="name">Tiếng Trung Ánh Dương</span>
+                <span class="publisher-logo" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+                    <img src="<?= Url::home(true) ?>favicon.ico" alt="logo" itemprop="url">
+                </span>
             </span>
         </div>
     </div>
