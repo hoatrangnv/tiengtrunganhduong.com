@@ -14,7 +14,8 @@ class User extends \common\models\User implements IdentityInterface
         return array_merge(
             parent::rules(),
             [
-                ['reset_password', 'string', 'min' => 6, 'max' => 32]
+                ['pen_name', 'string', 'min' => 3, 'max' => 255],
+                ['reset_password', 'string', 'min' => 6, 'max' => 32],
             ]
         );
     }
