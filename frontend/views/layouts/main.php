@@ -24,7 +24,7 @@ $seoInfo->registerLinkTags($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>" itemscope itemtype="https://schema.org/WebSite">
 <head>
 <title><?= Html::encode($this->title) ?></title>
 <meta charset="<?= Yii::$app->charset ?>">
@@ -84,7 +84,7 @@ if (!$seoInfo->disable_ads) {
     ?>
     <div class="container clr">
         <?= Alert::widget() ?>
-        <div class="main-content left">
+        <div class="main-content left" itemprop="mainEntityOfPage">
             <?= $content ?>
         </div>
         <aside class="aside right">

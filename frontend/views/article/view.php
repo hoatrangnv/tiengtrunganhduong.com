@@ -1,6 +1,7 @@
 <?php
 // For test extension
 //require_once (Yii::getAlias('@common/runtime/tmp-extensions/yii2-query-template/QueryTemplate.php'));
+use frontend\models\SiteParam;
 use yii\helpers\Url;
 use frontend\models\Article;
 use frontend\models\Image;
@@ -15,15 +16,17 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <article itemscope itemtype="http://schema.org/Article">
-    <h1 class="news-title" itemprop="headline"><?= $model->name ?></h1>
-    <?php
-    if ($model->image) {
-        ?>
-        <meta itemprop="image" content="<?= $model->image->getImgSrc() ?>" />
+    <div itemprop="mainEntityOfPage">
+        <h1 class="news-title" itemprop="headline"><?= $model->name ?></h1>
+        <meta itemprop="datePublished" content="<?= date('Y-m-d', $model->publish_time) ?>" property=""/>
+        <meta itemprop="dateModified" content="<?= date('Y-m-d', $model->update_time) ?>" property=""/>
         <?php
-    }
-    ?>
-    <div>
+        if ($model->image) {
+            ?>
+            <meta itemprop="image" content="<?= $model->image->getImgSrc() ?>" property=""/>
+            <?php
+        }
+        ?>
         <div class="news-info">
             <?= $this->render('info', ['model' => $model]) ?>
             <?= $this->render('//layouts/likeShare') ?>
@@ -46,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </span>
             <span>|</span>
             <span class="publisher" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-                <span class="publisher-name" itemprop="name">Tiếng Trung Ánh Dương</span>
+                <span class="publisher-name" itemprop="name"><?= ($item = SiteParam::findOneByName(SiteParam::COMPANY_NAME)) ? $item->value : Yii::$app->name ?></span>
                 <span class="publisher-logo" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
                     <img src="<?= Url::home(true) ?>favicon.ico" alt="logo" itemprop="url">
                 </span>
