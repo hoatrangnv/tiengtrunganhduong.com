@@ -8,7 +8,7 @@
 use yii\helpers\Url;
 
 $canonicalLink = $this->context->canonicalLink;
-$links = $this->params['breadcrumbs'];
+$links = isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [];
 ?>
 <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
     <?php
