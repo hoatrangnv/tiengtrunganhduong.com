@@ -14,19 +14,22 @@ use common\models\UrlParam;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
+
+$img_src = '';
+if ($model->image) {
+    $img_src = $model->image->getImgSrc();
+}
+if (!$img_src) {
+    $img_src = Url::home(true) . 'img/tieng_trung_anh_duong.png';
+}
+
 ?>
 <article itemscope itemtype="http://schema.org/Article">
     <div itemprop="mainEntityOfPage">
         <h1 class="news-title" itemprop="headline"><?= $model->name ?></h1>
         <meta itemprop="datePublished" content="<?= date('Y-m-d', $model->publish_time) ?>" property=""/>
         <meta itemprop="dateModified" content="<?= date('Y-m-d', $model->update_time) ?>" property=""/>
-        <?php
-        if ($model->image) {
-            ?>
-            <meta itemprop="image" content="<?= $model->image->getImgSrc() ?>" property=""/>
-            <?php
-        }
-        ?>
+        <meta itemprop="image" content="<?= $img_src ?>" property=""/>
         <div class="news-info">
             <?= $this->render('info', ['model' => $model]) ?>
         </div>
