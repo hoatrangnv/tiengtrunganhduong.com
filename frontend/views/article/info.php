@@ -15,6 +15,8 @@
     <i class="icon calendar-icon"></i>
     <span><?= $model->date() ?></span>
 </span>
+<?php
+/*
 <span class="info-item views">
     <i class="icon eye-icon"></i>
     <span><?= Yii::t('app', '{0,number} views', $model->views()) ?></span>
@@ -23,4 +25,5 @@
     <i class="icon chat-icon"></i>
     <span><?= Yii::t('app', '{0,number} comments', $model->comments()) ?></span>
 </span>
-
+*/
+?>
