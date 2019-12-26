@@ -161,7 +161,7 @@ use yii\widgets\ActiveForm;
                         </li>
                     </ul>
                     <div class="tuition">
-                        <strong>Học phí:</strong> 1.600.000 VNĐ
+                        <strong>Học phí:</strong> 1.700.000 VNĐ
                     </div>
                     <button
                         type="button"
@@ -192,7 +192,7 @@ use yii\widgets\ActiveForm;
                         </li>
                     </ul>
                     <div class="tuition">
-                        <strong>Học phí:</strong> 1.700.000 VNĐ
+                        <strong>Học phí:</strong> 1.800.000 VNĐ
                     </div>
                     <button
                         type="button"
