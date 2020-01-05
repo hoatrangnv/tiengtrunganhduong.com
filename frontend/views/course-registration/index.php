@@ -147,10 +147,10 @@ use yii\widgets\ActiveForm;
                             <strong>Đối tượng:</strong> Đã hoàn thành khóa học Hán ngữ 2 hoặc giáo trình Boya 1
                         </li>
                         <li>
-                            <strong>Giáo trình:</strong> Hán ngữ 2, sách tập viết theo giáo trình, sách luyện nghe bổ sung, bài tập, bài kiểm tra online
+                            <strong>Giáo trình:</strong> Hán ngữ 3, sách tập viết theo giáo trình, sách luyện nghe bổ sung, bài tập, bài kiểm tra online
                         </li>
                         <li>
-                            <strong>Thời lượng:</strong> 24 buổi học, mỗi tuần 3 buổi, mỗi buổi 2 giờ
+                            <strong>Thời lượng:</strong> 22 buổi học, mỗi tuần 3 buổi, mỗi buổi 2 giờ
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Tiếp tục phát triển mở rộng từ vựng và các chủ đề giao tiếp. Nắm và vận dụng được các cấu trúc và hiện tượng ngữ pháp khó, đọc được các đoạn văn dài, phản xạ nghe nói tốt. Kết thúc khóa học bạn có thể tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK3.
@@ -181,7 +181,7 @@ use yii\widgets\ActiveForm;
                             <strong>Giáo trình:</strong> Hán ngữ 4, sách luyện nghe bổ sung, bài tập, bài kiểm tra online
                         </li>
                         <li>
-                            <strong>Thời lượng:</strong> 25 buổi học, mỗi tuần 3 buổi, mỗi buổi 2 giờ
+                            <strong>Thời lượng:</strong> 23 buổi học, mỗi tuần 3 buổi, mỗi buổi 2 giờ
                         </li>
                         <li>
                             <strong>Mục tiêu đầu ra:</strong> Làm dày thêm vốn từ vựng về cho người học. Tự tin giao tiếp được những mẫu câu dài về các chủ để thường dùng trong giao tiếp hàng ngày. Tích lũy đủ kiến thức để tham gia thi chứng chỉ HSK4.
