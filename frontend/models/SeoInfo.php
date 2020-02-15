@@ -21,14 +21,6 @@ class SeoInfo extends \common\models\SeoInfo
 {
     public $customImage;
 
-    public function init()
-    {
-        parent::init();
-        if (!$this->name) {
-            $this->name = Yii::$app->name;
-        }
-    }
-
     /**
      * @return SeoInfo
      */

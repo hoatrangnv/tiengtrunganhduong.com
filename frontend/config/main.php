@@ -82,6 +82,11 @@ return [
                 ['pattern' => 'quiz-api/save-high-score', 'route' => 'quiz-api/save-high-score'],
                 ['pattern' => 'quiz-api/get-high-score-result', 'route' => 'quiz-api/get-high-score-result'],
 
+                // ChinesePhrasePhonetic
+                ['pattern' => 'chinese-phrase-phonetic-api/lookup', 'route' => 'chinese-phrase-phonetic-api/lookup'],
+                ['pattern' => 'tra-cuu-phien-am.html', 'route' => 'lookup-phonetic-for-chinese-text/index'],
+
+
                 // User
                 ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],
                 ['pattern' => 'user/get-facebook-avatar', 'route' => 'user/get-facebook-avatar'],
