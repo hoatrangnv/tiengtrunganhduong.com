@@ -55,6 +55,13 @@ use yii\helpers\Url;
     .result-box {
         margin-top: 1rem;
     }
+    .result-box > :not(:first-child) {
+        margin-top: 1rem;
+    }
+    .result-box .error {
+        color: #FA0;
+        font-size: 0.85em;
+    }
     .result-box table {
         border-collapse: collapse;
         border: 1px solid #ccc;
@@ -146,55 +153,32 @@ use yii\helpers\Url;
                     empty(result);
 
                     var null_replacement = '_';
-                    var wordJoiner = '';
+                    var wordsJoiner = '';
 
-                    var rankingTable = getPhrasesRankingTable(data.words, data.phrasesData, data.phraseMaxWords, wordJoiner);
-                    var bestCombinations = [];
-                    for (let i = rankingTable.length - 1; i >= 0; i--) {
-                        if (rankingTable[i].length > 0) {
-                            let minOfPhrases = rankingTable[i][0].length;
-                            bestCombinations.push(rankingTable[i][0]);
-                            for (let j = 1; j < rankingTable[i].length - 1; j++) {
-                                if (rankingTable[i][j].length === minOfPhrases) {
-                                    bestCombinations.push(rankingTable[i][j]);
-                                } else {
-                                    break;
-                                }
-                            }
-                            break;
+                    var executedWordsInfo = data['executedWordsInfo'];
+                    var phrasesData = data['phrasesData'];
+
+                    executedWordsInfo.forEach(function (infoItem) {
+                        var error = infoItem['error'];
+                        var words = infoItem['words'];
+                        var phraseMaxWords = infoItem['phraseMaxWords'];
+                        if (error) {
+                            appendChildren(result, elm('table', [
+                                elm('tr', elm('td', words.join(wordsJoiner))),
+                                elm('tr', elm('td', elm('div', error, {'class': 'error'}))),
+                            ]));
+                        } else {
+                            var viewGroups = calcClauseResultAsViewGroup(words, phraseMaxWords, phrasesData, wordsJoiner);
+                            appendChildren(result, viewGroups.map(function (rows) {
+                                return elm('table', rows.map(function (cells) {
+                                    return elm('tr', cells.map(function (cell) {
+                                        return elm('td', cell !== null ? cell : null_replacement);
+                                    }));
+                                }));
+                            }));
                         }
-                    }
-                    console.log({bestCombinations});
-
-                    const viewGroups = [];
-                    bestCombinations.forEach(function (combination) {
-                        const rowPhrases = [];
-                        const rowPhonetics = [];
-                        const rowViPhonetics = [];
-                        combination.forEach(function (phraseWords) {
-                            const phrase = phraseWords.join(wordJoiner);
-                            rowPhrases.push(phrase);
-                            const item = data.phrasesData[phrase];
-                            if (item) {
-                                rowPhonetics.push(item[0]);
-                                rowViPhonetics.push(item[1]);
-                            } else {
-                                rowPhonetics.push(null);
-                                rowViPhonetics.push(null);
-                            }
-                        });
-                        const viewGroup = [rowPhrases, rowPhonetics, rowViPhonetics];
-                        viewGroups.push(viewGroup);
                     });
-                    console.log({viewGroups});
 
-                    appendChildren(result, viewGroups.map(function (rows) {
-                        return elm('table', rows.map(function (cells) {
-                            return elm('tr', cells.map(function (cell) {
-                                return elm('td', cell !== null ? cell : null_replacement);
-                            }))
-                        }))
-                    }));
                 },
                 function (error_msg) {
                     empty(result);
@@ -206,9 +190,12 @@ use yii\helpers\Url;
         }
     }
 
-    function requestTranslation(name, onSuccess, onError) {
-        name = name.split(" ").join("+");
-        window.history.pushState(history.state, document.title, "<?= Url::to(['lookup-phonetic-for-chinese-text/index', 'search' => '__SEARCH__']) ?>".split("__SEARCH__").join(name));
+    function requestTranslation(search, onSuccess, onError) {
+        var webUrl = "<?= Url::to(['lookup-phonetic-for-chinese-text/index', 'search' => '__SEARCH__']) ?>";
+        var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup', 'wordsList' => '__WORDS__']) ?>";
+        search = search.split(' ').join(''); // chinese does not use white space
+        window.history.pushState(history.state, document.title,
+            webUrl.split("__SEARCH__").join(search));
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function () {
             var responseText = xhr.responseText;
@@ -222,79 +209,57 @@ use yii\helpers\Url;
         xhr.addEventListener("error", function () {
             onError("An error occurred.")
         });
-        xhr.open("GET", "<?= Url::to(['chinese-phrase-phonetic-api/lookup', 'clause' => '__NAME__']) ?>".split("__NAME__").join(name));
+        var parseResult = parseText(search);
+        var wordsList = parseResult[1].map(function (letterPartIndex) {
+            return parseResult[0][letterPartIndex];
+        });
+        xhr.open("GET", apiUrl.split("__WORDS__").join(JSON.stringify(wordsList)));
         xhr.send();
     }
 
-    // =================
-    // Helper functions
-
-    //func element
-    function elm(nodeName, content, attributes) {
-        var node = document.createElement(nodeName);
-        appendChildren(node, content);
-        setAttributes(node, attributes);
-        return node;
-    }
-
-    function appendChildren(node, content) {
-        var append = function (t) {
-            if (/string|number/.test(typeof t)) {
-                var textNode = document.createTextNode(t);
-                node.appendChild(textNode);
-            } else if (t instanceof Node) {
-                node.appendChild(t);
-            }
-        };
-        if (content instanceof Array) {
-            content.forEach(function (item) {
-                append(item);
-            });
-        } else {
-            append(content);
-        }
-    }
-
-    function setAttributes(node, attributes) {
-        if (attributes) {
-            var attrName;
-            for (attrName in attributes) {
-                if (attributes.hasOwnProperty(attrName)) {
-                    var attrValue = attributes[attrName];
-                    switch (typeof attrValue) {
-                        case "string":
-                        case "number":
-                            node.setAttribute(attrName, attrValue);
-                            break;
-                        case "function":
-                        case "boolean":
-                            node[attrName] = attrValue;
-                            break;
-                        default:
+    function calcClauseResultAsViewGroup(words, phraseMaxWords, phrasesData, wordsJoiner) {
+        var rankingTable = getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner);
+        var bestCombinations = [];
+        for (let i = rankingTable.length - 1; i >= 0; i--) {
+            if (rankingTable[i].length > 0) {
+                let minOfPhrases = rankingTable[i][0].length;
+                bestCombinations.push(rankingTable[i][0]);
+                for (let j = 1; j < rankingTable[i].length - 1; j++) {
+                    if (rankingTable[i][j].length === minOfPhrases) {
+                        bestCombinations.push(rankingTable[i][j]);
+                    } else {
+                        break;
                     }
                 }
+                break;
             }
         }
+
+        const viewGroups = [];
+        bestCombinations.forEach(function (combination) {
+            const rowPhrases = [];
+            const rowPhonetics = [];
+            const rowViPhonetics = [];
+            combination.forEach(function (phraseWords) {
+                const phrase = phraseWords.join(wordsJoiner);
+                rowPhrases.push(phrase);
+                const item = phrasesData[phrase];
+                if (item) {
+                    rowPhonetics.push(item[0]);
+                    rowViPhonetics.push(item[1]);
+                } else {
+                    rowPhonetics.push(null);
+                    rowViPhonetics.push(null);
+                }
+            });
+            const viewGroup = [rowPhrases, rowPhonetics, rowViPhonetics];
+            viewGroups.push(viewGroup);
+        });
+
+        return viewGroups;
     }
 
-    function empty(element) {
-        while (element.firstChild) {
-            element.removeChild(element.firstChild);
-        }
-    }
-
-    function style(obj) {
-        var result_array = [];
-        var attrName;
-        for (attrName in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, attrName)) {
-                result_array.push(attrName + ": " + obj[attrName]);
-            }
-        }
-        return result_array.join("; ");
-    }
-
-    function getPhrasesRankingTable(words, phrasesData, phraseMaxWords, wordsJoiner) {
+    function getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner) {
         var rankingTable = [];
         for (let score = 0; score <= words.length; score++) {
             rankingTable[score] = [];
@@ -385,6 +350,113 @@ use yii\helpers\Url;
         return combinations;
     }
 
+    function parseText(text) {
+        var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
+        var chars = Array.from(text);
+        var mixedParts = [];
+        var letterPartIndexes = [];
+        let part = [];
+        let isLetterPart = null;
+        chars.forEach(function (char) {
+            if (cjkeRegex.test(char)) {
+                if (isLetterPart === true || isLetterPart === null) {
+                    part.push(char);
+                } else {
+                    mixedParts.push(part);
+                    if (isLetterPart) {
+                        letterPartIndexes.push(mixedParts.length - 1);
+                    }
+                    part = [char];
+                }
+                isLetterPart = true;
+            } else {
+                if (isLetterPart === false || isLetterPart === null) {
+                    part.push(char);
+                } else {
+                    mixedParts.push(part);
+                    if (isLetterPart) {
+                        letterPartIndexes.push(mixedParts.length - 1);
+                    }
+                    part = [char];
+                }
+                isLetterPart = false;
+            }
+        });
+        mixedParts.push(part);
+        if (isLetterPart) {
+            letterPartIndexes.push(mixedParts.length - 1);
+        }
+        return [mixedParts, letterPartIndexes];
+    }
+
+    // =================
+    // Helper functions
+
+    //func element
+    function elm(nodeName, content, attributes) {
+        var node = document.createElement(nodeName);
+        appendChildren(node, content);
+        setAttributes(node, attributes);
+        return node;
+    }
+
+    function appendChildren(node, content) {
+        var append = function (t) {
+            if (/string|number/.test(typeof t)) {
+                var textNode = document.createTextNode(t);
+                node.appendChild(textNode);
+            } else if (t instanceof Node) {
+                node.appendChild(t);
+            }
+        };
+        if (content instanceof Array) {
+            content.forEach(function (item) {
+                append(item);
+            });
+        } else {
+            append(content);
+        }
+    }
+
+    function setAttributes(node, attributes) {
+        if (attributes) {
+            var attrName;
+            for (attrName in attributes) {
+                if (attributes.hasOwnProperty(attrName)) {
+                    var attrValue = attributes[attrName];
+                    switch (typeof attrValue) {
+                        case "string":
+                        case "number":
+                            node.setAttribute(attrName, attrValue);
+                            break;
+                        case "function":
+                        case "boolean":
+                            node[attrName] = attrValue;
+                            break;
+                        default:
+                    }
+                }
+            }
+        }
+    }
+
+    function empty(element) {
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+    }
+
+    function style(obj) {
+        var result_array = [];
+        var attrName;
+        for (attrName in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, attrName)) {
+                result_array.push(attrName + ": " + obj[attrName]);
+            }
+        }
+        return result_array.join("; ");
+    }
+    
 </script>
 
 <?= $this->render('//layouts/likeShare') ?>

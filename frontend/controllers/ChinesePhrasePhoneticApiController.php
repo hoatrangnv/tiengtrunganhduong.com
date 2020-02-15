@@ -15,44 +15,51 @@ use yii\web\BadRequestHttpException;
 
 class ChinesePhrasePhoneticApiController extends Controller
 {
+    const INPUT_MAX_CLAUSES = 10;
     const INPUT_MAX_WORDS = 20;
     const PHRASE_MAX_WORDS = 6;
 
     public function actionLookup() {
         $response = ['data' => null, 'error_message' => null];
-        $clause = \Yii::$app->request->get('clause');
-//        https://stackoverflow.com/questions/4113802/how-to-split-chinese-characters-in-php
-//        preg_match_all('/(\w+)|(.)/u', $clause, $matches);
-        preg_match_all('/./u', $clause, $matches);
-        $words = array_values(array_filter($matches[0], function ($word) {
-            return $word !== ' ' && $word !== '';
-        }));
-        $response['data']['words'] = $words;
-        $clauseNumWords = count($words);
-        if ($clauseNumWords > self::INPUT_MAX_WORDS) {
-            $response['error_message'] = "Number of words received: " . $clauseNumWords .". Max allowed: " . self::INPUT_MAX_WORDS;
+        $wordsListJson = \Yii::$app->request->get('wordsList', null);
+        try {
+            $wordsList = array_values(json_decode($wordsListJson, true));
+        } catch (\Exception $exception) {
+            $response['error_message'] = $exception->getMessage();
             return $response;
         }
-
-        $phraseMaxWords = min($clauseNumWords, self::PHRASE_MAX_WORDS);
-        $response['data']['phraseMaxWords'] = $phraseMaxWords;
-
-        $allPhrases = [];
+        $executedWordsInfo = [];
         $uniquePhrasesObj = [];
-        for ($phraseNumWords = 1; $phraseNumWords <= $phraseMaxWords; $phraseNumWords++) {
-            for ($startWordIndex = 0; $startWordIndex < $clauseNumWords - $phraseNumWords + 1; $startWordIndex++) {
-                $phrase = '';
-                for ($i = $startWordIndex; $i < $startWordIndex + $phraseNumWords; $i++) {
-                    $phrase .= $words[$i];
-                }
-                $allPhrases[] = $phrase;
-                $uniquePhrasesObj[$phrase] = true;
+        foreach ($wordsList as $index => $words) {
+            if ($index + 1 > self::INPUT_MAX_CLAUSES) {
+                break;
             }
-        }
-        $uniquePhrases = array_keys($uniquePhrasesObj);
-//        $response['data']['allPhrases'] = $allPhrases;
-//        $response['data']['uniquePhrases'] = $uniquePhrases;
+            $clauseNumWords = count($words);
+            $exportItem = ['words' => $words];
+            if ($clauseNumWords > self::INPUT_MAX_WORDS) {
+                $exportItem['error'] = 'Mệnh đề quá dài: ' . $clauseNumWords . ' từ. Vui lòng chia thành các mệnh đề nhỏ (sử dụng dấu "chấm" hoặc "phẩy") với nhiều nhất ' . self::INPUT_MAX_WORDS . ' từ.';
+                $executedWordsInfo[] = $exportItem;
+                continue;
+            }
 
+            $phraseMaxWords = min($clauseNumWords, self::PHRASE_MAX_WORDS);
+            $allPhrases = [];
+            for ($phraseNumWords = 1; $phraseNumWords <= $phraseMaxWords; $phraseNumWords++) {
+                for ($startWordIndex = 0; $startWordIndex < $clauseNumWords - $phraseNumWords + 1; $startWordIndex++) {
+                    $phrase = '';
+                    for ($i = $startWordIndex; $i < $startWordIndex + $phraseNumWords; $i++) {
+                        $phrase .= $words[$i];
+                    }
+                    $allPhrases[] = $phrase;
+                    $uniquePhrasesObj[$phrase] = true;
+                }
+            }
+            $exportItem['phraseMaxWords'] = $phraseMaxWords;
+            $executedWordsInfo[] = $exportItem;
+        }
+        $response['data']['executedWordsInfo'] = $executedWordsInfo;
+
+        $uniquePhrases = array_keys($uniquePhrasesObj);
         /**
          * @var $phoneticRecords ChinesePhrasePhonetic[]
          */
