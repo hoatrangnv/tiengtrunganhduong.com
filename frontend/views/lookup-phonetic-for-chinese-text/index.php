@@ -55,6 +55,19 @@ use yii\helpers\Url;
     .result-box {
         margin-top: 1rem;
     }
+    .result-box table {
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+    .result-box table tr td {
+        padding: 3px;
+    }
+    .result-box table tr td:not(:last-child) {
+        border-right: 1px solid #ccc;
+    }
+    .result-box table tr:not(:last-child) td {
+        border-bottom: 1px solid #ccc;
+    }
     .desc {
         margin-bottom: 2rem;
     }
@@ -132,25 +145,56 @@ use yii\helpers\Url;
                 function (data) {
                     empty(result);
 
-                    var null_replacement = "__";
+                    var null_replacement = '_';
+                    var wordJoiner = '';
 
-                    var rankingTable = getPhrasesRankingTable(data.words, data.phrasesData, data.phraseMaxWords);
-                    var bestCombinations = null;
+                    var rankingTable = getPhrasesRankingTable(data.words, data.phrasesData, data.phraseMaxWords, wordJoiner);
+                    var bestCombinations = [];
                     for (let i = rankingTable.length - 1; i >= 0; i--) {
                         if (rankingTable[i].length > 0) {
-                            bestCombinations = rankingTable[i];
+                            let minOfPhrases = rankingTable[i][0].length;
+                            bestCombinations.push(rankingTable[i][0]);
+                            for (let j = 1; j < rankingTable[i].length - 1; j++) {
+                                if (rankingTable[i][j].length === minOfPhrases) {
+                                    bestCombinations.push(rankingTable[i][j]);
+                                } else {
+                                    break;
+                                }
+                            }
                             break;
                         }
                     }
-                    console.log(bestCombinations);
-                    bestCombinations.forEach(function (phrases) {
-                        appendChildren(
-                            result,
-                            elm('div', phrases.map(function (phrase) {
-                                return (data.phrasesData[phrase]||[])[1] || null_replacement;
-                            }).join(' '))
-                        );
+                    console.log({bestCombinations});
+
+                    const viewGroups = [];
+                    bestCombinations.forEach(function (combination) {
+                        const rowPhrases = [];
+                        const rowPhonetics = [];
+                        const rowViPhonetics = [];
+                        combination.forEach(function (phraseWords) {
+                            const phrase = phraseWords.join(wordJoiner);
+                            rowPhrases.push(phrase);
+                            const item = data.phrasesData[phrase];
+                            if (item) {
+                                rowPhonetics.push(item[0]);
+                                rowViPhonetics.push(item[1]);
+                            } else {
+                                rowPhonetics.push(null);
+                                rowViPhonetics.push(null);
+                            }
+                        });
+                        const viewGroup = [rowPhrases, rowPhonetics, rowViPhonetics];
+                        viewGroups.push(viewGroup);
                     });
+                    console.log({viewGroups});
+
+                    appendChildren(result, viewGroups.map(function (rows) {
+                        return elm('table', rows.map(function (cells) {
+                            return elm('tr', cells.map(function (cell) {
+                                return elm('td', cell !== null ? cell : null_replacement);
+                            }))
+                        }))
+                    }));
                 },
                 function (error_msg) {
                     empty(result);
@@ -250,14 +294,15 @@ use yii\helpers\Url;
         return result_array.join("; ");
     }
 
-    function getPhrasesRankingTable(words, phrasesData, phraseMaxWords) {
+    function getPhrasesRankingTable(words, phrasesData, phraseMaxWords, wordsJoiner) {
         var rankingTable = [];
         for (let score = 0; score <= words.length; score++) {
             rankingTable[score] = [];
         }
         getPhrasesCombinations(words, phraseMaxWords).forEach(function (combination) {
             let score = 0;
-            combination.forEach(function (phrase) {
+            combination.forEach(function (phraseWords) {
+                const phrase = phraseWords.join(wordsJoiner);
                 if (phrasesData.hasOwnProperty(phrase)) {
                     score += phrase.length;
                 }
@@ -273,36 +318,39 @@ use yii\helpers\Url;
         const maxOfCuts = words.length - 1;
         const combinations = [];
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
-            getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts).forEach(function (combination) {
+            getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts, phraseMaxWords).forEach(function (combination) {
                 combinations.push(combination);
             });
         }
         return combinations;
     }
 
-    function getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts) {
+    function getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts, phraseMaxWords) {
         if (numOfCuts < 0 || numOfCuts > words.length - 1) {
             throw new Error('Invalid numOfCuts: ' + numOfCuts);
         }
         if (numOfCuts === 0) {
-            return [[words.join('')]];
+            return [[words]];
         }
         const cutsList = getCombinations(words.length - 1, numOfCuts);
         const combinations = [];
         cutsList.forEach(function (cuts) {
             const combination = [];
-            let phrase = '';
+            let phraseWords = [];
             let cutIndex = 0;
             for (let c = 1; c <= words.length; c++) {
-                phrase += words[c - 1];
+                phraseWords.push(words[c - 1]);
                 let cut = cuts[cutIndex];
                 if (cut === c) {
-                    combination.push(phrase);
-                    phrase = '';
+                    combination.push(phraseWords);
+                    phraseWords = [];
                     cutIndex++;
                 } else if (c === words.length) {
-                    combination.push(phrase);
+                    combination.push(phraseWords);
                     combinations.push(combination);
+                }
+                if (phraseWords.length > phraseMaxWords) {
+                    return;
                 }
             }
         });
