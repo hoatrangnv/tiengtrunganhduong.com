@@ -1,4 +1,6 @@
 ChineseTextAnalyzer = (function () {
+    var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
+
     function phrasingParse(words, phraseMaxWords, phrasesData, wordsJoiner) {
         var rankingTable = getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner);
         var bestCombinations = [];
@@ -44,14 +46,18 @@ ChineseTextAnalyzer = (function () {
         });
 
         return viewGroupKeys.map(function (key) {
-            // join nearly item has NULL phonetic into one
+            // split phrase into words if its phonetic is null
             var viewGroup = dictViewGroups[key];
             var phrases = viewGroup[0], phonetics = viewGroup[1], viPhonetics = viewGroup[2];
             var newPhrases = [], newPhonetics = [], newViPhonetics = [];
             for (var i = 0; i < phrases.length; i++) {
-                var j = newPhrases.length - 1;
-                if (j > -1 && phonetics[i] === null && newPhonetics[j] === null) {
-                    newPhrases[j] += wordsJoiner + phrases[i];
+                if (phonetics[i] === null) {
+                    var _words = phrases[i].split(wordsJoiner);
+                    for (var j = 0; j < _words.length; j++) {
+                        newPhrases.push(_words[j]);
+                        newPhonetics.push(null);
+                        newViPhonetics.push(null);
+                    }
                 } else {
                     newPhrases.push(phrases[i]);
                     newPhonetics.push(phonetics[i]);
@@ -154,8 +160,7 @@ ChineseTextAnalyzer = (function () {
     }
 
     function parseChineseText(text) {
-        var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
-        var chars = Array.from(text);
+        var chars = text.split('');
         var mixedParts = [];
         var letterPartIndexes = [];
         let part = [];

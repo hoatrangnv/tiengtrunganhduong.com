@@ -2018,7 +2018,6 @@ button.audio-inline:disabled {
     background: #3B7DE0;
 }
 #phonetic-lookup .result-box {
-    margin-top: 1rem;
 }
 #phonetic-lookup .result-box > :not(:first-child) {
     margin-top: 1rem;
@@ -2040,22 +2039,33 @@ button.audio-inline:disabled {
 #phonetic-lookup .result-box table tr:not(:last-child) td {
     border-bottom: 1px solid #ddd;
 }
+#phonetic-lookup .result-box .paragraph-heading {
+
+}
+#phonetic-lookup .result-box .paragraph-view {
+    margin-top: 0.5rem;
+}
 #phonetic-lookup .result-box .paragraph-view > div {
     display: inline-block;
     padding: 2px;
     cursor: pointer;
-    white-space: nowrap;
     margin-top: 0.5rem;
     text-align: center;
+    vertical-align: top;
+
 }
 #phonetic-lookup .result-box .paragraph-view > div:hover {
-    background: #ADF;
+    background: #CEF;
 }
 #phonetic-lookup .result-box .paragraph-view > div > :first-child {
     font-weight: bold;
 }
-#phonetic-lookup .result-box .paragraph-view > div > :first-child {
-
+#phonetic-lookup .result-box .paragraph-view > div > :not(:first-child) {
+    font-size: 0.9em;
+    color: #888;
+}
+#phonetic-lookup .result-box .details-heading {
+    margin-top: 1.5rem;
 }
 #phonetic-lookup .result-box .details-view > :not(:first-child) {
     margin-top: 1rem;

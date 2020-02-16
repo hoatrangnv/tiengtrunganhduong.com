@@ -81,7 +81,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
 
         var renderDetailsView = function () {
             appendChildren(result, [
-                elm('h2', 'Chi tiết'),
+                elm('h2', 'Chi tiết', {'class': 'details-heading'}),
                 elm('div', detailsViewElmItems.map(function (elmArr) {
                     return elm('div', elmArr, {'class': 'details-item'});
                 }, []), {'class': 'details-view'})
@@ -89,12 +89,12 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
         };
         
         var renderParagraphView = function () {
-            appendChildren(result, [elm('h2', 'Kết quả')]);
-            var paragrapViewArrItemIndex = -1;
+            appendChildren(result, [elm('h2', 'Kết quả', {'class': 'paragraph-heading'})]);
+            var paragraphViewArrItemIndex = -1;
             appendChildren(result, elm('div', inputMixedParts.map(function (partChars, index) {
                 if (inputLetterPartIndexes.indexOf(index) > -1) {
-                    paragrapViewArrItemIndex++;
-                    return paragraphViewArrItems[paragrapViewArrItemIndex];
+                    paragraphViewArrItemIndex++;
+                    return paragraphViewArrItems[paragraphViewArrItemIndex];
                 } else {
                     return partChars.map(function (char) {
                         return [char, char, char];
@@ -103,9 +103,13 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
             }).reduce(function (arr, item, index) {
                 return arr.concat(item);
             }, []).map(function (item) {
-                return elm('div', item.map(function (val) {
-                    return elm('div', val);
-                }));
+                if (item[0] === '\n') {
+                    return elm('br');
+                } else {
+                    return elm('div', item.map(function (val) {
+                        return elm('div', val);
+                    }));
+                }
             }), {'class': 'paragraph-view'}));
         };
 
@@ -222,15 +226,18 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
     function requestPhoneticApi(search, onSuccess, onError) {
         var webUrl = "<?= Url::to(['lookup-phonetic-for-chinese-text/index', 'search' => '__SEARCH__']) ?>";
         var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup', 'wordsList' => '__WORDS__']) ?>";
+
         search = search.split(' ').join(''); // chinese does not use white space
-        window.history.pushState(history.state, document.title,
-            webUrl.split("__SEARCH__").join(search));
+        var stateUrl = webUrl.split("__SEARCH__").join(search.split('\n').join('%0D%0A')); // %0D%0A represents for line break
+        window.history.pushState(history.state, document.title, stateUrl);
+
         var inputParseResult = ChineseTextAnalyzer.parseChineseText(search);
         var inputMixedParts = inputParseResult[0];
         var inputLetterPartIndexes = inputParseResult[1];
         var wordsList = inputLetterPartIndexes.map(function (letterPartIndex) {
             return inputMixedParts[letterPartIndex];
         });
+
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function () {
             var responseText = xhr.responseText;
