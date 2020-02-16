@@ -2014,7 +2014,7 @@ button.audio-inline:disabled {
     float: right;
     cursor: pointer;
 }
-#phonetic-lookup .search-button:hover {
+#phonetic-lookup .search-button:not(:disabled):hover {
     background: #3B7DE0;
 }
 #phonetic-lookup .search-button:disabled {
