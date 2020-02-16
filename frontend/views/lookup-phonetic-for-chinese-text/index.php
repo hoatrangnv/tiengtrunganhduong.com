@@ -78,6 +78,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
 
         var paragraphViewArrItems = [];
         var detailsViewElmItems = [];
+        var somePartsHasBeenOmitted = false;
 
         var renderDetailsView = function () {
             appendChildren(result, [
@@ -90,19 +91,28 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
         
         var renderParagraphView = function () {
             appendChildren(result, [elm('h2', 'Kết quả', {'class': 'paragraph-heading'})]);
+            var flatArrItems = [];
             var paragraphViewArrItemIndex = -1;
-            appendChildren(result, elm('div', inputMixedParts.map(function (partChars, index) {
-                if (inputLetterPartIndexes.indexOf(index) > -1) {
+            for (var i = 0; i < inputMixedParts.length; i++) {
+                if (inputLetterPartIndexes.indexOf(i) > -1) {
                     paragraphViewArrItemIndex++;
-                    return paragraphViewArrItems[paragraphViewArrItemIndex];
+                    // api may ignore some last group of words if they are exceeded limit
+                    if (paragraphViewArrItemIndex > paragraphViewArrItems.length - 1 ||
+                        paragraphViewArrItems[paragraphViewArrItemIndex] === null
+                    ) {
+                        somePartsHasBeenOmitted = true;
+                        break;
+                    }
+                    paragraphViewArrItems[paragraphViewArrItemIndex].forEach(function (arrItem) {
+                        flatArrItems.push(arrItem);
+                    });
                 } else {
-                    return partChars.map(function (char) {
-                        return [char, char, char];
+                    inputMixedParts[i].forEach(function (char) {
+                        flatArrItems.push([char, char, char]);
                     });
                 }
-            }).reduce(function (arr, item, index) {
-                return arr.concat(item);
-            }, []).map(function (item) {
+            }
+            appendChildren(result, elm('div', flatArrItems.map(function (item) {
                 if (item[0] === '\n') {
                     return elm('br');
                 } else {
@@ -116,6 +126,12 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
         var renderViews = function () {
             empty(result);
             renderParagraphView();
+            if (somePartsHasBeenOmitted) {
+                appendChildren(
+                    result,
+                    elm('div', 'Một số phần đã bị lược bỏ. Vui lòng xem mục "Chi tiết".', {'class': 'error'})
+                );
+            }
             renderDetailsView();
         };
 
@@ -127,13 +143,20 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
             var words = infoItem['words'];
             var phraseMaxWords = infoItem['phraseMaxWords'];
             if (error) {
-                detailsViewElmItems[index] = [
-                    elm('h3', words.join(wordsJoiner)),
-                    elm('div', error, {'class': 'error'})
-                ];
-                paragraphViewArrItems[index] = words.map(function (word) {
-                    return [word, null_replacement, null_replacement];
-                });
+                if (words === null) {
+                    detailsViewElmItems[index] = [
+                        elm('div', error, {'class': 'error'})
+                    ];
+                    paragraphViewArrItems[index] = null;
+                } else {
+                    detailsViewElmItems[index] = [
+                        elm('h3', words.join(wordsJoiner)),
+                        elm('div', error, {'class': 'error'})
+                    ];
+                    paragraphViewArrItems[index] = words.map(function (word) {
+                        return [word, null_replacement, null_replacement];
+                    });
+                }
             } else {
                 detailsViewElmItems[index] = null;
                 var taskMain = function (viewGroups) {

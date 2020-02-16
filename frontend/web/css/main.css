@@ -2017,7 +2017,8 @@ button.audio-inline:disabled {
 #phonetic-lookup .search-button:hover {
     background: #3B7DE0;
 }
-#phonetic-lookup .result-box {
+#phonetic-lookup .result-box .processing {
+    font-weight: bold;
 }
 #phonetic-lookup .result-box > :not(:first-child) {
     margin-top: 1rem;

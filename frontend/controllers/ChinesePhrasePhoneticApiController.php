@@ -15,8 +15,8 @@ use yii\web\BadRequestHttpException;
 
 class ChinesePhrasePhoneticApiController extends Controller
 {
-    const INPUT_MAX_CLAUSES = 10;
-    const INPUT_MAX_WORDS = 20;
+    const INPUT_MAX_WORDS = 200;
+    const CLAUSE_MAX_WORDS = 20;
     const PHRASE_MAX_WORDS = 6;
 
     public function actionLookup() {
@@ -30,19 +30,27 @@ class ChinesePhrasePhoneticApiController extends Controller
         }
         $executedWordsInfo = [];
         $uniquePhrasesObj = [];
+        $totalExecutedWords = 0;
         foreach ($wordsList as $index => $words) {
-            if ($index + 1 > self::INPUT_MAX_CLAUSES) {
-                break;
-            }
             $clauseNumWords = count($words);
             $exportItem = ['words' => $words];
-            if ($clauseNumWords > self::INPUT_MAX_WORDS) {
-                $exportItem['error'] = 'Mệnh đề quá dài: ' . $clauseNumWords . ' từ. Vui lòng chia thành các mệnh đề nhỏ (sử dụng dấu "chấm" hoặc "phẩy") với nhiều nhất ' . self::INPUT_MAX_WORDS . ' từ.';
+            if ($clauseNumWords > self::CLAUSE_MAX_WORDS) {
+                $exportItem['error'] = 'Mệnh đề quá dài: ' . $clauseNumWords . ' từ. Vui lòng chia thành các mệnh đề nhỏ (sử dụng dấu "chấm" hoặc "phẩy") với nhiều nhất ' . self::CLAUSE_MAX_WORDS . ' từ.';
                 $executedWordsInfo[] = $exportItem;
                 continue;
             }
-
+            $totalExecutedWords += $clauseNumWords;
+            if ($totalExecutedWords > self::INPUT_MAX_WORDS) {
+                $exportItem['words'] = null; // indicates this is the end
+                $exportItem['error'] = 'Văn bản vượt quá tổng số từ có thể xử lý. Tối đa: ' . self::INPUT_MAX_WORDS . ' từ.';
+                $executedWordsInfo[] = $exportItem;
+                break;
+            }
             $phraseMaxWords = min($clauseNumWords, self::PHRASE_MAX_WORDS);
+            $exportItem['phraseMaxWords'] = $phraseMaxWords;
+            $executedWordsInfo[] = $exportItem;
+
+            // execute
             $allPhrases = [];
             for ($phraseNumWords = 1; $phraseNumWords <= $phraseMaxWords; $phraseNumWords++) {
                 for ($startWordIndex = 0; $startWordIndex < $clauseNumWords - $phraseNumWords + 1; $startWordIndex++) {
@@ -54,8 +62,6 @@ class ChinesePhrasePhoneticApiController extends Controller
                     $uniquePhrasesObj[$phrase] = true;
                 }
             }
-            $exportItem['phraseMaxWords'] = $phraseMaxWords;
-            $executedWordsInfo[] = $exportItem;
         }
         $response['data']['executedWordsInfo'] = $executedWordsInfo;
 
