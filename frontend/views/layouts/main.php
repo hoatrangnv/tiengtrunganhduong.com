@@ -36,6 +36,7 @@ if (!$seoInfo->disable_ads) {
     <script data-ad-client="ca-pub-5467392149281559" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <?php
 }
+require_once 'headerJs.php';
 ?>
 </head>
 <body>

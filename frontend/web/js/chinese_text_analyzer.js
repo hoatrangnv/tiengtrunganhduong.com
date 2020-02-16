@@ -2,13 +2,13 @@ ChineseTextAnalyzer = (function () {
     function phrasingParse(words, phraseMaxWords, phrasesData, wordsJoiner) {
         var rankingTable = getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner);
         var bestCombinations = [];
-        for (let i = rankingTable.length - 1; i > 0; i--) {
-            if (rankingTable[i].length > 0) {
-                let minOfPhrases = rankingTable[i][0].length;
-                bestCombinations.push(rankingTable[i][0]);
-                for (let j = 1; j < rankingTable[i].length - 1; j++) {
-                    if (rankingTable[i][j].length === minOfPhrases) {
-                        bestCombinations.push(rankingTable[i][j]);
+        for (let score = rankingTable.length - 1; score > 0; score--) {
+            if (rankingTable[score].length > 0) {
+                let minOfPhrases = rankingTable[score][0].length;
+                bestCombinations.push(rankingTable[score][0]);
+                for (let i = 1; i < rankingTable[score].length - 1; i++) {
+                    if (rankingTable[score][i].length === minOfPhrases) {
+                        bestCombinations.push(rankingTable[score][i]);
                     } else {
                         break;
                     }
@@ -17,28 +17,49 @@ ChineseTextAnalyzer = (function () {
             }
         }
 
-        const viewGroups = [];
+        var dictViewGroups = {};
+        var viewGroupKeys = [];
         bestCombinations.forEach(function (combination) {
-            const rowPhrases = [];
-            const rowPhonetics = [];
-            const rowViPhonetics = [];
+            var phrases = [];
+            var phonetics = [];
+            var viPhonetics = [];
             combination.forEach(function (phraseWords) {
-                const phrase = phraseWords.join(wordsJoiner);
-                rowPhrases.push(phrase);
-                const item = phrasesData[phrase];
+                var phrase = phraseWords.join(wordsJoiner);
+                phrases.push(phrase);
+                var item = phrasesData[phrase];
                 if (item) {
-                    rowPhonetics.push(item[0]);
-                    rowViPhonetics.push(item[1]);
+                    phonetics.push(item[0]);
+                    viPhonetics.push(item[1]);
                 } else {
-                    rowPhonetics.push(null);
-                    rowViPhonetics.push(null);
+                    phonetics.push(null);
+                    viPhonetics.push(null);
                 }
             });
-            const viewGroup = [rowPhrases, rowPhonetics, rowViPhonetics];
-            viewGroups.push(viewGroup);
+            // unique by combination of phonetics
+            var key = JSON.stringify(phonetics);
+            if (viewGroupKeys.indexOf(key) < 0) {
+                dictViewGroups[key] = [phrases, phonetics, viPhonetics];
+                viewGroupKeys.push(key);
+            }
         });
 
-        return viewGroups;
+        return viewGroupKeys.map(function (key) {
+            // join nearly item has NULL phonetic into one
+            var viewGroup = dictViewGroups[key];
+            var phrases = viewGroup[0], phonetics = viewGroup[1], viPhonetics = viewGroup[2];
+            var newPhrases = [], newPhonetics = [], newViPhonetics = [];
+            for (var i = 0; i < phrases.length; i++) {
+                var j = newPhrases.length - 1;
+                if (j > -1 && phonetics[i] === null && newPhonetics[j] === null) {
+                    newPhrases[j] += wordsJoiner + phrases[i];
+                } else {
+                    newPhrases.push(phrases[i]);
+                    newPhonetics.push(phonetics[i]);
+                    newViPhonetics.push(viPhonetics[i]);
+                }
+            }
+            return [newPhrases, newPhonetics, newViPhonetics];
+        });
     }
 
     function getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner) {
@@ -49,7 +70,7 @@ ChineseTextAnalyzer = (function () {
         getPhrasesCombinations(words, phraseMaxWords).forEach(function (combination) {
             let score = 0;
             combination.forEach(function (phraseWords) {
-                const phrase = phraseWords.join(wordsJoiner);
+                var phrase = phraseWords.join(wordsJoiner);
                 if (phrasesData.hasOwnProperty(phrase)) {
                     score += phrase.length;
                 }
@@ -61,9 +82,9 @@ ChineseTextAnalyzer = (function () {
     }
 
     function getPhrasesCombinations(words, phraseMaxWords) {
-        const minOfCuts = Math.ceil(words.length / phraseMaxWords) - 1;
-        const maxOfCuts = words.length - 1;
-        const combinations = [];
+        var minOfCuts = Math.ceil(words.length / phraseMaxWords) - 1;
+        var maxOfCuts = words.length - 1;
+        var combinations = [];
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
             getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts, phraseMaxWords).forEach(function (combination) {
                 combinations.push(combination);
@@ -79,10 +100,10 @@ ChineseTextAnalyzer = (function () {
         if (numOfCuts === 0) {
             return [[words]];
         }
-        const cutsList = getCombinations(words.length - 1, numOfCuts);
-        const combinations = [];
+        var cutsList = getCombinations(words.length - 1, numOfCuts);
+        var combinations = [];
         cutsList.forEach(function (cuts) {
-            const combination = [];
+            var combination = [];
             let phraseWords = [];
             let cutIndex = 0;
             for (let c = 1; c <= words.length; c++) {
