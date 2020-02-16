@@ -17,7 +17,7 @@ class ChinesePhrasePhoneticApiController extends Controller
 {
     const INPUT_MAX_WORDS = 200;
     const CLAUSE_MAX_WORDS = 20;
-    const PHRASE_MAX_WORDS = 6;
+    const PHRASE_MAX_WORDS = 5;
 
     public function actionLookup() {
         $response = ['data' => null, 'error_message' => null];
