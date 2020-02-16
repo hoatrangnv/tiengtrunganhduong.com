@@ -1,4 +1,4 @@
-importScripts('chinese_text_analyzer.js');
+importScripts('chinese_text_analyzer.js?v=1');
 
 self.addEventListener('message', function (ev) {
     var args = JSON.parse(ev.data);

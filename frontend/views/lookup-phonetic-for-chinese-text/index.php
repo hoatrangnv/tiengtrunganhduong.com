@@ -11,7 +11,7 @@ use yii\helpers\Url;
  * @var $search string
  */
 
-$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
+$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1');
 ?>
 <div id="phonetic-lookup">
     <h1 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Tra cứu phiên âm' ?></h1>
@@ -20,7 +20,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js');
 </div>
 <script src="<?= $chinese_text_analyzer_src ?>"></script>
 <script>
-    var chinese_phonetic_worker_src = <?= json_encode(Yii::getAlias('@web/js/chinese_phonetic_worker.js')) ?>;
+    var chinese_phonetic_worker_src = <?= json_encode(Yii::getAlias('@web/js/chinese_phonetic_worker.js?v=1')) ?>;
     var search_text = <?= json_encode($search) ?>;
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
