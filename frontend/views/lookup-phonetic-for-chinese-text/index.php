@@ -135,8 +135,13 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             renderDetailsView();
         };
 
-        var heavyTasks = [];
-        var currentHeavyTaskIndex = -1;
+        var IS_USE_WORKER = false; //typeof(Worker) !== 'undefined';
+        if (!IS_USE_WORKER) {
+            console.log('Worker will not be used!');
+        }
+        var MAX_CONCURRENT_TASKS = 20;
+        var tasks = [];
+        var currentTaskIndex = -1;
         executedWordsInfo.forEach(function (infoItem, index) {
             detailsViewElmItems[index] = null;
             var error = infoItem['error'];
@@ -159,7 +164,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                 }
             } else {
                 detailsViewElmItems[index] = null;
-                var taskMain = function (viewGroups) {
+                var taskExportOutput = function (viewGroups, taskIndex) {
                     detailsViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
                     paragraphViewArrItems[index] = [];
                     if (viewGroups.length > 0) {
@@ -194,16 +199,18 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                             paragraphViewArrItems[index].push([word, null_rep, null_rep]);
                         });
                     }
-                    if (currentHeavyTaskIndex < heavyTasks.length - 1) {
-                        currentHeavyTaskIndex++;
-                        heavyTasks[currentHeavyTaskIndex]();
+                    console.log('Task ' + taskIndex + ' ended');
+                    if (currentTaskIndex < tasks.length - 1) {
+                        currentTaskIndex++;
+                        tasks[currentTaskIndex](currentTaskIndex);
                     }
                     if (detailsViewElmItems.every(function (item) { return item !== null; })) {
                         renderViews();
                     }
                 };
-                heavyTasks.push(function () {
-                    if (typeof(Worker) !== "undefined") {
+                tasks.push(function (taskIndex) {
+                    console.log('Task ' + taskIndex + ' started');
+                    if (IS_USE_WORKER) {
                         var worker = new Worker(chinese_phonetic_worker_src);
                         worker.postMessage(JSON.stringify({
                             words: words,
@@ -213,10 +220,9 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                         }));
                         worker.addEventListener('message', function (ev) {
                             var viewGroups = ev.data;
-                            taskMain(viewGroups);
+                            taskExportOutput(viewGroups, taskIndex);
                         });
                     } else {
-                        console.log('Worker is not supported!');
                         setTimeout(function () {
                             var viewGroups = ChineseTextAnalyzer.phrasingParse(
                                 words,
@@ -224,16 +230,18 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                                 phrasesData,
                                 wordsJoiner
                             );
-                            taskMain(viewGroups);
+                            taskExportOutput(viewGroups, taskIndex);
                         }, 10);
                     }
                 });
             }
         });
 
-        if (heavyTasks.length > 0) {
-            currentHeavyTaskIndex = 0;
-            heavyTasks[currentHeavyTaskIndex]();
+        if (tasks.length > 0) {
+            for (var i = 0; i <= MAX_CONCURRENT_TASKS && i < tasks.length - 1; i++) {
+                currentTaskIndex = i;
+                tasks[currentTaskIndex](currentTaskIndex);
+            }
         } else {
             renderViews();
         }
