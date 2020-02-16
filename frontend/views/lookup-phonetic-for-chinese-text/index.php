@@ -117,8 +117,8 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
                 if (item[0] === '\n') {
                     return elm('br');
                 } else {
-                    return elm('div', item.map(function (val) {
-                        return elm('div', val);
+                    return elm('span', item.map(function (val) {
+                        return elm('span', val);
                     }));
                 }
             }), {'class': 'paragraph-view'}));

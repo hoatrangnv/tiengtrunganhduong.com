@@ -2046,7 +2046,7 @@ button.audio-inline:disabled {
 #phonetic-lookup .result-box .paragraph-view {
     margin-top: 0.5rem;
 }
-#phonetic-lookup .result-box .paragraph-view > div {
+#phonetic-lookup .result-box .paragraph-view > span {
     display: inline-block;
     padding: 2px;
     cursor: pointer;
@@ -2055,13 +2055,16 @@ button.audio-inline:disabled {
     vertical-align: top;
 
 }
-#phonetic-lookup .result-box .paragraph-view > div:hover {
+#phonetic-lookup .result-box .paragraph-view > span:hover {
     background: #CEF;
 }
-#phonetic-lookup .result-box .paragraph-view > div > :first-child {
+#phonetic-lookup .result-box .paragraph-view > span > span {
+    display: block;
+}
+#phonetic-lookup .result-box .paragraph-view > span > span:first-child {
     font-weight: bold;
 }
-#phonetic-lookup .result-box .paragraph-view > div > :not(:first-child) {
+#phonetic-lookup .result-box .paragraph-view > span > span:not(:first-child) {
     font-size: 0.9em;
     color: #888;
 }
