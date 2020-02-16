@@ -35,7 +35,6 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
         }
     );
     var submitButton = elm("button", "Tra cứu", {type: "submit", "class": "search-button"});
-    var isSubmittingForm = false;
     var form = elm(
         "form",
         [
@@ -56,6 +55,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
     appendChildren(translationRoot, [form, result]);
     requestAndUpdateResult(search_text);
 
+    var isSubmittingForm = false;
     function requestAndUpdateResult(search) {
         if (isSubmittingForm) {
             return;
