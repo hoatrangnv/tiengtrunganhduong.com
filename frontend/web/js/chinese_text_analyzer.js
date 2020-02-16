@@ -1,6 +1,61 @@
 ChineseTextAnalyzer = (function () {
     var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
 
+    function analyzePhrasePhoneticsOfWords(executedWordsInfo, phrasesData, wordsJoiner, callback) {
+        var MAX_CONCURRENT_TASKS = 20;
+        var tasks = [];
+        var currentTaskIndex = -1;
+        var result = [];
+        executedWordsInfo.forEach(function (infoItem, index) {
+            result[index] = null;
+            var error = infoItem['error'];
+            var words = infoItem['words'];
+            var phraseMaxWords = infoItem['phraseMaxWords'];
+            if (error) {
+                result[index] = {
+                    words: words,
+                    error: error
+                };
+            } else {
+                var taskExportOutput = function (phrasePhonetics, taskIndex) {
+                    result[index] = {
+                        words: words,
+                        phrasePhonetics: phrasePhonetics
+                    };
+                    console.log('Task ' + taskIndex + ' ended');
+                    if (currentTaskIndex < tasks.length - 1) {
+                        currentTaskIndex++;
+                        tasks[currentTaskIndex](currentTaskIndex);
+                    }
+                    if (result.every(function (item) { return item !== null; })) {
+                        callback(result);
+                    }
+                };
+                tasks.push(function (taskIndex) {
+                    console.log('Task ' + taskIndex + ' started');
+                    setTimeout(function () {
+                        var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                            words,
+                            phraseMaxWords,
+                            phrasesData,
+                            wordsJoiner
+                        );
+                        taskExportOutput(phrasePhonetics, taskIndex);
+                    }, 10);
+                });
+            }
+        });
+
+        if (tasks.length > 0) {
+            for (var i = 0; i <= MAX_CONCURRENT_TASKS && i < tasks.length - 1; i++) {
+                currentTaskIndex = i;
+                tasks[currentTaskIndex](currentTaskIndex);
+            }
+        } else {
+            callback(result);
+        }
+    }
+
     function phrasingParse(words, phraseMaxWords, phrasesData, wordsJoiner) {
         var rankingTable = getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner);
         var bestCombinations = [];
@@ -19,8 +74,8 @@ ChineseTextAnalyzer = (function () {
             }
         }
 
-        var dictViewGroups = {};
-        var viewGroupKeys = [];
+        var dictPhrasePhonetics = {};
+        var phrasePhoneticKey = [];
         bestCombinations.forEach(function (combination) {
             var phrases = [];
             var phonetics = [];
@@ -39,16 +94,16 @@ ChineseTextAnalyzer = (function () {
             });
             // unique by combination of phonetics
             var key = JSON.stringify(phonetics);
-            if (viewGroupKeys.indexOf(key) < 0) {
-                dictViewGroups[key] = [phrases, phonetics, viPhonetics];
-                viewGroupKeys.push(key);
+            if (phrasePhoneticKey.indexOf(key) < 0) {
+                dictPhrasePhonetics[key] = [phrases, phonetics, viPhonetics];
+                phrasePhoneticKey.push(key);
             }
         });
 
-        return viewGroupKeys.map(function (key) {
+        return phrasePhoneticKey.map(function (key) {
             // split phrase into words if its phonetic is null
-            var viewGroup = dictViewGroups[key];
-            var phrases = viewGroup[0], phonetics = viewGroup[1], viPhonetics = viewGroup[2];
+            var phrasePhonetic = dictPhrasePhonetics[key];
+            var phrases = phrasePhonetic[0], phonetics = phrasePhonetic[1], viPhonetics = phrasePhonetic[2];
             var newPhrases = [], newPhonetics = [], newViPhonetics = [];
             for (var i = 0; i < phrases.length; i++) {
                 if (phonetics[i] === null) {
@@ -198,7 +253,29 @@ ChineseTextAnalyzer = (function () {
     }
 
     return {
+        analyzePhrasePhoneticsOfWords: analyzePhrasePhoneticsOfWords,
         phrasingParse: phrasingParse,
         parseChineseText: parseChineseText
     };
 })();
+
+// web worker
+self.addEventListener('message', function (ev) {
+    try {
+        var args = JSON.parse(ev.data);
+    } catch (err) {
+        return;
+    }
+    switch (args['workerTask']) {
+        case 'analyzePhrasePhoneticsOfWords':
+            ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
+                args['executedWordsInfo'],
+                args['phrasesData'],
+                args['wordsJoiner'],
+                function (result) {
+                    postMessage(result);
+                }
+            );
+            break;
+    }
+}, false);

@@ -20,7 +20,8 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
 </div>
 <script src="<?= $chinese_text_analyzer_src ?>"></script>
 <script>
-    var chinese_phonetic_worker_src = <?= json_encode(Yii::getAlias('@web/js/chinese_phonetic_worker.js?v=1')) ?>;
+    window.isUseWorker = typeof(Worker) !== 'undefined';
+    var chinese_text_analyzer_src = <?= json_encode($chinese_text_analyzer_src) ?>;
     var search_text = <?= json_encode($search) ?>;
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
@@ -134,50 +135,41 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             }
             renderDetailsView();
         };
-
-        var IS_USE_WORKER = false; //typeof(Worker) !== 'undefined';
-        if (!IS_USE_WORKER) {
-            console.log('Worker will not be used!');
-        }
-        var MAX_CONCURRENT_TASKS = 20;
-        var tasks = [];
-        var currentTaskIndex = -1;
-        executedWordsInfo.forEach(function (infoItem, index) {
-            detailsViewElmItems[index] = null;
-            var error = infoItem['error'];
-            var words = infoItem['words'];
-            var phraseMaxWords = infoItem['phraseMaxWords'];
-            if (error) {
-                if (words === null) {
-                    detailsViewElmItems[index] = [
-                        elm('div', error, {'class': 'error'})
-                    ];
-                    paragraphViewArrItems[index] = null;
+        
+        var fillViewItemsWithResultOfPhrasePhonetics = function (result) {
+            result.forEach(function (resultItem, index) {
+                var error = resultItem['error'];
+                var words = resultItem['words'];
+                var phrasePhonetics = resultItem['phrasePhonetics'];
+                if (error) {
+                    if (words === null) {
+                        detailsViewElmItems[index] = [
+                            elm('div', error, {'class': 'error'})
+                        ];
+                        paragraphViewArrItems[index] = null;
+                    } else {
+                        detailsViewElmItems[index] = [
+                            elm('h3', words.join(wordsJoiner)),
+                            elm('div', error, {'class': 'error'})
+                        ];
+                        paragraphViewArrItems[index] = words.map(function (word) {
+                            return [word, null_replacement, null_replacement];
+                        });
+                    }
                 } else {
-                    detailsViewElmItems[index] = [
-                        elm('h3', words.join(wordsJoiner)),
-                        elm('div', error, {'class': 'error'})
-                    ];
-                    paragraphViewArrItems[index] = words.map(function (word) {
-                        return [word, null_replacement, null_replacement];
-                    });
-                }
-            } else {
-                detailsViewElmItems[index] = null;
-                var taskExportOutput = function (viewGroups, taskIndex) {
                     detailsViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
                     paragraphViewArrItems[index] = [];
-                    if (viewGroups.length > 0) {
-                        detailsViewElmItems[index].push.apply(detailsViewElmItems[index], viewGroups.map(function (rows) {
+                    if (phrasePhonetics.length > 0) {
+                        detailsViewElmItems[index].push.apply(detailsViewElmItems[index], phrasePhonetics.map(function (rows) {
                             return elm('table', rows.map(function (cells) {
                                 return elm('tr', cells.map(function (cell) {
                                     return elm('td', cell !== null ? cell : null_replacement);
                                 }));
                             }));
                         }));
-                        var phrases = viewGroups[0][0];
-                        var phonetics = viewGroups[0][1];
-                        var viPhonetics = viewGroups[0][2];
+                        var phrases = phrasePhonetics[0][0];
+                        var phonetics = phrasePhonetics[0][1];
+                        var viPhonetics = phrasePhonetics[0][2];
                         for (var i = 0; i < phrases.length; i++) {
                             var null_rep = null_replacement;
 //                            if (/([0-9]|[a-z])*/i.test(phrases[i])) {
@@ -199,51 +191,39 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                             paragraphViewArrItems[index].push([word, null_rep, null_rep]);
                         });
                     }
-                    console.log('Task ' + taskIndex + ' ended');
-                    if (currentTaskIndex < tasks.length - 1) {
-                        currentTaskIndex++;
-                        tasks[currentTaskIndex](currentTaskIndex);
-                    }
-                    if (detailsViewElmItems.every(function (item) { return item !== null; })) {
-                        renderViews();
-                    }
-                };
-                tasks.push(function (taskIndex) {
-                    console.log('Task ' + taskIndex + ' started');
-                    if (IS_USE_WORKER) {
-                        var worker = new Worker(chinese_phonetic_worker_src);
-                        worker.postMessage(JSON.stringify({
-                            words: words,
-                            phraseMaxWords: phraseMaxWords,
-                            phrasesData: phrasesData,
-                            wordsJoiner: wordsJoiner
-                        }));
-                        worker.addEventListener('message', function (ev) {
-                            var viewGroups = ev.data;
-                            taskExportOutput(viewGroups, taskIndex);
-                        });
-                    } else {
-                        setTimeout(function () {
-                            var viewGroups = ChineseTextAnalyzer.phrasingParse(
-                                words,
-                                phraseMaxWords,
-                                phrasesData,
-                                wordsJoiner
-                            );
-                            taskExportOutput(viewGroups, taskIndex);
-                        }, 10);
-                    }
-                });
-            }
-        });
+                }
+            });
+        };
 
-        if (tasks.length > 0) {
-            for (var i = 0; i <= MAX_CONCURRENT_TASKS && i < tasks.length - 1; i++) {
-                currentTaskIndex = i;
-                tasks[currentTaskIndex](currentTaskIndex);
-            }
+        if (window.isUseWorker) {
+            console.log('Worker ON');
+            console.time('worker ON');
+            var worker = new Worker(chinese_text_analyzer_src);
+            worker.postMessage(JSON.stringify({
+                workerTask: 'analyzePhrasePhoneticsOfWords',
+                executedWordsInfo: executedWordsInfo,
+                phrasesData: phrasesData,
+                wordsJoiner: wordsJoiner
+            }));
+            worker.addEventListener('message', function (ev) {
+                var result = ev.data;
+                fillViewItemsWithResultOfPhrasePhonetics(result);
+                renderViews();
+                console.timeEnd('worker ON');
+            });
         } else {
-            renderViews();
+            console.log('Worker OFF');
+            console.time('Worker OFF');
+            ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
+                executedWordsInfo,
+                phrasesData,
+                wordsJoiner,
+                function (result) {
+                    fillViewItemsWithResultOfPhrasePhonetics(result);
+                    renderViews();
+                    console.timeEnd('Worker OFF');
+                }
+            );
         }
     }
 
