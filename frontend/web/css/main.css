@@ -2017,6 +2017,10 @@ button.audio-inline:disabled {
 #phonetic-lookup .search-button:hover {
     background: #3B7DE0;
 }
+#phonetic-lookup .search-button:disabled {
+    opacity: 0.8;
+    cursor: default;
+}
 #phonetic-lookup .result-box .processing {
     font-weight: bold;
 }

@@ -34,12 +34,14 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
             "class": "search-input",
         }
     );
+    var submitButton = elm("button", "Tra cứu", {type: "submit", "class": "search-button"});
+    var isSubmittingForm = false;
     var form = elm(
         "form",
         [
             input,
             elm('div',
-                elm("button", "Tra cứu", {type: "submit", "class": "search-button"}),
+                submitButton,
                 {"class": "search-button-wrapper clr"}
             )
         ],
@@ -55,17 +57,23 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
     requestAndUpdateResult(search_text);
 
     function requestAndUpdateResult(search) {
-        if ("string" == typeof search && search.trim()) {
-            empty(result);
-            result.appendChild(
-                elm("div", "Đang xử lý...", {'class': 'processing'})
-            );
-            requestPhoneticApi(
-                search,
-                handleOnRequestSuccess,
-                handleOnRequestError
-            );
+        if (isSubmittingForm) {
+            return;
         }
+        if (!search || !search.trim()) {
+            return;
+        }
+        isSubmittingForm = true;
+        submitButton.disabled = true;
+        empty(result);
+        result.appendChild(
+            elm("div", "Đang xử lý...", {'class': 'processing'})
+        );
+        requestPhoneticApi(
+            search,
+            handleOnRequestSuccess,
+            handleOnRequestError
+        );
     }
 
     function handleOnRequestSuccess(data, inputParseResult) {
@@ -134,6 +142,8 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
                 );
             }
             renderDetailsView();
+            isSubmittingForm = false;
+            submitButton.disabled = false;
         };
         
         var fillViewItemsWithResultOfPhrasePhonetics = function (result) {
