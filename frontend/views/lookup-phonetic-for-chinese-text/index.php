@@ -135,7 +135,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             renderDetailsView();
         };
 
-        var IS_USE_WORKER = typeof(Worker) !== 'undefined';
+        var IS_USE_WORKER = false; //typeof(Worker) !== 'undefined';
         if (!IS_USE_WORKER) {
             console.log('Worker will not be used!');
         }
