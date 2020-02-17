@@ -1,6 +1,44 @@
 ChineseTextAnalyzer = (function () {
     var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
 
+    function parseChineseText(text) {
+        var chars = text.split('');
+        var mixedParts = [];
+        var letterPartIndexes = [];
+        let part = [];
+        let isLetterPart = null;
+        chars.forEach(function (char) {
+            if (cjkeRegex.test(char)) {
+                if (isLetterPart === true || isLetterPart === null) {
+                    part.push(char);
+                } else {
+                    mixedParts.push(part);
+                    if (isLetterPart) {
+                        letterPartIndexes.push(mixedParts.length - 1);
+                    }
+                    part = [char];
+                }
+                isLetterPart = true;
+            } else {
+                if (isLetterPart === false || isLetterPart === null) {
+                    part.push(char);
+                } else {
+                    mixedParts.push(part);
+                    if (isLetterPart) {
+                        letterPartIndexes.push(mixedParts.length - 1);
+                    }
+                    part = [char];
+                }
+                isLetterPart = false;
+            }
+        });
+        mixedParts.push(part);
+        if (isLetterPart) {
+            letterPartIndexes.push(mixedParts.length - 1);
+        }
+        return [mixedParts, letterPartIndexes];
+    }
+
     function analyzePhrasePhoneticsOfWords(executedWordsInfo, phrasesData, wordsJoiner, onResult,
                                            maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined)
     {
@@ -164,9 +202,9 @@ ChineseTextAnalyzer = (function () {
     }
 
     function getPhrasesCombinations(words, phraseMaxWords) {
+        console.log('----------getPhrasesCombinations');
+        console.log('number of words', words.length);
         console.time('getPhrasesCombinations');
-        console.log({words, phraseMaxWords});
-
         var minOfCuts = Math.ceil(words.length / phraseMaxWords) - 1;
         var maxOfCuts = words.length - 1;
         var combinations = [];
@@ -186,8 +224,15 @@ ChineseTextAnalyzer = (function () {
         if (numOfCuts === 0) {
             return [[words]];
         }
-        var cutsList = getCombinations(words.length - 1, numOfCuts);
+
+        console.log('----------getPhrasesCombinationsWithCertainNumOfCuts');
+        console.log('numOfCuts', numOfCuts);
+        console.time('getCutsList');
+        var cutsList = getCombinationsWidthSpaceLimit(words.length - 1, numOfCuts, phraseMaxWords);
+        console.log('number of cuts combinations', cutsList.length);
+        console.timeEnd('getCutsList');
         var combinations = [];
+        console.time('parseCutsList');
         cutsList.forEach(function (cuts) {
             var combination = [];
             let phraseWords = [];
@@ -203,11 +248,12 @@ ChineseTextAnalyzer = (function () {
                     combination.push(phraseWords);
                     combinations.push(combination);
                 }
-                if (phraseWords.length > phraseMaxWords) {
-                    return;
-                }
+                // if (phraseWords.length > phraseMaxWords) {
+                //     return;
+                // }
             }
         });
+        console.timeEnd('parseCutsList');
         return combinations;
     }
 
@@ -216,8 +262,7 @@ ChineseTextAnalyzer = (function () {
             throw new Error('k is invalid. Condition: 1 <= k <= n');
         }
         var combinations = [];
-        var a = [];
-        a[0] = 0;
+        var a = [0];
         var pushCombination = () => {
             var c = [];
             for (var i = 1; i <= k; i++) {
@@ -239,42 +284,48 @@ ChineseTextAnalyzer = (function () {
         return combinations;
     }
 
-    function parseChineseText(text) {
-        var chars = text.split('');
-        var mixedParts = [];
-        var letterPartIndexes = [];
-        let part = [];
-        let isLetterPart = null;
-        chars.forEach(function (char) {
-            if (cjkeRegex.test(char)) {
-                if (isLetterPart === true || isLetterPart === null) {
-                    part.push(char);
-                } else {
-                    mixedParts.push(part);
-                    if (isLetterPart) {
-                        letterPartIndexes.push(mixedParts.length - 1);
-                    }
-                    part = [char];
-                }
-                isLetterPart = true;
-            } else {
-                if (isLetterPart === false || isLetterPart === null) {
-                    part.push(char);
-                } else {
-                    mixedParts.push(part);
-                    if (isLetterPart) {
-                        letterPartIndexes.push(mixedParts.length - 1);
-                    }
-                    part = [char];
-                }
-                isLetterPart = false;
-            }
-        });
-        mixedParts.push(part);
-        if (isLetterPart) {
-            letterPartIndexes.push(mixedParts.length - 1);
+    function getCombinationsWidthSpaceLimit(n, k, A) {
+        if (k < 1 || k > n) {
+            throw new Error('k is invalid. Condition: 1 <= k <= n');
         }
-        return [mixedParts, letterPartIndexes];
+        var combinations = [];
+        var a = [0];
+        // var padding = (L) => {
+        //     var str = '';
+        //     for (var i = 0; i < L; i++) str += '     ';
+        //     return str + '|';
+        // };
+        var pushCombination = () => {
+            var c = [];
+            for (var i = 1; i <= k; i++) {
+                c.push(a[i]);
+            }
+            combinations.push(c);
+        };
+        var backtrack = (i) => {
+            // console.log(padding(i), 'backtrack i =', i);
+            for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
+                if (j - a[i - 1] > A) {
+                    // console.log(padding(i), 'break before:', j - (i === 1 ? 1 : a[i - 1]));
+                    break;
+                }
+                if (i === k && n + 1 - j > A) {
+                    // console.log(padding(i), 'continue last:', n - j);
+                    continue;
+                }
+                a[i] = j;
+                // console.log(padding(i), 'j = ', j);
+                // console.log(padding(i), 'a = ', a);
+                if (i === k) {
+                    // console.log(padding(i), 'push --->');
+                    pushCombination();
+                } else {
+                    backtrack(i + 1);
+                }
+            }
+        };
+        backtrack(1);
+        return combinations;
     }
 
     return {
