@@ -22,7 +22,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=8
 <script>
     var chinese_text_analyzer_src = <?= json_encode($chinese_text_analyzer_src) ?>;
     var workerIsSupported = window.Worker !== undefined;
-    window.isUseWorker = false; // worker is slower than main thread. but use main thread will block UI
+    window.isUseWorker = true; // worker ussually is slower than main thread. but use main thread will block UI.
     window.maxConcurrentTasks = window.navigator.hardwareConcurrency * 2;
     if (workerIsSupported) {
         var workersPool = [];
