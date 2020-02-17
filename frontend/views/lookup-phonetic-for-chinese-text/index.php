@@ -11,7 +11,7 @@ use yii\helpers\Url;
  * @var $search string
  */
 
-$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4');
+$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=5');
 ?>
 <div id="phonetic-lookup">
     <h1 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Tra cứu phiên âm' ?></h1>
@@ -108,7 +108,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
         var null_replacement = '_';
         var wordsJoiner = '';
 
-        var executedWordsInfo = data['executedWordsInfo'];
+        var executedClausesInfo = data['executedClausesInfo'];
         var phrasesData = data['phrasesData'];
         var inputMixedParts = inputParseResult[0];
         var inputLetterPartIndexes = inputParseResult[1];
@@ -236,7 +236,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
         var workerOn = window.isUseWorker && workerIsSupported;
         console.time(workerOn ? 'Worker ON' : 'Worker OFF');
         ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
-            executedWordsInfo,
+            executedClausesInfo,
             phrasesData,
             wordsJoiner,
             function (result) {
@@ -259,7 +259,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
 
     function requestPhoneticApi(search, onSuccess, onError) {
         var webUrl = "<?= Url::to(['lookup-phonetic-for-chinese-text/index', 'search' => '__SEARCH__']) ?>";
-        var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup', 'wordsList' => '__WORDS__']) ?>";
+        var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup', 'clauses' => '__CLAUSES__']) ?>";
 
         search = search.split(' ').join(''); // chinese does not use white space
         var stateUrl = webUrl.split("__SEARCH__").join(search.split('\n').join('%0D%0A')); // %0D%0A represents for line break
@@ -268,7 +268,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
         var inputParseResult = ChineseTextAnalyzer.parseChineseText(search);
         var inputMixedParts = inputParseResult[0];
         var inputLetterPartIndexes = inputParseResult[1];
-        var wordsList = inputLetterPartIndexes.map(function (letterPartIndex) {
+        var clauses = inputLetterPartIndexes.map(function (letterPartIndex) {
             return inputMixedParts[letterPartIndex];
         });
 
@@ -284,9 +284,9 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
             }
         });
         xhr.addEventListener("error", function () {
-            onError("An error occurred.")
+            onError("An error occurred.");
         });
-        xhr.open("GET", apiUrl.split("__WORDS__").join(JSON.stringify(wordsList)));
+        xhr.open("GET", apiUrl.split("__CLAUSES__").join(JSON.stringify(clauses)));
         xhr.send();
     }
 </script>

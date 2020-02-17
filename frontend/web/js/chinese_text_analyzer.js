@@ -1,6 +1,17 @@
 ChineseTextAnalyzer = (function () {
     var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
 
+    var getPhraseAddress = function (clauseIndex, startCut, endCut) {
+        return 1000000000 + clauseIndex * 1000000 + startCut * 1000 + endCut;
+    };
+
+    var extractInfoFromPhraseAddress = function (address) {
+        var endCut = address % 1000;
+        address = (address - endCut) / 1000;
+        var startCut = address % 1000;
+        return [((address - startCut) / 1000) % 1000, startCut, endCut];
+    };
+
     function parseChineseText(text) {
         var chars = text.split('');
         var mixedParts = [];
@@ -39,13 +50,13 @@ ChineseTextAnalyzer = (function () {
         return [mixedParts, letterPartIndexes];
     }
 
-    function analyzePhrasePhoneticsOfWords(executedWordsInfo, phrasesData, wordsJoiner, onResult,
+    function analyzePhrasePhoneticsOfWords(executedClausesInfo, phrasesData, wordsJoiner, onResult,
                                            maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined)
     {
         var tasks = [];
         var currentTaskIndex = -1;
         var result = [];
-        executedWordsInfo.forEach(function (infoItem, clauseIndex) {
+        executedClausesInfo.forEach(function (infoItem, clauseIndex) {
             result[clauseIndex] = null;
             var error = infoItem['error'];
             var words = infoItem['words'];
@@ -142,11 +153,23 @@ ChineseTextAnalyzer = (function () {
             var phonetics = [];
             var viPhonetics = [];
             combination.forEach(function (address) {
-                var item = phrasesData[address];
-
-                phrases.push(item[0]);
-                phonetics.push(item[1] || null);
-                viPhonetics.push(item[2] || null);
+                var addressInfo = extractInfoFromPhraseAddress(address);
+                var phrase = '';
+                for (var i = addressInfo[1]; i < addressInfo[2]; i++) {
+                    if (i > addressInfo[1]) {
+                        phrase += wordsJoiner;
+                    }
+                    phrase += words[i];
+                }
+                phrases.push(phrase);
+                var phraseInfo = phrasesData[address];
+                if (phraseInfo) {
+                    phonetics.push(phraseInfo[0]);
+                    viPhonetics.push(phraseInfo[1]);
+                } else {
+                    phonetics.push(null);
+                    viPhonetics.push(null);
+                }
             });
             // unique by combination of phonetics
             var key = JSON.stringify(phonetics);
@@ -188,8 +211,9 @@ ChineseTextAnalyzer = (function () {
         getPhraseAddressesCombinations(clauseIndex, words.length, phraseMaxWords).forEach(function (combination) {
             let score = 0;
             combination.forEach(function (address) {
-                if (phrasesData[address][1]) {
-                    score += phrasesData[address][0].length; // 0 --> phrase
+                if (phrasesData[address]) {
+                    var info = extractInfoFromPhraseAddress(address);
+                    score += info[2] - info[1]; // endCut - startCut
                 }
             });
             rankingTable[score].push(combination);
@@ -201,20 +225,17 @@ ChineseTextAnalyzer = (function () {
         var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
         var maxOfCuts = clauseNumWords - 1;
         var combinations = [];
-        var address = function (startCut, endCut) {
-            return 1000000000 + clauseIndex * 1000000 + startCut * 1000 + endCut;
-        };
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
             getCombinationsWidthSpaceLimit(clauseNumWords - 1, numOfCuts, phraseMaxWords).forEach(function (cuts) {
                 var combination = [];
                 for (var i = 0; i < cuts.length; i++) {
                     if (i === 0) {
-                        combination.push(address(0, cuts[i]));
+                        combination.push(getPhraseAddress(clauseIndex, 0, cuts[i]));
                     } else if (i === cuts.length - 1) {
-                        combination.push(address(cuts[i - 1], cuts[i]));
-                        combination.push(address(cuts[i], clauseNumWords));
+                        combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
+                        combination.push(getPhraseAddress(clauseIndex, cuts[i], clauseNumWords));
                     } else {
-                        combination.push(address(cuts[i - 1], cuts[i]));
+                        combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
                     }
                 }
                 combinations.push(combination);
@@ -311,7 +332,7 @@ self.onmessage = function (ev) {
     switch (args['workerTask']) {
         case 'analyzePhrasePhoneticsOfWords':
             ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
-                args['executedWordsInfo'],
+                args['executedClausesInfo'],
                 args['phrasesData'],
                 args['wordsJoiner'],
                 function (result) {
