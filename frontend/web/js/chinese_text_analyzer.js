@@ -68,7 +68,7 @@ ChineseTextAnalyzer = (function () {
         });
 
         if (tasks.length > 0) {
-            for (var i = 0; i < maxConcurrentTasks && i < tasks.length - 1; i++) {
+            for (var i = 0; i < maxConcurrentTasks && i <= tasks.length - 1; i++) {
                 currentTaskIndex = i;
                 tasks[currentTaskIndex](currentTaskIndex);
             }

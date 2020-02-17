@@ -22,7 +22,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=3
 <script>
     var chinese_text_analyzer_src = <?= json_encode($chinese_text_analyzer_src) ?>;
     var workerIsSupported = SharedWorker !== undefined;
-    window.isUseWorker = true;
+    window.isUseWorker = false;
     window.maxConcurrentTasks = window.navigator.hardwareConcurrency * 2;
     if (workerIsSupported) {
         var workersPool = [];
@@ -47,7 +47,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=3
             workersTrack[i] = true;
         }
     } else {
-        console.log('worker is not supported!');
+        console.log('Worker is not supported!');
     }
 
     var search_text = <?= json_encode($search) ?>;
@@ -271,6 +271,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=3
         var wordsList = inputLetterPartIndexes.map(function (letterPartIndex) {
             return inputMixedParts[letterPartIndex];
         });
+
 
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function () {
