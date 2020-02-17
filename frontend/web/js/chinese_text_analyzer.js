@@ -45,19 +45,19 @@ ChineseTextAnalyzer = (function () {
         var tasks = [];
         var currentTaskIndex = -1;
         var result = [];
-        executedWordsInfo.forEach(function (infoItem, index) {
-            result[index] = null;
+        executedWordsInfo.forEach(function (infoItem, clauseIndex) {
+            result[clauseIndex] = null;
             var error = infoItem['error'];
             var words = infoItem['words'];
             var phraseMaxWords = infoItem['phraseMaxWords'];
             if (error) {
-                result[index] = {
+                result[clauseIndex] = {
                     words: words,
                     error: error
                 };
             } else {
                 var taskExportOutput = function (phrasePhonetics, taskIndex) {
-                    result[index] = {
+                    result[clauseIndex] = {
                         words: words,
                         phrasePhonetics: phrasePhonetics
                     };
@@ -78,6 +78,7 @@ ChineseTextAnalyzer = (function () {
                         var workerIndex = workerAndIndex[1];
                         worker.postMessage(JSON.stringify({
                             workerTask: 'phrasingParse',
+                            clauseIndex: clauseIndex,
                             words: words,
                             phraseMaxWords: phraseMaxWords,
                             phrasesData: phrasesData,
@@ -93,6 +94,7 @@ ChineseTextAnalyzer = (function () {
                     } else {
                         setTimeout(function () {
                             var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                                clauseIndex,
                                 words,
                                 phraseMaxWords,
                                 phrasesData,
@@ -115,8 +117,8 @@ ChineseTextAnalyzer = (function () {
         }
     }
 
-    function phrasingParse(words, phraseMaxWords, phrasesData, wordsJoiner) {
-        var rankingTable = getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner);
+    function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner) {
+        var rankingTable = getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData);
         var bestCombinations = [];
         for (let score = rankingTable.length - 1; score > 0; score--) {
             if (rankingTable[score].length > 0) {
@@ -139,17 +141,12 @@ ChineseTextAnalyzer = (function () {
             var phrases = [];
             var phonetics = [];
             var viPhonetics = [];
-            combination.forEach(function (phraseWords) {
-                var phrase = phraseWords.join(wordsJoiner);
-                phrases.push(phrase);
-                var item = phrasesData[phrase];
-                if (item) {
-                    phonetics.push(item[0]);
-                    viPhonetics.push(item[1]);
-                } else {
-                    phonetics.push(null);
-                    viPhonetics.push(null);
-                }
+            combination.forEach(function (address) {
+                var item = phrasesData[address];
+
+                phrases.push(item[0]);
+                phonetics.push(item[1] || null);
+                viPhonetics.push(item[2] || null);
             });
             // unique by combination of phonetics
             var key = JSON.stringify(phonetics);
@@ -182,105 +179,47 @@ ChineseTextAnalyzer = (function () {
         });
     }
 
-    function getPhrasesRankingTable(words, phraseMaxWords, phrasesData, wordsJoiner) {
+    function getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData) {
+        console.log('clauseIndex', clauseIndex);
         var rankingTable = [];
         for (let score = 0; score <= words.length; score++) {
             rankingTable[score] = [];
         }
-        getPhrasesCombinations(words, phraseMaxWords).forEach(function (combination) {
+        getPhraseAddressesCombinations(clauseIndex, words.length, phraseMaxWords).forEach(function (combination) {
             let score = 0;
-            combination.forEach(function (phraseWords) {
-                var phrase = phraseWords.join(wordsJoiner);
-                if (phrasesData.hasOwnProperty(phrase)) {
-                    score += phrase.length;
+            combination.forEach(function (address) {
+                if (phrasesData[address][1]) {
+                    score += phrasesData[address][0].length; // 0 --> phrase
                 }
             });
             rankingTable[score].push(combination);
         });
-
         return rankingTable;
     }
 
-    function getPhrasesCombinations(words, phraseMaxWords) {
-        console.log('----------getPhrasesCombinations');
-        console.log('number of words', words.length);
-        console.time('getPhrasesCombinations');
-        var minOfCuts = Math.ceil(words.length / phraseMaxWords) - 1;
-        var maxOfCuts = words.length - 1;
+    function getPhraseAddressesCombinations(clauseIndex, clauseNumWords, phraseMaxWords) {
+        var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
+        var maxOfCuts = clauseNumWords - 1;
         var combinations = [];
+        var address = function (startCut, endCut) {
+            return 1000000000 + clauseIndex * 1000000 + startCut * 1000 + endCut;
+        };
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
-            getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts, phraseMaxWords).forEach(function (combination) {
+            getCombinationsWidthSpaceLimit(clauseNumWords - 1, numOfCuts, phraseMaxWords).forEach(function (cuts) {
+                var combination = [];
+                for (var i = 0; i < cuts.length; i++) {
+                    if (i === 0) {
+                        combination.push(address(0, cuts[i]));
+                    } else if (i === cuts.length - 1) {
+                        combination.push(address(cuts[i - 1], cuts[i]));
+                        combination.push(address(cuts[i], clauseNumWords));
+                    } else {
+                        combination.push(address(cuts[i - 1], cuts[i]));
+                    }
+                }
                 combinations.push(combination);
             });
         }
-        console.timeEnd('getPhrasesCombinations');
-        return combinations;
-    }
-
-    function getPhrasesCombinationsWithCertainNumOfCuts(words, numOfCuts, phraseMaxWords) {
-        if (numOfCuts < 0 || numOfCuts > words.length - 1) {
-            throw new Error('Invalid numOfCuts: ' + numOfCuts);
-        }
-        if (numOfCuts === 0) {
-            return [[words]];
-        }
-
-        console.log('----------getPhrasesCombinationsWithCertainNumOfCuts');
-        console.log('numOfCuts', numOfCuts);
-        console.time('getCutsList');
-        var cutsList = getCombinationsWidthSpaceLimit(words.length - 1, numOfCuts, phraseMaxWords);
-        console.log('number of cuts combinations', cutsList.length);
-        console.timeEnd('getCutsList');
-        var combinations = [];
-        console.time('parseCutsList');
-        cutsList.forEach(function (cuts) {
-            var combination = [];
-            let phraseWords = [];
-            let cutIndex = 0;
-            for (let c = 1; c <= words.length; c++) {
-                phraseWords.push(words[c - 1]);
-                let cut = cuts[cutIndex];
-                if (cut === c) {
-                    combination.push(phraseWords);
-                    phraseWords = [];
-                    cutIndex++;
-                } else if (c === words.length) {
-                    combination.push(phraseWords);
-                    combinations.push(combination);
-                }
-                // if (phraseWords.length > phraseMaxWords) {
-                //     return;
-                // }
-            }
-        });
-        console.timeEnd('parseCutsList');
-        return combinations;
-    }
-
-    function getCombinations(n, k) {
-        if (k < 1 || k > n) {
-            throw new Error('k is invalid. Condition: 1 <= k <= n');
-        }
-        var combinations = [];
-        var a = [0];
-        var pushCombination = () => {
-            var c = [];
-            for (var i = 1; i <= k; i++) {
-                c.push(a[i]);
-            }
-            combinations.push(c);
-        };
-        var backtrack = (i) => {
-            for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
-                a[i] = j;
-                if (i === k) {
-                    pushCombination();
-                } else {
-                    backtrack(i + 1);
-                }
-            }
-        };
-        backtrack(1);
         return combinations;
     }
 
@@ -328,6 +267,33 @@ ChineseTextAnalyzer = (function () {
         return combinations;
     }
 
+    function getCombinations(n, k) {
+        if (k < 1 || k > n) {
+            throw new Error('k is invalid. Condition: 1 <= k <= n');
+        }
+        var combinations = [];
+        var a = [0];
+        var pushCombination = () => {
+            var c = [];
+            for (var i = 1; i <= k; i++) {
+                c.push(a[i]);
+            }
+            combinations.push(c);
+        };
+        var backtrack = (i) => {
+            for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
+                a[i] = j;
+                if (i === k) {
+                    pushCombination();
+                } else {
+                    backtrack(i + 1);
+                }
+            }
+        };
+        backtrack(1);
+        return combinations;
+    }
+
     return {
         analyzePhrasePhoneticsOfWords: analyzePhrasePhoneticsOfWords,
         phrasingParse: phrasingParse,
@@ -355,6 +321,7 @@ self.onmessage = function (ev) {
             break;
         case 'phrasingParse':
             var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                args['clauseIndex'],
                 args['words'],
                 args['phraseMaxWords'],
                 args['phrasesData'],

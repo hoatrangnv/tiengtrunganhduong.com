@@ -21,17 +21,18 @@ class ChinesePhrasePhoneticApiController extends Controller
 
     public function actionLookup() {
         $response = ['data' => null, 'error_message' => null];
-        $wordsListJson = \Yii::$app->request->get('wordsList', null);
+        $clausesJson = \Yii::$app->request->get('wordsList', null);
         try {
-            $wordsList = array_values(json_decode($wordsListJson, true));
+            $clauses = array_values(json_decode($clausesJson, true));
         } catch (\Exception $exception) {
             $response['error_message'] = $exception->getMessage();
             return $response;
         }
         $executedWordsInfo = [];
-        $uniquePhrasesObj = [];
+        $phraseAddresses = [];
+        $phrasesData = [];
         $totalExecutedWords = 0;
-        foreach ($wordsList as $index => $words) {
+        foreach ($clauses as $clauseIndex => $words) {
             $clauseNumWords = count($words);
             $exportItem = ['words' => $words];
             if ($clauseNumWords > self::CLAUSE_MAX_WORDS) {
@@ -51,31 +52,36 @@ class ChinesePhrasePhoneticApiController extends Controller
             $executedWordsInfo[] = $exportItem;
 
             // execute
-            $allPhrases = [];
             for ($phraseNumWords = 1; $phraseNumWords <= $phraseMaxWords; $phraseNumWords++) {
                 for ($startWordIndex = 0; $startWordIndex < $clauseNumWords - $phraseNumWords + 1; $startWordIndex++) {
                     $phrase = '';
-                    for ($i = $startWordIndex; $i < $startWordIndex + $phraseNumWords; $i++) {
-                        $phrase .= $words[$i];
+                    for ($endWordIndex = $startWordIndex; $endWordIndex < $startWordIndex + $phraseNumWords; $endWordIndex++) {
+                        $phrase .= $words[$endWordIndex];
                     }
-                    $allPhrases[] = $phrase;
-                    $uniquePhrasesObj[$phrase] = true;
+                    // *Note that
+                    // startWordIndex === start slice index
+                    // endWordIndex++ === end slice index
+                    $address = 1000000000 + $clauseIndex * 1000000 + $startWordIndex * 1000 + $endWordIndex;
+                    if (!isset($phraseAddresses[$phrase])) {
+                        $phraseAddresses[$phrase] = [ $address ];
+                    } else {
+                        $phraseAddresses[$phrase][] = $address;
+                    }
+                    $phrasesData[$address] = [ $phrase ];
                 }
             }
         }
         $response['data']['executedWordsInfo'] = $executedWordsInfo;
 
-        $uniquePhrases = array_keys($uniquePhrasesObj);
         /**
          * @var $phoneticRecords ChinesePhrasePhonetic[]
          */
-        $phoneticRecords = ChinesePhrasePhonetic::find()->where(['IN', 'phrase', $uniquePhrases])->all();
-        $phrasesData = [];
+        $phoneticRecords = ChinesePhrasePhonetic::find()->where(['IN', 'phrase', array_keys($phraseAddresses)])->all();
         foreach ($phoneticRecords as $record) {
-            $phrasesData[$record->phrase] = [
-                $record->phonetic,
-                $record->vi_phonetic,
-            ];
+            foreach ($phraseAddresses[$record->phrase] as $address) {
+                $phrasesData[$address][1] = $record->phonetic;
+                $phrasesData[$address][2] = $record->vi_phonetic;
+            }
         }
         $response['data']['phrasesData'] = $phrasesData;
 
