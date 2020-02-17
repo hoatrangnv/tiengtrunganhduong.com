@@ -21,14 +21,14 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
 <script src="<?= $chinese_text_analyzer_src ?>"></script>
 <script>
     var chinese_text_analyzer_src = <?= json_encode($chinese_text_analyzer_src) ?>;
-    var workerIsSupported = window.SharedWorker !== undefined;
-    window.isUseWorker = false;
+    var workerIsSupported = window.Worker !== undefined;
+    window.isUseWorker = true;
     window.maxConcurrentTasks = window.navigator.hardwareConcurrency * 2;
     if (workerIsSupported) {
         var workersPool = [];
         var workersTrack = [];
         for (var i = 0; i < window.maxConcurrentTasks; i++) {
-            workersPool.push(new window.SharedWorker(chinese_text_analyzer_src));
+            workersPool.push(new window.Worker(chinese_text_analyzer_src));
             workersTrack.push(true);
         }
         function getFreeWorker() {
@@ -38,7 +38,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=4
                     return [workersPool[i], i];
                 }
             }
-            workersPool.push(new window.SharedWorker(chinese_text_analyzer_src));
+            workersPool.push(new window.Worker(chinese_text_analyzer_src));
             workersTrack.push(false);
             var index = workersTrack.length - 1;
             return [workersPool[index], index];

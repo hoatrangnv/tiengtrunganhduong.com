@@ -38,14 +38,14 @@ ChineseTextAnalyzer = (function () {
                         var workerAndIndex = getFreeWorker();
                         var worker = workerAndIndex[0];
                         var workerIndex = workerAndIndex[1];
-                        worker.port.postMessage(JSON.stringify({
+                        worker.postMessage(JSON.stringify({
                             workerTask: 'phrasingParse',
                             words: words,
                             phraseMaxWords: phraseMaxWords,
                             phrasesData: phrasesData,
                             wordsJoiner: wordsJoiner
                         }));
-                        worker.port.onmessage = function (ev) {
+                        worker.onmessage = function (ev) {
                             if (setWorkerIsFree) {
                                 setWorkerIsFree(workerIndex);
                             }
@@ -285,36 +285,31 @@ ChineseTextAnalyzer = (function () {
 })();
 
 // shared worker
-onconnect = function(ev) {
-    var port = ev.ports[0];
-
-    port.onmessage = function (ev) {
-        try {
-            var args = JSON.parse(ev.data);
-        } catch (err) {
-            return;
-        }
-        switch (args['workerTask']) {
-            case 'analyzePhrasePhoneticsOfWords':
-                ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
-                    args['executedWordsInfo'],
-                    args['phrasesData'],
-                    args['wordsJoiner'],
-                    function (result) {
-                        port.postMessage(result);
-                    }
-                );
-                break;
-            case 'phrasingParse':
-                var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
-                    args['words'],
-                    args['phraseMaxWords'],
-                    args['phrasesData'],
-                    args['wordsJoiner']
-                );
-                port.postMessage(phrasePhonetics);
-                break;
-
-        }
-    };
+self.onmessage = function (ev) {
+    try {
+        var args = JSON.parse(ev.data);
+    } catch (err) {
+        return;
+    }
+    switch (args['workerTask']) {
+        case 'analyzePhrasePhoneticsOfWords':
+            ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
+                args['executedWordsInfo'],
+                args['phrasesData'],
+                args['wordsJoiner'],
+                function (result) {
+                    postMessage(result);
+                }
+            );
+            break;
+        case 'phrasingParse':
+            var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                args['words'],
+                args['phraseMaxWords'],
+                args['phrasesData'],
+                args['wordsJoiner']
+            );
+            postMessage(phrasePhonetics);
+            break;
+    }
 };
