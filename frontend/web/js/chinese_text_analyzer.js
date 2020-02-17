@@ -226,6 +226,10 @@ ChineseTextAnalyzer = (function () {
         var maxOfCuts = clauseNumWords - 1;
         var combinations = [];
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
+            if (numOfCuts === 0) {
+                combinations.push([[0, clauseNumWords]]);
+                continue;
+            }
             getCombinationsWidthSpaceLimit(clauseNumWords - 1, numOfCuts, phraseMaxWords).forEach(function (cuts) {
                 var combination = [];
                 for (var i = 0; i < cuts.length; i++) {
@@ -246,7 +250,7 @@ ChineseTextAnalyzer = (function () {
 
     function getCombinationsWidthSpaceLimit(n, k, A) {
         if (k < 1 || k > n) {
-            throw new Error('k is invalid. Condition: 1 <= k <= n');
+            throw new Error('k is invalid. Condition: 1 <= k <= n. Received k = ' + k);
         }
         var combinations = [];
         var a = [0];
