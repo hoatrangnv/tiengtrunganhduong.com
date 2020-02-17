@@ -130,6 +130,7 @@ ChineseTextAnalyzer = (function () {
 
     function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner) {
         var rankingTable = getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData);
+        console.log('rankingTable', rankingTable);
         var bestCombinations = [];
         for (let score = rankingTable.length - 1; score > 0; score--) {
             if (rankingTable[score].length > 0) {
@@ -146,6 +147,7 @@ ChineseTextAnalyzer = (function () {
             }
         }
 
+        console.log('bestCombinations', bestCombinations);
         var dictPhrasePhonetics = {};
         var phrasePhoneticKey = [];
         bestCombinations.forEach(function (combination) {
@@ -161,6 +163,7 @@ ChineseTextAnalyzer = (function () {
                     }
                     phrase += words[i];
                 }
+                console.log('address', address, addressInfo, phrase);
                 phrases.push(phrase);
                 var phraseInfo = phrasesData[address];
                 if (phraseInfo) {
@@ -203,7 +206,6 @@ ChineseTextAnalyzer = (function () {
     }
 
     function getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData) {
-        console.log('clauseIndex', clauseIndex);
         var rankingTable = [];
         for (let score = 0; score <= words.length; score++) {
             rankingTable[score] = [];
@@ -227,21 +229,16 @@ ChineseTextAnalyzer = (function () {
         var combinations = [];
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
             if (numOfCuts === 0) {
-                combinations.push([[0, clauseNumWords]]);
+                combinations.push([ getPhraseAddress(clauseIndex, 0, clauseNumWords) ]);
                 continue;
             }
             getCombinationsWidthSpaceLimit(clauseNumWords - 1, numOfCuts, phraseMaxWords).forEach(function (cuts) {
-                var combination = [];
-                for (var i = 0; i < cuts.length; i++) {
-                    if (i === 0) {
-                        combination.push(getPhraseAddress(clauseIndex, 0, cuts[i]));
-                    } else if (i === cuts.length - 1) {
-                        combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
-                        combination.push(getPhraseAddress(clauseIndex, cuts[i], clauseNumWords));
-                    } else {
-                        combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
-                    }
+                // `cuts` never empty with passed arguments
+                var combination = [ getPhraseAddress(clauseIndex, 0, cuts[0]) ];
+                for (var i = 1; i < cuts.length; i++) {
+                    combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
                 }
+                combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], clauseNumWords));
                 combinations.push(combination);
             });
         }
