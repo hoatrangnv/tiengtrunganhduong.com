@@ -130,7 +130,6 @@ ChineseTextAnalyzer = (function () {
 
     function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner) {
         var rankingTable = getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData);
-        console.log('rankingTable', rankingTable);
         var bestCombinations = [];
         for (let score = rankingTable.length - 1; score > 0; score--) {
             if (rankingTable[score].length > 0) {
@@ -147,7 +146,6 @@ ChineseTextAnalyzer = (function () {
             }
         }
 
-        console.log('bestCombinations', bestCombinations);
         var dictPhrasePhonetics = {};
         var phrasePhoneticKey = [];
         bestCombinations.forEach(function (combination) {
@@ -163,7 +161,6 @@ ChineseTextAnalyzer = (function () {
                     }
                     phrase += words[i];
                 }
-                console.log('address', address, addressInfo, phrase);
                 phrases.push(phrase);
                 var phraseInfo = phrasesData[address];
                 if (phraseInfo) {
@@ -234,12 +231,12 @@ ChineseTextAnalyzer = (function () {
             }
             getCombinationsWidthSpaceLimit(clauseNumWords - 1, numOfCuts, phraseMaxWords).forEach(function (cuts) {
                 // `cuts` never empty with passed arguments
-                var combination = [ getPhraseAddress(clauseIndex, 0, cuts[0]) ];
+                var com = [ getPhraseAddress(clauseIndex, 0, cuts[0]) ];
                 for (var i = 1; i < cuts.length; i++) {
-                    combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
+                    com.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
                 }
-                combination.push(getPhraseAddress(clauseIndex, cuts[i - 1], clauseNumWords));
-                combinations.push(combination);
+                com.push(getPhraseAddress(clauseIndex, cuts[i - 1], clauseNumWords));
+                combinations.push(com);
             });
         }
         return combinations;
