@@ -1,8 +1,9 @@
 ChineseTextAnalyzer = (function () {
     var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
 
-    function analyzePhrasePhoneticsOfWords(executedWordsInfo, phrasesData, wordsJoiner, callback) {
-        var MAX_CONCURRENT_TASKS = 20;
+    function analyzePhrasePhoneticsOfWords(executedWordsInfo, phrasesData, wordsJoiner, onResult,
+                                           maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined)
+    {
         var tasks = [];
         var currentTaskIndex = -1;
         var result = [];
@@ -28,31 +29,51 @@ ChineseTextAnalyzer = (function () {
                         tasks[currentTaskIndex](currentTaskIndex);
                     }
                     if (result.every(function (item) { return item !== null; })) {
-                        callback(result);
+                        onResult(result);
                     }
                 };
                 tasks.push(function (taskIndex) {
                     console.log('Task ' + taskIndex + ' started');
-                    setTimeout(function () {
-                        var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
-                            words,
-                            phraseMaxWords,
-                            phrasesData,
-                            wordsJoiner
-                        );
-                        taskExportOutput(phrasePhonetics, taskIndex);
-                    }, 10);
+                    if (getFreeWorker) {
+                        var workerAndIndex = getFreeWorker();
+                        var worker = workerAndIndex[0];
+                        var workerIndex = workerAndIndex[1];
+                        worker.port.postMessage(JSON.stringify({
+                            workerTask: 'phrasingParse',
+                            words: words,
+                            phraseMaxWords: phraseMaxWords,
+                            phrasesData: phrasesData,
+                            wordsJoiner: wordsJoiner
+                        }));
+                        worker.port.onmessage = function (ev) {
+                            if (setWorkerIsFree) {
+                                setWorkerIsFree(workerIndex);
+                            }
+                            var phrasePhonetics = ev.data;
+                            taskExportOutput(phrasePhonetics, taskIndex);
+                        };
+                    } else {
+                        setTimeout(function () {
+                            var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                                words,
+                                phraseMaxWords,
+                                phrasesData,
+                                wordsJoiner
+                            );
+                            taskExportOutput(phrasePhonetics, taskIndex);
+                        }, 10);
+                    }
                 });
             }
         });
 
         if (tasks.length > 0) {
-            for (var i = 0; i <= MAX_CONCURRENT_TASKS && i < tasks.length - 1; i++) {
+            for (var i = 0; i < maxConcurrentTasks && i < tasks.length - 1; i++) {
                 currentTaskIndex = i;
                 tasks[currentTaskIndex](currentTaskIndex);
             }
         } else {
-            callback(result);
+            onResult(result);
         }
     }
 
@@ -143,6 +164,9 @@ ChineseTextAnalyzer = (function () {
     }
 
     function getPhrasesCombinations(words, phraseMaxWords) {
+        console.time('getPhrasesCombinations');
+        console.log({words, phraseMaxWords});
+
         var minOfCuts = Math.ceil(words.length / phraseMaxWords) - 1;
         var maxOfCuts = words.length - 1;
         var combinations = [];
@@ -151,6 +175,7 @@ ChineseTextAnalyzer = (function () {
                 combinations.push(combination);
             });
         }
+        console.timeEnd('getPhrasesCombinations');
         return combinations;
     }
 
@@ -259,23 +284,37 @@ ChineseTextAnalyzer = (function () {
     };
 })();
 
-// web worker
-self.addEventListener('message', function (ev) {
-    try {
-        var args = JSON.parse(ev.data);
-    } catch (err) {
-        return;
-    }
-    switch (args['workerTask']) {
-        case 'analyzePhrasePhoneticsOfWords':
-            ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
-                args['executedWordsInfo'],
-                args['phrasesData'],
-                args['wordsJoiner'],
-                function (result) {
-                    postMessage(result);
-                }
-            );
-            break;
-    }
-}, false);
+// shared worker
+onconnect = function(ev) {
+    var port = ev.ports[0];
+
+    port.onmessage = function (ev) {
+        try {
+            var args = JSON.parse(ev.data);
+        } catch (err) {
+            return;
+        }
+        switch (args['workerTask']) {
+            case 'analyzePhrasePhoneticsOfWords':
+                ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
+                    args['executedWordsInfo'],
+                    args['phrasesData'],
+                    args['wordsJoiner'],
+                    function (result) {
+                        port.postMessage(result);
+                    }
+                );
+                break;
+            case 'phrasingParse':
+                var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                    args['words'],
+                    args['phraseMaxWords'],
+                    args['phrasesData'],
+                    args['wordsJoiner']
+                );
+                port.postMessage(phrasePhonetics);
+                break;
+
+        }
+    };
+};

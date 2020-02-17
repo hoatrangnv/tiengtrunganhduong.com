@@ -20,8 +20,36 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
 </div>
 <script src="<?= $chinese_text_analyzer_src ?>"></script>
 <script>
-    window.isUseWorker = typeof(Worker) !== 'undefined';
     var chinese_text_analyzer_src = <?= json_encode($chinese_text_analyzer_src) ?>;
+    var workerIsSupported = SharedWorker !== undefined;
+    window.isUseWorker = true;
+    window.maxConcurrentTasks = window.navigator.hardwareConcurrency * 2;
+    if (workerIsSupported) {
+        var workersPool = [];
+        var workersTrack = [];
+        for (var i = 0; i < window.maxConcurrentTasks; i++) {
+            workersPool.push(new SharedWorker(chinese_text_analyzer_src));
+            workersTrack.push(true);
+        }
+        function getFreeWorker() {
+            for (var i = 0; i < workersTrack.length; i++) {
+                if (workersTrack[i]) {
+                    workersTrack[i] = false;
+                    return [workersPool[i], i];
+                }
+            }
+            workersPool.push(new SharedWorker(chinese_text_analyzer_src));
+            workersTrack.push(false);
+            var index = workersTrack.length - 1;
+            return [workersPool[index], index];
+        }
+        function setWorkerIsFree(i) {
+            workersTrack[i] = true;
+        }
+    } else {
+        console.log('worker is not supported!');
+    }
+
     var search_text = <?= json_encode($search) ?>;
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
@@ -97,7 +125,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
                 }, []), {'class': 'details-view'})
             ]);
         };
-        
+
         var renderParagraphView = function () {
             appendChildren(result, [elm('h2', 'Kết quả', {'class': 'paragraph-heading'})]);
             var flatArrItems = [];
@@ -145,7 +173,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
             isSubmittingForm = false;
             submitButton.disabled = false;
         };
-        
+
         var fillViewItemsWithResultOfPhrasePhonetics = function (result) {
             result.forEach(function (resultItem, index) {
                 var error = resultItem['error'];
@@ -205,36 +233,21 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=2
             });
         };
 
-        if (window.isUseWorker) {
-            console.log('Worker ON');
-            console.time('worker ON');
-            var worker = new Worker(chinese_text_analyzer_src);
-            worker.postMessage(JSON.stringify({
-                workerTask: 'analyzePhrasePhoneticsOfWords',
-                executedWordsInfo: executedWordsInfo,
-                phrasesData: phrasesData,
-                wordsJoiner: wordsJoiner
-            }));
-            worker.addEventListener('message', function (ev) {
-                var result = ev.data;
+        var workerOn = window.isUseWorker && workerIsSupported;
+        console.time(workerOn ? 'Worker ON' : 'Worker OFF');
+        ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
+            executedWordsInfo,
+            phrasesData,
+            wordsJoiner,
+            function (result) {
                 fillViewItemsWithResultOfPhrasePhonetics(result);
                 renderViews();
-                console.timeEnd('worker ON');
-            });
-        } else {
-            console.log('Worker OFF');
-            console.time('Worker OFF');
-            ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
-                executedWordsInfo,
-                phrasesData,
-                wordsJoiner,
-                function (result) {
-                    fillViewItemsWithResultOfPhrasePhonetics(result);
-                    renderViews();
-                    console.timeEnd('Worker OFF');
-                }
-            );
-        }
+                console.timeEnd(workerOn ? 'Worker ON' : 'Worker OFF');
+            },
+            window.maxConcurrentTasks,
+            workerOn ? getFreeWorker : undefined,
+            workerOn ? setWorkerIsFree : undefined
+        );
     }
 
     function handleOnRequestError(error) {
