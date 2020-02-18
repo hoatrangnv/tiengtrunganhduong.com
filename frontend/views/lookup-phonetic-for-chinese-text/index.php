@@ -237,7 +237,6 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=8
         console.time(workerOn ? 'Worker ON' : 'Worker OFF');
         ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
             executedClausesInfo,
-            phrasesData,
             wordsJoiner,
             function (result) {
                 fillViewItemsWithResultOfPhrasePhonetics(result);

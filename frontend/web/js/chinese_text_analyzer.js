@@ -1,15 +1,15 @@
 ChineseTextAnalyzer = (function () {
     var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
 
-    var getPhraseAddress = function (clauseIndex, startCut, endCut) {
-        return 1000000000 + clauseIndex * 1000000 + startCut * 1000 + endCut;
+    var getPhraseAddress = function (startCut, endCut) {
+        return 1000000 + startCut * 1000 + endCut;
     };
 
     var extractInfoFromPhraseAddress = function (address) {
-        var endCut = address % 1000;
-        address = (address - endCut) / 1000;
-        var startCut = address % 1000;
-        return [((address - startCut) / 1000) % 1000, startCut, endCut];
+        return [
+            ((address - address % 1000) / 1000) % 1000,
+            address % 1000
+        ];
     };
 
     function parseChineseText(text) {
@@ -50,7 +50,7 @@ ChineseTextAnalyzer = (function () {
         return [mixedParts, letterPartIndexes];
     }
 
-    function analyzePhrasePhoneticsOfWords(executedClausesInfo, phrasesData, wordsJoiner, onResult,
+    function analyzePhrasePhoneticsOfWords(executedClausesInfo, wordsJoiner, onResult,
                                            maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined)
     {
         var tasks = [];
@@ -61,6 +61,7 @@ ChineseTextAnalyzer = (function () {
             var error = infoItem['error'];
             var words = infoItem['words'];
             var phraseMaxWords = infoItem['phraseMaxWords'];
+            var phrasesData = infoItem['phrasesData'];
             if (error) {
                 result[clauseIndex] = {
                     words: words,
@@ -129,47 +130,46 @@ ChineseTextAnalyzer = (function () {
     }
 
     function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner) {
-        var rankingTable = getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData);
-        var bestCombinations = [];
-        for (let score = rankingTable.length - 1; score > 0; score--) {
-            if (rankingTable[score].length > 0) {
-                let minOfPhrases = rankingTable[score][0].length;
-                bestCombinations.push(rankingTable[score][0]);
-                for (let i = 1; i < rankingTable[score].length - 1; i++) {
-                    if (rankingTable[score][i].length === minOfPhrases) {
-                        bestCombinations.push(rankingTable[score][i]);
-                    } else {
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-
         var dictPhrasePhonetics = {};
         var phrasePhoneticKey = [];
-        bestCombinations.forEach(function (combination) {
+        getBestPhraseCombinations(clauseIndex, words, phraseMaxWords, phrasesData).forEach(function (combination) {
             var phrases = [];
             var phonetics = [];
             var viPhonetics = [];
-            combination.forEach(function (address) {
+            combination.forEach(function (address, index) {
                 var addressInfo = extractInfoFromPhraseAddress(address);
-                var phrase = '';
-                for (var i = addressInfo[1]; i < addressInfo[2]; i++) {
-                    if (i > addressInfo[1]) {
-                        phrase += wordsJoiner;
+                var startCut = addressInfo[0];
+                var endCut = addressInfo[1];
+                var addressInfoList = [ [address, startCut, endCut] ];
+                if (index === 0) {
+                    var firstStartCut = 0;
+                    var firstEndCut = startCut;
+                    var firstAddress = getPhraseAddress(firstStartCut, firstEndCut);
+                    addressInfoList.unshift([firstAddress, firstStartCut, firstEndCut]);
+                } else if (index === combination.length - 1) {
+                    var lastStartCut = endCut;
+                    var lastEndCut = words.length;
+                    var lastAddress = getPhraseAddress(lastStartCut, lastEndCut);
+                    addressInfoList.push([lastAddress, lastStartCut, lastEndCut]);
+                }
+                addressInfoList.forEach(function (item) {
+                    var phrase = '';
+                    for (var i = item[1]; i < item[2]; i++) {
+                        if (i > item[1]) {
+                            phrase += wordsJoiner;
+                        }
+                        phrase += words[i];
                     }
-                    phrase += words[i];
-                }
-                phrases.push(phrase);
-                var phraseInfo = phrasesData[address];
-                if (phraseInfo) {
-                    phonetics.push(phraseInfo[0]);
-                    viPhonetics.push(phraseInfo[1]);
-                } else {
-                    phonetics.push(null);
-                    viPhonetics.push(null);
-                }
+                    phrases.push(phrase);
+                    var phraseInfo = phrasesData[item[0]];
+                    if (phraseInfo) {
+                        phonetics.push(phraseInfo[0]);
+                        viPhonetics.push(phraseInfo[1]);
+                    } else {
+                        phonetics.push(null);
+                        viPhonetics.push(null);
+                    }
+                });
             });
             // unique by combination of phonetics
             var key = JSON.stringify(phonetics);
@@ -202,88 +202,110 @@ ChineseTextAnalyzer = (function () {
         });
     }
 
-    function getPhrasesRankingTable(clauseIndex, words, phraseMaxWords, phrasesData) {
-        var rankingTable = [];
-        for (let score = 0; score <= words.length; score++) {
-            rankingTable[score] = [];
-        }
-        getPhraseAddressesCombinations(clauseIndex, words.length, phraseMaxWords).forEach(function (combination) {
-            let score = 0;
-            combination.forEach(function (address) {
-                if (phrasesData[address]) {
-                    var info = extractInfoFromPhraseAddress(address);
-                    score += info[2] - info[1]; // endCut - startCut
-                }
-            });
-            rankingTable[score].push(combination);
-        });
-        return rankingTable;
-    }
-
-    function getPhraseAddressesCombinations(clauseIndex, clauseNumWords, phraseMaxWords) {
+    function getBestPhraseCombinations(clauseIndex, words, phraseMaxWords, phrasesData) {
+        var clauseNumWords = words.length;
         var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
         var maxOfCuts = clauseNumWords - 1;
-        var combinations = [];
+
+        var okWordIndexes = [];
+        for (var i = 0; i < clauseNumWords; i++) {
+            okWordIndexes[i] = false;
+        }
+        Object.keys(phrasesData).forEach(function (address) {
+            var addressInfo = extractInfoFromPhraseAddress(address);
+            var startCut = addressInfo[0];
+            var endCut = addressInfo[1];
+            for (var i = startCut; i < endCut; i++) {
+                okWordIndexes[i] = true;
+            }
+        });
+        var maxScoreAble = 0;
+        for (var i1 = 0; i1 < clauseNumWords; i1++) {
+            if (okWordIndexes[i1]) {
+                maxScoreAble++;
+            }
+        }
+        console.log('clauseIndex', clauseIndex, 'clauseNumWords', clauseNumWords, 'maxScoreAble', maxScoreAble);
+
+        var rankingTable = [];
+        for (var s = 0; s <= maxScoreAble; s++) {
+            rankingTable[s] = [];
+        }
+        var maxScoreEven = 0;
+        var maxScoreAbleCombination_minLength = clauseNumWords;
+
+        var pushCombination = (a) => {
+            var score = 0, com = [], address;
+
+            var comLength = a.length;
+            if (comLength > maxScoreAbleCombination_minLength) {
+                return;
+            }
+
+            if (a.length === 1) {
+                address = getPhraseAddress(0, clauseNumWords);
+                if (phrasesData[address]) score += clauseNumWords; // endCut - startCut
+            }
+            else { // a.length > 1
+                address = getPhraseAddress(0, a[1]);
+                if (phrasesData[address]) score += a[1];
+                for (var i = 2; i < a.length; i++) {
+                    address = getPhraseAddress(a[i - 1], a[i]);
+                    if (phrasesData[address]) score += a[i] - a[i - 1];
+                    com.push(address);
+                }
+                // *Note that: `i` was increased more 1 after end the loop (+1 before check loop condition)
+                address = getPhraseAddress(a[i - 1], clauseNumWords);
+                if (phrasesData[address]) score += clauseNumWords - a[i - 1];
+            }
+
+            if (score < maxScoreEven) {
+                return;
+            }
+
+            maxScoreEven = score;
+            if (score === maxScoreAble && comLength < maxScoreAbleCombination_minLength) {
+                maxScoreAbleCombination_minLength = comLength;
+            }
+
+            rankingTable[score].push(com);
+        };
+
+        // BEGIN: get phrase address combinations
+        var n = clauseNumWords - 1;
+        var A = phraseMaxWords;
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
             if (numOfCuts === 0) {
-                combinations.push([ getPhraseAddress(clauseIndex, 0, clauseNumWords) ]);
+                pushCombination([ 0 ]);
                 continue;
             }
-            getCombinationsWidthSpaceLimit(clauseNumWords - 1, numOfCuts, phraseMaxWords).forEach(function (cuts) {
-                // `cuts` never empty with passed arguments
-                var com = [ getPhraseAddress(clauseIndex, 0, cuts[0]) ];
-                for (var i = 1; i < cuts.length; i++) {
-                    com.push(getPhraseAddress(clauseIndex, cuts[i - 1], cuts[i]));
+            var k = numOfCuts; // k >= 1 && k <= n
+            var a = [0];
+            var backtrack = (i) => {
+                for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
+                    if (j - a[i - 1] > A) {
+                        break;
+                    }
+                    if (i === k && n + 1 - j > A) {
+                        continue;
+                    }
+                    a[i] = j;
+                    if (i === k) {
+                        pushCombination(a);
+                    } else {
+                        backtrack(i + 1);
+                    }
                 }
-                com.push(getPhraseAddress(clauseIndex, cuts[i - 1], clauseNumWords));
-                combinations.push(com);
-            });
+            };
+            backtrack(1);
         }
-        return combinations;
-    }
+        // END: get phrase address combinations
 
-    function getCombinationsWidthSpaceLimit(n, k, A) {
-        if (k < 1 || k > n) {
-            throw new Error('k is invalid. Condition: 1 <= k <= n. Received k = ' + k);
+        for (var s1 = rankingTable.length - 1; s1 >= 0; s1--) {
+            if (rankingTable[s1].length > 0) {
+                return rankingTable[s1];
+            }
         }
-        var combinations = [];
-        var a = [0];
-        // var padding = (L) => {
-        //     var str = '';
-        //     for (var i = 0; i < L; i++) str += '     ';
-        //     return str + '|';
-        // };
-        var pushCombination = () => {
-            var c = [];
-            for (var i = 1; i <= k; i++) {
-                c.push(a[i]);
-            }
-            combinations.push(c);
-        };
-        var backtrack = (i) => {
-            // console.log(padding(i), 'backtrack i =', i);
-            for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
-                if (j - a[i - 1] > A) {
-                    // console.log(padding(i), 'break before:', j - (i === 1 ? 1 : a[i - 1]));
-                    break;
-                }
-                if (i === k && n + 1 - j > A) {
-                    // console.log(padding(i), 'continue last:', n - j);
-                    continue;
-                }
-                a[i] = j;
-                // console.log(padding(i), 'j = ', j);
-                // console.log(padding(i), 'a = ', a);
-                if (i === k) {
-                    // console.log(padding(i), 'push --->');
-                    pushCombination();
-                } else {
-                    backtrack(i + 1);
-                }
-            }
-        };
-        backtrack(1);
-        return combinations;
     }
 
     function getCombinations(n, k) {
@@ -331,7 +353,6 @@ self.onmessage = function (ev) {
         case 'analyzePhrasePhoneticsOfWords':
             ChineseTextAnalyzer.analyzePhrasePhoneticsOfWords(
                 args['executedClausesInfo'],
-                args['phrasesData'],
                 args['wordsJoiner'],
                 function (result) {
                     postMessage(result);

@@ -16,7 +16,7 @@ use yii\web\BadRequestHttpException;
 class ChinesePhrasePhoneticApiController extends Controller
 {
     const INPUT_MAX_WORDS = 200;
-    const CLAUSE_MAX_WORDS = 20;
+    const CLAUSE_MAX_WORDS = 30;
     const PHRASE_MAX_WORDS = 5;
 
     public function actionLookup() {
@@ -48,7 +48,6 @@ class ChinesePhrasePhoneticApiController extends Controller
             }
             $phraseMaxWords = min($clauseNumWords, self::PHRASE_MAX_WORDS);
             $exportItem['phraseMaxWords'] = $phraseMaxWords;
-            $executedClausesInfo[] = $exportItem;
 
             // execute
             for ($phraseNumWords = 1; $phraseNumWords <= $phraseMaxWords; $phraseNumWords++) {
@@ -60,7 +59,7 @@ class ChinesePhrasePhoneticApiController extends Controller
                     // *Note that after finish loop, endWordIndex was be increase 1 before condition checking
                     // startWordIndex === start slice index
                     // endWordIndex++ === end slice index
-                    $address = 1000000000 + $clauseIndex * 1000000 + $startWordIndex * 1000 + $endWordIndex;
+                    $address = [$clauseIndex, $startWordIndex, $endWordIndex];
                     if (!isset($phraseAddresses[$phrase])) {
                         $phraseAddresses[$phrase] = [ $address ];
                     } else {
@@ -68,23 +67,23 @@ class ChinesePhrasePhoneticApiController extends Controller
                     }
                 }
             }
+
+            $executedClausesInfo[] = $exportItem;
         }
-        $response['data']['executedClausesInfo'] = $executedClausesInfo;
 
         /**
          * @var $phoneticRecords ChinesePhrasePhonetic[]
          */
         $phoneticRecords = ChinesePhrasePhonetic::find()->where(['IN', 'phrase', array_keys($phraseAddresses)])->all();
-        $phrasesData = [];
         foreach ($phoneticRecords as $record) {
             foreach ($phraseAddresses[$record->phrase] as $address) {
-                $phrasesData[$address] = [
+                $executedClausesInfo[$address[0]]['phrasesData'][1000000 + $address[1] * 1000 + $address[2]] = [
                     $record->phonetic,
                     $record->vi_phonetic
                 ];
             }
         }
-        $response['data']['phrasesData'] = $phrasesData;
+        $response['data']['executedClausesInfo'] = $executedClausesInfo;
 
         return $response;
     }
