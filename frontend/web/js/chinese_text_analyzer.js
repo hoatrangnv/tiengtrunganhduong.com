@@ -105,14 +105,16 @@ ChineseTextAnalyzer = (function () {
                         };
                     } else {
                         setTimeout(function () {
-                            var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                            ChineseTextAnalyzer.phrasingParse(
                                 clauseIndex,
                                 words,
                                 phraseMaxWords,
                                 phrasesData,
-                                wordsJoiner
+                                wordsJoiner,
+                                function (phrasePhonetics) {
+                                    taskExportOutput(phrasePhonetics, taskIndex);
+                                }
                             );
-                            taskExportOutput(phrasePhonetics, taskIndex);
                         }, 10);
                     }
                 });
@@ -129,83 +131,96 @@ ChineseTextAnalyzer = (function () {
         }
     }
 
-    function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner) {
+    function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner, exportResult) {
         var dictPhrasePhonetics = {};
         var phrasePhoneticKey = [];
-        getBestPhraseCombinations(words, phraseMaxWords, phrasesData, 0).forEach(function (combination) {
-            var phrases = [];
-            var phonetics = [];
-            var viPhonetics = [];
-            combination.forEach(function (address) {
-                var addressInfo = extractInfoFromPhraseAddress(address, 0);
-                var startCut = addressInfo[0];
-                var endCut = addressInfo[1];
-                var phrase = '';
-                for (var i = startCut; i < endCut; i++) {
-                    if (i > startCut) {
-                        phrase += wordsJoiner;
+        getBestPhraseCombinations(words, phraseMaxWords, phrasesData, function (combinations) {
+            combinations.forEach(function (combination) {
+                var phrases = [];
+                var phonetics = [];
+                var viPhonetics = [];
+                combination.forEach(function (address) {
+                    var addressInfo = extractInfoFromPhraseAddress(address, 0);
+                    var startCut = addressInfo[0];
+                    var endCut = addressInfo[1];
+                    var phrase = '';
+                    for (var i = startCut; i < endCut; i++) {
+                        if (i > startCut) {
+                            phrase += wordsJoiner;
+                        }
+                        phrase += words[i];
                     }
-                    phrase += words[i];
-                }
-                phrases.push(phrase);
-                var phraseInfo = phrasesData[address];
-                if (phraseInfo) {
-                    phonetics.push(phraseInfo[0]);
-                    viPhonetics.push(phraseInfo[1]);
-                } else {
-                    phonetics.push(null);
-                    viPhonetics.push(null);
+                    phrases.push(phrase);
+                    var phraseInfo = phrasesData[address];
+                    if (phraseInfo) {
+                        phonetics.push(phraseInfo[0]);
+                        viPhonetics.push(phraseInfo[1]);
+                    } else {
+                        phonetics.push(null);
+                        viPhonetics.push(null);
+                    }
+                });
+                // unique by combination of phonetics
+                var key = JSON.stringify(phonetics);
+                if (phrasePhoneticKey.indexOf(key) < 0) {
+                    dictPhrasePhonetics[key] = [phrases, phonetics, viPhonetics];
+                    phrasePhoneticKey.push(key);
                 }
             });
-            // unique by combination of phonetics
-            var key = JSON.stringify(phonetics);
-            if (phrasePhoneticKey.indexOf(key) < 0) {
-                dictPhrasePhonetics[key] = [phrases, phonetics, viPhonetics];
-                phrasePhoneticKey.push(key);
-            }
+
+            exportResult(phrasePhoneticKey.map(function (key) {
+                // split phrase into words if its phonetic is null
+                var phrasePhonetic = dictPhrasePhonetics[key];
+                var phrases = phrasePhonetic[0], phonetics = phrasePhonetic[1], viPhonetics = phrasePhonetic[2];
+                var newPhrases = [], newPhonetics = [], newViPhonetics = [];
+                for (var i = 0; i < phrases.length; i++) {
+                    if (phonetics[i] === null) {
+                        var _words = phrases[i].split(wordsJoiner);
+                        for (var j = 0; j < _words.length; j++) {
+                            newPhrases.push(_words[j]);
+                            newPhonetics.push(null);
+                            newViPhonetics.push(null);
+                        }
+                    } else {
+                        newPhrases.push(phrases[i]);
+                        newPhonetics.push(phonetics[i]);
+                        newViPhonetics.push(viPhonetics[i]);
+                    }
+                }
+                return [newPhrases, newPhonetics, newViPhonetics];
+            }));
         });
 
-        return phrasePhoneticKey.map(function (key) {
-            // split phrase into words if its phonetic is null
-            var phrasePhonetic = dictPhrasePhonetics[key];
-            var phrases = phrasePhonetic[0], phonetics = phrasePhonetic[1], viPhonetics = phrasePhonetic[2];
-            var newPhrases = [], newPhonetics = [], newViPhonetics = [];
-            for (var i = 0; i < phrases.length; i++) {
-                if (phonetics[i] === null) {
-                    var _words = phrases[i].split(wordsJoiner);
-                    for (var j = 0; j < _words.length; j++) {
-                        newPhrases.push(_words[j]);
-                        newPhonetics.push(null);
-                        newViPhonetics.push(null);
-                    }
-                } else {
-                    newPhrases.push(phrases[i]);
-                    newPhonetics.push(phonetics[i]);
-                    newViPhonetics.push(viPhonetics[i]);
-                }
-            }
-            return [newPhrases, newPhonetics, newViPhonetics];
-        });
     }
 
-    function getBestPhraseCombinations(words, phraseMaxWords, phrasesData, addressCutOrigin) {
+    function getBestPhraseCombinations(words, phraseMaxWords, phrasesData, exportResult) {
         var clauseNumWords = words.length;
 
-        // BEGIN: break into sub-clauses
-        // so that only process words that all of them are data-available
-        // in other words, maxScoreAble === clauseNumWords
         var wordsIsOkMap = [];
         for (var i = 0; i < clauseNumWords; i++) {
             wordsIsOkMap[i] = false;
         }
         Object.keys(phrasesData).forEach(function (address) {
-            var addressInfo = extractInfoFromPhraseAddress(address, addressCutOrigin);
+            var addressInfo = extractInfoFromPhraseAddress(address, 0);
             var startCut = addressInfo[0];
             var endCut = addressInfo[1];
             for (var i = startCut; i < endCut; i++) {
                 wordsIsOkMap[i] = true;
             }
         });
+        // if (wordsIsOkMap.every(function (isOk) { return isOk; })) {
+        //     return getBestPhraseCombinationsWithMaxScoreAble(
+        //         words,
+        //         phraseMaxWords,
+        //         phrasesData,
+        //         0,
+        //         clauseNumWords
+        //     );
+        // }
+
+        // BEGIN: break into sub-clauses
+        // so that only process words that all of them are data-available
+        // in other words, maxScoreAble === clauseNumWords
         var subClauses = [];
         var subAddressCutOrigins = [];
         var okSubClauseIndexes = [];
@@ -237,54 +252,78 @@ ChineseTextAnalyzer = (function () {
                 }
             }
         }
-        console.log({subClauses, subAddressCutOrigins, okSubClauseIndexes});
         // END: break into sub-clauses
 
         var listOfSubCombinations = [];
         var minCombinationsLength = -1;
-        for (var i2 = 0; i2 < subClauses.length; i2++) {
-            listOfSubCombinations[i2] = [];
-            if (okSubClauseIndexes.indexOf(i2) >= 0) {
-                getBestPhraseCombinationsWithMaxScoreAble(
-                    subClauses[i2],
-                    Math.min(phraseMaxWords, subClauses[i2].length),
-                    phrasesData,
-                    subAddressCutOrigins[i2],
-                    subClauses[i2].length
-                ).forEach(function (com) {
-                    listOfSubCombinations[i2].push(com);
-                });
+
+        var getResult = function () {
+            var combinations = [];
+            for (var row = 0; row < minCombinationsLength; row++) {
+                var combination = [];
+                for (var col = 0; col < listOfSubCombinations.length; col++) {
+                    combination.push.apply(combination, listOfSubCombinations[col][row]);
+                }
+                combinations.push(combination);
+            }
+            return combinations;
+        };
+
+        var tasksRemain = subClauses.length;
+        console.log('tasksRemain init', tasksRemain);
+        for (var subIndex = 0; subIndex < subClauses.length; subIndex++) {
+            listOfSubCombinations[subIndex] = [];
+            if (okSubClauseIndexes.indexOf(subIndex) >= 0) {
+                (function (i) {
+                    console.log('subClause to exe', subClauses[i]);
+                    getBestPhraseCombinationsWithMaxScoreAble(
+                        subClauses[i],
+                        Math.min(phraseMaxWords, subClauses[i].length),
+                        phrasesData,
+                        subAddressCutOrigins[i],
+                        subClauses[i].length,
+                        function (combinations) {
+                            listOfSubCombinations[i].push.apply(listOfSubCombinations[i], combinations);
+                            if (minCombinationsLength === -1 || listOfSubCombinations[i].length < minCombinationsLength) {
+                                minCombinationsLength = listOfSubCombinations[i].length;
+                            }
+
+                            tasksRemain--;
+                            console.log('tasksRemain', tasksRemain, subClauses[i]);
+                            if (tasksRemain === 0) {
+                                exportResult(getResult());
+                            }
+                        }
+                    );
+                })(subIndex);
             } else {
-                getBestPhraseCombinationsWithMaxScoreAble(
-                    subClauses[i2],
-                    1,
-                    phrasesData,
-                    subAddressCutOrigins[i2],
-                    0
-                ).forEach(function (com) {
-                    listOfSubCombinations[i2].push(com);
-                });
-            }
-            if (minCombinationsLength === -1 || listOfSubCombinations[i2].length < minCombinationsLength) {
-                minCombinationsLength = listOfSubCombinations[i2].length;
+                (function (i) {
+                    console.log('subClause to exe', subClauses[i]);
+                    getBestPhraseCombinationsWithMaxScoreAble(
+                        subClauses[i],
+                        1,
+                        phrasesData,
+                        subAddressCutOrigins[i],
+                        0,
+                        function (combinations) {
+                            listOfSubCombinations[i].push.apply(listOfSubCombinations[i], combinations);
+                            if (minCombinationsLength === -1 || listOfSubCombinations[i].length < minCombinationsLength) {
+                                minCombinationsLength = listOfSubCombinations[i].length;
+                            }
+
+                            tasksRemain--;
+                            console.log('tasksRemain', tasksRemain, subClauses[i]);
+                            if (tasksRemain === 0) {
+                                exportResult(getResult());
+                            }
+                        }
+                    );
+                })(subIndex);
             }
         }
-
-        var combinations = [];
-        for (var row = 0; row < minCombinationsLength; row++) {
-            var combination = [];
-            for (var col = 0; col < listOfSubCombinations.length; col++) {
-                combination.push.apply(combination, listOfSubCombinations[col][row]);
-            }
-            combinations.push(combination);
-        }
-
-        console.log('listOfSubCombinations', listOfSubCombinations);
-        console.log('combinations', combinations);
-        return combinations;
     }
 
-    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble) {
+    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble, exportResult) {
         var clauseNumWords = words.length;
 
         var rankingTable = [];
@@ -293,6 +332,14 @@ ChineseTextAnalyzer = (function () {
         }
         var maxScoreEven = 0;
         var maxScoreAbleCombination_minLength = clauseNumWords;
+
+        var getResult = function () {
+            for (var s1 = rankingTable.length - 1; s1 >= 0; s1--) {
+                if (rankingTable[s1].length > 0) {
+                    return rankingTable[s1];
+                }
+            }
+        };
 
         var pushCombination = (a) => {
             var score = 0, com = [], address;
@@ -337,14 +384,21 @@ ChineseTextAnalyzer = (function () {
         // BEGIN: get phrase address combinations
         var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
         var maxOfCuts = clauseNumWords - 1;
+        var tasksRemain = maxOfCuts - minOfCuts + 1;
+        var k = minOfCuts;
+        if (k === 0) {
+            pushCombination([ 0 ]);
+            tasksRemain--;
+            if (tasksRemain === 0) {
+                exportResult(getResult());
+                return;
+            }
+            k++;
+        }
         var n = clauseNumWords - 1;
         var A = phraseMaxWords;
-        for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
-            if (numOfCuts === 0) {
-                pushCombination([ 0 ]);
-                continue;
-            }
-            var k = numOfCuts; // k >= 1 && k <= n
+        var interval = setInterval(function () {
+            console.time('task numCuts = ' + k);
             var a = [0];
             var backtrack = (i) => {
                 for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
@@ -363,14 +417,16 @@ ChineseTextAnalyzer = (function () {
                 }
             };
             backtrack(1);
-        }
-        // END: get phrase address combinations
+            console.timeEnd('task numCuts = ' + k);
 
-        for (var s1 = rankingTable.length - 1; s1 >= 0; s1--) {
-            if (rankingTable[s1].length > 0) {
-                return rankingTable[s1];
+            tasksRemain--;
+            if (tasksRemain === 0) {
+                exportResult(getResult());
+                clearInterval(interval);
             }
-        }
+            k++;
+        }, 10);
+        // END: get phrase address combinations
     }
 
     function getCombinations(n, k) {
@@ -425,14 +481,16 @@ self.onmessage = function (ev) {
             );
             break;
         case 'phrasingParse':
-            var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+            ChineseTextAnalyzer.phrasingParse(
                 args['clauseIndex'],
                 args['words'],
                 args['phraseMaxWords'],
                 args['phrasesData'],
-                args['wordsJoiner']
+                args['wordsJoiner'],
+                function (phrasePhonetics) {
+                    postMessage(phrasePhonetics);
+                }
             );
-            postMessage(phrasePhonetics);
             break;
     }
 };
