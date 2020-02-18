@@ -47,7 +47,6 @@ class ChinesePhrasePhoneticApiController extends Controller
                 break;
             }
             $phraseMaxWords = min($clauseNumWords, self::PHRASE_MAX_WORDS);
-            $exportItem['phraseMaxWords'] = $phraseMaxWords;
 
             // execute
             for ($phraseNumWords = 1; $phraseNumWords <= $phraseMaxWords; $phraseNumWords++) {
