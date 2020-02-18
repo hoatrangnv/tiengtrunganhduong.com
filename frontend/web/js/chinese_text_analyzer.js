@@ -342,6 +342,11 @@ ChineseTextAnalyzer = (function () {
         var getResult = function () {
             for (var s1 = rankingTable.length - 1; s1 >= 0; s1--) {
                 if (rankingTable[s1].length > 0) {
+                    var bestCombinations = [];
+                    var minLength = rankingTable[s1][0].length;
+                    for (var c = rankingTable[s1].length - 1; c > 0 ; c--) {
+
+                    }
                     return rankingTable[s1];
                 }
             }
