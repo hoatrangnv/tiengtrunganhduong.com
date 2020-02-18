@@ -15,13 +15,13 @@ use yii\web\BadRequestHttpException;
 
 class ChinesePhrasePhoneticApiController extends Controller
 {
-    const INPUT_MAX_WORDS = 200;
+    const INPUT_MAX_WORDS = 1000;
     const CLAUSE_MAX_WORDS = 30;
     const PHRASE_MAX_WORDS = 5;
 
     public function actionLookup() {
         $response = ['data' => null, 'error_message' => null];
-        $clausesJson = \Yii::$app->request->get('clauses', null);
+        $clausesJson = \Yii::$app->request->post('clauses', null);
         try {
             $clauses = array_values(json_decode($clausesJson, true));
         } catch (\Exception $exception) {

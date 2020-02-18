@@ -259,7 +259,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
 
     function requestPhoneticApi(search, onSuccess, onError) {
         var webUrl = "<?= Url::to(['lookup-phonetic-for-chinese-text/index', 'search' => '__SEARCH__']) ?>";
-        var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup', 'clauses' => '__CLAUSES__']) ?>";
+        var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup']) ?>";
 
         search = search.split(' ').join(''); // chinese does not use white space
         var stateUrl = webUrl.split("__SEARCH__").join(search.split('\n').join('%0D%0A')); // %0D%0A represents for line break
@@ -271,7 +271,6 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
         var clauses = inputLetterPartIndexes.map(function (letterPartIndex) {
             return inputMixedParts[letterPartIndex];
         });
-
 
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function () {
@@ -286,8 +285,9 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
         xhr.addEventListener("error", function () {
             onError("An error occurred.");
         });
-        xhr.open("GET", apiUrl.split("__CLAUSES__").join(JSON.stringify(clauses)));
-        xhr.send();
+        xhr.open("POST", apiUrl);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send('clauses=' + JSON.stringify(clauses));
     }
 </script>
 <?= $this->render('//layouts/likeShare') ?>
