@@ -390,63 +390,91 @@ ChineseTextAnalyzer = (function () {
         // BEGIN: get phrase address combinations
         var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
         var maxOfCuts = clauseNumWords - 1;
-        var tasksRemain = maxOfCuts - minOfCuts + 1;
+        var tasksDone = [];
+        for (var i = minOfCuts; i <= maxOfCuts; i++) {
+            tasksDone[i] = false;
+        }
         var k = minOfCuts;
         if (k === 0) {
             pushCombination([ 0 ]);
-            tasksRemain--;
-            if (tasksRemain === 0) {
+            tasksDone[k] = true;
+            if (tasksDone.every(function (isDone) { return isDone; })) {
                 exportResult(getResult());
                 return;
             }
             k++;
         }
 
+        var pushSubRankingTable = function (subRankingTable, numOfCuts) {
+            // for (var s = rankingTable.length - 1; s >= 0; s--) {
+            //     if (rankingTable[s].length > 0) {
+            //         if (subRankingTable[s].length > 0) {
+            //             rankingTable[s].push.apply(rankingTable[s], subRankingTable[s]);
+            //             tasksRemain--;
+            //             if (tasksRemain === 0) {
+            //                 exportResult(getResult());
+            //                 clearInterval(intervalId);
+            //             }
+            //             return;
+            //         }
+            //     }
+            // }
+
+            if (subRankingTable[subRankingTable.length - 1].length > 0) { // has combinations reached max score able
+                for (var j = numOfCuts + 1; j <= maxOfCuts; j++) {
+                    tasksDone[j] = true;
+                }
+            }
+
+            var highestScoreEven = 0;
+            for (var s = rankingTable.length - 1; s >= 0; s--) {
+                if (rankingTable[s].length > 0) {
+                    highestScoreEven = s;
+                    break;
+                }
+            }
+
+            for (var s1 = subRankingTable.length - 1; s1 >= 0; s1--) {
+                if (subRankingTable[s1].length > 0) {
+                    if (s1 < highestScoreEven) {
+                        break;
+                    }
+                    rankingTable[s1].push.apply(rankingTable[s1], subRankingTable[s1]);
+                    break; // only add highest score combinations
+                }
+            }
+
+            tasksDone[numOfCuts] = true;
+            if (tasksDone.every(function (isDone) { return isDone; })) {
+                exportResult(getResult());
+            }
+        };
+
         if (getFreeWorker) {
             for (var j = k; j <= maxOfCuts; j++) {
-                var workerAndIndex = getFreeWorker();
-                var worker = workerAndIndex[0];
-                var workerIndex = workerAndIndex[1];
-                worker.postMessage(JSON.stringify({
-                    workerTask: 'pushCombinationsWithNumOfCuts',
-                    numOfCuts: j, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble
-                }));
-                console.log('use worker');
-                worker.onmessage = function (ev) {
-                    if (setWorkerIsFree) {
-                        setWorkerIsFree(workerIndex);
-                    }
-                    var subRankingTable = ev.data;
-                    for (var s = 0; s < subRankingTable.length; s++) {
-                        if (subRankingTable[s].length > 0) {
-                            rankingTable[s].push.apply(rankingTable[s], subRankingTable[s]);
+                (function (j) {
+                    var workerAndIndex = getFreeWorker();
+                    var worker = workerAndIndex[0];
+                    var workerIndex = workerAndIndex[1];
+                    worker.postMessage(JSON.stringify({
+                        workerTask: 'pushCombinationsWithNumOfCuts',
+                        numOfCuts: j, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble
+                    }));
+                    console.log('use worker');
+                    worker.onmessage = function (ev) {
+                        if (setWorkerIsFree) {
+                            setWorkerIsFree(workerIndex);
                         }
-                    }
-
-                    tasksRemain--;
-                    if (tasksRemain === 0) {
-                        exportResult(getResult());
-                        clearInterval(intervalId);
-                    }
-                };
+                        pushSubRankingTable(ev.data, j);
+                    };
+                })(j);
             }
         } else {
-            var intervalId = setInterval(function () {
-                var subRankingTable = ChineseTextAnalyzer.pushCombinationsWithNumOfCuts(
-                    k, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble);
-                for (var s = 0; s < subRankingTable.length; s++) {
-                    if (subRankingTable[s].length > 0) {
-                        rankingTable[s].push.apply(rankingTable[s], subRankingTable[s]);
-                    }
-                }
-
-                tasksRemain--;
-                if (tasksRemain === 0) {
-                    exportResult(getResult());
-                    clearInterval(intervalId);
-                }
-                k++;
-            }, 10);
+            for (var j = k; j <= maxOfCuts; j++) {
+                pushSubRankingTable(ChineseTextAnalyzer.pushCombinationsWithNumOfCuts(
+                    j, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble
+                ), j);
+            }
         }
         // END: get phrase address combinations
 
