@@ -84,7 +84,7 @@ ChineseTextAnalyzer = (function () {
                 };
                 tasks.push(function (taskIndex) {
                     console.log('Task ' + taskIndex + ' started');
-                    if (getFreeWorker) {
+                    if (false && getFreeWorker) {
                         var workerAndIndex = getFreeWorker();
                         var worker = workerAndIndex[0];
                         var workerIndex = workerAndIndex[1];
@@ -113,7 +113,8 @@ ChineseTextAnalyzer = (function () {
                                 wordsJoiner,
                                 function (phrasePhonetics) {
                                     taskExportOutput(phrasePhonetics, taskIndex);
-                                }
+                                },
+                                maxConcurrentTasks, getFreeWorker, setWorkerIsFree
                             );
                         }, 10);
                     }
@@ -131,7 +132,8 @@ ChineseTextAnalyzer = (function () {
         }
     }
 
-    function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner, exportResult) {
+    function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner, exportResult,
+                           maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
         var dictPhrasePhonetics = {};
         var phrasePhoneticKey = [];
         getBestPhraseCombinations(words, phraseMaxWords, phrasesData, function (combinations) {
@@ -189,11 +191,12 @@ ChineseTextAnalyzer = (function () {
                 }
                 return [newPhrases, newPhonetics, newViPhonetics];
             }));
-        });
+        }, maxConcurrentTasks, getFreeWorker, setWorkerIsFree);
 
     }
 
-    function getBestPhraseCombinations(words, phraseMaxWords, phrasesData, exportResult) {
+    function getBestPhraseCombinations(words, phraseMaxWords, phrasesData, exportResult,
+                                       maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
         var clauseNumWords = words.length;
 
         var wordsIsOkMap = [];
@@ -293,7 +296,8 @@ ChineseTextAnalyzer = (function () {
                             if (tasksRemain === 0) {
                                 exportResult(getResult());
                             }
-                        }
+                        },
+                        maxConcurrentTasks, getFreeWorker, setWorkerIsFree
                     );
                 })(subIndex);
             } else {
@@ -316,14 +320,16 @@ ChineseTextAnalyzer = (function () {
                             if (tasksRemain === 0) {
                                 exportResult(getResult());
                             }
-                        }
+                        },
+                        maxConcurrentTasks, getFreeWorker, setWorkerIsFree
                     );
                 })(subIndex);
             }
         }
     }
 
-    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble, exportResult) {
+    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble, exportResult,
+                                                       maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
         var clauseNumWords = words.length;
 
         var rankingTable = [];
@@ -341,7 +347,7 @@ ChineseTextAnalyzer = (function () {
             }
         };
 
-        var pushCombination = (a) => {
+        var pushCombination = function (a) {
             var score = 0, com = [], address;
 
             var comLength = a.length;
@@ -395,38 +401,132 @@ ChineseTextAnalyzer = (function () {
             }
             k++;
         }
-        var n = clauseNumWords - 1;
-        var A = phraseMaxWords;
-        var interval = setInterval(function () {
-            console.time('task numCuts = ' + k);
-            var a = [0];
-            var backtrack = (i) => {
-                for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
-                    if (j - a[i - 1] > A) {
-                        break;
+
+        if (getFreeWorker) {
+            for (var j = k; j <= maxOfCuts; j++) {
+                var workerAndIndex = getFreeWorker();
+                var worker = workerAndIndex[0];
+                var workerIndex = workerAndIndex[1];
+                worker.postMessage(JSON.stringify({
+                    workerTask: 'pushCombinationsWithNumOfCuts',
+                    numOfCuts: j, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble
+                }));
+                console.log('use worker');
+                worker.onmessage = function (ev) {
+                    if (setWorkerIsFree) {
+                        setWorkerIsFree(workerIndex);
                     }
-                    if (i === k && n + 1 - j > A) {
-                        continue;
+                    var subRankingTable = ev.data;
+                    for (var s = 0; s < subRankingTable.length; s++) {
+                        if (subRankingTable[s].length > 0) {
+                            rankingTable[s].push.apply(rankingTable[s], subRankingTable[s]);
+                        }
                     }
-                    a[i] = j;
-                    if (i === k) {
-                        pushCombination(a);
-                    } else {
-                        backtrack(i + 1);
+
+                    tasksRemain--;
+                    if (tasksRemain === 0) {
+                        exportResult(getResult());
+                        clearInterval(intervalId);
+                    }
+                };
+            }
+        } else {
+            var intervalId = setInterval(function () {
+                var subRankingTable = ChineseTextAnalyzer.pushCombinationsWithNumOfCuts(
+                    k, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble);
+                for (var s = 0; s < subRankingTable.length; s++) {
+                    if (subRankingTable[s].length > 0) {
+                        rankingTable[s].push.apply(rankingTable[s], subRankingTable[s]);
                     }
                 }
-            };
-            backtrack(1);
-            console.timeEnd('task numCuts = ' + k);
 
-            tasksRemain--;
-            if (tasksRemain === 0) {
-                exportResult(getResult());
-                clearInterval(interval);
-            }
-            k++;
-        }, 10);
+                tasksRemain--;
+                if (tasksRemain === 0) {
+                    exportResult(getResult());
+                    clearInterval(intervalId);
+                }
+                k++;
+            }, 10);
+        }
         // END: get phrase address combinations
+
+
+    }
+    
+    function pushCombinationsWithNumOfCuts(numOfCuts, clauseNumWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble) {
+        var rankingTable = [];
+        for (var s = 0; s <= maxScoreAble; s++) {
+            rankingTable[s] = [];
+        }
+        var maxScoreEven = 0;
+        var maxScoreAbleCombination_minLength = clauseNumWords;
+
+        var pushCombination = function (a) {
+            var score = 0, com = [], address;
+
+            var comLength = a.length;
+            if (comLength > maxScoreAbleCombination_minLength) {
+                return;
+            }
+
+            if (a.length === 1) {
+                address = getPhraseAddress(0, clauseNumWords, addressCutOrigin);
+                com.push(address);
+                if (phrasesData[address]) score += clauseNumWords; // endCut - startCut
+            }
+            else { // a.length > 1
+                address = getPhraseAddress(0, a[1], addressCutOrigin);
+                com.push(address);
+                if (phrasesData[address]) score += a[1];
+                for (var i = 2; i < a.length; i++) {
+                    address = getPhraseAddress(a[i - 1], a[i], addressCutOrigin);
+                    com.push(address);
+                    if (phrasesData[address]) score += a[i] - a[i - 1];
+                }
+                // *Note that: `i` was increased more 1 after end the loop (+1 before check loop condition)
+                address = getPhraseAddress(a[i - 1], clauseNumWords, addressCutOrigin);
+                com.push(address);
+                if (phrasesData[address]) score += clauseNumWords - a[i - 1];
+            }
+
+            if (score < maxScoreEven) {
+                return;
+            }
+
+            maxScoreEven = score;
+            if (score === maxScoreAble && comLength < maxScoreAbleCombination_minLength) {
+                maxScoreAbleCombination_minLength = comLength;
+            }
+
+            rankingTable[score].push(com);
+        };
+
+        var n = clauseNumWords - 1;
+        var A = phraseMaxWords;
+        var k = numOfCuts;
+
+        console.time('task numCuts = ' + k);
+        var a = [0];
+        var backtrack = function (i) {
+            for (var j = a[i - 1] + 1; j <= n - k + i; j++) {
+                if (j - a[i - 1] > A) {
+                    break;
+                }
+                if (i === k && n + 1 - j > A) {
+                    continue;
+                }
+                a[i] = j;
+                if (i === k) {
+                    pushCombination(a);
+                } else {
+                    backtrack(i + 1);
+                }
+            }
+        };
+        backtrack(1);
+        console.timeEnd('task numCuts = ' + k);
+
+        return rankingTable;
     }
 
     function getCombinations(n, k) {
@@ -459,7 +559,8 @@ ChineseTextAnalyzer = (function () {
     return {
         analyzePhrasePhoneticsOfWords: analyzePhrasePhoneticsOfWords,
         phrasingParse: phrasingParse,
-        parseChineseText: parseChineseText
+        parseChineseText: parseChineseText,
+        pushCombinationsWithNumOfCuts: pushCombinationsWithNumOfCuts
     };
 })();
 
@@ -491,6 +592,16 @@ self.onmessage = function (ev) {
                     postMessage(phrasePhonetics);
                 }
             );
+            break;
+        case 'pushCombinationsWithNumOfCuts':
+            postMessage(ChineseTextAnalyzer.pushCombinationsWithNumOfCuts(
+                args['numOfCuts'],
+                args['clauseNumWords'],
+                args['phraseMaxWords'],
+                args['phrasesData'],
+                args['addressCutOrigin'],
+                args['maxScoreAble']
+            ));
             break;
     }
 };
