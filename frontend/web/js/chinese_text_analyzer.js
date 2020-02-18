@@ -439,7 +439,9 @@ ChineseTextAnalyzer = (function () {
                     if (s1 < highestScoreEven) {
                         break;
                     }
-                    rankingTable[s1].push.apply(rankingTable[s1], subRankingTable[s1]);
+                    for (var i = 0; i < 5 && i < subRankingTable[s1].length; i++) { // 5 is max number of combinations to export
+                        rankingTable[s1].push(subRankingTable[s1][i]);
+                    }
                     break; // only add highest score combinations
                 }
             }
