@@ -68,6 +68,7 @@ class ChinesePhrasePhoneticApiController extends Controller
                 }
             }
 
+            $exportItem['phrasesData'] = [];
             $executedClausesInfo[] = $exportItem;
         }
 

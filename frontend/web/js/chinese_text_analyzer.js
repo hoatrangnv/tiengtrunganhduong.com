@@ -1,14 +1,14 @@
 ChineseTextAnalyzer = (function () {
     var cjkeRegex = /[0-9]|[a-z]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/i;
 
-    var getPhraseAddress = function (startCut, endCut) {
-        return 1000000 + startCut * 1000 + endCut;
+    var getPhraseAddress = function (startCut, endCut, cutOrigin) {
+        return 1000000 + (startCut + cutOrigin) * 1000 + endCut + cutOrigin;
     };
 
-    var extractInfoFromPhraseAddress = function (address) {
+    var extractInfoFromPhraseAddress = function (address, cutOrigin) {
         return [
-            ((address - address % 1000) / 1000) % 1000,
-            address % 1000
+            ((address - address % 1000) / 1000) % 1000 - cutOrigin,
+            address % 1000 - cutOrigin
         ];
     };
 
@@ -132,44 +132,30 @@ ChineseTextAnalyzer = (function () {
     function phrasingParse(clauseIndex, words, phraseMaxWords, phrasesData, wordsJoiner) {
         var dictPhrasePhonetics = {};
         var phrasePhoneticKey = [];
-        getBestPhraseCombinations(clauseIndex, words, phraseMaxWords, phrasesData).forEach(function (combination) {
+        getBestPhraseCombinations(words, phraseMaxWords, phrasesData, 0).forEach(function (combination) {
             var phrases = [];
             var phonetics = [];
             var viPhonetics = [];
-            combination.forEach(function (address, index) {
-                var addressInfo = extractInfoFromPhraseAddress(address);
+            combination.forEach(function (address) {
+                var addressInfo = extractInfoFromPhraseAddress(address, 0);
                 var startCut = addressInfo[0];
                 var endCut = addressInfo[1];
-                var addressInfoList = [ [address, startCut, endCut] ];
-                if (index === 0) {
-                    var firstStartCut = 0;
-                    var firstEndCut = startCut;
-                    var firstAddress = getPhraseAddress(firstStartCut, firstEndCut);
-                    addressInfoList.unshift([firstAddress, firstStartCut, firstEndCut]);
-                } else if (index === combination.length - 1) {
-                    var lastStartCut = endCut;
-                    var lastEndCut = words.length;
-                    var lastAddress = getPhraseAddress(lastStartCut, lastEndCut);
-                    addressInfoList.push([lastAddress, lastStartCut, lastEndCut]);
+                var phrase = '';
+                for (var i = startCut; i < endCut; i++) {
+                    if (i > startCut) {
+                        phrase += wordsJoiner;
+                    }
+                    phrase += words[i];
                 }
-                addressInfoList.forEach(function (item) {
-                    var phrase = '';
-                    for (var i = item[1]; i < item[2]; i++) {
-                        if (i > item[1]) {
-                            phrase += wordsJoiner;
-                        }
-                        phrase += words[i];
-                    }
-                    phrases.push(phrase);
-                    var phraseInfo = phrasesData[item[0]];
-                    if (phraseInfo) {
-                        phonetics.push(phraseInfo[0]);
-                        viPhonetics.push(phraseInfo[1]);
-                    } else {
-                        phonetics.push(null);
-                        viPhonetics.push(null);
-                    }
-                });
+                phrases.push(phrase);
+                var phraseInfo = phrasesData[address];
+                if (phraseInfo) {
+                    phonetics.push(phraseInfo[0]);
+                    viPhonetics.push(phraseInfo[1]);
+                } else {
+                    phonetics.push(null);
+                    viPhonetics.push(null);
+                }
             });
             // unique by combination of phonetics
             var key = JSON.stringify(phonetics);
@@ -202,30 +188,104 @@ ChineseTextAnalyzer = (function () {
         });
     }
 
-    function getBestPhraseCombinations(clauseIndex, words, phraseMaxWords, phrasesData) {
+    function getBestPhraseCombinations(words, phraseMaxWords, phrasesData, addressCutOrigin) {
         var clauseNumWords = words.length;
-        var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
-        var maxOfCuts = clauseNumWords - 1;
 
-        var okWordIndexes = [];
+        // BEGIN: break into sub-clauses
+        // so that only process words that all of them are data-available
+        // in other words, maxScoreAble === clauseNumWords
+        var wordsIsOkMap = [];
         for (var i = 0; i < clauseNumWords; i++) {
-            okWordIndexes[i] = false;
+            wordsIsOkMap[i] = false;
         }
         Object.keys(phrasesData).forEach(function (address) {
-            var addressInfo = extractInfoFromPhraseAddress(address);
+            var addressInfo = extractInfoFromPhraseAddress(address, addressCutOrigin);
             var startCut = addressInfo[0];
             var endCut = addressInfo[1];
             for (var i = startCut; i < endCut; i++) {
-                okWordIndexes[i] = true;
+                wordsIsOkMap[i] = true;
             }
         });
-        var maxScoreAble = 0;
+        var subClauses = [];
+        var subAddressCutOrigins = [];
+        var okSubClauseIndexes = [];
+        var currentSubClauseIsOk = false;
         for (var i1 = 0; i1 < clauseNumWords; i1++) {
-            if (okWordIndexes[i1]) {
-                maxScoreAble++;
+            if (currentSubClauseIsOk) {
+                if (wordsIsOkMap[i1]) {
+                    subClauses[subClauses.length - 1].push(words[i1]);
+                    currentSubClauseIsOk = true;
+                } else {
+                    subClauses.push([ words[i1] ]);
+                    subAddressCutOrigins.push(i1);
+                    currentSubClauseIsOk = false;
+                }
+            } else {
+                if (wordsIsOkMap[i1]) {
+                    subClauses.push([ words[i1] ]);
+                    subAddressCutOrigins.push(i1);
+                    okSubClauseIndexes.push(subClauses.length - 1);
+                    currentSubClauseIsOk = true;
+                } else {
+                    if (subClauses.length === 0) {
+                        subClauses.push([ words[i1] ]);
+                        subAddressCutOrigins.push(i1);
+                    } else {
+                        subClauses[subClauses.length - 1].push(words[i1]);
+                    }
+                    currentSubClauseIsOk = false;
+                }
             }
         }
-        console.log('clauseIndex', clauseIndex, 'clauseNumWords', clauseNumWords, 'maxScoreAble', maxScoreAble);
+        console.log({subClauses, subAddressCutOrigins, okSubClauseIndexes});
+        // END: break into sub-clauses
+
+        var listOfSubCombinations = [];
+        var minCombinationsLength = -1;
+        for (var i2 = 0; i2 < subClauses.length; i2++) {
+            listOfSubCombinations[i2] = [];
+            if (okSubClauseIndexes.indexOf(i2) >= 0) {
+                getBestPhraseCombinationsWithMaxScoreAble(
+                    subClauses[i2],
+                    Math.min(phraseMaxWords, subClauses[i2].length),
+                    phrasesData,
+                    subAddressCutOrigins[i2],
+                    subClauses[i2].length
+                ).forEach(function (com) {
+                    listOfSubCombinations[i2].push(com);
+                });
+            } else {
+                getBestPhraseCombinationsWithMaxScoreAble(
+                    subClauses[i2],
+                    1,
+                    phrasesData,
+                    subAddressCutOrigins[i2],
+                    0
+                ).forEach(function (com) {
+                    listOfSubCombinations[i2].push(com);
+                });
+            }
+            if (minCombinationsLength === -1 || listOfSubCombinations[i2].length < minCombinationsLength) {
+                minCombinationsLength = listOfSubCombinations[i2].length;
+            }
+        }
+
+        var combinations = [];
+        for (var row = 0; row < minCombinationsLength; row++) {
+            var combination = [];
+            for (var col = 0; col < listOfSubCombinations.length; col++) {
+                combination.push.apply(combination, listOfSubCombinations[col][row]);
+            }
+            combinations.push(combination);
+        }
+
+        console.log('listOfSubCombinations', listOfSubCombinations);
+        console.log('combinations', combinations);
+        return combinations;
+    }
+
+    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble) {
+        var clauseNumWords = words.length;
 
         var rankingTable = [];
         for (var s = 0; s <= maxScoreAble; s++) {
@@ -243,19 +303,22 @@ ChineseTextAnalyzer = (function () {
             }
 
             if (a.length === 1) {
-                address = getPhraseAddress(0, clauseNumWords);
+                address = getPhraseAddress(0, clauseNumWords, addressCutOrigin);
+                com.push(address);
                 if (phrasesData[address]) score += clauseNumWords; // endCut - startCut
             }
             else { // a.length > 1
-                address = getPhraseAddress(0, a[1]);
+                address = getPhraseAddress(0, a[1], addressCutOrigin);
+                com.push(address);
                 if (phrasesData[address]) score += a[1];
                 for (var i = 2; i < a.length; i++) {
-                    address = getPhraseAddress(a[i - 1], a[i]);
-                    if (phrasesData[address]) score += a[i] - a[i - 1];
+                    address = getPhraseAddress(a[i - 1], a[i], addressCutOrigin);
                     com.push(address);
+                    if (phrasesData[address]) score += a[i] - a[i - 1];
                 }
                 // *Note that: `i` was increased more 1 after end the loop (+1 before check loop condition)
-                address = getPhraseAddress(a[i - 1], clauseNumWords);
+                address = getPhraseAddress(a[i - 1], clauseNumWords, addressCutOrigin);
+                com.push(address);
                 if (phrasesData[address]) score += clauseNumWords - a[i - 1];
             }
 
@@ -272,6 +335,8 @@ ChineseTextAnalyzer = (function () {
         };
 
         // BEGIN: get phrase address combinations
+        var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
+        var maxOfCuts = clauseNumWords - 1;
         var n = clauseNumWords - 1;
         var A = phraseMaxWords;
         for (var numOfCuts = minOfCuts; numOfCuts <= maxOfCuts; numOfCuts++) {
