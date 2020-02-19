@@ -11,7 +11,7 @@ use yii\helpers\Url;
  * @var $search string
  */
 
-$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=14');
+$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js?v=15');
 ?>
 <div id="phonetic-lookup">
     <h1 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Tra cứu phiên âm' ?></h1>

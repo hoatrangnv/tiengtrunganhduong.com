@@ -74,15 +74,19 @@ class ChinesePhrasePhoneticApiController extends Controller
         /**
          * @var $phoneticRecords ChinesePhrasePhonetic[]
          */
-        $phoneticRecords = ChinesePhrasePhonetic::find()->where(['IN', 'phrase', array_keys($phraseAddresses)])->all();
+        $phoneticRecords = ChinesePhrasePhonetic::find()
+            ->select('phrase, phonetic, vi_phonetic')
+            ->where(['IN', 'phrase', array_keys($phraseAddresses)])
+            ->all();
         foreach ($phoneticRecords as $record) {
             foreach ($phraseAddresses[$record->phrase] as $address) {
-                $executedClausesInfo[$address[0]]['phrasesData'][1000000 + $address[1] * 1000 + $address[2]] = [
+                $executedClausesInfo[$address[0]]['phrasesData'][1900000 - $address[1] * 1000 - $address[2]] = [
                     $record->phonetic,
                     $record->vi_phonetic
                 ];
             }
         }
+
         $response['data']['executedClausesInfo'] = $executedClausesInfo;
 
         return $response;
