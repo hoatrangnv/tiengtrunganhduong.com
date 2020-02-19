@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $phrase
+ * @property string $tw_phrase
  * @property string $phonetic
  * @property string $vi_phonetic
  * @property string $meaning
@@ -30,10 +31,10 @@ class ChinesePhrasePhonetic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['phrase', 'phonetic', 'vi_phonetic'], 'required'],
+            [['phrase', 'tw_phrase', 'phonetic', 'vi_phonetic'], 'required'],
             [['meaning'], 'string'],
             [['type'], 'integer'],
-            [['phrase', 'phonetic', 'vi_phonetic'], 'string', 'max' => 255],
+            [['phrase', 'tw_phrase', 'phonetic', 'vi_phonetic'], 'string', 'max' => 255],
             [['phrase', 'phonetic'], 'unique', 'targetAttribute' => ['phrase', 'phonetic']],
         ];
     }
@@ -46,6 +47,7 @@ class ChinesePhrasePhonetic extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'phrase' => 'Phrase',
+            'tw_phrase' => 'Tw Phrase',
             'phonetic' => 'Phonetic',
             'vi_phonetic' => 'Vi Phonetic',
             'meaning' => 'Meaning',

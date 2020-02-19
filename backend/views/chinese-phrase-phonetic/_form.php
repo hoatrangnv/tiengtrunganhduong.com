@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phrase')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'tw_phrase')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'phonetic')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'vi_phonetic')->textInput(['maxlength' => true]) ?>

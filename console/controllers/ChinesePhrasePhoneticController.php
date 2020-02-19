@@ -21,9 +21,10 @@ class ChinesePhrasePhoneticController extends Controller
         foreach ($sourceArr as $item) {
             $phonetic = new ChinesePhrasePhonetic();
             $phonetic->phrase = $item[0];
-            $phonetic->phonetic = $item[1];
-            $phonetic->vi_phonetic = $item[2];
-            $phonetic->meaning = $item[3];
+            $phonetic->tw_phrase = $item[1];
+            $phonetic->phonetic = $item[2];
+            $phonetic->vi_phonetic = $item[3];
+            $phonetic->meaning = $item[4];
             try {
 
             if (!$phonetic->save()) {

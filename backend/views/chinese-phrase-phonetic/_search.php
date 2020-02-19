@@ -19,11 +19,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phrase') ?>
 
+    <?= $form->field($model, 'tw_phrase') ?>
+
     <?= $form->field($model, 'phonetic') ?>
 
     <?= $form->field($model, 'vi_phonetic') ?>
 
-    <?= $form->field($model, 'meaning') ?>
+    <?php // echo $form->field($model, 'meaning') ?>
 
     <?php // echo $form->field($model, 'type') ?>
 

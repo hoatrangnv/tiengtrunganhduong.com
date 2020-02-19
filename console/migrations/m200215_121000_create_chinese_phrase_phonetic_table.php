@@ -20,12 +20,14 @@ class m200215_121000_create_chinese_phrase_phonetic_table extends Migration
         $this->createTable('chinese_phrase_phonetic', [
             'id' => $this->primaryKey(),
             'phrase' => $this->string()->notNull(),
+            'tw_phrase' => $this->string()->notNull(),
             'phonetic' => $this->string()->notNull(),
             'vi_phonetic' => $this->string()->notNull(),
             'meaning' => $this->text(),
             'type' => $this->smallInteger(),
         ], $tableOptions);
         $this->createIndex('index-phrase', 'chinese_phrase_phonetic', 'phrase', false);
+        $this->createIndex('index-tw_phrase', 'chinese_phrase_phonetic', 'tw_phrase', false);
         $this->createIndex('index-phrase-phonetic', 'chinese_phrase_phonetic', ['phrase', 'phonetic'], true);
     }
 
@@ -35,6 +37,7 @@ class m200215_121000_create_chinese_phrase_phonetic_table extends Migration
     public function down()
     {
         $this->dropIndex('index-phrase-phonetic', 'chinese_phrase_phonetic');
+        $this->dropIndex('index-tw_phrase', 'chinese_phrase_phonetic');
         $this->dropIndex('index-phrase', 'chinese_phrase_phonetic');
         $this->dropTable('chinese_phrase_phonetic');
     }
