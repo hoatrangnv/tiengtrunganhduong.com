@@ -324,30 +324,23 @@ ChineseTextAnalyzer = (function () {
 
         var startEndMap = {};
 
-        var cutPairs = Object.keys(phrasesData).map(function (address) {
+        Object.keys(phrasesData).forEach(function (address) {
             var info = extractInfoFromPhraseAddress(address, addressCutOrigin);
             if (startEndMap[info[0]] !== undefined) {
                 startEndMap[info[0]].push(info[1]);
             } else {
                 startEndMap[info[0]] = [ info[1] ];
             }
-            return info;
         });
 
-        cutPairs.sort(function (a, b) {
-            if (a[0] !== b[0]) {
-                return a[0] - b[0];
-            }
-            return a[1] - b[1];
-        });
-
-        var routesTable = [[]];
-        for (var numSteps = 1; numSteps <= clauseNumWords; numSteps++) {
+        var routesTable = [];
+        for (var numSteps = 0; numSteps <= clauseNumWords + 1; numSteps++) {
             routesTable[numSteps] = [];
         }
 
-        var minSteps = clauseNumWords;
+        var minSteps = clauseNumWords + 1;
         var backtrack = function (start, route) {
+            console.log('start',start);
             var numSteps = route.length + 1;
             if (numSteps > minSteps) {
                 return;
@@ -364,9 +357,6 @@ ChineseTextAnalyzer = (function () {
                     backtrack(endList[i], JSON.parse(JSON.stringify(route)));
                 }
             } else if (start === clauseNumWords) {
-                if (numSteps > minSteps) {
-                    return;
-                }
                 if (numSteps < minSteps) {
                     minSteps = numSteps;
                 }
@@ -378,7 +368,7 @@ ChineseTextAnalyzer = (function () {
         console.log('startEndMap', startEndMap);
         console.log('routesTable', routesTable);
 
-        for (var i = 0; i < routesTable.length; i++) {
+        for (var i = 2; i < routesTable.length; i++) {
             if (routesTable[i].length > 0) {
                 var result = (routesTable[i].map(function (route) {
                     var addressList = [];
