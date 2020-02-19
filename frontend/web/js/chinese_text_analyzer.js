@@ -255,7 +255,7 @@ ChineseTextAnalyzer = (function () {
             listOfSubCombinations[subIndex] = [];
             if (okSubClauseIndexes.indexOf(subIndex) >= 0) {
                 (function (i) {
-                    getBestPhraseCombinationsWithMaxScoreAble(
+                    getBestStepCombinations(
                         subClauses[i],
                         phraseNumWordsList,
                         phrasesData,
@@ -277,7 +277,7 @@ ChineseTextAnalyzer = (function () {
                 })(subIndex);
             } else {
                 (function (i) {
-                    getBestPhraseCombinationsWithMaxScoreAble(
+                    getBestStepCombinations(
                         subClauses[i],
                         [1],
                         phrasesData,
@@ -297,6 +297,99 @@ ChineseTextAnalyzer = (function () {
                         maxConcurrentTasks, getFreeWorker, setWorkerIsFree
                     );
                 })(subIndex);
+            }
+        }
+    }
+
+    function getBestStepCombinations(words, phraseNumWordsList, phrasesData, addressCutOrigin, maxScoreAble, exportResult,
+                                                       maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
+        var clauseNumWords = words.length;
+
+        if (maxScoreAble === 0) {
+            var bestRoute = [];
+            for (var j = 0; j < clauseNumWords; j++) {
+                bestRoute.push(j);
+            }
+            exportResult([ bestRoute ].map(function (route) {
+                return route.map(function (start, i) {
+                    if (i === route.length - 1) {
+                        return getPhraseAddress(start, clauseNumWords);
+                    } else {
+                        return getPhraseAddress(start, route[i + 1]);
+                    }
+                });
+            }));
+            return;
+        }
+
+        var startEndMap = {};
+
+        var cutPairs = Object.keys(phrasesData).map(function (address) {
+            var info = extractInfoFromPhraseAddress(address, addressCutOrigin);
+            if (startEndMap[info[0]] !== undefined) {
+                startEndMap[info[0]].push(info[1]);
+            } else {
+                startEndMap[info[0]] = [ info[1] ];
+            }
+            return info;
+        });
+
+        cutPairs.sort(function (a, b) {
+            if (a[0] !== b[0]) {
+                return a[0] - b[0];
+            }
+            return a[1] - b[1];
+        });
+
+        var routesTable = [[]];
+        for (var numSteps = 1; numSteps <= clauseNumWords; numSteps++) {
+            routesTable[numSteps] = [];
+        }
+
+        var minSteps = clauseNumWords;
+        var backtrack = function (start, route) {
+            var numSteps = route.length + 1;
+            if (numSteps > minSteps) {
+                return;
+            }
+            route.push(start);
+            var endList = startEndMap[start];
+            if (endList) {
+                for (var i = 0; i < endList.length; i++) {
+                    if (start === 0) {
+                        console.log('start = 0 && endList[i] = ', endList[i]);
+                        console.log(route);
+                    }
+
+                    backtrack(endList[i], JSON.parse(JSON.stringify(route)));
+                }
+            } else if (start === clauseNumWords) {
+                if (numSteps > minSteps) {
+                    return;
+                }
+                if (numSteps < minSteps) {
+                    minSteps = numSteps;
+                }
+                routesTable[numSteps].push(route);
+            }
+        };
+        backtrack(0, []);
+
+        console.log('startEndMap', startEndMap);
+        console.log('routesTable', routesTable);
+
+        for (var i = 0; i < routesTable.length; i++) {
+            if (routesTable[i].length > 0) {
+                var result = (routesTable[i].map(function (route) {
+                    var addressList = [];
+                    for (var i = 0; i < route.length - 1; i++) {
+                        addressList.push(getPhraseAddress(route[i], route[i + 1], addressCutOrigin));
+                    }
+                    return addressList;
+                }));
+                console.log({result});
+                exportResult(result);
+                return;
             }
         }
     }

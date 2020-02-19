@@ -16,7 +16,7 @@ use yii\web\BadRequestHttpException;
 class ChinesePhrasePhoneticApiController extends Controller
 {
     const INPUT_MAX_WORDS = 1000;
-    const CLAUSE_MAX_WORDS = 30;
+    const CLAUSE_MAX_WORDS = 50;
     const PHRASE_MAX_WORDS = 5;
 
     public function actionLookup() {
