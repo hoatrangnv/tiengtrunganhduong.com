@@ -129,23 +129,23 @@ ChineseTextAnalyzer = (function () {
 
     function phrasingParse(words, phrasesData, wordsJoiner, exportResult,
                            maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
-        getBestPhraseCombinations(words, phrasesData, function (combinations) {
+        getBestPhraseCombinations(words, phrasesData, function (routes) {
             var phrasePhonetics = [];
 
-            combinations.forEach(function (combination) {
+            routes.forEach(function (cuts) {
                 var phrases = [];
                 var phonetics = [];
                 var viPhonetics = [];
-                combination.forEach(function (address) {
-                    var addressInfo = extractInfoFromPhraseAddress(address, 0);
-                    var startCut = addressInfo[0];
-                    var endCut = addressInfo[1];
+                for (var i = 0; i < cuts.length - 1; i++) {
+                    var startCut = cuts[i];
+                    var endCut = cuts[i + 1];
+                    var address = getPhraseAddress(startCut, endCut, 0);
                     var phrase = '';
-                    for (var i = startCut; i < endCut; i++) {
-                        if (i > startCut) {
+                    for (var j = startCut; j < endCut; j++) {
+                        if (j > startCut) {
                             phrase += wordsJoiner;
                         }
-                        phrase += words[i];
+                        phrase += words[j];
                     }
                     phrases.push(phrase);
                     var phraseInfo = phrasesData[address];
@@ -156,7 +156,7 @@ ChineseTextAnalyzer = (function () {
                         phonetics.push(null);
                         viPhonetics.push(null);
                     }
-                });
+                }
                 phrasePhonetics.push([phrases, phonetics, viPhonetics]);
             });
 
@@ -310,15 +310,7 @@ ChineseTextAnalyzer = (function () {
             for (var j = 0; j < clauseNumWords; j++) {
                 bestRoute.push(j);
             }
-            exportResult([ bestRoute ].map(function (route) {
-                return route.map(function (start, i) {
-                    if (i === route.length - 1) {
-                        return getPhraseAddress(start, clauseNumWords);
-                    } else {
-                        return getPhraseAddress(start, route[i + 1]);
-                    }
-                });
-            }));
+            exportResult([ bestRoute ]);
             return;
         }
 
@@ -335,12 +327,11 @@ ChineseTextAnalyzer = (function () {
 
         var routesTable = [];
         for (var numSteps = 0; numSteps <= clauseNumWords + 1; numSteps++) {
-            routesTable[numSteps] = [];
+            routesTable[numSteps] = null;
         }
 
         var minSteps = clauseNumWords + 1;
         var backtrack = function (start, route) {
-            console.log('start',start);
             var numSteps = route.length + 1;
             if (numSteps > minSteps) {
                 return;
@@ -349,36 +340,24 @@ ChineseTextAnalyzer = (function () {
             var endList = startEndMap[start];
             if (endList) {
                 for (var i = 0; i < endList.length; i++) {
-                    if (start === 0) {
-                        console.log('start = 0 && endList[i] = ', endList[i]);
-                        console.log(route);
-                    }
-
-                    backtrack(endList[i], JSON.parse(JSON.stringify(route)));
+                    backtrack(endList[i], [].concat(route));
                 }
             } else if (start === clauseNumWords) {
                 if (numSteps < minSteps) {
                     minSteps = numSteps;
                 }
-                routesTable[numSteps].push(route);
+                if (routesTable[numSteps] === null) {
+                    routesTable[numSteps] = [ route ];
+                } else {
+                    routesTable[numSteps].push(route);
+                }
             }
         };
         backtrack(0, []);
 
-        console.log('startEndMap', startEndMap);
-        console.log('routesTable', routesTable);
-
         for (var i = 2; i < routesTable.length; i++) {
-            if (routesTable[i].length > 0) {
-                var result = (routesTable[i].map(function (route) {
-                    var addressList = [];
-                    for (var i = 0; i < route.length - 1; i++) {
-                        addressList.push(getPhraseAddress(route[i], route[i + 1], addressCutOrigin));
-                    }
-                    return addressList;
-                }));
-                console.log({result});
-                exportResult(result);
+            if (routesTable[i] !== null) {
+                exportResult(routesTable[i]);
                 return;
             }
         }
