@@ -60,7 +60,6 @@ ChineseTextAnalyzer = (function () {
             result[clauseIndex] = null;
             var error = infoItem['error'];
             var words = infoItem['words'];
-            var phraseMaxWords = infoItem['phraseMaxWords'];
             var phrasesData = infoItem['phrasesData'];
             if (error) {
                 result[clauseIndex] = {
@@ -130,9 +129,9 @@ ChineseTextAnalyzer = (function () {
 
     function phrasingParse(words, phrasesData, wordsJoiner, exportResult,
                            maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
-        var dictPhrasePhonetics = {};
-        var phrasePhoneticKey = [];
         getBestPhraseCombinations(words, phrasesData, function (combinations) {
+            var phrasePhonetics = [];
+
             combinations.forEach(function (combination) {
                 var phrases = [];
                 var phonetics = [];
@@ -158,37 +157,11 @@ ChineseTextAnalyzer = (function () {
                         viPhonetics.push(null);
                     }
                 });
-                // unique by combination of phonetics
-                var key = JSON.stringify(phonetics);
-                if (phrasePhoneticKey.indexOf(key) < 0) {
-                    dictPhrasePhonetics[key] = [phrases, phonetics, viPhonetics];
-                    phrasePhoneticKey.push(key);
-                }
+                phrasePhonetics.push([phrases, phonetics, viPhonetics]);
             });
 
-            exportResult(phrasePhoneticKey.map(function (key) {
-                // split phrase into words if its phonetic is null
-                var phrasePhonetic = dictPhrasePhonetics[key];
-                var phrases = phrasePhonetic[0], phonetics = phrasePhonetic[1], viPhonetics = phrasePhonetic[2];
-                var newPhrases = [], newPhonetics = [], newViPhonetics = [];
-                for (var i = 0; i < phrases.length; i++) {
-                    if (phonetics[i] === null) {
-                        var _words = phrases[i].split(wordsJoiner);
-                        for (var j = 0; j < _words.length; j++) {
-                            newPhrases.push(_words[j]);
-                            newPhonetics.push(null);
-                            newViPhonetics.push(null);
-                        }
-                    } else {
-                        newPhrases.push(phrases[i]);
-                        newPhonetics.push(phonetics[i]);
-                        newViPhonetics.push(viPhonetics[i]);
-                    }
-                }
-                return [newPhrases, newPhonetics, newViPhonetics];
-            }));
+            exportResult(phrasePhonetics);
         }, maxConcurrentTasks, getFreeWorker, setWorkerIsFree);
-
     }
 
     function getBestPhraseCombinations(words, phrasesData, exportResult,
@@ -199,21 +172,21 @@ ChineseTextAnalyzer = (function () {
         for (var i = 0; i < clauseNumWords; i++) {
             wordsIsOkMap[i] = false;
         }
-        var phraseMinWords = clauseNumWords;
-        var phraseMaxWords = 0;
+        var phraseNumWordsList = [];
         Object.keys(phrasesData).forEach(function (address) {
             var addressInfo = extractInfoFromPhraseAddress(address, 0);
             var startCut = addressInfo[0];
             var endCut = addressInfo[1];
-            if (endCut - startCut < phraseMinWords) {
-                phraseMinWords = endCut - startCut;
-            }
-            if (endCut - startCut > phraseMaxWords) {
-                phraseMaxWords = endCut - startCut;
+            var phraseNumWords = addressInfo[1] - addressInfo[0];
+            if (phraseNumWordsList.indexOf(phraseNumWords) < 0) {
+                phraseNumWordsList.push(phraseNumWords);
             }
             for (var i = startCut; i < endCut; i++) {
                 wordsIsOkMap[i] = true;
             }
+        });
+        phraseNumWordsList.sort(function (a, b) {
+            return a - b;
         });
         // if (wordsIsOkMap.every(function (isOk) { return isOk; })) {
         //     return getBestPhraseCombinationsWithMaxScoreAble(
@@ -284,8 +257,7 @@ ChineseTextAnalyzer = (function () {
                 (function (i) {
                     getBestPhraseCombinationsWithMaxScoreAble(
                         subClauses[i],
-                        phraseMinWords,
-                        Math.min(phraseMaxWords, subClauses[i].length),
+                        phraseNumWordsList,
                         phrasesData,
                         subAddressCutOrigins[i],
                         subClauses[i].length,
@@ -307,8 +279,7 @@ ChineseTextAnalyzer = (function () {
                 (function (i) {
                     getBestPhraseCombinationsWithMaxScoreAble(
                         subClauses[i],
-                        1,
-                        1,
+                        [1],
                         phrasesData,
                         subAddressCutOrigins[i],
                         0,
@@ -330,7 +301,7 @@ ChineseTextAnalyzer = (function () {
         }
     }
 
-    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseMinWords, phraseMaxWords, phrasesData, addressCutOrigin, maxScoreAble, exportResult,
+    function getBestPhraseCombinationsWithMaxScoreAble(words, phraseNumWordsList, phrasesData, addressCutOrigin, maxScoreAble, exportResult,
                                                        maxConcurrentTasks = 8, getFreeWorker = undefined, setWorkerIsFree = undefined) {
         var clauseNumWords = words.length;
 
@@ -352,8 +323,14 @@ ChineseTextAnalyzer = (function () {
         };
 
         // BEGIN: get phrase address combinations
+        var phraseMinWords = phraseNumWordsList[0];
+        var phraseMaxWords = phraseNumWordsList[phraseNumWordsList.length - 1];
         var minOfCuts = Math.ceil(clauseNumWords / phraseMaxWords) - 1;
         var maxOfCuts = Math.floor(clauseNumWords / phraseMinWords) - 1;
+        if (minOfCuts > maxOfCuts) {
+            console.error({minOfCuts, maxOfCuts, phraseMaxWords, phraseMinWords, clauseNumWords});
+            throw new Error('minOfCuts > maxOfCuts');
+        }
 
         var tasksDone = [];
         for (var i = minOfCuts; i <= maxOfCuts; i++) {
@@ -407,7 +384,7 @@ ChineseTextAnalyzer = (function () {
             }
         };
         if (false && getFreeWorker) { // try to not use worker
-            console.log('Use worker to get combinations');
+            console.log('Use worker for nkAB');
             for (var k = minOfCuts; k <= maxOfCuts; k++) {
                 (function (k) {
                     var workerAndIndex = getFreeWorker();
@@ -417,8 +394,7 @@ ChineseTextAnalyzer = (function () {
                         workerTask: 'pushCombinationsWithNumOfCuts',
                         numOfCuts: k,
                         clauseNumWords: clauseNumWords,
-                        phraseMinWords: phraseMinWords,
-                        phraseMaxWords: phraseMaxWords,
+                        phraseNumWordsList: phraseNumWordsList,
                         phrasesData: phrasesData,
                         addressCutOrigin: addressCutOrigin,
                         maxScoreAble: maxScoreAble
@@ -433,14 +409,14 @@ ChineseTextAnalyzer = (function () {
                 })(k);
             }
         } else {
-            console.log('DO NOT use worker to get combinations');
+            console.log('DO NOT use worker for nkAB');
             for (var j = minOfCuts; j <= maxOfCuts; j++) {
                 if (tasksDone[j]) {
                     console.log('break caused by set done by another', j);
                     break;
                 }
                 pushSubRankingTable(ChineseTextAnalyzer.pushCombinationsWithNumOfCuts(
-                    j, clauseNumWords, phraseMinWords, phraseMaxWords,
+                    j, clauseNumWords, phraseNumWordsList,
                     phrasesData, addressCutOrigin, maxScoreAble
                 ), j);
             }
@@ -449,7 +425,7 @@ ChineseTextAnalyzer = (function () {
 
     }
     
-    function pushCombinationsWithNumOfCuts(numOfCuts, clauseNumWords, phraseMinWords, phraseMaxWords, phrasesData,
+    function pushCombinationsWithNumOfCuts(numOfCuts, clauseNumWords, phraseNumWordsList, phrasesData,
                                            addressCutOrigin, maxScoreAble) {
         var rankingTable = [];
         for (var s = 0; s <= maxScoreAble; s++) {
@@ -499,17 +475,25 @@ ChineseTextAnalyzer = (function () {
         };
 
         var n = clauseNumWords - 1;
-        var A = phraseMinWords;
-        var B = phraseMaxWords;
         var k = numOfCuts;
+        var C = phraseNumWordsList;
+        var A = C[0];
+        var B = C[C.length - 1];
 
-        console.time('task numCuts = ' + k);
+        var timerName = 'nkAB ' + n + '.' + k + '.' + C;
+        console.log(timerName + ': start');
+        console.time(timerName);
         var a = [0];
         if (k === 0) {
             pushCombination(a);
         } else {
             var backtrack = function (i) {
-                for (var j = a[i - 1] + A; j <= n - k + i && j - a[i - 1] <= B; j++) {
+                var x = 0;
+                for (var j = a[i - 1] + A
+                    ; j <= n - k + i && j - a[i - 1] <= B
+                    ; j += C[x] - C[x - 1]
+                ) {
+                    x++;
                     if (i === k && (n + 1 - j < A || n + 1 - j > B)) {
                         continue;
                     }
@@ -523,7 +507,7 @@ ChineseTextAnalyzer = (function () {
             };
             backtrack(1);
         }
-        console.timeEnd('task numCuts = ' + k);
+        console.timeEnd(timerName);
         return rankingTable;
     }
 
@@ -593,8 +577,7 @@ self.onmessage = function (ev) {
             postMessage(ChineseTextAnalyzer.pushCombinationsWithNumOfCuts(
                 args['numOfCuts'],
                 args['clauseNumWords'],
-                args['phraseMinWords'],
-                args['phraseMaxWords'],
+                args['phraseNumWordsList'],
                 args['phrasesData'],
                 args['addressCutOrigin'],
                 args['maxScoreAble']
