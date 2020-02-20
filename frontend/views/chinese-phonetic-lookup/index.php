@@ -77,11 +77,12 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
     requestAndUpdateResult(search_text);
 
     var isSubmittingForm = false;
-    function requestAndUpdateResult(search) {
+    var trackingTimer = null;
+    function requestAndUpdateResult(search_text) {
         if (isSubmittingForm) {
             return;
         }
-        if (!search || !search.trim()) {
+        if (!search_text || !search_text.trim()) {
             return;
         }
         isSubmittingForm = true;
@@ -91,10 +92,18 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
             elm("div", "Đang xử lý...", {'class': 'processing'})
         );
         requestPhoneticApi(
-            search,
+            search_text,
             handleOnRequestSuccess,
             handleOnRequestError
         );
+        trackingTimer = setTimeout(function () {
+            ga('send', 'event', {
+                eventCategory: 'phonetic.completionTimeTooLong',
+                eventAction: 'play',
+                eventLabel: search_text,
+                eventValue: 2000
+            });
+        }, 2000);
     }
 
     function handleOnRequestSuccess(data, inputParseResult) {
@@ -166,6 +175,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
             renderDetailsView();
             isSubmittingForm = false;
             submitButton.disabled = false;
+            clearTimeout(trackingTimer);
         };
 
         var fillViewItemsWithResultOfPhrasePhonetics = function (result) {
@@ -200,16 +210,25 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
                             viPhonetics[i] !== null ? viPhonetics[i] : null_replacement
                         ]);
                     }
-                    // only show in details if have two or more combinations
+                    // // only show in details if have two or more combinations
+                    // if (phrasePhonetics.length > 1) {
+                    //     notedViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
+                    //     notedViewElmItems[index].push.apply(notedViewElmItems[index], phrasePhonetics.map(function (rows) {
+                    //         return elm('table', rows.map(function (cells) {
+                    //             return elm('tr', cells.map(function (cell) {
+                    //                 return elm('td', cell !== null ? cell : null_replacement);
+                    //             }));
+                    //         }));
+                    //     }));
+                    // }
+
                     if (phrasePhonetics.length > 1) {
-                        notedViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
-                        notedViewElmItems[index].push.apply(notedViewElmItems[index], phrasePhonetics.map(function (rows) {
-                            return elm('table', rows.map(function (cells) {
-                                return elm('tr', cells.map(function (cell) {
-                                    return elm('td', cell !== null ? cell : null_replacement);
-                                }));
-                            }));
-                        }));
+                        ga('send', 'event', {
+                            eventCategory: 'phonetic.tooManyPhraseCombinations',
+                            eventAction: 'play',
+                            eventLabel: words.join(wordsJoiner),
+                            eventValue: phrasePhonetics.length
+                        });
                     }
                 }
             });
@@ -236,6 +255,13 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         appendChildren(result, [
             elm("h3", error)
         ]);
+        ga('send', 'event', {
+            eventCategory: 'phonetic.displayedAnError',
+            eventAction: 'play',
+            eventLabel: error,
+            eventValue: 1
+        });
+        clearTimeout(trackingTimer);
     }
 
     function requestPhoneticApi(search, onSuccess, onError) {

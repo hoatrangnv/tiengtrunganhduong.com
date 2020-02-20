@@ -84,7 +84,7 @@ return [
 
                 // ChinesePhrasePhonetic
                 ['pattern' => 'chinese-phrase-phonetic-api/lookup', 'route' => 'chinese-phrase-phonetic-api/lookup'],
-                ['pattern' => 'tra-cuu-phien-am.html', 'route' => 'chinese-phonetic-lookup/index'],
+                ['pattern' => 'dich-tieng-trung-tieng-viet-tra-cuu-phien-am-tieng-trung.html', 'route' => 'chinese-phonetic-lookup/index'],
 
                 // User
                 ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],
