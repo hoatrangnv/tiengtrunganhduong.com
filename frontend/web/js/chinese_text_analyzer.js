@@ -103,12 +103,14 @@ ChineseTextAnalyzer = (function () {
                             taskExportOutput(phrasePhonetics, taskIndex);
                         };
                     } else {
-                        var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
-                            words,
-                            phrasesData,
-                            wordsJoiner
-                        );
-                        taskExportOutput(phrasePhonetics, taskIndex);
+                        setTimeout(function () {
+                            var phrasePhonetics = ChineseTextAnalyzer.phrasingParse(
+                                words,
+                                phrasesData,
+                                wordsJoiner
+                            );
+                            taskExportOutput(phrasePhonetics, taskIndex);
+                        }, 0);
                     }
                 });
             }

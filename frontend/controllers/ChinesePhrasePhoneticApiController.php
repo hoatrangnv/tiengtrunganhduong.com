@@ -17,7 +17,7 @@ class ChinesePhrasePhoneticApiController extends Controller
 {
     const INPUT_MAX_WORDS = 1000;
     const CLAUSE_MAX_WORDS = 50;
-    const PHRASE_MAX_WORDS = 5;
+    const PHRASE_MAX_WORDS = 10;
 
     public function actionLookup() {
         $response = ['data' => null, 'error_message' => null];
@@ -74,10 +74,12 @@ class ChinesePhrasePhoneticApiController extends Controller
         /**
          * @var $phoneticRecords ChinesePhrasePhonetic[]
          */
+        $time = microtime(true);
         $phoneticRecords = ChinesePhrasePhonetic::find()
-            ->select('phrase, phonetic, vi_phonetic')
+            ->select(['phrase', 'phonetic', 'vi_phonetic', 'meaning'])
             ->where(['IN', 'phrase', array_map('strval', array_keys($phraseAddresses))])
             ->all();
+        $response['data']['time'] = microtime(true) - $time;
         foreach ($phoneticRecords as $record) {
             foreach ($phraseAddresses[$record->phrase] as $address) {
                 $executedClausesInfo[$address[0]]['phrasesData'][1900000 - $address[1] * 1000 - $address[2]] = [

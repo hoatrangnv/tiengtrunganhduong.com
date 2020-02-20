@@ -12,8 +12,6 @@ namespace frontend\controllers;
 class ChinesePhoneticLookupController extends BaseController
 {
     public function actionIndex() {
-        return $this->render('index', [
-            'search' => \Yii::$app->request->get('search', '')
-        ]);
+        return $this->render('index');
     }
 }

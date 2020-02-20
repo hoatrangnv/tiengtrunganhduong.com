@@ -11,7 +11,7 @@ use yii\helpers\Url;
  * @var $search string
  */
 
-$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js?v=15');
+$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=16');
 ?>
 <div id="phonetic-lookup">
     <h1 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Tra cứu phiên âm' ?></h1>
@@ -51,7 +51,22 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         console.log('Worker is not supported!');
     }
 
-    var search_text = <?= json_encode($search) ?>;
+    var search_text = '';
+    try {
+        location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+            if (key === 'text') {
+                search_text = decodeURIComponent(value);
+            }
+        });
+    } catch (e) {
+        console.error(e);
+        ga('send', 'event', {
+            eventCategory: 'phonetic.decodeURIError',
+            eventAction: 'play',
+            eventLabel: JSON.stringify(e),
+            eventValue: 1
+        });
+    }
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
     var input = elm(
@@ -266,15 +281,15 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         });
     }
 
-    function requestPhoneticApi(search, onSuccess, onError) {
-        var webUrl = "<?= Url::to(['chinese-phonetic-lookup/index', 'search' => '__SEARCH__']) ?>";
+    function requestPhoneticApi(text, onSuccess, onError) {
+        var webUrl = "<?= Url::to(['chinese-phonetic-lookup/index', 'text' => '__TEXT__']) ?>";
         var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup']) ?>";
 
-        search = search.split(' ').join(''); // chinese does not use white space
-        var stateUrl = webUrl.split("__SEARCH__").join(search.split('\n').join('%0D%0A')); // %0D%0A represents for line break
+        text = text.split(' ').join(''); // chinese does not use white space
+        var stateUrl = webUrl.split("__TEXT__").join(text.split('\n').join('%0D%0A')); // %0D%0A represents for line break
         window.history.pushState(history.state, document.title, stateUrl);
 
-        var inputParseResult = ChineseTextAnalyzer.parseChineseText(search);
+        var inputParseResult = ChineseTextAnalyzer.parseChineseText(text);
         var inputMixedParts = inputParseResult[0];
         var inputLetterPartIndexes = inputParseResult[1];
         var clauses = inputLetterPartIndexes.map(function (letterPartIndex) {
@@ -292,7 +307,8 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
             }
         });
         xhr.addEventListener("error", function () {
-            onError("An error occurred.");
+            onError("An error occurred: " + xhr.statusText + " " + xhr.responseText);
+            console.log(xhr);
         });
         xhr.open("POST", apiUrl);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
