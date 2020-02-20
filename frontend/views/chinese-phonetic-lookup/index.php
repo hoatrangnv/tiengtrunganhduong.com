@@ -238,6 +238,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                     // }
 
                     if (phrasePhonetics.length > 1) {
+                        console.log('phrasePhonetics', phrasePhonetics);
                         ga('send', 'event', {
                             eventCategory: 'phonetic.tooManyPhraseCombinations',
                             eventAction: 'play',
