@@ -116,7 +116,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                 eventCategory: 'phonetic.completionTimeTooLong',
                 eventAction: 'play',
                 eventLabel: search_text,
-                eventValue: 2000
+                eventValue: 2
             });
         }, 2000);
     }
