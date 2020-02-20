@@ -118,7 +118,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         var notedViewElmItems = [];
         var somePartsHasBeenOmitted = false;
 
-        var renderDetailsView = function () {
+        var renderNotedView = function () {
             if (notedViewElmItems.length > 0) {
                 appendChildren(result, [
                     elm('h2', 'Ghi chú', {'class': 'details-heading'}),
@@ -172,7 +172,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
                     elm('div', 'Một số phần đã bị lược bỏ. Vui lòng xem mục "Ghi chú".', {'class': 'error'})
                 );
             }
-            renderDetailsView();
+            renderNotedView();
             isSubmittingForm = false;
             submitButton.disabled = false;
             clearTimeout(trackingTimer);
@@ -255,13 +255,15 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         appendChildren(result, [
             elm("h3", error)
         ]);
+        isSubmittingForm = false;
+        submitButton.disabled = false;
+        clearTimeout(trackingTimer);
         ga('send', 'event', {
             eventCategory: 'phonetic.displayedAnError',
             eventAction: 'play',
             eventLabel: error,
             eventValue: 1
         });
-        clearTimeout(trackingTimer);
     }
 
     function requestPhoneticApi(search, onSuccess, onError) {
