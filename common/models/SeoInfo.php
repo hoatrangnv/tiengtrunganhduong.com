@@ -47,6 +47,7 @@ class SeoInfo extends MyActiveRecord
             'article/tags' => Yii::t('app', 'News Tags'),
             'article/search' => Yii::t('app', 'News Search'),
             'name-translation/index' => Yii::t('app', 'Name Translation'),
+            'chinese-phonetic-lookup/index' => Yii::t('app', 'Chinese Phonetic Lookup'),
         ];
     }
 

@@ -2075,7 +2075,7 @@ button.audio-inline:disabled {
 #phonetic-lookup .result-box .details-heading {
     margin-top: 1.5rem;
 }
-#phonetic-lookup .result-box .details-view > :not(:first-child) {
+#phonetic-lookup .result-box .noted-view > :not(:first-child) {
     margin-top: 1rem;
 }
 #phonetic-lookup .desc {

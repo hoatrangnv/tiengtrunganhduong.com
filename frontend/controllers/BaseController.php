@@ -41,7 +41,7 @@ class BaseController extends Controller
         $allAvailableParams = UrlParam::getAllParams();
         $canonicalParams = [];
         foreach ($reqParams as $paramName => $paramValue) {
-            if (UrlParam::AMP != $paramName && isset($allAvailableParams[$paramName])) {
+            if (UrlParam::AMP !== $paramName && isset($allAvailableParams[$paramName])) {
                 $canonicalParams[$paramName] = $paramValue;
             }
         }
@@ -58,7 +58,7 @@ class BaseController extends Controller
             Yii::$app->layoutPath = Yii::getAlias('@frontend/views/amp/layouts');
         }
 
-        // @TODO: Determines screen size
+        // Determines screen size
         $detect = new MobileDetect;
         switch (true) {
             case $detect->isTablet(): // tablet only

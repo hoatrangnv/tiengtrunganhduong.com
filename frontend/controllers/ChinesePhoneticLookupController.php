@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 
 
-class LookupPhoneticForChineseTextController extends BaseController
+class ChinesePhoneticLookupController extends BaseController
 {
     public function actionIndex() {
         return $this->render('index', [

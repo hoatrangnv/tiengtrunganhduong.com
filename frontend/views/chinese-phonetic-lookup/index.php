@@ -55,23 +55,15 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
     var input = elm(
-        "textarea",
-        search_text,
-        {
-            placeholder: "Nhập văn bản",
-            spellcheck: "false",
-            "class": "search-input",
-        }
+        "textarea", search_text,
+        {placeholder: "Nhập văn bản", spellcheck: "false", "class": "search-input"}
     );
     var submitButton = elm("button", "Tra cứu", {type: "submit", "class": "search-button"});
     var form = elm(
         "form",
         [
             input,
-            elm('div',
-                submitButton,
-                {"class": "search-button-wrapper clr"}
-            )
+            elm('div', submitButton, {"class": "search-button-wrapper clr"})
         ],
         {
             "class": "search-form clr",
@@ -110,21 +102,22 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         var wordsJoiner = '';
 
         var executedClausesInfo = data['executedClausesInfo'];
-        var phrasesData = data['phrasesData'];
         var inputMixedParts = inputParseResult[0];
         var inputLetterPartIndexes = inputParseResult[1];
 
         var paragraphViewArrItems = [];
-        var detailsViewElmItems = [];
+        var notedViewElmItems = [];
         var somePartsHasBeenOmitted = false;
 
         var renderDetailsView = function () {
-            appendChildren(result, [
-                elm('h2', 'Chi tiết', {'class': 'details-heading'}),
-                elm('div', detailsViewElmItems.map(function (elmArr) {
-                    return elm('div', elmArr, {'class': 'details-item'});
-                }, []), {'class': 'details-view'})
-            ]);
+            if (notedViewElmItems.length > 0) {
+                appendChildren(result, [
+                    elm('h2', 'Ghi chú', {'class': 'details-heading'}),
+                    elm('div', notedViewElmItems.map(function (elmArr) {
+                        return elm('div', elmArr, {'class': 'details-item'});
+                    }, []), {'class': 'noted-view'})
+                ]);
+            }
         };
 
         var renderParagraphView = function () {
@@ -167,7 +160,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
             if (somePartsHasBeenOmitted) {
                 appendChildren(
                     result,
-                    elm('div', 'Một số phần đã bị lược bỏ. Vui lòng xem mục "Chi tiết".', {'class': 'error'})
+                    elm('div', 'Một số phần đã bị lược bỏ. Vui lòng xem mục "Ghi chú".', {'class': 'error'})
                 );
             }
             renderDetailsView();
@@ -182,53 +175,41 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
                 var phrasePhonetics = resultItem['phrasePhonetics'];
                 if (error) {
                     if (words === null) {
-                        detailsViewElmItems[index] = [
-                            elm('div', error, {'class': 'error'})
-                        ];
                         paragraphViewArrItems[index] = null;
-                    } else {
-                        detailsViewElmItems[index] = [
-                            elm('h3', words.join(wordsJoiner)),
+                        notedViewElmItems[index] = [
                             elm('div', error, {'class': 'error'})
                         ];
+                    } else {
                         paragraphViewArrItems[index] = words.map(function (word) {
                             return [word, null_replacement, null_replacement];
                         });
+                        notedViewElmItems[index] = [
+                            elm('h3', words.join(wordsJoiner)),
+                            elm('div', error, {'class': 'error'})
+                        ];
                     }
                 } else {
-                    detailsViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
                     paragraphViewArrItems[index] = [];
-                    if (phrasePhonetics.length > 0) {
-                        detailsViewElmItems[index].push.apply(detailsViewElmItems[index], phrasePhonetics.map(function (rows) {
+                    var phrases = phrasePhonetics[0][0];
+                    var phonetics = phrasePhonetics[0][1];
+                    var viPhonetics = phrasePhonetics[0][2];
+                    for (var i = 0; i < phrases.length; i++) {
+                        paragraphViewArrItems[index].push([
+                            phrases[i],
+                            phonetics[i] !== null ? phonetics[i] : null_replacement,
+                            viPhonetics[i] !== null ? viPhonetics[i] : null_replacement
+                        ]);
+                    }
+                    // only show in details if have two or more combinations
+                    if (phrasePhonetics.length > 1) {
+                        notedViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
+                        notedViewElmItems[index].push.apply(notedViewElmItems[index], phrasePhonetics.map(function (rows) {
                             return elm('table', rows.map(function (cells) {
                                 return elm('tr', cells.map(function (cell) {
                                     return elm('td', cell !== null ? cell : null_replacement);
                                 }));
                             }));
                         }));
-                        var phrases = phrasePhonetics[0][0];
-                        var phonetics = phrasePhonetics[0][1];
-                        var viPhonetics = phrasePhonetics[0][2];
-                        for (var i = 0; i < phrases.length; i++) {
-                            var null_rep = null_replacement;
-//                            if (/([0-9]|[a-z])*/i.test(phrases[i])) {
-//                                null_rep = phrases[i];
-//                            }
-                            paragraphViewArrItems[index].push([
-                                phrases[i],
-                                phonetics[i] !== null ? phonetics[i] : null_rep,
-                                viPhonetics[i] !== null ? viPhonetics[i] : null_rep
-                            ]);
-                        }
-                    } else {
-                        detailsViewElmItems[index].push(elm('div', 'Không có dữ liệu', {'class': 'error'}));
-                        words.forEach(function (word) {
-                            var null_rep = null_replacement;
-//                            if (/([0-9]|[a-z])*/i.test(word)) {
-//                                null_rep = phrases[i];
-//                            }
-                            paragraphViewArrItems[index].push([word, null_rep, null_rep]);
-                        });
                     }
                 }
             });
@@ -258,7 +239,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
     }
 
     function requestPhoneticApi(search, onSuccess, onError) {
-        var webUrl = "<?= Url::to(['lookup-phonetic-for-chinese-text/index', 'search' => '__SEARCH__']) ?>";
+        var webUrl = "<?= Url::to(['chinese-phonetic-lookup/index', 'search' => '__SEARCH__']) ?>";
         var apiUrl = "<?= Url::to(['chinese-phrase-phonetic-api/lookup']) ?>";
 
         search = search.split(' ').join(''); // chinese does not use white space
@@ -290,5 +271,5 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
         xhr.send('clauses=' + JSON.stringify(clauses));
     }
 </script>
-<?= $this->render('//layouts/likeShare') ?>
+<?= $this->render('//layouts/likeShare', ['url' => $this->context->canonicalLink]) ?>
 <?= $this->render('//layouts/fbComment', ['url' => $this->context->canonicalLink]) ?>

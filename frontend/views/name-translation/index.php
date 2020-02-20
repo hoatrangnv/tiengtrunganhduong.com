@@ -202,5 +202,5 @@ use yii\helpers\Url;
 
 </script>
 
-<?= $this->render('//layouts/likeShare') ?>
+<?= $this->render('//layouts/likeShare', ['url' => $this->context->canonicalLink]) ?>
 <?= $this->render('//layouts/fbComment', ['url' => $this->context->canonicalLink]) ?>

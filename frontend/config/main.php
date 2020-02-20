@@ -84,8 +84,7 @@ return [
 
                 // ChinesePhrasePhonetic
                 ['pattern' => 'chinese-phrase-phonetic-api/lookup', 'route' => 'chinese-phrase-phonetic-api/lookup'],
-                ['pattern' => 'tra-cuu-phien-am.html', 'route' => 'lookup-phonetic-for-chinese-text/index'],
-
+                ['pattern' => 'tra-cuu-phien-am.html', 'route' => 'chinese-phonetic-lookup/index'],
 
                 // User
                 ['pattern' => 'user/get-facebook-data', 'route' => 'user/get-facebook-data'],
