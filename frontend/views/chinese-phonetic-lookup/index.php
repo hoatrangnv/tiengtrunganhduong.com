@@ -139,7 +139,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                 return '<i>Không có dữ liệu</i>';
             }
 
-            return details.replace(/\\n/g, '<br>').replace(/\\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+            return details.replace(/\\n/g, '<br>').replace(/\\t/g, '&nbsp;&nbsp;');
         };
 
         var renderNotedView = function () {
