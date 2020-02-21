@@ -67,6 +67,9 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             eventValue: 1
         });
     }
+    var wordsJoiner = '';
+    var phoneticsJoiner = ' ';
+    var viPhoneticsJoiner = ' ';
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
     var input = elm(
@@ -123,7 +126,6 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
 
     function handleOnRequestSuccess(data, inputParseResult) {
         var null_replacement = '_';
-        var wordsJoiner = '';
 
         var executedClausesInfo = data['executedClausesInfo'];
         var phrasesDetails = data['phrasesDetails'];
@@ -176,7 +178,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                     });
                 }
             }
-            appendChildren(result, elm('div', flatArrItems.map(function (item) {
+            appendChildren(result, resultParagraphElement = elm('div', flatArrItems.map(function (item) {
                 if (item[0] === '\n') {
                     return elm('br');
                 } else {
@@ -324,6 +326,30 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send('clauses=' + JSON.stringify(clauses));
     }
+
+    var resultParagraphElement = null;
+    document.addEventListener('copy', function (ev) {
+        if (resultParagraphElement === null) {
+            return;
+        }
+        if (resultParagraphElement !== ev.target && !resultParagraphElement.contains(ev.target)) {
+            return;
+        }
+        ev.preventDefault();
+        var copiedText = document.getSelection().toString().trim();
+        var items = copiedText.split('\n');
+        var words = [], phonetics = [], viPhonetics = [];
+        for (var i = 0; i < items.length; i += 3) {
+            words.push(items[i]);
+            phonetics.push(items[i + 1]);
+            viPhonetics.push(items[i + 2]);
+        }
+        ev.clipboardData.setData('text', [
+            words.join(wordsJoiner),
+            phonetics.join(phoneticsJoiner),
+            viPhonetics.join(viPhoneticsJoiner)
+        ].join('\n\n'));
+    });
 </script>
 <?= $this->render('//layouts/likeShare', ['url' => $this->context->canonicalLink]) ?>
 <?= $this->render('//layouts/fbComment', ['url' => $this->context->canonicalLink]) ?>
