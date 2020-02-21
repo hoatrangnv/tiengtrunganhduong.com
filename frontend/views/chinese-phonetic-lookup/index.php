@@ -126,6 +126,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
         var wordsJoiner = '';
 
         var executedClausesInfo = data['executedClausesInfo'];
+        var phrasesDetails = data['phrasesDetails'];
         var inputMixedParts = inputParseResult[0];
         var inputLetterPartIndexes = inputParseResult[1];
 
@@ -171,13 +172,17 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                 if (item[0] === '\n') {
                     return elm('br');
                 } else {
-                    return elm('span', item.map(function (val) {
+                    var itemEl = elm('span', item.map(function (val) {
                         return elm('span', val);
                     }), {
                         onclick: function (ev) {
-                            // TODO: show meaning
+                            itemEl.classList.add('is-showing-tooltip');
+                            showTooltip(phrasesDetails[item[0]] || '<i>Không có dữ liệu</i>', itemEl, function () {
+                                itemEl.classList.remove('is-showing-tooltip');
+                            });
                         }
                     });
+                    return itemEl;
                 }
             }), {'class': 'paragraph-view'}));
         };

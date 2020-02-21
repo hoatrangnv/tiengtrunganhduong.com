@@ -79,7 +79,7 @@ class ChinesePhrasePhoneticApiController extends Controller
             ->select(['phrase', 'phonetic', 'vi_phonetic', 'meaning'])
             ->where(['IN', 'phrase', array_map('strval', array_keys($phraseAddresses))])
             ->all();
-        $phraseDetails = [];
+        $phrasesDetails = [];
         foreach ($phoneticRecords as $record) {
             $upper = strtoupper($record->phrase);
             $lower = strtolower($record->phrase);
@@ -96,7 +96,7 @@ class ChinesePhrasePhoneticApiController extends Controller
                     $addressList = $phraseAddresses[$lower];
                 }
             }
-            $phraseDetails[$upper] = $record->meaning;
+            $phrasesDetails[$upper] = $record->meaning;
             foreach ($addressList as $address) {
                 $executedClausesInfo[$address[0]]['phrasesData'][1900000 - $address[1] * 1000 - $address[2]] = [
                     $record->phonetic,
@@ -105,7 +105,7 @@ class ChinesePhrasePhoneticApiController extends Controller
             }
         }
         $response['data']['executedClausesInfo'] = $executedClausesInfo;
-        $response['data']['phraseDetails'] = $phraseDetails;
+        $response['data']['phrasesDetails'] = $phrasesDetails;
         $response['data']['time'] = microtime(true) - $time;
 
         return $response;
