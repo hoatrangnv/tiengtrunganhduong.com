@@ -173,7 +173,11 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                 } else {
                     return elm('span', item.map(function (val) {
                         return elm('span', val);
-                    }));
+                    }), {
+                        onclick: function (ev) {
+                            // TODO: show meaning
+                        }
+                    });
                 }
             }), {'class': 'paragraph-view'}));
         };
@@ -225,18 +229,6 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                             viPhonetics[i] !== null ? viPhonetics[i] : null_replacement
                         ]);
                     }
-                    // // only show in details if have two or more combinations
-                    // if (phrasePhonetics.length > 1) {
-                    //     notedViewElmItems[index] = [elm('h3', words.join(wordsJoiner))];
-                    //     notedViewElmItems[index].push.apply(notedViewElmItems[index], phrasePhonetics.map(function (rows) {
-                    //         return elm('table', rows.map(function (cells) {
-                    //             return elm('tr', cells.map(function (cell) {
-                    //                 return elm('td', cell !== null ? cell : null_replacement);
-                    //             }));
-                    //         }));
-                    //     }));
-                    // }
-
                     if (phrasePhonetics.length > 1) {
                         console.log('phrasePhonetics', phrasePhonetics);
                         ga('send', 'event', {
@@ -308,7 +300,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             }
         });
         xhr.addEventListener("error", function () {
-            onError("An error occurred: " + xhr.statusText + " " + xhr.responseText);
+            onError("An error occurred: " + xhr.statusText + ", " + xhr.responseText);
             console.log(xhr);
         });
         xhr.open("POST", apiUrl);

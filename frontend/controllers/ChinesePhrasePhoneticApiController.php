@@ -17,9 +17,10 @@ class ChinesePhrasePhoneticApiController extends Controller
 {
     const INPUT_MAX_WORDS = 1000;
     const CLAUSE_MAX_WORDS = 50;
-    const PHRASE_MAX_WORDS = 10;
+    const PHRASE_MAX_WORDS = 5;
 
     public function actionLookup() {
+        $time = microtime(true);
         $response = ['data' => null, 'error_message' => null];
         $clausesJson = \Yii::$app->request->post('clauses', null);
         try {
@@ -74,22 +75,30 @@ class ChinesePhrasePhoneticApiController extends Controller
         /**
          * @var $phoneticRecords ChinesePhrasePhonetic[]
          */
-        $time = microtime(true);
         $phoneticRecords = ChinesePhrasePhonetic::find()
             ->select(['phrase', 'phonetic', 'vi_phonetic', 'meaning'])
             ->where(['IN', 'phrase', array_map('strval', array_keys($phraseAddresses))])
             ->all();
-        $response['data']['time'] = microtime(true) - $time;
+        $phraseDetails = [];
         foreach ($phoneticRecords as $record) {
-            foreach ($phraseAddresses[$record->phrase] as $address) {
+            $lower = strtolower($record->phrase);
+            $upper = strtoupper($record->phrase);
+            if ($lower !== $upper) {
+                $addressList = array_merge($phraseAddresses[$lower], $phraseAddresses[$upper]);
+            } else {
+                $addressList = $phraseAddresses[$upper];
+            }
+            $phraseDetails[$upper] = $record->meaning;
+            foreach ($addressList as $address) {
                 $executedClausesInfo[$address[0]]['phrasesData'][1900000 - $address[1] * 1000 - $address[2]] = [
                     $record->phonetic,
                     $record->vi_phonetic
                 ];
             }
         }
-
         $response['data']['executedClausesInfo'] = $executedClausesInfo;
+        $response['data']['phraseDetails'] = $phraseDetails;
+        $response['data']['time'] = microtime(true) - $time;
 
         return $response;
     }
