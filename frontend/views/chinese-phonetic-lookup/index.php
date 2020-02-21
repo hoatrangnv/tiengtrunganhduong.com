@@ -185,9 +185,13 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                     }), {
                         onclick: function (ev) {
                             itemEl.classList.add('is-showing-tooltip');
-                            showTooltip(getPhraseDetailsHtml(phrasesDetails[item[0]]), itemEl, function () {
-                                itemEl.classList.remove('is-showing-tooltip');
-                            });
+                            showTooltip(
+                                getPhraseDetailsHtml(phrasesDetails[item[0].toUpperCase()] || phrasesDetails[item[0].toLowerCase()]),
+                                itemEl,
+                                function () {
+                                    itemEl.classList.remove('is-showing-tooltip');
+                                }
+                            );
                         }
                     });
                     return itemEl;
