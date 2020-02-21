@@ -336,19 +336,23 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             return;
         }
         ev.preventDefault();
-        var copiedText = document.getSelection().toString().trim();
-        var items = copiedText.split('\n');
-        var words = [], phonetics = [], viPhonetics = [];
-        for (var i = 0; i < items.length; i += 3) {
-            words.push(items[i]);
-            phonetics.push(items[i + 1]);
-            viPhonetics.push(items[i + 2]);
+        var outputTexts = [];
+        var paragraphs = document.getSelection().toString().split('\n\n');
+        for (var j = 0; j < paragraphs.length; j++) {
+            var words = [], phonetics = [], viPhonetics = [];
+            var items = paragraphs[j].trim().split('\n');
+            for (var i = 0; i < items.length; i += 3) {
+                words.push(items[i]);
+                phonetics.push(items[i + 1]);
+                viPhonetics.push(items[i + 2]);
+            }
+            outputTexts.push([
+                words.join(wordsJoiner),
+                phonetics.join(phoneticsJoiner),
+                viPhonetics.join(viPhoneticsJoiner)
+            ].join('\n\n'));
         }
-        ev.clipboardData.setData('text', [
-            words.join(wordsJoiner),
-            phonetics.join(phoneticsJoiner),
-            viPhonetics.join(viPhoneticsJoiner)
-        ].join('\n\n'));
+        ev.clipboardData.setData('text', outputTexts.join('\n\n\n'));
     });
 </script>
 <?= $this->render('//layouts/likeShare', ['url' => $this->context->canonicalLink]) ?>
