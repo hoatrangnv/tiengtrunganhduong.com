@@ -134,6 +134,14 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
         var notedViewElmItems = [];
         var somePartsHasBeenOmitted = false;
 
+        var getPhraseDetailsHtml = function (details) {
+            if (!details) {
+                return '<i>Không có dữ liệu</i>';
+            }
+
+            return details.replace(/\\n/g, '<br>').replace(/\\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        };
+
         var renderNotedView = function () {
             if (notedViewElmItems.length > 0) {
                 appendChildren(result, [
@@ -177,7 +185,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                     }), {
                         onclick: function (ev) {
                             itemEl.classList.add('is-showing-tooltip');
-                            showTooltip(phrasesDetails[item[0]] || '<i>Không có dữ liệu</i>', itemEl, function () {
+                            showTooltip(getPhraseDetailsHtml(phrasesDetails[item[0]]), itemEl, function () {
                                 itemEl.classList.remove('is-showing-tooltip');
                             });
                         }
