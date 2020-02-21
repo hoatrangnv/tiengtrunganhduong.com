@@ -81,15 +81,20 @@ class ChinesePhrasePhoneticApiController extends Controller
             ->all();
         $phraseDetails = [];
         foreach ($phoneticRecords as $record) {
-            $lower = strtolower($record->phrase);
             $upper = strtoupper($record->phrase);
-            if ($lower !== $upper) {
-                $addressList = array_merge(
-                    isset($phraseAddresses[$lower]) ? $phraseAddresses[$lower] : [],
-                    isset($phraseAddresses[$upper]) ? $phraseAddresses[$upper] : []
-                );
-            } else {
+            $lower = strtolower($record->phrase);
+            if ($upper === $lower) {
                 $addressList = $phraseAddresses[$upper];
+            } else {
+                if (isset($phraseAddresses[$upper])) {
+                    if (isset($phraseAddresses[$lower])) {
+                        $addressList = array_merge($phraseAddresses[$upper], $phraseAddresses[$lower]);
+                    } else {
+                        $addressList = $phraseAddresses[$upper];
+                    }
+                } else {
+                    $addressList = $phraseAddresses[$lower];
+                }
             }
             $phraseDetails[$upper] = $record->meaning;
             foreach ($addressList as $address) {
