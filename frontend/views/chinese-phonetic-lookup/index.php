@@ -76,7 +76,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
     var result = elm("div", null, {"class": "result-box"});
     var input = elm(
         "textarea", search_text,
-        {placeholder: "Nhập văn bản", spellcheck: "false", "class": "search-input"}
+        {placeholder: "Nhập văn bản Tiếng Trung", spellcheck: "false", "class": "search-input"}
     );
     var submitButton = elm("button", "Tra cứu", {type: "submit", "class": "search-button"});
     var form = elm(
