@@ -19,7 +19,7 @@ class ChinesePhrasePhoneticSearch extends ChinesePhrasePhonetic
     {
         return [
             [['id', 'type'], 'integer'],
-            [['phrase', 'tw_phrase', 'phonetic', 'vi_phonetic', 'meaning'], 'safe'],
+            [['phrase', 'phonetic', 'vi_phonetic', 'meaning'], 'safe'],
         ];
     }
 
@@ -64,7 +64,6 @@ class ChinesePhrasePhoneticSearch extends ChinesePhrasePhonetic
         ]);
 
         $query->andFilterWhere(['like', 'phrase', $this->phrase])
-            ->andFilterWhere(['like', 'tw_phrase', $this->tw_phrase])
             ->andFilterWhere(['like', 'phonetic', $this->phonetic])
             ->andFilterWhere(['like', 'vi_phonetic', $this->vi_phonetic])
             ->andFilterWhere(['like', 'meaning', $this->meaning]);

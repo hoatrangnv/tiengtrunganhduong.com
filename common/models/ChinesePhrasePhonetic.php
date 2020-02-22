@@ -8,12 +8,11 @@ use Yii;
  * This is the model class for table "chinese_phrase_phonetic".
  *
  * @property int $id
+ * @property int $type
  * @property string $phrase
- * @property string $tw_phrase
  * @property string $phonetic
  * @property string $vi_phonetic
  * @property string $meaning
- * @property int $type
  */
 class ChinesePhrasePhonetic extends \yii\db\ActiveRecord
 {
@@ -31,10 +30,10 @@ class ChinesePhrasePhonetic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['phrase', 'tw_phrase', 'phonetic', 'vi_phonetic'], 'required'],
-            [['meaning'], 'string'],
+            [['type', 'phrase', 'phonetic', 'vi_phonetic'], 'required'],
             [['type'], 'integer'],
-            [['phrase', 'tw_phrase', 'phonetic', 'vi_phonetic'], 'string', 'max' => 255],
+            [['meaning'], 'string'],
+            [['phrase', 'phonetic', 'vi_phonetic'], 'string', 'max' => 255],
             [['phrase', 'phonetic'], 'unique', 'targetAttribute' => ['phrase', 'phonetic']],
         ];
     }
@@ -46,12 +45,11 @@ class ChinesePhrasePhonetic extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'type' => 'Type',
             'phrase' => 'Phrase',
-            'tw_phrase' => 'Tw Phrase',
             'phonetic' => 'Phonetic',
             'vi_phonetic' => 'Vi Phonetic',
             'meaning' => 'Meaning',
-            'type' => 'Type',
         ];
     }
 }

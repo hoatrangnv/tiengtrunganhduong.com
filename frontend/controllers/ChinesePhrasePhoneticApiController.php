@@ -100,7 +100,7 @@ class ChinesePhrasePhoneticApiController extends Controller
             foreach ($addressList as $address) {
                 $executedClausesInfo[$address[0]]['phrasesData'][1900000 - $address[1] * 1000 - $address[2]] = [
                     $record->phonetic,
-                    $record->vi_phonetic
+                    $record->vi_phonetic,
                 ];
             }
         }

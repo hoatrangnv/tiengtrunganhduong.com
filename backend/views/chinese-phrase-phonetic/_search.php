@@ -17,17 +17,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'phrase') ?>
+    <?= $form->field($model, 'type') ?>
 
-    <?= $form->field($model, 'tw_phrase') ?>
+    <?= $form->field($model, 'phrase') ?>
 
     <?= $form->field($model, 'phonetic') ?>
 
     <?= $form->field($model, 'vi_phonetic') ?>
 
     <?php // echo $form->field($model, 'meaning') ?>
-
-    <?php // echo $form->field($model, 'type') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
