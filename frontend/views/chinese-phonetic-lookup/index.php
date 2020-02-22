@@ -11,7 +11,7 @@ use yii\helpers\Url;
  * @var $search string
  */
 
-$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=16');
+$chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js?v=16');
 ?>
 <div id="phonetic-lookup">
     <h1 class="title"><?= $this->context->seoInfo->name ? $this->context->seoInfo->name : 'Tra cứu phiên âm' ?></h1>
@@ -67,9 +67,11 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
             eventValue: 1
         });
     }
+
     var wordsJoiner = '';
     var phoneticsJoiner = ' ';
     var viPhoneticsJoiner = ' ';
+
     var translationRoot = document.querySelector("#phonetic-lookup .app-root");
     var result = elm("div", null, {"class": "result-box"});
     var input = elm(
@@ -121,7 +123,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                 eventLabel: search_text,
                 eventValue: 2
             });
-        }, 2000);
+        }, 3000);
     }
 
     function handleOnRequestSuccess(data, inputParseResult) {
@@ -248,7 +250,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.js?v=1
                             viPhonetics[i] !== null ? viPhonetics[i] : null_replacement
                         ]);
                     }
-                    if (phrasePhonetics.length > 1) {
+                    if (phrasePhonetics.length > 2) {
                         console.log('phrasePhonetics', phrasePhonetics);
                         ga('send', 'event', {
                             eventCategory: 'phonetic.tooManyPhraseCombinations',
