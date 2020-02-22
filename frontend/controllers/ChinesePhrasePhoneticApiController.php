@@ -96,7 +96,7 @@ class ChinesePhrasePhoneticApiController extends Controller
                     $addressList = $phraseAddresses[$lower];
                 }
             }
-            $phrasesDetails[$upper] = $record->meaning;
+            $phrasesDetails[$upper] = [$record->meaning, $record->type];
             foreach ($addressList as $address) {
                 $executedClausesInfo[$address[0]]['phrasesData'][1900000 - $address[1] * 1000 - $address[2]] = [
                     $record->phonetic,
