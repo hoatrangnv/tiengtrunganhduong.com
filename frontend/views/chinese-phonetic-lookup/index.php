@@ -147,7 +147,7 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
             var type = details[1];
 
             return (type === 1 ? '(Giản thể)<br>' : (type === 2 ? '(Phồn thể)<br>' : ''))
-                + meaning.replace(/\\n/g, '<br>').replace(/\\t/g, '&nbsp;&nbsp;');
+                + meaning.trim().replace(/\\n/g, '<br>').replace(/\\t/g, '&nbsp;&nbsp;');
         };
 
         var renderNotedView = function () {
