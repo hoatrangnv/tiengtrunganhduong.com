@@ -148,8 +148,8 @@ $chinese_text_analyzer_src = Yii::getAlias('@web/js/chinese_text_analyzer.min.js
 
             return (type === 1 ? '(Giản thể)<br>' : (type === 2 ? '(Phồn thể)<br>' : ''))
                 + meaning
-                    .replace(/\\n/g, '\n').replace(/\\t/g, '\t')
-                    .trim()
+                    .replace(/\\n/g, '\n').trim()
+                    .replace(/\\t/g, '\t')
                     .replace(/\n/g, '<br>').replace(/\t/g, '&nbsp;&nbsp;');
         };
 
