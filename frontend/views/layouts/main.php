@@ -44,9 +44,9 @@ require_once 'headerJs.php';
 
 <div class="wrap">
     <div class="container sm-non-padding clr">
-        <div class="img-wrap">
+        <a class="img-wrap" href="<?= Url::home(true) ?>" title="Về trang chủ">
             <img src="<?= Yii::getAlias('@web/img/banner.png') ?>" alt="<?= Yii::$app->name ?>">
-        </div>
+        </a>
     </div>
     <div class="container sm-non-padding clr">
         <?= $this->render('navBar') ?>

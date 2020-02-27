@@ -116,7 +116,10 @@ class SiteController extends BaseController
      */
     public function actionContact()
     {
-        // @TODO: Enable jQuery and yii
+        // disable ads
+        $this->seoInfo->disable_ads = true;
+
+        // Enable jQuery and yii
         Yii::$app->assetManager->bundles = [
             \yii\bootstrap\BootstrapAsset::className() => [
                 'css' => [],
