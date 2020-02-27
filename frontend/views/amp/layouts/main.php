@@ -97,9 +97,9 @@ $seoInfo->registerLinkTags($this);
     <?= $this->render('ampSidebar') ?>
     <div class="wrap">
         <div class="container sm-non-padding clr">
-            <div class="img-wrap">
+            <a class="img-wrap" href="<?= Url::home(true) ?>" title="Về trang chủ">
                 <amp-img src="<?= Yii::getAlias('@web/img/banner.png') ?>" width="375" height="50" layout="responsive" alt="<?= Yii::$app->name ?>"></amp-img>
-            </div>
+            </a>
         </div>
         <div class="container sm-non-padding clr">
             <?= $this->render('navBar') ?>
