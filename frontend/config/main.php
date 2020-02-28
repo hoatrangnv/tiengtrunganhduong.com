@@ -69,8 +69,8 @@ return [
 //                ['pattern' => 'quiz/facebook/get-user-avatar', 'route' => '/quiz/facebook/get-user-avatar'],
 //                ['pattern' => 'my-quiz/get-sharing-data', 'route' => '/my-quiz/get-sharing-data'],
 //                ['pattern' => 'my-quiz/remove-sharing-image', 'route' => '/my-quiz/remove-sharing-image'],
-                // Quiz
                 ['pattern' => 'ho-ten-tieng-trung-quoc-cua-ban.html', 'route' => 'name-translation/index'],
+                // Quiz
                 ['pattern' => 'quiz', 'route' => 'quiz/index'],
                 ['pattern' => 'quiz', 'route' => 'quiz/index', 'suffix' => '/'],
                 ['pattern' => 'quiz/<' . UrlParam::SLUG . '>.htm', 'route' => 'quiz/play'],

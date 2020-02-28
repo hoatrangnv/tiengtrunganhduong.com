@@ -92,13 +92,13 @@ class BaseController extends Controller
         });
         $data1 = [];
         foreach ($models as $model) {
-            $model_type = '';
-            if ($model instanceof ArticleCategory) {
-                $model_type = 'category';
-            } else if ($model instanceof Article) {
-                $model_type = 'article';
-            }
             if (1 == $model->shown_on_menu) {
+                $model_type = '';
+                if ($model instanceof ArticleCategory) {
+                    $model_type = 'category';
+                } else if ($model instanceof Article) {
+                    $model_type = 'article';
+                }
                 $data1["{$model_type}__{$model->id}"] = [
                     'label' => $model->menu_label ? $model->menu_label : $model->name,
                     'url' => $model->getUrl(),
@@ -106,6 +106,21 @@ class BaseController extends Controller
                         ? null
                         : ($model->parent_id ? "{$model_type}__{$model->parent_id}" : null),
                 ];
+                // workaround to show sub-menu below tai-lieu item
+                if ($model instanceof ArticleCategory) {
+                    if ($model->slug === 'tai-lieu') {
+                        $data1['phonetic'] = [
+                            'label' => Yii::t('app', 'Translate Chinese'),
+                            'url' => Url::to(['chinese-phonetic-lookup/index'], true),
+                            'parentKey' => "{$model_type}__{$model->id}"
+                        ];
+                        $data1['quiz'] = [
+                            'label' => Yii::t('app', 'Quiz'),
+                            'url' => Url::to(['quiz/index'], true),
+                            'parentKey' => "{$model_type}__{$model->id}"
+                        ];
+                    }
+                }
             }
         }
 
@@ -115,6 +130,7 @@ class BaseController extends Controller
             'url' => Url::to(['site/contact'], true),
             'parentKey' => null
         ];
+
 
         $this->menu = new Menu();
         $this->menu->init(['d0' => $data0, 'd1' => $data1, 'd2' => $data2]);
